@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateUserDetailsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('user_details', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('customerno');
+            $table->string('customername');
+            $table->string('addressline1');
+            $table->string('addressline2');
+            $table->string('addressline3');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zipcode');
+            $table->string('email');
+            $table->string('ardivisionno');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('user_details');
+    }
+}
