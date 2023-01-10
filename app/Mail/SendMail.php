@@ -28,8 +28,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-		$subject = $this->details['subject'];
-        return $this->subject($subject); //'New Customer Request for Member Portal'
+		$subject = 'New Customer Request for Member Portal'; //$this->details['subject'];
+        return $this->subject($subject) //'New Customer Request for Member Portal'
                     ->view('emails.email-body');
     }
 }

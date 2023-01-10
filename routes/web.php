@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 Route::get('send-mail', function () {
    
     $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
+        'title' => 'Mail from BenchMark Products',
         'body' => 'This is for testing email using smtp',
 		'link' => '####'
     ];
