@@ -130,6 +130,8 @@
     <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
     {{-- <link rel="stylesheet" href="style.css"> --}}
     <link href="assets/css/dashboard.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/bootstrap-extended.css" rel="stylesheet">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
