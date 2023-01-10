@@ -1,0 +1,103 @@
+
+/* colors */
+
+.text-primary-green{
+    color: #9FCC47;
+}
+/* font families */
+
+.font-open-sans{
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+/* font weights */
+
+.font-regular{
+    font-weight: 400;
+}
+
+.font-semi-bold{
+    font-weight: 500;
+}
+
+.font-bold{
+    font-weight: bold;
+}
+
+/* font sizes */
+
+.font-32{
+    font-size: 32px;
+}
+
+.font-20{
+    font-size: 20px;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+.font-16{
+    font-size:16px;
+}
+
+.font-14{
+    font-size: 14px;
+}
+
+/* colors */
+
+.button-bg-primary-green{
+    background-color: #9FCC47;
+}
+
+.button-bg-primary-black{
+    background-color: #424448;
+}
+
+.button-bg-primary-gray{
+    background-color: #A4A3A3;
+}
+
+.primary-green{
+    color: #9FCC47;
+}
+
+.primary-black{
+    color: #424448;
+}
+
+.primary-gray{
+    color: #A4A3A3;
+}
+
+.color-white{
+    color: #fff;
+}
+
+.color-primary-gray{
+    color:#666762;
+}
+
+/* hover colors */
+.sign-in-hover:hover{
+    color: #8eb83b;
+}
+
+.button-bg-primary-green:hover{
+    color:#fff;
+}
+
+.button-bg-primary-black:hover{
+    color:#fff;
+}
+
+.primary-gray:Hover{
+    color: #A4A3A3;
+}
+
+/* paddings */
+.padding-y-15{
+    padding: 15px;
+}
