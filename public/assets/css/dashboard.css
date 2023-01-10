@@ -299,9 +299,24 @@ nav .notification_section{
     min-width: 500px;
 }
 
+nav .notification_section .notification_icons {
+    display: flex;
+}
+
 nav .notification_section .notification_icons img{
     padding: 0 15px;
 }
+
+nav .notification_section .notification_icons .notification_count_section{
+    position: relative;    
+}
+
+.notification_count_section .notification_count{
+    position: absolute;
+}
+
+
+
 
 .home-section nav .notification_section .profile-details{
   display: flex;

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="home-content">
+{{-- <div class="home-content">
     <div class="overview-boxes">
       <div class="box">
         <div class="right-side">
@@ -165,6 +165,6 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> --}}
 
 @endsection
