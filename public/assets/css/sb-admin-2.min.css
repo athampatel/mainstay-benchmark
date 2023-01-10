@@ -3758,7 +3758,7 @@ input[type="submit"].btn-block {
 }
 .nav-link {
     display: block;
-    padding: 0.5rem 1rem;
+    /* padding: 0.5rem 1rem; */
 }
 .nav-link:focus,
 .nav-link:hover {
@@ -9462,11 +9462,11 @@ a:focus {
 }
 .sidebar .nav-item .nav-link {
     text-align: center;
-    padding: 0.75rem 1rem;
+    /* padding: 0.75rem 1rem; */
     width: 6.5rem;
 }
 .sidebar .nav-item .nav-link span {
-    font-size: 0.65rem;
+    /* font-size: 0.65rem; */
     display: block;
 }
 .sidebar .nav-item.active .nav-link {
@@ -9636,7 +9636,7 @@ a:focus {
         display: block;
         width: 100%;
         text-align: left;
-        padding: 1rem;
+        /* padding: 1rem; */
         width: 14rem;
     }
     .sidebar .nav-item .nav-link i {
@@ -9644,9 +9644,10 @@ a:focus {
         margin-right: 0.25rem;
     }
     .sidebar .nav-item .nav-link span {
-        font-size: 0.85rem;
+        /* font-size: 0.85rem; */
         display: inline;
     }
+
     .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
         width: 1rem;
         text-align: center;

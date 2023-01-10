@@ -42,7 +42,7 @@
 </html> --}}
 
 
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -96,9 +96,9 @@
             </footer> --}}
             
 
-        </div>
+        {{-- </div> --}}
 
-    </div>
+    {{-- </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -113,9 +113,48 @@
     {{-- <script src="vendor/chart.js/Chart.min.js"></script> --}}
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
+    {{-- <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
+</html> --}}
+
+
+
+<!DOCTYPE html>
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
+    {{-- <link rel="stylesheet" href="style.css"> --}}
+    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  @include('layouts.menu-bar')
+  <section class="home-section">
+    {{-- nav bar --}}
+    @include('layouts.nav-bar')
+    {{-- Home content --}}
+    @yield('content')
+  </section>
+
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".sidebarBtn");
+    sidebarBtn.onclick = function() {
+        sidebar.classList.toggle("active");
+        if(sidebar.classList.contains("active")){
+            sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+        }else
+            sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    }
+ </script>
+
+</body>
 </html>
+

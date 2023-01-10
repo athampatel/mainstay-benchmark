@@ -22,7 +22,8 @@ Route::get('/delete',[AuthController::class,'delete']);
 
 Route::get('/dashboard', function () {
     // return view('dashboard');
-    return view('layouts.dashboard');
+    // return view('layouts.dashboard');
+    return view('pages.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 
