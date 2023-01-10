@@ -1,4 +1,3 @@
-/* Template Name: Synadmin Admin Author: codervent Email: codervent@gmail.com File: app.css */
 /* - Google Font - General - Sidebar - Header - Metismenu - Extra CSS - Invoice Page - Chat box - Email box - Compose Mail - Navs and Tabs - Background Colors - Authentication - Buttons - Pricing Table - Forms - Responsive */
 /* General */
  body {
@@ -72,6 +71,7 @@
      margin-left: 0px;
 }
  @media screen and (min-width: 1400px) {
+   
      .page-wrapper {
          padding-left: 80px;
          padding-right: 80px;
@@ -1743,27 +1743,34 @@
 	display:none;
 }
 .user-forms .form-control{
-	height:60px;
+	height:3.75rem;
 	background:#F8F8F8;
 	border:1px solid #E2E2E2;
-	font-size:20px;	
+	font-size:1.25rem;	
 }
 .btn-primary,.btn-secondary{
-	height:60px;
-	font-size:20px;	
+	height:3.75rem;
+	font-size:1.25rem;	
 	display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .login-widget .card{
-	border-radius:20px;
-	max-width: 550px;
+	border-radius:1.25rem;
+	max-width: 34.5rem;
     margin: 0 auto;
 	box-shadow:0 2px 6px 0 rgba(0,0,0,0.16);
 }
 
 /* Responsive */
+
+
+@media screen and (max-width: 1400px) {
+    html{
+        font-size: 70%;
+    }
+}
  @media screen and (max-width: 1280px) {
      .topbar-logo-header {
          display: none;
@@ -2048,19 +2055,19 @@
 /* font sizes */
 
 .font-32{
-    font-size: 32px;
+    font-size: 2rem;
 }
 
 .font-20{
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .font-18 {
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .font-16{
-    font-size:16px;
+    font-size:1rem;
 }
 
 /* colors */
@@ -2112,5 +2119,5 @@
 
 /* paddings */
 .padding-y-15{
-    padding: 15px;
+    padding: 0.965rem;
 }

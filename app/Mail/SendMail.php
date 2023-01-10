@@ -18,7 +18,7 @@ class SendMail extends Mailable
      */
     public function __construct($details = null)
     {
-		$this->details = $details;
+		  $this->details = $details;
     }
 
     /**
@@ -28,8 +28,9 @@ class SendMail extends Mailable
      */
     public function build()
     {
-		$subject = 'New Customer Request for Member Portal'; //$this->details['subject'];
-        return $this->subject($subject) //'New Customer Request for Member Portal'
-                    ->view('emails.email-body');
+      $subject = $this->details['subject'];
+      //$subject = 'New Customer Request for Member Portal'; //$this->details['subject'];
+          return $this->subject($subject) //'New Customer Request for Member Portal'
+                      ->view('emails.email-body');
     }
 }

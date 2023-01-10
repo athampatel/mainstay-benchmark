@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return redirect('/sign-in');
 });
@@ -29,6 +31,30 @@ Route::get('/dashboard', function () {
   //  return view('emails/email-body');
 //});
 
+
+
+/**
+ * Admin routes
+ */
+/*
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
+    Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);
+    Route::resource('users', '\App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
+    Route::resource('admins', '\App\Http\Controllers\Backend\AdminsController', ['names' => 'admin.admins']);
+
+
+    // Login Routes
+    Route::get('/login', '\App\Http\Controllers\Backend\Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/login/submit', '\App\Http\Controllers\Backend\Auth\LoginController@login')->name('admin.login.submit');
+
+    // Logout Routes
+    Route::post('/logout/submit', '\App\Http\Controllers\Backend\Auth\LoginController@logout')->name('admin.logout.submit');
+
+    // Forget Password Routes
+    Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
+}); */
 
 Route::get('send-mail', function () {
    
