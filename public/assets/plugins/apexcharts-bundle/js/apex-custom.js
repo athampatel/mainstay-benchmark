@@ -1,10 +1,11 @@
 $(function () {
 	"use strict";
 	// chart 1
+	
 	var options = {
 		series: [{
 			name: 'Likes',
-			data: [14, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5]
+			data: [10, 41, 35, 51, 49, 62, 69, 91, 148,250,321,412]
 		}],
 		chart: {
 			foreColor: '#9ba7b2',
@@ -26,11 +27,11 @@ $(function () {
 		},
 		stroke: {
 			width: 5,
-			curve: 'smooth'
+			curve: 'straight'
 		},
 		xaxis: {
-			type: 'datetime',
-			categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000', '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000'],
+			type: 'month',
+			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',''],
 		},
 		title: {
 			text: 'Line Chart',
@@ -44,7 +45,7 @@ $(function () {
 			type: 'gradient',
 			gradient: {
 				shade: 'light',
-				gradientToColors: ['#8833ff'],
+				gradientToColors: ['#A4CD3C'],
 				shadeIntensity: 1,
 				type: 'horizontal',
 				opacityFrom: 1,
@@ -54,17 +55,17 @@ $(function () {
 		},
 		markers: {
 			size: 4,
-			colors: ["#8833ff"],
+			colors: ["#A4CD3C"],
 			strokeColors: "#fff",
 			strokeWidth: 2,
 			hover: {
 				size: 7,
 			}
 		},
-		colors: ["#8833ff"],
+		colors: ["#A4CD3C"],
 		yaxis: {
 			title: {
-				text: 'Engagement',
+				text: '',
 			},
 		}
 	};
@@ -93,7 +94,7 @@ $(function () {
 			curve: 'smooth',
 			width: 5
 		},
-		colors: ["#8833ff", '#29cc39'],
+		colors: ["#A4CD3C", '#29cc39'],
 		series: [{
 			name: "Music",
 			data: [1, 15, 56, 20, 33, 27]
@@ -161,7 +162,7 @@ $(function () {
 				show: true
 			},
 		},
-		colors: ["#8833ff", '#f41127'],
+		colors: ["#A4CD3C", '#f41127'],
 		title: {
 			text: 'Area Chart',
 			align: 'left',
@@ -228,7 +229,7 @@ $(function () {
 				fontSize: '14px'
 			}
 		},
-		colors: ["#29cc39", '#8833ff', '#e62e2e'],
+		colors: ["#29cc39", '#A4CD3C', '#e62e2e'],
 		xaxis: {
 			categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
 		},
@@ -262,7 +263,7 @@ $(function () {
 			type: 'bar',
 			height: 350
 		},
-		colors: ["#8833ff"],
+		colors: ["#A4CD3C"],
 		plotOptions: {
 			bar: {
 				horizontal: true,
@@ -313,7 +314,7 @@ $(function () {
 				endingShape: 'rounded'
 			}
 		},
-		colors: ["#8833ff", "#29cc39"],
+		colors: ["#A4CD3C", "#29cc39"],
 		title: {
 			text: 'Traffic Sources'
 		},
@@ -367,7 +368,7 @@ $(function () {
 				show: true
 			},
 		},
-		colors: ["#8833ff", "#17a00e", "#f41127"],
+		colors: ["#A4CD3C", "#17a00e", "#f41127"],
 		stroke: {
 			width: [0, 2, 5],
 			curve: 'smooth'
@@ -426,7 +427,7 @@ $(function () {
 			height: 330,
 			type: 'pie',
 		},
-		colors: ["#8833ff", "#6c757d", "#17a00e", "#f41127", "#ffc107"],
+		colors: ["#A4CD3C", "#6c757d", "#17a00e", "#f41127", "#ffc107"],
 		labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
 		responsive: [{
 			breakpoint: 480,
@@ -452,7 +453,7 @@ $(function () {
 			height: 380,
 			type: 'donut',
 		},
-		colors: ["#8833ff", "#29cc39", "#17a00e", "#f41127", "#ffc107"],
+		colors: ["#A4CD3C", "#29cc39", "#17a00e", "#f41127", "#ffc107"],
 		responsive: [{
 			breakpoint: 480,
 			options: {
@@ -492,7 +493,7 @@ $(function () {
 				top: 1
 			}
 		},
-		colors: ["#8833ff", "#29cc39", "#17a00e"],
+		colors: ["#A4CD3C", "#29cc39", "#17a00e"],
 		title: {
 			text: 'Radar Chart - Multi Series'
 		},
@@ -541,7 +542,7 @@ $(function () {
 		title: {
 			text: 'Radar with Polygon Fill'
 		},
-		colors: ["#8833ff"],
+		colors: ["#A4CD3C"],
 		markers: {
 			size: 4,
 			colors: ['#fff'],
@@ -629,7 +630,7 @@ $(function () {
             }
           }
         },
-		colors: ["#8833ff", "#17a00e", "#f41127", "#ffc107"],
+		colors: ["#A4CD3C", "#17a00e", "#f41127", "#ffc107"],
         labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
         };
 
