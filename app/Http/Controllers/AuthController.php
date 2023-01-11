@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
-use App\Helpers\EmailHelper;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
@@ -16,9 +15,9 @@ use Str;
 
 class AuthController extends Controller
 {
-    public function __construct(SDEApi $SDEApi,EmailHelper $emailHelper){
+    public function __construct(SDEApi $SDEApi){
         $this->SDEApi = $SDEApi;
-        $this->emailHelper = $emailHelper;
+        //$this->emailHelper = $emailHelper;
     }
 
     // orders@10-spec.com
@@ -39,11 +38,13 @@ class AuthController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-    
-        $response = $this->SDEApi->Request('post','Customers',$data); 
 
-        if(!empty($response['customers'])){
-            if(count($response['customers']) === 1){
+        $response   = $this->SDEApi->Request('post','Customers',$data); 
+        $message    = '';
+        $status     = 'error';
+        $details    = array('subject' => 'New customer request for member portal access');
+        if ( !empty($response['customers']) ) {
+            if ( count($response['customers']) === 1 ) {
                 $response = $response['customers'][0];
 
                 $user =  UserController::createUser($response);
@@ -62,12 +63,23 @@ class AuthController extends Controller
                         ]);
                     }
                 }  
-
-                return redirect()->back()->with('success', 'email sent successfully');
+                $message    = 'Thanks for validating your email address, you will get a confirmation';
+                $status     = 'success';        
+                
+                //return redirect()->back()->with('success', 'email sent successfully');
             }
         } else {
-            return redirect()->back()->with('success', 'email sent successfully');
+            $details['body']    = array('' => 'New customer request for member portal access');
+            $status             = 'success';
+            $message            = 'Your request for member access has been submitted successfully, you will get a confirmation';   
         }   
+
+        
+
+        \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+        
+        return redirect()->back()->with($status, $message);
+
         // event(new Registered($user));
         // Auth::login($user);
         // return redirect(RouteServiceProvider::HOME);s
