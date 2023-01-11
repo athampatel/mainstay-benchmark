@@ -8,17 +8,18 @@ use Illuminate\Support\Facades\Http;
 
 class SDEApi
 {
-   protected $end_point = '';
+   public $end_point = 'https://sde.BenchmarkProducts.com:2959/sde';
    protected $username = '';
    protected $password = '';
-   protected $is_ssl_verify = '';
+   protected $is_ssl_verify = false;
 
    public function __construct()
    {
-        $this->end_point = env('API_URL');
+       // $this->end_point = env('API_URL');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
-        $this->is_ssl_verify = env('SSL_VERIFY');
+       // $this->is_ssl_verify = env('SSL_VERIFY');
+		//$this->end_point = env('API_URL');
    }
 
     public function Request($method = 'post',$resource = 'Customers', $data = null)
@@ -31,6 +32,8 @@ class SDEApi
         );
 
         $post_data = array_merge($default_data,$data);
+		
+		
   
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
@@ -41,6 +44,7 @@ class SDEApi
         } else {
             $response = $request->post($this->end_point,$post_data);
         }
+		
         
         return $response->json();
     }
