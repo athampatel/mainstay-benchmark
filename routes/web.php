@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 /**
  * Admin routes
  */
-/*
+
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
     Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);
@@ -67,7 +67,7 @@ Route::group(['prefix' => 'admin'], function () {
     // Forget Password Routes
     Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
-}); */
+}); 
 
 Route::get('send-mail', function () {
    

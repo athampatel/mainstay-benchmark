@@ -28,6 +28,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     // protected $namespace = 'App\\Http\\Controllers';
 
+      /**
+     * The path to the "admin" route for your application.
+     *
+     * @var string
+     */
+    public const ADMIN_DASHBOARD = '/admin';
+    
     /**
      * Define your route model bindings, pattern filters, etc.
      *
