@@ -1,6 +1,43 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<div class="home-content">
+    <span class="page_title">Dashboard</span>
+    <div class="overview-boxes">
+        <div class="widget_container_cards">
+            <div class="box">
+              <div class="box-icon">
+                <img src="assets/images/svg/home_rounded_color.svg" />
+              </div>
+              <div class="box-details">
+                <div class="name">inventory details</div>
+                <div class="date">01-22-2023</div>
+                <div class="button">view inventory</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-icon">
+                <img src="assets/images/svg/next_onsite_count_icon.svg" />
+              </div>
+              <div class="box-details">
+                <div class="name">inventory details</div>
+                <div class="date">01-22-2023</div>
+                <div class="button">view inventory</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-icon">
+                <img src="assets/images/svg/open_order_card_icon.svg" />
+              </div>
+              <div class="box-details">
+                <div class="name">inventory details</div>
+                <div class="date">01-22-2023</div>
+                <div class="button">view inventory</div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{-- <div class="home-content">
     <div class="overview-boxes">
       <div class="box">

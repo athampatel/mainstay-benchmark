@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,16 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+// menu routes
+Route::middleware('auth')->group(function () {  
+    Route::get('/invoice',[MenuController::class,'invoicePage']);
+    Route::get('/open-orders',[MenuController::class,'openOrdersPage']);
+    Route::get('/change-order',[MenuController::class,'changeOrderPage']);
+    Route::get('/vmi-user',[MenuController::class,'vmiUserPage']);
+    Route::get('/analysis',[MenuController::class,'analysisPage']);
+    Route::get('/account-settings',[MenuController::class,'accountSettingsPage']);
+    Route::get('/help',[MenuController::class,'helpPage']);
+});
 
 //Route::get('/email-view', function () {
   //  return view('emails/email-body');

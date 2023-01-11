@@ -13,9 +13,16 @@
 								</div>
 								<div class="text-center py-4">
 									<h3 class="login-from-title font-open-sans font-bold font-32">Sign in</h3>									
-								</div>								
+								</div>
+								{{-- @if(Session::has('success'))
+									<div class="alert alert-success">{{ Session::get('success')}}</div>
+								@endif --}}
+								@if($errors->any())
+									@foreach ($errors->all() as $error)	
+										<div class="alert alert-danger">{{$error}}</div>
+									@endforeach
+								@endif								
 								<div class="form-body">
-									{{-- {{ Helper::stRev('gokul') }} --}}
 									<form class="row g-3" method="POST" action="{{route('login')}}">
 										@csrf
 										<div class="col-12">
