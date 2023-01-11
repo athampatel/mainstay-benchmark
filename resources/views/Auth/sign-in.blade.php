@@ -14,9 +14,6 @@
 								<div class="text-center py-4">
 									<h3 class="login-from-title font-open-sans font-bold font-32">Sign in</h3>									
 								</div>
-								{{-- @if(Session::has('success'))
-									<div class="alert alert-success">{{ Session::get('success')}}</div>
-								@endif --}}
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
 										<div class="alert alert-danger">{{$error}}</div>
@@ -27,12 +24,13 @@
 										@csrf
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
-											<input type="email" class="form-control" id="inputEmailAddress" name="email" placeholder="Email Address">
+											<input type="email" class="form-control" id="inputEmailAddress" name="email" placeholder="Email Address" required>
 										</div>
                                             <div class="col-12">
                                                 <label for="inputChoosePassword" class="form-label">Enter Password</label>
                                                 <div class="input-group" id="show_hide_password">
-                                                    <input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword" value="" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+                                                    {{-- <input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword" value="" placeholder="Enter Password" required> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a> --}}
+                                                    <input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword" value="" placeholder="Enter Password" required> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide' id="show-password-icon"></i></a>
                                                 </div>
                                             </div>											
 										{{-- </div> --}}
