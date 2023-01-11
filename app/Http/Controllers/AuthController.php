@@ -43,10 +43,10 @@ class AuthController extends Controller
         $message    = '';
         $status     = 'error';
         $details    = array('subject' => 'New customer request for member portal access');
+        $body       = '';
         if ( !empty($response['customers']) ) {
             if ( count($response['customers']) === 1 ) {
                 $response = $response['customers'][0];
-
                 $user =  UserController::createUser($response);
                 if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
                 
@@ -55,7 +55,7 @@ class AuthController extends Controller
                     $sales_person = SalesPersonController::createSalesPerson($response);
                 
                 if($sales_person){
-                    $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();                
+                    $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
                     if(!$user_sales_persons){
                         UserSalesPersons::create([
                             'user_id' => $user['id'],
@@ -64,17 +64,42 @@ class AuthController extends Controller
                     }
                 }  
                 $message    = 'Thanks for validating your email address, you will get a confirmation';
-                $status     = 'success';        
+                $status     = 'success';    
+
+                /*
+                'user_id' => $user->id,
+                    'ardivisionno' => $data['ardivisionno'],
+                    'customerno' => $data['customerno'],
+                    'customername' => $data['customername'],
+                    'addressline1' => $data['addressline1'],
+                    'addressline2' => $data['addressline2'],
+                    'addressline3' => $data['addressline3'],
+                    'city' => $data['city'],
+                    'state' => $data['state'],
+                    'zipcode' => $data['zipcode'],
+                    'email' => $data['emailaddress'],
+                */
+                
+                $body       = "Hi, <br /> A customer with email address {$request->email} has requested for member access, Please find the customer details below.<br/>";
+                $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
+                $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
+                $body       .= "<p><strong>Sales Person No:</strong>".$response['salespersonno']."</p>"; 
+                $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
+                $sp_email   = $response['salespersonemail'];
+                $link       = "/fetch-customer/{$request->email}";
                 
                 //return redirect()->back()->with('success', 'email sent successfully');
             }
         } else {
-            $details['body']    = array('' => 'New customer request for member portal access');
-            $status             = 'success';
-            $message            = 'Your request for member access has been submitted successfully, you will get a confirmation';   
+            $body           = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
+            $link           = "/fetch-customer/{$request->email}";
+            $status         = 'success';
+            $message        = 'Your request for member access has been submitted successfully, you will get a confirmation';   
         }   
 
-        
+         $details['title']  = "Customer Portal Access";
+         $details['body']   = $body;
+         $details['link']   = $link;
 
         \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
         
