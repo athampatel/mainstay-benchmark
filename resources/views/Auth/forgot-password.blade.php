@@ -11,6 +11,16 @@
 								<div class="mb-4 mt-3 text-center">
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
+								@if($errors->any())
+									@php 
+										echo '<pre>';
+										print_r($errors);
+										echo '</pre>';
+									@endphp
+									@foreach ($errors->all() as $error)	
+										<div class="alert alert-danger">{{$error}}</div>
+									@endforeach
+								@endif	
 								<div class="text-center">
 									<h3 class="font-bold font-open-sans font-32">Forgot your password</h3>									
 								</div>								
