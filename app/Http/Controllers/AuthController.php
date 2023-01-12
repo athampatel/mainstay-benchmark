@@ -65,20 +65,6 @@ class AuthController extends Controller
                 }  
                 $message    = 'Thanks for validating your email address, you will get a confirmation';
                 $status     = 'success';    
-
-                /*
-                'user_id' => $user->id,
-                    'ardivisionno' => $data['ardivisionno'],
-                    'customerno' => $data['customerno'],
-                    'customername' => $data['customername'],
-                    'addressline1' => $data['addressline1'],
-                    'addressline2' => $data['addressline2'],
-                    'addressline3' => $data['addressline3'],
-                    'city' => $data['city'],
-                    'state' => $data['state'],
-                    'zipcode' => $data['zipcode'],
-                    'email' => $data['emailaddress'],
-                */
                 
                 $body       = "Hi, <br /> A customer with email address {$request->email} has requested for member access, Please find the customer details below.<br/>";
                 $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
@@ -87,8 +73,6 @@ class AuthController extends Controller
                 $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
                 $sp_email   = $response['salespersonemail'];
                 $link       = "/fetch-customer/{$request->email}";
-                
-                //return redirect()->back()->with('success', 'email sent successfully');
             }
         } else {
             $body           = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
