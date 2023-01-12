@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -92,6 +96,45 @@ class AuthController extends Controller
         // event(new Registered($user));
         // Auth::login($user);
         // return redirect(RouteServiceProvider::HOME);s
+    }
+
+
+    public function user_login(Request $request,LoginRequest $loginRequest){
+        $credentials = [
+            'email' => $request['email'],
+            'password' => $request['password'],
+            'active' => 1,
+        ];
+
+        $loginRequest->ensureIsNotRateLimited();
+
+        if (Auth::attempt($credentials)) {
+            RateLimiter::clear($loginRequest->throttleKey());
+            $loginRequest->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } else {
+
+            $credentials1 = [
+                'email' => $request['email'],
+                'password' => $request['password'], 
+            ];
+            
+            if(!Auth::attempt($credentials1)){
+                dd('__comes in 1');
+                RateLimiter::hit($loginRequest->throttleKey());
+                throw ValidationException::withMessages([
+                    'email' => trans('auth.failed'),
+                    // 'active' => trans('auth.active'),
+                ]);
+            } else {
+                // dd('__comes in 2');
+                RateLimiter::hit($loginRequest->throttleKey());
+                throw ValidationException::withMessages([
+                    // 'email' => trans('auth.failed'),
+                    'active' => trans('auth.active'),
+                ]);
+            }
+        }
     }
 
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SDEDataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/analysis',[MenuController::class,'analysisPage']);
     Route::get('/account-settings',[MenuController::class,'accountSettingsPage']);
     Route::get('/help',[MenuController::class,'helpPage']);
+    // test routes
+    Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
 });
+
+
 
 //Route::get('/email-view', function () {
   //  return view('emails/email-body');

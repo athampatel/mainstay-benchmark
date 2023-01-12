@@ -45,6 +45,7 @@
   	<script src="assets/plugins/apexcharts-bundle/js/apex-custom.js"></script>
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/menu.js"></script>
+	<script src="assets/js/testCharts.js"></script>
 </body>
 </html>
 
