@@ -178,3 +178,42 @@ $(function () {
       $('html').attr('class', 'color-sidebar sidebarcolor8');
     }
 });
+
+// login page password show 
+$(document).on("click", "#show-password-icon", function(e){
+	if($('#inputChoosePassword').get(0).type == 'text'){
+		$('#inputChoosePassword').get(0).type = 'password';
+		$(this).removeClass('bx-show');
+		$(this).addClass('bx-hide');
+	} else {
+		$(this).addClass('bx-show');
+		$(this).removeClass('bx-hide');
+		$('#inputChoosePassword').get(0).type = 'text';
+	}
+});
+
+// Reset password page new password show
+$(document).on("click", "#show-new-password-icon", function(e){
+	if($('#inputNewPassword').get(0).type == 'text'){
+		$('#inputNewPassword').get(0).type = 'password';
+		$(this).removeClass('bx-show');
+		$(this).addClass('bx-hide');
+	} else {
+		$(this).addClass('bx-show');
+		$(this).removeClass('bx-hide');
+		$('#inputNewPassword').get(0).type = 'text';
+	}
+});
+
+// Reset password page confirm password show
+$(document).on("click", "#show-confirm-password-icon", function(e){
+	if($('#inputConfirmPassword').get(0).type == 'text'){
+		$('#inputConfirmPassword').get(0).type = 'password';
+		$(this).removeClass('bx-show');
+		$(this).addClass('bx-hide');
+	} else {
+		$(this).addClass('bx-show');
+		$(this).removeClass('bx-hide');
+		$('#inputConfirmPassword').get(0).type = 'text';
+	}
+});

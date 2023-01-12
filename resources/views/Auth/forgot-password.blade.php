@@ -11,12 +11,10 @@
 								<div class="mb-4 mt-3 text-center">
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
+								@if(Session::has('status'))
+									<div class="alert alert-success">{{ Session::get('status')}}</div>
+								@endif
 								@if($errors->any())
-									@php 
-										echo '<pre>';
-										print_r($errors);
-										echo '</pre>';
-									@endphp
 									@foreach ($errors->all() as $error)	
 										<div class="alert alert-danger">{{$error}}</div>
 									@endforeach
@@ -25,10 +23,11 @@
 									<h3 class="font-bold font-open-sans font-32">Forgot your password</h3>									
 								</div>								
 								<div class="form-body mt-5">
-									<form class="row g-3">
+									<form class="row g-3" method="POST" action="/forgot-password">
+										@csrf
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
-											<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address">
+											<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address" name="email" required>
 										</div>
 										<div class="col-12 pt-2">
 											<div class="d-grid">
