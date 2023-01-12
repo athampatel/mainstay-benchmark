@@ -13,8 +13,7 @@ class SDEApi
    protected $password = '';
    protected $is_ssl_verify = false;
 
-   public function __construct()
-   {
+   public function __construct(){
        // $this->end_point = env('API_URL');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
@@ -22,7 +21,73 @@ class SDEApi
 		//$this->end_point = env('API_URL');
    }
 
-    public function Request($method = 'post',$resource = 'Customers', $data = null)
+   public function getAliasItems( $data = null ) {
+
+
+        return true;
+   }
+
+   public function getCustomers( $data = null ) {
+
+
+    return true;
+  }
+
+  public function getCustomer( $customer_email = '', $customer_no = '' ) {
+
+
+    return true;
+  }
+
+  public function getInvoiceHistoryDetail( $data = null ) {
+
+
+    return true;
+  }
+
+  public function getInvoiceHistoryHeader( $data = null ) {
+
+
+    return true;
+  }
+
+  public function getInvoiceHistoryHeader( $data = null ) {
+
+    return true;
+  }
+
+  public function getProducts( $data = null ) {
+    return true;
+  }
+  public function getSalesOrderHistoryDetail( $data = null ) {
+    return true;
+  }
+
+  public function getSalesOrderHistoryHeader( $data = null ) {
+    return true;
+  } 
+  public function getSalespersons( $data = null ) {
+    return true;
+  }
+
+  public function getVendors( $data = null ) {
+    return true;
+  }
+  public function getCustomerSalesHistory( $customer_id = '' ) {
+    return true;
+  }
+  public function getCustomerItemHistory( $customer_id = '' , $item_id = '') {
+    return true;
+  }
+  public function get getInvoiceHistoryHeader( $customer_id = '') {
+    return true;
+  } 
+  public function get getSalesOrders( $customer_id = '') {
+    return true;
+  }
+
+  
+  public function Request($method = 'post',$resource = 'Customers', $data = null)
     {
         $default_data = array(
             "user" 		=> $this->username,

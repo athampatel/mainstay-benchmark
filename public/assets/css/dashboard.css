@@ -672,13 +672,16 @@ nav .profile-details i{
 /* footer */
 
 .footer{
-    position:fixed;
-    bottom: 24px;
-    right: 23px;
-    font-size: 12px;
+    position:fixed;   
+    font-size: 0.75rem;
     font-weight: 400;
     color: #424448;
     text-transform: capitalize;
+    width: 100%;
+    text-align: right;
+    padding-bottom: 0.75rem;
+    bottom:0px;
+    right: 1rem;
 }
 /* Responsive Media Query */
 .title-4{
@@ -701,6 +704,9 @@ nav .profile-details i{
 }
 .btn.btn-rounded{
   
+}
+.table-responsive{
+  font-size: 0.75rem;
 }
 @media (max-width: 1240px) {
   .sidebar{
