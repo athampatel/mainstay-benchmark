@@ -2,9 +2,6 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <link href="assets/css/dashboard.css" rel="stylesheet">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-	<link href="assets/css/bootstrap-extended.css" rel="stylesheet">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +20,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	{{-- <link href="assets/css/icons.css" rel="stylesheet"> --}}
+	<link href="assets/css/dashboard.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
    </head>
 <body>
@@ -43,6 +41,8 @@
 	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   	<script src="assets/plugins/apexcharts-bundle/js/apexcharts.js"></script>
   	<script src="assets/plugins/apexcharts-bundle/js/apex-custom.js"></script>
+	<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/menu.js"></script>
 	<script src="assets/js/testCharts.js"></script>

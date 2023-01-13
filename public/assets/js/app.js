@@ -4,6 +4,8 @@ $(function () {
 	//new PerfectScrollbar('.header-message-list');
 	//new PerfectScrollbar('.header-notifications-list');
 	// search bar
+
+
 	$(".mobile-search-icon").on("click", function () {
 		$(".search-bar").addClass("full-search-bar");
 		$(".page-wrapper").addClass("search-overlay");
@@ -217,3 +219,15 @@ $(document).on("click", "#show-confirm-password-icon", function(e){
 		$('#inputConfirmPassword').get(0).type = 'text';
 	}
 });
+
+
+var table = $('#example2').DataTable( {
+	lengthChange: false,
+	pageLength:5,
+	paging: false,
+	searching: false,
+	ordering: false,
+	info: false,
+	//buttons: [ 'copy', 'excel', 'pdf', 'print']
+});
+table.buttons().container().appendTo( '#example2_wrapper .col-md-6:eq(0)' );

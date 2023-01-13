@@ -1,7 +1,6 @@
 $(function () {
 	"use strict";
 	// chart 1
-	
 	var options = {
 		series: [{
 			name: 'Likes',
@@ -31,16 +30,9 @@ $(function () {
 		},
 		xaxis: {
 			type: 'month',
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',''],
+			categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC',''],
 		},
-		title: {
-			text: 'Line Chart',
-			align: 'left',
-			style: {
-				fontSize: "16px",
-				color: '#666'
-			}
-		},
+		
 		fill: {
 			type: 'gradient',
 			gradient: {
