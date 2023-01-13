@@ -18,7 +18,7 @@ class SDEApi
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
        // $this->is_ssl_verify = env('SSL_VERIFY');
-		//$this->end_point = env('API_URL');
+		    //$this->end_point = env('API_URL');
    }
 
    public function getAliasItems( $data = null ) {
@@ -73,7 +73,29 @@ class SDEApi
   public function getVendors( $data = null ) {
     return true;
   }
-  public function getCustomerSalesHistory( $customer_id = '' ) {
+  public function getCustomerSalesHistory( $customer_id = '',$year = '') {
+
+    if(empty($customer_id) || !$customer_id == '')
+      return false;
+    
+    $FiscalYear = ($year != '') ? $year : date('Y') ;
+    $method     = 'POST';
+    $resource   = 'CustomerSalesHistory';
+    $args       = array('filter' => array(
+                                      array('column'  => 'CustomerNo',
+                                            'type'    => 'equals',
+                                            'value'   => $customer_id,
+                                            'operator'=> 'and',
+                                      ),
+                                      array('column'  => 'FiscalYear',
+                                            'type'    => 'equals',
+                                            'value'   => $FiscalYear,
+                                            'operator'=> 'and',
+                                      ),
+                                  )
+                    );
+    $response = $this->Request($method,$resource,$args);
+
     return true;
   }
   public function getCustomerItemHistory( $customer_id = '' , $item_id = '') {

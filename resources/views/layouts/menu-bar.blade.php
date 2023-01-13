@@ -11,7 +11,6 @@
         [ 'name' => 'logout', 'icon_name' => 'logout_menu_gray.svg','active' => 0,'link'=> 'logout',],
     ];
 @endphp
-
 <div class="sidebar">
     <div class="logo-details">
       <img src="assets/images/logo.svg" alt="company logo" />

@@ -16,7 +16,7 @@
                 <div class="box-details">
                   <div class="name">inventory details</div>
                   <div class="date">01-22-2023</div>
-                  <div class="button">View Inventory</div>
+                  <a class="btn btn-primary btn-small font-12" href="#">View Inventory</a>
                 </div>
 							</div>
 						</div>
@@ -32,7 +32,7 @@
                 <div class="box-details">
                   <div class="name">Next Onsite Count</div>
                   <div class="date">01-22-2023</div>
-                  <div class="button">View Incoming Inventory</div>
+                  <a class="btn btn-primary btn-small font-12" href="#">View Incoming Inventory</a>
                 </div>
 							</div>
 						</div>
@@ -48,7 +48,7 @@
                 <div class="box-details">
                   <div class="name">Open Orders</div>
                   <div class="date">01-22-2023</div>
-                  <div class="button">View Open Order</div>
+                  <a class="btn btn-primary btn-small font-12" href="#">View Open Order</a>
                 </div>
 							</div>
 						</div>
@@ -109,9 +109,13 @@
      </div>	
      <div class="col-8">
         <div class="card box">
-          <div class="card-header col-12 p-3">
+          <div class="card-header col-12 p-3 d-flex">
             <div class="col-6 d-flex align-items-center">
               <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end">              
+              <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
+              <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
             </div>
           </div>
           <div class="card-body col-12 p-3">
@@ -131,7 +135,7 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+										<td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -144,7 +148,7 @@
                     <td>Completed</td>
 									</tr>
                   <tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+                  <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -157,7 +161,7 @@
                     <td>Completed</td>
 									</tr>
                   <tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+                  <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -170,7 +174,7 @@
                     <td>Completed</td>
 									</tr>
                   <tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+                  <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -183,7 +187,7 @@
                     <td>Completed</td>
 									</tr>
                   <tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+                  <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -196,7 +200,7 @@
                     <td>Completed</td>
 									</tr>
                   <tr>
-										<td><a href="javascript:void(0)" class="item-number">#89742</a></td>
+                  <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
 										<td>2</td>
@@ -223,6 +227,9 @@
 								</tfoot>
 							</table>
 						</div>
+            <div class="d-flex col-12 justify-content-end pb-2">
+                <a href="" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
+              </div>
           </div>
         </div>
      </div>	
