@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SDEDataController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/sales-order-history-header',[SDEDataController::class,'getSalesOrderHistoryHeader']);
     Route::get('/sales-persons',[SDEDataController::class,'getSalespersons']);
     Route::get('/vendors',[SDEDataController::class,'getVendors']);
+
+    //change user status
+    // Route::get('/user/{id}/change-status',[SDEDataController::class,'changeUserStatus']);
+    Route::get('/user/{id}/active',[SDEDataController::class,'changeUserActive']);
+    Route::get('/user/{id}/cancel',[SDEDataController::class,'changeUserCancel']);
 });
 
 
@@ -83,6 +90,11 @@ Route::group(['prefix' => 'admin'], function () {
     // Forget Password Routes
     Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
+
+    // get customer information
+    Route::post('/get_customer_info',[UsersController::class,'getCustomerInfo']);
+    // link 
+    Route::get('/user/{user_id}/change-status/{admin_token}',[UsersController::class,'getUserRequest']);
 }); 
 
 Route::get('send-mail', function () {

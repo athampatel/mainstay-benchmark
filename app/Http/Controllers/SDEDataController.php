@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
+use App\Models\User;
 
 class SDEDataController extends Controller
 {
@@ -138,7 +139,7 @@ class SDEDataController extends Controller
             //     ],
             // ]
             "offset" => 1,
-            "limit" => 5
+            "limit" => 20,
         );
 
         $response   = $this->SDEApi->Request('post','Customers',$data);
@@ -303,5 +304,22 @@ class SDEDataController extends Controller
         $response   = $this->SDEApi->Request('post','Vendors',$data);
         // echo \json_encode($response);
         dd($response);
+    }
+
+    public function changeUserStatus($id){
+        $user = User::find($id)->toArray();
+        return view('pages.user-active',compact('user'));
+    }
+
+    public function changeUserActive($id){  
+        $user = User::find($id);
+        $user->active = 1;
+        $user->save();
+        return redirect()->back();
+    }
+
+    public function changeUserCancel($id){
+        $user = User::find($id);
+        dd($user);
     }
 }
