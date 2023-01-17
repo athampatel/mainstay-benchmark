@@ -41,6 +41,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/help',[MenuController::class,'helpPage']);
     // test routes
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
+    // test api checks
+    Route::get('/alias-item',[SDEDataController::class,'getAliasItems']);
+    Route::get('/customers',[SDEDataController::class,'getCustomers']);
+    Route::get('/invoice-history-detail',[SDEDataController::class,'getInvoiceHistoryDetail']);
+    Route::get('/invoice-history-header',[SDEDataController::class,'getInvoiceHistoryHeader']);
+    Route::get('/item-warehouses',[SDEDataController::class,'getItemWarehouses']);
+    Route::get('/products',[SDEDataController::class,'getProducts']);
+    Route::get('/sales-order-history-detail',[SDEDataController::class,'getSalesOrderHistoryDetail']);
+    Route::get('/sales-order-history-header',[SDEDataController::class,'getSalesOrderHistoryHeader']);
+    Route::get('/sales-persons',[SDEDataController::class,'getSalespersons']);
+    Route::get('/vendors',[SDEDataController::class,'getVendors']);
 });
 
 
