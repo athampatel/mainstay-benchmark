@@ -23,11 +23,11 @@ User Create - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">User Create</h4>
+                <h4 class="page-title pull-left">Customer Create</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.users.index') }}">All Users</a></li>
-                    <li><span>Create User</span></li>
+                    <li><a href="{{ route('admin.users.index') }}">All Customer</a></li>
+                    <li><span>Create Customer</span></li>
                 </ul>
             </div>
         </div>
@@ -49,37 +49,37 @@ User Create - Admin Panel
                     <div class="form-row align-items-center">
                         <div class="form-group col-md-6 col-sm-12">
                             <label for="name">Search Customer with customer email or customer no</label>
-                            <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="10SNJ00">
+                            <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="" required>
                         </div>
                         <div class="col-md-2 col-sm-6">
                             <label for=""></label>
                             <button class="form-control btn btn-primary" id='user-search'>Search</button>
                         </div>
                     </div>
-
-                    <h4 class="header-title">Create New User</h4>
+                <div class="userDetails-container" style="display: none;">        
+                    <h4 class="header-title">Create New Customer</h4>
                     @include('backend.layouts.partials.messages')
                     <form action="{{ route('admin.users.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_no">User No</label>
-                                <input type="text" class="form-control" id="user_no" name="user_no" placeholder="Enter User Number">
+                                <label for="user_no">Customer No</label>
+                                <input type="text" class="form-control" id="user_no" name="customerno" placeholder="Enter User Number" required>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_email">User Email</label>
-                                <input type="text" class="form-control" id="user_email" name="user_email" placeholder="Enter User Email">
+                                <label for="user_email">Customer Email</label>
+                                <input type="text" class="form-control" id="user_email" name="email" placeholder="Enter User Email" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_name">User Name</label>
-                                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter Name">
+                                <label for="user_name">Customer Name</label>
+                                <input type="text" class="form-control" id="user_name" name="customername" placeholder="Enter Name" required>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="ardivision_no">ardivisionno</label>
-                                <input type="text" class="form-control" id="ardivision_no" name="ardivision_no" placeholder="Enter AR division no">
+                                <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter AR division no">
                             </div>
                         </div>
 
@@ -87,32 +87,32 @@ User Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_1">Address Line 1</label>
-                                <input type="text" name="address_line_1" class="form-control" id="address_line_1" placeholder="Enter Address line 1">
+                                <input type="text" name="addressline1" class="form-control" id="address_line_1" placeholder="Enter Address line 1">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_2">Address Line 2</label>
-                                <input type="text" name="address_line_2" class="form-control" id="address_line_2" placeholder="Enter Address line 2">
+                                <input type="text" name="addressline2" class="form-control" id="address_line_2" placeholder="Enter Address line 2">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_3">Address Line 3</label>
-                                <input type="text" name="address_line_3" class="form-control" id="address_line_3" placeholder="Enter Address line 3">
+                                <input type="text" name="addressline3" class="form-control" id="address_line_3" placeholder="Enter Address line 3">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_city">City</label>
-                                <input type="text" name="user_city" class="form-control" id="user_city" placeholder="Enter City">
+                                <input type="text" name="city" class="form-control" id="user_city" placeholder="Enter City">
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_state">State</label>
-                                <input type="text" name="user_state" class="form-control" id="user_state" placeholder="Enter State">
+                                <input type="text" name="state" class="form-control" id="user_state" placeholder="Enter State">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_zipcode">Zipcode</label>
-                                <input type="text" name="user_zipcode" class="form-control" id="user_zipcode" placeholder="Enter Zipcode">
+                                <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter Zipcode">
                             </div>
                         </div>
 
@@ -121,27 +121,28 @@ User Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_divison_no">Division No </label>
-                                <input type="text" name="sales_person_divison_no" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No">
+                                <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_no">Sales Peson Number</label>
-                                <input type="text" name="sales_person_no" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No">
+                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_name">Sales Person Name</label>
-                                <input type="text" name="sales_person_name" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
+                                <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_email">Sales Person Email</label>
-                                <input type="text" name="sales_person_email" class="form-control" id="sales_person_email" placeholder="Enter Sales Person Email">
+                                <input type="text" name="salespersonemail" class="form-control" id="sales_person_email" placeholder="Enter Sales Person Email">
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save User</button>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                     </form>
+                </div>    
                 </div>
             </div>
         </div>
@@ -165,6 +166,9 @@ User Create - Admin Panel
             url: '/admin/get_customer_info',
             dataType: "JSON",
             data: { "_token": "{{ csrf_token() }}",'search_text':$search_text},
+            beforeSend:function(){
+                $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
+            },
             success: function (res) {
                 if(res.customers.length > 0){
                     $customer = res.customers[0];
@@ -194,7 +198,10 @@ User Create - Admin Panel
                         $('#customer_response_alert').addClass('d-none');
                     },2000);
                 }
-            }
+                $('.userDetails-container').fadeIn();
+            },
+            complete:function(){
+                $(document.body).find('#preloader').remove();            }
         });
     })
 </script>

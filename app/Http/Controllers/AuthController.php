@@ -10,7 +10,6 @@ use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
-use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -35,6 +34,38 @@ class AuthController extends Controller
         }
     }
 
+    public static function CreateCustomer($response = null, $action = 0){
+        $user =  UserController::createUser($response);
+        if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
+        $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
+        $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
+        if(!$sales_person) 
+            $sales_person = SalesPersonController::createSalesPerson($response);
+        
+        if($sales_person){
+            $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
+            if(!$user_sales_persons){
+                UserSalesPersons::create([
+                    'user_id' => $user['id'],
+                    'sales_person_id' => $sales_person['id']
+                ]);
+            }
+        }  
+        $message    = 'Thanks for validating your email address, you will get a confirmation';
+        $status     = 'success';    
+        
+        $body       = "Hi, <br /> A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
+        $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
+        $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
+        $body       .= "<p><strong>Sales Person No:</strong>".$response['salespersonno']."</p>"; 
+        $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
+        $sp_email   = $response['salespersonemail'];
+        $link       = "/fetch-customer/{$email}";
+        return array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message);
+
+
+    }
+
     // orders@10-spec.com
     public function user_register(Request $request){
         $request->validate([
@@ -57,51 +88,22 @@ class AuthController extends Controller
         $response   = $this->SDEApi->Request('post','Customers',$data); 
         $message    = '';
         $status     = 'error';
-        $details    = array('subject' => 'New customer request for member portal access');
-        $body       = '';
-        $link = '';
+        $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');
+        $_details   = array();
         if ( !empty($response['customers']) ) {
             if ( count($response['customers']) === 1 ) {
                 $response = $response['customers'][0];
-                $user =  UserController::createUser($response);
-                if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
-                
-                $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
-                if(!$sales_person) 
-                    $sales_person = SalesPersonController::createSalesPerson($response);
-                
-                if($sales_person){
-                    $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
-                    if(!$user_sales_persons){
-                        UserSalesPersons::create([
-                            'user_id' => $user['id'],
-                            'sales_person_id' => $sales_person['id']
-                        ]);
-                    }
-                }  
-                $message    = 'Thanks for validating your email address, you will get a confirmation';
-                $status     = 'success';    
-                
-                $body       = "Hi, <br /> A customer with email address {$request->email} has requested for member access, Please find the customer details below.<br/>";
-                $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
-                $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
-                $body       .= "<p><strong>Sales Person No:</strong>".$response['salespersonno']."</p>"; 
-                $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
-                $sp_email   = $response['salespersonemail'];
-                $link       = "/fetch-customer/{$request->email}";
+                $_details = self::CreateCustomer($response);
             }
         } else {
-            $body           = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
-            $link           = "/fetch-customer/{$request->email}";
-            $status         = 'success';
-            $message        = 'Your request for member access has been submitted successfully, you will get a confirmation';   
+            $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
+            $details['link']      = "/fetch-customer/{$request->email}";
+            $details['status']    = 'success';
+            $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';   
         }   
-
-         $details['title']  = "Customer Portal Access";
-         $details['body']   = $body;
-         $details['link']   = $link;
-
-        // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+        $details    = array_merge($details,$_details);
+        $message    = isset($details['message']) ? $details['message'] : '';
+        $status     = isset($details['status']) ? $details['status'] : '';
         $admin = Admin::first();
         $user = User::where('email',$request->email)->first();
         if($user){
@@ -110,12 +112,9 @@ class AuthController extends Controller
             $params = array('mail_view' => 'emails.user-active', 'subject' => 'Change the user status', 'url' => env('APP_URL').'/admin/user/'.$user->id.'/change-status/'.$admin->unique_token);
             \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
-        // mail_view
         return redirect()->back()->with($status, $message);
 
-        // event(new Registered($user));
-        // Auth::login($user);
-        // return redirect(RouteServiceProvider::HOME);s
+        
     }
 
 

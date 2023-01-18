@@ -21,10 +21,10 @@ Users - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Users</h4>
+                <h4 class="page-title pull-left">Customers</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>All Users</span></li>
+                    <li><span>All Customer</span></li>
                 </ul>
             </div>
         </div>
@@ -41,9 +41,9 @@ Users - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title float-left">Users List</h4>
+                    <h4 class="header-title float-left">Customer List</h4>
                     <p class="float-right mb-2">
-                        <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create New User</a>
+                        <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">
@@ -51,25 +51,29 @@ Users - Admin Panel
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th width="5%">Sl</th>
+                                    <th width="10%">Customer No</th>
                                     <th width="10%">Name</th>
                                     <th width="10%">Email</th>
-                                    <th width="40%">Roles</th>
-                                    <th width="15%">Action</th>
+                                    <th width="10%">AR Division no</th>
+                                    <th width="10%">Sales Person</th>
+                                    <th width="10%">Status</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                @foreach ($users as $user)
                                <tr>
-                                    <td>{{ $loop->index+1 }}</td>
+                                    <td> <a class="" href="{{ route('admin.users.edit', $user->id) }}">{{ $user->customerno }}</a></td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->ardivisionno }}</td>
+                                    <td>{{$user->sales_person}} ({{$user->person_number}})</td>                                    
                                     <td>
-                                        @foreach ($user->roles as $role)
-                                            <span class="badge badge-info mr-1">
-                                                {{ $role->name }}
-                                            </span>
-                                        @endforeach
+                                            @if( $user->active == 1)
+                                                <span class="btn btn-success text-white" style="padding:5px;pointer-events:none;">Active</span>           
+                                           @else
+                                                <span class="btn btn-danger text-white" style="padding:5px;pointer-events:none;">In-active</span>               
+                                            @endif
                                     </td>
                                     <td>
                                         <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>

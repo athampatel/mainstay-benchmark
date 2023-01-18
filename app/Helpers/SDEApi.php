@@ -99,10 +99,6 @@ class SDEApi
   }
 
 
-  public function getInvoiceHistoryHeader( $customer_id = '') {
-    return true;
-  } 
-
   public function getSalesOrders( $customer_id = '') {
     return true;
   }

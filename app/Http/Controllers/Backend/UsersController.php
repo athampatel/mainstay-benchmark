@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use App\Http\Controllers\AuthController;
 
 class UsersController extends Controller
 {
@@ -31,7 +32,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                    ->get(['users.*','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as sales_person']);
+
         return view('backend.pages.users.index', compact('users'));
     }
 
@@ -56,13 +61,19 @@ class UsersController extends Controller
     {
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50',
+            'customername' => 'required|max:50',
             'email' => 'required|max:100|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'salespersonno' => 'required|min:1',
         ]);
+        $postdata = $request->input();
+        $postdata['emailaddress'] = $postdata['email'];
+        $response = AuthController::CreateCustomer($postdata,1);
+
+        $message    = isset($response['message']) ? $response['message'] : '';
+        $status     = isset($response['status']) ? $response['status'] : '';
 
         // Create New User
-        $user = new User();
+        /*$user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
@@ -70,9 +81,9 @@ class UsersController extends Controller
 
         if ($request->roles) {
             $user->assignRole($request->roles);
-        }
+        }*/
 
-        session()->flash('success', 'User has been created !!');
+        session()->flash($status, 'User has been created !!');
         return redirect()->route('admin.users.index');
     }
 
@@ -95,7 +106,23 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        //$user = User::find($id);        
+        $user = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                    ->select(['users.*',
+                          'user_details.customerno',
+                          'user_details.customername',
+                          'user_details.ardivisionno',
+                          'user_details.addressline1',
+                          'user_details.addressline2',
+                          'user_details.addressline3',
+                          'user_details.city',
+                          'user_details.state',
+                          'user_details.zipcode',
+                          'sales_persons.person_number',
+                          'sales_persons.email as salespersonemail',
+                          'sales_persons.name as salespersonname'])->where('users.id',$id)->first(); 
         $roles  = Role::all();
         return view('backend.pages.users.edit', compact('user', 'roles'));
     }

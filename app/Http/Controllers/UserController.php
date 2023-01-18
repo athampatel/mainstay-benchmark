@@ -10,14 +10,21 @@ use Str;
 
 class UserController extends Controller
 {
-    public static function createUser($data){
-        $user = User::create([
+    public static function createUser($data,$action = 0){
+
+        $userData = array(
             'name' =>$data['customername'],
             'email' => $data['emailaddress'],
             'password' => Hash::make('sde@123'),
             'activation_token' => '',
             // 'activation_token' => Str::random(30),
-        ]);
+        );
+
+        if($action){
+            $userData['activation_token'] = Str::random(40);;
+            $userData['active'] = 1;
+        }
+        $user = User::create($userData);
 
         if(!$user) return false;
 
