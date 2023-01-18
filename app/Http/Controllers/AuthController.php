@@ -99,6 +99,17 @@ class AuthController extends Controller
             \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
         // mail_view
+
+            $details['body']    = 'New customer request for member portal access';
+            $status             = 'success';
+            $message            = 'Your request for member access has been submitted successfully, you will get a confirmation';
+        }   
+		$details['title']    	= 'New customer request for member portal access';
+        
+
+       // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+        
+
         return redirect()->back()->with($status, $message);
 
         // event(new Registered($user));
