@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -181,22 +183,84 @@ class UsersController extends Controller
         $admin = Admin::where('unique_token', $admin_token)->first();
         Auth::guard('admin')->login($admin);
         $user = User::find($user_id);
-        $data = array(            
-            "filter" => [
-                [
-                    "column"=>"emailaddress",
-                    "type"=>"equals",
-                    "value"=>$user->email,
-                    "operator"=>"and"
+        if($user && $user->active == 0 && $user->activation_token != ''){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=>"emailaddress",
+                        "type"=>"equals",
+                        "value"=>$user->email,
+                        "operator"=>"and"
+                    ],
                 ],
-            ],
-            "offset" => 1,
-            "limit" => 1,
-        );
-        $res = $this->SDEApi->Request('post','Customers',$data);
-        if(!empty($res['customers'])){
-            $user_info = $res['customers'][0];
+                "offset" => 1,
+                "limit" => 1,
+            );
+            $res = $this->SDEApi->Request('post','Customers',$data);
+            if(!empty($res['customers'])){
+                $user_info = $res['customers'][0];
+            }
+            return view('backend.pages.users.user_request',compact('user_info','user'));
+        } else {
+            return abort('403');
         }
-        return view('backend.pages.users.user_request',compact('user_info','user'));
+    }
+
+    public function getUserActive(Request $request){
+        $user_id = $request->user_id;
+        $user = User::find($user_id);
+        $res = [];
+        if($user) {
+            $user->active = 1;
+            $user->activation_token = '';
+            $user->save();
+            // email send work start
+
+            // one solution
+            
+            // $status = Password::sendResetLink(
+            //     [ 'email' =>'gokul12@yopmail.com']
+            // );
+            
+            // another solution
+            $token = Str::random(30);
+            $_token = Hash::make($token);
+
+            DB::table('password_resets')->insert(
+                // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
+                ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
+            );
+
+            $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+            // $email = 'gokul12@yopmail.com';
+            // $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$email);
+            // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
+            // http://localhost:8081/reset-password/b168354b23c967996fd7faadd74d6a07c59ae9eacd05f27e9f99b0b9789b0d12?email=
+            // http://localhost:8081/reset-password/3ea18ac218cd71f1f2973a6e828dc022e5f36455abffaf488607fcfac09005fc?email=gokul12@yopmail.com
+            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+
+            // email send work end
+            $res = ['success' => true, 'message' =>'User activated successfully and email sent'];
+        } else {
+            $res = ['success' => false, 'message' =>'User not found'];
+        }
+        echo json_encode($res);
+    }
+
+    public function getUserCancel(Request $request){
+        $user_id = $request->user_id;
+        $user = User::find($user_id);
+        $res =[];
+        if($user) {
+            $user->active = 0;
+            $user->activation_token = '';
+            $user->is_deleted = 1;
+            $user->save();
+            $user->delete();
+            $res = ['success' => true, 'message' =>'User deleted successfully'];
+        } else {
+            $res = ['success' => false, 'message' =>'User not found'];
+        }
+        echo json_encode($res);
     }
 }
