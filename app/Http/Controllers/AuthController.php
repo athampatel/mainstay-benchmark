@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
+use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -23,6 +24,15 @@ class AuthController extends Controller
     public function __construct(SDEApi $SDEApi){
         $this->SDEApi = $SDEApi;
         //$this->emailHelper = $emailHelper;
+    }
+
+    public function autheticate( Request $request ){
+
+        $token = $request->input('hash');
+        $customer = $request->input('customer');
+        if ($token != '' && $customer != '') {            
+            $adminUser =  Admin::where('remember_token','like', $token)->get();
+        }
     }
 
     // orders@10-spec.com
@@ -146,5 +156,4 @@ class AuthController extends Controller
             }
         }
     }
-
 }

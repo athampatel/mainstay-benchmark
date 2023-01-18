@@ -59,6 +59,7 @@
                     </li>
                     @endif
 
+
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
                             Users
@@ -81,6 +82,7 @@
                             @endif
                         </ul>
                     </li>
+
                 </ul>
             </nav>
         </div>

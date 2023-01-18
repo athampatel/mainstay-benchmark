@@ -23,7 +23,6 @@ class SDEApi
 
    public function getAliasItems( $data = null ) {
 
-
         return true;
    }
 
@@ -53,7 +52,6 @@ class SDEApi
 
   //   return true;
   // }
-
   public function getProducts( $data = null ) {
     return true;
   }
@@ -93,33 +91,31 @@ class SDEApi
                                   )
                     );
     $response = $this->Request($method,$resource,$args);
-
-    return true;
+    return $response;
   }
+
   public function getCustomerItemHistory( $customer_id = '' , $item_id = '') {
     return true;
   }
-  // public function getInvoiceHistoryHeader( $customer_id = '') {
-  //   return true;
-  // } 
+
+
+  public function getInvoiceHistoryHeader( $customer_id = '') {
+    return true;
+  } 
+
   public function getSalesOrders( $customer_id = '') {
     return true;
   }
 
   
-  public function Request($method = 'post',$resource = 'Customers', $data = null)
-    {
+  public function Request($method = 'post',$resource = 'Customers', $data = null){
+    
         $default_data = array(
-            "user" 		=> $this->username,
-            "password" 	=> $this->password,
-			"resource"	=> $resource,
-			
+            "user" 		    => $this->username,
+            "password" 	  => $this->password,
+			      "resource"	  => $resource,
         );
-
         $post_data = array_merge($default_data,$data);
-		
-		
-  
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
         ]);
@@ -129,8 +125,6 @@ class SDEApi
         } else {
             $response = $request->post($this->end_point,$post_data);
         }
-		
-        
         return $response->json();
     }
 }
