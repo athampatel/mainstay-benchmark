@@ -44,7 +44,7 @@ User Create - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                
+                    <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
                     <h4 class="header-title">User Information</h4>
                     @include('backend.layouts.partials.messages')
                     {{-- <form action="{{ route('admin.users.store') }}" method="POST"> --}}
@@ -159,34 +159,42 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+    
     $(document).ready(function() {
         $('.select2').select2();
     })
 
     $(document).on('click','#activate_user',function(){
         $user_id = $('#user_id').val();
-        $.ajax({
-            type: 'POST',
-            url: '/admin/user/activate',
-            dataType: "JSON",
-            data: { "_token": "{{ csrf_token() }}",'user_id':$user_id},
-            success: function (res) {
-                console.log(res,'__user activate response');
-            }
-        });
+        AjaxRequest('/admin/user/activate','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
     });
 
     $(document).on('click','#cancel_user',function(){
         $user_id = $('#user_id').val();
+        AjaxRequest('/admin/user/cancel','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
+    });
+
+    
+    function AjaxRequest($url,$method,$data,$callback){
         $.ajax({
-            type: 'POST',
-            url: '/admin/user/cancel',
+            type: $method,
+            url: $url,
             dataType: "JSON",
-            data: { "_token": "{{ csrf_token() }}",'user_id':$user_id},
-            success: function (res) {
-                console.log(res,'__user cancel response');
+            data: $data,
+            success: function (res) {  
+                window[$callback](res);
             }
         });
-    });
+    }
+
+    function userActivateResponseAction(res){
+        if(res.success){
+            $('#user_activate_message').text(res.message).removeClass('d-none');
+            setTimeout(() => {
+                $('#user_activate_message').addClass('d-none');
+                window.location.href = "{{ url('/admin/users/')}}";
+            }, 2000);
+        }
+    }
 </script>
 @endsection

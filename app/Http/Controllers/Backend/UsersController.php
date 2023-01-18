@@ -181,22 +181,58 @@ class UsersController extends Controller
         $admin = Admin::where('unique_token', $admin_token)->first();
         Auth::guard('admin')->login($admin);
         $user = User::find($user_id);
-        $data = array(            
-            "filter" => [
-                [
-                    "column"=>"emailaddress",
-                    "type"=>"equals",
-                    "value"=>$user->email,
-                    "operator"=>"and"
+        if($user && $user->active == 0 && $user->activation_token != ''){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=>"emailaddress",
+                        "type"=>"equals",
+                        "value"=>$user->email,
+                        "operator"=>"and"
+                    ],
                 ],
-            ],
-            "offset" => 1,
-            "limit" => 1,
-        );
-        $res = $this->SDEApi->Request('post','Customers',$data);
-        if(!empty($res['customers'])){
-            $user_info = $res['customers'][0];
+                "offset" => 1,
+                "limit" => 1,
+            );
+            $res = $this->SDEApi->Request('post','Customers',$data);
+            if(!empty($res['customers'])){
+                $user_info = $res['customers'][0];
+            }
+            return view('backend.pages.users.user_request',compact('user_info','user'));
+        } else {
+            return abort('403');
         }
-        return view('backend.pages.users.user_request',compact('user_info','user'));
+    }
+
+    public function getUserActive(Request $request){
+        $user_id = $request->user_id;
+        $user = User::find($user_id);
+        $res = [];
+        if($user) {
+            $user->active = 1;
+            $user->activation_token = '';
+            $user->save();
+            $res = ['success' => true, 'message' =>'User activated successfully and email sent'];
+        } else {
+            $res = ['success' => false, 'message' =>'User not found'];
+        }
+        echo json_encode($res);
+    }
+
+    public function getUserCancel(Request $request){
+        $user_id = $request->user_id;
+        $user = User::find($user_id);
+        $res =[];
+        if($user) {
+            $user->active = 0;
+            $user->activation_token = '';
+            $user->is_deleted = 1;
+            $user->save();
+            $user->delete();
+            $res = ['success' => true, 'message' =>'User deleted successfully'];
+        } else {
+            $res = ['success' => false, 'message' =>'User not found'];
+        }
+        echo json_encode($res);
     }
 }

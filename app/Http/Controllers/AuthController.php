@@ -16,7 +16,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Str;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -95,6 +95,8 @@ class AuthController extends Controller
         $admin = Admin::first();
         $user = User::where('email',$request->email)->first();
         if($user){
+            $user->activation_token = Str::random(30);
+            $user->save();
             $params = array('mail_view' => 'emails.user-active', 'subject' => 'Change the user status', 'url' => env('APP_URL').'/admin/user/'.$user->id.'/change-status/'.$admin->unique_token);
             \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
