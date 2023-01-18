@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
 use App\Models\User;
+use App\Models\UserDetails;
+use Illuminate\Support\Facades\Auth;
 
 class SDEDataController extends Controller
 {
@@ -15,31 +17,97 @@ class SDEDataController extends Controller
     }
 
     public function getCustomerSalesHistory(){
-
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $user_details = UserDetails::where('user_id',$user_id)->first();
+        // $year = '2020';
+        $year = date('Y');
         $data = array(            
             "filter" => [
                 [
                     "column" => "ARDivisionNo",
                     "type" => "equals",
-                    "value" => "00",
+                    "value" => $user_details->ardivisionno,
                     "operator" => "and"
                 ],
                 [
                     "column" =>  "CustomerNo",
                     "type" =>  "equals",
-                    "value" =>  "GEMWI00",
+                    "value" =>  $user_details->customerno,
                     "operator" =>  "and"
                 ],
                 [
                     "column" =>  "FiscalYear",
                     "type" =>  "equals",
-                    "value" =>  "2021",
+                    "value" =>  $year,
                     "operator" =>  "and"
                 ]
             ]
         );
 
-        $response   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => $year]];
+        echo \json_encode($response);
+    }
+
+    // invoice orders
+    public function getCustomerInvoiceOrders(){
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $user_details = UserDetails::where('user_id',$user_id)->first();
+        // $year = date('Y-01-01');
+        // $year = '';
+        // dd($year);
+        $data = array(            
+            "filter" => [
+                [
+                    "column" => "ARDivisionNo",
+                    "type" => "equals",
+                    "value" => $user_details->ardivisionno,
+                    "operator" => "and"
+                ],
+                [
+                    "column" =>  "CustomerNo",
+                    "type" =>  "equals",
+                    "value" =>  $user_details->customerno,
+                    "operator" =>  "and"
+                ],
+                // [
+                //     "column" =>  "orderdate",
+                //     "type" =>  "greaterthan",
+                //     "value" =>  $year,
+                //     "operator" =>  "and"
+                // ]
+            ]
+        );
+
+        $data = array(            
+            "offset" => 1,
+            "limit" => 5,
+        );
+
+        $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        foreach($response_data['salesorderhistoryheader'] as $key => $res){
+            $data1 = array(            
+                "filter" => [
+                    [
+                        "column" => "SalesOrderNo",
+                        "type" => "equals",
+                        "value" => $res['salesorderno'],
+                        "operator" => "and"
+                    ],
+                    ]
+            );  
+            $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+            // echo '___data';
+            // print_r($response_data1);
+            // die();
+            // dd($response_data1);
+        };
+
+        // $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        // $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => $year]];
+        $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => '']];
         echo \json_encode($response);
     }
 

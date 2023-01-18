@@ -70,7 +70,7 @@
               <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
             </div>
           </div>
-					<div id="chart1" class="col-12 p-2"></div>
+					<div id="customer_sales_history" class="col-12 p-2"></div>
         </div>
      </div>	
      <div class="col">
@@ -132,8 +132,8 @@
                     <th>Status</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
+								<tbody id="invoice-orders-table-body">
+									{{-- <tr>
 										<td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
@@ -145,7 +145,7 @@
                         </span>London
                     </td>
                     <td>Completed</td>
-									</tr>
+									</tr> --}}
                   <tr>
                   <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
@@ -237,3 +237,7 @@
     </div>
   </div>  <!--- home-content ---->
 @endsection
+
+<script type="text/javascript">
+  const logged_customer_id = '{{Auth::user()->id}}';
+</script>
