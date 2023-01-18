@@ -41,8 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/analysis',[MenuController::class,'analysisPage']);
     Route::get('/account-settings',[MenuController::class,'accountSettingsPage']);
     Route::get('/help',[MenuController::class,'helpPage']);
-    // test routes
+    // chart routes
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
+    Route::get('/customer-invoice-orders',[SDEDataController::class,'getCustomerInvoiceOrders']);
     // test api checks
     Route::get('/alias-item',[SDEDataController::class,'getAliasItems']);
     Route::get('/customers',[SDEDataController::class,'getCustomers']);

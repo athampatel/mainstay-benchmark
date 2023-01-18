@@ -4,7 +4,6 @@ $(function(){
         type: 'GET',
         url: '/customersales',
         dataType: "JSON",
-        // data: { "_token": $('meta[name="csrf-token"]').attr('content')},
         success: function (res) {
             chartDisplay(res.customersaleshistory)
             // window.location = 'http://www.google.com';

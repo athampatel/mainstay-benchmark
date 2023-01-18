@@ -45,7 +45,9 @@
 	<script src="/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
 	<script src="/assets/js/app.js"></script>
 	<script src="/assets/js/menu.js"></script>
-	<script src="/assets/js/testCharts.js"></script>
+	{{-- <script src="/assets/js/testCharts.js"></script> --}}
+	<script src="/assets/js/customer-charts.js"></script>
+	<script src="/assets/js/common-functions.js"></script>
 </body>
 </html>
 
