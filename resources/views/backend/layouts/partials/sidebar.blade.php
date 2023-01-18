@@ -59,6 +59,23 @@
                     </li>
                     @endif
 
+                    @if ($usr->can('customer.create') || $usr->can('customer.view') ||  $usr->can('customer.edit') ||  $usr->can('customer.delete'))
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>Customer
+                        </span></a>
+                        <ul class="collapse {{ Route::is('admin.customer.create') || Route::is('admin.customer.index') || Route::is('admin.customer.edit') || Route::is('admin.customer.show') ? 'in' : '' }}">
+                            
+                            @if ($usr->can('admin.view'))
+                                <li class="{{ Route::is('admin.customer.index')  || Route::is('admin.customer.edit') ? 'active' : '' }}"><a href="{{ route('admin.customer.index') }}">All Admins</a></li>
+                            @endif
+
+                            @if ($usr->can('admin.create'))
+                                <li class="{{ Route::is('admin.customer.create')  ? 'active' : '' }}"><a href="{{ route('admin.customer.create') }}">Create Admin</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
                 </ul>
             </nav>
         </div>

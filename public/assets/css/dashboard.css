@@ -689,6 +689,14 @@ nav .profile-details i{
   line-height: 2rem;
   font-weight: bold;
 }
+.title-5{
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: bold;
+}
+.title-4 span{
+  color: #9FCC47;
+}
 
 .btn.btn-medium{
     min-height: 2.5rem;

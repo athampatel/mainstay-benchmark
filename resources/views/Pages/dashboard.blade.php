@@ -69,7 +69,6 @@
               <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
               <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
             </div>
-            
           </div>
 					<div id="chart1" class="col-12 p-2"></div>
         </div>
