@@ -20,6 +20,7 @@ class CreateSuperAdminTable extends Migration
             $table->string('username')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('unique_token');
             $table->rememberToken();
             $table->timestamps();
         });

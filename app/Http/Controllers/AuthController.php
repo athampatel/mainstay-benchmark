@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
@@ -16,8 +17,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-
-use Str;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -59,6 +59,7 @@ class AuthController extends Controller
         $status     = 'error';
         $details    = array('subject' => 'New customer request for member portal access');
         $body       = '';
+        $link = '';
         if ( !empty($response['customers']) ) {
             if ( count($response['customers']) === 1 ) {
                 $response = $response['customers'][0];
@@ -100,8 +101,16 @@ class AuthController extends Controller
          $details['body']   = $body;
          $details['link']   = $link;
 
-        \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-        
+        // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+        $admin = Admin::first();
+        $user = User::where('email',$request->email)->first();
+        if($user){
+            $user->activation_token = Str::random(30);
+            $user->save();
+            $params = array('mail_view' => 'emails.user-active', 'subject' => 'Change the user status', 'url' => env('APP_URL').'/admin/user/'.$user->id.'/change-status/'.$admin->unique_token);
+            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+        }
+        // mail_view
         return redirect()->back()->with($status, $message);
 
         // event(new Registered($user));
