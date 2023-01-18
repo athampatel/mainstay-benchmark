@@ -46,15 +46,13 @@ class SDEApi
   }
 
   public function getInvoiceHistoryHeader( $data = null ) {
-
-
     return true;
   }
 
-  public function getInvoiceHistoryHeader( $data = null ) {
+  // public function getInvoiceHistoryHeader( $data = null ) {
 
-    return true;
-  }
+  //   return true;
+  // }
 
   public function getProducts( $data = null ) {
     return true;
@@ -101,10 +99,10 @@ class SDEApi
   public function getCustomerItemHistory( $customer_id = '' , $item_id = '') {
     return true;
   }
-  public function get getInvoiceHistoryHeader( $customer_id = '') {
-    return true;
-  } 
-  public function get getSalesOrders( $customer_id = '') {
+  // public function getInvoiceHistoryHeader( $customer_id = '') {
+  //   return true;
+  // } 
+  public function getSalesOrders( $customer_id = '') {
     return true;
   }
 

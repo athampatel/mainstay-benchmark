@@ -13,19 +13,19 @@
 @endphp
 <div class="sidebar">
     <div class="logo-details">
-      <img src="assets/images/logo.svg" alt="company logo" />
+      <img src="/assets/images/logo.svg" alt="company logo" />
     </div>
       <ul class="nav-links">
         @foreach ($menus as $menu)
             <li class="<?php echo $menu['active'] == 1 ? 'active':''; ?>">
                 @if($menu['name'] == 'logout')
                     <a href="" id="{{$menu['link']}}">
-                        <img src="assets/images/svg/{{$menu['icon_name']}}" alt="menu icon"  />
+                        <img src="/assets/images/svg/{{$menu['icon_name']}}" alt="menu icon"  />
                         <span class="links_name">{{$menu['name']}}</span>
                     </a>
                 @else 
                     <a href="{{$menu['link']}}" id="{{$menu['link']}}">
-                        <img src="assets/images/svg/{{$menu['icon_name']}}" alt="menu icon"  />
+                        <img src="/assets/images/svg/{{$menu['icon_name']}}" alt="menu icon"  />
                         <span class="links_name">{{$menu['name']}}</span>
                     </a>
                 @endif

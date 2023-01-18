@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\SDEApi;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -12,6 +15,13 @@ use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
+
+
+    public function __construct(SDEApi $SDEApi)
+    {
+        $this->SDEApi = $SDEApi;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -139,5 +149,54 @@ class UsersController extends Controller
 
         session()->flash('success', 'User has been deleted !!');
         return back();
+    }
+
+    // get customer information
+    public function getCustomerInfo(Request $request){
+        $search_text = $request->search_text;
+        // dd($search_text);
+        $data = array(            
+            "filter" => [
+                [
+                    "column"=>"emailaddress",
+                    "type"=>"equals",
+                    "value"=>$search_text,
+                    "operator"=>"or"
+                ],
+                [
+                    "column"=>"customerno",
+                    "type"=>"equals",
+                    "value"=>$search_text,
+                    "operator"=>"or"
+                ]
+            ],
+            "offset" => 1,
+            "limit" => 1,
+        );
+    $res = $this->SDEApi->Request('post','Customers',$data);
+    echo json_encode($res);
+    }
+
+    public function getUserRequest($user_id,$admin_token){
+        $admin = Admin::where('unique_token', $admin_token)->first();
+        Auth::guard('admin')->login($admin);
+        $user = User::find($user_id);
+        $data = array(            
+            "filter" => [
+                [
+                    "column"=>"emailaddress",
+                    "type"=>"equals",
+                    "value"=>$user->email,
+                    "operator"=>"and"
+                ],
+            ],
+            "offset" => 1,
+            "limit" => 1,
+        );
+        $res = $this->SDEApi->Request('post','Customers',$data);
+        if(!empty($res['customers'])){
+            $user_info = $res['customers'][0];
+        }
+        return view('backend.pages.users.user_request',compact('user_info','user'));
     }
 }
