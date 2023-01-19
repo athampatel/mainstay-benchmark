@@ -121,7 +121,7 @@
           <div class="card-body col-12 p-3">
           <div class="table-responsive">
 							<table id="example2" class="table table-bordered">
-								<thead>
+                <thead>
 									<tr>
 										<th>Item ID</th>
 										<th>Customer name</th>
@@ -147,7 +147,7 @@
                     </td>
                     <td>Completed</td>
 									</tr> --}}
-                  <tr>
+                  {{-- <tr>
                   <td><a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded">#89742</a></td>
 										<td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
                     <td><a href="mailto:adamsbaker@mail.com" class="customer-name">adamsbaker@mail.com</a></td>
@@ -211,7 +211,7 @@
                         </span>London
                     </td>
                     <td>Completed</td>
-									</tr>					
+									</tr>					 --}}
 								</tbody>
 								<tfoot>
                 <tr>
@@ -240,5 +240,5 @@
 @endsection
 
 <script type="text/javascript">
-  const logged_customer_id = '{{Auth::user()->id}}';
+  // const logged_customer= '{{Auth::user()}}';
 </script>
