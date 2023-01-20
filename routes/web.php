@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     // chart routes
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
     Route::get('/customer-invoice-orders',[SDEDataController::class,'getCustomerInvoiceOrders']);
+    Route::post('/order-detail',[SDEDataController::class,'getSalesOrderDetail']);
     // test api checks
     Route::get('/alias-item',[SDEDataController::class,'getAliasItems']);
     Route::get('/customers',[SDEDataController::class,'getCustomers']);

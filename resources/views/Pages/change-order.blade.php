@@ -11,14 +11,17 @@
                         <form method="post" id="change-order-form" class="order-form col-8 pt-3 mx-auto d-flex justify-content-between align-items-center" action="">
                             <div class="mb-3 col-4">    
                                 <label for="formFile" class="form-label">Enter Purchase Order Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="" name="PurchaseOrderNumber">
+                                <input class="form-control  col-12" type="text" placeholder="" name="PurchaseOrderNumber" id="PurchaseOrderNumber">
                             </div>
                             <div class="mb-3 col-4">    
                                 <label for="formFile" class="form-label">Enter Item Code</label>
-                                <input class="form-control  col-12" type="text" placeholder="" name="ItemCode">
+                                <input class="form-control  col-12" type="text" placeholder="" name="ItemCode" id="ItemCode">
                             </div>
-                            <div class="form-button col-3 position-relative">                                    
-                                <button type="submit" class="font-12 btn btn-primary">Get Order Details</button>
+                            
+                            <div class="form-button col-3">    
+                             {{-- <button type="submit" class="font-12 btn btn-primary">Get Order Details</button> --}}
+                             <button class="font-12 btn btn-primary" id="get_order_details">Get Order Details</button>
+
                             </div>
                         </form>
                     </div>
