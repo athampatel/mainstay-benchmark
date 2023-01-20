@@ -1,8 +1,8 @@
 
 <!-- footer area start-->
 <footer>
-    <div class="footer-area">
-        <p>© Copyright 2018. All right reserved. Template by <a href="https://colorlib.com/wp/">Colorlib</a>.</p>
+    <div class="footer-area text-right px-3">
+        <p>© 2023 Benchmark Products · All Rights Reserved.</p>
     </div>
 </footer>
 <!-- footer area end-->

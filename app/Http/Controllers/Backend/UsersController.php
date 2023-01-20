@@ -69,8 +69,18 @@ class UsersController extends Controller
         $postdata['emailaddress'] = $postdata['email'];
         $response = AuthController::CreateCustomer($postdata,1);
 
-        $message    = isset($response['message']) ? $response['message'] : '';
-        $status     = isset($response['status']) ? $response['status'] : '';
+        $user       =   isset($response['user']) ? $response['user'] : null;
+        $message    = 'Opps something went wrong';
+        $status     = 'error';  
+
+        
+
+        if(!empty($user)){            
+            $this->sendActivationLink($user->id);
+            $message    = 'User has been created !!';
+            $status     = 'success';    
+        }
+
 
         // Create New User
         /*$user = new User();
@@ -116,7 +126,7 @@ class UsersController extends Controller
                           'user_details.ardivisionno',
                           'user_details.addressline1',
                           'user_details.addressline2',
-                          'user_details.addressline3',
+                          'user_details.addressline3',                          
                           'user_details.city',
                           'user_details.state',
                           'user_details.zipcode',
@@ -233,40 +243,47 @@ class UsersController extends Controller
         }
     }
 
+    public function sendActivationLink($user_id = 0){
+        if($user_id){
+            $user = User::find($user_id);
+            $res = [];
+            if($user) {
+                $user->active = 1;
+                $user->activation_token = '';
+                $user->save();
+                // email send work start
+
+                // one solution
+                
+                // $status = Password::sendResetLink(
+                //     [ 'email' =>'gokul12@yopmail.com']
+                // );
+                
+                // another solution
+                $token = Str::random(30);
+                $_token = Hash::make($token);
+                DB::table('password_resets')->insert(
+                    // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
+                    ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
+                );
+
+                $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+                // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
+                \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+
+                // email send work end
+                $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
+            } else {
+                $res = ['success' => false, 'message' =>'Customer not found'];
+            }
+            return json_encode($res);
+
+        }
+
+    }
     public function getUserActive(Request $request){
         $user_id = $request->user_id;
-        $user = User::find($user_id);
-        $res = [];
-        if($user) {
-            $user->active = 1;
-            $user->activation_token = '';
-            $user->save();
-            // email send work start
-
-            // one solution
-            
-            // $status = Password::sendResetLink(
-            //     [ 'email' =>'gokul12@yopmail.com']
-            // );
-            
-            // another solution
-            $token = Str::random(30);
-            $_token = Hash::make($token);
-            DB::table('password_resets')->insert(
-                // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
-                ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
-            );
-
-            $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
-            // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
-            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-
-            // email send work end
-            $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
-        } else {
-            $res = ['success' => false, 'message' =>'Customer not found'];
-        }
-        echo json_encode($res);
+        return $this->sendActivationLink($user_id);
     }
 
     public function getUserCancel(Request $request){

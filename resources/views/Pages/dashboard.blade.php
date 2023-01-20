@@ -47,7 +47,7 @@
                 </div>
                 <div class="box-details">
                   <div class="name">Open Orders</div>
-                  <div class="date">01-22-2023</div>
+                  <div class="date">$21,827.13</div>
                   <a class="btn btn-primary btn-small font-12" href="#">View Open Order</a>
                 </div>
 							</div>

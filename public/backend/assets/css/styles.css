@@ -69,8 +69,8 @@
 
 .card {
     border: none;
-    border-radius: 4px;
-    background-color: #fff;
+    border-radius: 5px;
+    background-color: #424448;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -139,7 +139,7 @@
 }
 
 .sidebar-header {
-    padding: 19px 32px 20px;
+    padding: 15px 0px;
     background: #424448;
     border-bottom: 1px solid #424448;
 }
@@ -148,7 +148,7 @@
 }
 .logo a {
     display: inline-block;
-    max-width: 120px;
+    max-width: 200px;
 }
 
 .metismenu >li >a {
@@ -660,7 +660,7 @@
     top: 50%;
     width: 4px;
     height: 36px;
-    background: var(--primary-color);
+    background: #9FCC47;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
 }
@@ -801,6 +801,13 @@ ul.breadcrumbs {
     color: #2942fa;
 }
 
+#user-search
+{
+    height: 2.75rem;   
+    top: 6px;
+    min-width: 8rem;   
+}
+
 /*-------------------- END Page Title Area -------------------*/
 
 
@@ -837,10 +844,10 @@ ul.breadcrumbs {
 
 .header-title {
     font-family: 'Lato', sans-serif;
-    font-size: 18px;
+    font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: 0;
-    color: #333;
+    color: #FFF;
     text-transform: capitalize;
     margin-bottom: 17px;
 }
@@ -1782,11 +1789,24 @@ table.dbkit-table tr td {
 /*-------------------- 10. Badge------------------- */
 
 .btn {
-    padding: 11px 17px;
-    font-size: 13px;
-    letter-spacing: 0;
+    padding: 0.45rem 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0;  
+    font-weight: bold;
+    width: auto;
 }
 
+.btn-primary{
+    background: #9FCC47;
+    border-color: #9FCC47;
+    color: #424448;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active{
+    background: #9FCC47;
+    border-color: #9FCC47;
+}
 .btn-xl {
     padding: 19px 24px;
 }
@@ -1904,21 +1924,60 @@ p.card-text {
 
 /*-------------------- 17. Form ------------------- */
 
-.form-control,
-.form-control:focus {
-    outline: none;
-    box-shadow: none;
-}
-
 .form-rounded {
     border-radius: 40px;
 }
 
-.form-control {
-    font-size: 14px;
-    border: 1px solid rgba(170, 170, 170, .3);
-    padding: 10.72px 12.8px;
-    padding: .67rem .8rem;
+.form-control:autofil,
+.form-control:active,
+.form-control:focus,
+.form-group .form-control:focus{  
+  background: #7B7C7F !important;
+  border:1px solid transparent;
+  border-radius:0.25rem;
+  font-size:0.75rem;	
+  color:#FFF !important;
+  outline: none;
+  box-shadow: none;
+  
+}
+
+
+.form-control{    
+	background: #7B7C7F !important;
+	border:1px solid transparent;
+    border-radius:0.25rem;
+	font-size:0.75rem;
+    color:#FFFFFF !important;	
+    padding: 0.75rem;
+}
+.error-field.form-control{
+    border:1px solid red !important;
+    background-color: rgba(255,0,0,0.1);
+}
+ .form-control::placeholder {
+    opacity: 0.5 !important;
+    color: #fff !important;
+}
+.form-control::-ms-input-placeholder {
+    color: #fff !important;
+}
+.form-check-input + label::before{
+    content:'';
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top:0px;
+    left: 0px;
+    background-color:#9FCC47;
+    top:3px;
+    border-radius: 2px;
+}
+.form-check-input::checked + label::before{
+   background-image: url(../../images/tick-square.svg);
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: cover;
 }
 
 .form-control-sm,
@@ -1943,7 +2002,7 @@ p.card-text {
 
 label {
     font-weight: 500;
-    color: #666;
+    color: #FFF;
     display: inline-block;
     margin-bottom: 8px;
     margin-bottom: .5rem;
@@ -2129,6 +2188,27 @@ table.dataTable thead th,
 table.dataTable thead td {
     border-bottom-color: transparent;
 }
+table.dataTable.datatable-dark,
+table.dataTable.datatable-dark td a{
+    color:#FFF;
+}
+table.dataTable.datatable-dark tr th,
+table.dataTable.datatable-dark tr td{
+    border-top:1px solid #FFF;
+}
+table.dataTable.datatable-dark thead th, 
+table.dataTable.datatable-dark thead td{
+    border-bottom:1px solid #FFF;
+}
+.dataTables_info{
+    color:#FFF;
+}
+ table.dataTable.datatable-dark tbody tr{
+    background-color: transparent !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+    padding: 0px !important;
+}
 
 .datatable-primary .dataTables_paginate .page-item.active .page-link,
 .datatable-primary .dataTables_paginate .page-item .page-link:hover {
@@ -2136,10 +2216,17 @@ table.dataTable thead td {
     border-color: #4336fb;
     color: #fff;
 }
-
+.dataTables_paginate  .page-item.active .page-link{
+    background-color: #9FCC47;
+    border-color: #9FCC47;
+    border-radius: 5px;
+}
+div.dataTables_wrapper div.dataTables_info{
+    color: #FFF !important;
+}
 .datatable-primary .dataTables_paginate .page-link {
-    color: #4336fb;
-    border: 1px solid #4336fb;
+    color: #FFF;
+    border: 1px solid transparent;
 }
 
 .datatable-primary .dataTables_paginate .paginate_button.disabled,

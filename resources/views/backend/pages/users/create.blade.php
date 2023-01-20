@@ -52,30 +52,33 @@ User Create - Admin Panel
                             <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="" required>
                         </div>
                         <div class="col-md-2 col-sm-6">
-                            <label for=""></label>
-                            <button class="form-control btn btn-primary" id='user-search'>Search</button>
+                            <button class="position-relative btn btn-primary" id='user-search'>Search</button>
                         </div>
                     </div>
-                <div class="userDetails-container" style="display: none;">        
+                </div>
+            </div> 
+             <div class="card userDetails-container mt-3" style="display: none;">
+            <div class="card-body">
+                <div class="userDetails-container" >        
                     <h4 class="header-title">Create New Customer</h4>
                     @include('backend.layouts.partials.messages')
-                    <form action="{{ route('admin.users.store') }}" method="POST">
+                    <form action="{{ route('admin.users.store') }}" method="POST" id="create-customer">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_no">Customer No</label>
-                                <input type="text" class="form-control" id="user_no" name="customerno" placeholder="Enter User Number" required>
+                                <input type="text" class="form-control required" id="user_no" name="customerno" placeholder="Enter User Number" required>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_email">Customer Email</label>
-                                <input type="text" class="form-control" id="user_email" name="email" placeholder="Enter User Email" required>
+                                <input type="email" class="form-control required" id="user_email" name="email" placeholder="Enter User Email" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_name">Customer Name</label>
-                                <input type="text" class="form-control" id="user_name" name="customername" placeholder="Enter Name" required>
+                                <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="ardivision_no">ardivisionno</label>
@@ -125,7 +128,7 @@ User Create - Admin Panel
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_no">Sales Peson Number</label>
-                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" required>
+                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no required" placeholder="Enter Sales Person No" required>
                             </div>
                         </div>
                         
@@ -136,10 +139,9 @@ User Create - Admin Panel
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_email">Sales Person Email</label>
-                                <input type="text" name="salespersonemail" class="form-control" id="sales_person_email" placeholder="Enter Sales Person Email">
+                                <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                     </form>
                 </div>    
@@ -155,8 +157,46 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+
+    function ValidateEmail(emailaddress){
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
+            return true;
+        }    
+        return false;
+    }
     $(document).ready(function() {
         $('.select2').select2();
+        $('.userDetails-container .form-control').blur(function(){
+            var val = $(this).val();
+            
+            if($(this).attr('type') == 'email' && !ValidateEmail(val) == ''){
+                $(this).addClass('error-field');
+            }else if(val.trim() == '' && $(this).hasClass('required')){
+                $(this).addClass('error-field');
+            }else{
+                $(this).removeClass('error-field');
+            }
+        });
+
+        $(document.body).on('submit','#create-customer',function(e){
+            //e.preventDefault();
+            $('.userDetails-container .form-control').each(function(){
+                    if($(this).hasClass('required')){
+                        $(this).prop('required',true);
+                        var val = $(this).val();
+                        if(val.trim() == ''){
+                            $(this).addClass('error-field');
+                        }else{
+                            $(this).removeClass('error-field');
+                        }
+                    }     
+                });
+                if($('.userDetails-container').find('.error-field').length > 0){
+                    return false;        
+                }
+                alert("form submitting");
+        });
+
     })
 
     $(document).on('click','#user-search',function(){
@@ -189,6 +229,20 @@ User Create - Admin Panel
                     $('#customer_response_alert').removeClass('d-none');
                     setTimeout(() => {
                         $('#customer_response_alert').addClass('d-none');
+                        $('.userDetails-container .form-control').each(function(){
+                            if($(this).hasClass('required')){
+                                $(this).prop('required',true);
+                                var val = $(this).val();
+                                if(val.trim() == ''){
+                                    $(this).addClass('error-field');
+                                }else{
+                                    $(this).removeClass('error-field');
+                                }
+                            }     
+                        });
+                        if($('.userDetails-container').find('.error-field').length > 0){
+
+                        }
                     },2000);
                 } else {
                     $('#customer_response_alert').removeClass('d-none');
