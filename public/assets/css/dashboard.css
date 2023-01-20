@@ -791,6 +791,16 @@ nav .profile-details i{
   color:#FFFFFF;
 }
 
+.overview-boxes .form-select:autofil,
+.overview-boxes .form-select:-webkit-autofill{
+  height:2.3rem;
+	background: #7B7C7F;
+	border:1px solid transparent;
+  border-radius:0.25rem;
+  font-size:0.75rem;	
+  color:#FFFFFF;
+}
+
 
 .overview-boxes .form-control{
   height:2.3rem;
@@ -800,11 +810,32 @@ nav .profile-details i{
 	font-size:0.75rem;
     color:#FFFFFF;	
 }
+
+.overview-boxes .form-select{
+  height:2.3rem;
+	background: #7B7C7F;
+	border:1px solid transparent;
+    border-radius:0.25rem;
+	font-size:0.75rem;
+    color:#FFFFFF;	
+}
+
+.order-validation-error{
+  color:#9FCC47;
+  font-size: 1rem;
+}
 .overview-boxes .form-control::placeholder {
     opacity: 0.5 !important;
     color: #fff !important;
 }
+.overview-boxes .form-select::placeholder {
+    opacity: 0.5 !important;
+    color: #fff !important;
+}
 .overview-boxes .form-control::-ms-input-placeholder {
+    color: #fff !important;
+}
+.overview-boxes .form-select::-ms-input-placeholder {
     color: #fff !important;
 }
 .overview-boxes .form-check-input + label::before{
