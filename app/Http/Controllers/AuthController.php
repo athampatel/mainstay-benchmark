@@ -38,19 +38,23 @@ class AuthController extends Controller
         $user =  UserController::createUser($response);
         if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
-        $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
-        if(!$sales_person) 
+        $sales_person = array();
+        if($response['salespersonemail'] != '')
+            $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
+            
+        if(!empty($sales_person)){ 
             $sales_person = SalesPersonController::createSalesPerson($response);
         
-        if($sales_person){
-            $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
-            if(!$user_sales_persons){
-                UserSalesPersons::create([
-                    'user_id' => $user['id'],
-                    'sales_person_id' => $sales_person['id']
-                ]);
-            }
-        }  
+            if($sales_person){
+                $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
+                if(!$user_sales_persons){
+                    UserSalesPersons::create([
+                        'user_id' => $user['id'],
+                        'sales_person_id' => $sales_person['id']
+                    ]);
+                }
+            }  
+        }
         $message    = 'Thanks for validating your email address, you will get a confirmation';
         $status     = 'success';    
         
@@ -61,9 +65,7 @@ class AuthController extends Controller
         $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
         $sp_email   = $response['salespersonemail'];
         $link       = "/fetch-customer/{$email}";
-        return array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message);
-
-
+        return array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message , 'user' => $user );
     }
 
     // orders@10-spec.com

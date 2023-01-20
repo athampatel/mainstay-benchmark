@@ -27,6 +27,15 @@ class CreateUserDetailsTable extends Migration
             $table->string('email');
             $table->string('ardivisionno');
             $table->timestamps();
+
+            $table->string('customername')->nullable()->change();
+            $table->string('addressline1')->nullable()->change();
+            $table->string('addressline2')->nullable()->change();
+            $table->string('addressline3')->nullable()->change();
+            $table->string('city')->nullable()->change();
+            $table->string('state')->nullable()->change();
+            $table->string('zipcode')->nullable()->change();
+
         });
     }
 
