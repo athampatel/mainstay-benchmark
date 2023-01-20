@@ -19,7 +19,7 @@
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
 								<div class="text-center py-4">
-									<h3 class="login-from-title font-32 font-open-sans font-bold">Sign Up</h3>									
+									<h3 class="login-from-title font-32 font-open-sans font-bold pb-3">Sign Up</h3>									
 								</div>								
 								<div class="form-body">
 									<form class="row g-3" method="POST" action="{{route('register')}}">
@@ -30,21 +30,21 @@
 										</div>
                                         
                                         <div class="col-12 pt-1">
-                                            <div class="sign-up-checbox">
+                                            <div class="sign-up-checbox d-flex align-items-center position-relative">
                                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-                                                <div class="font-16 font-regular font-open-sans" for="flexCheckIndeterminate">
+                                                <label class="font-16 font-regular font-open-sans d-block" for="flexCheckIndeterminate">
                                                     I agree to <span class="text-primary-green font-bold">Terms</span> and <span class="text-primary-green font-bold">Conditions</span>
-                                                </div>
+                                                </label>
                                             </div>
                                         </div>
 
 										<div class="col-12">
 											<div class="d-grid">
-												<button type="submit" class="btn mb-4 button-bg-primary-green color-white padding-y-15 font-open-sans font-semi-bold font-20">Sign Up</button>
+												<button type="submit" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20">Sign Up</button>
 											</div>
 										</div>
 
-										<div class="col-12 pb-3 font-open-sans font-18">Already have an Account?<a href="{{ url('sign-in') }}" class="font-bold sign-in-hover">Sign in</a>
+										<div class="col-12 pb-3 font-open-sans font-18">Already have an Account? <a href="{{ url('sign-in') }}" class="font-bold sign-in-hover">Sign in</a>
 									</form>
 								</div>
 							</div>

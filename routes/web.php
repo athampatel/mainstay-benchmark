@@ -26,14 +26,13 @@ Route::get('/', function () {
 
 Route::get('/delete',[AuthController::class,'delete']);
 
-Route::get('/dashboard', function () {
-    // return view('dashboard');
-    // return view('layouts.dashboard');
+/*Route::get('/dashboard', function () {    
     return view('pages.dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard'); */
 
 // menu routes
 Route::middleware('auth')->group(function () {  
+    Route::get('/dashboard',[MenuController::class,'dashboard']);
     Route::get('/invoice',[MenuController::class,'invoicePage']);
     Route::get('/open-orders',[MenuController::class,'openOrdersPage']);
     Route::get('/change-order',[MenuController::class,'changeOrderPage']);

@@ -31,7 +31,7 @@
 										</div>
 										<div class="col-12 pt-2">
 											<div class="d-grid">
-												<button type="submit" class="btn mb-4 button-bg-primary-green color-white padding-y-15 font-open-sans font-semi-bold font-20">Submit</button>
+												<button type="submit" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20">Submit</button>
 											</div>
 										</div>
 									</form>
