@@ -26,13 +26,13 @@ function AjaxRequestCom($url,$method,$data,$callback){
 }
 
 
-$(document.body).ready(function(){
-    $(document.body).on('submit','#change-order-form',function(e){
-        e.preventDefault();
-        alert("HELLEE");
-        return false;
-    });
-});
+// $(document.body).ready(function(){
+//     $(document.body).on('submit','#change-order-form',function(e){
+//         e.preventDefault();
+//         alert("HELLEE");
+//         return false;
+//     });
+// });
 
 function ajaxAction($data,$container,$method,$url){
     $.ajax({

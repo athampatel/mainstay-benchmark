@@ -112,6 +112,11 @@ class SDEDataController extends Controller
             ],
         );
         $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+       if(empty($sales_order_history_header['salesorderhistoryheader'])){
+            $response = ['success' => false, 'data' => [],'error' => ['No records found']];
+            echo json_encode($response);
+            die();
+       }
         $sales_order_header = $sales_order_history_header['salesorderhistoryheader'][0];
 
         $filter = [
@@ -153,8 +158,9 @@ class SDEDataController extends Controller
             $sales_order_detail[$key]['product_details'] = $product_detail['products'];
         }
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
-
-        echo json_encode($sales_order_header);
+        $user = User::find(Auth::user()->id);
+        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
+        echo json_encode($response);
     }
 
     public function getCustomerItemHistory(){
