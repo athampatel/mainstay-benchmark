@@ -37,7 +37,7 @@
 
 										<div class="col-12">
 											<div class="d-grid">
-												<button type="submit" class="btn mb-4 button-bg-primary-green color-white padding-y-15 font-open-sans font-semi-bold font-20">Sign in</button>
+												<button type="submit" class="btn mb-4 button-bg-primary-green  padding-y-15 font-open-sans font-semi-bold font-20">Sign in</button>
 												<a href="{{route('register')}}" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Join us customer?</a>
 											</div>
 										</div>

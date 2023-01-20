@@ -110,7 +110,7 @@
     height: 100vh;
     width: 280px;
     overflow: hidden;
-    background: #303641;
+    background: #424448;
     box-shadow: 2px 0 32px rgba(0, 0, 0, 0.05);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -140,8 +140,8 @@
 
 .sidebar-header {
     padding: 19px 32px 20px;
-    background: #303641;
-    border-bottom: 1px solid #343e50;
+    background: #424448;
+    border-bottom: 1px solid #424448;
 }
 .sidebar-menu .logo{
     text-align: center;
@@ -157,7 +157,7 @@
 .metismenu li a {
     position: relative;
     display: block;
-    color: #8d97ad;
+    color: #FFF;
     font-size: 15px;
     text-transform: capitalize;
     padding: 15px 15px;
@@ -166,7 +166,7 @@
 }
 
 .metismenu li a i {
-    color: #6a56a5;
+    color: #FFF;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -177,7 +177,7 @@
     font-family: fontawesome;
     right: 15px;
     top: 12px;
-    color: #8d97ad;
+    color: #FFF;
     font-size: 20px;
 }
 
@@ -208,18 +208,17 @@
 
 .metismenu >li:hover>a,
 .metismenu >li.active>a {
-    color: #fff;
-    background: #343942;
+    color: #9FCC47;    
 }
 
 .metismenu li:hover>a,
 .metismenu li.active>a {
-    color: #fff;
+    color: #9FCC47;
 }
 
 .metismenu li:hover>a i,
 .metismenu li.active>a i {
-    color: #fff;
+    color: #9FCC47;
 }
 
 .metismenu li li a:after {

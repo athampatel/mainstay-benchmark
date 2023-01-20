@@ -24,3 +24,28 @@ function AjaxRequestCom($url,$method,$data,$callback){
         }
     });
 }
+
+$(document.body).ready(function(){
+    $(document.body).on('submit','#change-order-form',function(e){
+        e.preventDefault();
+        alert("HELLEE");
+        return false;
+    });
+});
+
+function ajaxAction($data,$container,$method,$url){
+    $.ajax({
+        type: $method,
+        url: $url,
+        dataType: "JSON",
+        data: $data,
+        beforeSend:function(){
+        },
+        success: function (res){  
+
+        },
+        complete:function(){
+
+        }
+    });
+}

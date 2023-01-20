@@ -6,7 +6,7 @@
     <div class="sidebar-header">
         <div class="logo">
             <a href="{{ route('admin.dashboard') }}">
-                <h2 class="text-white">Admin</h2> 
+                <h2 class="text-white"><img src="/assets/images/logo.svg" alt="company logo" /></h2> 
             </a>
         </div>
     </div>
@@ -67,18 +67,18 @@
                         <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
                             
                             {{-- @if ($usr->can('admin.view')) --}}
-                                {{-- <li class="active"><a href="{{ route('admin.users.index') }}">All Users</a></li> --}}
+                                {{-- <li class="active"><a href="{{ route('admin.users.index') }}">All Customers</a></li> --}}
                             {{-- @endif --}}
 
                             {{-- @if ($usr->can('admin.create')) --}}
-                                {{-- <li class="active"><a href="{{ route('admin.users.create') }}">Create User</a></li> --}}
+                                {{-- <li class="active"><a href="{{ route('admin.users.create') }}">Create Customer</a></li> --}}
                             {{-- @endif --}}
                             @if ($usr->can('admin.view'))
                                 <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All users</a></li>
                             @endif
 
                             @if ($usr->can('admin.create'))
-                                <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create User</a></li>
+                                <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Customer</a></li>
                             @endif
                         </ul>
                     </li>
