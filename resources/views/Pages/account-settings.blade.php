@@ -22,121 +22,138 @@
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/invoice.svg" />
+                                <img src="assets/images/svg/pen.svg" />
                             </div>  
                             <h4 class="mb-0 title-5">Edit Customer Details</h4>
                         </div>                    
                     </div>
                     <div class="card-body col-12">
-                        <div class="">
-                            {{-- <input type="file" name="" id="profile_image_edit">
-                            <button id="photo_image_upload">Save Photo</button> --}}
-                            <img src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                        <div class="d-flex align-items-center justify-content-center" style="position: relative">
+                            <div class="image-upload position-relative">
+                                @if(Auth::user()->profile_image)
+                                <img src="/{{Auth::user()->profile_image}}" class="rounded-circle position-relative profile_img_disp" alt="profile Image" height="182" width="182">
+                                @else 
+                                <img class="position-relative profile_img_disp" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                                @endif
+                                <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button" class="position-absolute">
+                                <input id="file-input" type="file"/>
+                            </div>  
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Name</label>
-                                <input class="form-control col-12" type="text" placeholder="Name" name="AddressLine1" id="ship-to-address1">
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="Acc_name" id="Acc_name">
                             </div>                            
                         </div>
                         <div class="title-5 text-white">Change Password</div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Password</label>
-                                <input class="form-control col-12" type="text" placeholder="Password" name="AddressLine2" id="ship-to-address2">
+                                <input class="form-control col-12" type="password" placeholder="Password" name="Acc_password" value="gokul@123" id="Acc_password">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Confirm Password</label>
-                                <input class="form-control col-12" type="text" placeholder="Confirm Password" name="AddressLine3" id="ship-to-address3">
+                                <input class="form-control col-12" type="password" placeholder="Confirm Password" value="gokul@123" name="Acc_confirm_password" id="Acc_confirm_password">
                             </div>                            
                         </div>
                     </div>      
                 </div>  
-                <button type="submit" class="btn btn-primary" id="order-save-button">Update Changes</button> 
+                <button type="submit" class="btn btn-primary" id="profile-edit-save-button">Update Changes</button> 
             </div>
+
+            {{-- customer detail section --}}
             <div class="col-9">
-                {{-- <div class="card box">	
+                <div class="card box">	
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
+                            {{-- <div class="box-icon small-icon rounder-border"> --}}
                             <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/order-details.svg" />
+                                @if(Auth::user()->profile_image)
+                                    <img src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%; height:100%" />
+                                @else
+                                    <img src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
+                                @endif
                             </div>  
-                            <h4 class="mb-0 title-5">Order Details</h4>
+                            {{-- <h4 class="mb-0 title-5">Order Details</h4> --}}
                         </div>                    
                     </div>    					
                     <div class="card-body col-12">
                         <div class="row">
-                            <div class="mb-3 col-4">    
-                                    <label class="form-label">Order Number</label>
-                                    <input class="form-control col-12" type="text" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label" for="acc_name">Name</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name">
                             </div>
-                            <div class="mb-3 col-4">    
-                                <label class="form-label">Location</label>
-                                <input class="form-control  col-12" type="text" placeholder="Location" name="Location" id="order-location">
-                            </div>
-                            <div class="mb-3 col-4">    
-                                <label class="form-label">Alias Item Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">Customer Number</label>
+                                <input class="form-control  col-12" type="text" value="{{$user_detail->customerno}}" placeholder="Customer Number" name="acc_customer_number" id="acc_customer_number">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-4">    
-                                    <label class="form-label">Order Date</label>
-                                    <input class="form-control col-12" type="text" placeholder="OrderDate" name="OrderDate" id="OrderDate">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address">
                             </div>
-                            <div class="mb-3 col-4">    
-                                <label class="form-label">Drop Ship</label>
-                                <select class="form-control" name="DropShip" id="DropShip">
-                                    <option value="" selected>Drop Ship</option>
-                                </select>
-                            </div>
-                            <div class="mb-3 col-4">    
-                                <label class="form-label">Quantity Shipped</label>
-                                <input class="form-control  col-12" type="text" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">AR Division Number</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->ardivisionno}}" placeholder="AR Division Number" name="acc_ar_division_no" id="acc_ar_division_no">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-4">    
-                                    <label class="form-label">Promise Date</label>
-                                    <input class="form-control col-12" type="text" placeholder="Promise Date" name="PromiseDate" id="promiseDate">
-                            </div>
-                            <div class="mb-3 col-4">    
-                                <label class="form-label">Status</label>
-                                <select class="form-control" name="Status" id="orderStatus">
-                                    <option value="" selected>New Order</option>
-                                </select>
-                            </div>                            
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Address Line 1</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->addressline1}}" placeholder="Address Line 1" name="acc_address_line_1" id="acc_address_line_1">
+                            </div>          
                         </div>
-                    </div>  
-                    
-                    <div class="card-header col-12 p-3 d-flex align-items-center">
-                        <div class="col-12 d-flex align-items-center">
-                            <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/order-details.svg" />
-                            </div>  
-                            <h4 class="mb-0 title-5">item Details</h4>
-                        </div>                    
-                    </div>   
-
-                    <div class="table-responsive col-12 p-2">
-                        <table id="orderItems" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Quantity</th>
-                                    <th>Unit Price</th>                                    
-                                    <th>Price</th>
-                                    <th>&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody id="disp-items-body">
-                            </tbody>                           
-                        </table>
-                    </div>
-                   
-                </div>    --}}
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Address Line 2</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->addressline2}}" placeholder="Address Line 2" name="acc_address_line_2" id="acc_address_line_2">
+                            </div>          
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">State</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->state}}" placeholder="State" name="acc_state" id="acc_state">
+                            </div>
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">City</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->city}}" placeholder="City" name="acc_city" id="acc_city">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">Zip code</label>
+                                <input class="form-control col-12" type="text" value="{{$user_detail->zipcode}}" placeholder="Zip Code" name="acc_zipcode" id="acc_zipcode">
+                            </div>
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">Division Number</label>
+                                <input class="form-control col-12" type="text" placeholder="Division Number" name="acc_division_no" id="acc_division_no">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">BenchMark Relational Manager Name</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Name" name="acc_manager_name" id="acc_manager_name">
+                            </div>
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">BenchMark Relational Manager Number</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Number" name="acc_manager_number" id="acc_manager_number">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">BenchMark Relational Manager Email</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Email" name="acc_manager_email" id="acc_manager_email">
+                            </div>
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">BenchMark Relational Manager Phone Number</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number">
+                            </div>
+                        </div>
+                    </div>                     
+                </div>
                 {{-- <button type="submit" class="btn btn-primary" id="order-save-button">Save Changes</button> --}}
             </div>
         </div>
@@ -146,6 +163,9 @@
 
 
 <style>
+.image-upload>input {
+    display: none;
+}
 .backdrop{
     height: 100%;
     width: 100%;

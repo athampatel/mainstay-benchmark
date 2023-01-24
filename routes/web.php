@@ -46,7 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/order-detail',[SDEDataController::class,'getSalesOrderDetail']);
 
     // photo upload
-    Route::post('/photo-upload',[SDEDataController::class,'profilePicUpload']);
+    // Route::post('/account_edit_upload',[SDEDataController::class,'profilePicUpload']);
+    Route::post('/account_edit_upload',[SDEDataController::class,'accountEditUpload']);
     // test api checks
     Route::get('/alias-item',[SDEDataController::class,'getAliasItems']);
     Route::get('/customers',[SDEDataController::class,'getCustomers']);

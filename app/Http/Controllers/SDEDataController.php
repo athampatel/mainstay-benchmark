@@ -7,6 +7,8 @@ use App\Helpers\SDEApi;
 use App\Models\User;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 ini_set('max_execution_time', 300);
 
@@ -443,16 +445,58 @@ class SDEDataController extends Controller
         dd($user);
     }
 
-    public function profilePicUpload(Request $request){
+    // public function profilePicUpload(Request $request){
+    //     $user_id = Auth::user()->id;
+    //     $user = User::find($user_id);
+    //     $file = $request->file('photo_1');
+    //     $image_name = 'test.'. $file->extension();
+    //     $file->move(public_path('images'), $image_name);
+    //     $path = 'images/'.$image_name;
+    //     if($user){
+    //         $user->profile_image = $path;
+    //         $user->save(); 
+    //     }
+    // }
+    public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        $file = $request->file('photo_1');
-        $image_name = 'test.'. $file->extension();
-        $file->move(public_path('images'), $image_name);
-        $path = 'images/'.$image_name;
-        if($user){
-            $user->profile_image = $path;
-            $user->save(); 
+        $password = $request->password;
+        $data = $request->all();
+        $validator = Validator::make($data, [
+			'password' => 'required|confirmed',
+		]);
+        $errors = [];
+        if($validator->fails()){
+			$errors[] = $validator->errors();
+            echo json_encode(['success'=> false,'data' => [], 'error' => $errors]);
+            die();
+        } else {
+            if($user){
+                // image upload
+                $file = $request->file('photo_1');
+                $path = "";
+                if($file){
+                    $image_name = Auth::user()->name.'_'.Auth::user()->id.'.'. $file->extension();
+                    $file->move(public_path('images'), $image_name);
+                    $path = 'images/'.$image_name;
+                }
+                // database save
+                if($file){
+                    $user->profile_image = $path;
+                }
+                $user->password = Hash::make($password);
+                $user->save();
+                if($file) {
+                    $response = ['path' => $user->profile_image];
+                } else {
+                    $response = [];
+                }
+                echo json_encode(['success' => true, 'data'=> [$response], 'error' => []]);
+                die();
+            } else {
+                echo json_encode(['success' => false, 'data' => [] , 'error' => ['user not found']]);
+                die();
+            }
         }
     }
 }

@@ -859,6 +859,19 @@ nav .profile-details i{
 .form-button{
   top: 5px;
 }
+
+/* account settings page */
+.image-upload{
+  width: 182px;
+  height: 182px;
+}
+
+#file_input_button{
+  top: 45px;
+  right: 25px;
+  cursor: pointer;
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;
