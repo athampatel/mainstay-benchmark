@@ -81,7 +81,11 @@
         </div>
         <div class="profile-details">
             <div>
-                <img src="/assets/images/svg/user_logo.png" />
+                @if(Auth::user()->profile_image)
+                    <img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
+                @else 
+                    <img src="/assets/images/svg/user_logo.png" />
+                @endif
             </div>
             <div>
                 <div class="profile_position">Admin</div>
