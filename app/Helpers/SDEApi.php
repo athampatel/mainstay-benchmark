@@ -12,6 +12,7 @@ class SDEApi
    protected $username = '';
    protected $password = '';
    protected $is_ssl_verify = false;
+  //  protected $is_ssl_verify = true;
 
    public function __construct(){
        // $this->end_point = env('API_URL');

@@ -76,9 +76,10 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5,
         );
-
+        // dd($data);
         $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         foreach($response_data['salesorderhistoryheader'] as $key => $res){
+            // dd($res);
             $data1 = array(            
                 "filter" => [
                     [
@@ -440,5 +441,18 @@ class SDEDataController extends Controller
     public function changeUserCancel($id){
         $user = User::find($id);
         dd($user);
+    }
+
+    public function profilePicUpload(Request $request){
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $file = $request->file('photo_1');
+        $image_name = 'test.'. $file->extension();
+        $file->move(public_path('images'), $image_name);
+        $path = 'images/'.$image_name;
+        if($user){
+            $user->profile_image = $path;
+            $user->save(); 
+        }
     }
 }

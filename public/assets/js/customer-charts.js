@@ -349,5 +349,28 @@ function displayChangeOrderPage(res,$itemCode){
         $('.backdrop').addClass('d-none');
         $('.order-validation-error-msg').text(res.error)
         $('.order-validation-error').removeClass('d-none');
-    }   
+    }  
+
 }
+
+$(document).on('click','#photo_image_upload',function(e){
+    e.preventDefault();
+    var formData = new FormData();
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    console.log('__clicked');
+    $image = $('#profile_image_edit').prop('files')[0];
+    formData.append('photo_1', $image);
+    $.ajax({
+        type: 'POST',
+        url: '/photo-upload',
+        contentType: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: formData,
+        success: function (res) {  
+            console.log(res,'___photo upload response');
+        }
+    });
+})
