@@ -55,7 +55,7 @@ Users - Admin Panel
                                     <th width="10%">Name</th>
                                     <th width="10%">Email</th>
                                     <th width="10%">AR Division no</th>
-                                    <th width="10%">Sales Person</th>
+                                    <th width="10%">Benchmark Regional Manager</th>
                                     <th width="10%">Status</th>
                                     <th width="10%">Action</th>
                                 </tr>
@@ -67,7 +67,13 @@ Users - Admin Panel
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->ardivisionno }}</td>
-                                    <td>{{$user->sales_person}} ({{$user->person_number}})</td>                                    
+                                    <td>
+                                        @if($user->sales_person != '')
+                                        {{$user->sales_person}} ({{$user->person_number}})
+                                        @else
+                                            -
+                                        @endif
+                                    </td>                                    
                                     <td>
                                             @if( $user->active == 1)
                                                 <span class="btn btn-success text-white" style="padding:5px;pointer-events:none;">Active</span>           

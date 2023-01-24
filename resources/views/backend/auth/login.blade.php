@@ -8,10 +8,13 @@
      <!-- login area start -->
      <div class="login-area">
         <div class="container">
-            <div class="login-box ptb--100">
+            <div class="login-box">
                 <form method="POST" action="{{ route('admin.login.submit') }}">
                     @csrf
                     <div class="login-form-head">
+                        <div class="mb-4 mt-3 text-center">
+                            <img src="../assets/images/logo.svg" width="180" alt="" />
+                        </div>   
                         <h4>Sign In</h4>
                         <p>Hello there, Sign in and start managing your Admin Panel</p>
                     </div>
@@ -19,7 +22,7 @@
                         @include('backend.layouts.partials.messages')
                         <div class="form-gp">
                             <label for="exampleInputEmail1">Email address or Username</label>
-                            <input type="text" id="exampleInputEmail1" name="email">
+                            <input type="text" id="exampleInputEmail1" name="email"  class="form-control">
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                             @error('email')
@@ -30,7 +33,7 @@
                         </div>
                         <div class="form-gp">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" id="exampleInputPassword1" name="password">
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
                             <i class="ti-lock"></i>
                             <div class="text-danger"></div>
                             @error('password')

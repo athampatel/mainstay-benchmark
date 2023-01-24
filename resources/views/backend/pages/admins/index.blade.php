@@ -21,10 +21,10 @@ Admins - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Admins</h4>
+                <h4 class="page-title pull-left">Benchmark Users</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>All Admins</span></li>
+                    <li><span>All Users</span></li>
                 </ul>
             </div>
         </div>
@@ -44,16 +44,18 @@ Admins - Admin Panel
                     <h4 class="header-title float-left">Admins List</h4>
                     <p class="float-right mb-2">
                         @if (Auth::guard('admin')->user()->can('admin.edit'))
-                            <a class="btn btn-primary text-white" href="{{ route('admin.admins.create') }}">Create New Admin</a>
+                            <a class="btn btn-primary text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
                         @endif
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">
                         @include('backend.layouts.partials.messages')
-                        <table id="dataTable" class="text-center">
-                            <thead class="bg-light text-capitalize">
+                        <table id="dataTable" class="text-center datatable-dark dataTable">
+                            <thead class="text-capitalize">
                                 <tr>
+                                    
                                     <th width="5%">Sl</th>
+                                    <th width="10%">Code</th>
                                     <th width="10%">Name</th>
                                     <th width="10%">Email</th>
                                     <th width="40%">Roles</th>
@@ -63,6 +65,7 @@ Admins - Admin Panel
                             <tbody>
                                @foreach ($admins as $admin)
                                <tr>
+                                    <td>{{ $loop->index+1 }}</td>
                                     <td>{{ $loop->index+1 }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>

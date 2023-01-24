@@ -112,7 +112,7 @@ class AuthController extends Controller
             $user->activation_token = Str::random(30);
             $user->save();
             $params = array('mail_view' => 'emails.user-active', 'subject' => 'Change the user status', 'url' => env('APP_URL').'/admin/user/'.$user->id.'/change-status/'.$admin->unique_token);
-            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
         return redirect()->back()->with($status, $message);
 

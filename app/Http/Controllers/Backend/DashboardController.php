@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -31,6 +32,15 @@ class DashboardController extends Controller
         $total_roles = count(Role::select('id')->get());
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
-        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions'));
+        $total_customers = count(User::select('id')->get());
+        $active_customers = count(User::select('id')->where('active','=',1)->get());
+        
+        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions','total_customers'));
+    }
+
+    public function getCustomers($userId = 0){
+        if (!$userId)
+            return false;
+
     }
 }
