@@ -27,25 +27,25 @@ Dashboard Page - Admin Panel
 </div>
 <!-- page title area end -->
 
-<div class="main-content-inner">
+<div class="main-content-inner dark-cards">
   <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <div class="row">
-            <div class="col-md-3 mt-5 mb-3">
+            <div class="col-md-4 col-sm-6 col-xs-12 mt-5 mb-1">
                 <div class="card">
-                    <div class="seo-fact sbg1">
+                    <div class="card-body">
                         <a href="{{ route('admin.roles.index') }}">
                             <div class="p-4 d-flex justify-content-between align-items-center">
                                 <div class="seofct-icon"><i class="fa fa-users"></i> Roles</div>
-                                <h2>{{ $total_roles }}</h2>
+                                <h2>{{ $total_customers }}</h2>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mt-md-5 mb-3">
+            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
                 <div class="card">
-                    <div class="seo-fact sbg2">
+                    <div class="card-body">
                         <a href="{{ route('admin.admins.index') }}">
                             <div class="p-4 d-flex justify-content-between align-items-center">
                                 <div class="seofct-icon"><i class="fa fa-user"></i> Admins</div>
@@ -55,13 +55,26 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mt-md-5 mb-3">
+            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
                 <div class="card">
-                    <div class="seo-fact sbg2">
-                        <a href="{{ route('admin.admins.index') }}">
+                    <div class="card-body">
+                        <a href="{{ route('admin.users.index') }}">
                             <div class="p-4 d-flex justify-content-between align-items-center">
-                            <div class="seofct-icon">Permissions</div>
-                                <h2>{{ $total_permissions }}</h2>
+                                <div class="seofct-icon"><i class="fa fa-user"></i> Customer</div>
+                                <h2>{{ $total_customers }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ route('admin.users.index') }}">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="fa fa-user"></i> Customer</div>
+                                <h2>{{ $total_customers }}</h2>
                             </div>
                         </a>
                     </div>

@@ -182,7 +182,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        if (!is_null($user)) {
+        if (!is_null($user)) {            
             $user->delete();
         }
 

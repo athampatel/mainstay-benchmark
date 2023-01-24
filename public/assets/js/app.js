@@ -220,14 +220,15 @@ $(document).on("click", "#show-confirm-password-icon", function(e){
 	}
 });
 
-
-var table = $('#example2').DataTable( {
-	lengthChange: false,
-	pageLength:5,
-	paging: false,
-	searching: false,
-	ordering: false,
-	info: false,
-	//buttons: [ 'copy', 'excel', 'pdf', 'print']
-});
-table.buttons().container().appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+if($(document.body).find('#example2').length > 0){
+	var table = $('#example2').DataTable( {
+		lengthChange: false,
+		pageLength:5,
+		paging: false,
+		searching: false,
+		ordering: false,
+		info: false,
+		//buttons: [ 'copy', 'excel', 'pdf', 'print']
+	});
+	table.buttons().container().appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+}
