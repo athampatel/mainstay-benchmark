@@ -1821,8 +1821,9 @@ body.user-forms{
     background-color:#9FCC47;
     top:3px;
     border-radius: 2px;
+    display: none;
 }
-.user-forms .form-check-input::checked + label::before{
+.user-forms .form-check-input:checked + label::before{
    background-image: url(../images/tick-square.svg);
    background-repeat: no-repeat;
    background-position: center;

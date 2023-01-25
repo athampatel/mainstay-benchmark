@@ -60,27 +60,59 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Validation Data
-        $request->validate([
-            'customername' => 'required|max:50',
-            'email' => 'required|max:100|email|unique:users',
-            'salespersonno' => 'required|min:1',
-        ]);
-        $postdata = $request->input();
-        $postdata['emailaddress'] = $postdata['email'];
-        $response = AuthController::CreateCustomer($postdata,1);
 
-        $user       =   isset($response['user']) ? $response['user'] : null;
-        $message    = 'Opps something went wrong';
-        $status     = 'error';  
 
-        
+       
+        $postdata       = $request->input();
+        $is_duplicate   = 0;
+        if(!isset($postdata['create_user'])){
+            $request->validate([
+                'customername' => 'required|max:50',
+                'email' => 'required|max:100|email|unique:users',
+                'salespersonno' => 'required|min:1',
+            ]);
 
-        if(!empty($user)){            
-            $this->sendActivationLink($user->id);
-            $message    = 'User has been created !!';
-            $status     = 'success';    
+            $postdata['emailaddress'] = $postdata['email'];
+            $response = $this->CreateCustomer($postdata);
+           
+        }else{
+           // $email_address  = $postdata['email'];
+            $duplicate      = array();
+            $customer       = array();
+            $create_user    =  $postdata['create_user'];
+
+          
+
+            
+            foreach($create_user as $key => $value){
+                $is_duplicate = 0;
+                $email        = $postdata['emailaddress'][$key];
+
+                if(!in_array($email,$duplicate)){
+                    $duplicate[]    = $email;
+                }else{
+                    $is_duplicate = 1;  
+                }
+                if(!$is_duplicate){                      
+                    foreach($postdata as $data_key => $_val){
+                        if($data_key == '_token')
+                            $customer[$key][$data_key] = $_val;
+                        else
+                            $customer[$key][$data_key] = $_val[$key];
+                    }
+                }
+            }
+            if(!empty($customer)){
+                foreach($customer as $_customer){
+                    $response = $this->CreateCustomer($_customer);
+                }
+            }
+            if($is_duplicate){
+                session()->flash('warning', 'Customer has been created, excluding duplicate email address');
+                  return redirect()->route('admin.users.index');
+            }
         }
-
+        
 
         // Create New User
         /*$user = new User();
@@ -92,11 +124,25 @@ class UsersController extends Controller
         if ($request->roles) {
             $user->assignRole($request->roles);
         }*/
+        $status  = isset($response['status']) ? $response['status'] : '';
 
-        session()->flash($status, 'User has been created !!');
+        session()->flash($status, 'Customer has been created !!');
         return redirect()->route('admin.users.index');
     }
 
+    public function CreateCustomer($postdata = null){
+
+        $response   = AuthController::CreateCustomer($postdata,1);
+        $user       = isset($response['user']) ? $response['user'] : null;
+        $message    = 'Opps something went wrong';
+        $status     = 'error';  
+        if(!empty($user)){            
+            $this->sendActivationLink($user->id);
+            $message    = 'User has been created !!';
+            $status     = 'success';    
+        }
+        return array('status' => $status,'message' => $message);
+    }
     /**
      * Display the specified resource.
      *
@@ -210,37 +256,47 @@ class UsersController extends Controller
                 ]
             ],
             "offset" => 1,
-            "limit" => 1,
-        );
-    $res = $this->SDEApi->Request('post','Customers',$data);
+            "limit" => 100,
+        );    
+    $res = $this->SDEApi->Request('post','Customers',$data);   
     echo json_encode($res);
     }
 
     public function getUserRequest($user_id,$admin_token){
-        $admin = Admin::where('unique_token', $admin_token)->first();
-        Auth::guard('admin')->login($admin);
-        $user = User::find($user_id);
-        if($user && $user->active == 0 && $user->activation_token != ''){
-            $data = array(            
-                "filter" => [
-                    [
-                        "column"=>"emailaddress",
-                        "type"=>"equals",
-                        "value"=>$user->email,
-                        "operator"=>"and"
-                    ],
-                ],
-                "offset" => 1,
-                "limit" => 1,
-            );
-            $res = $this->SDEApi->Request('post','Customers',$data);
-            if(!empty($res['customers'])){
-                $user_info = $res['customers'][0];
+        $admin      = Admin::where('unique_token', $admin_token)->first();
+        $customers  = array();
+        if(!empty($admin)){
+            if(is_numeric($user_id)){
+                $user = User::find($user_id);
+                if($user && $user->active == 0 && $user->activation_token != '')
+                    $email_address = $user->email;            
+            }else{
+                $email_address = $user_id;
+                $user           = array();
             }
-            return view('backend.pages.users.user_request',compact('user_info','user'));
-        } else {
-            return abort('403');
+
+            if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
+                $data = array(            
+                    "filter" => [
+                        [
+                            "column"=>"emailaddress",
+                            "type"=>"equals",
+                            "value"=>$email_address,
+                            "operator"=>"and"
+                        ],
+                    ],
+                    "offset" => 1,
+                    "limit" => 100,
+                );
+                $res = $this->SDEApi->Request('post','Customers',$data);
+                if(!empty($res['customers'])){                   
+                    $customers = $res['customers'];
+                }
+                return view('backend.pages.users.user_request',compact('customers','user')); 
+            }
         }
+       return abort('403');
+     
     }
 
     public function sendActivationLink($user_id = 0){
