@@ -9,6 +9,8 @@ use App\Models\UserDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 ini_set('max_execution_time', 300);
 
@@ -460,14 +462,18 @@ class SDEDataController extends Controller
     public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        $password = $request->password;
+        // $password = $request->password;
         $data = $request->all();
-        $validator = Validator::make($data, [
-			'password' => 'required|confirmed',
-		]);
+        $validation_array = [];
+        if($request->password){
+            $validation_array = [
+                'password' => 'required|confirmed',
+            ];
+        }
+        $validator = Validator::make($data, $validation_array);
         $errors = [];
         if($validator->fails()){
-			$errors[] = $validator->errors();
+			$errors[] = $validator->errors()->all();
             echo json_encode(['success'=> false,'data' => [], 'error' => $errors]);
             die();
         } else {
@@ -476,7 +482,16 @@ class SDEDataController extends Controller
                 $file = $request->file('photo_1');
                 $path = "";
                 if($file){
-                    $image_name = Auth::user()->name.'_'.Auth::user()->id.'.'. $file->extension();
+                    // file delete 
+                    if(Auth::user()->profile_image){
+                        $image_path =str_replace('/','\\',Auth::user()->profile_image);
+                        if(File::exists(public_path().'\\'.$image_path)){
+                            File::delete(public_path().'\\'.$image_path);
+                        }
+                    }
+                    
+                    $user_name = str_replace(' ', '', Auth::user()->name);
+                    $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
                     $file->move(public_path('images'), $image_name);
                     $path = 'images/'.$image_name;
                 }
@@ -484,7 +499,9 @@ class SDEDataController extends Controller
                 if($file){
                     $user->profile_image = $path;
                 }
-                $user->password = Hash::make($password);
+                if($request->password != ""){
+                    $user->password = Hash::make($request->password);
+                }
                 $user->save();
                 if($file) {
                     $response = ['path' => $user->profile_image];

@@ -16,6 +16,18 @@
                 </div>   
              </div>
         </div>
+        {{-- <div class="row row-cols-1 col-12 result-response d-none">
+            <div class="col-12">
+                <div class="card box">						
+                    <div class="card-body col-12">
+                        <h3 class="title-4 m-0 text-primary text-center" id="result-response-message"></h3>
+                    </div>      
+                </div>   
+             </div>
+        </div> --}}
+        <div class="row row-cols-1 col-12 result-response d-none">
+            <div class="alert alert-success text-center" id="result-response-message"></div>
+        </div>
         <div class="row row-cols-1 col-12 result-data">
             <div class="col-3">
                 <div class="card box">						
@@ -36,7 +48,7 @@
                                 <img class="position-relative profile_img_disp" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
                                 @endif
                                 <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button" class="position-absolute">
-                                <input id="file-input" type="file"/>
+                                <input id="file-input" type="file" accept=".jpg, .jpeg, .png"/>
                             </div>  
                         </div>
                         <div class="row">
@@ -49,13 +61,13 @@
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Password</label>
-                                <input class="form-control col-12" type="password" placeholder="Password" name="Acc_password" value="gokul@123" id="Acc_password">
+                                <input class="form-control col-12" type="password" placeholder="Password" name="Acc_password" id="Acc_password" autocomplete="off">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Confirm Password</label>
-                                <input class="form-control col-12" type="password" placeholder="Confirm Password" value="gokul@123" name="Acc_confirm_password" id="Acc_confirm_password">
+                                <input class="form-control col-12" type="password" placeholder="Confirm Password" name="Acc_confirm_password" id="Acc_confirm_password">
                             </div>                            
                         </div>
                     </div>      
@@ -71,9 +83,9 @@
                             {{-- <div class="box-icon small-icon rounder-border"> --}}
                             <div class="box-icon small-icon rounder-border">
                                 @if(Auth::user()->profile_image)
-                                    <img src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%; height:100%" />
+                                    <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
                                 @else
-                                    <img src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
+                                    <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
                                 @endif
                             </div>  
                             {{-- <h4 class="mb-0 title-5">Order Details</h4> --}}
@@ -87,7 +99,7 @@
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Customer Number</label>
-                                <input class="form-control  col-12" type="text" value="{{$user_detail->customerno}}" placeholder="Customer Number" name="acc_customer_number" id="acc_customer_number">
+                                <input class="form-control  col-12" type="text" value="{{$user_detail->customerno}}" placeholder="Customer Number" name="acc_customer_number" id="acc_customer_number" disabled>
                             </div>
                         </div>
                         <div class="row">

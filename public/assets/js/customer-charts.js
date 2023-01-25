@@ -371,7 +371,6 @@ $(document).on('change','#file-input',function(e){
 $(document).on('click','#profile-edit-save-button',function(e){
     e.preventDefault();
     var formData = new FormData();
-    let _token = $('meta[name="csrf-token"]').attr('content');
     $image = $('#file-input').prop('files')[0];
     let name = $('#Acc_name').val();
     let password = $('#Acc_password').val();
@@ -389,15 +388,30 @@ $(document).on('click','#profile-edit-save-button',function(e){
         processData: false,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: formData,
-        success: function (res) {  
+        success: function (res) {
             let res1 = JSON.parse(res);
             if(res1.success){
                 if(res1.data.length > 0){
-                    $(".nav-bar-profile-img").prop("src", res1.data[0].path);
+                    console.log(res1.data[0].path,'___res path');
+                    $("#nav-bar-profile-img").prop("src", res1.data[0].path);
+                    $("#account-detail-profile-img").prop("src", res1.data[0].path);
                 } 
                 // show success message
+                // $('#result-response-message').html("Account Details Updated Succcessfully").addClass('text-primary').removeClass('text-danger');
+                $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
+                $('.result-response').removeClass('d-none');
+                setTimeout(() => {
+                    $('.result-response').addClass('d-none');
+                }, 2000);
             } else {
-                // display validation error messages
+                $errors = '';
+                if(res1.error.length > 0){
+                    res1.error.forEach(err => {
+                        $errors += err[0]+'<br>';
+                    });
+                }
+                $('#result-response-message').html($errors).removeClass('alert-success').addClass('alert-danger');
+                $('.result-response').removeClass('d-none');
             }
         }
     });
