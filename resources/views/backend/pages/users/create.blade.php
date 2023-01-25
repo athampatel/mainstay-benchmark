@@ -127,18 +127,18 @@ User Create - Admin Panel
                                 <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_no">Sales Peson Number</label>
+                                <label for="sales_person_no">Benchmark Regional Manager Number</label>
                                 <input type="text" name="salespersonno" class="form-control" id="sales_person_no required" placeholder="Enter Sales Person No" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_name">Sales Person Name</label>
+                                <label for="sales_person_name">Benchmark Regional Manager Name</label>
                                 <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_email">Sales Person Email</label>
+                                <label for="sales_person_email">Benchmark Regional Manager Email</label>
                                 <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                             </div>
                         </div>

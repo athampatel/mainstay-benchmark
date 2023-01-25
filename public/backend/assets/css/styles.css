@@ -53,7 +53,6 @@
 
 
 /*------------------------- 1. Core Css -------------------*/
-
 .page-container {
     width: 100%;
     height: 100%;
@@ -668,9 +667,10 @@
 .page-title {
     font-size: 24px;
     font-weight: 300;
-    color: #313b3d;
+    color: #424448;
     letter-spacing: 0;
     margin-right: 30px;
+    font-weight: 600;
 }
 
 ul.breadcrumbs {
@@ -716,8 +716,8 @@ ul.breadcrumbs {
             align-items: center;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    background: -webkit-linear-gradient(left, #8914fe 0%, #8063f5 100%);
-    background: linear-gradient(to right, #8914fe 0%, #8063f5 100%);
+    background: #9FCC47;
+    background:#9FCC47;
     padding: 17px 38px;
     position: relative;
 }
@@ -1332,9 +1332,16 @@ table.dbkit-table tr td {
 }
 
 .seofct-icon {
-    color: #fff;
+    color: #9FCC47;
     font-size: 18px;
     font-weight: 500;
+}
+.dark-cards .card h1,
+.dark-cards .card h2,.dark-cards .card h3,
+.dark-cards .card h4,
+.dark-cards .card .h1,
+.dark-cards .card .h2,.dark-cards .card .h3, .dark-cards .card .h4{
+    color: #FFF;
 }
 
 .seofct-icon i {
@@ -1943,6 +1950,7 @@ p.card-text {
 }
 
 
+
 .form-control{    
 	background: #7B7C7F !important;
 	border:1px solid transparent;
@@ -2383,8 +2391,12 @@ div.dataTables_wrapper div.dataTables_info{
 
 /*-------------------- 23. Login ------------------- */
 
-.login-area {
-    background: #F3F8FB;
+.login-area,.error-area{
+    background-color:#424448;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/images/body-bg.jpg);
 }
 
 .login-box {
@@ -2398,22 +2410,27 @@ div.dataTables_wrapper div.dataTables_info{
     margin: auto;
     width: 450px;
     max-width: 100%;
-    background: #fff;
-    border-radius: 3px;
+    background: #424448;
+    border-radius: 1.25rem;
+    border: 1px solid #FFFFFF;
 }
 
 .login-form-head {
     text-align: center;
-    background: #8655FC;
-    padding: 50px;
+    background:transparent;
+    padding:3rem 3rem 0px 3rem;
 }
+
+
+
 
 .login-form-head h4 {
     letter-spacing: 0;
     text-transform: uppercase;
     font-weight: 600;
     margin-bottom: 7px;
-    color: #fff;
+    color: rgba(255,255,255,0.7);
+    font-size: 2rem;;
 }
 
 .login-form-head p {
@@ -2433,24 +2450,22 @@ div.dataTables_wrapper div.dataTables_info{
 
 .form-gp label {
     position: absolute;
-    left: 0;
-    top: 0;
-    color: #b3b2b2;
+    left: 1rem;
+    top: 0.65rem;
+    color: rgba(255,255,255,0.7);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+    font-size: 0.925rem;
+    font-weight: 600;
 }
 
 .form-gp.focused label {
-    top: -15px;
-    color: #7e74ff;
+    top: -25px;    
+    left: 0px;
+    color: rgba(255,255,255,0.7);
 }
 
-.form-gp input {
-    width: 100%;
-    height: 30px;
-    border: none;
-    border-bottom: 1px solid #e6e6e6;
-}
+
 
 .form-gp input::-webkit-input-placeholder {
     color: #dad7d7;
@@ -2470,9 +2485,10 @@ div.dataTables_wrapper div.dataTables_info{
 
 .form-gp i {
     position: absolute;
-    right: 5px;
-    color: #7e74ff;
+    right: 1rem;
+    color: rgba(255,255,255,0.5);
     font-size: 16px;
+    top:25%;
 }
 
 .form-gp.has-error, .form-gp.has-error label, .form-gp.has-error input, .form-gp.has-error input::placeholder, .form-gp.has-error i {
@@ -2491,8 +2507,8 @@ div.dataTables_wrapper div.dataTables_info{
     width: 100%;
     height: 50px;
     border: none;
-    background: #fff;
-    color: #585b5f;
+    background: #9FCC47;
+    color: #424448;
     border-radius: 40px;
     text-transform: uppercase;
     letter-spacing: 0;
@@ -2501,11 +2517,12 @@ div.dataTables_wrapper div.dataTables_info{
     box-shadow: 0 0 22px rgba(0, 0, 0, 0.07);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+    border: 1px solid #9FCC47;
 }
 
 .submit-btn-area button:hover {
-    background: #2c71da;
-    color: #ffffff;
+    background: #424448;
+    color: #9FCC47;
 }
 
 .submit-btn-area button i {
@@ -2697,25 +2714,24 @@ div.dataTables_wrapper div.dataTables_info{
 
 /*-------------------- 25. 404 Page ------------------- */
 
-.error-area {
-    min-height: 100vh;
-    background: #F3F8FB;
-}
+
 
 .error-content {
-    background: #fff;
+    background: #424448;
     width: 100%;
     max-width: 600px;
     margin: auto;
     padding: 70px 30px;
+    border-radius: 10px;
+    border: 1px solid #FFF;
 }
 
 .error-content h2 {
     font-size: 98px;
     font-weight: 800;
-    color: #686cdc;
+    color: transparent;
     margin-bottom: 28px;
-    text-shadow: -3px -3px 0 #ffffff, 3px -3px 0 #ffffff, -3px 3px 0 #ffffff, 3px 3px 0 #ffffff, 4px 4px 0 #6569dc, 5px 5px 0 #6569dc, 6px 6px 0 #6569dc, 7px 7px 0 #6569dc;
+    text-shadow: -3px -3px 0 #ffffff, 3px -3px 0 #ffffff, -3px 3px 0 #ffffff, 3px 3px 0 #ffffff, 4px 4px 0 #000, 5px 5px 0 #000, 6px 6px 0 #000, 7px 7px 0 #000;
     font-family: 'lato', sans-serif;
 }
 
@@ -2725,15 +2741,15 @@ div.dataTables_wrapper div.dataTables_info{
 
 .error-content p {
     font-size: 17px;
-    color: #787bd8;
+    color: #FFF;
     font-weight: 600;
 }
 
 .error-content a {
     display: inline-block;
     margin-top: 40px;
-    background: #656aea;
-    color: #fff;
+    background: #9FCC47;
+    color: #424448;
     padding: 16px 26px;
     border-radius: 3px;
 }

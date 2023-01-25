@@ -123,7 +123,7 @@ User Create - Admin Panel
                                 {{-- <input type="text" name="sales_person_divison_no" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No" disabled> --}}
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_no">Sales Peson Number</label>
+                                <label for="sales_person_no">Benchmark Regional Manager Number</label>
                                 <div class="text-secondary">{{$user_info['salespersonno']}}</div>
                                 {{-- <input type="text" name="sales_person_no" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" disabled> --}}
                             </div>
@@ -131,12 +131,12 @@ User Create - Admin Panel
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_name">Sales Person Name</label>
+                                <label for="sales_person_name">Benchmark Regional Manager Name</label>
                                 <div class="text-secondary">{{$user_info['salespersonname']}}</div>
                                 {{-- <input type="text" name="sales_person_name" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name" disabled> --}}
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_email">Sales Person Email</label>
+                                <label for="sales_person_email">Benchmark Regional Manager Email</label>
                                 <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
                                 {{-- <input type="text" name="sales_person_email" class="form-control" id="sales_person_email" placeholder="Enter Sales Person Email" disabled> --}}
                             </div>
@@ -192,7 +192,7 @@ User Create - Admin Panel
             $('#user_activate_message').text(res.message).removeClass('d-none');
             setTimeout(() => {
                 $('#user_activate_message').addClass('d-none');
-                window.location.href = "{{ url('/admin/users/')}}";
+                window.location.href = "{{ url('/admin/customers/')}}";
             }, 2000);
         }
     }
