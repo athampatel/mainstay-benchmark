@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Name</label>
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="Acc_name" id="Acc_name">
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
                             </div>                            
                         </div>
                         <div class="title-5 text-white">Change Password</div>
@@ -78,7 +78,7 @@
             {{-- customer detail section --}}
             <div class="col-9">
                 <div class="card box">	
-                    <div class="card-header col-12 p-3 d-flex align-items-center">
+                    <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             {{-- <div class="box-icon small-icon rounder-border"> --}}
                             <div class="box-icon small-icon rounder-border">
@@ -105,11 +105,11 @@
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address">
+                                <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address" disabled>
                             </div>
                             <div class="mb-3 col-6">    
-                                <label class="form-label">AR Division Number</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->ardivisionno}}" placeholder="AR Division Number" name="acc_ar_division_no" id="acc_ar_division_no">
+                                <label class="form-label">Phone Number</label>
+                                <input class="form-control col-12" type="text" value="" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no">
                             </div>
                         </div>
                         <div class="row">
@@ -141,29 +141,29 @@
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Division Number</label>
-                                <input class="form-control col-12" type="text" placeholder="Division Number" name="acc_division_no" id="acc_division_no">
+                                <input class="form-control col-12" type="text" placeholder="Division Number" name="acc_division_no" id="acc_division_no" disabled>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-6">    
+                            <div class="mb-3 col-4">    
                                 <label class="form-label">BenchMark Relational Manager Name</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Name" name="acc_manager_name" id="acc_manager_name">
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
                             </div>
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">BenchMark Relational Manager Number</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Number" name="acc_manager_number" id="acc_manager_number">
+                            <div class="mb-3 col-4">    
+                                <label class="form-label">BenchMark Relational Manager Email</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
+                            </div>
+                            <div class="mb-3 col-4">    
+                                <label class="form-label">BenchMark Relational Manager Phone Number</label>
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">BenchMark Relational Manager Email</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Email" name="acc_manager_email" id="acc_manager_email">
-                            </div>
+                        {{-- <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">BenchMark Relational Manager Phone Number</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number">
+                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>                     
                 </div>
                 {{-- <button type="submit" class="btn btn-primary" id="order-save-button">Save Changes</button> --}}

@@ -90,7 +90,7 @@
             <div>
                 <div class="profile_position">Admin</div>
                 {{-- <div class="profile_name">John Deo</div> --}}
-                <div class="profile_name">{{Auth::user()->name}}</div>
+                <div class="profile_name" id="nav-bar-profile-name">{{Auth::user()->name}}</div>
             </div>
         </div>
     </div>

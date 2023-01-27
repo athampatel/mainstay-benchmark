@@ -372,13 +372,30 @@ $(document).on('click','#profile-edit-save-button',function(e){
     e.preventDefault();
     var formData = new FormData();
     $image = $('#file-input').prop('files')[0];
-    let name = $('#Acc_name').val();
+    // let name = $('#Acc_name').val();
     let password = $('#Acc_password').val();
     let confirm_password = $('#Acc_confirm_password').val();
     formData.append('photo_1', $image);
-    formData.append('name', name);
+    // formData.append('name', name);
     formData.append('password', password);
     formData.append('password_confirmation', confirm_password);
+    // form fields work start
+    let acc_name = $('#acc_name').val();
+    let acc_phone_no = $('#acc_phone_no').val();
+    let acc_address_line_1 = $('#acc_address_line_1').val();
+    let acc_address_line_2 = $('#acc_address_line_2').val();
+    let acc_state = $('#acc_state').val();
+    let acc_city = $('#acc_city').val();
+    let acc_zipcode = $('#acc_zipcode').val();
+
+    formData.append('acc_name', acc_name);
+    formData.append('acc_phone_no', acc_phone_no);
+    formData.append('acc_address_line_1', acc_address_line_1);
+    formData.append('acc_address_line_2', acc_address_line_2);
+    formData.append('acc_state', acc_state);
+    formData.append('acc_city', acc_city);
+    formData.append('acc_zipcode', acc_zipcode);
+    // form fields work end
     $.ajax({
         type: 'POST',
         url: '/account_edit_upload',
@@ -395,7 +412,8 @@ $(document).on('click','#profile-edit-save-button',function(e){
                     console.log(res1.data[0].path,'___res path');
                     $("#nav-bar-profile-img").prop("src", res1.data[0].path);
                     $("#account-detail-profile-img").prop("src", res1.data[0].path);
-                } 
+                }
+                $('#nav-bar-profile-name').text(acc_name);
                 // show success message
                 // $('#result-response-message').html("Account Details Updated Succcessfully").addClass('text-primary').removeClass('text-danger');
                 $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');

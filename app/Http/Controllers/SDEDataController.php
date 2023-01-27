@@ -462,6 +462,7 @@ class SDEDataController extends Controller
     public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
+        $user_details = UserDetails::where('user_id',$user_id)->first();
         // $password = $request->password;
         $data = $request->all();
         $validation_array = [];
@@ -502,6 +503,16 @@ class SDEDataController extends Controller
                 if($request->password != ""){
                     $user->password = Hash::make($request->password);
                 }
+                // update user detail information
+                $user_details->customername = $request->acc_name;
+                $user_details->addressline1 = $request->acc_address_line_1;
+                $user_details->addressline2 = $request->acc_address_line_2;
+                $user_details->city = $request->acc_city;
+                $user_details->state = $request->acc_state;
+                $user_details->zipcode = $request->acc_zipcode;
+                $user_details->save();
+
+                $user->name = $request->acc_name;
                 $user->save();
                 if($file) {
                     $response = ['path' => $user->profile_image];
