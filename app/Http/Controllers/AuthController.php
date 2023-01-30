@@ -35,7 +35,7 @@ class AuthController extends Controller
     }
 
     public static function CreateCustomer($response = null, $action = 0){
-        $user =  UserController::createUser($response);
+        $user =  UserController::createUser($response,$action);
         if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $sales_person = array();
@@ -136,8 +136,8 @@ class AuthController extends Controller
             $params = array('mail_view' => 'emails.user-active', 
                             'subject'   => 'New user Signup request', 
                             'url'       => $url);
-            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-            // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
         return redirect()->back()->with($status, $message);
     }

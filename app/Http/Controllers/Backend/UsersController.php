@@ -81,9 +81,6 @@ class UsersController extends Controller
             $customer       = array();
             $create_user    =  $postdata['create_user'];
 
-          
-
-            
             foreach($create_user as $key => $value){
                 $is_duplicate = 0;
                 $email        = $postdata['emailaddress'][$key];
