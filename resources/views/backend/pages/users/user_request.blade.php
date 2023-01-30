@@ -23,12 +23,12 @@ User Create - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">User Activate</h4>
-                {{-- <ul class="breadcrumbs pull-left">
+                <h4 class="page-title pull-left">Activate Customer</h4>
+                <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.users.index') }}">All Users</a></li>
-                    <li><span>Create User</span></li>
-                </ul> --}}
+                    <li><a href="{{ route('admin.users.index') }}">All Customers</a></li>
+                    <li><span>Create Customer</span></li>
+                </ul> 
             </div>
         </div>
         <div class="col-sm-6 clearfix">
@@ -42,36 +42,66 @@ User Create - Admin Panel
     <div class="row">
         <!-- data table start -->
         <div class="col-12 mt-5">
-            <div class="card">
+            <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
+            <div class="card mb-3">
                 <div class="card-body">
-                    <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
-                    <h4 class="header-title">User Information</h4>
-                    @include('backend.layouts.partials.messages')
-                    {{-- <form action="{{ route('admin.users.store') }}" method="POST"> --}}
-                        {{-- @csrf --}}
+                    <h4 class="header-title">User Information</h4>       
+                </div>
+            </div> 
+           
+            @include('backend.layouts.partials.messages')            
+            <form action="{{ route('admin.users.store') }}" method="POST">                        
+                @csrf
+                @foreach($customers as $key => $user_info)
+               
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                          @if(count($customers) > 1)
+                            <div class="form-row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" id="create_user_{{$key}}" />
+                                    <label for="create_user_{{$key}}">Select to create this customer</label>
+                                </div>   
+                            </div>
+                        @endif
+
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_no">User No</label>
-                                <div class="text-secondary">{{$user_info['customerno']}}</div>
-                                {{-- <input type="text" class="form-control" id="user_no" name="user_no" placeholder="Enter User Number" disabled> --}}
+                                <label for="user_no">Customer No</label>
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['customerno']}}</div>
+                                @else
+                                    <input type="text" class="form-control required" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
+                                @endif
+                                
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_email">User Email</label>
-                                <div class="text-secondary">{{$user_info['emailaddress']}}</div>
-                                {{-- <input type="text" class="form-control" id="user_email" name="user_email" placeholder="Enter User Email" disabled> --}}
+                                <label for="user_email">Customer Email</label>
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['emailaddress']}}</div>
+                                @else
+                                    <input type="text" class="form-control required" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="user_name">User Name</label>
-                                <div class="text-secondary">{{$user_info['customername']}}</div>
-                                {{-- <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter Name" disabled> --}}
+                                <label for="user_name">Customer Name</label>
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['customername']}}</div>
+                                @else
+                                    <input type="text" class="form-control required"  required name="customername[{{$key}}]" placeholder="Enter Name" value="{{$user_info['customername']}}"> 
+                                @endif    
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="ardivision_no">ardivisionno</label>
-                                <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
-                                {{-- <input type="text" class="form-control" id="ardivision_no" name="ardivision_no" placeholder="Enter AR division no" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
+                                @else
+                                    <input type="text" class="form-control required" required  name="ardivisionno[{{$key}}]" placeholder="Enter AR division no" value="{{$user_info['ardivisionno']}}">
+                                @endif 
                             </div>
                         </div>
 
@@ -79,76 +109,118 @@ User Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_1">Address Line 1</label>
-                                <div class="text-secondary">{{$user_info['addressline1']}}</div>
-                                {{-- <input type="text" name="address_line_1" class="form-control" id="address_line_1" placeholder="Enter Address line 1" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['addressline1']}}</div>
+                                @else
+                                    <input type="text" name="addressline1[{{$key}}]" class="form-control" placeholder="Enter Address line 1" value="{{$user_info['addressline1']}}"> 
+                                @endif    
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_2">Address Line 2</label>
-                                <div class="text-secondary">{{$user_info['addressline2']}}</div>
-                                {{-- <input type="text" name="address_line_2" class="form-control" id="address_line_2" placeholder="Enter Address line 2" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['addressline2']}}</div>
+                                @else
+                                    <input type="text" name="addressline2[{{$key}}]" class="form-control"  placeholder="Enter Address line 2" value="{{$user_info['addressline2']}}"> 
+                                @endif    
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="address_line_3">Address Line 3</label>
-                                <div class="text-secondary">{{$user_info['addressline3']}}</div>
-                                {{-- <input type="text" name="address_line_3" class="form-control" id="address_line_3" placeholder="Enter Address line 3" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['addressline3']}}</div>
+                                @else
+                                    <input type="text" name="addressline3[{{$key}}]" class="form-control" placeholder="Enter Address line 3" value="{{$user_info['addressline3']}}"> 
+                                @endif
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_city">City</label>
-                                <div class="text-secondary">{{$user_info['city']}}</div>
-                                {{-- <input type="text" name="user_city" class="form-control" id="user_city" placeholder="Enter City" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['city']}}</div>
+                                @else
+                                    <input type="text" name="city[{{$key}}]" class="form-control" placeholder="Enter City" value="{{$user_info['city']}}"> 
+                                @endif
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_state">State</label>
-                                <div class="text-secondary">{{$user_info['state']}}</div>
-                                {{-- <input type="text" name="user_state" class="form-control" id="user_state" placeholder="Enter State" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['state']}}</div>
+                                @else 
+                                    <input type="text" name="state[{{$key}}]" class="form-control"  placeholder="Enter State" value="{{$user_info['state']}}"> 
+                                @endif
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="user_zipcode">Zipcode</label>
-                                <div class="text-secondary">{{$user_info['zipcode']}}</div>
-                                {{-- <input type="text" name="user_zipcode" class="form-control" id="user_zipcode" placeholder="Enter Zipcode" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['zipcode']}}</div>
+                                @else    
+                                    <input type="text" name="zipcode[{{$key}}]" class="form-control" placeholder="Enter Zipcode" value="{{$user_info['zipcode']}}"> 
+                                @endif
                             </div>
                         </div>
 
-                        <h6 class="text-secondary">Sales person</h6><br>
+                        <h6 class="text-secondary">Benchmark Regional Manager</h6><br>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_divison_no">Division No </label>
-                                <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
-                                {{-- <input type="text" name="sales_person_divison_no" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
+                                @else    
+                                    <input type="text" name="salespersondivisionno[{{$key}}]" class="form-control required" required  placeholder="Enter Division No" value="{{$user_info['salespersondivisionno']}}"> 
+                                @endif
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_no">Benchmark Regional Manager Number</label>
-                                <div class="text-secondary">{{$user_info['salespersonno']}}</div>
-                                {{-- <input type="text" name="sales_person_no" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['salespersonno']}}</div>
+                                @else
+                                    <input type="text" name="salespersonno[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person No" value="{{$user_info['salespersonno']}}"> 
+                                @endif    
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_name">Benchmark Regional Manager Name</label>
-                                <div class="text-secondary">{{$user_info['salespersonname']}}</div>
-                                {{-- <input type="text" name="sales_person_name" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['salespersonname']}}</div>
+                                @else 
+                                    <input type="text" name="salespersonname[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person Name" value="{{$user_info['salespersonname']}}"> 
+                                @endif    
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_email">Benchmark Regional Manager Email</label>
-                                <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
-                                {{-- <input type="text" name="sales_person_email" class="form-control" id="sales_person_email" placeholder="Enter Sales Person Email" disabled> --}}
+                                @if(isset($user->id))
+                                    <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
+                                @else        
+                                    <input type="text" name="salespersonemail[{{$key}}]" class="form-control required" required  placeholder="Enter Sales Person Email" value="{{$user_info['salespersonemail']}}"> 
+                                @endif    
                             </div>
                         </div>
-
-                        <input type="hidden" name="" value="{{$user->id}}" id="user_id">
-
-                        <button class="btn btn-primary mt-4 pr-4 pl-4" id="activate_user">Activate User</button>
-                        <button class="btn btn-danger mt-4 pr-4 pl-4" id="cancel_user">Cancel User</button>
-                    {{-- </form> --}}
-                </div>
-            </div>
+                        </div>
+                      </div>
+                        @endforeach
+                         
+                        @if(isset($user->id))
+                            <input type="hidden" name="" value="{{$user->id}}" id="user_id">
+                        @endif
+                     <div class="card mb-3">
+                        <div class="card-body">
+                            @if(isset($user->id))
+                                <button class="btn btn-primary pr-4 pl-4" id="activate_user">Activate Customer </button>
+                            @else
+                                <button class="btn btn-primary pr-4 pl-4 create_customers" id="create_customers">Create Customer </button>
+                            @endif
+                           
+                            <button class="btn btn-danger pr-4 pl-4" id="cancel_user">Decline Request</button>
+                        </div>
+                    </div>        
+                    </form> 
+                
         </div>
         <!-- data table end -->
         

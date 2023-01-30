@@ -57,7 +57,12 @@ User Create - Admin Panel
                     </div>
                 </div>
             </div> 
-             <div class="card userDetails-container mt-3" style="display: none;">
+            <div class="card multiple-container mt-3" style="display: none;">
+                <div class="card-body">
+                     
+                </div>
+            </div>
+        <div class="card userDetails-container mt-3" style="display: none;">
             <div class="card-body">
                 <div class="userDetails-container" >        
                     <h4 class="header-title">Create New Customer</h4>
@@ -177,7 +182,17 @@ User Create - Admin Panel
                 $(this).removeClass('error-field');
             }
         });
+        $(document.body).on('click','a.do_customer',function(e){
+            $('a.do_customer').each(function(){
+                $(this).removeClass('active');
+            });
+            var parseData = $(this).data('json');
+          
+            $(this).addClass('active');
+            $('.userDetails-container').fadeIn();
+            rendorUserForm(parseData,0);
 
+        });
         $(document.body).on('submit','#create-customer',function(e){
             //e.preventDefault();
             $('.userDetails-container .form-control').each(function(){
@@ -210,40 +225,25 @@ User Create - Admin Panel
                 $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
             },
             success: function (res) {
-                if(res.customers.length > 0){
+                var total_records = parseInt(res.customers.length);
+                if(total_records > 1){
+                    $('#customer_response_alert').addClass('alert-danger').removeClass('d-none').html('Multiple records found');     
+                    var customers = res.customers;  
+                    var _html = '';
+                    $.each(customers,function(index,value){
+                        _html +='<div class="form-row duplicate-date">'+
+                                    '<div class="form-group col-md-12 col-sm-12">'+
+                                        '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer"><strong>Customer No:</strong>'+value.emailaddress+' ('+value.customerno+')'+
+                                        
+                                    '</a></div>'+                              
+                                '</div>';
+                    });
+                    $('.multiple-container').fadeIn();
+                    $('.multiple-container').find('.card-body').html(_html);
+                    return false; 
+                }else if(res.customers.length > 0){
                     $customer = res.customers[0];
-                    $('#user_no').val($customer.customerno);
-                    $('#user_email').val($customer.emailaddress);
-                    $('#user_name').val($customer.customername);
-                    $('#ardivision_no').val($customer.ardivisionno);
-                    $('#address_line_1').val($customer.addressline1);
-                    $('#address_line_2').val($customer.addressline2);
-                    $('#address_line_3').val($customer.addressline3);
-                    $('#user_city').val($customer.city);
-                    $('#user_state').val($customer.state);
-                    $('#user_zipcode').val($customer.zipcode);
-                    $('#sales_person_divison_no').val($customer.salespersondivisionno);
-                    $('#sales_person_no').val($customer.salespersonno);
-                    $('#sales_person_name').val($customer.salespersonname);
-                    $('#sales_person_email').val($customer.salespersonemail);
-                    $('#customer_response_alert').removeClass('d-none');
-                    setTimeout(() => {
-                        $('#customer_response_alert').addClass('d-none');
-                        $('.userDetails-container .form-control').each(function(){
-                            if($(this).hasClass('required')){
-                                $(this).prop('required',true);
-                                var val = $(this).val();
-                                if(val.trim() == ''){
-                                    $(this).addClass('error-field');
-                                }else{
-                                    $(this).removeClass('error-field');
-                                }
-                            }     
-                        });
-                        if($('.userDetails-container').find('.error-field').length > 0){
-
-                        }
-                    },2000);
+                    rendorUserForm($customer,1);
                 } else {
                     $('#customer_response_alert').removeClass('d-none');
                     $('#customer_response_alert').removeClass('alert-success');
@@ -258,5 +258,42 @@ User Create - Admin Panel
                 $(document.body).find('#preloader').remove();            }
         });
     })
+function rendorUserForm($customer,show){
+    $('#user_no').val($customer.customerno);
+    $('#user_email').val($customer.emailaddress);
+    $('#user_name').val($customer.customername);
+    $('#ardivision_no').val($customer.ardivisionno);
+    $('#address_line_1').val($customer.addressline1);
+    $('#address_line_2').val($customer.addressline2);
+    $('#address_line_3').val($customer.addressline3);
+    $('#user_city').val($customer.city);
+    $('#user_state').val($customer.state);
+    $('#user_zipcode').val($customer.zipcode);
+    $('#sales_person_divison_no').val($customer.salespersondivisionno);
+    $('#sales_person_no').val($customer.salespersonno);
+    $('#sales_person_name').val($customer.salespersonname);
+    $('#sales_person_email').val($customer.salespersonemail);
+    if(show == 1)
+        $('#customer_response_alert').removeClass('d-none');
+        
+    setTimeout(() => {
+        $('#customer_response_alert').addClass('d-none');
+        $('.userDetails-container .form-control').each(function(){
+            if($(this).hasClass('required')){
+                $(this).prop('required',true);
+                var val = $(this).val();
+                if(val.trim() == ''){
+                    $(this).addClass('error-field');
+                }else{
+                    $(this).removeClass('error-field');
+                }
+            }     
+        });
+        if($('.userDetails-container').find('.error-field').length > 0){
+
+        }
+    },2000);
+    return true;
+}    
 </script>
 @endsection

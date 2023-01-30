@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="Iconly_Bold_Tick-Square" data-name="Iconly/Bold/Tick-Square" transform="translate(-2 -2)">
+    <g id="Tick-Square" transform="translate(2 2)">
+      <path id="Path_768" data-name="Path 768" d="M11.472,0A4.387,4.387,0,0,1,16,4.736h0v6.537A4.384,4.384,0,0,1,11.472,16H4.536A4.39,4.39,0,0,1,0,11.273H0V4.736A4.393,4.393,0,0,1,4.536,0h6.936Zm-.128,5.6a.7.7,0,0,0-.992,0h0l-3.3,3.3-1.4-1.4a.7.7,0,0,0-.992.992h0l1.9,1.9a.705.705,0,0,0,.984,0h0l3.8-3.8A.7.7,0,0,0,11.344,5.6Z" transform="translate(0 0)" fill="#9fcc47"/>
+    </g>
+  </g>
+</svg>
