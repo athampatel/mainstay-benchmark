@@ -11,6 +11,7 @@ use Str;
 class UserController extends Controller
 {
     public static function createUser($data,$action = 0){
+        
 
         $userData = array(  'name'              =>$data['customername'],
                             'email'             => $data['emailaddress'],
@@ -18,6 +19,10 @@ class UserController extends Controller
                             'activation_token'  => '',
                             // 'activation_token' => Str::random(30),
         );
+
+        if(!array_key_exists('vmi_companycode', $data)){
+            $userData['is_vmi'] = 1;  
+        } 
 
         if( $action ) {
             $userData['activation_token'] = Str::random(40);;
