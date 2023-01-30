@@ -292,6 +292,7 @@ class UsersController extends Controller
                 if(!empty($res['customers'])){                   
                     $customers = $res['customers'];
                 }
+                Auth::guard('admin')->login($admin);
                 return view('backend.pages.users.user_request',compact('customers','user')); 
             }
         }

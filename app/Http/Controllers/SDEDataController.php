@@ -7,6 +7,10 @@ use App\Helpers\SDEApi;
 use App\Models\User;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 ini_set('max_execution_time', 300);
 
@@ -443,16 +447,84 @@ class SDEDataController extends Controller
         dd($user);
     }
 
-    public function profilePicUpload(Request $request){
+    // public function profilePicUpload(Request $request){
+    //     $user_id = Auth::user()->id;
+    //     $user = User::find($user_id);
+    //     $file = $request->file('photo_1');
+    //     $image_name = 'test.'. $file->extension();
+    //     $file->move(public_path('images'), $image_name);
+    //     $path = 'images/'.$image_name;
+    //     if($user){
+    //         $user->profile_image = $path;
+    //         $user->save(); 
+    //     }
+    // }
+    public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        $file = $request->file('photo_1');
-        $image_name = 'test.'. $file->extension();
-        $file->move(public_path('images'), $image_name);
-        $path = 'images/'.$image_name;
-        if($user){
-            $user->profile_image = $path;
-            $user->save(); 
+        $user_details = UserDetails::where('user_id',$user_id)->first();
+        // $password = $request->password;
+        $data = $request->all();
+        $validation_array = [];
+        if($request->password){
+            $validation_array = [
+                'password' => 'required|confirmed',
+            ];
+        }
+        $validator = Validator::make($data, $validation_array);
+        $errors = [];
+        if($validator->fails()){
+			$errors[] = $validator->errors()->all();
+            echo json_encode(['success'=> false,'data' => [], 'error' => $errors]);
+            die();
+        } else {
+            if($user){
+                // image upload
+                $file = $request->file('photo_1');
+                $path = "";
+                if($file){
+                    // file delete 
+                    if(Auth::user()->profile_image){
+                        $image_path =str_replace('/','\\',Auth::user()->profile_image);
+                        if(File::exists(public_path().'\\'.$image_path)){
+                            File::delete(public_path().'\\'.$image_path);
+                        }
+                    }
+                    
+                    $user_name = str_replace(' ', '', Auth::user()->name);
+                    $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
+                    $file->move(public_path('images'), $image_name);
+                    $path = 'images/'.$image_name;
+                }
+                // database save
+                if($file){
+                    $user->profile_image = $path;
+                }
+                if($request->password != ""){
+                    $user->password = Hash::make($request->password);
+                }
+                // update user detail information
+                $user_details->customername = $request->acc_name;
+                $user_details->addressline1 = $request->acc_address_line_1;
+                $user_details->addressline2 = $request->acc_address_line_2;
+                $user_details->city = $request->acc_city;
+                $user_details->state = $request->acc_state;
+                $user_details->zipcode = $request->acc_zipcode;
+                $user_details->save();
+
+                $user->name = $request->acc_name;
+                $user->save();
+                if($file) {
+                    $response = ['path' => $user->profile_image];
+                } else {
+                    $response = [];
+                }
+                echo json_encode(['success' => true, 'data'=> [$response], 'error' => []]);
+                die();
+            } else {
+                echo json_encode(['success' => false, 'data' => [] , 'error' => ['user not found']]);
+                die();
+            }
         }
     }
 }

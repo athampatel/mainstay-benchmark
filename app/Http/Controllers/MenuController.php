@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
@@ -103,6 +105,8 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'account-settings';
         $data['menus']          = $this->NavMenu('account-settings');
+        $user_id = Auth::user()->id;
+        $data['user_detail'] = UserDetails::where('user_id',$user_id)->first();
         return view('pages.account-settings',$data);
     }
     public function helpPage(){

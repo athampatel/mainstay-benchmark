@@ -82,15 +82,15 @@
         <div class="profile-details">
             <div>
                 @if(Auth::user()->profile_image)
-                    <img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
+                    <img src="/{{Auth::user()->profile_image}}" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @else 
-                    <img src="/assets/images/svg/user_logo.png" />
+                    <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img" />
                 @endif
             </div>
             <div>
                 <div class="profile_position">Admin</div>
                 {{-- <div class="profile_name">John Deo</div> --}}
-                <div class="profile_name">{{Auth::user()->name}}</div>
+                <div class="profile_name" id="nav-bar-profile-name">{{Auth::user()->name}}</div>
             </div>
         </div>
     </div>

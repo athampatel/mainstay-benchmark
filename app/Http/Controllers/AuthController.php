@@ -137,10 +137,9 @@ class AuthController extends Controller
                             'subject'   => 'New user Signup request', 
                             'url'       => $url);
             \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
         return redirect()->back()->with($status, $message);
-
-        
     }
 
 

@@ -352,25 +352,85 @@ function displayChangeOrderPage(res,$itemCode){
     }  
 
 }
+// image upload in Account settings page
 
-$(document).on('click','#photo_image_upload',function(e){
+var fileInput = document.getElementById("file-input");
+$(document).on('click','#file_input_button',function(){
+    fileInput.click();
+})
+
+$(document).on('change','#file-input',function(e){
+    $image = $('#file-input').prop('files')[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $('.profile_img_disp').attr('src', e.target.result);
+    }
+    reader.readAsDataURL($image);
+});
+
+$(document).on('click','#profile-edit-save-button',function(e){
     e.preventDefault();
     var formData = new FormData();
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    console.log('__clicked');
-    $image = $('#profile_image_edit').prop('files')[0];
+    $image = $('#file-input').prop('files')[0];
+    // let name = $('#Acc_name').val();
+    let password = $('#Acc_password').val();
+    let confirm_password = $('#Acc_confirm_password').val();
     formData.append('photo_1', $image);
+    // formData.append('name', name);
+    formData.append('password', password);
+    formData.append('password_confirmation', confirm_password);
+    // form fields work start
+    let acc_name = $('#acc_name').val();
+    let acc_phone_no = $('#acc_phone_no').val();
+    let acc_address_line_1 = $('#acc_address_line_1').val();
+    let acc_address_line_2 = $('#acc_address_line_2').val();
+    let acc_state = $('#acc_state').val();
+    let acc_city = $('#acc_city').val();
+    let acc_zipcode = $('#acc_zipcode').val();
+
+    formData.append('acc_name', acc_name);
+    formData.append('acc_phone_no', acc_phone_no);
+    formData.append('acc_address_line_1', acc_address_line_1);
+    formData.append('acc_address_line_2', acc_address_line_2);
+    formData.append('acc_state', acc_state);
+    formData.append('acc_city', acc_city);
+    formData.append('acc_zipcode', acc_zipcode);
+    // form fields work end
     $.ajax({
         type: 'POST',
-        url: '/photo-upload',
+        url: '/account_edit_upload',
         contentType: 'multipart/form-data',
         cache: false,
         contentType: false,
         processData: false,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: formData,
-        success: function (res) {  
-            console.log(res,'___photo upload response');
+        success: function (res) {
+            let res1 = JSON.parse(res);
+            if(res1.success){
+                if(res1.data.length > 0){
+                    console.log(res1.data[0].path,'___res path');
+                    $("#nav-bar-profile-img").prop("src", res1.data[0].path);
+                    $("#account-detail-profile-img").prop("src", res1.data[0].path);
+                }
+                $('#nav-bar-profile-name').text(acc_name);
+                // show success message
+                // $('#result-response-message').html("Account Details Updated Succcessfully").addClass('text-primary').removeClass('text-danger');
+                $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
+                $('.result-response').removeClass('d-none');
+                setTimeout(() => {
+                    $('.result-response').addClass('d-none');
+                }, 2000);
+            } else {
+                $errors = '';
+                if(res1.error.length > 0){
+                    res1.error.forEach(err => {
+                        $errors += err[0]+'<br>';
+                    });
+                }
+                $('#result-response-message').html($errors).removeClass('alert-success').addClass('alert-danger');
+                $('.result-response').removeClass('d-none');
+            }
         }
     });
 })

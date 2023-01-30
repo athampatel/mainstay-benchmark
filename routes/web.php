@@ -46,7 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/order-detail',[SDEDataController::class,'getSalesOrderDetail']);
 
     // photo upload
-    Route::post('/photo-upload',[SDEDataController::class,'profilePicUpload']);
+    // Route::post('/account_edit_upload',[SDEDataController::class,'profilePicUpload']);
+    Route::post('/account_edit_upload',[SDEDataController::class,'accountEditUpload']);
     // test api checks
     Route::get('/alias-item',[SDEDataController::class,'getAliasItems']);
     Route::get('/customers',[SDEDataController::class,'getCustomers']);
@@ -84,7 +85,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('customers', '\App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
     //Route::resource('customers', '\App\Http\Controllers\Backend\CustomerController', ['names' => 'admin.customer']);
     Route::resource('admins', '\App\Http\Controllers\Backend\AdminsController', ['names' => 'admin.admins']);
-
 
     // Login Routes
     Route::get('/login', '\App\Http\Controllers\Backend\Auth\LoginController@showLoginForm')->name('admin.login');
