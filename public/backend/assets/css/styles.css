@@ -1981,8 +1981,8 @@ p.card-text {
     top:3px;
     border-radius: 2px;
 }
-.form-check-input::checked + label::before{
-   background-image: url(../../images/tick-square.svg);
+.form-check-input:checked + label::before{
+   background-image: url(../../assets/images/tickchecked-square.png);
    background-repeat: no-repeat;
    background-position: center;
    background-size: cover;
@@ -2396,6 +2396,7 @@ div.dataTables_wrapper div.dataTables_info{
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
+    min-height:100vh;
     background-image: url(../../../assets/images/body-bg.jpg);
 }
 
@@ -2733,6 +2734,7 @@ div.dataTables_wrapper div.dataTables_info{
     margin-bottom: 28px;
     text-shadow: -3px -3px 0 #ffffff, 3px -3px 0 #ffffff, -3px 3px 0 #ffffff, 3px 3px 0 #ffffff, 4px 4px 0 #000, 5px 5px 0 #000, 6px 6px 0 #000, 7px 7px 0 #000;
     font-family: 'lato', sans-serif;
+    color:#FFF;
 }
 
 .error-content img {
@@ -2937,3 +2939,19 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 /*-------------------- END Offset Sidebar ------------------- */
+
+.multiple-container a.do_customer{
+    display: flex;
+    color: #FFF;
+    font-size: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: #7B7C7F !important;
+    border-radius: 0.5rem;
+}
+.multiple-container a.do_customer.active,
+.multiple-container a.do_customer:hover{
+    background: #9FCC47 !important;
+    border-color: #9FCC47;
+    color: #424448;
+}

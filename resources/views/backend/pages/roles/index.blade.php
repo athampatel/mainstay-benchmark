@@ -50,8 +50,8 @@ Role Page - Admin Panel
                     <div class="clearfix"></div>
                     <div class="data-tables">
                         @include('backend.layouts.partials.messages')
-                        <table id="dataTable" class="text-center">
-                            <thead class="bg-light text-capitalize">
+                        <table id="dataTable" class="text-center datatable-dark">
+                            <thead class="text-capitalize">
                                 <tr>
                                     <th width="5%">Sl</th>
                                     <th width="10%">Name</th>

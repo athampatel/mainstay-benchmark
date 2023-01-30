@@ -88,30 +88,54 @@ class AuthController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','Customers',$data); 
+
+       //    dd($response); die; 
+
         $message    = '';
         $status     = 'error';
         $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');
         $_details   = array();
+        $error      = 1;
+        $_multiple  = 0;
+        $uniqueId   = $request->email;
         if ( !empty($response['customers']) ) {
             if ( count($response['customers']) === 1 ) {
-                $response = $response['customers'][0];
-                $_details = self::CreateCustomer($response);
+                $response   = $response['customers'][0];
+                $_details   = self::CreateCustomer($response);
+                $details    = array_merge($details,$_details);
+                $error      = 0;
+            }elseif(count($response['customers']) > 1){
+                $_multiple  = 1;
             }
-        } else {
-            $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
-            $details['link']      = "/fetch-customer/{$request->email}";
-            $details['status']    = 'success';
-            $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';   
-        }   
-        $details    = array_merge($details,$_details);
+        }
+
+        if($error){
+                $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
+                $details['link']      = "/fetch-customer/{$request->email}?duplicate=".$_multiple;
+                $details['status']    = 'success';
+                $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+        }
+        
+       
         $message    = isset($details['message']) ? $details['message'] : '';
         $status     = isset($details['status']) ? $details['status'] : '';
-        $admin = Admin::first();
-        $user = User::where('email',$request->email)->first();
+        $admin      = Admin::first();
+        $user       = User::where('email',$request->email)->first();
         if($user){
             $user->activation_token = Str::random(30);
             $user->save();
-            $params = array('mail_view' => 'emails.user-active', 'subject' => 'Change the user status', 'url' => env('APP_URL').'/admin/user/'.$user->id.'/change-status/'.$admin->unique_token);
+            $uniqueId  = $user->id;
+        }
+
+        if($admin){    
+            $url    = env('APP_URL').'/admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token;
+
+            if($_multiple)
+                $url .= '?duplicate=1';
+
+            $params = array('mail_view' => 'emails.user-active', 
+                            'subject'   => 'New user Signup request', 
+                            'url'       => $url);
             \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
         return redirect()->back()->with($status, $message);

@@ -66,7 +66,7 @@ Role Create - Admin Panel
                                     <div class="col-3">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" id="{{ $i }}Management" value="{{ $group->name }}" onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox', this)">
-                                            <label class="form-check-label" for="checkPermission">{{ $group->name }}</label>
+                                            <label class="form-check-label" for="{{ $i }}Management">{{ $group->name }}</label>
                                         </div>
                                     </div>
 
