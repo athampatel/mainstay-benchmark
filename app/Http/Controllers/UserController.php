@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Str;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -20,16 +20,20 @@ class UserController extends Controller
                             // 'activation_token' => Str::random(30),
         );
 
-        if(!array_key_exists('vmi_companycode', $data)){
-            $userData['is_vmi'] = 1;  
-        } 
-
-        if( $action ) {
-            $userData['activation_token'] = Str::random(40);;
-            $userData['active'] = 1;
-        }
-
         $user = User::create($userData);
+        if($action == 1) {
+            $user->activation_token = Str::random(40);;
+            $user->active = 1;
+            $user->save();
+        }
+        if($user){
+            if(array_key_exists('vmi_companycode', $data) || (array_key_exists('is_vmi', $data) && $data['is_vmi'] == 1 )){
+            // if(array_key_exists('vmi_companycode', $data)){
+                $user->is_vmi = 1;
+                $user->save();
+            }
+        }
+        
 
         if(!$user) return false;
 

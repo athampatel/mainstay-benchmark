@@ -133,7 +133,7 @@ User Create - Admin Panel
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_no">Benchmark Regional Manager Number</label>
-                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no required" placeholder="Enter Sales Person No" required>
+                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" required>
                             </div>
                         </div>
                         
@@ -146,6 +146,7 @@ User Create - Admin Panel
                                 <label for="sales_person_email">Benchmark Regional Manager Email</label>
                                 <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                             </div>
+                            <input type="hidden" name="is_vmi" id="is_vmi" value="0">
                         </div>
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                     </form>
@@ -259,6 +260,10 @@ User Create - Admin Panel
         });
     })
 function rendorUserForm($customer,show){
+    console.log($customer,'__customer');
+    if("vmi_companycode" in $customer){
+        $('#is_vmi').val(1);
+    }
     $('#user_no').val($customer.customerno);
     $('#user_email').val($customer.emailaddress);
     $('#user_name').val($customer.customername);
