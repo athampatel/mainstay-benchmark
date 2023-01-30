@@ -1823,6 +1823,11 @@ body.user-forms{
     border-radius: 2px;
     display: none;
 }
+.user-forms .form-check-input{    
+    width: 1.5rem;
+    height: 1.5rem;
+
+}
 .user-forms .form-check-input:checked + label::before{
    background-image: url(../images/tick-square.svg);
    background-repeat: no-repeat;

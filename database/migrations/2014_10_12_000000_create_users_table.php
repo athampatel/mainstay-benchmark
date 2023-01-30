@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('active')->default('0');
+            $table->tinyInteger('is_vmi')->default('0');
             $table->string('activation_token');
             $table->tinyInteger('is_deleted')->default('0');
             $table->string('profile_image')->nullable();

@@ -67,19 +67,6 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="{{ route('admin.users.index') }}">
-                            <div class="p-4 d-flex justify-content-between align-items-center">
-                                <div class="seofct-icon"><i class="fa fa-user"></i> Customer</div>
-                                <h2>{{ $total_customers }}</h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
   </div>
