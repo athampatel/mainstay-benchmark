@@ -13,6 +13,13 @@
                 </a>
                 </li>
               @endif
+            @elseif($key === 'logout')
+              <li class="<?php echo $menu['active'] == 1 ? 'active':''; ?>">
+                <a href="" id="{{$menu['link']}}">
+                    <span class="menu-icons">{!! $menu['icon_name'] !!}</span>
+                    <span class="links_name">{{$menu['name']}}</span>
+                </a>
+              </li>
             @else 
               <li class="<?php echo $menu['active'] == 1 ? 'active':''; ?>">
               <a href="{{$menu['link']}}" id="{{$menu['link']}}">
