@@ -41,20 +41,23 @@ class AuthController extends Controller
         $sales_person = array();
         if($response['salespersonemail'] != '')
             $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
-            
-        if(!empty($sales_person)){ 
+        
+      
+
+        if(empty($sales_person)) 
             $sales_person = SalesPersonController::createSalesPerson($response);
         
-            if($sales_person){
-                $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
-                if(!$user_sales_persons){
-                    UserSalesPersons::create([
-                        'user_id' => $user['id'],
-                        'sales_person_id' => $sales_person['id']
-                    ]);
-                }
-            }  
-        }
+        if($sales_person){
+            $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
+            
+            if(empty($user_sales_persons)){
+                UserSalesPersons::create([
+                    'user_id' => $user['id'],
+                    'sales_person_id' => $sales_person['id']
+                ]);
+            }
+        }  
+        
         $message    = 'Thanks for validating your email address, you will get a confirmation';
         $status     = 'success';    
         
@@ -88,9 +91,6 @@ class AuthController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','Customers',$data); 
-
-       //    dd($response); die; 
-
         $message    = '';
         $status     = 'error';
         $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');

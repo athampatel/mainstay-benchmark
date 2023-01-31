@@ -23,11 +23,11 @@ Admin Create - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Admin Create</h4>
+                <h4 class="page-title pull-left">Create User</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.admins.index') }}">All Admins</a></li>
-                    <li><span>Create Admin</span></li>
+                    <li><a href="{{ route('admin.admins.index') }}">All Users</a></li>
+                    <li><span>Create User</span></li>
                 </ul>
             </div>
         </div>
@@ -51,11 +51,11 @@ Admin Create - Admin Panel
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Admin Name</label>
+                                <label for="name">User Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="email">Admin Email</label>
+                                <label for="email">User Email</label>
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
                             </div>
                         </div>
@@ -81,7 +81,7 @@ Admin Create - Admin Panel
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-sm-6">
-                                <label for="username">Admin Username</label>
+                                <label for="username">User Account Name</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
                             </div>
                         </div>

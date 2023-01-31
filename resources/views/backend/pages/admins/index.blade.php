@@ -55,7 +55,7 @@ Admins - Admin Panel
                                 <tr>
                                     
                                     <th width="5%">Sl</th>
-                                    <th width="10%">Code</th>
+                                    <th width="10%">User Name</th>
                                     <th width="10%">Name</th>
                                     <th width="10%">Email</th>
                                     <th width="40%">Roles</th>
@@ -66,7 +66,7 @@ Admins - Admin Panel
                                @foreach ($admins as $admin)
                                <tr>
                                     <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $loop->index+1 }}</td>
+                                    <td>{{ $admin->username }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>
