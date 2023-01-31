@@ -123,9 +123,7 @@ User Create - Admin Panel
                                 <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter Zipcode">
                             </div>
                         </div>
-
-                        <h6 class="text-secondary">Sales person</h6><br>
-                        
+                        <h6 class="text-secondary">Sales person</h6><br>                        
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_divison_no">Division No </label>
@@ -133,10 +131,9 @@ User Create - Admin Panel
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_no">Benchmark Regional Manager Number</label>
-                                <input type="text" name="salespersonno" class="form-control" id="sales_person_no" placeholder="Enter Sales Person No" required>
+                                <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Sales Person No">
                             </div>
-                        </div>
-                        
+                        </div>                        
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="sales_person_name">Benchmark Regional Manager Name</label>
@@ -150,12 +147,10 @@ User Create - Admin Panel
                         </div>
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                     </form>
-                </div>    
-                </div>
+                </div>                    
             </div>
         </div>
         <!-- data table end -->
-        
     </div>
 </div>
 @endsection
@@ -209,8 +204,7 @@ User Create - Admin Panel
                 });
                 if($('.userDetails-container').find('.error-field').length > 0){
                     return false;        
-                }
-                alert("form submitting");
+                }           
         });
 
     })

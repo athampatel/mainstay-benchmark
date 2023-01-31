@@ -26,13 +26,13 @@
                                         <input type="hidden" name="email" value="{{ $request->email }}">
                                         <div class="col-12">
                                             <label for="inputChoosePassword" class="form-label">New password</label>
-                                            <div class="input-group" id="show_new_hide_password">
+                                            <div class="input-group align-items-center" id="show_new_hide_password">
                                                 <input type="password" name="password" class="form-control border-end-0" id="inputNewPassword" value="" placeholder="New password" required> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide' id="show-new-password-icon"></i></a>
                                             </div>
                                         </div>											
                                         <div class="col-12">
                                             <label for="inputChoosePassword" class="form-label">Confirm new password</label>
-                                            <div class="input-group" id="show_confirm_hide_password">
+                                            <div class="input-group align-items-center" id="show_confirm_hide_password">
                                                 <input type="password" name="password_confirmation" class="form-control border-end-0" id="inputConfirmPassword" value="" placeholder="Confirm new password" required> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide' id="show-confirm-password-icon"></i></a>
                                             </div>
                                         </div>											

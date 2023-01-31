@@ -6,6 +6,10 @@ Dashboard Page - Admin Panel
 @endsection
 
 
+@php
+     $usr = Auth::guard('admin')->user();
+ @endphp
+ 
 @section('admin-content')
 
 <!-- page title area start -->
@@ -31,8 +35,9 @@ Dashboard Page - Admin Panel
   <div class="row">
     <div class="col-lg-12">
         <div class="row">
+         @if ($usr->can('role.create') || $usr->can('role.view') ||  $usr->can('role.edit') ||  $usr->can('role.delete'))
             <div class="col-md-4 col-sm-6 col-xs-12 mt-5 mb-1">
-                <div class="card">
+                <div class="card"> 
                     <div class="card-body">
                         <a href="{{ route('admin.roles.index') }}">
                             <div class="p-4 d-flex justify-content-between align-items-center">
@@ -43,18 +48,22 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="{{ route('admin.admins.index') }}">
-                            <div class="p-4 d-flex justify-content-between align-items-center">
-                                <div class="seofct-icon"><i class="fa fa-user"></i> Admins</div>
-                                <h2>{{ $total_admins }}</h2>
-                            </div>
-                        </a>
+            @endif
+
+            @if ($usr->can('admin.create') || $usr->can('admin.view') ||  $usr->can('admin.edit') ||  $usr->can('admin.delete'))
+                <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ route('admin.admins.index') }}">
+                                <div class="p-4 d-flex justify-content-between align-items-center">
+                                    <div class="seofct-icon"><i class="fa fa-user"></i> Admins</div>
+                                    <h2>{{ $total_admins }}</h2>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
                 <div class="card">
                     <div class="card-body">
