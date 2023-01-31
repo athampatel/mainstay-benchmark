@@ -32,10 +32,10 @@ Route::get('/delete',[AuthController::class,'delete']);
 
 // menu routes
 Route::middleware('auth')->group(function () {  
-    Route::get('/dashboard',[MenuController::class,'dashboard']);
+    Route::get('/dashboard',[MenuController::class,'dashboard'])->name('customer.dashboard');
     Route::get('/invoice',[MenuController::class,'invoicePage']);
     Route::get('/open-orders',[MenuController::class,'openOrdersPage']);
-    Route::get('/change-order',[MenuController::class,'changeOrderPage']);
+    // Route::get('/change-order',[MenuController::class,'changeOrderPage']);
     Route::get('/vmi-user',[MenuController::class,'vmiUserPage']);
     Route::get('/analysis',[MenuController::class,'analysisPage']);
     Route::get('/account-settings',[MenuController::class,'accountSettingsPage']);
@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
     Route::get('/customer-invoice-orders',[SDEDataController::class,'getCustomerInvoiceOrders']);
     Route::post('/order-detail',[SDEDataController::class,'getSalesOrderDetail']);
+
+    // open orders
+    Route::get('/customer-open-orders-details',[SDEDataController::class,'getCustomerOpenOrdersDetails']);
+    Route::get('/order-change-order/{orderid}',[MenuController::class,'changeOrderPage']);
 
     // photo upload
     // Route::post('/account_edit_upload',[SDEDataController::class,'profilePicUpload']);
