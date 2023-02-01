@@ -108,8 +108,8 @@ User Edit - Admin Panel
                                 <input type="text" class="form-control readonly" readonly id="user_name" name="customername" placeholder="Enter Name" required value="{{ $user->customername }}">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="ardivision_no">ardivisionno</label>
-                                <input type="text"class="form-control readonly" readonly id="ardivision_no" name="ardivisionno" placeholder="Enter AR division no" value="{{ $user->ardivisionno }}">
+                                <label for="ardivision_no">Phone No</label>
+                                <input type="text"class="form-control readonly" readonly id="ardivision_no" name="phone_no" placeholder="Phone No" value="{{ $user->ardivisionno }}">
                             </div>
                         </div>
 
@@ -146,26 +146,14 @@ User Edit - Admin Panel
                             </div>
                         </div>
 
-                        <h6 class="text-secondary">Sales person</h6><br>
-                        
+                        <h6 class="text-secondary">Benchmark Regional Manager Details</h6><br>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_divison_no">Division No </label>
-                                <input type="text" name="salespersondivisionno" class="form-control readonly" readonly id="sales_person_divison_no" placeholder="Enter Division No" value="{{ $user->ardivisionno }}">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_no">Sales Peson Number</label>
-                                <input type="text" name="salespersonno" class="form-control readonly" readonly id="sales_person_no" placeholder="Enter Sales Person No" required value="{{ $user->person_number }}">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_name">Sales Person Name</label>
+                                <label for="sales_person_name">Benchmark Regional Manager Name</label>
                                 <input type="text" name="salespersonname" class="form-control readonly" readonly id="sales_person_name" placeholder="Enter Sales Person Name" value="{{ $user->salespersonname }}">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="sales_person_email">Sales Person Email</label>
+                                <label for="sales_person_email">Benchmark Regional Manager Email</label>
                                 <input type="text" name="salespersonemail"class="form-control readonly" readonly id="sales_person_email" placeholder="Enter Sales Person Email" value="{{ $user->salespersonemail }}">
                             </div>
                         </div>

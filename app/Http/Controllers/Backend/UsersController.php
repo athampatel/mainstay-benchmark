@@ -15,14 +15,18 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\DashboardController;
 
 class UsersController extends Controller
 {
-
-
+    public $user;   
     public function __construct(SDEApi $SDEApi)
     {
         $this->SDEApi = $SDEApi;
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('admin')->user();
+            return $next($request);
+        });
     }
 
     /**
@@ -32,11 +36,31 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                    ->get(['users.*','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as sales_person']);
+        $user =  $this->user;    
 
+        if(DashboardController::SuperAdmin($user)){
+            $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                        ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                        ->get([ 'users.*',
+                                'user_details.customerno',
+                                'user_details.customername',
+                                'user_details.ardivisionno',
+                                'sales_persons.person_number',
+                                'sales_persons.name as sales_person']);
+        }else{
+            $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
+            ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+            ->leftjoin('admins','sales_persons.email','=','admins.email')
+            ->where('admins.id',$user->id)
+            ->get([ 'users.*',
+                    'user_details.customerno',
+                    'user_details.customername',
+                    'user_details.ardivisionno',
+                    'sales_persons.person_number',
+                    'sales_persons.name as sales_person']);
+        }                   
         return view('backend.pages.users.index', compact('users'));
     }
 
@@ -159,7 +183,6 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //$user = User::find($id);        
         $user = User::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
@@ -175,9 +198,10 @@ class UsersController extends Controller
                           'user_details.zipcode',
                           'sales_persons.person_number',
                           'sales_persons.email as salespersonemail',
-                          'sales_persons.name as salespersonname'])->where('users.id',$id)->first(); 
+                          'sales_persons.name as salespersonname'])->where('users.id',$id)->first();
+
         $roles  = Role::all();
-        return view('backend.pages.users.edit', compact('user', 'roles'));
+        return view('backend.pages.users.edit', compact('user'));
     }
 
     /**
