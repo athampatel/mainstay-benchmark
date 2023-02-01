@@ -31,7 +31,7 @@
                 </div>   
              </div>
         </div>
-        <div class="row row-cols-1 col-12 result-icon">
+        <div class="row row-cols-1 col-12 result-icon d-none">
             <div class="col-12">
                 <div class="card box">						
                     <div class="card-body col-12 d-flex align-items-center min-height">
@@ -53,22 +53,22 @@
                 </div>   
              </div>
         </div>
-        <div class="row row-cols-1 col-12 result-data d-none">
+        <div class="row row-cols-1 col-12 result-data">
             <div class="col-12">
                 <div class="card box">						
                     <div class="card-body col-12">
-                        <h3 class="title-4 m-0">Order <span id="disp-order-id">#0022668811</span></h3>
+                        <h3 class="title-4 m-0">Order <span id="disp-order-id">#{{$order_detail['salesorderno']}}</span></h3>
                     </div>      
                 </div>   
              </div>
         </div>
-        <div class="row row-cols-1 col-12 result-data d-none">
+        <div class="row row-cols-1 col-12 result-data">
             <div class="col-4">
                 <div class="card box">						
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/invoice.svg" />
+                                <img src="/assets/images/svg/invoice.svg" />
                             </div>  
                             <h4 class="mb-0 title-5">Ship To Details</h4>
                         </div>                    
@@ -76,8 +76,8 @@
                     <div class="card-body col-12">
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                    <label class="form-label">Name</label>
-                                    <input class="form-control col-12" type="text" placeholder="Name" name="Name" id="ship-to-name">
+                                <label class="form-label">Name</label>
+                                <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name">
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Phone Number</label>
@@ -86,53 +86,52 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                    <label class="form-label">Email Address</label>
-                                    <input class="form-control col-12" type="text" placeholder="Email Address" name="EmailAddress" id="ship-to-email">
+                                <label class="form-label">Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                    <label class="form-label">Address Line 1 </label>
-                                    <input class="form-control col-12" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1">
+                                <label class="form-label">Address Line 1 </label>
+                                <input class="form-control col-12" value="{{$order_detail['shiptoaddress1']}}" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                    <label class="form-label">Address Line 2</label>
-                                    <input class="form-control col-12" type="text" placeholder="Address Line 2" name="AddressLine2" id="ship-to-address2">
+                                <label class="form-label">Address Line 2</label>
+                                <input class="form-control col-12" type="text" value="{{$order_detail['shiptoaddress2']}}" placeholder="Address Line 2" name="AddressLine2" id="ship-to-address2">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                    <label class="form-label">Address Line 3</label>
-                                    <input class="form-control col-12" type="text" placeholder="Address Line 3" name="AddressLine3" id="ship-to-address3">
+                                <label class="form-label">Address Line 3</label>
+                                <input class="form-control col-12" type="text" value="{{$order_detail['shiptoaddress3']}}" placeholder="Address Line 3" name="AddressLine3" id="ship-to-address3">
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">State</label>
                                 <select class="form-control" name="State" id="ship-to-state">
-                                    <option value="" selected>State</option>
+                                    <option value="" selected>{{$order_detail['shiptostate']}}</option>
                                 </select>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">City</label>
                                 <select class="form-control" name="City" id="ship-to-city">
-                                    <option value="" selected>City</option>
+                                    <option value="" selected>{{$order_detail['shiptocity']}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
                                     <label class="form-label">Zip Code</label>
-                                    <input class="form-control col-12" type="text" placeholder="Zip Code" name="ZipCode" id="ship-to-zipcode">
+                                    <input class="form-control col-12" type="text" value="{{$order_detail['shiptozipcode']}}" placeholder="Zip Code" name="ZipCode" id="ship-to-zipcode">
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Ship Via</label>
-                                <input class="form-control  col-12" type="text" placeholder="Ship Via" name="ShipVia" id="shipvia">
+                                <input class="form-control  col-12" type="text" value="{{$order_detail['shipvia']}}" placeholder="Ship Via" name="ShipVia" id="shipvia">
                             </div>
                         </div>
-
                     </div>      
                 </div>   
             </div>
@@ -141,7 +140,7 @@
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/order-details.svg" />
+                                <img src="/assets/images/svg/order-details.svg" />
                             </div>  
                             <h4 class="mb-0 title-5">Order Details</h4>
                         </div>                    
@@ -149,43 +148,43 @@
                     <div class="card-body col-12">
                         <div class="row">
                             <div class="mb-3 col-4">    
-                                    <label class="form-label">Order Number</label>
-                                    <input class="form-control col-12" type="text" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no">
+                                <label class="form-label">Order Number</label>
+                                <input class="form-control col-12" type="text" value="{{$order_detail['salesorderno']}}" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no">
                             </div>
                             <div class="mb-3 col-4">    
                                 <label class="form-label">Location</label>
-                                <input class="form-control  col-12" type="text" placeholder="Location" name="Location" id="order-location">
+                                <input class="form-control  col-12" type="text" value="{{$order_detail['shiptocity']}}" placeholder="Location" name="Location" id="order-location">
                             </div>
                             <div class="mb-3 col-4">    
                                 <label class="form-label">Alias Item Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber">
+                                <input class="form-control  col-12" type="text" value="{{$order_detail['shipvia']}}" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber">
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-4">    
-                                    <label class="form-label">Order Date</label>
-                                    <input class="form-control col-12" type="text" placeholder="OrderDate" name="OrderDate" id="OrderDate">
+                                <label class="form-label">Order Date</label>
+                                <input class="form-control col-12" type="text" value="{{$order_detail['orderdate']}}" placeholder="OrderDate" name="OrderDate" id="OrderDate">
                             </div>
                             <div class="mb-3 col-4">    
                                 <label class="form-label">Drop Ship</label>
                                 <select class="form-control" name="DropShip" id="DropShip">
-                                    <option value="" selected>Drop Ship</option>
+                                    <option value="" selected>{{$order_detail['sales_order_history_detail'][0]['dropship'] == 'N' ? 'No': 'Yes'}} </option>
                                 </select>
                             </div>
                             <div class="mb-3 col-4">    
                                 <label class="form-label">Quantity Shipped</label>
-                                <input class="form-control  col-12" type="text" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped">
+                                <input class="form-control  col-12" type="text" value="{{$order_detail['shipvia']}}" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped">
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-4">    
-                                    <label class="form-label">Promise Date</label>
-                                    <input class="form-control col-12" type="text" placeholder="Promise Date" name="PromiseDate" id="promiseDate">
+                                <label class="form-label">Promise Date</label>
+                                <input class="form-control col-12" type="text" placeholder="Promise Date" value="{{$order_detail['sales_order_history_detail'][0]['promisedate']}}" name="PromiseDate" id="promiseDate">
                             </div>
                             <div class="mb-3 col-4">    
                                 <label class="form-label">Status</label>
                                 <select class="form-control" name="Status" id="orderStatus">
-                                    <option value="" selected>New Order</option>
+                                    <option value="" selected>{{$order_detail['orderstatus']}}</option>
                                 </select>
                             </div>                            
                         </div>
@@ -194,7 +193,7 @@
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
-                                <img src="assets/images/svg/order-details.svg" />
+                                <img src="/assets/images/svg/order-details.svg" />
                             </div>  
                             <h4 class="mb-0 title-5">item Details</h4>
                         </div>                    

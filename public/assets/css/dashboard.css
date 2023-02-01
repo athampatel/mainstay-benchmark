@@ -896,6 +896,67 @@ nav .profile-details i{
 
 }
 
+#open-orders-table tr th {
+  color: #fff;
+  font-size: 1rem;
+}
+#open-orders-table tr td {
+  color: #fff;
+}
+#open-orders-table tr td.order-action a {
+  color: #F96969;
+}
+#open-orders-table tr td.order-status {
+  color: #9FCC47;
+}
+#open-orders-table_filter{
+  position: relative;
+  /* background-color: #7B7C7F;
+  border-radius: 15px; */
+}
+#open-orders-table_filter img{
+  position: absolute;
+  right:15px;
+  top: 12px;
+}
+
+#open-orders-table_filter label{
+  color: #fff;
+  display: none;
+  visibility: hidden;
+}
+
+#open-orders-table-search{
+  background-color: #7B7C7F;
+  position: relative;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding:0px 60px 0 10px;
+}
+#open-orders-table-search::placeholder{
+  color: #fff;
+}
+/* #open-orders-table-search:focus{
+  outline: none;
+  border: none;
+}
+#open-orders-table-search:active{
+  outline: none;
+  border: none;
+} */
+
+#open-orders-table tbody tr{
+  background-color: #424448;
+}
+
+#open-orders-table tr td .order-id{
+  background-color: #A8CB5C;
+  color: #000;
+  padding: 5px 12px;
+  border-radius: 12px;
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
 use App\Models\User;
 use App\Models\UserDetails;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -526,5 +527,9 @@ class SDEDataController extends Controller
                 die();
             }
         }
+    }
+
+    public function getCustomerOpenOrdersDetails(){
+        // orders
     }
 }

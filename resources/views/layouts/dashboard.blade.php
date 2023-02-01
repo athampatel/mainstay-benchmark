@@ -22,6 +22,7 @@
 	{{-- <link href="assets/css/icons.css" rel="stylesheet"> --}}
 	<link href="/assets/css/dashboard.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+	@yield('styles')
    </head>
 <body>
     @include('layouts.menu-bar')
@@ -48,6 +49,7 @@
 	{{-- <script src="/assets/js/testCharts.js"></script> --}}
 	<script src="/assets/js/customer-charts.js"></script>
 	<script src="/assets/js/common-functions.js"></script>
+	@yield('scripts')
 </body>
 </html>
 

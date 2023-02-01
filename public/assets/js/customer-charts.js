@@ -27,6 +27,7 @@ $(document).on('click','.order-item-detail',function(e){
 
 
 function customerInvoiceOrderDisplay(res){
+    console.log(res,'__customer invoice order response');
     $html = '';
     const final_data = res.data.data.salesorderhistoryheader;
     const user = res.data.user;
