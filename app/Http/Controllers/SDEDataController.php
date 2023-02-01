@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
+use App\Models\ChangeOrderItem;
+use App\Models\ChangeOrderRequest;
 use App\Models\User;
 use App\Models\UserDetails;
 use Carbon\Carbon;
@@ -531,5 +533,41 @@ class SDEDataController extends Controller
 
     public function getCustomerOpenOrdersDetails(){
         // orders
+    }
+
+    // change order save function 
+    public function changeOrderPageSave(Request $request){
+        $data = $request->input('data');
+        $customer_no = $request->input('customer_no');
+        $sales_order_no = $request->input('sales_order_no');
+        $ordered_date = $request->input('ordered_date');
+        $user_id = Auth::user()->id;
+        // $user_id = UserDetails::where('customerno',$customer_no)->pluck('user_id')->first();
+        if(!empty($data)){
+            $change_order_request = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->first(); 
+            if(!$change_order_request || $change_order_request->request_status != 0){
+                $change_order_request = ChangeOrderRequest::create([
+                    'user_id' => Auth::user()->id,
+                    'order_no' => $sales_order_no,
+                    'ordered_date' => $ordered_date,
+                ]);
+            }
+
+            foreach($data as $da){
+                $changeOrderItem = ChangeOrderItem::where('order_table_id',$change_order_request->id)->where('item_code',$da['itemcode'])->first();
+                if(!$changeOrderItem){
+                    $changeOrderItem = ChangeOrderItem::create([
+                        'order_table_id' => $change_order_request->id ,
+                        'item_code' => $da['itemcode'],
+                        'existing_quantity' => $da['old_value'],
+                        'modified_quantity' => $da['new_value'],
+                        'order_item_price' => $da['unit_price']
+                    ]);
+                }
+            }
+
+            echo json_encode(['success' => true]);
+            die();
+        }
     }
 }

@@ -37,27 +37,32 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can('dashboard.view')) {
+        if(is_null($this->user)){
+            return redirect()->route('admin.login');
+        }
+        if (!$this->user->can('dashboard.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
         }
+
+        // if (is_null($this->user) || !$this->user->can('dashboard.view')) {
+        //     abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
+        // }
+
         $user               = $this->user;
-       if(!self::SuperAdmin($this->user)) {
-            $total_roles        = 0;
-            $total_admins       = 0;
-            $total_permissions  = 0;
-            $total_customers = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                                ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
-                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                ->select(['users.id'])->where('admins.id',$user->id)->get()->count();
-       }else{
-            $total_roles        = count(Role::select('id')->get());
-            $total_admins       = count(Admin::select('id')->get());
-            $total_permissions  = count(Permission::select('id')->get());
-            $total_customers    = count(User::select('id')->get());
-            $active_customers   = count(User::select('id')->where('active','=',1)->get());        
-       }
-       return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_customers'));
+       
+        //$this->user->can('dashboard.view')
+
+        // echo "<pre>";
+        // print_r($user);
+        // echo "</pre>";
+        // die; 
+        
+        $total_roles        = count(Role::select('id')->get());
+        $total_admins       = count(Admin::select('id')->get());
+        $total_permissions  = count(Permission::select('id')->get());
+        $total_customers    = count(User::select('id')->get());
+        $active_customers   = count(User::select('id')->where('active','=',1)->get());
+        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_customers'));
     }
 
     public function getCustomers($userId = 0){

@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     // open orders
     Route::get('/customer-open-orders-details',[SDEDataController::class,'getCustomerOpenOrdersDetails']);
     Route::get('/order-change-order/{orderid}',[MenuController::class,'changeOrderPage']);
+    Route::post('/change_order_items_save',[SDEDataController::class,'changeOrderPageSave']);
 
     // photo upload
     // Route::post('/account_edit_upload',[SDEDataController::class,'profilePicUpload']);
