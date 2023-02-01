@@ -77,6 +77,7 @@ Admins - Admin Panel
                                         @endforeach
                                     </td>
                                     <td>
+                                        
                                         @if (Auth::guard('admin')->user()->can('admin.edit'))
                                             <a class="btn btn-success text-white" href="{{ route('admin.admins.edit', $admin->id) }}">Edit</a>
                                         @endif

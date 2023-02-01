@@ -12,10 +12,7 @@ Users - Admin Panel
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
-
-
-@section('admin-content')
-
+@section('admin-content')   
 <!-- page title area start -->
 <div class="page-title-area">
     <div class="row align-items-center">
@@ -69,7 +66,7 @@ Users - Admin Panel
                                     <td>{{ $user->ardivisionno }}</td>
                                     <td>
                                         @if($user->sales_person != '')
-                                        {{$user->sales_person}} ({{$user->person_number}})
+                                            {{$user->sales_person}} ({{$user->person_number}})
                                         @else
                                             -
                                         @endif
@@ -80,10 +77,14 @@ Users - Admin Panel
                                            @else
                                                 <span class="btn btn-danger text-white" style="padding:5px;pointer-events:none;">In-active</span>               
                                             @endif
+
+                                            @if($user->is_vmi == 1)
+                                                    <a class="btn btn-small btn-info font-normal text-white" href="{{ route('admin.users.edit', $user->id) }}">Inventory</a>
+                                          @endif
                                     </td>
                                     <td>
                                         <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
-
+                                       
                                         <a class="btn btn-danger text-white" href="{{ route('admin.users.destroy', $user->id) }}"
                                         onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                             Delete
