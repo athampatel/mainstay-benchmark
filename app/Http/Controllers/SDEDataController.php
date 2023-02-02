@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
+use App\Models\Admin;
 use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\User;
@@ -565,6 +566,20 @@ class SDEDataController extends Controller
                     ]);
                 }
             }
+
+            // Admin mail send work start
+            $admin      = Admin::first();
+
+            if($admin){    
+                $url    = env('APP_URL').'/admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
+
+                $params = array('mail_view' => 'emails.change_order_request', 
+                                'subject'   => 'New user Signup request', 
+                                'url'       => $url);
+                // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            }
+            // Admin mail send work end
 
             echo json_encode(['success' => true]);
             die();

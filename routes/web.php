@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\MenuController;
@@ -110,6 +111,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/user/activate',[UsersController::class,'getUserActive']);
     // user decline
     Route::post('/user/cancel',[UsersController::class,'getUserCancel']);
+    // change order request
+    Route::get('/order/{order_id}/change/{change_id}/{customerno}',[AdminOrderController::class,'getChangeOrderRequest']);
 }); 
 
 Route::get('send-mail', function () {
