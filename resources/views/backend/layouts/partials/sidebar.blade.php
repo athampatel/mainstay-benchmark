@@ -59,24 +59,22 @@
                     @endif
 
 
-                    @if ($usr->can('admin.users.create') || $usr->can('admin.users.view') ||  $usr->can('admin.users.edit') ||  $usr->can('admin.users.delete'))
+                    
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa fa-users"></i><span>
+                        Customers
+                        </span></a>
+                        <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
+                            @if ($usr->can('admin.users.index') || $usr->can('admin.users.index'))
+                                <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Customers</a></li>
+                            @endif
 
-                        <li>
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
-                            Customers
-                            </span></a>
-                            <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
-                                @if ($usr->can('admin.users.index') || $usr->can('admin.users.index'))
-                                    <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Customers</a></li>
-                                @endif
-
-                                @if ($usr->can('admin.users.create'))
-                                    <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Customer</a></li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endif
-
+                            @if ($usr->can('admin.users.create'))
+                                <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Customer</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                   
                 </ul>
             </nav>
         </div>

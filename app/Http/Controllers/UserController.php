@@ -28,7 +28,6 @@ class UserController extends Controller
         }
         if($user){
             if(array_key_exists('vmi_companycode', $data) || (array_key_exists('is_vmi', $data) && $data['is_vmi'] == 1 )){
-            // if(array_key_exists('vmi_companycode', $data)){
                 $user->is_vmi = 1;
                 $user->save();
             }

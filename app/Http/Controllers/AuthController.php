@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\UserDetails;
 use App\Models\UserSalesPersons;
+use App\Http\Controllers\NotificationController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -35,32 +36,28 @@ class AuthController extends Controller
     }
 
     public static function CreateCustomer($response = null, $action = 0){
-        $user =  UserController::createUser($response,$action);
-        if(!$user) return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
+
+        $_user    = User::where('email',$request->email)->first();
+        if(!empty($_user))  return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
+        $user   =  UserController::createUser($response,$action);
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $sales_person = array();
         if($response['salespersonemail'] != '')
-            $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
-        
-      
-
+            $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();            
         if(empty($sales_person)) 
             $sales_person = SalesPersonController::createSalesPerson($response);
-        
         if($sales_person){
             $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
-            
             if(empty($user_sales_persons)){
                 UserSalesPersons::create([
                     'user_id' => $user['id'],
                     'sales_person_id' => $sales_person['id']
                 ]);
             }
-        }  
-        
+        }
+       
         $message    = 'Thanks for validating your email address, you will get a confirmation';
-        $status     = 'success';    
-        
+        $status     = 'success';        
         $body       = "Hi, <br /> A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
         $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
         $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
@@ -74,7 +71,7 @@ class AuthController extends Controller
     // orders@10-spec.com
     public function user_register(Request $request){
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'], // 'unique:users'
         ]);
 
         $data = array(            
@@ -90,55 +87,72 @@ class AuthController extends Controller
             "limit" => 5
         );
 
-        $response   = $this->SDEApi->Request('post','Customers',$data); 
-        $message    = '';
-        $status     = 'error';
-        $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');
-        $_details   = array();
-        $error      = 1;
+        $user       = User::where('email',$request->email)->where('active',0)->first();
+        $message    = 'Thanks for validating your email address, you will get a confirmation';
+        $status     = 'success';
         $_multiple  = 0;
+        
         $uniqueId   = $request->email;
-        if ( !empty($response['customers']) ) {
-            if ( count($response['customers']) === 1 ) {
-                $response   = $response['customers'][0];
-                $_details   = self::CreateCustomer($response);
-                $details    = array_merge($details,$_details);
-                $error      = 0;
-            }elseif(count($response['customers']) > 1){
-                $_multiple  = 1;
+        if(empty($user)){
+            $response   = $this->SDEApi->Request('post','Customers',$data); 
+            $message    = '';
+            $status     = 'error';
+            $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');
+            $_details   = array();
+            $error      = 1;
+            $_multiple  = 0;            
+            if ( !empty($response['customers']) ) {
+                if ( count($response['customers']) === 1 ) {
+                    $response   = $response['customers'][0];
+                    $_details   = self::CreateCustomer($response);
+                    $details    = array_merge($details,$_details);
+                    $error      = 0;
+                }elseif(count($response['customers']) > 1){
+                    $_multiple  = 1;
+                }
             }
-        }
 
-        if($error){
-                $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
-                $details['link']      = "/fetch-customer/{$request->email}?duplicate=".$_multiple;
-                $details['status']    = 'success';
-                $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
-        }
+            if($error){
+                    $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
+                    $details['link']      = "/fetch-customer/{$request->email}?duplicate=".$_multiple;
+                    $details['status']    = 'success';
+                    $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+            }
         
        
-        $message    = isset($details['message']) ? $details['message'] : '';
-        $status     = isset($details['status']) ? $details['status'] : '';
-        $admin      = Admin::first();
-        $user       = User::where('email',$request->email)->first();
+            $message    = isset($details['message']) ? $details['message'] : '';
+            $status     = isset($details['status']) ? $details['status'] : '';
+            $user       = User::where('email',$request->email)->first();           
+        }
         if($user){
             $user->activation_token = Str::random(30);
             $user->save();
             $uniqueId  = $user->id;
         }
-
+        $admin      = Admin::first();        
         if($admin){    
             $url    = env('APP_URL').'/admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token;
-
             if($_multiple)
                 $url .= '?duplicate=1';
 
             $params = array('mail_view' => 'emails.user-active', 
                             'subject'   => 'New user Signup request', 
-                            'url'       => $url);
-            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                            'url'       => $url);   
+            $_notification = array( 'type'      => 'signup',
+                                    'from_user'  => $uniqueId,
+                                    'to_user'  => 0,
+                                    'text'      => $message,
+                                    'action'    => $url,
+                                    'status'    => 0,
+                                    'is_read'   => 0);                
+
+            $notification = new NotificationController();                        
+            $notification->create($_notification);
+
+            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
         }
+
+
         return redirect()->back()->with($status, $message);
     }
 

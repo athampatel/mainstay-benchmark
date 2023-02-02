@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Notification;
+use App\Models\Admin;
 
 class NotificationController extends Controller
 {
@@ -11,10 +13,10 @@ class NotificationController extends Controller
 
     }
 
-    public function create()
+    public function create($data)
     {
-        $roles  = Role::all();
-        return view('backend.pages.users.create', compact('roles'));
+        Notification::create($data);
+        return true;
     }
 
     /**
