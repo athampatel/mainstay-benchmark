@@ -2955,3 +2955,31 @@ div.dataTables_wrapper div.dataTables_info{
     border-color: #9FCC47;
     color: #424448;
 }
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, 
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
+    top:13px !important;
+}
+.add_inventory{
+    position:relative;
+}
+
+
+.add_inventory:before{
+    top: 3px;
+    left: 11px;
+    height: 14px;
+    width: 14px;
+    display: block;
+    position: absolute;
+    color: #FFF;
+    border: 2px solid #9FCC47;
+    border-radius: 14px;
+    box-shadow: 0 0 3px #9FCC47;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 14px;
+    content: '+';
+    background-color: #9FCC47;
+}

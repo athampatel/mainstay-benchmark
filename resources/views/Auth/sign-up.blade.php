@@ -8,11 +8,11 @@
 					<div class="card">
 						<div class="card-body no-shadow">
 							@if(Session::has('success'))
-								<h5 class="text-primary-green font-bold text-center">{{ Session::get('success')}}</h5>
+								<h5 class="alert alert-success text-center">{{ Session::get('success')}}</h5>
 							@endif
 
 							@if($errors->any())
-								<h5 class="text-danger font-bold text-center">{{$errors->first()}}</h5>
+								<h5 class="alert alert-danger font-bold text-center">{{$errors->first()}}</h5>
 							@endif
 							<div class="p-4 rounded">
 								<div class="mb-4 mt-3 text-center">
@@ -31,7 +31,7 @@
                                         
                                         <div class="col-12 pt-1">
                                             <div class="sign-up-checbox d-flex align-items-center position-relative">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" required>
                                                 <label class="font-16 font-regular font-open-sans d-block" for="flexCheckIndeterminate">
                                                     I agree to <span class="text-primary-green font-bold">Terms</span> and <span class="text-primary-green font-bold">Conditions</span>
                                                 </label>

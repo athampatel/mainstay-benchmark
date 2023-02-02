@@ -74,13 +74,13 @@ Users - Admin Panel
                                     <td>
                                             @if( $user->active == 1)
                                                 <span class="btn btn-success text-white" style="padding:5px;pointer-events:none;">Active</span>           
-                                           @else
+                                            @else
                                                 <span class="btn btn-danger text-white" style="padding:5px;pointer-events:none;">In-active</span>               
                                             @endif
 
                                             @if($user->is_vmi == 1)
-                                                    <a class="btn btn-small btn-info font-normal text-white" href="{{ route('admin.users.edit', $user->id) }}">Inventory</a>
-                                          @endif
+                                                <a class="add_inventory" href="{{ route('admin.users.edit', $user->id) }}" title="Add / Update Inventory"></a>
+                                            @endif
                                     </td>
                                     <td>
                                         <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
