@@ -957,6 +957,23 @@ nav .profile-details i{
   border-radius: 12px;
 }
 
+.order_item_quantity_input{
+  background: #7B7C7F;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+  outline: none;
+}
+
+.order-item-cancel{
+  font-size: 20px;
+  margin-right:5px;
+}
+.order-item-save{
+  font-size: 16px;
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;

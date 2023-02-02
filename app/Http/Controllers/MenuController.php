@@ -133,7 +133,6 @@ class MenuController extends Controller
 
                 $response['salesorders'][$key]['total_amount'] = $total_amount; 
                 $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
-                $test_date = '2022-01-20';
                 $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
             }
             $final_data['orders'] = $response['salesorders'];
@@ -211,9 +210,8 @@ class MenuController extends Controller
             $user = User::find(Auth::user()->id);
             $final_data['order_detail'] = $sales_order_header;
             $final_data['user'] = $user;
+            $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->first();
             // dd($final_data);
-            // $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
-            // get order details work end
             return view('pages.change-order',$final_data);
         } else {
             return redirect()->route('customer.dashboard');
