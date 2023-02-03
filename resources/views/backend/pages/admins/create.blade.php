@@ -45,48 +45,52 @@ Admin Create - Admin Panel
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title">Create New Role</h4>
-                    @include('backend.layouts.partials.messages')
-                    
+                    @include('backend.layouts.partials.messages')                    
                     <form action="{{ route('admin.admins.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">User Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @endif">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="email">User Email</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="" value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" value="">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="password_confirmation">Confirm Password</label>
-                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password" value="">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="password">Assign Roles</label>
-                                <select name="roles[]" id="roles" class="form-control select2" multiple>
+                                <select name="roles[]" id="roles" class="form-control select2">
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        @php $selected = "" @endphp
+                                        @if(isset($manager['email']) && $role->id == 2)
+                                            @php $selected = "selected" @endphp
+                                        @endif
+                                        <option value="{{ $role->name }}" {{$selected}}>{{ $role->name }}</option>
+
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="username">User Account Name</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Admin</button>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create</button>
                     </form>
                 </div>
             </div>

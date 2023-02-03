@@ -37,7 +37,7 @@ class AuthController extends Controller
 
     public static function CreateCustomer($response = null, $action = 0){
 
-        $_user    = User::where('email',$request->email)->first();
+        $_user    = User::where('email',$response['emailaddress'])->first();
         if(!empty($_user))  return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
         $user   =  UserController::createUser($response,$action);
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];

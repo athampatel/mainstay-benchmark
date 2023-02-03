@@ -87,6 +87,9 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
+
+    Route::get('/admin/manager', '\App\Http\Controllers\Backend\UsersController@UserManagers')->name('admin.manager');
+
     Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('customers', '\App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
     //Route::resource('customers', '\App\Http\Controllers\Backend\CustomerController', ['names' => 'admin.customer']);

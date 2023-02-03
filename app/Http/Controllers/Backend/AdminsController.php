@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\SalesPersons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,14 +42,18 @@ class AdminsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('admin.create')) {
             abort(403, 'Sorry !! You are Unauthorized to create any admin !');
         }
-
+        $manager = '';        
+        if($request->input('manager'))
+            $manager = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('sales_persons.id',$request->input('manager'))
+                                    ->get(['sales_persons.*'])->first();
         $roles  = Role::all();
-        return view('backend.pages.admins.create', compact('roles'));
+        return view('backend.pages.admins.create', compact('roles','manager'));
     }
 
     /**
