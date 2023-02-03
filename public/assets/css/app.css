@@ -1760,18 +1760,18 @@ body.user-forms{
 #show_hide_password .form-control{
     padding-right: 2.5rem;
 }
-.user-forms .h1, 
-.user-forms .h2,
-.user-forms .h3,
-.user-forms .h4,
-.user-forms .h5, 
-.user-forms .h6,
-.user-forms h1,
-.user-forms h2,
-.user-forms h3,
-.user-forms h4,
-.user-forms h5,
-.user-forms h6{
+.user-forms .h1:not(.alert), 
+.user-forms .h2:not(.alert), 
+.user-forms .h3:not(.alert), 
+.user-forms .h4:not(.alert), 
+.user-forms .h5:not(.alert),  
+.user-forms .h6:not(.alert), 
+.user-forms h1:not(.alert), 
+.user-forms h2:not(.alert), 
+.user-forms h3:not(.alert), 
+.user-forms h4:not(.alert), 
+.user-forms h5:not(.alert), 
+.user-forms h6:not(.alert){
     color: rgba(255,255,255,0.7);
 }
 

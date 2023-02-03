@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\SalesPersons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -44,27 +45,46 @@ class DashboardController extends Controller
             abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
         }
 
-        // if (is_null($this->user) || !$this->user->can('dashboard.view')) {
-        //     abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
-        // }
+        $user               = 0;
+        $total_roles        = 0;
+        $total_admins       = 0;
+        $total_permissions  = 0;
+        $total_customers    = 0;
+        $new_customers      = 0;
+        $sales_persons      = 0;
+        $vmi_customers      = 0;
 
-        $user               = $this->user;
-       
-        //$this->user->can('dashboard.view')
+        if(self::SuperAdmin($this->user)){
+            $user               = $this->user;
+            $total_roles        = Role::select('id')->get()->count();
+            $total_admins       = Admin::select('id')->get()->count();
+            $total_permissions  = Permission::select('id')->get()->count();        
+            $total_customers    = User::select('id')->where('active','=',1)->get()->count();
+            $new_customers      = User::select('id')->where('active','=',0)->where('is_deleted','=',0)->get()->count();
+            $sales_persons      = SalesPersons::select('id')->get()->count();
+            $vmi_customers      = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
+        }else{
 
-        // echo "<pre>";
-        // print_r($user);
-        // echo "</pre>";
-        // die; 
-        
-        $total_roles        = count(Role::select('id')->get());
-        $total_admins       = count(Admin::select('id')->get());
-        $total_permissions  = count(Permission::select('id')->get());
-        $total_customers    = count(User::select('id')->get());
-        $active_customers   = count(User::select('id')->where('active','=',1)->get());
-        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_customers'));
+            $customers          = User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                ->where('admins.id',$this->user->id);
+
+            $total_customers    = $customers->get([ 'users.id'])->count();            
+            $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
+            $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
+
+        }
+
+        return view('backend.pages.dashboard.index', compact('total_admins',
+                                                            'total_roles', 
+                                                            'total_permissions', 
+                                                            'total_customers',
+                                                            'sales_persons',
+                                                            'vmi_customers',
+                                                            'new_customers'));
+
     }
-
     public function getCustomers($userId = 0){
         if (!$userId)
             return false;

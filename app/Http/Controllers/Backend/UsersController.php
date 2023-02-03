@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Helpers\SDEApi;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\SalesPersons;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,12 +65,21 @@ class UsersController extends Controller
         return view('backend.pages.users.index', compact('users'));
     }
 
+
+    public function UserManagers(){
+        $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                    ->get(['sales_persons.*','admins.id as user_id']);
+        return view('backend.pages.managers.index', compact('managers'));
+    }
+
+    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $roles  = Role::all();
         return view('backend.pages.users.create', compact('roles'));

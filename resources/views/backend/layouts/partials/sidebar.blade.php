@@ -15,14 +15,8 @@
             <nav>
                 <ul class="metismenu" id="menu">
                     @if ($usr->can('dashboard.view'))
-                    <li class="active">
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
-                        <ul class="collapse">
-                            <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        </ul>
-                    </li>
+                        <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     @endif
-
                     @if ($usr->can('role.create') || $usr->can('role.view') ||  $usr->can('role.edit') ||  $usr->can('role.delete'))
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
@@ -50,28 +44,22 @@
                             @if ($usr->can('admin.view'))
                                 <li class="{{ Route::is('admin.admins.index')  || Route::is('admin.admins.edit') ? 'active' : '' }}"><a href="{{ route('admin.admins.index') }}">All Users</a></li>
                             @endif
-
                             @if ($usr->can('admin.create'))
                                 <li class="{{ Route::is('admin.admins.create')  ? 'active' : '' }}"><a href="{{ route('admin.admins.create') }}">Create User</a></li>
+                            @endif
+                            @if ($usr->can('admin.manger'))
+                                <li class="{{ Route::is('admin.admins.manger')  ? 'active' : '' }}"><a href="{{ route('admin.admins.manger') }}">Region Mangers</a></li>
                             @endif
                         </ul>
                     </li>
                     @endif
-
-
-                    
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa fa-users"></i><span>
                         Customers
                         </span></a>
                         <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
-                            @if ($usr->can('admin.users.index') || $usr->can('admin.users.index'))
-                                <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Customers</a></li>
-                            @endif
-
-                            @if ($usr->can('admin.users.create'))
-                                <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Customer</a></li>
-                            @endif
+                            <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Customers</a></li>
+                            <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Customer</a></li>
                         </ul>
                     </li>
                    

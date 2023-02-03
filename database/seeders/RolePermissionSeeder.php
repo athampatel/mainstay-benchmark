@@ -54,6 +54,7 @@ class RolePermissionSeeder extends Seeder
                     'admin.create',
                     'admin.view',
                     'admin.edit',
+                    'admin.manager',
                     'admin.delete',
                     'admin.approve',
                 ]
@@ -74,9 +75,19 @@ class RolePermissionSeeder extends Seeder
                 'permissions' => [
                     // profile Permissions
                     'customer.view',
+                    'customer.delete',                    
                     'customer.edit',
                 ]
-            ]
+                ],
+                [
+                    'group_name' => 'orders',
+                    'permissions' => [
+                        // profile Permissions
+                        'orders.view',
+                        'orders.delete',                    
+                        'orders.edit',
+                    ]
+                ]
         ];
        
         $roleSuperAdmin = Role::create(['name' => 'superadmin', 'guard_name' => 'admin']);
