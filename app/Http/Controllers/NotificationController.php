@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Admin;
+use App\Http\Controllers\Controller;
+use App\Models\SalesPersons;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class NotificationController extends Controller
 {
+    public $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::guard('admin')->user();
+    }
+    
     public function index()
     {
 
@@ -17,6 +29,10 @@ class NotificationController extends Controller
     {
         Notification::create($data);
         return true;
+    }
+
+    public function getNotifications(){
+        $notification = Notification::where('is_read',0)
     }
 
     /**

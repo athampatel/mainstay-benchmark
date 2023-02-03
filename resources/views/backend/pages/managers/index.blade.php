@@ -61,9 +61,10 @@ Region Mangers - Admin Panel
                                     <td>{{ $user->email }}</td>                                                                
                                     <td>
                                           @if($user->user_id != '')  
-                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.edit', $user->user_id) }}">Manage Account</a>
+                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.edit', $user->user_id) }}" title="View Account"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a class="btn btn-warning text-white" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers"><i class="fa fa-users" aria-hidden="true"></i></a>
                                           @else
-                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.create') }}?manager=1">Create Account</a>
+                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.create') }}?manager={{$user->id}}" title="Create Account"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
                                           @endif
 
 

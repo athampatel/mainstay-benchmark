@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\SalesPersons;
+use App\Models\ChangeOrderRequest;
+use App\Models\ChangeOrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -22,9 +24,21 @@ class DashboardController extends Controller
             return $next($request);
         });
     }
-    public static function SuperAdmin($user){
-        $currentRole    = $user->roles[0]->id;
+    public static function isManager($customer_id,$user){
+        $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                    ->where('admins.id',$user->id)->where('users.id',$customer_id)->get([ 'users.id'])->count();
+        return $lblusers;
+
+    }
+    public static function SuperAdmin($user){ 
         
+        if(!isset($user->roles))
+            return false;
+
+        $currentRole    = $user->roles[0]->id;        
         $activePermisison = Permission::leftjoin('role_has_permissions','permissions.id','=','role_has_permissions.permission_id')
                                         ->leftjoin('roles','role_has_permissions.role_id','=','roles.id')
                                         ->select(['role_has_permissions.permission_id'])->where('role_has_permissions.role_id',$currentRole)->get()->count();
@@ -63,6 +77,8 @@ class DashboardController extends Controller
             $new_customers      = User::select('id')->where('active','=',0)->where('is_deleted','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
+            $change_request     = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
+
         }else{
 
             $customers          = User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')

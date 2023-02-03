@@ -1,6 +1,19 @@
 (function($) {
     "use strict";
 
+    $(document.body).on('click','a.random-password',function(e){
+        e.preventDefault();
+        var pass = '';
+        var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+                'abcdefghijklmnopqrstuvwxyz0123456789@#$';            
+        for (let i = 1; i <= 12; i++) {
+            var char = Math.floor(Math.random() * str.length + 1);
+            pass += str.charAt(char)
+        }
+        console.log(pass);
+        $(document.body).find('input.password-field').val(pass).attr('type','text');        
+       // return pass;
+    });  
     /*================================
     Preloader
     ==================================*/
@@ -218,4 +231,68 @@
             $("body").removeClass("expanded");
         });
     }
+
+
+/* CUSOMT ADMIN SCRIPT */    
+
+    $('form.form-create-customers').submit(function(e){        
+        var duplicate  = [];        
+        var error_Email,error_no = 0;
+
+        var CheckInp = $('input.create_customerCheck').length;
+        if(CheckInp == 0)
+            return true;
+
+        var checkedItem = $('input.create_customerCheck:checked').length;
+        $('#user_activate_message').addClass('d-none');
+        if(checkedItem == 0){
+            $('#user_activate_message').removeClass('d-none').removeClass('alert-success').addClass('alert-danger').html('Please select a checkbox to add a customer');
+            $('html, body').animate({
+                scrollTop: $("#user_activate_message").offset().top
+            }, 1000);
+            return false;
+        }
+
+        $(this).find('.card-body').each(function(){
+            if($(this).find('input.create_customerCheck:checked') == true){
+                $(this).find('.emailaddress').each(function(){
+                    var _val = $(this).val();
+                    _val = _val.toLowerCase();
+                    if(duplicate.indexOf(_val) == -1){               
+                        duplicate.push(_val);
+                    }else{    
+                        error_Email = 1;
+                        $('.emailaddress').addClass('error-field');
+                    }    
+                });
+                $(this).find('.customerno').each(function(){
+                    var _val = $(this).val();
+                    _val = _val.toLowerCase();
+                    if(duplicate.indexOf(_val) == -1){
+                        duplicate.push(_val);                        
+                    }else{
+                        error_no = 1;    
+                        $('.customerno').addClass('error-field');
+                    }
+                });
+            }
+        });
+
+        var message = '';
+        if(error_Email &&  error_no){
+            message = 'Email address and CustomerNo is not unique';
+        }else if(error_Email){
+            message = 'Duplicate email address';
+        }else if(error_no){
+            message = 'Duplicate Customer No';
+        }
+        if(message != ''){
+            $('#user_activate_message').removeClass('d-none').removeClass('alert-success').addClass('alert-danger').html(message);
+            $('html, body').animate({
+                scrollTop: $("#user_activate_message").offset().top
+            }, 1000);
+            return false;
+        }
+    });
+
 })(jQuery);

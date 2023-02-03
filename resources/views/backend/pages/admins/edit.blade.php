@@ -65,16 +65,16 @@ Admin Edit - Admin Panel
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
                             </div>
-                            <div class="form-group col-md-6 col-sm-12">
+                           <!-- <div class="form-group col-md-6 col-sm-12">
                                 <label for="password_confirmation">Confirm Password</label>
                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
-                            </div>
+                            </div> --->
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="password">Assign Roles</label>
-                                <select name="roles[]" id="roles" class="form-control select2" multiple>
+                                <select name="roles[]" id="roles" class="form-control select2">
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
                                     @endforeach

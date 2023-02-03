@@ -73,7 +73,7 @@ class AdminsController extends Controller
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:admins',
             'username' => 'required|max:100|unique:admins',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8',
         ]);
 
         // Create New Admin
@@ -83,10 +83,23 @@ class AdminsController extends Controller
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
         $admin->save();
-
         if ($request->roles) {
             $admin->assignRole($request->roles);
         }
+
+        if($request->input('send_password')){
+            $to = 'atham@tendersoftware.in'; // $to = $admin->email;
+            $url    = 
+            $details['subject'] = "Your Login Credentials";    
+            $details['title']   = "Your Login Credentials";    
+            $details['body']    = "Hi $request->name, <br />Please find you login credetials below <br/> <strong>User Name:</strong/>$request->email.</br>Password:</strong/>".$request->password;
+            $details['mail_view']    = "emails.new-account-details";
+            
+            $details['link']    = env('APP_URL').'/admin/login/';
+            \Mail::to($to)->send(new \App\Mail\SendMail($details));
+        }
+
+        
 
         session()->flash('success', 'Admin has been created !!');
         return redirect()->route('admin.admins.index');
@@ -148,7 +161,7 @@ class AdminsController extends Controller
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:admins,email,' . $id,
-            'password' => 'nullable|min:6|confirmed',
+            'password' => 'nullable|min:8',
         ]);
 
 

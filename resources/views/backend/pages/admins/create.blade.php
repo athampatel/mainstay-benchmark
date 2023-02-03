@@ -15,9 +15,7 @@ Admin Create - Admin Panel
 </style>
 @endsection
 
-
 @section('admin-content')
-
 <!-- page title area start -->
 <div class="page-title-area">
     <div class="row align-items-center">
@@ -44,9 +42,9 @@ Admin Create - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Create New Role</h4>
+                    <h4 class="header-title">Create Staff / Admin Usere</h4>
                     @include('backend.layouts.partials.messages')                    
-                    <form action="{{ route('admin.admins.store') }}" method="POST">
+                    <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
@@ -62,12 +60,14 @@ Admin Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" value="">
+                                <input type="password" class="form-control password-field" id="password" name="password" placeholder="Enter Password" value="">
                             </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="password_confirmation">Confirm Password</label>
+                           <div class="form-group col-md-6 col-sm-12">
+                               <!--  <label for="password_confirmation">Confirm Password</label>
                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password" value="">
-                            </div>
+                                --->
+                                <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary mt-4 pr-4 pl-4">Gernerate Random Password</a>
+                        </div> 
                         </div>
 
                         <div class="form-row">
@@ -89,7 +89,12 @@ Admin Create - Admin Panel
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
                             </div>
                         </div>
-                        
+                        <div class="form-row">
+                            <div class="form-group col-md-12 col-sm-12 custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="send_password" value="1" id="send-password" />
+                                <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create</button>
                     </form>
                 </div>
