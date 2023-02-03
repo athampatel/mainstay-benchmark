@@ -38,7 +38,7 @@ class MenuController extends Controller
                         'vmi-user'          =>          array(  'name' => 'vmi user', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/vmi_user_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/VMI-User'),
+                                                                'link'=> '/vmi-user'),
                         'analysis'          =>          array(  'name' => 'analysis', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/analysis_menu_gray.svg')),
                                                                 'active' => 0,
@@ -222,7 +222,7 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'vmi-user';
         $data['menus']          = $this->NavMenu('vmi-user');
-        return view('pages.vmi-user');
+        return view('pages.vmi-user',$data);
     }
     
     public function analysisPage(){

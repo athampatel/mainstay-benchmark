@@ -900,16 +900,34 @@ nav .profile-details i{
   color: #fff;
   font-size: 1rem;
 }
+#vmi-page-table tr th {
+  color: #fff;
+  font-size: 1rem;
+}
 #open-orders-table tr td {
+  color: #fff;
+}
+#vmi-page-table tr td {
   color: #fff;
 }
 #open-orders-table tr td.order-action a {
   color: #F96969;
 }
+#vmi-page-table tr td.order-action a {
+  color: #F96969;
+}
 #open-orders-table tr td.order-status {
   color: #9FCC47;
 }
+#vmi-page-table tr td.order-status {
+  color: #9FCC47;
+}
 #open-orders-table_filter{
+  position: relative;
+  /* background-color: #7B7C7F;
+  border-radius: 15px; */
+}
+#vmi-page-table_filter{
   position: relative;
   /* background-color: #7B7C7F;
   border-radius: 15px; */
@@ -919,8 +937,18 @@ nav .profile-details i{
   right:15px;
   top: 12px;
 }
+#vmi-page-table_filter img{
+  position: absolute;
+  right:15px;
+  top: 12px;
+}
 
 #open-orders-table_filter label{
+  color: #fff;
+  display: none;
+  visibility: hidden;
+}
+#vmi-page-table_filter label{
   color: #fff;
   display: none;
   visibility: hidden;
@@ -934,7 +962,18 @@ nav .profile-details i{
   border-radius: 15px;
   padding:0px 60px 0 10px;
 }
+#vmi-page-table-search{
+  background-color: #7B7C7F;
+  position: relative;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding:0px 60px 0 10px;
+}
 #open-orders-table-search::placeholder{
+  color: #fff;
+}
+#vmi-page-table-search::placeholder{
   color: #fff;
 }
 /* #open-orders-table-search:focus{
@@ -949,8 +988,17 @@ nav .profile-details i{
 #open-orders-table tbody tr{
   background-color: #424448;
 }
+#vmi-page-table tbody tr{
+  background-color: #424448;
+}
 
 #open-orders-table tr td .order-id{
+  background-color: #A8CB5C;
+  color: #000;
+  padding: 5px 12px;
+  border-radius: 12px;
+}
+#vmi-page-table tr td .order-id{
   background-color: #A8CB5C;
   color: #000;
   padding: 5px 12px;

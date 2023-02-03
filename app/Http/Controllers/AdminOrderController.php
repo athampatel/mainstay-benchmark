@@ -18,6 +18,10 @@ class AdminOrderController extends Controller
 
     public function getChangeOrderRequest($order_id,$change_id,$customerno){
 
+        $change_order_request = ChangeOrderRequest::find($change_id);
+        // if($change_order_request->request_status != 0){
+        //     abort(403);
+        // }
         $admin = Admin::first();
         Auth::guard('admin')->login($admin);
 
@@ -50,13 +54,54 @@ class AdminOrderController extends Controller
         } else {
             $order_detail = [];
         }
-
-        // changed item details work start
-        // ChangeOrderRequest::where('')
-        // order_table_id
         $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
-        // dd($changed_items);
-        // changed item details work end
         return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id')); 
+    }
+
+    public function changeOrderRequestStatus(Request $request){
+        $data = $request->all();
+        // get change order request
+        $changeOrderRequest = ChangeOrderRequest::find($data['change_id']);
+        if($changeOrderRequest){
+            $message ="";
+            if($data['status'] == 1){
+                // Approve request 
+                $changeOrderRequest->request_status = 1;
+                $changeOrderRequest->status_detail = 'Approved';
+                $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
+                $changeOrderRequest->save();
+                $message = 'Change Order Request Approved';
+            } else {
+                // Decline request
+                $changeOrderRequest->request_status = 2;
+                $changeOrderRequest->status_detail = 'Declined';
+                $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
+                $changeOrderRequest->save();
+                $message = 'Change Order Request Declined';
+            }
+
+            $_notification = array( 'type'      => 'signup',
+                                    'from_user'  => Auth::guard('admin')->user()->id,
+                                    'to_user'  => $changeOrderRequest->user_id,
+                                    'text'      => $message,
+                                    'action'    => '',
+                                    'status'    => 0,
+                                    'is_read'   => 0);                
+
+            $notification = new NotificationController();
+            $notification->create($_notification);
+            echo json_encode(['success' => true, 'data' => ['status' => $data['status']], 'error' => []]);
+            die();
+        } else {
+            echo json_encode(['success' => false, 'data' => [] , 'error' =>'change request not found']);
+            die();
+        }
+    }
+
+    public function changeOrderRequestSync(Request $request){
+        $data = $request->all();
+        dd($data);
+        // update change request api
+        
     }
 }
