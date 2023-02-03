@@ -298,6 +298,7 @@
   /* font-weight: 500; */
   min-width: 150px;
   justify-content: space-between;
+  gap: 40px;
 }
 /* nav .sidebar-button i{
   font-size: 35px;
@@ -1020,6 +1021,162 @@ nav .profile-details i{
 }
 .order-item-save{
   font-size: 16px;
+}
+
+/* search box */
+.searchbox{
+  position: relative;
+  display: flex;
+  /* background-color: #006d77; */
+  justify-content: space-between;
+  overflow: hidden;
+  transition: 0.5s;
+  width: 60px;
+  height: 60px;
+  color: #fff;
+}
+.searchbox.active{
+  min-width: 300px;
+  transition: 0.5s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: ease-in-out;
+}
+.searchbox .search{
+  position: relative;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.searchbox .close{
+  position: relative;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: black;
+}
+.searchbox .searchinput{
+  position: absolute;
+  line-height: 60px;
+  left: 60px;
+  height: 100%;
+  width: calc(100% - 120px);
+}
+.searchbox .searchinput input{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.sidebar.active1{
+ width: 4.2rem;
+}
+
+.sidebar.active1 ~ .home-section{
+    width: calc(100% - 67.2px);
+    left: 4.2rem;
+}
+.sidebar.active1 ~ .home-section nav{
+    width: calc(100% - 67.2px);
+    left: 4.2rem;
+}
+
+/* analysis page tab work start */
+.switch1 {
+  position: relative;
+  display: inline-block;
+  width:300px;
+  height: 34px;
+ }
+ 
+ .switch1 #tab_input {
+  display: none;
+ }
+ 
+ .slider1 {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:#fff;
+  -webkit-transition: .2s;
+  transition: .2s;
+  border-radius: 34px;
+  border: 1px solid #3C3C3C;
+ }
+ 
+ .slider1:before {
+  position: absolute;
+  content: "Table View";
+  height: 34px;
+  width: 150px;
+  left: 0px;
+  bottom: 0px;
+  background-color: #3C3C3C;
+  -webkit-transition: .2s;
+  transition: .2s;
+  border-radius:34px;
+  color:#fff;
+  /* text-align:center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ 
+ #tab_input:checked + .slider1 {
+  background-color: #fff;
+ }
+ 
+ #tab_input:focus + .slider1 {
+  box-shadow: 0 0 1px #fff;
+ }
+ 
+ #tab_input:checked + .slider1:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(150px);
+  content:'Graph view'
+ }
+ 
+ /*------ ADDED CSS ---------*/
+ .slider1:after {
+  content: 'Graph view';
+  color: #000;
+  position: absolute;
+  left: 60px;
+  font-size: 10px;
+  /* max-width: 75px; */
+  font-family: Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+ }
+ 
+ #tab_input:checked + .slider1:after {
+  content: 'Table view';
+  left: -60px;
+ }
+/* analysis page tab work end */
+
+/* change order page */
+.order_item_quantity_input.notactive{
+  appearance: none;
+  background:none;
+  border: none;
 }
 
 @media (max-width: 1240px) {

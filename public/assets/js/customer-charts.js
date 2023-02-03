@@ -399,14 +399,11 @@ $(document).on('click','#profile-edit-save-button',function(e){
     e.preventDefault();
     var formData = new FormData();
     $image = $('#file-input').prop('files')[0];
-    // let name = $('#Acc_name').val();
     let password = $('#Acc_password').val();
     let confirm_password = $('#Acc_confirm_password').val();
     formData.append('photo_1', $image);
-    // formData.append('name', name);
     formData.append('password', password);
     formData.append('password_confirmation', confirm_password);
-    // form fields work start
     let acc_name = $('#acc_name').val();
     let acc_phone_no = $('#acc_phone_no').val();
     let acc_address_line_1 = $('#acc_address_line_1').val();
@@ -441,8 +438,6 @@ $(document).on('click','#profile-edit-save-button',function(e){
                     $("#account-detail-profile-img").prop("src", res1.data[0].path);
                 }
                 $('#nav-bar-profile-name').text(acc_name);
-                // show success message
-                // $('#result-response-message').html("Account Details Updated Succcessfully").addClass('text-primary').removeClass('text-danger');
                 $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
                 $('.result-response').removeClass('d-none');
                 setTimeout(() => {
@@ -464,89 +459,107 @@ $(document).on('click','#profile-edit-save-button',function(e){
 
 $(document).on('click','.edit_order_item',function(e){
     e.preventDefault();
-    let old_count =  $(this).closest('.order_item_row').find('.order_item_quantity').data('val');
-    let input_filed = `<input type="number" name="order_item_quantity_input" id="" value="${old_count}" data-val=${old_count} class="order_item_quantity_input form-input">`;
-    $(this).closest('.order_item_row').find('.order_item_quantity').html(input_filed);
-    let actions = `<a href="#"><ion-icon name="close-outline" class="order-item-cancel"></a><a href="#"></ion-icon><ion-icon name="save-outline" class="order-item-save"></ion-icon></a>`;
-    $(this).html(actions);
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').removeClass('notactive');
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').prop('disabled',false);
+    $(this).closest('.order_item_row').find('.edit_order_item').addClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-cancel-link').removeClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-save-link').removeClass('d-none');
 })
 
 $(document).on('change','.order_item_quantity_input',function(e){
     e.preventDefault();
     let new_val = $(this).val();
     let single_unit_price = $(this).closest('.order_item_row').find('.order_unit_price').data('val');
-    $(this).closest('.order_item_row').find('.order_unit_total_price').html(`$ ${ new_val * single_unit_price}`);
+    $(this).closest('.order_item_row').find('.order_unit_total_price').html(`$ ${ (new_val * single_unit_price).toFixed(2)}`);
 })
 
 $(document).on('click','.order-item-cancel',function(e){
     e.preventDefault();
-    let old_val =  $(this).closest('.order_item_row').find('.order_item_quantity').data('val');
-    $(this).closest('.order_item_row').find('.order_item_quantity').html(`${old_val}`);
-    let edit_icon = `<a href="#" class="edit_order_item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
-            <g class="pen" transform="translate(-181.608 -111.379)">
-                <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
-            </g>
-        </svg>
-    </a>`;
-   $(this).closest('.order_item_row').find('.order_item_actions').html(edit_icon);
+    let old_val = $(this).closest('.order_item_row').find('.order_item_quantity_input').data('val');
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').addClass('notactive');
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').prop('disabled',true);
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').val(old_val);
+    $(this).closest('.order_item_row').find('.edit_order_item').removeClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-save-link').addClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-cancel-link').addClass('d-none');
 });
 
 $(document).on('click','.order-item-save',function(e){
     e.preventDefault();
     let old_val =  $(this).closest('.order_item_row').find('.order_item_quantity_input').data('val');
     let new_val =  $(this).closest('.order_item_row').find('.order_item_quantity_input').val();
-    // let old_val =  $(this).closest('.order_item_row').find('.order_item_quantity').data('val');
-    $(this).closest('.order_item_row').find('.order_item_quantity').html(`${new_val}`);
-    $(this).closest('.order_item_row').find('.order_item_quantity').data('val',new_val);
-    let item_code = $(this).closest('.order_item_row').find('.item-number').text();
+    let item_code = $(this).closest('.order_item_row').find('.item-number').data('val');
     let unit_price = $(this).closest('.order_item_row').find('.order_unit_price').data('val');
     let is_found = true;
     changed_order_items.forEach(item => {
         if(item.itemcode == item_code){
             is_found = false;
-            item.new_value = new_val;
+            if(old_val != new_val){
+                item.new_value = new_val;
+            }
         } 
     })
     if(is_found){
         let new_array = {'itemcode':item_code,'old_value':old_val,'new_value':new_val,'unit_price':unit_price}
-        changed_order_items.push(new_array);
+        if(old_val != new_val){
+            changed_order_items.push(new_array);
+        }
     }
-
-    // changed_order_items[`${item_code}`] = new_array;
-    let edit_icon = `<a href="#" class="edit_order_item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
-            <g class="pen" transform="translate(-181.608 -111.379)">
-            <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
-        </g>
-        </svg>
-    </a>`;
-    $(this).closest('.order_item_row').find('.order_item_actions').html(edit_icon);
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').addClass('notactive');
+    $(this).closest('.order_item_row').find('.order_item_quantity_input').prop('disabled',true);
+    $(this).closest('.order_item_row').find('.edit_order_item').removeClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-save-link').addClass('d-none');
+    $(this).closest('.order_item_row').find('.order-item-cancel-link').addClass('d-none');
 });
 
 $(document).on('click','#order-save-button',function(e){
     e.preventDefault();
-    console.log(changed_order_items,'__changed_order_items');
-    let data = changed_order_items;
-    let customerno = $('#customerno_val').val();
-    let salesorderNo = $('#salesorderno_val').val();
-    let orderedDate = $('#ordereddate_val').val();
-    $.ajax({
-        type: "POST",
-        url: "/change_order_items_save",
-        data: JSON.stringify({'data': data,'customer_no':customerno,'sales_order_no':salesorderNo,'ordered_date': orderedDate}),
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(res){
-            change_order_save_response(res)
-        }
-    });
-    // AjaxRequestCom('/change_order_items_save','POST',{'change_order_items':changed_order_items},'change_order_save_response');
+    if(changed_order_items.length > 0){
+        let data = changed_order_items;
+        let customerno = $('#customerno_val').val();
+        let salesorderNo = $('#salesorderno_val').val();
+        let orderedDate = $('#ordereddate_val').val();
+        $.ajax({
+            type: "POST",
+            url: "/change_order_items_save",
+            data: JSON.stringify({'data': data,'customer_no':customerno,'sales_order_no':salesorderNo,'ordered_date': orderedDate}),
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend:function(){
+                $('.backdrop').removeClass('d-none');
+            },
+            success: function(res){
+                change_order_save_response(res)
+            },
+            complete:function(){
+                $('.backdrop').addClass('d-none');
+            }
+        });
+    } else {
+        $('#change-order-request-response-alert').text('No changes in the order');
+        $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+        // setTimeout(() => {
+        //     $('#change-order-request-response-alert').addClass('d-none');
+        // }, 2000);
+    }
 })
 
 function change_order_save_response(res){
+    changed_order_items = [];
     if(res.success){
-        changed_order_items = [];
+        $('#change-order-request-response-alert').text('Change order request sent successfully');
+        $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-danger').addClass('alert-success');
+        setTimeout(() => {
+            $('#change-order-request-response-alert').addClass('d-none');
+            window.location = app_url+"/open-orders";
+        }, 2000);
+        
+    } else {
+        $('#change-order-request-response-alert').text(res.error);
+        $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+        // setTimeout(() => {
+        //     $('#change-order-request-response-alert').addClass('d-none');
+        // }, 2000);
     }
 }
