@@ -271,6 +271,22 @@ class MenuController extends Controller
                 'total_items' => 10,
                 'total_amount' => 98,
             ],
+            [
+                'no' => '87145254',
+                'date' => '2022-08-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 200,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-10-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 198,
+            ],
         ];
         $data['response'] = $arr;
         return view('pages.analysis',$data);

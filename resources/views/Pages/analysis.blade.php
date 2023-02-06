@@ -14,21 +14,23 @@
         <div style="display:flex;justify-content:center;align-items:center;">
             <div class="page_title">Analysis</div>
             <div style="display:flex;gap:20px;">
-                <label for="" style="color: #424448;font-weight:500;">
+                <label for="" style="color: #424448;font-weight:500; position:relative;">
                     By Item
-                    <select name="" id="" class="" style="width: 150px;padding: 4px 10px;border-radius: 7px;background: #7B7C7F;color: #fff;">
+                    <select name="" id="analysis_item_select" class="rounded analysis_select">
                         <option value="" selected>Select Item</option>
                     </select>
+                    <div class="down-arrow"></div>
                 </label>
-                <label for="" style="color: #424448;font-weight:500;">
+                <label for="" style="color: #424448;font-weight:500; position:relative;">
                     By Range
-                    <select name="" id="" class="" style="width: 150px;padding: 4px 10px;border-radius: 7px;background: #7B7C7F;color: #fff;">
-                        <option value="" selected>Select Range</option>
-                        <option value="" selected>Last Month</option>
-                        <option value="" selected>Quarterly</option>
-                        <option value="" selected>Half Yearly</option>
-                        <option value="" selected>By Range</option>
+                    <select name=""id="analysis_range_select"class="rounded analysis_select">
+                        <option value="0" selected>Select Range</option>
+                        <option value="1" selected>Last Month</option>
+                        <option value="2" selected>Quarterly</option>
+                        <option value="3" selected>Half Yearly</option>
+                        <option value="4" selected>By Range</option>
                     </select>
+                    <div class="down-arrow"></div>
                 </label>
             </div>
         </div>
@@ -39,7 +41,7 @@
             </label>
         </div>
     </div>
-    <div class="table-card" style="padding:0 2.5rem;">
+    <div class="table-card d-none" style="padding:0 2.5rem;" id="table-table">
         <div class="row">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
                 <div class="col-12">
@@ -78,13 +80,25 @@
         </div>
     </div>
     {{-- <div class="col-12 p-2" id="analysis_page_chart"></div> --}}
-    {{-- <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12">
+    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart" style="padding:0 2.5rem;">
         <div class="col">
-            <div class="card box">
+            <div class="card box" style="background:rgb(66, 68, 72)">
+                <div class="card-header col-12 p-3 d-flex align-items-center">
+                    <div class="col-6 d-flex align-items-center">
+                      {{-- <div class="box-icon small-icon rounder-border">
+                        <img src="assets/images/svg/sale-invoice-order.svg" />
+                      </div>  
+                      <h4 class="mb-0 title-4">Sale/Invoice Orders</h4> --}}
+                    </div>
+                    <div class="col-6 d-flex align-items-center justify-content-end">
+                      <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
+                      <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
+                    </div>
+                  </div>
                 <div id="analysis_page_chart" class="col-12 p-2"></div>
             </div>
         </div>	
-    </div> --}}
+    </div>
 </div>
 @endsection
 
@@ -113,7 +127,7 @@
         let response_ = <?php echo json_encode($response); ?>;
         // let today = moment().format('DD-MM-yyyy');
         // console.log(today,'__today');
-        console.log(response_,'__response');
+        // console.log(response_,'__response');
 
         if($(document.body).find('#vmi-page-table').length > 0){
             const open_table = $('#vmi-page-table').DataTable( {
@@ -125,33 +139,53 @@
                 open_table.search($(this).val()).draw() ;
             }) 
         }
-        $(document).on('change','#tab_input',function(){
-            if($('#tab_input').is(':checked')){
-                console.log('__checked');
-            } else {
-                console.log('__not checked');
-            }
+
+        $(document).on('change','#analysis_item_select',function(){
+            // let val = $(this).val();
+            // console.log(val,'___val');
+            console.log('__changed');
+        })
+        $(document).on('change','#analysis_range_select',function(){
+            $(this).closest('.down-arrow').css("transform", "rotate(-180deg)");
         })
 
-        // chart work start
-        // function chartDisplay($res){
-            // $counts = [];
-            // $categories = [];
-            // $customer_data = $res.data.data.customersaleshistory;
-            // for(let i = 1; i <= 12 ; i++ ){
-            //     let is_add = true;
-            //     $customer_data.forEach(da => {
-            //         if(da.fiscalperiod == i){
-            //             is_add = false;
-            //             $counts.push(da.dollarssold)
-            //         }
-            //     })
-            //     if(is_add){
-            //         $counts.push(0);
-            //     }
-            // }
-
-            $counts = [0,125,10,522,10,55,98,85,45,12,475,63];
+        $(document).on('change','#tab_input',function(){
+            if($('#tab_input').is(':checked')){
+                // console.log('__checked');
+                // graph view
+                $('#table-chart').removeClass('d-none');
+                $('#table-table').addClass('d-none');
+                // table-table
+            } else {
+                $('#table-chart').addClass('d-none');
+                $('#table-table').removeClass('d-none');
+            }
+        })
+        getChartData(response_);
+        function getChartData(res){
+        let arr1 = [];
+          res.forEach(da => {
+            let month  =moment(da.date,'yyyy-mm-dd').format('mm')
+            // console.log(month,'__month')
+            if(arr1[month]){
+                arr1[month] += da.total_amount;
+            } else {
+                arr1[month] = da.total_amount;
+            }
+          });
+          let final = [];
+          for(let num = 01;num<=12;num++){
+            // let i1 = num.toString();
+            let num1 = num < 9 ? `0${num}`: num;
+            if(arr1[num1]){
+                final.push(arr1[num1]);
+            } else {
+                final.push(0);
+            }
+          }
+          return final;
+        }
+            $counts = getChartData(response_);
             
             var options = {
                 series: [{
@@ -162,7 +196,7 @@
                 chart: {
                     foreColor: '#9ba7b2',
                     type: 'bar',
-                    height: 360,
+                    height: 750,
                     zoom:{
                         enabled:false
                     },
@@ -178,10 +212,18 @@
                     }
                 },
                 stroke: {
-                    width: 5,
+                    width: 2,
                     curve:'straight'
                 },
-
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '36%',
+                    },
+                },
+                dataLabels: {
+                     enabled: false //changeable
+                },
                 xaxis: {
                     type:'month',
                     categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -220,5 +262,9 @@
             chart.render();
         // }
         // chart work end
+
+        // function printfunction(){
+        //     console.log('__print work');
+        // }
      </script>
 @endsection

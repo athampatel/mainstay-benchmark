@@ -1,13 +1,13 @@
 $(function(){
     // customer sales history
-    if ($("#customer_sales_history").length) {
-        AjaxRequestCom('/customersales','GET','','chartDisplay');
-    }
+    // if ($("#customer_sales_history").length) {
+    //     AjaxRequestCom('/customersales','GET','','chartDisplay');
+    // }
     // customer invoice orders
-    if ($("#invoice-orders-table-body").length) {
-        $('#invoice-orders-table-body').html('<tr><td class="text-center" colspan="8">Loading...</td></tr>');
-        AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
-    }
+    // if ($("#invoice-orders-table-body").length) {
+    //     $('#invoice-orders-table-body').html('<tr><td class="text-center" colspan="8">Loading...</td></tr>');
+    //     AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
+    // }
 });
 
 $(document).on('click','.order-item-detail',function(e){
