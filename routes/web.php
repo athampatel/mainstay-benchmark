@@ -129,10 +129,9 @@ Route::group(['prefix' => 'admin'], function () {
     // user decline
     Route::post('/user/cancel',[UsersController::class,'getUserCancel']);
     // change order request
-    Route::get('/order/{order_id}/change/{change_id}/{customerno}',[AdminOrderController::class,'getChangeOrderRequest']);
-
-
-    
+   
+    Route::post('/order/request/{change_id}/change',[AdminOrderController::class,'changeOrderRequestStatus']);
+    Route::post('/order/request/{change_id}/sync',[AdminOrderController::class,'changeOrderRequestSync']);
 
 }); 
 

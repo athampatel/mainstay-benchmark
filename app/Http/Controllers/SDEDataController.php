@@ -545,15 +545,25 @@ class SDEDataController extends Controller
         $user_id = Auth::user()->id;
         // $user_id = UserDetails::where('customerno',$customer_no)->pluck('user_id')->first();
         if(!empty($data)){
-            $change_order_request = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->first(); 
-            if(!$change_order_request || $change_order_request->request_status != 0){
-                $change_order_request = ChangeOrderRequest::create([
-                    'user_id' => Auth::user()->id,
-                    'order_no' => $sales_order_no,
-                    'ordered_date' => $ordered_date,
-                ]);
+            // $change_order_request = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->first(); 
+            $is_insert = true;
+            $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->get()->toArray(); 
+            foreach($change_order_requests as $order_request){
+                if($order_request['request_status'] == 0){
+                    $is_insert = false;
+                }
             }
-
+            // if(!$change_order_request || $change_order_request->request_status != 0){
+            if(!$is_insert){
+                echo json_encode(['success' => false,'error'=> 'Already changes made in this order. please wait once the request is approve or decline']);
+                die();
+            }
+            
+            $change_order_request = ChangeOrderRequest::create([
+                'user_id' => Auth::user()->id,
+                'order_no' => $sales_order_no,
+                'ordered_date' => $ordered_date,
+            ]);
             foreach($data as $da){
                 $changeOrderItem = ChangeOrderItem::where('order_table_id',$change_order_request->id)->where('item_code',$da['itemcode'])->first();
                 if(!$changeOrderItem){
