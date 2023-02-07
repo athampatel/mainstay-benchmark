@@ -10,14 +10,22 @@ use App\Models\SalesPersons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
     public $user;
+    public $isManager;
+    public $superAdmin;
 
     public function __construct()
     {
-        $this->user = Auth::guard('admin')->user();
+        $this->user         = Auth::guard('admin')->user();
+        $userId             = $this->user->id;
+        //$this->isManager    = DashboardController::isManager($userId,$this->user);
+        $this->superAdmin   = DashboardController::SuperAdmin($this->user);
+
     }
     
     public function index()
@@ -31,8 +39,21 @@ class NotificationController extends Controller
         return true;
     }
 
-    public function getNotifications(){
-        $notification = Notification::where('is_read',0)
+    public function getNotifications(Request $request){
+        /*$user =  $this->user;
+        if($this->superAdmin){
+            $notification   =   Notification::where('is_read',0)->where('to',0);
+        }else{
+           $customers       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                ->leftjoin('notifications','users.id','=','notifications.from_user');
+
+                                //->where('users.id',$user->id)->orWhere('');
+            */
+        }
+
+        return Response::json($data);
     }
 
     /**

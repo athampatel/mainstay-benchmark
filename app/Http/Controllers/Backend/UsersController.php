@@ -71,7 +71,7 @@ class UsersController extends Controller
                     $lblusers->where('users.active','=',0)->where('users.is_deleted','=',0);
                     break;
                 case 'vmi':
-                    $lblusers->where('users.vmi','=',1);
+                    $lblusers->where('users.is_vmi','=',1);
                     break;    
                 default:
                     break;
@@ -371,15 +371,7 @@ class UsersController extends Controller
                 $user->active = 1;
                 $user->activation_token = '';
                 $user->save();
-                // email send work start
-
-                // one solution
                 
-                // $status = Password::sendResetLink(
-                //     [ 'email' =>'gokul12@yopmail.com']
-                // );
-                
-                // another solution
                 $token = Str::random(30);
                 $_token = Hash::make($token);
                 DB::table('password_resets')->insert(
@@ -387,7 +379,10 @@ class UsersController extends Controller
                     ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
                 );
 
-                $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+                $params = array('mail_view' => 'emails.user-active', 
+                                'subject' => 'reset password link', 
+                                'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
 
@@ -421,5 +416,10 @@ class UsersController extends Controller
             $res = ['success' => false, 'message' =>'Customer not found'];
         }
         echo json_encode($res);
+    }
+
+    public function  CustomerInventory($userId) {
+        //echo "Update Inventory Here".$userId; die; 
+        return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
     }
 }

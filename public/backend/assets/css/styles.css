@@ -1818,6 +1818,13 @@ table.dbkit-table tr td {
     border-color: #9FCC47;
     color: #424448;
 }
+.btn-primary.match-btn{
+    width: 100%;
+    min-height: 46px;
+    position: relative;
+    top: 2px;
+
+}
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active{
@@ -1957,6 +1964,10 @@ p.card-text {
   outline: none;
   box-shadow: none;
   
+}
+.form-control.disabled{
+   /* background: transparent !important;*/
+    pointer-events: none;
 }
 
 

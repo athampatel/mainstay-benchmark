@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar sidebar-wrapper">
     <div class="logo-details">
       <a href="/dashboard"><img src="/assets/images/logo.svg" alt="company logo" /></a>
     </div>

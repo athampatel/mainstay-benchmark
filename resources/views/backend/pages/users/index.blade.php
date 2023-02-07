@@ -79,7 +79,7 @@ Users - Admin Panel
                                             @endif
 
                                             @if($user->is_vmi == 1)
-                                                <a class="add_inventory" href="{{ route('admin.users.edit', $user->id) }}" title="Add / Update Inventory"></a>
+                                                <a data-customer="{{$user->id}}" class="add_inventory" href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory"></a>
                                             @endif
                                     </td>
                                     <td>

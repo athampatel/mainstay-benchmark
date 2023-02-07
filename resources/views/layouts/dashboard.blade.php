@@ -8,10 +8,11 @@
 	<!--favicon-->
 	<link rel="icon" href="/assets/images/favicon-32x32.png" type="image/png" />
 	<!--plugins-->
+	<!--<link href="/assets/css/app.css" rel="stylesheet" /> -->
 	<link href="/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<link href="/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-	<!-- loader-->
+	<!-- loader-->	
 	<link href="/assets/css/pace.min.css" rel="stylesheet" />
 	<script src="/assets/js/pace.min.js"></script>
 	<!-- Bootstrap CSS -->
@@ -25,15 +26,17 @@
 	@yield('styles')
    </head>
 <body>
-    @include('layouts.menu-bar')
-    <section class="home-section">
-        {{-- Nav bar --}}
-        @include('layouts.nav-bar')
-        {{-- Home content --}}
-        @yield('content')
-        {{-- Footer --}}
-        @include('layouts.footer-bar')
-    </section>
+	<div class="wrapper">
+		@include('layouts.menu-bar')
+		<section class="home-section position-relative">
+			{{-- Nav bar --}}
+			@include('layouts.nav-bar')
+			{{-- Home content --}}
+			@yield('content')
+			{{-- Footer --}}
+			@include('layouts.footer-bar')
+		</section>
+	</div>	
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
 	<!--plugins-->
 	<script src="/assets/js/jquery.min.js"></script>
@@ -41,7 +44,7 @@
 	<script src="/assets/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   	<script src="/assets/plugins/apexcharts-bundle/js/apexcharts.js"></script>
-  	<script src="/assets/plugins/apexcharts-bundle/js/apex-custom.js"></script>
+  	<!--<script src="/assets/plugins/apexcharts-bundle/js/apex-custom.js"></script> -->
 	<script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
 	<script src="/assets/js/app.js"></script>
@@ -49,6 +52,7 @@
 	{{-- <script src="/assets/js/testCharts.js"></script> --}}
 	<script src="/assets/js/customer-charts.js"></script>
 	<script src="/assets/js/common-functions.js"></script>
+	<script src="/assets/js/notification.js"></script>
 	{{-- iconic icons --}}
 	{{-- test purpose only --}}
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

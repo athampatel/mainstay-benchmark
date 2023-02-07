@@ -1,7 +1,14 @@
 {{-- new code  --}}
+<div class="search-bar flex-grow-1">
+    <div class="position-relative search-bar-box col-12">
+        <input type="text" class="form-control search-control" placeholder="Type to search..." spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
+        <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
+    </div>
+</div>
+
 <nav>
     <div class="sidebar-button">
-        <div class="menu-icon">
+        <a class="menu-icon toggle-icon" href="javascript:void(0)">
             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22">
                 <g class="Group_893" data-name="Group 893" transform="translate(-292 -35)">
                     <rect class="Rectangle_25" data-name="Rectangle 25" width="27" height="4" transform="translate(292 35)" fill="#424448"/>
@@ -10,10 +17,10 @@
                     <rect class="Rectangle_28" data-name="Rectangle 28" width="16" height="4" transform="translate(292 53)" fill="#424448"/>
                 </g>
             </svg>
-        </div>
+        </a>
         {{-- <div class="search-box"> --}}
-        <div style="padding-right: 20px;">
-            <div class="search-icons">
+        <div class="nav-item mobile-search-icon">
+            <a href="javascript:void(0)" class="search-icons">
             <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
                 <defs>
                     <clipPath class="clip-path">
@@ -24,12 +31,12 @@
                     <path class="Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
                 </g>
             </svg>
-            </div>
+            </a>
             {{-- <input type="text" placeholder="Search..."> --}}
         </div>
     </div>
     <div class="notification_section">
-        <div class="notification_icons">
+        <div class="notification_icons d-flex align-items-center">
             <div class="notification_count_section">
                 <div class="notification_icon">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.154" height="22.644" viewBox="0 0 21.154 22.644">
@@ -45,21 +52,136 @@
                 </div>
                 <div class="notification_count">7</div>
             </div>
-            <div class="notification_count_section">
-                <div class="notification_icon">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
-                    <defs>
-                        <clipPath class="clip-path">
-                        <rect class="Rectangle_9" data-name="Rectangle 9" width="21.446" height="21.446" fill="#424448"/>
-                        </clipPath>
-                    </defs>
-                    <g class="Group_12" data-name="Group 12" clip-path="url(#clip-path)">
-                        <path class="Path_14" data-name="Path 14" d="M120.325,117.358q0,3.485,0,6.97a.539.539,0,0,1-.212.507.488.488,0,0,1-.669-.132c-.786-.872-1.6-1.723-2.344-2.628a1.55,1.55,0,0,0-1.362-.608c-3.338.031-6.676.015-10.014.015a1.451,1.451,0,0,1-1.606-1.6q0-4.667,0-9.335a1.438,1.438,0,0,1,1.585-1.591h13.033a1.433,1.433,0,0,1,1.586,1.586q0,3.409,0,6.819m-8.111-1.437h4.123a2.741,2.741,0,0,0,.3-.011.679.679,0,0,0,.592-.506.624.624,0,0,0-.229-.718,1.056,1.056,0,0,0-.556-.176q-4.224-.016-8.448-.005a1.117,1.117,0,0,0-.345.051.7.7,0,0,0,.038,1.332,1.637,1.637,0,0,0,.4.033q2.062,0,4.123,0m.006,2.506h.679c1.2,0,2.4,0,3.6,0a.709.709,0,0,0,.755-.82.732.732,0,0,0-.809-.594h-8.423a1.294,1.294,0,0,0-.2.007.7.7,0,0,0-.58.459.7.7,0,0,0,.709.948c1.425.005,2.85,0,4.274,0m-2.19-5.005c.7,0,1.409,0,2.113,0a.715.715,0,1,0,0-1.424h-.1c-1.325,0-2.649,0-3.974,0a1.313,1.313,0,0,0-.466.074.686.686,0,0,0-.407.759.717.717,0,0,0,.744.586c.7.009,1.392,0,2.088,0" transform="translate(-98.881 -103.47)" fill="#424448"/>
-                        <path class="Path_15" data-name="Path 15" d="M12.872,4.341h-.335c-1.92,0-3.839,0-5.759,0A2.375,2.375,0,0,0,4.367,6.156a3.031,3.031,0,0,0-.077.7c-.008.956,0,1.911,0,2.867,0,.09,0,.179,0,.293-.354,0-.68.012-1,0a.532.532,0,0,0-.473.208c-.617.708-1.247,1.4-1.873,2.1A1.292,1.292,0,0,1,.76,12.5a.471.471,0,0,1-.755-.331,2.143,2.143,0,0,1,0-.226Q0,6.771,0,1.6A1.44,1.44,0,0,1,1.6,0H11.28a1.446,1.446,0,0,1,1.591,1.589q0,1.232,0,2.465v.287" transform="translate(-0.001 0)" fill="#424448"/>
-                    </g>
-                    </svg>
+            <div class="notification_count_section dropdown dropdown-large position-relative">
+                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="notification_icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
+                        <defs>
+                            <clipPath class="clip-path">
+                            <rect class="Rectangle_9" data-name="Rectangle 9" width="21.446" height="21.446" fill="#424448"/>
+                            </clipPath>
+                        </defs>
+                        <g class="Group_12" data-name="Group 12" clip-path="url(#clip-path)">
+                            <path class="Path_14" data-name="Path 14" d="M120.325,117.358q0,3.485,0,6.97a.539.539,0,0,1-.212.507.488.488,0,0,1-.669-.132c-.786-.872-1.6-1.723-2.344-2.628a1.55,1.55,0,0,0-1.362-.608c-3.338.031-6.676.015-10.014.015a1.451,1.451,0,0,1-1.606-1.6q0-4.667,0-9.335a1.438,1.438,0,0,1,1.585-1.591h13.033a1.433,1.433,0,0,1,1.586,1.586q0,3.409,0,6.819m-8.111-1.437h4.123a2.741,2.741,0,0,0,.3-.011.679.679,0,0,0,.592-.506.624.624,0,0,0-.229-.718,1.056,1.056,0,0,0-.556-.176q-4.224-.016-8.448-.005a1.117,1.117,0,0,0-.345.051.7.7,0,0,0,.038,1.332,1.637,1.637,0,0,0,.4.033q2.062,0,4.123,0m.006,2.506h.679c1.2,0,2.4,0,3.6,0a.709.709,0,0,0,.755-.82.732.732,0,0,0-.809-.594h-8.423a1.294,1.294,0,0,0-.2.007.7.7,0,0,0-.58.459.7.7,0,0,0,.709.948c1.425.005,2.85,0,4.274,0m-2.19-5.005c.7,0,1.409,0,2.113,0a.715.715,0,1,0,0-1.424h-.1c-1.325,0-2.649,0-3.974,0a1.313,1.313,0,0,0-.466.074.686.686,0,0,0-.407.759.717.717,0,0,0,.744.586c.7.009,1.392,0,2.088,0" transform="translate(-98.881 -103.47)" fill="#424448"/>
+                            <path class="Path_15" data-name="Path 15" d="M12.872,4.341h-.335c-1.92,0-3.839,0-5.759,0A2.375,2.375,0,0,0,4.367,6.156a3.031,3.031,0,0,0-.077.7c-.008.956,0,1.911,0,2.867,0,.09,0,.179,0,.293-.354,0-.68.012-1,0a.532.532,0,0,0-.473.208c-.617.708-1.247,1.4-1.873,2.1A1.292,1.292,0,0,1,.76,12.5a.471.471,0,0,1-.755-.331,2.143,2.143,0,0,1,0-.226Q0,6.771,0,1.6A1.44,1.44,0,0,1,1.6,0H11.28a1.446,1.446,0,0,1,1.591,1.589q0,1.232,0,2.465v.287" transform="translate(-0.001 0)" fill="#424448"/>
+                        </g>
+                        </svg>
+                    </div>                
+                    <div class="notification_count alert-count">10</div>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-end">
+                <a href="javascript:;">
+                    <div class="msg-header">
+                        <p class="msg-header-title">Notifications</p>
+                        <p class="msg-header-clear ms-auto">Marks all as read</p>
+                    </div>
+                </a>
+                <div class="header-notifications-list">
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">New Customers<span class="msg-time float-end">14 Sec
+                            ago</span></h6>
+                                <p class="msg-info">5 new user registered</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
+                            ago</span></h6>
+                                <p class="msg-info">You have recived new orders</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-success text-success"><i class="bx bx-file"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">24 PDF File<span class="msg-time float-end">19 min
+                            ago</span></h6>
+                                <p class="msg-info">The pdf files generated</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-warning text-warning"><i class="bx bx-send"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">Time Response <span class="msg-time float-end">28 min
+                            ago</span></h6>
+                                <p class="msg-info">5.1 min avarage time response</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-info text-info"><i class="bx bx-home-circle"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">New Product Approved <span
+                            class="msg-time float-end">2 hrs ago</span></h6>
+                                <p class="msg-info">Your new product has approved</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-danger text-danger"><i class="bx bx-message-detail"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">New Comments <span class="msg-time float-end">4 hrs
+                            ago</span></h6>
+                                <p class="msg-info">New customer comments recived</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
+                            ago</span></h6>
+                                <p class="msg-info">Successfully shipped your item</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-primary text-primary"><i class='bx bx-user-pin'></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
+                            ago</span></h6>
+                                <p class="msg-info">24 new authors joined last week</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item" href="javascript:;">
+                        <div class="d-flex align-items-center">
+                            <div class="notify bg-light-warning text-warning"><i class='bx bx-door-open'></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="msg-name">Defense Alerts <span class="msg-time float-end">2 weeks
+                            ago</span></h6>
+                                <p class="msg-info">45% less alerts last 4 weeks</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="notification_count">10</div>
+                <a href="javascript:;">
+                    <div class="text-center msg-footer">View All Notifications</div>
+                </a>
+            </div>
             </div>
             <div class="notification_count_section active">
                 <div class="notification_icon">
