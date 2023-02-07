@@ -42,15 +42,17 @@ User Create - Admin Panel
     <div class="row">
         <!-- data table start -->
         <div class="col-12 mt-5">
-            <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
+            
             <div class="card mb-3">
                 <div class="card-body">
-                    <h4 class="header-title">User Information</h4>       
+                    <h4 class="header-title mb-0">User Information</h4>       
                 </div>
             </div> 
+
+            <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
            
             @include('backend.layouts.partials.messages')            
-            <form action="{{ route('admin.users.store') }}" method="POST">                        
+            <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                 @csrf
                 @foreach($customers as $key => $user_info)
                
@@ -59,9 +61,9 @@ User Create - Admin Panel
                     <div class="card-body">
                           @if(count($customers) > 1)
                             <div class="form-row">
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" id="create_user_{{$key}}" />
-                                    <label for="create_user_{{$key}}">Select to create this customer</label>
+                                <div class="form-group col-md-12 col-sm-12 custom-checkbox">
+                                    <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" class="custom-control-input create_customerCheck" id="create_user_{{$key}}" />
+                                    <label class="custom-control-label px-3" for="create_user_{{$key}}">Create Customer - {{$user_info['customerno']}} </label>
                                 </div>   
                             </div>
                         @endif
@@ -72,7 +74,7 @@ User Create - Admin Panel
                                 @if(isset($user->id))
                                     <div class="text-secondary">{{$user_info['customerno']}}</div>
                                 @else
-                                    <input type="text" class="form-control required" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
+                                    <input type="text" class="form-control required customerno" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
                                 @endif
                                 
                             </div>
@@ -81,7 +83,7 @@ User Create - Admin Panel
                                 @if(isset($user->id))
                                     <div class="text-secondary">{{$user_info['emailaddress']}}</div>
                                 @else
-                                    <input type="text" class="form-control required" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
+                                    <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
                                 @endif
                             </div>
                         </div>

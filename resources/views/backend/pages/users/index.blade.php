@@ -74,12 +74,12 @@ Users - Admin Panel
                                     <td>
                                             @if( $user->active == 1)
                                                 <span class="btn btn-success text-white" style="padding:5px;pointer-events:none;">Active</span>           
-                                            @else
-                                                <span class="btn btn-danger text-white" style="padding:5px;pointer-events:none;">In-active</span>               
+                                            @elseif( $user->active == 0 && $user->is_deleted == 0)
+                                                <a href="{{env('APP_URL')}}/admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-warning text-white" style="padding:5px;">New</a>
                                             @endif
 
                                             @if($user->is_vmi == 1)
-                                                <a class="add_inventory" href="{{ route('admin.users.edit', $user->id) }}" title="Add / Update Inventory"></a>
+                                                <a data-customer="{{$user->id}}" class="add_inventory" href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory"></a>
                                             @endif
                                     </td>
                                     <td>
@@ -124,7 +124,7 @@ Users - Admin Panel
         ==================================*/
         if ($('#dataTable').length) {
             $('#dataTable').DataTable({
-                responsive: true
+                responsive: true,               
             });
         }
 

@@ -17,15 +17,25 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class UsersController extends Controller
 {
-    public $user;   
+    public $user;  
+    public $superAdmin; 
     public function __construct(SDEApi $SDEApi)
     {
         $this->SDEApi = $SDEApi;
         $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
+            $user_id = $request->segment(3); 
+            $this->superAdmin = DashboardController::SuperAdmin($this->user);
+            if(!$this->superAdmin && is_numeric($user_id)){
+                $manager = DashboardController::isManager($user_id,$this->user);
+                if(!$manager){
+                    return abort('403');
+                }
+            }
             return $next($request);
         });
     }
@@ -35,33 +45,45 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+    public function index(Request $request)
     {
         $user =  $this->user;    
 
-        if(DashboardController::SuperAdmin($user)){
-            $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                        ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
-                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                        ->get([ 'users.*',
+        $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+       
+        if(!$this->superAdmin){
+           $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+           $lblusers->where('admins.id',$user->id);
+        }elseif($this->superAdmin && $request->input('manager')){
+            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->where('admins.id',$request->input('manager'));
+        }
+
+        $lblusers->where('users.is_deleted','=',0);
+
+        if($request->input('type')){
+            $type = $request->input('type');
+            switch($type){
+                case 'new':
+                    $lblusers->where('users.active','=',0)->where('users.is_deleted','=',0);
+                    break;
+                case 'vmi':
+                    $lblusers->where('users.is_vmi','=',1);
+                    break;    
+                default:
+                    break;
+            }
+        }        
+        $users = $lblusers->get([ 'users.*',
                                 'user_details.customerno',
                                 'user_details.customername',
                                 'user_details.ardivisionno',
                                 'sales_persons.person_number',
                                 'sales_persons.name as sales_person']);
-        }else{
-            $users = User::leftjoin('user_details','users.id','=','user_details.user_id')
-            ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
-            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-            ->leftjoin('admins','sales_persons.email','=','admins.email')
-            ->where('admins.id',$user->id)
-            ->get([ 'users.*',
-                    'user_details.customerno',
-                    'user_details.customername',
-                    'user_details.ardivisionno',
-                    'sales_persons.person_number',
-                    'sales_persons.name as sales_person']);
-        }                   
+                        
         return view('backend.pages.users.index', compact('users'));
     }
 
@@ -260,7 +282,10 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         if (!is_null($user)) {            
-            $user->delete();
+            $user['is_deleted'] = 1;
+            $user['active'] = 0;
+            $user->save();
+            //$user->delete();
         }
 
         session()->flash('success', 'User has been deleted !!');
@@ -294,8 +319,15 @@ class UsersController extends Controller
     }
 
     public function getUserRequest($user_id,$admin_token){
-        $admin      = Admin::where('unique_token', $admin_token)->first();
+        $current_user = $this->user;
+        $isManager    = DashboardController::isManager($user_id,$current_user);
+        if($this->superAdmin || $isManager)
+            $admin      = $current_user;
+        else
+            $admin      = Admin::where('unique_token', $admin_token)->first();
+
         $customers  = array();
+
         if(!empty($admin)){
             if(is_numeric($user_id)){
                 $user = User::find($user_id);
@@ -339,15 +371,7 @@ class UsersController extends Controller
                 $user->active = 1;
                 $user->activation_token = '';
                 $user->save();
-                // email send work start
-
-                // one solution
                 
-                // $status = Password::sendResetLink(
-                //     [ 'email' =>'gokul12@yopmail.com']
-                // );
-                
-                // another solution
                 $token = Str::random(30);
                 $_token = Hash::make($token);
                 DB::table('password_resets')->insert(
@@ -355,7 +379,10 @@ class UsersController extends Controller
                     ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
                 );
 
-                $params = array('mail_view' => 'emails.user-active', 'subject' => 'reset password link', 'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+                $params = array('mail_view' => 'emails.user-active', 
+                                'subject' => 'reset password link', 
+                                'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
 
@@ -389,5 +416,10 @@ class UsersController extends Controller
             $res = ['success' => false, 'message' =>'Customer not found'];
         }
         echo json_encode($res);
+    }
+
+    public function  CustomerInventory($userId) {
+        //echo "Update Inventory Here".$userId; die; 
+        return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
     }
 }
