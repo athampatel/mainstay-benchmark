@@ -7,39 +7,83 @@
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 col-12">
 					<div class="col">
 						<div class="card box">						
-							<div class="card-body col-12 d-flex align-items-center">
+							<div class="card-body col-12 d-flex align-items-center height_144">
                 <div class="box-icon">
                   <div class="icon-wrapper rounder-border">
-                    <img src="assets/images/svg/noun-inventory.svg" />
+                    <img src="assets/images/svg/customer_info_icon.svg" />
                   </div>  
                 </div>
                 <div class="box-details">
-                  <div class="name">inventory details</div>
-                  <div class="date">01-22-2023</div>
-                  <a class="btn btn-primary btn-small font-12" href="#">View Inventory</a>
+                  <div class="name">Customer info</div>
+                  <div class="row py-1">
+                    <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
+                    <div class="col-8 card-item-body">Adams Baker</div>
+                  </div>
+                  <div class="row py-1">
+                    <div class="col-4 card-item-header d-flex justify-content-between"><div>Bill to Address</div><div>:</div></div>
+                    <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div>
+                  </div>
                 </div>
 							</div>
 						</div>
 					</div>
 					<div class="col">
             <div class="card box">						
-							<div class="card-body col-12 d-flex align-items-center">
+							<div class="card-body col-12 d-flex align-items-center height_144">
                 <div class="box-icon">
                   <div class="icon-wrapper rounder-border"> 
-                    <img src="assets/images/svg/onsite-count.svg" />
+                    <img src="assets/images/svg/region_manager_info_icon.svg" />
                   </div>  
                 </div>
-                <div class="box-details">
-                  <div class="name">Next Onsite Count</div>
-                  <div class="date">01-22-2023</div>
-                  <a class="btn btn-primary btn-small font-12" href="#">View Incoming Inventory</a>
+                <div class="box-details w-75">
+                  <div class="name">Region Manager info</div>
+                  {{-- <div class="card-item-header">Name :<span>tomhanney@gmail.com<span></div>
+                  <div class="card-item-header">Email :<span>3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904<span></div>
+                  <div class="card-item-header">Phone Number :<span>999 333 4568<span></div> --}}
+                    {{-- <div class="row">
+                      <div class="col-4 card-item-header d-flex justify-content-between">
+                        <div>Name</div>
+                        <div>:</div>
+                      </div>
+                      <div class="col-7 card-item-body">Tom Hanney</div>
+                    </div> --}}
+                    <div class="row py-1">
+                      <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
+                      <div class="col-6 card-item-body">Tom Hanney</div>
+                    </div>
+                    <div class="row py-1">
+                      <div class="col-4 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>
+                      <div class="col-6 card-item-body">tomhanney@gmail.com</div>
+                    </div>
+                    <div class="row py-1">
+                      <div class="col-4 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
+                      <div class="col-6 card-item-body">999 333 4568</div>
+                    </div>
+                    {{-- <div class="row py-1">
+                      <div class="col-4 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
+                      <div class="col-8 card-item-body">999 333 4568</div>
+                    </div> --}}
+                    {{-- <div class="row">
+                      <div class="col-4 card-item-header d-flex justify-content-between">
+                        <div>Email</div>
+                        <div>:</div>
+                      </div>
+                      <div class="col-8 card-item-body">tomhanney@gmail.com</div>
+                    </div> --}}
+                    {{-- <div class="row">
+                      <div class="col-4 card-item-header d-flex justify-content-between">
+                        <div>Phone Number</div>
+                        <div>:</div>
+                      </div>
+                      <div class="col-8 card-item-body"></div>
+                    </div> --}}
                 </div>
 							</div>
 						</div>
 					</div>
 					<div class="col">
             <div class="card box">						
-							<div class="card-body col-12 d-flex align-items-center">
+							<div class="card-body col-12 d-flex align-items-center height_144">
                 <div class="box-icon">
                   <div class="icon-wrapper rounder-border">
                     <img src="assets/images/svg/open-orders.svg" />
@@ -48,7 +92,7 @@
                 <div class="box-details">
                   <div class="name">Open Orders</div>
                   <div class="date">$21,827.13</div>
-                  <a class="btn btn-primary btn-small font-12" href="#">View Open Order</a>
+                  <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Open Order</a>
                 </div>
 							</div>
 						</div>
@@ -168,6 +212,44 @@
         </div>
      </div>	
     </div>
+
+    @if(Auth::user()->is_vmi == 1)
+    {{-- vmi users --}}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
+      <div class="col">
+        <div class="card box">						
+          <div class="card-body col-12 d-flex align-items-center">
+            <div class="box-icon">
+              <div class="icon-wrapper rounder-border">
+                <img src="assets/images/svg/noun-inventory.svg" />
+              </div>  
+            </div>
+            <div class="box-details">
+              <div class="name">inventory details</div>
+              <div class="date">01-22-2023</div>
+              <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Inventory</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card box">						
+          <div class="card-body col-12 d-flex align-items-center">
+            <div class="box-icon">
+              <div class="icon-wrapper rounder-border"> 
+                <img src="assets/images/svg/onsite-count.svg" />
+              </div>  
+            </div>
+            <div class="box-details">
+              <div class="name">Next Onsite Count</div>
+              <div class="date">01-22-2023</div>
+              <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Next Onsite Count</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
 
     </div>
   </div>  <!--- home-content ---->

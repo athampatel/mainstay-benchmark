@@ -61,3 +61,19 @@ function CustomDateFormat1($date){
     return `${date_month} ${date_number}, ${date_year}`;
 }
 
+
+// search box work
+$(document).on('click','#search-icon',function(e){
+    e.preventDefault();
+    $('#search-container').addClass('active')
+})
+// search close
+$(document).on('click','#search-close',function(e){
+    e.preventDefault();
+    $('#search-container').removeClass('active')
+})
+
+$(document).on('click','#sidebar-icon',function(e){
+    e.preventDefault();
+    $('#sidebar').toggleClass('active1')
+})

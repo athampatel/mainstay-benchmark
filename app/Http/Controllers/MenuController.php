@@ -38,7 +38,7 @@ class MenuController extends Controller
                         'vmi-user'          =>          array(  'name' => 'vmi user', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/vmi_user_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/VMI-User'),
+                                                                'link'=> '/vmi-user'),
                         'analysis'          =>          array(  'name' => 'analysis', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/analysis_menu_gray.svg')),
                                                                 'active' => 0,
@@ -222,13 +222,73 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'vmi-user';
         $data['menus']          = $this->NavMenu('vmi-user');
-        return view('pages.vmi-user');
+        return view('pages.vmi-user',$data);
     }
-    
+
+    // analysis page
     public function analysisPage(){
         $data['title']  = '';
         $data['current_menu']   = 'analysis';
         $data['menus']          = $this->NavMenu('analysis');
+        $arr = [
+            [
+                'no' => '87145254',
+                'date' => '2022-04-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 145,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-04-15',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 100,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-03-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 153,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-02-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 165,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-01-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 98,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-08-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 200,
+            ],
+            [
+                'no' => '87145254',
+                'date' => '2022-10-08',
+                'custpono' => '1234',
+                'city' => 'city',
+                'total_items' => 10,
+                'total_amount' => 198,
+            ],
+        ];
+        $data['response'] = $arr;
         return view('pages.analysis',$data);
     }
     

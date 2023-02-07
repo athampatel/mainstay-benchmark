@@ -1,7 +1,7 @@
 {{-- new code  --}}
 <nav>
     <div class="sidebar-button">
-        <div class="menu-icon">
+        <div class="menu-icon" id="sidebar-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22">
                 <g class="Group_893" data-name="Group 893" transform="translate(-292 -35)">
                     <rect class="Rectangle_25" data-name="Rectangle 25" width="27" height="4" transform="translate(292 35)" fill="#424448"/>
@@ -12,21 +12,43 @@
             </svg>
         </div>
         {{-- <div class="search-box"> --}}
-        <div style="padding-right: 20px;">
-            <div class="search-icons">
-            <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
-                <defs>
-                    <clipPath class="clip-path">
-                    <rect class="Rectangle_6" data-name="Rectangle 6" width="24.375" height="24.377" fill="#424448"/>
-                    </clipPath>
-                </defs>
-                <g class="Group_9" data-name="Group 9" clip-path="url(#clip-path)">
-                    <path class="Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
-                </g>
-            </svg>
+        {{-- <div style="padding-right: 20px;"> --}}
+            {{-- <div class="search-icons">
+                <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
+                    <defs>
+                        <clipPath class="clip-path">
+                        <rect class="Rectangle_6" data-name="Rectangle 6" width="24.375" height="24.377" fill="#424448"/>
+                        </clipPath>
+                    </defs>
+                    <g class="Group_9" data-name="Group 9" clip-path="url(#clip-path)">
+                        <path class="Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
+                    </g>
+                </svg>
+            </div> --}}
+        {{-- <input type="text" placeholder="Search..."> --}}
+        {{-- </div> --}}
+        {{-- search icon work start --}}
+        <div class="searchbox" id="search-container">
+            <div class="search" id="search-icon">
+                <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
+                    <defs>
+                        <clipPath class="clip-path">
+                        <rect class="Rectangle_6" data-name="Rectangle 6" width="24.375" height="24.377" fill="#424448"/>
+                        </clipPath>
+                    </defs>
+                    <g class="Group_9" data-name="Group 9" clip-path="url(#clip-path)">
+                        <path class="Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
+                    </g>
+                </svg>
             </div>
-            {{-- <input type="text" placeholder="Search..."> --}}
+            <div class="searchinput">
+                <input type="text" name="search" placeholder="search ..." autocomplete="off">
+            </div>
+            <div class="close" id="search-close">
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
         </div>
+        {{-- search icon work end --}}
     </div>
     <div class="notification_section">
         <div class="notification_icons">
