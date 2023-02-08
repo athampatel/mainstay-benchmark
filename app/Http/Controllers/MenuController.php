@@ -6,6 +6,7 @@ use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
+use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -304,6 +305,12 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']  = 'help';
         $data['menus']         = $this->NavMenu('help');
+        $data['posts'] = Post::paginate(10);
+        $posts = Post::paginate(10);
+        $data['pagination'] = $posts->toArray();
+        // $data['posts'] = Post::paginate(10)->withQueryString();
+        // $data['posts'] = Post::cursorPaginate(10);
+        // $data['posts'] = Post::cursorPaginate(10);
         return view('pages.help',$data);
     }
 }
