@@ -10,19 +10,19 @@
 
 @section('content')
 <div class="home-content">
-    <div class="" style="display: flex; justify-content:space-between;width:calc(100% - 50px);align-items:center;">
-        <div style="display:flex;justify-content:center;align-items:center;">
-            <div class="page_title">Analysis</div>
-            <div style="display:flex;gap:20px;">
-                <label for="" style="color: #424448;font-weight:500; position:relative;">
-                    By Item
+    <div class="padding-y-40 d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="page_title p-0">Analysis</div>
+            <div class="d-flex analysis-filter">
+                <label for="" class="position-relative">
+                    <span>By Item</span>
                     <select name="" id="analysis_item_select" class="rounded analysis_select">
                         <option value="" selected>Select Item</option>
                     </select>
                     <div class="down-arrow"></div>
                 </label>
-                <label for="" style="color: #424448;font-weight:500; position:relative;">
-                    By Range
+                <label class="position-relative">
+                    <span>By Range</span>
                     <select name=""id="analysis_range_select"class="rounded analysis_select">
                         <option value="0" selected>Select Range</option>
                         <option value="1" selected>Last Month</option>
@@ -41,45 +41,98 @@
             </label>
         </div>
     </div>
-    <div class="table-card d-none" style="padding:0 2.5rem;" id="table-table">
+    <div class="padding-y-40 open-orders">
         <div class="row">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-                <div class="col-12">
-                   <div class="card box card-background" style="background-color:#424448;border-radius:0.625rem;color:#fff;">
-                        <div class="card-body col-12 p-3">
-                            <div class="table-responsive">
-                                <table id="vmi-page-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Invoice Number</th>
-                                            <th>Invoice Date</th>
-                                            <th>Customer PO Number</th>
-                                            <th>Ship-to City,State</th>
-                                            <th>Total Number of Items</th>
-                                            <th>Total Invoiced Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($response as $res)
-                                            <tr>
-                                                <td><span class="order-id">#{{$res['no']}}</span></td>
-                                                <td>{{$res['date']}}</td>
-                                                <td>{{$res['custpono']}}</td>
-                                                <td>{{$res['city']}}</td>
-                                                <td>{{$res['total_items']}}</td>
-                                                <td>{{$res['total_amount']}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+            <div class="col-12">
+                <div class="card box">
+                    <div class="card-header col-12 p-3 d-flex border-0">
+                        <div class="col-6 d-flex align-items-center">
+                        </div>
+                        <div class="col-6 d-flex align-items-center justify-content-end">            
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="analysis-page-search" aria-controls="">
+                                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
+                            </div> 
+                            <div class="position-relative datatable-filter-div">
+                                <select name="" class="datatable-filter-count" id="analysis-page-filter-count">
+                                    <option value="12" selected>12 Items</option>
+                                    <option value="5">5 Items</option>
+                                    <option value="10">10 Items</option>
+                                    <option value="20">20 Items</option>
+                                </select>
+                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
+                            </div>
+                            <div class="datatable-export">
+                                <div class="datatable-print">
+                                    <a href="">
+                                        <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="analysis-print-icon">
+                                    </a>
+                                </div>
+                                <div class="datatable-report">
+                                    <a href="">
+                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                   </div>
-                </div>	
-            </div>
+                    </div>
+                    <div class="card-body col-12 padding-y-0">
+                        <div class="table-responsive">
+                            <table id="analysis-page-table" class="table bench-datatable border-0">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0">ID</th>
+                                        <th class="border-0">Customer name</th>
+                                        <th class="border-0">Customer email</th>
+                                        <th class="border-0">Total items</th>
+                                        <th class="border-0">Price</th>
+                                        <th class="border-0">Date</th>
+                                        <th class="border-0">Location</th>
+                                        <th class="border-0">Status</th>
+                                        <th class="border-0">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="">
+                                @for($i = 0; $i < 50; $i++)
+                                    <tr>
+                                        <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#89742-{{$i}}</a></td>
+                                        <td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
+                                        <td><a href="mailto:adamsbaker@mail.com" class="customer-email">adamsbaker@mail.com</a></td>
+                                        <td>2</td>
+                                        <td>$245</td>
+                                        <td>Apr 08, 2021</td>
+                                        <td class="location">
+                                            <span class="svg-icon location-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
+                                            </span>
+                                            London
+                                        </td>
+                                        <td class="status">Open</td>
+                                        <td class="action">
+                                            <a href="#">
+                                                Change
+                                            </a>
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
+                                                    <g id="pen" transform="translate(-181.608 -111.379)">
+                                                        <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#F96969" stroke="#F96969" stroke-width="0.5"/>
+                                                    </g>
+                                                </svg>                         
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endfor
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 pb-2">
+                            {{-- <x-pagination-component :pagination="$pagination" /> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>	
         </div>
     </div>
-    {{-- <div class="col-12 p-2" id="analysis_page_chart"></div> --}}
     <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart" style="padding:0 2.5rem;">
         <div class="col">
             <div class="card box" style="background:rgb(66, 68, 72)">
@@ -103,168 +156,13 @@
 @endsection
 
 @section('scripts')
-     <!-- Start datatable js -->
      <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-     {{-- Gokul --}}
      <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
      <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-     <script src="assets/js/moment.js"></script>
-     {{-- moment js --}}
-     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-     
+     <script src="/assets/js/analysis-page.js"></script>
      <script>
-         /*================================
-        datatable active
-        ==================================*/
-        if ($('#dataTable').length) {
-            $('#dataTable').DataTable({
-                responsive: true
-            });
-        }
-        
         let response_ = <?php echo json_encode($response); ?>;
-        // let today = moment().format('DD-MM-yyyy');
-        // console.log(today,'__today');
-        // console.log(response_,'__response');
-
-        if($(document.body).find('#vmi-page-table').length > 0){
-            const open_table = $('#vmi-page-table').DataTable( {
-                searching: true,
-            });
-            let searchbox = `<input type="search" class="form-control form-control-sm" placeholder="Search in All Columns" id="vmi-page-table-search" aria-controls="vmi-page-table"><img src="/assets/images/svg/grid-search.svg" alt="">`;
-            $('#vmi-page-table_filter').append(searchbox);
-            $('#vmi-page-table-search').keyup(function(){
-                open_table.search($(this).val()).draw() ;
-            }) 
-        }
-
-        $(document).on('change','#analysis_item_select',function(){
-            // let val = $(this).val();
-            // console.log(val,'___val');
-            console.log('__changed');
-        })
-        $(document).on('change','#analysis_range_select',function(){
-            $(this).closest('.down-arrow').css("transform", "rotate(-180deg)");
-        })
-
-        $(document).on('change','#tab_input',function(){
-            if($('#tab_input').is(':checked')){
-                // console.log('__checked');
-                // graph view
-                $('#table-chart').removeClass('d-none');
-                $('#table-table').addClass('d-none');
-                // table-table
-            } else {
-                $('#table-chart').addClass('d-none');
-                $('#table-table').removeClass('d-none');
-            }
-        })
-        getChartData(response_);
-        function getChartData(res){
-        let arr1 = [];
-          res.forEach(da => {
-            let month  =moment(da.date,'yyyy-mm-dd').format('mm')
-            // console.log(month,'__month')
-            if(arr1[month]){
-                arr1[month] += da.total_amount;
-            } else {
-                arr1[month] = da.total_amount;
-            }
-          });
-          let final = [];
-          for(let num = 01;num<=12;num++){
-            // let i1 = num.toString();
-            let num1 = num < 9 ? `0${num}`: num;
-            if(arr1[num1]){
-                final.push(arr1[num1]);
-            } else {
-                final.push(0);
-            }
-          }
-          return final;
-        }
-            $counts = getChartData(response_);
-            
-            var options = {
-                series: [{
-                        name: 'sales',
-                        data: $counts
-                    },
-                ],
-                chart: {
-                    foreColor: '#9ba7b2',
-                    type: 'bar',
-                    height: 750,
-                    zoom:{
-                        enabled:false
-                    },
-                    toolbar : {
-                        show:true
-                    },
-                    dropShadow:{
-                        enabled:true,
-                        top:3,
-                        left:14,
-                        blur:4,
-                        opacity:0.10,
-                    }
-                },
-                stroke: {
-                    width: 2,
-                    curve:'straight'
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '36%',
-                    },
-                },
-                dataLabels: {
-                     enabled: false //changeable
-                },
-                xaxis: {
-                    type:'month',
-                    categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'light',
-                        gradientToColors: ['#A4CD3C'],
-                        shadeIntensity: 1,
-                        type: 'horizontal',
-                        opacityFrom: 1,
-                        opacityTo: 1,
-                        stops: [0, 100, 100, 100]
-                    },
-                },
-                markers: {
-                    size: 4,
-                    colors: ["#A4CD3C"],
-                    strokeColors: "#fff",
-                    strokeWidth: 2,
-                    hover: {
-                        size: 7,
-                    }
-                },
-                colors: ["#A4CD3C"],
-                
-                yaxis: {
-                    title: {
-                        text: ''
-                    }
-                },
-            };
-
-            var chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
-            chart.render();
-        // }
-        // chart work end
-
-        // function printfunction(){
-        //     console.log('__print work');
-        // }
      </script>
 @endsection

@@ -86,6 +86,9 @@ class MenuController extends Controller
         $final_data['current_menu']   = 'open-orders';
         $final_data['menus']          = $this->NavMenu('open-orders');
         // return view('pages.open-orders',$final_data);
+        $posts = Post::paginate(10);
+        $final_data['pagination'] = $posts->toArray();
+        return view('pages.open-orders',$final_data);
         // data getting work start
         $user_id = Auth::user()->id;
         $user_details = UserDetails::where('user_id',$user_id)->first();
