@@ -1,3 +1,137 @@
+$(function(){
+    // customer sales history
+     if ($("#customer_sales_history").length) {
+         AjaxRequestCom('/customersales','GET','','chartDisplay');
+     }
+    // customer invoice orders
+     if ($("#invoice-orders-table-body").length) {
+         $('#invoice-orders-table-body').html('<tr><td class="text-center" colspan="8">Loading...</td></tr>');
+         AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
+     }
+
+
+    if($(document.body).find('#chart2').length == 1){
+        // chart 2
+        var optionsLine = {
+            chart: {
+                foreColor: '#9ba7b2',
+                height: 360,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 3,
+                    left: 2,
+                    blur: 4,
+                    opacity: 0.1,
+                }
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 5
+            },
+            colors: ["#A4CD3C", '#29cc39'],
+            series: [{
+                name: "Music",
+                data: [1, 15, 56, 20, 33, 27]
+            }, {
+                name: "Photos",
+                data: [30, 33, 21, 42, 19, 32]
+            }],
+            title: {
+                text: 'Multiline Chart',
+                align: 'left',
+                offsetY: 25,
+                offsetX: 20
+            },
+            subtitle: {
+                text: 'Statistics',
+                offsetY: 55,
+                offsetX: 20
+            },
+            markers: {
+                size: 4,
+                strokeWidth: 0,
+                hover: {
+                    size: 7
+                }
+            },
+            grid: {
+                show: true,
+                padding: {
+                    bottom: 0
+                }
+            },
+            labels: ['01/15/2002', '01/16/2002', '01/17/2002', '01/18/2002', '01/19/2002', '01/20/2002'],
+            xaxis: {
+                tooltip: {
+                    enabled: false
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                offsetY: -20
+            }
+        }
+        var chartLine = new ApexCharts(document.querySelector('#chart2'), optionsLine);
+        chartLine.render();
+    }
+
+    if($(document.body).find('#chart3').length == 1){
+        var options = {
+            series: [{
+                name: 'series1',
+                data: [31, 40, 68, 31, 92, 55, 100]
+            }, {
+                name: 'series2',
+                data: [11, 82, 45, 80, 34, 52, 41]
+            }],
+            chart: {
+                foreColor: '#9ba7b2',
+                height: 360,
+                type: 'area',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: true
+                },
+            },
+            colors: ["#A4CD3C", '#f41127'],
+            title: {
+                text: 'Area Chart',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+                    color: '#666'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#chart3"), options);
+        chart.render();
+    }
+
+});
+
+
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');
@@ -12,6 +146,177 @@ $(document).on('click','.order-item-detail',function(e){
         }
     });
 })
+
+
+function customerInvoiceOrderDisplay(res){
+    // console.log(res,'__customer invoice order response');
+    $html = '';
+    const final_data = res.data.data.salesorderhistoryheader;
+    const user = res.data.user;
+    final_data.forEach( da => {
+        let display_date = CustomDateFormat1(da.orderdate);
+        let total_items = 0;
+        let total_price = 0;
+        da.salesorderhistorydetail.forEach( item => {
+            total_items += item.quantityorderedrevised;
+            total_price += item.lastunitprice;
+        });
+        $html += `
+        <tr>
+            <td>
+                <a href="javascript:void(0)" class="item-number font-12 btn btn-primary btn-rounded order-item-detail" data-sales_no=${da.salesorderno} ># ${da.salesorderno}</a>
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="customer-name">${user.name}</a>
+            </td>
+            <td>
+                <a href="mailto:adamsbaker@mail.com" class="customer-name">${user.email}</a>
+            </td>
+            <td>
+                ${total_items}
+            </td>
+            <td>
+                $${total_price}
+            </td>
+            <td>
+                ${display_date}
+            </td>
+            <td>
+                <span class="svg-icon location-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
+                </span> 
+                ${da.shiptocity}
+            </td>
+            <td>
+               ${da.orderstatus == 'C' ? 'Completed' : 'Not Completed'}
+            </td>
+        </tr>`;
+    })
+
+    $('#invoice-orders-table-body').html($html);
+}
+
+function chartDisplay($res){
+    $counts = [];
+    $categories = [];
+    $customer_data = $res.data.data.customersaleshistory;
+    for(let i = 1; i <= 12 ; i++ ){
+        let is_add = true;
+        $customer_data.forEach(da => {
+            if(da.fiscalperiod == i){
+                is_add = false;
+                $counts.push(da.dollarssold)
+            }
+        })
+        if(is_add){
+            $counts.push(0);
+        }
+    }
+    
+    var options = {
+        series: [{
+                name: 'sales',
+                data: $counts
+            },
+        ],
+        chart: {
+            foreColor: '#9ba7b2',
+            type: 'line',
+            height: 360,
+            zoom:{
+                enabled:false
+            },
+            toolbar : {
+                show:true
+            },
+            dropShadow:{
+                enabled:true,
+                top:3,
+                left:14,
+                blur:4,
+                opacity:0.10,
+            }
+        },
+        stroke: {
+            width: 5,
+            curve:'straight'
+        },
+
+        xaxis: {
+            type:'month',
+            categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            title:{
+                text:'Year '+$res.data.year,
+            }
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                gradientToColors: ['#A4CD3C'],
+                shadeIntensity: 1,
+                type: 'horizontal',
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100, 100, 100]
+            },
+        },
+        markers: {
+        	size: 4,
+        	colors: ["#A4CD3C"],
+        	strokeColors: "#fff",
+        	strokeWidth: 2,
+        	hover: {
+        		size: 7,
+        	}
+        },
+        colors: ["#A4CD3C"],
+        
+        yaxis: {
+            title: {
+                text: ''
+            }
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#customer_sales_history"), options);
+    chart.render();
+}
+
+
+//change order form page
+/*let order_details = "";
+$(document).on('click','#get_order_details',function(e){
+    e.preventDefault();
+    $('.backdrop').removeClass('d-none');
+    $ItemCode = $('#ItemCode').val();
+    $PurchaseOrderNumber = $('#PurchaseOrderNumber').val();
+    if($PurchaseOrderNumber != ""){
+        if($ItemCode != ""){
+            if(order_details == ""){
+                // ajax request and display
+                orderDetailsAjax($PurchaseOrderNumber,$ItemCode);        
+            } else {
+                // display
+                displayChangeOrderPage(order_details,$ItemCode);
+            }
+        } else {
+            // ajax request
+            orderDetailsAjax($PurchaseOrderNumber,$ItemCode);
+        }
+    } else {
+        console.log('purchase order number needed');
+        $('.backdrop').addClass('d-none');
+    }
+});*/
+
+if($(document.body).find('#PurchaseOrderNumber').length > 0 && $('#PurchaseOrderNumber').val() != '' ){
+    $('.backdrop').removeClass('d-none');
+    setTimeout(function(){
+        $('form#change-order-form').trigger('submit');
+    },10);
+}
+
 
 $('#change-order-form').on('submit', function(e) {
     e.preventDefault();
@@ -39,6 +344,7 @@ $('#change-order-form').on('submit', function(e) {
 });
 
 function orderDetailsAjax($PurchaseOrderNumber,$ItemCode){
+    
     $.ajax({
         type: 'POST',
         url: '/order-detail',
@@ -52,22 +358,25 @@ function orderDetailsAjax($PurchaseOrderNumber,$ItemCode){
             // displayChangeOrderPage(res)
             if(res.success){
                 order_details = res;
-                if($ItemCode == ""){
+                //if($ItemCode == ""){
                     let item_code_select_options = '';
                     res.data.data.sales_order_history_detail.forEach(item => {
-                        item_code_select_options += `<option value="${item.itemcode}">${item.itemcode}</option>`;
+                        $.each(item.product_details,function(ind,values){                         
+                            item_code_select_options += `<option value="${values.itemcode}">${values.itemcode}</option>`;
+                        });
                     })
                     let item_code_selectbox = `
                                             <label for="ItemCode" class="form-label">Choose Item Code</label>
                                                 <select class="form-select col-12" id="ItemCode">
+                                                    <option value="0">All</option>
                                                     ${item_code_select_options}
                                                 </select>`;
                     $('#item-code-selectbox').html(item_code_selectbox);
                     let first_item_code = res.data.data.sales_order_history_detail.length > 0 ? res.data.data.sales_order_history_detail[0].itemcode : '';
                     displayChangeOrderPage(order_details,first_item_code);
-                } else {
+               // } else {
                     displayChangeOrderPage(order_details,$ItemCode);
-                }
+                //}
             } else {
                 $('.result-icon').addClass('d-none');
                 $('.backdrop').addClass('d-none');
@@ -119,8 +428,14 @@ function displayChangeOrderPage(res,itemcode){
         $('#order-location').val($_data.shiptocity);
         $('#AliasItemNumber').val();
         $('#OrderDate').val($_data.orderdate);
+
+        $('#ordereddate_val').val($_data.orderdate);
+        $('#salesorderno_val').val($_data.salesorderno);
+        $('#customerno_val').val($_data.customerno);
+            
+        
         // order status
-        let order_status = $_data.orderstatus == 'C' ? 'Completed' : 'Not Completed';
+        let order_status = $_data.orderstatus == 'C' ? 'Completed' : 'Open';
         $('#orderStatus option:selected').val(order_status);
         $('#orderStatus option:selected').text(order_status);
         
@@ -134,8 +449,43 @@ function displayChangeOrderPage(res,itemcode){
         let quantity_count = 0;
         let promise_date = '';
         let dropship = '';
-        $_data.sales_order_history_detail.forEach(item => {
-            if(itemcode1 != 0){
+
+        console.log( $_data.sales_order_history_detail);
+
+        $_data.sales_order_history_detail.forEach(Sale_item => {
+            $.each(Sale_item.product_details,function(index,item){
+              
+               // if(item.quantityordered > 0){
+                    quantity_count += item.quantityordered;
+                        promise_date = ''; // item.promisedate;
+                        item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
+                            <td>${item.itemcodedesc}<br/>
+                            Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">${item.itemcode}</a></td> 
+                            <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
+                            <input type="number" name="order_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled></td>
+                            <td class="order_unit_price" data-val="${item.unitprice}">$ ${item.unitprice}</td>
+                            <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${item.quantityordered * item.unitprice}</td>
+                            <td class="order_item_actions">
+                                <a href="#" class="edit_order_item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
+                                        <g class="pen" transform="translate(-181.608 -111.379)">
+                                            <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
+                                        </g>
+                                    </svg>
+                                </a>
+                                <a href="#" class="d-none order-item-cancel-link" >
+                                    <ion-icon name="close-outline" class="order-item-cancel"></ion-icon>
+                                </a>
+                                <a href="#" class="d-none order-item-save-link">
+                                    <ion-icon name="save-outline" class="order-item-save"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>`;
+
+                    dropship = item.dropship == 'Y' ? 'Yes' : 'No';
+                   // }
+             });
+            /*if(itemcode1 != 0){
                 if(item.itemcode == itemcode1){
                     if(item.lastunitprice != 0){
                         quantity_count += item.quantityorderedrevised;
@@ -183,7 +533,7 @@ function displayChangeOrderPage(res,itemcode){
 
                     dropship = item.dropship == 'Y' ? 'Yes' : 'No';
                 }
-            }
+            }*/
         })
         $('#disp-items-body').html(item_details_html);
         // get the count of the quantity
@@ -383,6 +733,9 @@ function change_order_save_response(res){
     } else {
         $('#change-order-request-response-alert').text(res.error);
         $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+        $('html, body').animate({
+            scrollTop: $("#change-order-request-response-alert").offset().top
+        }, 500);
         // setTimeout(() => {
         //     $('#change-order-request-response-alert').addClass('d-none');
         // }, 2000);

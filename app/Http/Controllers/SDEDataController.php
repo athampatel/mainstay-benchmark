@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\Storage;
+
+use App\Http\Controllers\NotificationController;
+
 use Illuminate\Support\Facades\File;
 
 ini_set('max_execution_time', 300);
@@ -49,7 +52,7 @@ class SDEDataController extends Controller
                 [
                     "column" =>  "FiscalYear",
                     "type" =>  "equals",
-                    "value" =>  $year,
+                    "value" =>  "2022", // $year,
                     "operator" =>  "and"
                 ]
             ]
@@ -130,16 +133,16 @@ class SDEDataController extends Controller
 
         $filter = [
             [
-                "column" =>  "SalesOrderNo",
+                "column" =>  "salesorderno",
                 "type" =>  "equals",
                 "value" => $order_no,
                 "operator" =>  "and"
             ],
         ];
 
-        if($item_code != ""){
+        if($item_code != "" ){
             $new_filter = [ 
-                "column" =>  "ItemCode",
+                "column" =>  "itemcode",
                 "type" =>  "equals",
                 "value" => $item_code,
                 "operator" =>  "and"
@@ -150,10 +153,18 @@ class SDEDataController extends Controller
         $data1 = array(            
             "filter" => $filter
         );
-        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-        $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
-        foreach ($sales_order_detail as $key => $sales_order) {
-            $data2 = array(            
+        
+        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data1);
+
+        $sales_order_detail = $sales_order_history_detail['salesorders'];
+
+
+        //print_r($sales_order_detail);
+
+
+       foreach ($sales_order_detail as $key => $sales_order) {
+           
+            /*$data2 = array(            
                 "filter" => [
                     [
                         "column" =>  "ItemCode",
@@ -164,8 +175,13 @@ class SDEDataController extends Controller
                 ],
             );
             $product_detail = $this->SDEApi->Request('post','Products',$data2);
-            $sales_order_detail[$key]['product_details'] = $product_detail['products'];
+            $sales_order_detail[$key]['product_details'] = $product_detail['products']; */
+
+            $sales_order_detail[$key]['product_details'] = $sales_order['details'];
         }
+
+      
+
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
         $user = User::find(Auth::user()->id);
         $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
@@ -201,27 +217,33 @@ class SDEDataController extends Controller
     }
 
 
-    // public function getInvoiceHistoryHeader(){
-    //     $data = array(            
-    //         "filter" => [
-    //             [
-    //                 "column" => "ARDivisionNo",
-    //                 "type" => "equals",
-    //                 "value" => "00",
-    //                 "operator" => "and"
-    //             ],
-    //             [
-    //                 "column" => "CustomerNo",
-    //                 "type" => "equals",
-    //                 "value" => "GEMWI00",
-    //                 "operator" => "and"
-    //             ],
-    //         ]
-    //     );
+    public function getInvoiceOrderHeader($orderId = ''){
+        $data = array(            
+            "filter" => [
+                [
+                    "column" => "ARDivisionNo",
+                    "type" => "equals",
+                    "value" => "00",
+                    "operator" => "and"
+                ],
+                [
+                    "column" => "CustomerNo",
+                    "type" => "equals",
+                    "value" => "GEMWI00",
+                    "operator" => "and"
+                ],
+                [
+                    "column" => "CustomerNo",
+                    "type" => "equals",
+                    "value" => "GEMWI00",
+                    "operator" => "and"
+                ],
+            ]
+        );
 
-    //     $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
-    //     echo \json_encode($response);
-    // }
+        $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
+        echo \json_encode($response);
+    }
 
     // Api responses checking
 
@@ -533,7 +555,55 @@ class SDEDataController extends Controller
     }
 
     public function getCustomerOpenOrdersDetails(){
-        // orders
+        $order_no = $request->order_no;
+        $item_code = $request->item_code;
+        $data = array(            
+            "filter" => [
+                [
+                    "column" =>  "SalesOrderNo",
+                    "type" =>  "equals",
+                    "value" => $order_no,
+                    "operator" =>  "and"
+                ],
+            ],
+        );
+        $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+       if(empty($sales_order_history_header['salesorderhistoryheader'])){
+            $response = ['success' => false, 'data' => [],'error' => ['No records found']];
+            echo json_encode($response);
+            die();
+       }
+        $sales_order_header = $sales_order_history_header['salesorderhistoryheader'][0];
+
+        $filter =    array_push($filter,$new_filter);
+        $data1 = array(            
+            "filter" => $filter
+        );
+        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+        $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
+
+       /* foreach ($sales_order_detail as $key => $sales_order) {
+            $data2 = array(            
+                "filter" => [
+                    [
+                        "column" =>  "ItemCode",
+                        "type" =>  "equals",
+                        "value" => $sales_order['itemcode'],
+                        "operator" =>  "and"
+                    ],
+                ],
+            );
+            $product_detail = $this->SDEApi->Request('post','Products',$data2);
+            $sales_order_detail[$key]['product_details'] = $product_detail['products'];
+        }*/
+        
+        $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
+
+
+        //echo json_encode($sales_order_header);
+        $user = User::find(Auth::user()->id);
+        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
+        echo json_encode($response);
     }
 
     // change order save function 
@@ -555,7 +625,7 @@ class SDEDataController extends Controller
             }
             // if(!$change_order_request || $change_order_request->request_status != 0){
             if(!$is_insert){
-                echo json_encode(['success' => false,'error'=> 'Already changes made in this order. please wait once the request is approve or decline']);
+                echo json_encode(['success' => false,'error'=> 'Already a change request is placed.']);
                 die();
             }
             
@@ -584,12 +654,24 @@ class SDEDataController extends Controller
                 $url    = env('APP_URL').'/admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
 
                 $params = array('mail_view' => 'emails.change_order_request', 
-                                'subject'   => 'New user Signup request', 
+                                'subject'   => 'Change Order request', 
                                 'url'       => $url);
                 // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
                 \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
             }
             // Admin mail send work end
+
+
+            $_notification = array( 'type'      => 'change-order',
+                                    'from_user' => $user_id,
+                                    'to_user'   => 0,
+                                    'text'      => 'Change Order request',
+                                    'action'    => $url,
+                                    'status'    => 0,
+                                    'is_read'   => 0);                
+
+            $notification = new NotificationController();                        
+            $notification->create($_notification);
 
             echo json_encode(['success' => true]);
             die();

@@ -1279,6 +1279,9 @@ nav .profile-details i{
     }
 }
 
+#customer_sales_history{
+  min-height: 23.5rem;
+}
 
 @media screen and (min-width: 1025px)
   .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper {

@@ -50,8 +50,8 @@ class NotificationController extends Controller
                                 ->leftjoin('notifications','users.id','=','notifications.from_user');
 
                                 //->where('users.id',$user->id)->orWhere('');
-            */
-        }
+            
+        }*/
 
         return Response::json($data);
     }

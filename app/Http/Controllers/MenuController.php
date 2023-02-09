@@ -85,6 +85,8 @@ class MenuController extends Controller
         $final_data['title']  = '';
         $final_data['current_menu']   = 'open-orders';
         $final_data['menus']          = $this->NavMenu('open-orders');
+       
+
         // return view('pages.open-orders',$final_data);
         $posts = Post::paginate(10);
         $final_data['pagination'] = $posts->toArray();
@@ -109,16 +111,19 @@ class MenuController extends Controller
                     ],
                 ],
                 "offset" => 1,
-                "limit" => 5,
+                "limit" => 10,
             );
 
+            
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             foreach($response['salesorders'] as $key => $order){
                 $total_amount = 0;
                 $total_quantity = 0;
                 foreach($order['details'] as $detail){
-                    $total_quantity += $detail['quantityordered'];
-                    $total_amount += $detail['quantityordered'] * $detail['unitprice'];
+                    if($detail['quantityordered'] != 0){
+                        $total_quantity += $detail['quantityordered'];
+                        $total_amount += $detail['quantityordered'] * $detail['unitprice'];
+                    }
                 }
                 // $data1 = array(            
                 //     "filter" => [
@@ -146,7 +151,7 @@ class MenuController extends Controller
         return view('pages.open-orders',$final_data);
     }
     
-    public function changeOrderPage($orderid){
+    public function changeOrderPage($orderid){           
         if(Auth::user()->is_vmi == 1){
             $final_data['title']  = '';
             $final_data['current_menu']   = 'change-order';
@@ -154,7 +159,7 @@ class MenuController extends Controller
             // get order details work start
             // $order_no = $request->order_no;
             // $item_code = $request->item_code;
-            $data = array(            
+           /* $data = array(            
                 "filter" => [
                     [
                         "column" =>  "SalesOrderNo",
@@ -210,9 +215,10 @@ class MenuController extends Controller
                 $product_detail = $this->SDEApi->Request('post','Products',$data2);
                 $sales_order_detail[$key]['product_details'] = $product_detail['products'];
             }
-            $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
+            $sales_order_header['sales_order_history_detail'] = $sales_order_detail; */
             $user = User::find(Auth::user()->id);
-            $final_data['order_detail'] = $sales_order_header;
+
+            $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->first();
             // dd($final_data);
