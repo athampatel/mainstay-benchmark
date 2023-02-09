@@ -137,6 +137,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 *{
   margin: 0;
   padding: 0;
@@ -752,6 +754,10 @@ nav .profile-details i{
   padding:2px 10px !important;
 }
 
+.bench-datatable .item-number{
+  background-color: #9FCC47;
+}
+
 .form-control{
   height: 2.5rem;
   font-size: 0.75rem;
@@ -1015,6 +1021,8 @@ nav .profile-details i{
   border-radius: 15px;
   padding:0px 60px 0 10px;
 }
+
+
 #open-orders-table-search::placeholder{
   color: #fff;
 }
@@ -1461,7 +1469,6 @@ nav .profile-details i{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* background-image: url('../images/svg/select_arrow_down.svg'); */
   background-color: #7B7C7F;
   color: #fff;
   background-repeat: no-repeat;
@@ -1513,6 +1520,375 @@ nav .profile-details i{
   z-index: 999;
   background-repeat: no-repeat;
 }
+
+
+/* datatable design work start */
+#help-page-table{
+  color: #fff;
+}
+
+#help-page-table_filter label{
+  display: none;
+}
+#help-page-table-search{
+  max-width: 266px;
+  height: 30px;
+  padding-left: 17px;
+  background-color: #7B7C7F;
+  position: relative;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  padding:0px 60px 0 10px;
+  color: #fff;
+}
+
+#help-page-table-search::placeholder{
+  color: #fff;
+}
+#help-page-table-search:active{
+  border: none;
+  outline: none;
+}
+#help-page-table-search:focus{
+  border: none;
+  outline: none;
+}
+
+#help-page-table_filter{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#help-page-table_filter img{
+  position: absolute;
+  left: 200px;
+  top: 8px;
+}
+
+/* filter count */
+#counter_length_filter{
+  position: relative;
+}
+#counter_length_select{
+  height: 30px;
+  width: 162px ;
+  padding-left: 27px;
+  background-color: #7B7C7F;
+  color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 50px;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+#counter_length_select:focus{
+  border: none;
+}
+
+#counter_length_select:active{
+  border: none;
+}
+.counter_down-arrow{
+  position: absolute;
+  background: url('../images/svg/select_arrow_down.svg');
+  width: 20px;
+  height: 20px;
+  top: 12px;
+  right: 9px;
+  z-index: 999;
+  background-repeat: no-repeat;
+}
+
+.table-responsive nav{
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+}
+.table-responsive nav div:nth-child(1){
+  display: flex;
+  justify-content: space-between;
+}
+.table-responsive nav div:nth-child(1) span{
+  /* display: flex;
+  justify-content: space-between; */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* padding: ; */
+}
+.table-responsive nav div:nth-child(1) a{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: gray;
+  background: #fff;
+  border: gray;
+  /*  */
+}
+/* datatable design work end */
+
+/* pagination component */
+.pagination_text{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+}
+.pagination_button{
+  padding: 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination_button a{
+  height: 19px;
+  width: 19px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+}
+.pagination_button a.pagination_active_button{
+  background-color: #9FCC47;
+  color: #000;
+  text-align: center;
+}
+
+/* dashboard open orders chart */
+.padding-y-0{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.datatable-search-input{
+  width: 16.625rem;
+  padding-left: 1.0625rem;
+  height: 1.875rem;
+  border-radius:0.9375rem;
+  color: #fff !important;
+  padding-right: 2rem;
+  background-color: #7B7C7F;
+  border: none;
+  outline: none;
+}
+
+.datatable-search-input::placeholder{
+  color: #fff !important;
+}
+.datatable-search-input:focus{
+  box-shadow: none;
+  background-color: #7B7C7F;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+.datatable-search-img{
+  top: 0.5rem;
+  right: 1.25rem;
+}
+
+.datatable-filter-img{
+  top: 0.6875rem;
+  right: 1.0625rem;
+}
+
+.datatable-filter-div{
+  margin-left: 1.5625rem;
+}
+
+.datatable-filter-count{
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #7B7C7F;
+  color: #fff;
+  width: 10.125rem;
+  height: 1.875rem;
+  border-radius: 0.9375rem;
+  padding-left: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.datatable-filter-count option{
+  width: 10.125rem;
+  border-radius: 0.9375rem;
+}
+
+.datatable-export{
+  width: 6.9375rem;
+  height: 1.875rem;
+  background-color: #7B7C7F;
+  color: #fff;
+  border-radius:0.9375rem;
+  display: flex;
+  align-items: center;
+  margin-left: 0.75rem;
+}
+.datatable-print{
+  width: 3.4375rem;
+  height: 1.875rem;
+  border-right: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.datatable-print a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.datatable-report{
+  width: 3.4375rem;
+  height: 1.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.datatable-report a{ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-head-border-none{
+  border: none;
+}
+
+.bench-datatable th{
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+}
+.bench-datatable thead tr{
+  background-color: #7B7C7F;
+  min-height: 2.5625rem;
+}
+
+.bench-datatable td{
+  font-size: 0.75rem;
+  font-weight: 400;
+  min-height: 2.5rem;
+  vertical-align: middle;
+}
+
+.bench-datatable .customer-name{
+  color: #fff;
+}
+
+.bench-datatable .customer-email{
+  color: #fff;
+  text-decoration: none;
+}
+.bench-datatable .action a{
+  color:#F96969;
+  padding-right:0.625rem;
+}
+
+.bench-datatable .status{
+  color:#9FCC47;
+}
+
+.bench-datatable .location span{
+  padding-right: 0.3125rem;
+}
+
+.bench-datatable tbody tr{
+  /* border-bottom: 1px solid #A1A2A4;
+  color: #fff; */
+  background-color: #424448 !important;
+}
+.bench-datatable tbody tr td{
+  border-bottom: 1px solid #A1A2A4;
+  color: #fff;
+}
+.bench-datatable tbody tr:last-child td{
+  border: none;
+}
+
+#dashboard-recent-invoice-order-table_filter{
+  display: none;
+}
+
+#dashboard-recent-invoice-order-table_wrapper .row:first-child{
+  display: none;
+}
+#dashboard-recent-invoice-order-table_wrapper .row:last-child{
+  display: none;
+}
+
+#open-orders-page-table_filter{
+  display: none;
+}
+
+#open-orders-page-table_wrapper .row:first-child{
+  display: none;
+}
+#open-orders-page-table_wrapper .row:last-child{
+  display: none;
+}
+
+#vmi-page-table_filter{
+  display: none;
+}
+
+#vmi-page-table_wrapper .row:first-child{
+  display: none;
+}
+#vmi-page-table_wrapper .row:last-child{
+  display: none;
+}
+
+#analysis-page-table_filter{
+  display: none;
+}
+
+#analysis-page-table_wrapper .row:first-child{
+  display: none;
+}
+#analysis-page-table_wrapper .row:last-child{
+  display: none;
+}
+
+/*open orders page */
+.padding-y-40{
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.open-orders .card.box{
+  background-color: #424448;
+  border-radius: 15px;
+  margin-top: 24px;
+}
+
+/* analysis page filter */
+.analysis-filter label{
+  color: #424448;
+  font-weight:500;
+  /* width: 226px; */
+  margin-left: 40px;
+}
+.analysis-filter label span{
+  padding-right: 18px;
+  font-size: 12px;
+  font-weight:bold;
+}
+.analysis-filter label select{
+  width: 162px;
+  padding-left: 24px;
+  /* padding-left: 18px; */
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;

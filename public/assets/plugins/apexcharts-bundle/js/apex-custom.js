@@ -66,6 +66,7 @@ $(function () {
 	
 	
 	// chart 2
+	console.log('__chart 2 comes in');
 	var optionsLine = {
 		chart: {
 			foreColor: '#9ba7b2',

@@ -131,6 +131,7 @@ $(function(){
 
 });
 
+
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');
@@ -315,6 +316,7 @@ if($(document.body).find('#PurchaseOrderNumber').length > 0 && $('#PurchaseOrder
         $('form#change-order-form').trigger('submit');
     },10);
 }
+
 
 $('#change-order-form').on('submit', function(e) {
     e.preventDefault();
