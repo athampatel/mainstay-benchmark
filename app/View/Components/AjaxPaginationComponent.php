@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class PaginationComponent extends Component
+class AjaxPaginationComponent extends Component
 {
     /**
      * Create a new component instance.
@@ -17,11 +17,6 @@ class PaginationComponent extends Component
         $this->pagination = $pagination;
     }
 
-    // public function index() {
-    //     $exampleData = 'example data';
-    //     return view('example', compact('exampleData'));
-    // }
-
     /**
      * Get the view / contents that represent the component.
      *
@@ -29,6 +24,6 @@ class PaginationComponent extends Component
      */
     public function render()
     {
-        return view('components.pagination-component');
+        return view('components.ajax-pagination-component');
     }
 }

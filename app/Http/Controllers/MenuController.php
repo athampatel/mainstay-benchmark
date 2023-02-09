@@ -9,6 +9,7 @@ use App\Helpers\SDEApi;
 use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 class MenuController extends Controller
 {
@@ -85,69 +86,50 @@ class MenuController extends Controller
         $final_data['title']  = '';
         $final_data['current_menu']   = 'open-orders';
         $final_data['menus']          = $this->NavMenu('open-orders');
-       
-
         // return view('pages.open-orders',$final_data);
-        $posts = Post::paginate(10);
-        $final_data['pagination'] = $posts->toArray();
+        // $posts = Post::paginate(10);
+        // $final_data['pagination'] = $posts->toArray();
         return view('pages.open-orders',$final_data);
         // data getting work start
-        $user_id = Auth::user()->id;
-        $user_details = UserDetails::where('user_id',$user_id)->first();
-        if($user_details){
-            $data = array(            
-                "filter" => [
-                    [
-                        "column"=> "ARDivisionNo",
-                        "type"=> "equals",
-                        "value"=> "00",
-                        "operator"=> "and"
-                    ],
-                    [
-                        "column"=> "CustomerNo",
-                        "type"=> "equals",
-                        "value"=> "GEMWI00",
-                        "operator"=> "and"
-                    ],
-                ],
-                "offset" => 1,
-                "limit" => 10,
-            );
+        // $user_id = Auth::user()->id;
+        // $user_details = UserDetails::where('user_id',$user_id)->first();
+        // if($user_details){
+        //     $data = array(            
+        //         "filter" => [
+        //             [
+        //                 "column"=> "ARDivisionNo",
+        //                 "type"=> "equals",
+        //                 "value"=> "00",
+        //                 "operator"=> "and"
+        //             ],
+        //             [
+        //                 "column"=> "CustomerNo",
+        //                 "type"=> "equals",
+        //                 "value"=> "GEMWI00",
+        //                 "operator"=> "and"
+        //             ],
+        //         ],
+        //         "offset" => 1,
+        //         "limit" => 10,
+        //     );
 
             
-            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-            foreach($response['salesorders'] as $key => $order){
-                $total_amount = 0;
-                $total_quantity = 0;
-                foreach($order['details'] as $detail){
-                    if($detail['quantityordered'] != 0){
-                        $total_quantity += $detail['quantityordered'];
-                        $total_amount += $detail['quantityordered'] * $detail['unitprice'];
-                    }
-                }
-                // $data1 = array(            
-                //     "filter" => [
-                //             [
-                //                 "column"=> "salesorderno",
-                //                 "type"=> "equals",
-                //                 "value"=> $order['salesorderno'],
-                //                 "operator"=> "and"
-                //             ],
-                //         ]
-                // );
-                // $response1   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data1);
-                // if(!empty($response1['salesorderhistoryheader'])){
-                //     $response['salesorders'][$key]['location'] =$response1['salesorderhistoryheader'][0]['shiptocity'];
-                // }
-
-                $response['salesorders'][$key]['total_amount'] = $total_amount; 
-                $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
-                $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
-            }
-            $final_data['orders'] = $response['salesorders'];
-        }  
-        // data getting work end 
-        // dd($final_data);
+        //     $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+        //     foreach($response['salesorders'] as $key => $order){
+        //         $total_amount = 0;
+        //         $total_quantity = 0;
+        //         foreach($order['details'] as $detail){
+        //             if($detail['quantityordered'] != 0){
+        //                 $total_quantity += $detail['quantityordered'];
+        //                 $total_amount += $detail['quantityordered'] * $detail['unitprice'];
+        //             }
+        //         }
+        //         $response['salesorders'][$key]['total_amount'] = $total_amount; 
+        //         $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
+        //         $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
+        //     }
+        //     $final_data['orders'] = $response['salesorders'];
+        // }  
         return view('pages.open-orders',$final_data);
     }
     
@@ -321,5 +303,93 @@ class MenuController extends Controller
         // $data['posts'] = Post::cursorPaginate(10);
         // $data['posts'] = Post::cursorPaginate(10);
         return view('pages.help',$data);
+    }
+
+
+    // get open orders
+    public function getOpenOrders(Request $request){
+        $data = $request->all();
+        $page = $data['page'];//5
+        // $limit = 10
+        $limit = $data['count'];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
+        $user_id = Auth::user()->id;
+        $user_details = UserDetails::where('user_id',$user_id)->first();
+        if($user_details){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=> "ARDivisionNo",
+                        "type"=> "equals",
+                        "value"=> "00",
+                        "operator"=> "and"
+                    ],
+                    [
+                        "column"=> "CustomerNo",
+                        "type"=> "equals",
+                        "value"=> "GEMWI00",
+                        "operator"=> "and"
+                    ],
+                ],
+                "offset" => $offset,
+                "limit" => $limit,
+            );
+            
+            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            // dd($response['salesorders']);
+            
+            /* custom pagination work start */
+            $custom_pagination['from'] = $offset;
+            $custom_pagination['to'] = intval($offset + $limit - 1) > intval($response['meta']['records']) ? intval($response['meta']['records']) :intval($offset + $limit - 1);
+            $custom_pagination['total'] = $response['meta']['records'];
+            $custom_pagination['first_page'] = 1;
+            $custom_pagination['last_page'] = ceil($response['meta']['records'] / $limit);
+            $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
+            $custom_pagination['curr_page'] = intval($page);
+            $custom_pagination['next_page'] = $page + 1;
+            $custom_pagination['path'] = '/getOpenOrders';
+            // $date =strtotime('2022-08-26','Y-m-d');
+            // dd($date);  
+            for($i = 1; $i <= ceil($response['meta']['records'] / $limit); $i++){               
+                $custom_link = [
+                    'label' => $i,
+                    'active' => $page + 1 == $i,
+                ];
+                $custom_pagination['links'][] = $custom_link;
+            }
+            
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+    
+            $table_code = View::make("components.datatabels.open-orders-page-component")
+            ->with("saleorders", $response['salesorders'])
+            ->render();
+            
+            $response['pagination_code'] = $pagination_code;
+            $response['table_code'] = $table_code;
+            /* custom pagination work end */
+            
+            echo json_encode($response);
+            die();
+            // foreach($response['salesorders'] as $key => $order){
+            //     $total_amount = 0;
+            //     $total_quantity = 0;
+            //     foreach($order['details'] as $detail){
+            //         if($detail['quantityordered'] != 0){
+            //             $total_quantity += $detail['quantityordered'];
+            //             $total_amount += $detail['quantityordered'] * $detail['unitprice'];
+            //         }
+            //     }
+            //     $response['salesorders'][$key]['total_amount'] = $total_amount; 
+            //     $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
+            //     $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
+            // }
+            // $final_data['orders'] = $response['salesorders'];
+        }  
     }
 }

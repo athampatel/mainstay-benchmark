@@ -1,19 +1,52 @@
 $(function(){
     // customer sales history
-    if ($("#customer_sales_history").length) {
-        AjaxRequestCom('/customersales','GET','','customerSalesChartDisplay');
-    }
+    // if ($("#customer_sales_history").length) {
+    //     AjaxRequestCom('/customersales','GET','','customerSalesChartDisplay');
+    // }
     // customer invoice orders
     // if ($("#invoice-orders-table-body").length) {
     //     $('#invoice-orders-table-body').html('<tr><td class="text-center" colspan="8">Loading...</td></tr>');
-    //     AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
+    // AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
     // }
+    // console.log('___customer-dashboard table comes in');
     // customer open orders chart
-    customerOpenOrders()
-    customerSpendingChart()
+    
     // customer-spending-chart
-
+    // customer_invoice_orders()
 });
+customerOpenOrders()
+customerSpendingChart()
+customer_invoice_orders()
+
+function customer_invoice_orders(){
+    $.ajax({
+        type: 'GET',
+        url: '/customer-invoice-orders',
+        dataType: "JSON",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        beforeSend:function(){
+            // $('.backdrop').removeClass('d-none');
+        },
+        success: function (res) {  
+            // $('#pagination_disp').html(res.pagination_code);
+            console.log(res,'___response');
+            // dashboard-recent-invoice-order-table-div
+            $('#dashboard-recent-invoice-order-table-div').html(res.table_code);
+            /* data table generate */
+            // open_order_page_table = $('#open-orders-page-table').DataTable( {
+            //     searching: true,
+            //     lengthChange: true,
+            //     pageLength:pagecount,
+            //     paging: true,
+            //     ordering: false,
+            //     info: false,
+            // });
+        },
+        complete:function(){
+            // $('.backdrop').addClass('d-none');
+        }
+    });
+}
 
 // recent invoice order datatable
 const open_table = $('#dashboard-recent-invoice-order-table').DataTable( {
@@ -37,6 +70,7 @@ $(document).on('change','#dashboard-open-orders-filter-count',function(){
 console.log('customer-dashboard.js')
 // dashbord invoice order chart display
 function customerInvoiceOrderDisplay(res){
+    console.log(res,'__customer invoice order display');
     $html = '';
     const final_data = res.data.data.salesorderhistoryheader;
     const user = res.data.user;

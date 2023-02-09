@@ -73,8 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/{id}/cancel',[SDEDataController::class,'changeUserCancel']);
 
     Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
-
-    
+    // get open orders details
+    Route::get('/getOpenOrders',[MenuController::class,'getOpenOrders']);
 });
 
 Route::get('/autheticate',[AuthController::class,'autheticate']);
