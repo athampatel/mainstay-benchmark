@@ -77,7 +77,7 @@ class DashboardController extends Controller
             $new_customers      = User::select('id')->where('active','=',0)->where('is_deleted','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
-            $change_request     = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
+            $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
 
         }else{
 

@@ -5,13 +5,7 @@
 Region Mangers - Admin Panel
 @endsection
 
-@section('styles')
-    <!-- Start datatable css -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
-@endsection
+
 @section('admin-content')   
 <!-- page title area start -->
 <div class="page-title-area">
@@ -64,7 +58,7 @@ Region Mangers - Admin Panel
                                             <a class="btn btn-success text-white" href="{{ route('admin.admins.edit', $user->user_id) }}" title="View Account"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             <a class="btn btn-warning text-white" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers"><i class="fa fa-users" aria-hidden="true"></i></a>
                                           @else
-                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.create') }}/{{$user->id}}" title="Create Account"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
+                                            <a class="btn btn-success text-white" href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
                                           @endif
 
 
@@ -90,26 +84,4 @@ Region Mangers - Admin Panel
         
     </div>
 </div>
-@endsection
-
-
-@section('scripts')
-     <!-- Start datatable js -->
-     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-     <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-     
-     <script>
-         /*================================
-        datatable active
-        ==================================*/
-        if ($('#dataTable').length) {
-            $('#dataTable').DataTable({
-                responsive: true
-            });
-        }
-
-     </script>
 @endsection

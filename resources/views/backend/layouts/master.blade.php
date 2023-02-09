@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@yield('title', 'Laravel Role Admin')</title> 
+    <title>@yield('title', 'BenchMark Products')</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('backend.layouts.partials.styles')
     @yield('styles')
