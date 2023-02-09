@@ -1,6 +1,8 @@
 // cutomersaleshistory
 $(function(){
     
+	console.log("LOADING CHARTS");
+	
     $.ajax({
         type: 'GET',
         url: '/customersales',
