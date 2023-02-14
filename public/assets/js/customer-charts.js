@@ -355,14 +355,14 @@ function orderDetailsAjax($PurchaseOrderNumber,$ItemCode){
                 //if($ItemCode == ""){
                     let item_code_select_options = '';
                     res.data.data.sales_order_history_detail.forEach(item => {
-                        $.each(item.product_details,function(ind,values){                         
-                            item_code_select_options += `<option value="${values.itemcode}">${values.itemcode}</option>`;
+                        $.each(item.product_details,function(ind,values){    
+                            if(values.quantityordered > 0)                    
+                                item_code_select_options += `<option value="${values.itemcode}">${values.itemcode}</option>`;
                         });
                     })
                     let item_code_selectbox = `
                                             <label for="ItemCode" class="form-label">Choose Item Code</label>
-                                                <select class="form-select col-12" id="ItemCode">
-                                                    <option value="0">All</option>
+                                                <select class="form-select col-12" id="ItemCode">                                                   
                                                     ${item_code_select_options}
                                                 </select>`;
                     $('#item-code-selectbox').html(item_code_selectbox);
@@ -449,9 +449,9 @@ function displayChangeOrderPage(res,itemcode){
         $_data.sales_order_history_detail.forEach(Sale_item => {
             $.each(Sale_item.product_details,function(index,item){
               
-               // if(item.quantityordered > 0){
+                if(item.quantityordered > 0){
                     quantity_count += item.quantityordered;
-                        promise_date = ''; // item.promisedate;
+                        promise_date = item.promisedate;
                         item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                             <td>${item.itemcodedesc}<br/>
                             Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">${item.itemcode}</a></td> 
@@ -477,7 +477,7 @@ function displayChangeOrderPage(res,itemcode){
                         </tr>`;
 
                     dropship = item.dropship == 'Y' ? 'Yes' : 'No';
-                   // }
+                }
              });
             /*if(itemcode1 != 0){
                 if(item.itemcode == itemcode1){

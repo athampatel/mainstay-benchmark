@@ -1935,6 +1935,9 @@ nav .profile-details i{
 #pagination_disp{
   padding: 1rem;
 }
+table.dataTable td, table.dataTable th{
+  text-align: center;
+}
 
 @media (min-width: 1025px){
   .table-responsive{

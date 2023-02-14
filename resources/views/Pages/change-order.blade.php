@@ -196,7 +196,7 @@
                         </div>                    
                     </div>   
 
-                    <div class="table-responsive col-12 p-2">
+                    <div class="table-responsive col-12 p-3">
                         <table id="orderItems" class="table">
                             <thead>
                                 <tr>
