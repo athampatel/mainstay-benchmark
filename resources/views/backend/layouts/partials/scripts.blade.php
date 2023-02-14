@@ -32,4 +32,6 @@ ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3eda
 <!-- others plugins -->
 <script src="{{ asset('backend/assets/js/plugins.js') }}"></script>
 <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
+<script src="{{ asset('/assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/js/notification.js') }}"></script>
 
