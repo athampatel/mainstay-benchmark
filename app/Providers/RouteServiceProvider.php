@@ -18,6 +18,13 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+	
+	/**
+     * The path to the "admin" route for your application.
+     *
+     * @var string
+     */
+    public const ADMIN_DASHBOARD = '/admin';
 
     /**
      * The controller namespace for the application.
@@ -27,13 +34,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string|null
      */
     // protected $namespace = 'App\\Http\\Controllers';
-
-      /**
-     * The path to the "admin" route for your application.
-     *
-     * @var string
-     */
-    public const ADMIN_DASHBOARD = '/admin';
     
     /**
      * Define your route model bindings, pattern filters, etc.
