@@ -19,17 +19,18 @@ $(function () {
 	});
 	// toggle menu button
 	$(".toggle-icon").click(function () {
-		if ($(".wrapper").hasClass("toggled")) {
-			// unpin sidebar when hovered
+		if ($(".wrapper").hasClass("toggled")) {			
 			$(".wrapper").removeClass("toggled");
 			$(".sidebar-wrapper").unbind("hover");
+			$(this).removeClass('active');
 		} else {
 			$(".wrapper").addClass("toggled");
 			$(".sidebar-wrapper").hover(function () {
 				$(".wrapper").addClass("sidebar-hovered");
 			}, function () {
 				$(".wrapper").removeClass("sidebar-hovered");
-			})
+			});
+			$(this).addClass('active');
 		}
 	});
 	/* Back To Top */

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use App\Models\SignupRequest;
 
 class AuthController extends Controller
 {
@@ -35,15 +36,17 @@ class AuthController extends Controller
         }
     }
 
-    public static function CreateCustomer($response = null, $action = 0){
-
+    public static function CreateCustomer($response = null, $action = 0,$postdata = null){
+       
         $_user    = User::where('email',$response['emailaddress'])->first();
-        if(!empty($_user))  return redirect()->back()->withErrors(['user_exists' => 'User already exists']); 
-        $user   =  UserController::createUser($response,$action);
+        if(!empty($_user)){
+            return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
+        }  
+        $user   =  UserController::createUser($response,$action,$postdata);
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $sales_person = array();
         if($response['salespersonemail'] != '')
-            $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();            
+            $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
         if(empty($sales_person)) 
             $sales_person = SalesPersonController::createSalesPerson($response);
         if($sales_person){
@@ -69,9 +72,11 @@ class AuthController extends Controller
     }
 
     // orders@10-spec.com
-    public function user_register(Request $request){
+    public function user_register(Request $request){          
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'], // 'unique:users'
+            'email'         => ['required', 'string', 'email', 'max:255'],
+            'full_name'      => ['required', 'string', 'max:255'],
+            'company_name'   => ['required', 'string', 'max:255'], // 'unique:users'
         ]);
 
         $data = array(            
@@ -87,42 +92,62 @@ class AuthController extends Controller
             "limit" => 5
         );
 
+        $postdata = $request->input();
+
         $user       = User::where('email',$request->email)->where('active',0)->first();
         $message    = 'Thanks for validating your email address, you will get a confirmation';
         $status     = 'success';
         $_multiple  = 0;
         
         $uniqueId   = $request->email;
+        $request_id = 0;
         if(empty($user)){
             $response   = $this->SDEApi->Request('post','Customers',$data); 
             $message    = '';
             $status     = 'error';
-            $details    = array('subject' => 'New customer request for member portal access','title' => 'Customer Portal Access');
+            $details    = array('subject'   => 'New customer request for member portal access',
+                                'title'     => 'Customer Portal Access');
             $_details   = array();
             $error      = 1;
             $_multiple  = 0;            
-            if ( !empty($response['customers']) ) {
+            if (!empty($response['customers'])){
                 if ( count($response['customers']) === 1 ) {
                     $response   = $response['customers'][0];
-                    $_details   = self::CreateCustomer($response);
-                    $details    = array_merge($details,$_details);
-                    $error      = 0;
+                    $_details   = self::CreateCustomer($response,0,$postdata);  
+                    if(is_array($_details))                  
+                        $details    = array_merge($details,$_details);                        
+                    else
+                        return $_details;
+                        $error      = 0;
                 }elseif(count($response['customers']) > 1){
                     $_multiple  = 1;
                 }
             }
-
             if($error){
+                    
+                    $signupdata         =   array(  'full_name'     => $request->full_name,
+                                                    'company_name'  => $request->company_name,
+                                                    'email'         => $request->email,
+                                                    'phone_no'      => $request->phone_no);
+                    $data_request = SignupRequest::create($signupdata);
                     $details['body']      = "Hi, <br /> A customer with email address {$request->email} has requested for member access, There were no records found in Sage.";
-                    $details['link']      = "/fetch-customer/{$request->email}?duplicate=".$_multiple;
+
+                    $request_id = $data_request->id;
+
+                    $link     = "/fetch-customer/{$request->email}?req=".$data_request->id;
+                    if($_multiple){
+                       $link .= "&duplicate=".$_multiple;
+                    }
+                    $details['link']      =  $link;    
                     $details['status']    = 'success';
+
                     $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
             }
         
        
             $message    = isset($details['message']) ? $details['message'] : '';
             $status     = isset($details['status']) ? $details['status'] : '';
-            $user       = User::where('email',$request->email)->first();           
+            //$user       = User::where('email',$request->email)->first();           
         }
         if($user){
             $user->activation_token = Str::random(30);
@@ -144,7 +169,8 @@ class AuthController extends Controller
                                     'text'      => $message,
                                     'action'    => $url,
                                     'status'    => 0,
-                                    'is_read'   => 0);                
+                                    'is_read'   => 0,
+                                    'request_id' => $request_id);                
 
             $notification = new NotificationController();                        
             $notification->create($_notification);

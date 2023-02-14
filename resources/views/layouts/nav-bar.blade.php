@@ -8,16 +8,16 @@
 
 <nav>
     <div class="sidebar-button">
-        <a class="menu-icon toggle-icon" href="javascript:void(0)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22">
-                <g class="Group_893" data-name="Group 893" transform="translate(-292 -35)">
-                    <rect class="Rectangle_25" data-name="Rectangle 25" width="27" height="4" transform="translate(292 35)" fill="#424448"/>
-                    <rect class="Rectangle_26" data-name="Rectangle 26" width="16" height="4" transform="translate(292 44)" fill="#424448"/>
-                    <rect class="Rectangle_27" data-name="Rectangle 27" width="8" height="4" transform="translate(311 44)" fill="#424448"/>
-                    <rect class="Rectangle_28" data-name="Rectangle 28" width="16" height="4" transform="translate(292 53)" fill="#424448"/>
-                </g>
-            </svg>
-        </a>
+        <a class="menu-icon toggle-icon hamburger" href="javascript:void(0)"><span></span></a>
+        <!--<svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" viewBox="0 0 27 22">
+            <g class="Group_893" data-name="Group 893" transform="translate(-292 -35)">
+                <rect class="Rectangle_25" data-name="Rectangle 25" width="27" height="4" transform="translate(292 35)" fill="#424448"/>
+                <rect class="Rectangle_26" data-name="Rectangle 26" width="16" height="4" transform="translate(292 44)" fill="#424448"/>
+                <rect class="Rectangle_27" data-name="Rectangle 27" width="8" height="4" transform="translate(311 44)" fill="#424448"/>
+                <rect class="Rectangle_28" data-name="Rectangle 28" width="16" height="4" transform="translate(292 53)" fill="#424448"/>
+            </g>
+        </svg> -->
+        
         {{-- <div class="search-box"> --}}
         <div class="nav-item mobile-search-icon">
             <a href="javascript:void(0)" class="search-icons">

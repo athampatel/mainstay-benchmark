@@ -24,19 +24,33 @@
 								<div class="form-body">
 									<form class="row g-3" method="POST" action="{{route('register')}}">
 										@csrf
+										<div class="col-12"> 
+											<label for="inputFullname" class="form-label">Full Name</label>
+											<input type="text" class="form-control" id="inputFullname" name="full_name" value="" placeholder="Full Name *" required>
+										</div>
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
-											<input type="email" class="form-control" id="inputEmailAddress" name="email" value="" placeholder="Email Address">
+											<input type="email" class="form-control" id="inputEmailAddress" name="email" value="" placeholder="Email Address *" required>
+										</div>
+										<div class="col-12">
+											<label for="inputPhoneNo" class="form-label">Contact No</label>
+											<input type="text" class="form-control" id="inputPhoneNo" name="phone_no" value="" placeholder="Contact No" >
+										</div>
+										<div class="col-12">
+											<label for="CompanyName" class="form-label">Company Name</label>
+											<input type="text" class="form-control" id="CompanyName" name="company_name" value="" placeholder="Company Name *" required>
 										</div>
                                         
                                         <div class="col-12 pt-1">
                                             <div class="sign-up-checbox d-flex align-items-center position-relative">
                                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" required>
                                                 <label class="font-16 font-regular font-open-sans d-block" for="flexCheckIndeterminate">
-                                                    I agree to <span class="text-primary-green font-bold">Terms</span> and <span class="text-primary-green font-bold">Conditions</span>
+                                                    I agree to <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TermsModel"><span class="text-primary-green font-bold">Terms</span> and <span class="text-primary-green font-bold">Conditions</span></a>
                                                 </label>
                                             </div>
                                         </div>
+
+										                  
 
 										<div class="col-12">
 											<div class="d-grid">
@@ -55,6 +69,8 @@
 			<!--end row-->
 		</div>
 	</div>
+
+	@include('Auth.terms')
 @endsection
 	
 	
