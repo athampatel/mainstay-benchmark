@@ -1,5 +1,5 @@
 <div>
-    <table id="analysis-page-table" class="table bench-datatable border-0">
+    <table id="analysis-page-table" class="table bench-datatable border-0" style="width:100%">
         <thead>
             <tr>
                 <th class="border-0">Invoice Number</th>
