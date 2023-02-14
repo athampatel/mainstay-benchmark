@@ -2042,6 +2042,9 @@ p.card-text {
     min-height: 45px !important;
     border:none !important;
 }
+.form-control.search-control{
+    padding-left: 3rem;
+}
 .error-field.form-control{
     border:1px solid red !important;
     background-color: rgba(255,0,0,0.1);

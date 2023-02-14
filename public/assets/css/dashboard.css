@@ -1932,7 +1932,15 @@ nav .profile-details i{
   transform: translateY(-10px) rotate(-45deg);
   top: 10px;
 }
+#pagination_disp{
+  padding: 1rem;
+}
 
+@media (min-width: 1025px){
+  .table-responsive{
+    overflow-x:hidden;
+  }
+}
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;
