@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\NotificationController;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
 
 ini_set('max_execution_time', 300);
 
@@ -87,7 +88,6 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5,
         );
-        // dd($data);
         $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         foreach($response_data['salesorderhistoryheader'] as $key => $res){
             // dd($res);
@@ -104,9 +104,15 @@ class SDEDataController extends Controller
             $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
             $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
         };
+        $table_code = View::make("components.datatabels.dashboard-invoice-component")
+        ->with("invoices", $response_data['salesorderhistoryheader'])
+        ->render();
+        
+        $response['table_code'] = $table_code;
 
-        $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => '','user' =>$user]];
+        // $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => '','user' =>$user]];
         echo \json_encode($response);
+        die();
     }
 
     // sales order detail

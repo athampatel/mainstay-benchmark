@@ -4,12 +4,6 @@ $(function(){
          AjaxRequestCom('/customersales','GET','','chartDisplay');
      }
     // customer invoice orders
-     if ($("#invoice-orders-table-body").length) {
-         $('#invoice-orders-table-body').html('<tr><td class="text-center" colspan="8">Loading...</td></tr>');
-         AjaxRequestCom('/customer-invoice-orders','GET','','customerInvoiceOrderDisplay');
-     }
-
-
     if($(document.body).find('#chart2').length == 1){
         // chart 2
         var optionsLine = {
