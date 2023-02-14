@@ -1824,9 +1824,9 @@ body.user-forms{
     display: none;
 }
 .user-forms .form-check-input{    
-    width: 1.5rem;
-    height: 1.5rem;
-
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0px;
 }
 .user-forms .form-check-input:checked + label::before{
    background-image: url(../images/tick-square.svg);
@@ -1843,6 +1843,30 @@ body.user-forms{
 	box-shadow:0 2px 6px 0 rgba(0,0,0,0.16);
     background-color: #424448;
     border: 1px solid #FFFFFF;
+}
+.modal-content{
+    background: #424448;
+    border-radius: 0.625rem;
+    border: 1px solid #FFFFFF;
+}
+.btn-close{
+    filter:invert(1);
+}
+
+.modal .modal-title {
+    font-weight: 500;
+    font-size: 2rem;
+    padding: 1rem 0px;
+}
+
+.modal-body{
+    line-height: 1.5rem;
+}
+.modal-body li{
+    margin-bottom: 1rem;
+}
+.modal-body li ol{
+    margin-top: 1rem;
 }
 
 /* Responsive */
@@ -2108,7 +2132,10 @@ body.user-forms{
     gap:20px;
     padding-bottom: 5px;
 }
-
+.sign-up-checbox a,
+.sign-up-checbox a:hover{
+    color:#FFF;
+}
 /* colors */
 
 .text-primary-green{

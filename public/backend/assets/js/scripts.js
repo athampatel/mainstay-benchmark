@@ -3,7 +3,11 @@
 
 
     if ($('#dataTable').length) {
-        $('#dataTable').DataTable(); //{responsive: true }
+        $('#dataTable').DataTable({
+            /*processing: true,
+            serverSide: true, */
+            responsive: true
+        }); //{ }
     }
 
     $(document.body).on('click','a.random-password',function(e){
@@ -239,6 +243,9 @@
 
 
 /* CUSOMT ADMIN SCRIPT */    
+    $(document.body).on('click','.nav-link.dropdown-toggle',function(e){
+        $(this).parent().find('.dropdown-menu').toggleClass('show');
+    });
 
     $('form.form-create-customers').submit(function(e){        
         var duplicate  = [];        

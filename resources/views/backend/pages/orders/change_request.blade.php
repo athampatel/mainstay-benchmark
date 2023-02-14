@@ -37,171 +37,145 @@ User Create - Admin Panel
 
 @section('admin-content')
 
-<!-- page title area start -->
-<div class="page-title-area">
-    <div class="row align-items-center">
-        <div class="col-sm-6">
-            <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Order Request</h4>
-                <ul class="breadcrumbs pull-left">
-                    {{-- <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li> --}}
-                    {{-- <li><a href="{{ route('admin.users.index') }}">All Customers</a></li> --}}
-                    {{-- <li><span>Create Customer</span></li> --}}
-                </ul> 
-            </div>
-        </div>
-        <div class="col-sm-6 clearfix">
-            @include('backend.layouts.partials.logout')
-        </div>
-    </div>
-</div>
-<!-- page title area end -->
+<div class="home-content">
+    <span class="page_title">Change Order Request</span>
+    <div class="overview-boxes widget_container_cards col-12">
+        <div class="main-content-inner">
+            <div class="row">
+                <!-- data table start -->
+                <div class="col-12 mt-5">
+                    <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
+                
+                    @include('backend.layouts.partials.messages')            
+                    {{-- <form action="{{ route('admin.users.store') }}" method="POST">                         --}}
+                        @csrf
+                        <input type="hidden" name="change_id" id="change_id" value="{{$change_id}}">
+                        <div class="alert alert-success text-center d-none" id="order-change-status-display"></div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6 class="text-secondary">Order Information</h6><br>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_no">Order No</label>
+                                                <div class="text-secondary">{{$order_detail['salesorderno']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_email">Customer No</label>
+                                                <div class="text-secondary">{{$order_detail['customerno']}}</div>
+                                            </div>
+                                        </div>
+                
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_name">Order Date</label>
+                                                <div class="text-secondary">{{$order_detail['orderdate']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="ardivision_no">AR Division No</label>
+                                                <div class="text-secondary">{{$order_detail['ardivisionno']}}</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_name">Order Status</label>
+                                                <div class="text-secondary">{{$order_detail['orderstatus']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="ardivision_no">Customer Phone Number</label>
+                                                <div class="text-secondary">{{$order_detail['customerpono']}}</div>
+                                            </div>
+                                        </div>
+                
+                                        <h6 class="text-secondary">Ship Details</h6><br>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="address_line_1">Address Line 1</label>
+                                                <div class="text-secondary">{{$order_detail['shiptoaddress1']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="address_line_2">State</label>
+                                                <div class="text-secondary">{{$order_detail['shiptostate']}}</div>
+                                            </div>
+                                        </div>
 
-<div class="main-content-inner">
-    <div class="row">
-        <!-- data table start -->
-        <div class="col-12 mt-5">
-            <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h4 class="header-title">Change Order Information</h4>       
-                </div>
-            </div> 
-           
-            @include('backend.layouts.partials.messages')            
-            {{-- <form action="{{ route('admin.users.store') }}" method="POST">                         --}}
-                @csrf
-                <input type="hidden" name="change_id" id="change_id" value="{{$change_id}}">
-                <div class="alert alert-success text-center d-none" id="order-change-status-display"></div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h6 class="text-secondary">Order Information</h6><br>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_no">Order No</label>
-                                        <div class="text-secondary">{{$order_detail['salesorderno']}}</div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="address_line_3">Address Line 2</label>
+                                                <div class="text-secondary">{{$order_detail['shiptoaddress2']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_city">City</label>
+                                                <div class="text-secondary">{{$order_detail['shiptocity']}}</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_state">Address Line 3</label>
+                                                <div class="text-secondary">{{$order_detail['shiptoaddress3']}}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="user_zipcode">Zipcode</label>
+                                                <div class="text-secondary">{{$order_detail['shiptozipcode']}}</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_email">Customer No</label>
-                                        <div class="text-secondary">{{$order_detail['customerno']}}</div>
-                                    </div>
-                                </div>
-        
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_name">Order Date</label>
-                                        <div class="text-secondary">{{$order_detail['orderdate']}}</div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="ardivision_no">AR Division No</label>
-                                        <div class="text-secondary">{{$order_detail['ardivisionno']}}</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_name">Order Status</label>
-                                        <div class="text-secondary">{{$order_detail['orderstatus']}}</div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="ardivision_no">Customer Phone Number</label>
-                                        <div class="text-secondary">{{$order_detail['customerpono']}}</div>
-                                    </div>
-                                </div>
-        
-                                <h6 class="text-secondary">Ship Details</h6><br>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_1">Address Line 1</label>
-                                        <div class="text-secondary">{{$order_detail['shiptoaddress1']}}</div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_2">State</label>
-                                        <div class="text-secondary">{{$order_detail['shiptostate']}}</div>
-                                    </div>
-                                </div>
+                                    <div class="col-6">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12 col-sm-12">
+                                                <div class="admin-table">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <th>Item Code</th>
+                                                            <th>Existing Quantity</th>
+                                                            <th>New Quantity</th>
+                                                            <th>Unit Price</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($changed_items as $item)    
+                                                                <tr>
+                                                                    <td>{{$item->item_code}}</td>
+                                                                    <td>{{$item->existing_quantity}}</td>
+                                                                    <td>{{$item->modified_quantity}}</td>
+                                                                    <td>${{$item->order_item_price}}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        {{-- Actions Buttons --}}
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_3">Address Line 2</label>
-                                        <div class="text-secondary">{{$order_detail['shiptoaddress2']}}</div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_city">City</label>
-                                        <div class="text-secondary">{{$order_detail['shiptocity']}}</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_state">Address Line 3</label>
-                                        <div class="text-secondary">{{$order_detail['shiptoaddress3']}}</div>
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_zipcode">Zipcode</label>
-                                        <div class="text-secondary">{{$order_detail['shiptozipcode']}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-
-                               
-
-
-
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-12 col-sm-12">
-                                        <div class="admin-table">
-                                            <table class="table">
-                                                <thead>
-                                                    <th>Item Code</th>
-                                                    <th>Existing Quantity</th>
-                                                    <th>New Quantity</th>
-                                                    <th>Unit Price</th>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($changed_items as $item)    
-                                                        <tr>
-                                                            <td>{{$item->item_code}}</td>
-                                                            <td>{{$item->existing_quantity}}</td>
-                                                            <td>{{$item->modified_quantity}}</td>
-                                                            <td>${{$item->order_item_price}}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                        <div class="mb-3">
+                                            <div class="card-body px-0" id="change-order-request-buttons">
+                                            @if($change_request['request_status'] == 2)
+                                            <div class="alert alert-danger text-secondary font-xs">This Request was Declined</div>
+                                            @elseif($change_request['request_status'] == 1)
+                                                <div class="alert alert-success text-secondary font-xs">This Request was Approved</div>
+                                                <button class="btn btn-success pr-4 pl-4" id="approve_sync">Sent to Sage</button>
+                                            @else
+                                                <button class="btn btn-danger pr-4 pl-4" id="cancel_request">Decline Request</button>
+                                                <button class="btn btn-success pr-4 pl-4" id="approve_request">Approve Request</button>
+                                            @endif
+                                            </div>
                                         </div> 
                                     </div>
                                 </div>
-                                {{-- Actions Buttons --}}
-
-                                <div class="card mb-3">
-                                    <div class="card-body px-0" id="change-order-request-buttons">
-                                    @if($change_request['request_status'] == 2)
-                                    <div class="alert alert-danger text-secondary font-xs">This Request was Declined</div>
-                                    @elseif($change_request['request_status'] == 1)
-                                        <div class="alert alert-success text-secondary font-xs">This Request was Approved</div>
-                                        <button class="btn btn-success pr-4 pl-4" id="approve_sync">Sent to Sage</button>
-                                    @else
-                                        <button class="btn btn-danger pr-4 pl-4" id="cancel_request">Decline Request</button>
-                                        <button class="btn btn-success pr-4 pl-4" id="approve_request">Approve Request</button>
-                                    @endif
-                                    </div>
-                                </div> 
                             </div>
                         </div>
-                    </div>
-                </div>
+                                
+                            
+                    {{-- </form>  --}}
                         
-                      
-            {{-- </form>  --}}
+                </div>
+                <!-- data table end -->
                 
+            </div>
         </div>
-        <!-- data table end -->
-        
     </div>
 </div>
 @endsection
