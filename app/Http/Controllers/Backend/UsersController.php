@@ -18,6 +18,10 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Models\ChangeOrderRequest;
+use App\Models\ChangeOrderItem;
+use App\Http\Controllers\AdminOrderController;
+
 
 class UsersController extends Controller
 {
@@ -421,5 +425,76 @@ class UsersController extends Controller
     public function  CustomerInventory($userId) {
         //echo "Update Inventory Here".$userId; die; 
         return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
+    }
+
+    public function CustomerChangeOrders(){
+        $user   = $this->user;                
+        if($this->superAdmin){
+
+            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->orderBy('change_order_requests.id','DESC')                                                
+                                                ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+
+        }elseif(DashboardController::isManager($user->id,$user)){
+            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->where('sales_persons.id',$user->id)
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+        }
+        return view('backend.pages.orders.index',compact('change_request','user'));
+    }
+
+    public function CustomerChangeOrderDetails($change_id){
+        //$change_request = ChangeOrderRequest::find($orderId);
+
+        $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->where('change_order_requests.id',$change_id)
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email'])->first();
+
+       // $user_details = UserDetails::where('customerno',$customerno)->first();
+        $data = array(            
+            "filter" => [
+                [
+                    "column" =>  "salesorderno",
+                    "type" =>  "equals",
+                    "value" => $change_request->order_no,
+                    "operator" =>  "and"
+                ],
+                [
+                    "column" =>  "customerno",
+                    "type" =>  "equals",
+                    "value" => $change_request->customerno,
+                    "operator" =>  "and"
+                ],
+                [
+                    "column" =>  "ardivisionno",
+                    "type" =>  "equals",
+                    "value" => $change_request->ardivisionno,
+                    "operator" =>  "and"
+                ],
+            ],
+        );
+
+        $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        if(!empty($order_detail['salesorderhistoryheader'])){
+            $order_detail = $order_detail['salesorderhistoryheader'][0];
+        } else {
+            $order_detail = [];
+        }
+       
+
+        $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
+
+        return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request'));
     }
 }

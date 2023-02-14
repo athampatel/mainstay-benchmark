@@ -13,12 +13,12 @@ use App\Models\UserDetails;
 class AdminOrderController extends Controller
 {
     public function __construct(SDEApi $SDEApi){
-        $this->SDEApi = $SDEApi;
+        $this->SDEApi = new $SDEApi;
     }
 
     public function getChangeOrderRequest($order_id,$change_id,$customerno){
 
-        $change_order_request = ChangeOrderRequest::find($change_id);
+        $change_request = ChangeOrderRequest::find($change_id);
         // if($change_order_request->request_status != 0){
         //     abort(403);
         // }
@@ -48,14 +48,14 @@ class AdminOrderController extends Controller
                 ],
             ],
         );
-        $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
         if(!empty($order_detail['salesorderhistoryheader'])){
             $order_detail = $order_detail['salesorderhistoryheader'][0];
         } else {
             $order_detail = [];
         }
         $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
-        return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id')); 
+        return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request')); 
     }
 
     public function changeOrderRequestStatus(Request $request){

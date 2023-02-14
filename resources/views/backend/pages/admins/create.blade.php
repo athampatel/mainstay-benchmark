@@ -42,7 +42,7 @@ Admin Create - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Create Staff / Admin Usere</h4>
+                    <h4 class="header-title">Create Staff / Admin User</h4>
                     @include('backend.layouts.partials.messages')                    
                     <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST">
                         @csrf

@@ -17,7 +17,7 @@
                     @if ($usr->can('dashboard.view'))
                         <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     @endif
-                <!-- @if ($usr->can('role.create') || $usr->can('role.view') ||  $usr->can('role.edit') ||  $usr->can('role.delete'))
+                @if ($usr->can('role.create') || $usr->can('role.view') ||  $usr->can('role.edit') ||  $usr->can('role.delete'))
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
                             Roles & Permissions
@@ -31,7 +31,7 @@
                             @endif
                         </ul>
                     </li>
-                    @endif --->
+                    @endif 
 
                     
                     @if ($usr->can('admin.create') || $usr->can('admin.view') ||  $usr->can('admin.edit') ||  $usr->can('admin.delete'))
@@ -47,9 +47,9 @@
                             @if ($usr->can('admin.create'))
                                 <li class="{{ Route::is('admin.admins.create')  ? 'active' : '' }}"><a href="{{ route('admin.admins.create') }}">Create User</a></li>
                             @endif
-                            @if ($usr->can('admins.manger'))
-                                <li class="{{ Route::is('admins.manger')  ? 'active' : '' }}"><a href="{{ route('admin.admins.manger') }}">Region Mangers</a></li>
-                            @endif
+                            
+                            <li class="{{ Route::is('admin.admins.manager')  ? 'active' : '' }}"><a href="{{ route('admin.admins.manager') }}">Region Mangers</a></li>
+                            
                         </ul>
                     </li>
                     @endif

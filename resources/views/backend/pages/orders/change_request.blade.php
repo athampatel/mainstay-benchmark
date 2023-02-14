@@ -16,6 +16,12 @@ User Create - Admin Panel
     .admin-table .table{
         color: #fff;
     }
+    .admin-table .table th{
+        color: #fff;
+    }
+    .table td, .table th{
+        color: #fff;
+    }
     .admin-table .table thead{
         background-color: #7B7C7F;
     }
@@ -140,6 +146,12 @@ User Create - Admin Panel
                                 </div>
                             </div>
                             <div class="col-6">
+
+                               
+
+
+
+
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-sm-12">
                                         <div class="admin-table">
@@ -165,10 +177,18 @@ User Create - Admin Panel
                                     </div>
                                 </div>
                                 {{-- Actions Buttons --}}
+
                                 <div class="card mb-3">
-                                    <div class="card-body" id="change-order-request-buttons">
+                                    <div class="card-body px-0" id="change-order-request-buttons">
+                                    @if($change_request['request_status'] == 2)
+                                    <div class="alert alert-danger text-secondary font-xs">This Request was Declined</div>
+                                    @elseif($change_request['request_status'] == 1)
+                                        <div class="alert alert-success text-secondary font-xs">This Request was Approved</div>
+                                        <button class="btn btn-success pr-4 pl-4" id="approve_sync">Sent to Sage</button>
+                                    @else
                                         <button class="btn btn-danger pr-4 pl-4" id="cancel_request">Decline Request</button>
                                         <button class="btn btn-success pr-4 pl-4" id="approve_request">Approve Request</button>
+                                    @endif
                                     </div>
                                 </div> 
                             </div>

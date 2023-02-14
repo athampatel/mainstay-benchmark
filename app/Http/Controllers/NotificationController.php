@@ -16,16 +16,18 @@ use App\Models\User;
 class NotificationController extends Controller
 {
     public $user;
+    public $customer;
     public $isManager;
     public $superAdmin;
 
     public function __construct()
     {
-        $this->user         = Auth::guard('admin')->user();
-        $userId             = $this->user->id;
-        //$this->isManager    = DashboardController::isManager($userId,$this->user);
-        $this->superAdmin   = DashboardController::SuperAdmin($this->user);
-
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('admin')->user();
+            $this->customer = Auth::user();
+            $this->superAdmin = DashboardController::SuperAdmin($this->user);            
+            return $next($request);
+        });
     }
     
     public function index()
@@ -40,20 +42,24 @@ class NotificationController extends Controller
     }
 
     public function getNotifications(Request $request){
-        /*$user =  $this->user;
+        $customer =   $this->customer;
+        $user =   $this->user;
+        
         if($this->superAdmin){
-            $notification   =   Notification::where('is_read',0)->where('to',0);
-        }else{
-           $customers       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
-                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                ->leftjoin('notifications','users.id','=','notifications.from_user');
+            $notification   =   Notification::where('is_read',0)->where('to_user',0)->get();
+        }else if(!empty($user)){
+           $notification       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->get();
 
                                 //->where('users.id',$user->id)->orWhere('');
             
-        }*/
+        }
 
-        return Response::json($data);
+        print_r($notification);
+        die;
+        //return Response::json($data);
     }
 
     /**

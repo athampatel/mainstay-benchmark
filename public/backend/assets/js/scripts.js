@@ -1,6 +1,11 @@
 (function($) {
     "use strict";
 
+
+    if ($('#dataTable').length) {
+        $('#dataTable').DataTable(); //{responsive: true }
+    }
+
     $(document.body).on('click','a.random-password',function(e){
         e.preventDefault();
         var pass = '';
