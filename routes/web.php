@@ -75,6 +75,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getOpenOrders',[MenuController::class,'getOpenOrders']);
 
+    Route::get('/getInvoiceOrders',[MenuController::class,'getInvoiceOrders']);
+
+    // get analysis page data
+    Route::get('/get-analysis-page-data',[MenuController::class,'getAnalysisPageData']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

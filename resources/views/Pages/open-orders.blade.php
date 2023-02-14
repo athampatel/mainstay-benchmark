@@ -147,7 +147,7 @@
                             </table> --}}
                         </div>
                         <div class="col-12 pb-2">
-                            {{-- <x-pagination-component :pagination="$pagination" /> --}}
+                            {{-- <x-pagination-component :pagination="[]" /> --}}
                             <div id="pagination_disp"></div>
                         </div>
                     </div>

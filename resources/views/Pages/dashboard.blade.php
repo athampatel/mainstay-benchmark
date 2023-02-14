@@ -1,6 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<div class="backdrop">
+  <div class="loader"></div>
+</div>
 <div class="home-content">
   <span class="page_title">Dashboard</span>
     <div class="overview-boxes widget_container_cards col-12">
@@ -166,7 +169,7 @@
 							
 						</div>
             <div class="d-flex col-12 justify-content-end pb-2">
-                <a href="" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
+                <a href="/invoice" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
               </div>
           </div>
         </div>

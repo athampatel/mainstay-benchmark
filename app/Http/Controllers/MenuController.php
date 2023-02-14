@@ -222,66 +222,67 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'analysis';
         $data['menus']          = $this->NavMenu('analysis');
-        $arr = [
-            [
-                'no' => '87145254',
-                'date' => '2022-04-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 145,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-04-15',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 100,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-03-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 153,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-02-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 165,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-01-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 98,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-08-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 200,
-            ],
-            [
-                'no' => '87145254',
-                'date' => '2022-10-08',
-                'custpono' => '1234',
-                'city' => 'city',
-                'total_items' => 10,
-                'total_amount' => 198,
-            ],
-        ];
-        $data['response'] = $arr;
         return view('pages.analysis',$data);
+        // $arr = [
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-04-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 145,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-04-15',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 100,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-03-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 153,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-02-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 165,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-01-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 98,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-08-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 200,
+        //     ],
+        //     [
+        //         'no' => '87145254',
+        //         'date' => '2022-10-08',
+        //         'custpono' => '1234',
+        //         'city' => 'city',
+        //         'total_items' => 10,
+        //         'total_amount' => 198,
+        //     ],
+        // ];
+        // $data['response'] = $arr;
+        // return view('pages.analysis',$data);
     }
     
     public function accountSettingsPage(){
@@ -354,10 +355,33 @@ class MenuController extends Controller
             $custom_pagination['path'] = '/getOpenOrders';
             // $date =strtotime('2022-08-26','Y-m-d');
             // dd($date);  
-            for($i = 1; $i <= ceil($response['meta']['records'] / $limit); $i++){               
+            // for($i = 1; $i <= ceil($response['meta']['records'] / $limit); $i++){               
+            //     $custom_link = [
+            //         'label' => $i,
+            //         'active' => $page + 1 == $i,
+            //     ];
+            //     $custom_pagination['links'][] = $custom_link;
+            // }
+            $last = ceil($response['meta']['records'] / $limit);
+            if($page !=0 && ($page + 1) != $last){
+                $active_number[] = $page;
+                $active_number[] = $page + 1;
+                $active_number[] = $page + 2;
+            } else {
+                if($page == 0 || $page == 1){
+                    $active_number = [1,2,3];
+                }
+                if(($page + 1) == $last){
+                    for($i = 2;$i >= 0;$i--){
+                        $active_number []= $last - $i;
+                    }       
+                }
+            }
+
+            foreach($active_number as $number){               
                 $custom_link = [
-                    'label' => $i,
-                    'active' => $page + 1 == $i,
+                    'label' => $number,
+                    'active' => $page + 1 == $number,
                 ];
                 $custom_pagination['links'][] = $custom_link;
             }
@@ -376,20 +400,208 @@ class MenuController extends Controller
             
             echo json_encode($response);
             die();
-            // foreach($response['salesorders'] as $key => $order){
-            //     $total_amount = 0;
-            //     $total_quantity = 0;
-            //     foreach($order['details'] as $detail){
-            //         if($detail['quantityordered'] != 0){
-            //             $total_quantity += $detail['quantityordered'];
-            //             $total_amount += $detail['quantityordered'] * $detail['unitprice'];
-            //         }
-            //     }
-            //     $response['salesorders'][$key]['total_amount'] = $total_amount; 
-            //     $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
-            //     $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
-            // }
-            // $final_data['orders'] = $response['salesorders'];
         }  
     }
+
+    public function getInvoiceOrders(Request $request){
+        $data = $request->all();
+        $page = $data['page'];
+        $limit = $data['count'];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
+        $user_id = Auth::user()->id;
+        $user_details = UserDetails::where('user_id',$user_id)->first();
+        if($user_details){
+            // $data = array(            
+            //     "filter" => [
+            //         [
+            //             "column"=> "ARDivisionNo",
+            //             "type"=> "equals",
+            //             "value"=> "00",
+            //             "operator"=> "and"
+            //         ],
+            //         [
+            //             "column"=> "CustomerNo",
+            //             "type"=> "equals",
+            //             "value"=> "GEMWI00",
+            //             "operator"=> "and"
+            //         ],
+            //     ],
+            //     "offset" => $offset,
+            //     "limit" => $limit,
+            // );
+            
+            // $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+
+            // invoice data getting work start
+            $data = array(            
+                "filter" => [
+                    [
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" => "ARDivisionNo",
+                        "type" => "equals",
+                        "value" => $user_details->ardivisionno,
+                        "operator" => "and"
+                    ],
+                ],
+                "offset" => 1,
+                "limit" => 2,
+            );
+            $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            foreach($response_data['salesorderhistoryheader'] as $key => $res){
+                // dd($res);
+                $data1 = array(            
+                    "filter" => [
+                        [
+                            "column" => "SalesOrderNo",
+                            "type" => "equals",
+                            "value" => $res['salesorderno'],
+                            "operator" => "and"
+                        ],
+                    ]
+                );  
+                $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+                $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
+            };
+            // invoice data getting work end 
+            // dd($response['salesorders']);
+            
+            /* custom pagination work start */
+            $custom_pagination['from'] = $offset;
+            $custom_pagination['to'] = intval($offset + $limit - 1) > intval($response_data['meta']['records']) ? intval($response_data['meta']['records']) :intval($offset + $limit - 1);
+            $custom_pagination['total'] = $response_data['meta']['records'];
+            $custom_pagination['first_page'] = 1;
+            $custom_pagination['last_page'] = ceil($response_data['meta']['records'] / $limit);
+            $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
+            $custom_pagination['curr_page'] = intval($page);
+            $custom_pagination['next_page'] = $page + 1;
+            $custom_pagination['path'] = '/getOpenOrders';
+            // $date =strtotime('2022-08-26','Y-m-d');
+            // dd($date);  
+            // for($i = 1; $i <= ceil($response_data['meta']['records'] / $limit); $i++){               
+            //     $custom_link = [
+            //         'label' => $i,
+            //         'active' => $page + 1 == $i,
+            //     ];
+            //     $custom_pagination['links'][] = $custom_link;
+            // }
+            $last = ceil($response_data['meta']['records'] / $limit);
+            if($page !=0 && ($page + 1) != $last){
+                $active_number[] = $page;
+                $active_number[] = $page + 1;
+                $active_number[] = $page + 2;
+            } else {
+                if($page == 0 || $page == 1){
+                    $active_number = [1,2,3];
+                }
+                if(($page + 1) == $last){
+                    for($i = 2;$i >= 0;$i--){
+                        $active_number []= $last - $i;
+                    }       
+                }
+            }
+
+            foreach($active_number as $number){               
+                $custom_link = [
+                    'label' => $number,
+                    'active' => $page + 1 == $number,
+                ];
+                $custom_pagination['links'][] = $custom_link;
+            }
+            
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+    
+            $table_code = View::make("components.datatabels.invoice-orders-page-component")
+            ->with("invoices", $response_data['salesorderhistoryheader'])
+            ->render();
+            
+            $response_data['pagination_code'] = $pagination_code;
+            $response_data['table_code'] = $table_code;
+            /* custom pagination work end */
+            
+            echo json_encode($response_data);
+            die();
+        }  
+    }
+
+    public function getAnalysisPageData(Request $request){
+        $arr = [
+            [
+                'no' => '89742',
+                'date' => '2022-04-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 145,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-04-15',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 100,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-03-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 153,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-02-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 165,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-01-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 98,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-08-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 200,
+            ],
+            [
+                'no' => '89742',
+                'date' => '2022-10-08',
+                'custpono' => '123456',
+                'city' => 'london',
+                'total_items' => 10,
+                'total_amount' => 198,
+            ],
+        ];
+        $table_code = View::make("components.datatabels.analysis-page-component")
+            ->with("analysisdata", $arr)
+            ->render();
+
+        $data['response'] = $arr;
+        $data['table_code'] = $table_code;
+        echo json_encode($data);
+        die();
+
+    }
+
 }
