@@ -53,9 +53,9 @@
                                     <td align="left" style="color: #888888; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
 
 
-                                        <div style="line-height: 24px; padding:0px 2rem">
+                                        <div style="line-height: 24px; padding:0px 32px">
 											<p>Hi Support,</p><br/>
-											<p>{{$details['body']}}</p>
+											<p>{!!$details['body']!!}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -68,7 +68,7 @@
                     </tr>
 
                     <tr>
-                        <td align="center" style="padding:0px 2rem">
+                        <td align="center" style="padding:0px 32px">
                             <table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448" style="">
                                 <tr>
                                     <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>

@@ -190,7 +190,7 @@
     <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="bg_color" >
         <tr>
             <td align="center">
-                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590 bg_color" style="background-color:#e2e2e2; padding:50px 2rem">
+                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590 bg_color" style="background-color:#e2e2e2; padding:50px 32px">
 
                     <tr>
                         <td>
