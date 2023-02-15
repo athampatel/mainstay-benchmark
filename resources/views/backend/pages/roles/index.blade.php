@@ -23,7 +23,7 @@ Role Page - Admin Panel
                                 @endif
                             </p>
                             <div class="clearfix"></div>
-                            <div class="data-tables">
+                            <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
                                 <table id="dataTable" class="text-center datatable-dark">
                                     <thead class="text-capitalize">
@@ -40,19 +40,22 @@ Role Page - Admin Panel
                                             <td>{{ $loop->index+1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>
+                                                <div class="d-flex flex-wrap justify-content-center">    
                                                 @foreach ($role->permissions as $perm)
                                                     <span class="badge badge-info mr-1">
                                                         {{ $perm->name }}
                                                     </span>
                                                 @endforeach
+                                                </div>
                                             </td>
                                             <td>
+                                                <div class="btn-wrapper btns-2">
                                                 @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                    <a class="btn btn-success text-white" href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
                                                 @endif
 
                                                 @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                    <a class="btn btn-danger text-white" href="{{ route('admin.roles.destroy', $role->id) }}"
+                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">
                                                         Delete
                                                     </a>
@@ -61,6 +64,7 @@ Role Page - Admin Panel
                                                         @method('DELETE')
                                                         @csrf
                                                     </form>
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>

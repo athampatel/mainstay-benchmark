@@ -22,7 +22,7 @@ Admins - Admin Panel
                                 @endif
                             </p>
                             <div class="clearfix"></div>
-                            <div class="data-tables">
+                            <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
                                 <table id="dataTable" class="text-center datatable-dark dataTable">
                                     <thead class="text-capitalize">
@@ -51,21 +51,22 @@ Admins - Admin Panel
                                                 @endforeach
                                             </td>
                                             <td>
-                                                
-                                                @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                    <a class="btn btn-success text-white" href="{{ route('admin.admins.edit', $admin->id) }}">Edit</a>
-                                                @endif
-                                                
-                                                @if (Auth::guard('admin')->user()->can('admin.delete'))
-                                                <a class="btn btn-danger text-white" href="{{ route('admin.admins.destroy', $admin->id) }}"
-                                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $admin->id }}').submit();">
-                                                    Delete
-                                                </a>
-                                                <form id="delete-form-{{ $admin->id }}" action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display: none;">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                </form>
-                                                @endif
+                                                <div class="btn-wrapper btns-2">
+                                                    @if (Auth::guard('admin')->user()->can('admin.edit'))
+                                                        <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.edit', $admin->id) }}">Edit</a>
+                                                    @endif
+                                                    
+                                                    @if (Auth::guard('admin')->user()->can('admin.delete'))
+                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.admins.destroy', $admin->id) }}"
+                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $admin->id }}').submit();">
+                                                        Delete
+                                                    </a>
+                                                    <form id="delete-form-{{ $admin->id }}" action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display: none;">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

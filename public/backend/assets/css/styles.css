@@ -832,6 +832,7 @@ ul.breadcrumbs {
 }
 .badge.badge-info{
     background: #9FCC47;
+    margin: 0.125rem;
 }
 .form-check{
     position: relative;
@@ -1385,8 +1386,8 @@ table.dbkit-table tr td {
 }
 .seofct-icon svg,
 .seofct-icon img{
-    max-width: 50px;
-    margin-right: 1rem;
+    max-width: 2.25rem;
+    margin-right: 0px;
 }
 .dark-cards .card h1,
 .dark-cards .card h2,.dark-cards .card h3,
@@ -1396,9 +1397,18 @@ table.dbkit-table tr td {
     color: #FFF;
 }
 
+.icon-item{
+    border-radius: 50%;
+    display: flex;
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid #B7D975;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
 .seofct-icon i {
-    font-size: 52px;
-    margin-right: 20px;
+    font-size: 52px;    
     vertical-align: middle;
     -webkit-transform: translateY(-5px);
             transform: translateY(-5px);
@@ -3069,4 +3079,41 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     line-height: 14px;
     content: '+';
     background-color: #9FCC47;
+}
+
+.btn-wrapper,.status-btns{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 11rem;
+}
+.btn-wrapper .btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1px;
+    min-width: 5rem;
+    margin-right: 0.25rem;
+}
+
+.status-btns .btn{
+    text-transform: uppercase;
+    padding: 0.5rem;
+    width: 5rem;
+    min-height: 33px;
+    font-size: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.25rem;
+}
+
+@media (max-width: 767px){
+    .admin-portal .home-content .overview-boxes{
+        padding-left: 0px;
+    }
+    .admin-portal  .home-content .page_title{
+        padding-left: 15px !important;
+        margin-bottom: 1.5rem;
+        float: left;    
+    }
 }

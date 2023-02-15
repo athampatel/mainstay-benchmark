@@ -152,7 +152,7 @@
 
         <tr>
             <td align="center">
-                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590" style="background-color:#e2e2e2">
 
                     <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
@@ -161,7 +161,7 @@
                     <tr>
                         <td align="center">
 
-                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590" style="background-color:#e2e2e2">
 
                                 <tr>
                                     <td align="center" height="70" style="height:70px;">
@@ -187,22 +187,10 @@
     @yield("emailbody")
 
     <!-- contact section -->
-    <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="bg_color">
-
-        <tr class="hide">
-            <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-        </tr>
-        <tr>
-            <td height="40" style="font-size: 40px; line-height: 40px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-            <td height="60" style="border-top: 1px solid #e0e0e0;font-size: 60px; line-height: 60px;">&nbsp;</td>
-        </tr>
-
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="bg_color" >
         <tr>
             <td align="center">
-                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590 bg_color">
+                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590 bg_color" style="background-color:#e2e2e2; padding:50px 2rem">
 
                     <tr>
                         <td>
@@ -276,16 +264,11 @@
                 </table>
             </td>
         </tr>
-
-        <tr>
-            <td height="60" style="font-size: 60px; line-height: 60px;">&nbsp;</td>
-        </tr>
-
     </table>
     <!-- end section -->
 
     <!-- footer ====== -->
-    <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="f4f4f4">
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="e2e2e2">
 
         <tr>
             <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>

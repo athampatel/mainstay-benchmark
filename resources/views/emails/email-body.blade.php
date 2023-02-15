@@ -5,7 +5,7 @@
 
         <tr>
             <td align="center">
-                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590" style="background-color:#e2e2e2; padding:0px">
                     <tr>
 
                         <td align="center" class="section-img">
@@ -20,7 +20,7 @@
                         <td align="center" style="color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;" class="main-header">
 
 
-                            <div style="line-height: 35px">
+                            <div style="line-height: 35px; padding:0.5rem 2rem">
 
                                 <span style="color: #424448;">{{$details['title']}}</span>
 
@@ -53,7 +53,7 @@
                                     <td align="left" style="color: #888888; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
 
 
-                                        <div style="line-height: 24px">
+                                        <div style="line-height: 24px; padding:0px 2rem">
 											<p>Hi Support,</p><br/>
 											<p>{{$details['body']}}</p>
                                         </div>
@@ -68,7 +68,7 @@
                     </tr>
 
                     <tr>
-                        <td align="center">
+                        <td align="center" style="padding:0px 2rem">
                             <table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448" style="">
                                 <tr>
                                     <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
@@ -92,7 +92,6 @@
 
             </td>
         </tr>
-
     </table>	
     <!-- end section -->
 @endsection	

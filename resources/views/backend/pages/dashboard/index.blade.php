@@ -34,12 +34,12 @@ Dashboard Page - Admin Panel
     <div class="col-lg-12">
         <div class="row">
             @if ($usr->can('admin.create') || $usr->can('admin.view') ||  $usr->can('admin.edit') ||  $usr->can('admin.delete'))
-                <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.admins.index') }}">
                                 <div class="p-4 d-flex justify-content-between align-items-center">
-                                    <div class="seofct-icon"><i class="fa fa-user"></i> Admin/Staff Users</div>
+                                    <div class="seofct-icon"><span class="icon-item"><i class="fa fa-user"></i></span> Admin/Staff Users</div>
                                     <h2>{{ $total_admins }}</h2>
                                 </div>
                             </a>
@@ -48,12 +48,13 @@ Dashboard Page - Admin Panel
                 </div>
 
 
-                <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                 <div class="card">
                     <div class="card-body">
                         <a href="{{ route('admin.admins.manager') }}">
                             <div class="p-4 d-flex justify-content-between align-items-center">
-                                <div class="seofct-icon"><img src="assets/images/svg/region_manager_info_icon.svg"> Region Managers</div>
+                                <div class="seofct-icon">
+                                    <span class="icon-item"><img src="assets/images/svg/region_manager_info_icon.svg"></span> Region Managers</div>
                                 <h2>{{ $sales_persons }}</h2>
                             </div>
                         </a>
@@ -67,7 +68,7 @@ Dashboard Page - Admin Panel
            
 
 
-            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+            <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.index') }}">
@@ -81,7 +82,7 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
 
-            <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+            <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.index') }}?type=vmi">
@@ -96,7 +97,7 @@ Dashboard Page - Admin Panel
                 </div>
 
 
-                <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.index') }}?type=new">
@@ -110,7 +111,7 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
 
-                <div class="col-md-4 col-sm-6 col-xs-12 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.change-order') }}">

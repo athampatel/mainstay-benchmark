@@ -119,7 +119,7 @@
             </div>	
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart">
+    <div class="padding-y-40 open-orders analysis_table_container" id="analysis_table_chart">
         <div class="col-12">
             <div class="card box" style="background:rgb(66, 68, 72)">
                 <div class="card-header col-12 p-3 d-flex align-items-center border-0">

@@ -6,7 +6,7 @@
         $('#dataTable').DataTable({
             /*processing: true,
             serverSide: true, */
-            responsive: true
+           // responsive: true
         }); //{ }
     }
 

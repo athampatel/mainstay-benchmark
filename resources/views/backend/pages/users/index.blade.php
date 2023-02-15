@@ -21,7 +21,7 @@ Customers - Admin Panel
                                 <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
                             </p>
                             <div class="clearfix"></div>
-                            <div class="data-tables">
+                            <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
                                 <table id="dataTable" class="text-center datatable-dark">
                                     <thead class="text-capitalize">
@@ -50,28 +50,33 @@ Customers - Admin Panel
                                                 @endif
                                             </td>                                    
                                             <td>
+                                                <div class="status-btns">
                                                     @if( $user->active == 1)
-                                                        <span class="btn btn-success text-white" style="padding:5px;pointer-events:none;">Active</span>           
+                                                        <span class="btn btn-success btn-rounded text-white" style="padding:5px;pointer-events:none;">Active</span>           
                                                     @elseif( $user->active == 0 && $user->is_deleted == 0)
-                                                        <a href="{{env('APP_URL')}}/admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-warning text-white" style="padding:5px;">New</a>
+                                                        <a href="{{env('APP_URL')}}/admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark" style="padding:5px;">New</a>
                                                     @endif
 
                                                     @if($user->is_vmi == 1)
-                                                        <a data-customer="{{$user->id}}" class="btn btn-primary text-white"  href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory">Inventory</a>
+                                                        <a data-customer="{{$user->id}}" class="btn btn-rounded btn-info text-white"  href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory">Inventory</a>
                                                     @endif
+                                                </div>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
-                                            
-                                                <a class="btn btn-danger text-white" href="{{ route('admin.users.destroy', $user->id) }}"
-                                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
-                                                    Delete
-                                                </a>
 
-                                                <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                </form>
+                                                <div class="btn-wrapper btns-2">
+                                                    <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
+                                                
+                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
+                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                                        Delete
+                                                    </a>
+
+                                                    <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
