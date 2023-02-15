@@ -465,7 +465,7 @@ class SDEDataController extends Controller
 
     public function changeUserStatus($id){
         $user = User::find($id)->toArray();
-        return view('pages.user-active',compact('user'));
+        return view('Pages.user-active',compact('user'));
     }
 
     public function changeUserActive($id){  

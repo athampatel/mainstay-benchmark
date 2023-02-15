@@ -31,7 +31,12 @@ class UsersController extends Controller
     {
         $this->SDEApi = $SDEApi;
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('admin')->user();
+            // $this->user = Auth::guard('admin')->user(); // null
+            $this->user = Auth::guard('admin')->user(); // null
+            if(!$this->user){
+                $unique_token = $request->segment(5); 
+                $this->user = Admin::where('unique_token',$unique_token)->first();
+            }
             $user_id = $request->segment(3); 
             $this->superAdmin = DashboardController::SuperAdmin($this->user);
             if(!$this->superAdmin && is_numeric($user_id)){

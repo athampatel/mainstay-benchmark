@@ -73,13 +73,13 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
-        return view('pages.dashboard',$data); 
+        return view('Pages.dashboard',$data); 
     }
     public function invoicePage(){
         $data['title']  = '';
         $data['current_menu']   = 'invoice';
         $data['menus']          = $this->NavMenu('invoice');
-        return view('pages.invoice',$data);  
+        return view('Pages.invoice',$data);  
     }
     
     public function openOrdersPage(){
@@ -89,7 +89,7 @@ class MenuController extends Controller
         // return view('pages.open-orders',$final_data);
         // $posts = Post::paginate(10);
         // $final_data['pagination'] = $posts->toArray();
-        return view('pages.open-orders',$final_data);
+        return view('Pages.open-orders',$final_data);
         // data getting work start
         // $user_id = Auth::user()->id;
         // $user_details = UserDetails::where('user_id',$user_id)->first();
@@ -130,7 +130,7 @@ class MenuController extends Controller
         //     }
         //     $final_data['orders'] = $response['salesorders'];
         // }  
-        return view('pages.open-orders',$final_data);
+        return view('Pages.open-orders',$final_data);
     }
     
     public function changeOrderPage($orderid){           
@@ -204,7 +204,7 @@ class MenuController extends Controller
             $final_data['user'] = $user;
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->first();
             // dd($final_data);
-            return view('pages.change-order',$final_data);
+            return view('Pages.change-order',$final_data);
         } else {
             return redirect()->route('customer.dashboard');
         }
@@ -214,7 +214,7 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'vmi-user';
         $data['menus']          = $this->NavMenu('vmi-user');
-        return view('pages.vmi-user',$data);
+        return view('Pages.vmi-user',$data);
     }
 
     // analysis page
@@ -222,7 +222,7 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'analysis';
         $data['menus']          = $this->NavMenu('analysis');
-        return view('pages.analysis',$data);
+        return view('Pages.analysis',$data);
         // $arr = [
         //     [
         //         'no' => '87145254',
@@ -291,7 +291,7 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('account-settings');
         $user_id = Auth::user()->id;
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->first();
-        return view('pages.account-settings',$data);
+        return view('Pages.account-settings',$data);
     }
     public function helpPage(){
         $data['title']  = '';
@@ -303,7 +303,7 @@ class MenuController extends Controller
         // $data['posts'] = Post::paginate(10)->withQueryString();
         // $data['posts'] = Post::cursorPaginate(10);
         // $data['posts'] = Post::cursorPaginate(10);
-        return view('pages.help',$data);
+        return view('Pages.help',$data);
     }
 
 

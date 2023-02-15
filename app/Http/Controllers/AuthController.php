@@ -187,6 +187,8 @@ class AuthController extends Controller
             $notification->create($_notification);
 
             \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
         }
 
 

@@ -1925,6 +1925,7 @@ nav .profile-details i{
   background-color: #424448;
   border-radius: 15px;
   margin-top: 24px;
+  min-height: 600px;
 }
 
 /* analysis page filter */
@@ -2086,10 +2087,27 @@ table.dataTable td, table.dataTable th{
 .page-table-loader-div{
   height: 600px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center;
   align-items: center;
+  position: absolute; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
-
+.chart-loader1{
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border: 3px solid #9FCC47;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
 .chart-loader{
   height: 30px;
   width: 30px;
