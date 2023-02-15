@@ -10,8 +10,8 @@
 
 @section('content')
 <div class="home-content">
-    <div class="padding-y-40 d-flex justify-content-between align-items-center">
-        <div class="d-flex justify-content-center align-items-center">
+    <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex  align-items-center flex-wrap">
             <div class="page_title p-0">Analysis</div>
             <div class="d-flex analysis-filter">
                 <label for="" class="position-relative">
@@ -34,7 +34,7 @@
                 </label>
             </div>
         </div>
-        <div>
+        <div class="toggle-switcher">
             <label class="switch1">
                 <input type="checkbox" id="tab_input">
                 <span class="slider1"></span>
@@ -46,10 +46,10 @@
             <div class="col-12">
                 <div class="card box">
                     <div class="card-header col-12 p-3 d-flex border-0">
-                        <div class="col-6 d-flex align-items-center">
+                        <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
-                        <div class="col-6 d-flex align-items-center justify-content-end">            
-                            <div class="position-relative">
+                        <div class="col-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                            <div class="position-relative item-search"">
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
@@ -133,10 +133,10 @@
             </div>	
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart" style="padding:0 2.5rem;">
-        <div class="col">
+    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart">
+        <div class="col-12">
             <div class="card box" style="background:rgb(66, 68, 72)">
-                <div class="card-header col-12 p-3 d-flex align-items-center">
+                <div class="card-header col-12 p-3 d-flex align-items-center border-0">
                     <div class="col-6 d-flex align-items-center">
                       {{-- <div class="box-icon small-icon rounder-border">
                         <img src="assets/images/svg/sale-invoice-order.svg" />
@@ -148,7 +148,7 @@
                       <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
                     </div>
                   </div>
-                <div id="analysis_page_chart" class="col-12 p-2"></div>
+                <div id="analysis_page_chart" class="col-12"></div>
             </div>
         </div>	
     </div>

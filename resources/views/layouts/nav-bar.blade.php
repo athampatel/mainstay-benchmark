@@ -37,7 +37,7 @@
     </div>
     <div class="notification_section">
         <div class="notification_icons d-flex align-items-center">
-            <div class="notification_count_section">
+            <div class="notification_count_section item-config">
                 <div class="notification_icon">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.154" height="22.644" viewBox="0 0 21.154 22.644">
                     <defs>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="notification_count">7</div>
             </div>
-            <div class="notification_count_section dropdown dropdown-large position-relative">
+            <div class="notification_count_section dropdown dropdown-large position-relative item-message">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="notification_icon">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
@@ -183,7 +183,7 @@
                 </a>
             </div>
             </div>
-            <div class="notification_count_section active">
+            <div class="notification_count_section active item-notification">
                 <div class="notification_icon">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                         <defs>
