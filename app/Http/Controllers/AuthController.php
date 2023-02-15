@@ -172,7 +172,8 @@ class AuthController extends Controller
            /* $params = array('mail_view' => 'emails.email-body', 
                             'subject'   => 'New user Signup request', 
                             'url'       => $url);   */
-            $details['link']      =  $url;                 
+            $details['link']            =  $url;      
+            $details['mail_view']       =  'emails.email-body';             
             $_notification = array( 'type'      => 'signup',
                                     'from_user'  => $uniqueId,
                                     'to_user'  => 0,
