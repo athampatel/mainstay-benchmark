@@ -11,37 +11,26 @@
             <div class="col-12">
                 <div class="card box">						
                     <div class="card-body col-12 d-flex align-items-center">
-                        <form method="post" id="change-order-form" class="order-form col-8 pt-3 mx-auto d-flex justify-content-between align-items-center" action="">
-                            <div class="mb-3 col-4">    
+                        <form method="post" id="change-order-form" class="order-form col-12 col-md-12 col-lg-8 pt-3 mx-auto d-flex justify-content-between align-items-center flex-wrap" action="">
+                            <div class="mb-3 col-12 col-md-4 col-lg-4">    
                                 <label for="formFile" class="form-label">Enter Purchase Order Number</label>
                                 <input class="form-control  col-12" type="text" placeholder="" value="{{$order_id}}" name="PurchaseOrderNumber" id="PurchaseOrderNumber" required autocomplete="off">
                             </div>
-                            <div class="mb-3 col-4" id="item-code-selectbox">    
+                            <div class="mb-3 col-12 col-md-4 col-lg-4" id="item-code-selectbox">    
                                 <label for="formFile" class="form-label">Enter Item Code</label>
                                 <select name="ItemCode" id="ItemCode" class="form-select">
                                     <option value="0" selected>All</option>                                   
                                 </select>
                             </div>
                             
-                            <div class="form-button mt-2 col-3">    
+                            <div class="form-button mt-2 col-12 col-md-3 col-lg-4">    
                              <button type="submit" class="font-12 btn btn-primary" id="get_order_details">Get Order Details</button>
                             </div>
                         </form>
                     </div>
                 </div>   
              </div>
-        </div>
-        {{-- <div class="row row-cols-1 col-12 result-icon d-none">
-            <div class="col-12">
-                <div class="card box">						
-                    <div class="card-body col-12 d-flex align-items-center min-height">
-                        <div class="empty-record h-100 col-12 text-center">
-                            <img src="/assets/images/svg/change-order.svg" class="h-50" />
-                        </div> 
-                    </div>
-                </div>   
-             </div>
-        </div> --}}
+        </div>       
         <div class="row row-cols-1 col-12">
             <div class="col-12">
                 <div class="alert alert-success text-center d-none" id="change-order-request-response-alert">Change Order Request sent successfully</div>
@@ -60,7 +49,7 @@
              </div>
         </div>
         <div class="row row-cols-1 col-12 result-data">
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="card box">						
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
@@ -132,8 +121,8 @@
                     </div>      
                 </div>   
             </div>
-            <div class="col-8">
-                <div class="card box">	
+            <div class="col-12 col-md-6 col-lg-8">
+                <div class="card box mb-3">	
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
@@ -143,42 +132,42 @@
                         </div>                    
                     </div>    					
                     <div class="card-body col-12">
-                        <div class="row">
-                            <div class="mb-3 col-4">    
+                        <div class="row flex-wrap">
+                            <div class="mb-3 col-12 col-md-12 col-lg-4">    
                                 <label class="form-label">Order Number</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no">
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Location</label>
                                 <input class="form-control  col-12" type="text" value="" placeholder="Location" name="Location" id="order-location">
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Alias Item Number</label>
                                 <input class="form-control  col-12" type="text" value="" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-12 col-md-12 col-lg-4">    
                                 <label class="form-label">Order Date</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="OrderDate" name="OrderDate" id="OrderDate">
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Drop Ship</label>
                                 <select class="form-control" name="DropShip" id="DropShip">
                                     <option value="" selected></option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Quantity Shipped</label>
                                 <input class="form-control  col-12" type="text" value="" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Promise Date</label>
                                 <input class="form-control col-12" type="text" placeholder="Promise Date" value="" name="PromiseDate" id="promiseDate">
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Status</label>
                                 <select class="form-control" name="Status" id="orderStatus">
                                     <option value="" selected></option>
@@ -196,7 +185,7 @@
                         </div>                    
                     </div>   
 
-                    <div class="table-responsive col-12 p-2">
+                    <div class="table-responsive col-12 p-3">
                         <table id="orderItems" class="table">
                             <thead>
                                 <tr>

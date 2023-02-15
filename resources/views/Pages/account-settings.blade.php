@@ -28,9 +28,9 @@
         <div class="row row-cols-1 col-12 result-response d-none">
             <div class="alert alert-success text-center" id="result-response-message"></div>
         </div>
-        <div class="row row-cols-1 col-12 result-data">
-            <div class="col-3">
-                <div class="card box">						
+        <div class="row row-cols-1 col-12 result-data flex-wrap sm-rverse-flex">
+            <div class="col-12 col-md-4 col-lg-3 ">
+                <div class="card box mb-4">						
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
@@ -76,7 +76,7 @@
             </div>
 
             {{-- customer detail section --}}
-            <div class="col-9">
+            <div class="col-12 col-md-8  co-lg-9">
                 <div class="card box">	
                     <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
@@ -145,15 +145,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
                                 <label class="form-label">BenchMark Relational Manager Name</label>
                                 <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
                                 <label class="form-label">BenchMark Relational Manager Email</label>
                                 <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
                             </div>
-                            <div class="mb-3 col-4">    
+                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
                                 <label class="form-label">BenchMark Relational Manager Phone Number</label>
                                 <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>

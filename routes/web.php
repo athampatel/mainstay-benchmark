@@ -133,6 +133,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
 
+
     // get customer information
     Route::post('/get_customer_info',[UsersController::class,'getCustomerInfo']);
     // link 

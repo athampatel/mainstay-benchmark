@@ -13,39 +13,35 @@
     <div class="loader"></div>
 </div>
 <div class="home-content">
-    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12">
-        <div class="col">
-            <div class="padding-y-40 d-flex justify-content-between align-items-center">
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="page_title p-0">Analysis</div>
-                    <div class="d-flex analysis-filter">
-                        <label for="" class="position-relative">
-                            <span>By Item</span>
-                            <select name="" id="analysis_item_select" class="rounded analysis_select">
-                                <option value="" selected>Select Item</option>
-                            </select>
-                            <div class="down-arrow"></div>
-                        </label>
-                        <label class="position-relative">
-                            <span>By Range</span>
-                            <select name=""id="analysis_range_select"class="rounded analysis_select">
-                                <option value="0" selected>Select Range</option>
-                                <option value="1">Last Month</option>
-                                <option value="2">Quarterly</option>
-                                <option value="3">Half Yearly</option>
-                                <option value="4">By Range</option>
-                            </select>
-                            <div class="down-arrow"></div>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <label class="switch1">
-                        <input type="checkbox" id="tab_input">
-                        <span class="slider1"></span>
-                    </label>
-                </div>
+    <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex  align-items-center flex-wrap">
+            <div class="page_title p-0">Analysis</div>
+            <div class="d-flex analysis-filter">
+                <label for="" class="position-relative">
+                    <span>By Item</span>
+                    <select name="" id="analysis_item_select" class="rounded analysis_select">
+                        <option value="" selected>Select Item</option>
+                    </select>
+                    <div class="down-arrow"></div>
+                </label>
+                <label class="position-relative">
+                    <span>By Range</span>
+                    <select name=""id="analysis_range_select"class="rounded analysis_select">
+                        <option value="0" selected>Select Range</option>
+                        <option value="1" selected>Last Month</option>
+                        <option value="2" selected>Quarterly</option>
+                        <option value="3" selected>Half Yearly</option>
+                        <option value="4" selected>By Range</option>
+                    </select>
+                    <div class="down-arrow"></div>
+                </label>
             </div>
+        </div>
+        <div class="toggle-switcher">
+            <label class="switch1">
+                <input type="checkbox" id="tab_input">
+                <span class="slider1"></span>
+            </label>
         </div>
     </div>
     <div class="padding-y-40 open-orders analysis_table_container d-none" id="analysis_table_container">
@@ -53,10 +49,10 @@
             <div class="col-12">
                 <div class="card box">
                     <div class="card-header col-12 p-3 d-flex border-0">
-                        <div class="col-sm-12 col-md-12 col-lg-6 d-flex align-items-center">
+                        <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 d-flex align-items-center justify-content-end analysis_table_options">            
-                            <div class="position-relative">
+                        <div class="col-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                            <div class="position-relative item-search"">
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
@@ -123,10 +119,10 @@
             </div>	
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="analysis_table_chart" style="padding:0 2.5rem; padding-top:14px;">
-        <div class="col">
+    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1 col-12" id="table-chart">
+        <div class="col-12">
             <div class="card box" style="background:rgb(66, 68, 72)">
-                <div class="card-header col-12 p-3 d-flex align-items-center">
+                <div class="card-header col-12 p-3 d-flex align-items-center border-0">
                     <div class="col-6 d-flex align-items-center">
                     </div>
                     <div class="col-6 d-flex align-items-center justify-content-end">
@@ -134,7 +130,7 @@
                       <a class="btn btn-rounded btn-medium btn-primary-dark">MORE DETAILS</a>
                     </div>
                   </div>
-                <div id="analysis_page_chart" class="col-12 p-2"></div>
+                <div id="analysis_page_chart" class="col-12"></div>
             </div>
         </div>	
     </div>

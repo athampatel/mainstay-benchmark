@@ -9,7 +9,7 @@
     <div class="overview-boxes widget_container_cards col-12">
       <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 col-12">
         {{-- customer info card --}}
-        <div class="col">
+        <div class="col-sm-12 col-md-12 col-lg-4">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -32,7 +32,7 @@
           </div>
         </div>
         {{-- Region manager info card --}}
-        <div class="col">
+        <div class="col-sm-12 col-md-12 col-lg-4">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -59,7 +59,7 @@
           </div>
         </div>
         {{-- Open orders card --}}
-        <div class="col">
+        <div class="col-sm-12 col-md-12 col-lg-4">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -78,16 +78,16 @@
       </div> 
 
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-        <div class="col">
-          <div class="card box">
-            <div class="card-header col-12 p-3 d-flex align-items-center border-0">
-              <div class="col-6 d-flex align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-6"">
+          <div class="card box item-card-block">
+            <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
+              <div class="col-12 col-md-12 col-lg-6 d-flex align-items-center">
                 <div class="box-icon small-icon rounder-border">
                   <img src="assets/images/svg/sale-invoice-order.svg" />
                 </div>  
                 <h4 class="mb-0 title-4">Sale/Invoice Orders</h4>
               </div>
-              <div class="col-6 d-flex align-items-center justify-content-end">
+              <div class="col-12 col-md-12 col-lg-6 d-flex align-items-center justify-content-end col-btn">
                 <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
                 <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
               </div>
@@ -96,16 +96,16 @@
           </div>
         </div>
 
-        <div class="col">
-          <div class="card box">
-              <div class="card-header col-12 p-3 d-flex align-items-center border-0">
-                <div class="col-6 d-flex align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-6"">
+          <div class="card box item-card-block">
+              <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
+                <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
                   <div class="box-icon small-icon rounder-border">
                     <img src="assets/images/svg/open-orders.svg" />
                   </div>  
                   <h4 class="mb-0 title-4">Open Orders</h4>
                 </div>
-                <div class="col-6 d-flex align-items-center justify-content-end">
+                <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
                   <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
                   <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
                 </div> 
@@ -118,8 +118,8 @@
     <!---ROW 3-->
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-     <div class="col-4">
-        <div class="card box">
+     <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="card box item-card-block">
           <div class="card-header col-12 p-3 border-0">
             <div class="col-12 d-flex align-items-center">              
               <h4 class="mb-0 title-4">Total Customer Spending</h4>
@@ -128,14 +128,14 @@
 					<div id="customer-spending-chart" class="col-12 p-2"></div>
         </div>
      </div>	
-     <div class="col-8">
-        <div class="card box">
-          <div class="card-header col-12 p-3 d-flex border-0">
-            <div class="col-6 d-flex align-items-center">
+     <div class="col-sm-12 col-md-12 col-lg-8">
+        <div class="card box item-card-block">
+          <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
+            <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
               <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
             </div>
-            <div class="col-6 d-flex align-items-center justify-content-end">            
-              <div class="position-relative">
+            <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            
+              <div class="position-relative item-search">
                 <input type="text" class="datatable-search-input" placeholder="Search in All Columns" id="open-orders-chart-search" aria-controls="help-page-table">
                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-chart-search-img">
               </div> 
