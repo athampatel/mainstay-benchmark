@@ -149,7 +149,7 @@ class AuthController extends Controller
             if($_multiple){
                 $link .= "&duplicate=".$_multiple;
             }
-            $details['link']      =  $link;    
+              
             $details['status']    = 'success';
 
             $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
@@ -169,9 +169,10 @@ class AuthController extends Controller
             if($_multiple)
                 $url .= '?duplicate=1';
 
-            $params = array('mail_view' => 'emails.email-body', 
+           /* $params = array('mail_view' => 'emails.email-body', 
                             'subject'   => 'New user Signup request', 
-                            'url'       => $url);   
+                            'url'       => $url);   */
+            $details['link']      =  $url;                 
             $_notification = array( 'type'      => 'signup',
                                     'from_user'  => $uniqueId,
                                     'to_user'  => 0,
@@ -184,7 +185,7 @@ class AuthController extends Controller
             $notification = new NotificationController();                        
             $notification->create($_notification);
 
-            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
         }
 
 
