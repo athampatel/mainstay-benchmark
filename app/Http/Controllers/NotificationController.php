@@ -47,6 +47,7 @@ class NotificationController extends Controller
         $customer   =   $this->customer;
         $user       =   $this->user;   
         $type       = ''; 
+        $notification = [];
         if($this->superAdmin){
             $notification   =   Notification::where('is_read',0)->where('to_user',0)->orderBy('id','DESC')->get();
             $type           = 1;   

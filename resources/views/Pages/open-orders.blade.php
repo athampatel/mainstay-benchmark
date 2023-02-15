@@ -11,7 +11,7 @@
 @section('content')
 <div class="backdrop d-none">
     <div class="loader"></div>
-</div>
+</div>B,.
 <div class="home-content">
     <span class="page_title">Open order</span>
     {{-- <div class="table-card" style="padding:0 2.5rem;">
@@ -105,6 +105,9 @@
                         </div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
+                        <div class="page-table-loader-div">
+                            <div class="chart-loader"></div>
+                        </div>
                         <div class="table-responsive" id="open-orders-page-table-div">
                             {{-- <table id="open-orders-page-table" class="table bench-datatable border-0">
                                 <thead>
@@ -147,7 +150,7 @@
                             </table> --}}
                         </div>
                         <div class="col-12 pb-2">
-                            {{-- <x-pagination-component :pagination="$pagination" /> --}}
+                            {{-- <x-pagination-component :pagination="[]" /> --}}
                             <div id="pagination_disp"></div>
                         </div>
                     </div>

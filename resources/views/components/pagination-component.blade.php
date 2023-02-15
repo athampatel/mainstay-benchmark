@@ -36,5 +36,17 @@
             </div>
         </div>
     </div>
-    @endif  
+    {{-- cross check work start --}}
+    @else
+    <div class="parent" style="display:flex;color:#fff">
+        @for($i= 0;$i <= 10;$i++)
+        <div class="child" style="padding:3px;">
+            <a href="" id="{{$i == 4 ? 'active':''}}">{{$i}}</a>
+        </div>
+        @endfor
+    </div>
+
+    {{-- cross check work end --}}
+    @endif 
+
 </div>

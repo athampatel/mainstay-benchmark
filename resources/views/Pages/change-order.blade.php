@@ -211,35 +211,6 @@
 
 
 <style>
-.backdrop{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 2;
-    background-color: rgba(255, 255, 255, .5);
-}
-
-.loader {
-    position: absolute;
-    border-radius: 50%;
-    border: #A8CB5C 5px solid;
-    border-left-color: transparent;
-    width: 36px;
-    height: 36px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>
 
 <script>

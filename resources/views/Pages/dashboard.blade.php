@@ -1,6 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<div class="backdrop d-none">
+  <div class="loader"></div>
+</div>
 <div class="home-content">
   <span class="page_title">Dashboard</span>
     <div class="overview-boxes widget_container_cards col-12">
@@ -89,7 +92,11 @@
                 <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
               </div>
             </div>
-            <div id="customer_sales_history" class="col-12 p-2"></div>
+            <div id="customer_sales_history" class="col-12 p-2">
+              <div class="chart-loader-div d-none">
+                <div class="chart-loader"></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -107,7 +114,11 @@
                   <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
                 </div> 
               </div>
-            <div id="dashboard-open-orders-chart" class="col-12 p-2"></div>
+            <div id="dashboard-open-orders-chart" class="col-12 p-2">
+              <div class="chart-loader-div d-none">
+                <div class="chart-loader"></div>
+              </div>
+            </div>
           </div>
         </div>	
       </div>
@@ -122,7 +133,11 @@
               <h4 class="mb-0 title-4">Total Customer Spending</h4>
             </div>
           </div>
-					<div id="customer-spending-chart" class="col-12 p-2"></div>
+					<div id="customer-spending-chart" class="col-12 p-2">
+            <div class="chart-loader-div d-none">
+              <div class="chart-loader"></div>
+            </div>
+          </div>
         </div>
      </div>	
      <div class="col-sm-12 col-md-12 col-lg-8">
@@ -163,10 +178,12 @@
           </div>
           <div class="card-body col-12 p-3">
           <div class="table-responsive" id="dashboard-recent-invoice-order-table-div">
-							
-						</div>
+            <div class="chart-loader-div">
+              <div class="chart-loader"></div>
+            </div>		
+          </div>
             <div class="d-flex col-12 justify-content-end pb-2">
-                <a href="" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
+                <a href="/invoice" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
               </div>
           </div>
         </div>

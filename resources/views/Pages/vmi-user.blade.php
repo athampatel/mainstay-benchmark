@@ -87,15 +87,17 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export">
-                                <div class="datatable-print">
+                            <div class="vmi-datatable-export">
+                                <div class="vmi-datatable-print">
+                                    <span>Print</span>
                                     <a href="">
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="vmi-print-icon">
                                     </a>
                                 </div>
-                                <div class="datatable-report">
+                                <div class="vmi-datatable-report">
+                                    <span>Download</span>
                                     <a href="">
-                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="vmi-report-icon">
+                                        <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi-report-icon">
                                     </a>
                                 </div>
                             </div>
@@ -106,27 +108,24 @@
                             <table id="vmi-page-table" class="table bench-datatable border-0">
                                 <thead>
                                     <tr>
-                                        <th class="border-0">ID</th>
-                                        <th class="border-0">Customer name</th>
-                                        <th class="border-0">Customer email</th>
-                                        <th class="border-0">Total items</th>
-                                        <th class="border-0">Price</th>
-                                        <th class="border-0">Date</th>
-                                        <th class="border-0">Location</th>
-                                        <th class="border-0">Status</th>
-                                        <th class="border-0">Action</th>
+                                        <th class="border-0">Customer Item Number</th>
+                                        <th class="border-0">Benchmark Item Number</th>
+                                        <th class="border-0">Item Description</th>
+                                        <th class="border-0">Vendor Name</th>
+                                        <th class="border-0">Oty on Hand</th>
+                                        <th class="border-0">Quantity purchased(Year)</th>                        
                                     </tr>
                                 </thead>
                                 <tbody id="">
                                 @for($i = 0; $i < 50; $i++)
                                     <tr>
-                                        <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#89742-{{$i}}</a></td>
-                                        <td><a href="javascript:void(0)" class="customer-name">Adams Baker</a></td>
-                                        <td><a href="mailto:adamsbaker@mail.com" class="customer-email">adamsbaker@mail.com</a></td>
-                                        <td>2</td>
-                                        <td>$245</td>
-                                        <td>Apr 08, 2021</td>
-                                        <td class="location">
+                                        <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#8974224</a></td>
+                                        <td><a href="javascript:void(0)" class="customer-name">BC18765451</a></td>
+                                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum fermentum ut augue sit amet molestie.</td>
+                                        <td>MAYTEX CROP</td>
+                                        <td>2555</td>
+                                        <td>582155</td>
+                                        {{-- <td class="location">
                                             <span class="svg-icon location-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
                                             </span>
@@ -144,7 +143,7 @@
                                                     </g>
                                                 </svg>                         
                                             </span>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endfor
                                 </tbody>
