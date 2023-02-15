@@ -29,6 +29,15 @@
 	<div class="wrapper">	
 		@yield("wrapper")
 	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="footer-content">
+				<div class="footer-text">
+					&copy; {{date('Y')}} Benchmark Products All Rights Reserved
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--end wrapper-->
 	<!-- Bootstrap JS -->
 	<script src="/assets/js/bootstrap.bundle.min.js"></script>

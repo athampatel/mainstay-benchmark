@@ -52,6 +52,17 @@
 			</div>
 			<!--end row-->
 		</div>
+		{{-- <div class="" style="height:65px; width:100%;bacground:#C1C2C3;">
+			&copy; 2023 Benchmark Products Adll Rights Reserved
+		</div> --}}
+		{{-- <div class="row">
+			<div class="col-12">
+				<div class="footer-content">
+					&copy; 2023 Benchmark Products Adll Rights Reserved
+				</div>
+			</div>
+		</div> --}}
+	</div>
 	</div>
 @endsection
 	

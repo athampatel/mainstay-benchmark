@@ -8,7 +8,7 @@
                 <th class="border-0">Total items</th>
                 <th class="border-0">Price</th>
                 <th class="border-0">Date</th>
-                {{-- <th class="border-0">Location</th> --}}
+                <th class="border-0">Location</th>
                 <th class="border-0">Status</th>
                 <th class="border-0">Action</th>
             </tr>
@@ -32,10 +32,10 @@
                         <td>{{$total}}</td>
                         <td>${{$price}}</td>
                         <td>{{$date->format('M d, Y')}}</td>
-                        {{-- <td class="location"><span class="svg-icon location-icon">
+                        <td class="location"><span class="svg-icon location-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
-                        </span>London
-                        </td> --}}
+                        </span> {{$invoice['shiptocity']}}
+                        </td>
                         <td class="status">{{ $invoice['orderstatus'] == 'C' ? 'Completed': 'Open'}}</td>
                         <td class="action">
                             <a href="/order-change-order/{{$invoice['salesorderno']}}">

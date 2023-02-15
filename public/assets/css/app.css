@@ -1,5 +1,8 @@
 /* - Google Font - General - Sidebar - Header - Metismenu - Extra CSS - Invoice Page - Chat box - Email box - Compose Mail - Navs and Tabs - Background Colors - Authentication - Buttons - Pricing Table - Forms - Responsive */
 /* General */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
 html,body{
     font-size: 0.75rem;
 }
@@ -2238,4 +2241,27 @@ body.user-forms{
 /* paddings */
 .padding-y-15{
     padding: 0.965rem;
+}
+
+
+/* footer */
+.footer-content{
+    position: absolute;
+    bottom: 0;
+    height: 4.0625rem;
+    width: 100%;
+    text-align: center;
+    background: #C1C2C3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #424448;
+    height: 1rem;
+    /* word-spacing: 4; */
 }

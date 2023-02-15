@@ -2076,6 +2076,38 @@ table.dataTable td, table.dataTable th{
     overflow-x:hidden;
   }
 }
+.chart-loader-div{
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-table-loader-div{
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-loader{
+  height: 30px;
+  width: 30px;
+  border: 3px solid #9FCC47;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes role {
+    0%{
+      transform: rotate(0deg);
+    }
+    100%{
+      transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 60px;

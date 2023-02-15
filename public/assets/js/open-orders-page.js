@@ -36,7 +36,7 @@ function getOpenOrderAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            $('.backdrop').removeClass('d-none');
+            // $('.backdrop').removeClass('d-none');
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
@@ -54,7 +54,7 @@ function getOpenOrderAjax($page,$count){
             });
         },
         complete:function(){
-            $('.backdrop').addClass('d-none');
+            // $('.backdrop').addClass('d-none');
         }
     });
 }

@@ -3,12 +3,12 @@
 // backdrop.style.height = `${height}px`;
 // console.log(height);
 // $('.backdrop').
-$(function(){
+// $(function(){
     // customer sales history
-    if ($("#customer_sales_history").length) {
-        AjaxRequestCom('/customersales','GET','','customerSalesChartDisplay');
-    }
-});
+    // if ($("#customer_sales_history").length) {
+        // AjaxRequestCom('/customersales','GET','','customerSalesChartDisplays');
+    // }
+// });
 // customer open orders chart
 customerOpenOrders()
 //customer spending chart
@@ -16,12 +16,38 @@ customerSpendingChart()
 // dashboard customer invoice order table
 customer_invoice_orders()
 
-window.addEventListener('load', function() {
-    $('.backdrop').addClass('d-none');
-});
+customerSalesHistory()
+
+function customerSalesHistory(){
+    $.ajax({
+        type: 'GET',
+        url: '/customersales',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        beforeSend:function(){
+            $('#customer_sales_history .chart-loader-div').removeClass('d-none');
+        },
+        success: function (res) {  
+            customerSalesChartDisplays(res)
+        },
+        complete:function(){
+            $('#customer_sales_history .chart-loader-div').addClass('d-none');
+        }
+    });
+}
+
+
+// window.addEventListener('load', function() {
+//     $('.backdrop').addClass('d-none');
+// });
 
 // dashboard customer sales order display
-function customerSalesChartDisplay($res){
+function customerSalesChartDisplays(resp){
+    // return false;
+    // console.log('__comes in ');
+    // console.log(resp,'__Response');
+    $res = JSON.parse(resp);
+    console.log($res,'___res');
+    // return false;
     $counts = [];
     $categories = [];
     $customer_data = $res.data.data.customersaleshistory;
@@ -297,7 +323,7 @@ function customer_invoice_orders(){
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         beforeSend:function(){
-            // $('.backdrop').removeClass('d-none');
+            $('#dashboard-recent-invoice-order-table-div .chart-loader-div').removeClass('d-none');
         },
         success: function (res) {  
             // $('#pagination_disp').html(res.pagination_code);
@@ -315,7 +341,7 @@ function customer_invoice_orders(){
             });
         },
         complete:function(){
-            // $('.backdrop').addClass('d-none');
+            $('#dashboard-recent-invoice-order-table-div .chart-loader-div').addClass('d-none');
         }
     });
 }

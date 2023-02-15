@@ -1,7 +1,3 @@
-$(function(){
-});
-
-
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');

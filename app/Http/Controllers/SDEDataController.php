@@ -61,7 +61,8 @@ class SDEDataController extends Controller
 
         $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
         $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => $year]];
-        echo \json_encode($response);
+        echo json_encode($response);
+        die();
     }
 
     // invoice orders
@@ -111,7 +112,7 @@ class SDEDataController extends Controller
         $response['table_code'] = $table_code;
 
         // $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => '','user' =>$user]];
-        echo \json_encode($response);
+        echo json_encode($response);
         die();
     }
 
