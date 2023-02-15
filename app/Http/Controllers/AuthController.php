@@ -138,7 +138,7 @@ class AuthController extends Controller
                     $body   .= '<tr><td align="left">Phone No:</td><td align="left">'.$request->phone_no.'</td></tr>';
                     $body   .= '<tr><td align="left">Email Address:</td><td align="left">'.$request->email.'</td></tr>';
                     $body   .= '</table>';
-                    
+
                     $details['body'] = $body;                    
                     $request_id = $data_request->id;
                     $link     = "/fetch-customer/{$request->email}?req=".$data_request->id;
@@ -167,7 +167,7 @@ class AuthController extends Controller
             if($_multiple)
                 $url .= '?duplicate=1';
 
-            $params = array('mail_view' => 'emails.user-active', 
+            $params = array('mail_view' => 'emails.email-body', 
                             'subject'   => 'New user Signup request', 
                             'url'       => $url);   
             $_notification = array( 'type'      => 'signup',
