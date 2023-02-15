@@ -129,29 +129,31 @@ class AuthController extends Controller
                                                     'company_name'  => $request->company_name,
                                                     'email'         => $request->email,
                                                     'phone_no'      => $request->phone_no);
-                    $data_request = SignupRequest::create($signupdata);
-                    $body      = "Hi, <br /> A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details";
-
-                    $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
-                    $body   .= '<tr><td align="left">Customer Name:</td><td align="left">'.$request->full_name.'</td></tr>';
-                    $body   .= '<tr><td align="left">Company Name:</td><td align="left">'.$request->company_name.'</td></tr>';
-                    $body   .= '<tr><td align="left">Phone No:</td><td align="left">'.$request->phone_no.'</td></tr>';
-                    $body   .= '<tr><td align="left">Email Address:</td><td align="left">'.$request->email.'</td></tr>';
-                    $body   .= '</table>';
-
-                    $details['body'] = $body;                    
-                    $request_id = $data_request->id;
-                    $link     = "/fetch-customer/{$request->email}?req=".$data_request->id;
-                    if($_multiple){
-                       $link .= "&duplicate=".$_multiple;
-                    }
-                    $details['link']      =  $link;    
-                    $details['status']    = 'success';
-
-                    $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+                    $data_request = SignupRequest::create($signupdata);                    
             }
-        
-       
+
+            $body      = "Hi, <br /> A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details";
+
+            $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
+            $body   .= '<tr><td align="left">Customer Name:</td><td align="left">'.$request->full_name.'</td></tr>';
+            $body   .= '<tr><td align="left">Company Name:</td><td align="left">'.$request->company_name.'</td></tr>';
+            $body   .= '<tr><td align="left">Phone No:</td><td align="left">'.$request->phone_no.'</td></tr>';
+            $body   .= '<tr><td align="left">Email Address:</td><td align="left">'.$request->email.'</td></tr>';
+            $body   .= '</table>';
+
+            $details['body'] = $body;   
+            $details['title'] = "New customer request for portal access";   
+            $details['subject'] = "New customer request for member portal access";
+            $request_id = $data_request->id;
+            $link     = "/fetch-customer/{$request->email}?req=".$data_request->id;
+            if($_multiple){
+                $link .= "&duplicate=".$_multiple;
+            }
+            $details['link']      =  $link;    
+            $details['status']    = 'success';
+
+            $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+            
             $message    = isset($details['message']) ? $details['message'] : '';
             $status     = isset($details['status']) ? $details['status'] : '';
             //$user       = User::where('email',$request->email)->first();           
