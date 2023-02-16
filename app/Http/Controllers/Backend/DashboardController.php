@@ -25,11 +25,14 @@ class DashboardController extends Controller
         });
     }
     public static function isManager($customer_id,$user){
+        if(empty($user))
+            return false;
+            
         $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                     ->leftjoin('admins','sales_persons.email','=','admins.email')
-                    ->where('admins.id',$user->id)->where('users.id',$customer_id)->get([ 'users.id'])->count();
+                    ->where('admins.id',$user->id)->where('users.id',$customer_id)->get(['users.id'])->count();
         return $lblusers;
 
     }

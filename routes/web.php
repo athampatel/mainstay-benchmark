@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/vendors',[SDEDataController::class,'getVendors']);
 
     //change user status
-    // Route::get('/user/{id}/change-status',[SDEDataController::class,'changeUserStatus']);
+    //Route::get('/user/{id}/change-status',[SDEDataController::class,'changeUserStatus']);
     Route::get('/user/{id}/active',[SDEDataController::class,'changeUserActive']);
     Route::get('/user/{id}/cancel',[SDEDataController::class,'changeUserCancel']);
 

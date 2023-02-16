@@ -187,7 +187,7 @@
     color: #FFF;
     font-size: 20px;
 }
-.metismenu li a.loggout:after{
+.metismenu li a.logout:after{
     display: none;
 }
 .sidebar .metismenu.nav-links li{

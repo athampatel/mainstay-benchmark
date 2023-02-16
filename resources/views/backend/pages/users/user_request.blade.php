@@ -38,8 +38,6 @@ User Create - Admin Panel
                     <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                         @csrf
                         @foreach($customers as $key => $user_info)
-                    
-
                         <div class="card mb-3">
                             <div class="card-body">
                                 @if(count($customers) > 1)

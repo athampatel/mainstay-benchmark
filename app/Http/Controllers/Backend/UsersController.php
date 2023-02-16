@@ -21,6 +21,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
+use App\Models\SignupRequest;
 
 
 class UsersController extends Controller
@@ -58,7 +59,7 @@ class UsersController extends Controller
                     ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
        
-        if(!$this->superAdmin){
+        if(!$this->superAdmin && !empty($user)){
            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
            $lblusers->where('admins.id',$user->id);
         }elseif($this->superAdmin && $request->input('manager')){
@@ -331,7 +332,6 @@ class UsersController extends Controller
             $admin      = Admin::where('unique_token', $admin_token)->first();
 
         $customers  = array();
-
         if(!empty($admin)){
             if(is_numeric($user_id)){
                 $user = User::find($user_id);
@@ -341,7 +341,7 @@ class UsersController extends Controller
                 $email_address = $user_id;
                 $user           = array();
             }
-
+            $userInfo    = SignupRequest::where('email','abdc@testreq.com')->first();
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
                     "filter" => [
@@ -360,7 +360,7 @@ class UsersController extends Controller
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
-                return view('backend.pages.users.user_request',compact('customers','user')); 
+                return view('backend.pages.users.user_request',compact('customers','user','userInfo')); 
             }
         }
        return abort('403');
