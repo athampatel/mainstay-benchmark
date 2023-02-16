@@ -12,9 +12,11 @@ class PaginationComponent extends Component
      * @return void
      */
     public $pagination = "";
-    public function __construct($pagination = [])
+    public $search = "";
+    public function __construct($pagination = [],$search = "")
     {
         $this->pagination = $pagination;
+        $this->search = $search;
     }
 
     // public function index() {

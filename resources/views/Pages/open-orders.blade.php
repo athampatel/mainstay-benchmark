@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="card-body col-12 padding-y-0 position-relative">
-                        <div class="page-table-loader-div">
+                        <div class="page-table-loader-div d-none">
                             <div class="chart-loader1"></div>
                         </div>
                         <div class="table-responsive" id="open-orders-page-table-div">

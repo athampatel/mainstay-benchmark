@@ -1653,11 +1653,13 @@ nav .profile-details i{
   align-items: center;
   font-size: 12px;
   color: #fff;
+  padding: 0 !important;
 }
 .pagination_button a.pagination_active_button{
   background-color: #9FCC47;
   color: #000;
   text-align: center;
+  padding: 0 !important;
 }
 
 /* dashboard open orders chart */
@@ -1690,6 +1692,7 @@ nav .profile-details i{
 .datatable-search-img{
   top: 0.5rem;
   right: 1.25rem;
+  cursor: pointer;
 }
 
 .datatable-filter-img{
@@ -1875,13 +1878,13 @@ nav .profile-details i{
 #open-orders-page-table_filter{
   display: none;
 }
-
 #open-orders-page-table_wrapper .row:first-child{
   display: none;
 }
 #open-orders-page-table_wrapper .row:last-child{
   display: none;
 }
+
 #invoice-orders-page-table_filter{
   display: none;
 }
@@ -1915,6 +1918,17 @@ nav .profile-details i{
   display: none;
 }
 
+/* admin tables */
+/* #dataTable_wrapper
+#open-orders-page-table_filter{
+  display: none;
+} */
+#backend_customers_wrapper .row:first-child{
+  display: none;
+}
+#backend_customers_wrapper .row:last-child{
+  display: none;
+}
 /*open orders page */
 .padding-y-40{
   padding-left: 2.5rem;
@@ -1925,9 +1939,10 @@ nav .profile-details i{
   background-color: #424448;
   border-radius: 15px;
   margin-top: 24px;
+}
+.open-orders .card.box.active{
   min-height: 600px;
 }
-
 /* analysis page filter */
 .analysis-filter{
   padding-left: 0.3125rem;
@@ -2116,6 +2131,28 @@ table.dataTable td, table.dataTable th{
   border-radius: 50%;
   animation: spin 1s infinite linear;
 }
+
+/* Admin datatable */
+.datatable-search-input-admin{
+  width: 16.625rem !important;
+  padding-left: 1.0625rem !important;
+  max-height: 1.875rem !important;
+  border-radius: 0.9375rem !important;
+  color: #fff !important;
+  padding-right: 2rem !important;
+  background-color: #7B7C7F;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  border: none;
+  outline: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.datatable-search-input-admin::placeholder{
+  color: #fff !important;
+}
+
 
 @keyframes role {
     0%{
