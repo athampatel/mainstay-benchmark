@@ -8,6 +8,7 @@ use App\Http\Controllers\SDEDataController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,15 +152,14 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('send-mail', function () {
    
-    $details = [
-        'title' => 'Mail from BenchMark Products',
-        'body' => 'This is for testing email using smtp',
-		'link' => '####'
-    ];
-   
-    \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-   
-    dd("Email is Sent.");
+    $url    = env('APP_URL').'/admin/user';
+    $params = array('mail_view' => 'emails.user-active1', 
+    'subject'   => 'New user Signup request', 
+    'url'       => $url);
+
+    Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+    
+    return view('welcome');
 });
 
 require __DIR__.'/auth.php';

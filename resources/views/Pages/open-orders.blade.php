@@ -104,9 +104,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body col-12 padding-y-0">
+                    <div class="card-body col-12 padding-y-0 position-relative">
                         <div class="page-table-loader-div">
-                            <div class="chart-loader"></div>
+                            <div class="chart-loader1"></div>
                         </div>
                         <div class="table-responsive" id="open-orders-page-table-div">
                             {{-- <table id="open-orders-page-table" class="table bench-datatable border-0">
