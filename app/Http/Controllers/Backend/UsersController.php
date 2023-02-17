@@ -94,7 +94,15 @@ class UsersController extends Controller
                 default:
                     break;
             }
-        }     
+        }
+        if($search){
+            $lblusers->where(function($lblusers) use($search){
+				$lblusers->orWhere('users.name','like','%'.$search.'%')
+                        ->orWhere('users.email','like','%'.$search.'%')
+                        ->orWhere('user_details.customerno','like','%'.$search.'%');
+			});
+        }
+        // dd($lblusers->toSql());
         $userss = $lblusers->paginate(intval($limit));
         $paginate = $userss->toArray();
         /* test working start in pagination */
