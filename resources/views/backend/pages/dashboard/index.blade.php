@@ -1,8 +1,7 @@
 
 @extends('backend.layouts.master')
-
 @section('title')
-Dashboard Page - Admin Panel
+Dashboard  - Admin Panel
 @endsection
 @php
      $usr = Auth::guard('admin')->user();

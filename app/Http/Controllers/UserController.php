@@ -10,8 +10,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public static function createUser($data,$action = 0){
-        
+    public static function createUser($data,$action = 0){        
 
         $userData = array(  'name'              =>$data['customername'],
                             'email'             => $data['emailaddress'],
@@ -36,17 +35,18 @@ class UserController extends Controller
 
         if(!$user) return false;
 
-        $user_data = array( 'user_id'       => $user->id,
-                            'ardivisionno'  => $data['ardivisionno'],
-                            'customerno'    => $data['customerno'],
-                            'customername'  => $data['customername'],
-                            'addressline1'  => $data['addressline1'],
-                            'addressline2'  => $data['addressline2'],
-                            'addressline3'  => $data['addressline3'],
-                            'city'          => $data['city'],
-                            'state'         => $data['state'],
-                            'zipcode'       => $data['zipcode'],
-                            'email'         => $data['emailaddress']);
+        $user_data = array( 'user_id'           => $user->id,
+                            'ardivisionno'      => $data['ardivisionno'],
+                            'customerno'        => $data['customerno'],
+                            'customername'      => $data['customername'],
+                            'addressline1'      => $data['addressline1'],
+                            'addressline2'      => $data['addressline2'],
+                            'addressline3'      => $data['addressline3'],
+                            'vmi_companycode'   => $data['vmi_companycode'],
+                            'city'              => $data['city'],
+                            'state'             => $data['state'],
+                            'zipcode'           => $data['zipcode'],
+                            'email'             => $data['emailaddress']);
 
         $user_details = UserDetails::create($user_data);
 

@@ -98,15 +98,27 @@ class AuthController extends Controller
         $message    = 'Thanks for validating your email address, you will get a confirmation';
         $status     = 'success';
         $_multiple  = 0;
+
+        $details    = array('subject'   => 'New customer request for member portal access',
+                            'title'     => 'Customer Portal Access');
         
         $uniqueId   = $request->email;
         $request_id = 0;
+
+        $body      = "Hi, <br /> A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details";
+
+       // $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span><span>'.$request->full_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name:</span><span>'.$request->company_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone No:</span><span>'.$request->phone_no.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address:</span><span>'.$request->email.'</span></p>';
+       // $body   .= '</table>';
+        $details['body'] = $body;  
+
         if(empty($user)){
             $response   = $this->SDEApi->Request('post','Customers',$data); 
             $message    = '';
-            $status     = 'error';
-            $details    = array('subject'   => 'New customer request for member portal access',
-                                'title'     => 'Customer Portal Access');
+            $status     = 'error';            
             $_details   = array();
             $error      = 1;
             $_multiple  = 0;            
@@ -125,27 +137,17 @@ class AuthController extends Controller
             }
             if($error){
                     
-                    $signupdata         =   array(  'full_name'     => $request->full_name,
-                                                    'company_name'  => $request->company_name,
-                                                    'email'         => $request->email,
-                                                    'phone_no'      => $request->phone_no);
-                    $data_request = SignupRequest::create($signupdata);                    
+                    $signupdata     =   array(  'full_name'     => $request->full_name,
+                                                'company_name'  => $request->company_name,
+                                                'email'         => $request->email,
+                                                'phone_no'      => $request->phone_no);
+                    $data_request   = SignupRequest::create($signupdata);   
+                    $request_id     = $data_request->id;            
+                    $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;                 
             }
-
-            $body      = "Hi, <br /> A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details";
-
-            $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
-            $body   .= '<tr><td align="left">Customer Name:</td><td align="left">'.$request->full_name.'</td></tr>';
-            $body   .= '<tr><td align="left">Company Name:</td><td align="left">'.$request->company_name.'</td></tr>';
-            $body   .= '<tr><td align="left">Phone No:</td><td align="left">'.$request->phone_no.'</td></tr>';
-            $body   .= '<tr><td align="left">Email Address:</td><td align="left">'.$request->email.'</td></tr>';
-            $body   .= '</table>';
-
-            $details['body'] = $body;   
             $details['title'] = "New customer request for portal access";   
             $details['subject'] = "New customer request for member portal access";
-            $request_id = $data_request->id;
-            $link     = "/fetch-customer/{$request->email}?req=".$data_request->id;
+           
             if($_multiple){
                 $link .= "&duplicate=".$_multiple;
             }

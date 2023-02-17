@@ -2,7 +2,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Region Mangers - Admin Panel
+Region Managers - Admin Panel
 @endsection
 
 
