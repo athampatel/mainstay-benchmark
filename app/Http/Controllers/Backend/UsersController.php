@@ -102,88 +102,9 @@ class UsersController extends Controller
                         ->orWhere('user_details.customerno','like','%'.$search.'%');
 			});
         }
-        // dd($lblusers->toSql());
+
         $userss = $lblusers->paginate(intval($limit));
         $paginate = $userss->toArray();
-        /* test working start in pagination */
-        $first_page = 1;
-        $last_page = $paginate['last_page'];
-        $total = $paginate['total'];
-        $per_page = $paginate['per_page'];
-        $active_page = $paginate['current_page'];
-        $numbers = [];
-
-        /* pagination work start */
-        // $paginate['links'] = [];
-        // if($first_page == $last_page){
-        //     $paginate['links'][] = [
-        //         "url" => "http://localhost:8081/admin/customers?page=1",
-        //         "label" => "1",
-        //         "active" => true
-        //     ];
-        // } else {
-        //     if($active_page == $first_page){
-        //         $count1 = 1;
-        //         for($i = $active_page; $i <= $last_page; $i++){
-        //             if($count1 <= 3){ 
-        //                 $paginate['links'][] = [
-        //                     "url" => "http://localhost:8081/admin/customers?page=$i",
-        //                     "label" => "$i",
-        //                     "active" => $i == $active_page,
-        //                 ];        
-        //             }
-        //             $count1++;
-        //         }
-        //     }
-        //     if($active_page != $first_page && $active_page != $last_page){
-        //         $paginate['links'][] = [
-        //             "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
-        //             "label" => $active_page - 1,
-        //             "active" => false,
-        //         ];
-        //         $paginate['links'][] = [
-        //             "url" => "http://localhost:8081/admin/customers?page=".$active_page,
-        //             "label" => $active_page,
-        //             "active" => true,
-        //         ];
-        //         $paginate['links'][] = [
-        //             "url" => "http://localhost:8081/admin/customers?page=".$active_page + 1,
-        //             "label" => $active_page + 1,
-        //             "active" => false,
-        //         ];
-        //     }
-        //     if($active_page == $last_page){
-        //         if($active_page - 2 < $first_page){ 
-        //             $paginate['links'][] = [
-        //                 "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
-        //                 "label" => $active_page - 1,
-        //                 "active" => false,
-        //             ];
-        //             $paginate['links'][] = [
-        //                 "url" => "http://localhost:8081/admin/customers?page=".$active_page,
-        //                 "label" => $active_page,
-        //                 "active" => true,
-        //             ];
-        //         } else {
-        //             $paginate['links'][] = [
-        //                 "url" => "http://localhost:8081/admin/customers?page=".$active_page - 2,
-        //                 "label" => $active_page - 2,
-        //                 "active" => false,
-        //             ];
-        //             $paginate['links'][] = [
-        //                 "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
-        //                 "label" => $active_page - 1,
-        //                 "active" => false,
-        //             ];
-        //             $paginate['links'][] = [
-        //                 "url" => "http://localhost:8081/admin/customers?page=".$active_page,
-        //                 "label" => $active_page,
-        //                 "active" => true,
-        //             ];
-        //         }
-        //     }
-        // }
-        // dd($paginate);
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         $users = $lblusers->get([ 'users.*',
                                 'user_details.customerno',
@@ -192,7 +113,6 @@ class UsersController extends Controller
                                 'sales_persons.person_number',
                                 'sales_persons.name as sales_person']);
                           
-        // return view('backend.pages.users.index');
         return view('backend.pages.users.index', compact('users','paginate','limit','search'));
     }
 
@@ -270,10 +190,20 @@ class UsersController extends Controller
         return $links;
     }
 
-    public function UserManagers(){
+    public function UserManagers(Request $request){
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }  
+        $search = $request->input('search');
         $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                     ->get(['sales_persons.*','admins.id as user_id']);
-        return view('backend.pages.managers.index', compact('managers'));
+        $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        ->paginate(intval($limit));
+        $paginate = $managerss->toArray();
+        $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+        // return view('backend.pages.managers.index', compact('managers'));
+        return view('backend.pages.managers.index', compact('managers','search','paginate','limit'));
     }
 
     

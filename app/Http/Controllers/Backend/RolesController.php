@@ -27,14 +27,21 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('role.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view any role !');
         }
-
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }  
+        $search = $request->input('search');
         $roles = Role::all();
-        return view('backend.pages.roles.index', compact('roles'));
+        $roless = Role::paginate(intval($limit));
+        $paginate = $roless->toArray();
+        $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+        return view('backend.pages.roles.index', compact('roles','search','paginate','limit'));
     }
 
     /**

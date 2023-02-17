@@ -69,9 +69,6 @@ Customers - Admin Panel
                                 </div>
                             </div>
                             {{-- test working end --}}    
-                            {{-- <p class="float-right mb-2">
-                                <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
-                            </p> --}}
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')

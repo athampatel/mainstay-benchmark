@@ -27,14 +27,22 @@ class AdminsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('admin.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view any admin !');
         }
-
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }  
+        $search = $request->input('search');
         $admins = Admin::all();
-        return view('backend.pages.admins.index', compact('admins'));
+        $adminss = Admin::paginate(intval($limit));
+        $paginate = $adminss->toArray();
+        $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+        // return view('backend.pages.admins.index', compact('admins'));
+        return view('backend.pages.admins.index', compact('admins','search','paginate','limit'));
     }
 
     /**
