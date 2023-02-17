@@ -63,7 +63,7 @@ User Create - Admin Panel
                     @if(!empty($customers))
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
-                            @csrf
+                            @csrf 
                             @foreach($customers as $key => $user_info)
                             <div class="card mb-3">
                                 <div class="card-body">

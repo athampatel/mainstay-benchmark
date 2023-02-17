@@ -168,7 +168,7 @@ class AuthController extends Controller
         $admin      = Admin::first(); 
 
         if($admin){    
-            $url    = env('APP_URL').'/admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
+            $url    = env('APP_URL').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
 
             if($request_id)
                 $url .= '&request='.$request_id;
