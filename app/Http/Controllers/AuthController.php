@@ -111,7 +111,7 @@ class AuthController extends Controller
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span><span>'.$request->full_name.'</span></p>';
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name:</span><span>'.$request->company_name.'</span></p>';
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone No:</span><span>'.$request->phone_no.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address:</span><span>'.$request->email.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address:</span><span>'.$request->email.'</span></p>'; 
        // $body   .= '</table>';
         $details['body'] = $body;  
 
