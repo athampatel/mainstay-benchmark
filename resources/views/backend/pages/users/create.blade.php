@@ -33,11 +33,11 @@ User Create - Admin Panel
                             <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer found</div>
                             <div class="form-row align-items-center form-row align-items-center col-md-8 col-12 mx-auto d-flex align-items-center">
                                 <div class="form-group col-md-9 col-sm-9">
-                                    <label for="name">Search Customer with customer email or customer no</label>
-                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="" required>
+                                    <label for="name">Search customer with customer number/email</label>
+                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="{{$email}}" required>
                                 </div>
                                 <div class="col-md-3 col-sm-6">
-                                    <button class="position-relative btn btn-primary" id='user-search'>Search</button>
+                                    <button class="position-relative btn btn-rounded px-4 btn-primary" id='user-search'>Search</button>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +145,6 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
-
     function ValidateEmail(emailaddress){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
             return true;
@@ -154,6 +153,10 @@ User Create - Admin Panel
     }
     $(document).ready(function() {
         $('.select2').select2();
+        var customer_email = $('#search-customer-no').val();
+        if(customer_email != ''){
+            $('#user-search').trigger('click');
+        }    
         $('.userDetails-container .form-control').blur(function(){
             var val = $(this).val();
             
@@ -228,11 +231,11 @@ User Create - Admin Panel
                     rendorUserForm($customer,1);
                 } else {
                     $('#customer_response_alert').removeClass('d-none');
-                    $('#customer_response_alert').removeClass('alert-success');
-                    $('#customer_response_alert').addClass('alert-danger');
-                    setTimeout(() => {
+                    $('#customer_response_alert').addClass('alert-success');
+                    $('#customer_response_alert').removeClass('alert-danger');
+                    /*setTimeout(() => {
                         $('#customer_response_alert').addClass('d-none');
-                    },2000);
+                    },2000);*/
                 }
                 $('.userDetails-container').fadeIn();
             },
@@ -260,7 +263,7 @@ function rendorUserForm($customer,show){
     $('#sales_person_name').val($customer.salespersonname);
     $('#sales_person_email').val($customer.salespersonemail);
     if(show == 1)
-        $('#customer_response_alert').removeClass('d-none');
+        $('#customer_response_alert').removeClass('alert-danger').removeClass('d-none').addClass('alert-success');;
         
     setTimeout(() => {
         $('#customer_response_alert').addClass('d-none');

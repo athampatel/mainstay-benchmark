@@ -2300,6 +2300,10 @@ table.dataTable.datatable-dark td a{
 table.dataTable.datatable-dark tr th,
 table.dataTable.datatable-dark tr td{
     border-top:1px solid #FFF;
+    
+}
+table.dataTable.datatable-dark tr td{
+    padding:0px !important;
 }
 table.dataTable.datatable-dark thead th, 
 table.dataTable.datatable-dark thead td{

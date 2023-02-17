@@ -54,8 +54,8 @@
 
 
                                         <div style="line-height: 24px; padding:0px 32px">
-											<p>Hi Support,</p><br/>
-											<p>{!!$details['body']!!}</p>
+											<p style="padding:10px 32px">Hi Support,</p><br/>
+											<p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
                                     </td>
                                 </tr>

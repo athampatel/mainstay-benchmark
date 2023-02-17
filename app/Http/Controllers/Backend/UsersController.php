@@ -6,6 +6,7 @@ use App\Helpers\SDEApi;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\SalesPersons;
+use App\Models\User as Customer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -286,7 +287,10 @@ class UsersController extends Controller
     public function create(Request $request)
     {
         $roles  = Role::all();
-        return view('backend.pages.users.create', compact('roles'));
+        $email  = '';
+        if($request->input('email'))
+            $email = $request->input('email');
+        return view('backend.pages.users.create', compact('roles','email'));
     }
 
     /**
@@ -495,9 +499,11 @@ class UsersController extends Controller
             ],
             "offset" => 1,
             "limit" => 100,
-        );    
-    $res = $this->SDEApi->Request('post','Customers',$data);   
-    echo json_encode($res);
+        );
+        $customer = Customer::where('email')->first();
+        $res = $this->SDEApi->Request('post','Customers',$data);         
+        $res['user'] = $customer; 
+        echo json_encode($res);
     }
 
     public function getUserRequest($user_id,$admin_token){
@@ -508,6 +514,7 @@ class UsersController extends Controller
         else
             $admin      = Admin::where('unique_token', $admin_token)->first();
 
+        $request_id = isset($_GET['request']) ? $_GET['request'] : 0;
         $customers  = array();
         if(!empty($admin)){
             if(is_numeric($user_id)){
@@ -515,10 +522,16 @@ class UsersController extends Controller
                 if($user && $user->active == 0 && $user->activation_token != '')
                     $email_address = $user->email;            
             }else{
-                $email_address = $user_id;
+                $email_address  = $user_id;
                 $user           = array();
             }
-            $userInfo    = SignupRequest::where('email','abdc@testreq.com')->first();
+            $userinfo           = array();
+            if($request_id)
+                $userinfo       = SignupRequest::find($request_id)->first();
+            else
+                $userinfo       = SignupRequest::where('email','abdc@testreq.com')->first();
+            
+
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
                     "filter" => [
@@ -537,7 +550,7 @@ class UsersController extends Controller
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
-                return view('backend.pages.users.user_request',compact('customers','user','userInfo')); 
+                return view('backend.pages.users.user_request',compact('customers','user','userinfo')); 
             }
         }
        return abort('403');

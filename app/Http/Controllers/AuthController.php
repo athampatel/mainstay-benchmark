@@ -105,7 +105,7 @@ class AuthController extends Controller
         $uniqueId   = $request->email;
         $request_id = 0;
 
-        $body      = "Hi, <br /> A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details";
+        $body      = "<p>A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details</p>";
 
        // $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span><span>'.$request->full_name.'</span></p>';
@@ -165,11 +165,15 @@ class AuthController extends Controller
             $user->save();
             $uniqueId  = $user->id;
         }
-        $admin      = Admin::first();        
+        $admin      = Admin::first(); 
+
         if($admin){    
-            $url    = env('APP_URL').'/admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token;
+            $url    = env('APP_URL').'/admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
+
+            if($request_id)
+                $url .= '&request='.$request_id;
             if($_multiple)
-                $url .= '?duplicate=1';
+                $url .= '&duplicate=1';
 
            /* $params = array('mail_view' => 'emails.email-body', 
                             'subject'   => 'New user Signup request', 
