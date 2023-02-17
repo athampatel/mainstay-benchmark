@@ -505,7 +505,7 @@ class UsersController extends Controller
 
                 $params = array('mail_view' => 'emails.user-active', 
                                 'subject' => 'reset password link', 
-                                'url' => env('APP_URL').'/reset-password/'.$token.'?email='.$user->email);
+                                'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
 
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
