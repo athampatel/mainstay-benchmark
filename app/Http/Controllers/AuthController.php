@@ -135,7 +135,7 @@ class AuthController extends Controller
                     $_multiple  = 1;
                 }
             }
-            if($error){
+           // if($error){
                     
                     $signupdata     =   array(  'full_name'     => $request->full_name,
                                                 'company_name'  => $request->company_name,
@@ -144,7 +144,7 @@ class AuthController extends Controller
                     $data_request   = SignupRequest::create($signupdata);   
                     $request_id     = $data_request->id;            
                     $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;                 
-            }
+            //}
             $details['title'] = "New customer request for portal access";   
             $details['subject'] = "New customer request for member portal access";
            
