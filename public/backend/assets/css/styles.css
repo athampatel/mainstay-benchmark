@@ -1402,6 +1402,7 @@ table.dbkit-table tr td {
     display: flex;
     width: 4rem;
     height: 4rem;
+    min-width:4rem;
     border: 1px solid #B7D975;
     align-items: center;
     justify-content: center;

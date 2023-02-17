@@ -17,14 +17,14 @@ Admins - Admin Panel
                     <div class="card">
                         <div class="card-body">  
                             <div class="row">
-                                <div class="col-12 col-lg-6 col-md-12">
+                                <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
                                         @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                            <a class="btn btn-primary text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
+                                            <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
                                         @endif
                                     </p>        
                                 </div>
-                                <div class="col-12 col-lg-6 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
+                                <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
                                             {{-- <form id="customer_filter" action="/admin/customers" method="GET"> --}}
                                                 <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_admins_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">

@@ -18,11 +18,11 @@ Region Managers - Admin Panel
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-lg-6 col-md-12">
+                                <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
                                     </p>         
                                 </div>
-                                <div class="col-12 col-lg-6 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
+                                <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
                                             <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_managers_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
                                             <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-managers-search-img">
