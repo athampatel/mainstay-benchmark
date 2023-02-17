@@ -140,6 +140,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/get_customer_info',[UsersController::class,'getCustomerInfo']);
     // link 
     Route::get('/user/{user_id}/change-status/{admin_token}',[UsersController::class,'getUserRequest']);
+
+    Route::get('/user/{user_id}/change-status/',[UsersController::class,'getUserRequest']);
+    
     // user activate
     Route::post('/user/activate',[UsersController::class,'getUserActive']);
     // user decline

@@ -436,20 +436,22 @@ class UsersController extends Controller
         echo json_encode($res);
     }
 
-    public function getUserRequest($user_id,$admin_token){
+    public function getUserRequest($user_id,$admin_token = ''){
         $current_user = $this->user;
+        
         $isManager    = DashboardController::isManager($user_id,$current_user);
         if($this->superAdmin || $isManager)
             $admin      = $current_user;
         else
             $admin      = Admin::where('unique_token', $admin_token)->first();
 
+            
         $request_id = isset($_GET['request']) ? $_GET['request'] : 0;
         $customers  = array();
         if(!empty($admin)){
             if(is_numeric($user_id)){
-                $user = User::find($user_id);
-                if($user && $user->active == 0 && $user->activation_token != '')
+                $user = User::find($user_id);              
+              //  if($user && $user->active == 0 && $user->activation_token != '')
                     $email_address = $user->email;            
             }else{
                 $email_address  = $user_id;
@@ -461,7 +463,7 @@ class UsersController extends Controller
             else
                 $userinfo       = SignupRequest::where('email','abdc@testreq.com')->first();
             
-
+            
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
                     "filter" => [
