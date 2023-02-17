@@ -310,8 +310,7 @@ class MenuController extends Controller
     // get open orders
     public function getOpenOrders(Request $request){
         $data = $request->all();
-        $page = $data['page'];//5
-        // $limit = 10
+        $page = $data['page'];
         $limit = $data['count'];
         if($page == 0){
             $offset = 1;
@@ -326,13 +325,13 @@ class MenuController extends Controller
                     [
                         "column"=> "ARDivisionNo",
                         "type"=> "equals",
-                        "value"=> "00",
+                        "value"=> $user_details->ardivisionno,
                         "operator"=> "and"
                     ],
                     [
                         "column"=> "CustomerNo",
                         "type"=> "equals",
-                        "value"=> "GEMWI00",
+                        "value"=> $user_details->customerno,
                         "operator"=> "and"
                     ],
                 ],
@@ -341,28 +340,38 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-            // dd($response['salesorders']);
+
+            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getOpenOrders');
             
-            /* custom pagination work start */
-            $custom_pagination['from'] = $offset;
-            $custom_pagination['to'] = intval($offset + $limit - 1) > intval($response['meta']['records']) ? intval($response['meta']['records']) :intval($offset + $limit - 1);
-            $custom_pagination['total'] = $response['meta']['records'];
-            $custom_pagination['first_page'] = 1;
-            $custom_pagination['last_page'] = ceil($response['meta']['records'] / $limit);
-            $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
-            $custom_pagination['curr_page'] = intval($page);
-            $custom_pagination['next_page'] = $page + 1;
-            $custom_pagination['path'] = '/getOpenOrders';
-            // $date =strtotime('2022-08-26','Y-m-d');
-            // dd($date);  
-            // for($i = 1; $i <= ceil($response['meta']['records'] / $limit); $i++){               
-            //     $custom_link = [
-            //         'label' => $i,
-            //         'active' => $page + 1 == $i,
-            //     ];
-            //     $custom_pagination['links'][] = $custom_link;
-            // }
-            $last = ceil($response['meta']['records'] / $limit);
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+    
+            $table_code = View::make("components.datatabels.open-orders-page-component")
+            ->with("saleorders", $response['salesorders'])
+            ->render();
+            
+            $response['pagination_code'] = $pagination_code;
+            $response['table_code'] = $table_code;
+
+            echo json_encode($response);
+            die();
+        }  
+    }
+
+    // custom ajax pagination
+    public static function AjaxgetPagination($offset,$limit,$total,$page,$path){
+        $custom_pagination['from'] = $offset;
+        $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
+        $custom_pagination['total'] = $total;
+        $custom_pagination['first_page'] = 1;
+        $custom_pagination['last_page'] = ceil($total / $limit);
+        $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
+        $custom_pagination['curr_page'] = intval($page);
+        $custom_pagination['next_page'] = $page + 1;
+        $custom_pagination['path'] = $path;
+        $last = ceil($total / $limit); 
+        if(intval($total) > $limit ){
             if($page !=0 && ($page + 1) != $last){
                 $active_number[] = $page;
                 $active_number[] = $page + 1;
@@ -377,30 +386,17 @@ class MenuController extends Controller
                     }       
                 }
             }
-
-            foreach($active_number as $number){               
-                $custom_link = [
-                    'label' => $number,
-                    'active' => $page + 1 == $number,
-                ];
-                $custom_pagination['links'][] = $custom_link;
-            }
-            
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
-    
-            $table_code = View::make("components.datatabels.open-orders-page-component")
-            ->with("saleorders", $response['salesorders'])
-            ->render();
-            
-            $response['pagination_code'] = $pagination_code;
-            $response['table_code'] = $table_code;
-            /* custom pagination work end */
-            
-            echo json_encode($response);
-            die();
-        }  
+        } else {
+            $active_number[] = 1;
+        }
+        foreach($active_number as $number){               
+            $custom_link = [
+                'label' => $number,
+                'active' => $page + 1 == $number,
+            ];
+            $custom_pagination['links'][] = $custom_link;
+        }
+        return $custom_pagination;
     }
 
     public function getInvoiceOrders(Request $request){
@@ -418,118 +414,71 @@ class MenuController extends Controller
             // $data = array(            
             //     "filter" => [
             //         [
-            //             "column"=> "ARDivisionNo",
-            //             "type"=> "equals",
-            //             "value"=> "00",
-            //             "operator"=> "and"
+            //             "column" =>  "CustomerNo",
+            //             "type" =>  "equals",
+            //             "value" =>  $user_details->customerno,
+            //             "operator" =>  "and"
             //         ],
             //         [
-            //             "column"=> "CustomerNo",
-            //             "type"=> "equals",
-            //             "value"=> "GEMWI00",
-            //             "operator"=> "and"
+            //             "column" => "ARDivisionNo",
+            //             "type" => "equals",
+            //             "value" => $user_details->ardivisionno,
+            //             "operator" => "and"
             //         ],
             //     ],
-            //     "offset" => $offset,
-            //     "limit" => $limit,
+            //     "offset" => 1,
+            //     "limit" => 2,
             // );
-            
-            // $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-
-            // invoice data getting work start
+            // $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            // foreach($response_data['salesorderhistoryheader'] as $key => $res){
+            //     $data1 = array(            
+            //         "filter" => [
+            //             [
+            //                 "column" => "SalesOrderNo",
+            //                 "type" => "equals",
+            //                 "value" => $res['salesorderno'],
+            //                 "operator" => "and"
+            //             ],
+            //         ]
+            //     );  
+            //     $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+            //     $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
+            // };
             $data = array(            
                 "filter" => [
                     [
-                        "column" =>  "CustomerNo",
-                        "type" =>  "equals",
-                        "value" =>  $user_details->customerno,
-                        "operator" =>  "and"
+                        "column"=> "ARDivisionNo",
+                        "type"=> "equals",
+                        "value"=> $user_details->ardivisionno,
+                        "operator"=> "and"
                     ],
                     [
-                        "column" => "ARDivisionNo",
-                        "type" => "equals",
-                        "value" => $user_details->ardivisionno,
-                        "operator" => "and"
+                        "column"=> "CustomerNo",
+                        "type"=> "equals",
+                        "value"=> $user_details->customerno,
+                        "operator"=> "and"
                     ],
                 ],
-                "offset" => 1,
-                "limit" => 2,
+                "offset" => $offset,
+                "limit" => $limit,
             );
-            $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-            foreach($response_data['salesorderhistoryheader'] as $key => $res){
-                // dd($res);
-                $data1 = array(            
-                    "filter" => [
-                        [
-                            "column" => "SalesOrderNo",
-                            "type" => "equals",
-                            "value" => $res['salesorderno'],
-                            "operator" => "and"
-                        ],
-                    ]
-                );  
-                $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-                $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
-            };
-            // invoice data getting work end 
-            // dd($response['salesorders']);
             
-            /* custom pagination work start */
-            $custom_pagination['from'] = $offset;
-            $custom_pagination['to'] = intval($offset + $limit - 1) > intval($response_data['meta']['records']) ? intval($response_data['meta']['records']) :intval($offset + $limit - 1);
-            $custom_pagination['total'] = $response_data['meta']['records'];
-            $custom_pagination['first_page'] = 1;
-            $custom_pagination['last_page'] = ceil($response_data['meta']['records'] / $limit);
-            $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
-            $custom_pagination['curr_page'] = intval($page);
-            $custom_pagination['next_page'] = $page + 1;
-            $custom_pagination['path'] = '/getOpenOrders';
-            // $date =strtotime('2022-08-26','Y-m-d');
-            // dd($date);  
-            // for($i = 1; $i <= ceil($response_data['meta']['records'] / $limit); $i++){               
-            //     $custom_link = [
-            //         'label' => $i,
-            //         'active' => $page + 1 == $i,
-            //     ];
-            //     $custom_pagination['links'][] = $custom_link;
-            // }
-            $last = ceil($response_data['meta']['records'] / $limit);
-            if($page !=0 && ($page + 1) != $last){
-                $active_number[] = $page;
-                $active_number[] = $page + 1;
-                $active_number[] = $page + 2;
-            } else {
-                if($page == 0 || $page == 1){
-                    $active_number = [1,2,3];
-                }
-                if(($page + 1) == $last){
-                    for($i = 2;$i >= 0;$i--){
-                        $active_number []= $last - $i;
-                    }       
-                }
-            }
-
-            foreach($active_number as $number){               
-                $custom_link = [
-                    'label' => $number,
-                    'active' => $page + 1 == $number,
-                ];
-                $custom_pagination['links'][] = $custom_link;
-            }
-            
+            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            // dd($response);
+            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
             $pagination_code = View::make("components.ajax-pagination-component")
             ->with("pagination", $custom_pagination)
             ->render();
     
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
-            ->with("invoices", $response_data['salesorderhistoryheader'])
+            ->with("invoices", $response['salesorders'])
             ->render();
             
-            $response_data['pagination_code'] = $pagination_code;
-            $response_data['table_code'] = $table_code;
+            $response['pagination_code'] = $pagination_code;
+            $response['table_code'] = $table_code;
             /* custom pagination work end */
             
-            echo json_encode($response_data);
+            echo json_encode($response);
             die();
         }  
     }

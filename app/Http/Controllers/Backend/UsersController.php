@@ -22,6 +22,9 @@ use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
 use App\Models\SignupRequest;
+use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 
 class UsersController extends Controller
@@ -58,6 +61,12 @@ class UsersController extends Controller
     
     public function index(Request $request)
     {
+        // dd($request);
+        $limit = $request->input('limit');
+        // if(!$limit){
+        //     $limit = 12;
+        // }  
+        $search = $request->input('search');
         $user =  $this->user;    
 
         $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
@@ -86,16 +95,164 @@ class UsersController extends Controller
                 default:
                     break;
             }
-        }        
+        }     
+        $userss = $lblusers->paginate(intval($limit));
+        $paginate = $userss->toArray();
+        // dd($paginate);
+        /* test working start in pagination */
+        $first_page = 1;
+        $last_page = $paginate['last_page'];
+        $total = $paginate['total'];
+        $per_page = $paginate['per_page'];
+        $active_page = $paginate['current_page'];
+        $numbers = [];
+        $paginate['links'] = [];
+        if($first_page == $last_page){
+            $paginate['links'][] = [
+                "url" => "http://localhost:8081/admin/customers?page=1",
+                "label" => "1",
+                "active" => true
+            ];
+        } else {
+            if($active_page == $first_page){
+                $count1 = 1;
+                for($i = $active_page; $i <= $last_page; $i++){
+                    if($count1 <= 3){
+                        // $numbers[] = $i;        
+                        $paginate['links'][] = [
+                            "url" => "http://localhost:8081/admin/customers?page=$i",
+                            "label" => "$i",
+                            "active" => $i == $active_page,
+                        ];        
+                    }
+                    $count1++;
+                }
+            }
+            if($active_page != $first_page && $active_page != $last_page){
+                // $numbers[] = $active_page - 1;
+                // $numbers[] = $active_page;
+                // $numbers[] = $active_page + 1;
+                $paginate['links'][] = [
+                    "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
+                    "label" => $active_page - 1,
+                    "active" => false,
+                ];
+                $paginate['links'][] = [
+                    "url" => "http://localhost:8081/admin/customers?page=".$active_page,
+                    "label" => $active_page,
+                    "active" => true,
+                ];
+                $paginate['links'][] = [
+                    "url" => "http://localhost:8081/admin/customers?page=".$active_page + 1,
+                    "label" => $active_page + 1,
+                    "active" => false,
+                ];
+            }
+            if($active_page == $last_page){
+                if($active_page - 2 < $first_page){
+                    $numbers[] = $active_page - 1; 
+                    $numbers[] = $active_page; 
+                    $paginate['links'][] = [
+                        "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
+                        "label" => $active_page - 1,
+                        "active" => false,
+                    ];
+                    $paginate['links'][] = [
+                        "url" => "http://localhost:8081/admin/customers?page=".$active_page,
+                        "label" => $active_page,
+                        "active" => true,
+                    ];
+                    // $numbers[] = $active_page - 1; 
+                    // $numbers[] = $active_page; 
+                } else {
+                    // $numbers[] = $active_page - 2; 
+                    // $numbers[] = $active_page - 1; 
+                    // $numbers[] = $active_page; 
+                    $paginate['links'][] = [
+                        "url" => "http://localhost:8081/admin/customers?page=".$active_page - 2,
+                        "label" => $active_page - 2,
+                        "active" => false,
+                    ];
+                    $paginate['links'][] = [
+                        "url" => "http://localhost:8081/admin/customers?page=".$active_page - 1,
+                        "label" => $active_page - 1,
+                        "active" => false,
+                    ];
+                    $paginate['links'][] = [
+                        "url" => "http://localhost:8081/admin/customers?page=".$active_page,
+                        "label" => $active_page,
+                        "active" => true,
+                    ];
+                }
+            }
+        }
+        // dd($paginate);
+        /* test working end in pagination */
+        // dd($paginate);
+        //dd($paginate);   //per_page?limit=3&search=  
         $users = $lblusers->get([ 'users.*',
                                 'user_details.customerno',
                                 'user_details.customername',
                                 'user_details.ardivisionno',
                                 'sales_persons.person_number',
                                 'sales_persons.name as sales_person']);
-                        
-        return view('backend.pages.users.index', compact('users'));
+                          
+        // return view('backend.pages.users.index');
+        return view('backend.pages.users.index', compact('users','paginate','limit','search'));
     }
+
+    // public function getAllCustomers(Request $request){
+    //     $user =  $this->user;    
+
+    //     $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
+    //                 ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+    //                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+       
+    //     if(!$this->superAdmin){
+    //        $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+    //        $lblusers->where('admins.id',$user->id);
+    //     }elseif($this->superAdmin && $request->input('manager')){
+    //         $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+    //         $lblusers->where('admins.id',$request->input('manager'));
+    //     }
+
+    //     $lblusers->where('users.is_deleted','=',0);
+
+    //     if($request->input('type')){
+    //         $type = $request->input('type');
+    //         switch($type){
+    //             case 'new':
+    //                 $lblusers->where('users.active','=',0)->where('users.is_deleted','=',0);
+    //                 break;
+    //             case 'vmi':
+    //                 $lblusers->where('users.is_vmi','=',1);
+    //                 break;    
+    //             default:
+    //                 break;
+    //         }
+    //     }     
+    //     $userss = $lblusers->paginate(5); 
+    //     $paginate = $userss->toArray();     
+    //     $users = $lblusers->get([ 'users.*',
+    //                             'user_details.customerno',
+    //                             'user_details.customername',
+    //                             'user_details.ardivisionno',
+    //                             'sales_persons.person_number',
+    //                             'sales_persons.name as sales_person']);
+    //     $response['users'] = $users;                                
+    //     $response['paginate'] = $paginate; 
+    //     $table_code = View::make("components.backend.customer-table")
+    //     ->with("users", $users)
+    //     ->render();
+    //     $pagination_code = View::make("components.pagination-component")
+    //     ->with("pagination", $paginate)
+    //     ->render();
+    //     $response['table_code'] = $table_code;                                 
+    //     $response['pagination_code'] = $pagination_code;                                 
+    //     // $response['table_code'] = $table_code;                                 
+    //     echo json_encode($response);
+    //     die();
+    // }
 
 
     public function UserManagers(){
@@ -501,5 +658,25 @@ class UsersController extends Controller
         $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
 
         return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request'));
+    }
+
+    public function ExportAllCustomers(){
+        
+		$table = User::all();
+        $filename = "customers.csv";
+        $handle = fopen($filename, 'w+');
+		fputcsv($handle, array(
+			'name',
+			'email'
+		));
+        foreach($table as $row) {
+            fputcsv($handle, array(
+                $row->name,
+                $row->email,
+            )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'customers.csv', $headers);
     }
 }

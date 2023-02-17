@@ -117,6 +117,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('customers', '\App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
     
+    Route::get('/getAllCustomers',[UsersController::class,'getAllCustomers']);
     //Route::resource('customers', '\App\Http\Controllers\Backend\CustomerController', ['names' => 'admin.customer']);
 
     
@@ -148,6 +149,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/order/request/{change_id}/change',[AdminOrderController::class,'changeOrderRequestStatus']);
     Route::post('/order/request/{change_id}/sync',[AdminOrderController::class,'changeOrderRequestSync']);
 
+
+    // export all customers
+    Route::get('/exportAllCustomers',[UsersController::class,'ExportAllCustomers']);
 }); 
 
 Route::get('send-mail', function () {

@@ -22,9 +22,9 @@
                 $total = 0;
                 $price = 0;
                 $date = DateTime::createFromFormat('Y-m-d',$invoice['orderdate']);
-                foreach ($invoice['salesorderhistorydetail'] as $item){
-                    $total += $item['quantityshipped'];
-                    $price += $item['quantityshipped'] * $item['lastunitprice'];
+                foreach ($invoice['details'] as $item){
+                    $total += $item['quantityordered'];
+                    $price += $item['quantityordered'] * $item['lastunitprice'];
                 }
                 @endphp
                 <td>{{$total}}</td>
