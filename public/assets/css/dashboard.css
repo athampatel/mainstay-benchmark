@@ -2104,12 +2104,6 @@ nav .profile-details i{
 table.dataTable td, table.dataTable th{
   text-align: center;
 }
-
-@media (min-width: 1025px){
-  .table-responsive{
-    overflow-x:hidden;
-  }
-}
 .chart-loader-div{
   height: 300px;
   display: flex;

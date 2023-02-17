@@ -2303,7 +2303,7 @@ table.dataTable.datatable-dark tr td{
     
 }
 table.dataTable.datatable-dark tr td{
-    padding:0px !important;
+    padding:0.5rem !important;
 }
 table.dataTable.datatable-dark thead th, 
 table.dataTable.datatable-dark thead td{
@@ -3095,7 +3095,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     align-items: center;
     justify-content: center;
     min-height: 1px;
-    min-width: 5rem;
+    min-width: 4rem;
     margin-right: 0.25rem;
 }
 

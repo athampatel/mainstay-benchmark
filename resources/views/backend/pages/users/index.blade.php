@@ -19,12 +19,12 @@ Customers - Admin Panel
                         <div class="card-body">
                             {{-- test working start --}}
                             <div class="row">
-                                <div class="col-12 col-lg-6 col-md-12">
+                                <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
-                                        <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
+                                        <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
                                     </p>            
                                 </div>
-                                <div class="col-12 col-lg-6 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
+                                <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
                                             {{-- <form id="customer_filter" action="/admin/customers" method="GET"> --}}
                                                 <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_customer_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
@@ -132,9 +132,12 @@ Customers - Admin Panel
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{-- <div class="pagination_disp"></div> --}}
-                                <x-pagination-component :pagination="$paginate" :search="$search" />
+                               
                             </div>
+                            {{-- <div class="pagination_disp"></div> --}}
+                            <div class="mt-3">
+                                <x-pagination-component :pagination="$paginate" :search="$search" />
+                            </div>    
                         </div>
                     </div>
                 </div>

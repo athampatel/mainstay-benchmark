@@ -70,7 +70,7 @@ Admins - Admin Panel
                             </div>
                             {{-- <p class="float-right mb-2">
                                 @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                    <a class="btn btn-primary text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
+                                    <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
                                 @endif
                             </p> --}}
                             <div class="clearfix"></div>
