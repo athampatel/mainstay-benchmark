@@ -65,37 +65,3 @@ $('#admin_customer_search').keyup(function(){
         $('#customer_from').submit();
     }
 })
-
-// getAllCustomers();
-
-// function getAllCustomers($search,$page,$count){
-//     $.ajax({
-//         type: 'GET',
-//         url: '/admin/getAllCustomers',
-//         dataType: "JSON",
-//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//         data: { "page" : $page,'count': $count,'search':$search},
-//         beforeSend:function(){
-//             // $('.page-table-loader-div').removeClass('d-none');
-//             // $('.open-orders .card.box').addClass('active');
-//         },
-//         success: function (res) {  
-//             $('.pagination_disp').html(res.pagination_code);
-//             console.log(res,'___response');
-//             $('.table_disp').html(res.table_code);
-//             /* data table generate */
-//             backend_customers = $('#backend_customers').DataTable( {
-//                 searching: true,
-//                 lengthChange: true,
-//                 pageLength:5,
-//                 paging: true,
-//                 ordering: false,
-//                 info: false,
-//             });
-//         },
-//         complete:function(){
-//             // $('.open-orders .card.box').removeClass('active');
-//             // $('.page-table-loader-div').addClass('d-none');
-//         }
-//     });
-// }

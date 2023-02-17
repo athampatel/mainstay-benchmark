@@ -33,7 +33,7 @@ Customers - Admin Panel
                                         </div> 
                                         {{-- {{dd($paginate['per_page'])}} --}}
                                         @php 
-                                        $select_options = [2,5,10,12,20];
+                                        $select_options = [10,12,20];
                                         @endphp
                                         <div class="position-relative datatable-filter-div">
                                             {{-- <form action="" method="get"> --}}
