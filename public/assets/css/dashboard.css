@@ -1929,6 +1929,24 @@ nav .profile-details i{
 #backend_customers_wrapper .row:last-child{
   display: none;
 }
+#backend_roles_wrapper .row:first-child{
+  display: none;
+}
+#backend_roles_wrapper .row:last-child{
+  display: none;
+}
+#backend_admins_wrapper .row:first-child{
+  display: none;
+}
+#backend_admins_wrapper .row:last-child{
+  display: none;
+}
+#backend_managers_wrapper .row:first-child{
+  display: none;
+}
+#backend_managers_wrapper .row:last-child{
+  display: none;
+}
 /*open orders page */
 .padding-y-40{
   padding-left: 2.5rem;
@@ -2345,6 +2363,9 @@ table.dataTable td, table.dataTable th{
   }
   .col-filter .datatable-search-input{
     width: 100%;
+  }
+  .col-filter .datatable-search-input-admin{
+    width: 100% !important;
   }
   .datatable-print,.datatable-filter-div{
     width :50%;
