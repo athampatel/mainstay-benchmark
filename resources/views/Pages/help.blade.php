@@ -71,6 +71,26 @@
       </div>
   </div>
 </div>
+@php 
+    $notifications = [
+        [
+            'title' => 'New Customers',
+            'desc' =>  '5 new user registered',
+            'time' =>  '5 Sec ago'
+        ],
+        [
+            'title' => 'New Managers',
+            'desc' =>  '2 new managers registered',
+            'time' =>  '10 Sec ago'
+        ],
+        [
+            'title' => 'Order Shipped',
+            'desc' =>  'your order shipped',
+            'time' =>  '10 Sec ago'
+        ],
+    ]
+@endphp
+<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" />
 @endsection
 
 @section('scripts')
@@ -99,5 +119,21 @@
           open_table.search($(this).val()).draw() ;
       }) 
   }
+
+  // const bottom_nofication_arrow = document.getElementById('bottom_message_arrow');
+  // const notification_bottom = document.querySelector('.notfication_bottom');
+  // const notification_cancel = document.querySelector('.notification_bottomn_cancel');
+  // bottom_nofication_arrow.onclick = function(){
+  //     notification_bottom.classList.toggle('active');
+  // }
+  // // bottom notification close
+  // const bottom_nofication_close = document.querySelector('.messages .header .close');
+  // bottom_nofication_close.onclick = function(){
+  //     notification_bottom.classList.remove('active');
+  // }
+  // notification_cancel.onclick = function(){
+  //     notification_bottom.classList.add('d-none');
+  //     notification_cancel.classList.add('d-none');
+  // }
 </script>
 @endsection
