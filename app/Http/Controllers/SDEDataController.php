@@ -30,11 +30,11 @@ class SDEDataController extends Controller
         $this->SDEApi = $SDEApi;
     }
 
-    public function getCustomerSalesHistory(){
+    public function getCustomerSalesHistory(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        $user_details = UserDetails::where('user_id',$user_id)->first();
-        // $year = '2020';
+        $customer_no   = $request->session()->get('customer_no');
+        $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $year = date('Y');
         $data = array(            
             "filter" => [
@@ -53,7 +53,7 @@ class SDEDataController extends Controller
                 [
                     "column" =>  "FiscalYear",
                     "type" =>  "equals",
-                    "value" =>  "2022", // $year,
+                    "value" =>  "2022",
                     "operator" =>  "and"
                 ]
             ]
@@ -66,11 +66,11 @@ class SDEDataController extends Controller
     }
 
     // invoice orders
-    public function getCustomerInvoiceOrders(){
+    public function getCustomerInvoiceOrders(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id)->toArray();
-        $user_details = UserDetails::where('user_id',$user_id)->first();
-        // $year = '';
+        $customer_no   = $request->session()->get('customer_no');
+        $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $data = array(            
             "filter" => [
                 [
@@ -91,7 +91,6 @@ class SDEDataController extends Controller
         );
         $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         foreach($response_data['salesorderhistoryheader'] as $key => $res){
-            // dd($res);
             $data1 = array(            
                 "filter" => [
                     [
@@ -110,8 +109,6 @@ class SDEDataController extends Controller
         ->render();
         
         $response['table_code'] = $table_code;
-
-        // $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => '','user' =>$user]];
         echo json_encode($response);
         die();
     }
@@ -164,10 +161,6 @@ class SDEDataController extends Controller
         $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data1);
 
         $sales_order_detail = $sales_order_history_detail['salesorders'];
-
-
-        //print_r($sales_order_detail);
-
 
        foreach ($sales_order_detail as $key => $sales_order) {
            

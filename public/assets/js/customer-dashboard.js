@@ -1,23 +1,14 @@
-// let height = window.innerHeight;
-// const backdrop = document.querySelector('.backdrop');
-// backdrop.style.height = `${height}px`;
-// console.log(height);
-// $('.backdrop').
-// $(function(){
-    // customer sales history
-    // if ($("#customer_sales_history").length) {
-        // AjaxRequestCom('/customersales','GET','','customerSalesChartDisplays');
-    // }
-// });
-// customer open orders chart
-customerOpenOrders()
-//customer spending chart
-customerSpendingChart()
-// dashboard customer invoice order table
-customer_invoice_orders()
-
-customerSalesHistory()
-
+window.addEventListener("load", function() {
+    // customer open orders chart
+    customerOpenOrders()
+    //customer spending chart
+    customerSpendingChart()
+    // dashboard customer invoice order table
+    customer_invoice_orders()
+    
+    customerSalesHistory()
+});
+  
 function customerSalesHistory(){
     $.ajax({
         type: 'GET',
@@ -35,19 +26,9 @@ function customerSalesHistory(){
     });
 }
 
-
-// window.addEventListener('load', function() {
-//     $('.backdrop').addClass('d-none');
-// });
-
 // dashboard customer sales order display
 function customerSalesChartDisplays(resp){
-    // return false;
-    // console.log('__comes in ');
-    // console.log(resp,'__Response');
     $res = JSON.parse(resp);
-    console.log($res,'___res');
-    // return false;
     $counts = [];
     $categories = [];
     $customer_data = $res.data.data.customersaleshistory;
@@ -326,11 +307,7 @@ function customer_invoice_orders(){
             $('#dashboard-recent-invoice-order-table-div .chart-loader-div').removeClass('d-none');
         },
         success: function (res) {  
-            // $('#pagination_disp').html(res.pagination_code);
-            console.log(res,'___response');
-            // dashboard-recent-invoice-order-table-div
             $('#dashboard-recent-invoice-order-table-div').html(res.table_code);
-            /* data table generate */
             dashboard_invoice_order_table = $('#dashboard-recent-invoice-order-table').DataTable( {
                 searching: true,
                 lengthChange: true,

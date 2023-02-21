@@ -18,14 +18,30 @@
                 </div>  
               </div>
               <div class="box-details">
+                {{-- {{ dd(session('customers')->customername)}} --}}
+                @php
+                    $customer_session =  session('customers');
+                @endphp
+                {{-- {{dd($customer_session[0])}} --}}
                 <div class="name">Customer info</div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                  <div class="col-8 card-item-body">Adams Baker</div>
+                  {{-- <div class="col-8 card-item-body">Adams Baker</div> --}}
+                  <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
                 </div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Bill to Address</div><div>:</div></div>
-                  <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div>
+                  {{-- <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div> --}}
+                  @php 
+                  $session_address = "";
+                  $session_address .= $customer_session[0]->addressline1 == "" ? '' : $customer_session[0]->addressline1 . ',';
+                  $session_address .= $customer_session[0]->addressline2 == "" ? '' : $customer_session[0]->addressline2 . ',';
+                  $session_address .= $customer_session[0]->addressline3 == "" ? '' : $customer_session[0]->addressline3 . ',';
+                  $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ',';
+                  $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ',';
+                  $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                  @endphp
+                  <div class="col-8 card-item-body">{{$session_address}}</span></div>
                 </div>
               </div>
             </div>
@@ -44,15 +60,18 @@
                 <div class="name">Region Manager info</div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                  <div class="col-6 card-item-body">Tom Hanney</div>
+                  {{-- <div class="col-6 card-item-body">Tom Hanney</div> --}}
+                  <div class="col-6 card-item-body">{{$region_manager->name}}</div>
                 </div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>
-                  <div class="col-6 card-item-body">tomhanney@gmail.com</div>
+                  {{-- <div class="col-6 card-item-body">tomhanney@gmail.com</div> --}}
+                  <div class="col-6 card-item-body">{{$region_manager->email}}</div>
                 </div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
                   <div class="col-6 card-item-body">999 333 4568</div>
+                  {{-- <div class="col-6 card-item-body">{{$region_manager->name}}</div> --}}
                 </div>
               </div>
             </div>
@@ -203,7 +222,7 @@
             </div>
             <div class="box-details">
               <div class="name">inventory details</div>
-              <div class="date">01-22-2023</div>
+              <div class="date">{{ @session('vmi_physicalcountdate') ? @session('vmi_physicalcountdate') : ''}}</div>
               <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Inventory</a>
             </div>
           </div>
@@ -219,7 +238,7 @@
             </div>
             <div class="box-details">
               <div class="name">Next Onsite Count</div>
-              <div class="date">01-22-2023</div>
+              <div class="date">{{ @session('vmi_nextonsitedate') ? @session('vmi_nextonsitedate') : ''}}</div>
               <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Next Onsite Count</a>
             </div>
           </div>
