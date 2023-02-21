@@ -416,6 +416,32 @@ nav .notification_section .notification_icons .notification_count_section{
   height: 50px;
   width: auto;  
 }
+.notification_section .profile-details .dropdown-menu{
+  border-top-left-radius:0px;
+  border-top-right-radius:0px;
+  padding: 0px;
+  background:#9FCC47;
+}
+.notification_section .profile-details .dropdown-menu .dropdown-item{
+  border: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  color: #FFF;
+}
+.notification_section .profile-details .dropdown-menu .dropdown-item i{
+  color: #FFF;
+  padding-right: 0.5rem;
+}
+
+.notification_section .profile-details .dropdown-menu .dropdown-item:hover,
+.notification_section .profile-details .dropdown-menu .dropdown-item:hover > i,
+.notification_section .profile-details .dropdown-menu .dropdown-item.selected ,
+.notification_section .profile-details .dropdown-menu .dropdown-item.selected  > i{
+  color: #424448;
+}
+
 nav .profile-details img{
   border-radius: 6px;
   object-fit: cover;

@@ -87,6 +87,9 @@ Customers - Admin Panel
                                     </thead>
                                     <tbody>
                                     @foreach ($users as $user)
+
+                                    
+
                                     <tr>
                                             <td> <a class="" href="{{ route('admin.users.edit', $user->id) }}">{{ $user->customerno }}</a></td>
                                             <td>{{ $user->name }}</td>

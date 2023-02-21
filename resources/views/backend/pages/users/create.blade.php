@@ -129,6 +129,8 @@ User Create - Admin Panel
                                         <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                                     </div>
                                     <input type="hidden" name="is_vmi" id="is_vmi" value="0">
+                                    <input type="hidden" name="vmi_companycode" id="vmi_companycode" value="">
+                                    
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                             </form>
@@ -262,6 +264,7 @@ function rendorUserForm($customer,show){
     $('#sales_person_no').val($customer.salespersonno);
     $('#sales_person_name').val($customer.salespersonname);
     $('#sales_person_email').val($customer.salespersonemail);
+    $('#vmi_companycode').val($customer.vmi_companycode);
     if(show == 1)
         $('#customer_response_alert').removeClass('alert-danger').removeClass('d-none').addClass('alert-success');;
         

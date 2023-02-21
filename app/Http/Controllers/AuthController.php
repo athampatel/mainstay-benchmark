@@ -37,15 +37,6 @@ class AuthController extends Controller
        
     }
 
-
-    protected function autheticate(Request $request, $user){
-        echo "<pre>";
-        print_r($user);
-        echo "</pre>";
-        die;
-    }
-
-
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
         $_user    = User::where('email',$response['emailaddress'])->first();
         if(!empty($_user)){

@@ -63,22 +63,27 @@ class UsersController extends Controller
     
     public function index(Request $request)
     {
-        $limit = $request->input('limit');
+         $limit = $request->input('limit');
         if(!$limit){
             $limit = 10;
         }  
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+
         $search = $request->input('search');
         $user =  $this->user;    
 
-        $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+        $lblusers = User::join('user_details','users.id','=','user_details.user_id')
+                    ->join('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->join('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
        
         if(!$this->superAdmin && !empty($user)){
-            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->join('admins','sales_persons.email','=','admins.email'); 
             $lblusers->where('admins.id',$user->id);
         }elseif($this->superAdmin && $request->input('manager')){
-            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->join('admins','sales_persons.email','=','admins.email'); 
             $lblusers->where('admins.id',$request->input('manager'));
         }
 
@@ -99,25 +104,25 @@ class UsersController extends Controller
         }
         if($search){
             $lblusers->where(function($lblusers) use($search){
-				$lblusers->orWhere('users.name','like','%'.$search.'%')
+                $lblusers->orWhere('users.name','like','%'.$search.'%')
                         ->orWhere('users.email','like','%'.$search.'%')
                         ->orWhere('user_details.customerno','like','%'.$search.'%');
-			});
+            });
         }
-        
-        //$lblusers->groupBy('user_details.user_id');
-
-        $userss = $lblusers->paginate(intval($limit));
-        $paginate = $userss->toArray();
-        $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        $users = $lblusers->get([ 'users.*',
+        $lblusers->select(['users.*','user_details.user_id as customer',
                                 'user_details.customerno',
                                 'user_details.customername',
                                 'user_details.ardivisionno',
                                 'user_details.vmi_companycode',
                                 'sales_persons.person_number',
-                                'sales_persons.name as sales_person']);
-                          
+                                'sales_persons.name as sales_person']); //->groupBy('user_details.user_id');
+
+        $userss = $lblusers->paginate(intval($limit));
+        $users = $lblusers->offset($offset)->limit($limit)->get();
+        $paginate = $userss->toArray();
+        $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+       
+        
         return view('backend.pages.users.index', compact('users','paginate','limit','search'));
     }
 

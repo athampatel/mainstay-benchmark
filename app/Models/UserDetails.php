@@ -20,6 +20,7 @@ class UserDetails extends Model
         'state',
         'zipcode',
         'email',
-        'user_id'
+        'user_id',
+        'vmi_companycode'
     ];
 }

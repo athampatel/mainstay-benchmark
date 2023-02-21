@@ -73,10 +73,6 @@ Region Managers - Admin Panel
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>                                                                
                                             <td>
-
-                                           
-                                                  
-
                                                 <div class="status-btns">
                                                     @if($user->user_id != '')                                                         
                                                         <a class="btn btn-rounded btn-medium btn-bordered" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers">Customers</a>
@@ -84,14 +80,14 @@ Region Managers - Admin Panel
                                                         <a class="btn btn-rounded btn-light text-dark" href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
                                                     @endif
                                                 </div>
-
                                             </td>
                                             <td>
 
 
                                                 <div class="btn-wrapper btns-2">
-                                                    <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.users.edit', $user->id) }}">View</a>
-                                                
+                                                    @if($user->user_id != '')  
+                                                        <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.index') }}/{{$user->user_id}}/edit">View</a>
+                                                    @endif
                                                   <!--  <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                                         Delete
