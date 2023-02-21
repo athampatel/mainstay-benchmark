@@ -239,7 +239,7 @@ User Create - Admin Panel
                 }
                 $('.userDetails-container').fadeIn();
             },
-            complete:function(){
+        complete:function(){
                 $(document.body).find('#preloader').remove();            }
         });
     })

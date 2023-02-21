@@ -9,5 +9,5 @@ class UserSalesPersons extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','sales_person_id'];
+    protected $fillable = ['user_details_id','sales_person_id'];
 }

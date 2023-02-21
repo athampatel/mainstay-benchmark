@@ -17,6 +17,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
@@ -70,12 +71,12 @@ class UsersController extends Controller
         $user =  $this->user;    
 
         $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
        
         if(!$this->superAdmin && !empty($user)){
-           $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
-           $lblusers->where('admins.id',$user->id);
+            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->where('admins.id',$user->id);
         }elseif($this->superAdmin && $request->input('manager')){
             $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
             $lblusers->where('admins.id',$request->input('manager'));
@@ -90,7 +91,7 @@ class UsersController extends Controller
                     $lblusers->where('users.active','=',0)->where('users.is_deleted','=',0);
                     break;
                 case 'vmi':
-                    $lblusers->where('users.is_vmi','=',1);
+                    $lblusers->where('user_details.vmi_companycode','!=','');
                     break;    
                 default:
                     break;
@@ -103,6 +104,8 @@ class UsersController extends Controller
                         ->orWhere('user_details.customerno','like','%'.$search.'%');
 			});
         }
+        
+        //$lblusers->groupBy('user_details.user_id');
 
         $userss = $lblusers->paginate(intval($limit));
         $paginate = $userss->toArray();
@@ -111,6 +114,7 @@ class UsersController extends Controller
                                 'user_details.customerno',
                                 'user_details.customername',
                                 'user_details.ardivisionno',
+                                'user_details.vmi_companycode',
                                 'sales_persons.person_number',
                                 'sales_persons.name as sales_person']);
                           
@@ -232,11 +236,9 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Validation Data
-
-
-       
         $postdata       = $request->input();
         $is_duplicate   = 0;
+        $email_address  = '';
         if(!isset($postdata['create_user'])){
             $request->validate([
                 'customername' => 'required|max:50',
@@ -246,55 +248,56 @@ class UsersController extends Controller
 
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
-           
+            $email_address = $postdata['email'];
         }else{
            // $email_address  = $postdata['email'];
             $duplicate      = array();
             $customer       = array();
             $create_user    =  $postdata['create_user'];
-
             foreach($create_user as $key => $value){
                 $is_duplicate = 0;
-                $email        = $postdata['emailaddress'][$key];
+                $email        = isset($postdata['emailaddress'][$key]) ? $postdata['emailaddress'][$key] : '';
 
                 if(!in_array($email,$duplicate)){
                     $duplicate[]    = $email;
+                    $email_address  = $email;
                 }else{
                     $is_duplicate = 1;  
                 }
-                if(!$is_duplicate){                      
-                    foreach($postdata as $data_key => $_val){
-                        if($data_key == '_token')
-                            $customer[$key][$data_key] = $_val;
-                        else
-                            $customer[$key][$data_key] = $_val[$key];
+                
+                //if(!$is_duplicate){                      
+                foreach($postdata as $data_key => $_val){
+                    
+                    if($data_key == '_token'){
+                        $customer[$key][$data_key] = $_val;
+                    }elseif(is_array($_val)){
+                        foreach($_val as $_ind => $value){
+                            $customer[$_ind][$data_key] = $value;
+                        }
+                    }
+                }
+                //}
+            }          
+            $user_id = 0;
+            if(!empty($customer)){
+                foreach($customer as $_customer){
+                    if(!$user_id){
+                        $response = $this->CreateCustomer($_customer);
+                        $user_id  = $response['id'];
+                    }else{
+                       $res = UserController::CreateCucstomerDetails($_customer,$user_id);
                     }
                 }
             }
-            if(!empty($customer)){
-                foreach($customer as $_customer){
-                    $response = $this->CreateCustomer($_customer);
-                }
-            }
-            if($is_duplicate){
-                session()->flash('warning', 'Customer has been created, excluding duplicate email address');
-                  return redirect()->route('admin.users.index');
-            }
-        }
+        }   
         
-
-        // Create New User
-        /*$user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }*/
+        $user_request = SignupRequest::where('email',$email_address)->where('status',0)->get()->first();
+        if(!empty($user_request)){
+            $user_request['status'] = 1;
+            $user_request->save();
+        }
+           
         $status  = isset($response['status']) ? $response['status'] : '';
-
         session()->flash($status, 'Customer has been created !!');
         return redirect()->route('admin.users.index');
     }
@@ -305,12 +308,14 @@ class UsersController extends Controller
         $user       = isset($response['user']) ? $response['user'] : null;
         $message    = 'Opps something went wrong';
         $status     = 'error';  
+        $id         = 0;
         if(!empty($user)){            
             $this->sendActivationLink($user->id);
             $message    = 'User has been created !!';
             $status     = 'success';    
+            $id         = $user->id;
         }
-        return array('status' => $status,'message' => $message);
+        return array('status' => $status,'message' => $message,'id' => $id);
     }
     /**
      * Display the specified resource.
@@ -332,7 +337,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                     ->select(['users.*',
                           'user_details.customerno',
@@ -436,10 +441,26 @@ class UsersController extends Controller
         echo json_encode($res);
     }
 
+    public function UserAccessRequest(request $request){
+     
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }
+        $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                    ->orderBy('signup_requests.id','DESC')
+                    ->where('signup_requests.status',0)
+                    ->select(['signup_requests.*','users.id as user_id'])
+                    ->get();  
+        $search = $request->input('search'); 
+        return view('backend.pages.users.signup-request',compact('users','search')); 
+    }
+
     public function getUserRequest($user_id,$admin_token = ''){
         $current_user = $this->user;
         
         $isManager    = DashboardController::isManager($user_id,$current_user);
+
         if($this->superAdmin || $isManager)
             $admin      = $current_user;
         else
@@ -555,7 +576,7 @@ class UsersController extends Controller
 
             $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                                 ->orderBy('change_order_requests.id','DESC')                                                
                                                 ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
@@ -563,7 +584,7 @@ class UsersController extends Controller
         }elseif(DashboardController::isManager($user->id,$user)){
             $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                                 ->where('sales_persons.id',$user->id)
                                                 ->orderBy('change_order_requests.id','DESC')
@@ -577,7 +598,7 @@ class UsersController extends Controller
 
         $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                                 ->where('change_order_requests.id',$change_id)
                                                 ->orderBy('change_order_requests.id','DESC')

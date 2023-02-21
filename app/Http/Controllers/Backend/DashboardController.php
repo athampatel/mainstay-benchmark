@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\ChangeOrderRequest;
+use App\Models\SignupRequest;
 use App\Models\ChangeOrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class DashboardController extends Controller
             return false;
             
         $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.user_id','=','user_sales_persons.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                     ->where('admins.id',$user->id)->where('users.id',$customer_id)->get(['users.id'])->count();
@@ -76,18 +77,20 @@ class DashboardController extends Controller
             $total_roles        = Role::select('id')->get()->count();
             $total_admins       = Admin::select('id')->get()->count();
             $total_permissions  = Permission::select('id')->get()->count();        
-            $total_customers    = User::select('id')->where('active','=',1)->get()->count();
-            $new_customers      = User::select('id')->where('active','=',0)->where('is_deleted','=',0)->get()->count();
+            $total_customers    = User::select('id')->where('active','=',1)->get()->count();            //new_customers
+            $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
-            $vmi_customers      = User::select('id')->where('active','=',1)->where('is_vmi','=',1)->get()->count();
+            $vmi_customers      = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                                  ->where('user_details.vmi_companycode','!=','')->get()->count();
             $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
 
-        }else{
+        }else{   
 
-            $customers          = User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
-                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                ->where('admins.id',$this->user->id);
+            $customers          =   User::leftjoin('user_details','users.id','=','user_details.user_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('admins.id',$this->user->id);
 
             $total_customers    = $customers->get([ 'users.id'])->count();            
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();

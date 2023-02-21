@@ -2528,12 +2528,11 @@ div.dataTables_wrapper div.dataTables_info{
 
 
 .login-form-head h4 {
-    letter-spacing: 0;
-    text-transform: uppercase;
+    letter-spacing: 0;    
     font-weight: 600;
     margin-bottom: 7px;
     color: rgba(255,255,255,0.7);
-    font-size: 2rem;;
+    font-size: 2rem;
 }
 
 .login-form-head p {

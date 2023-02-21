@@ -18,6 +18,7 @@ class CreateSignupRequestsTable extends Migration
             $table->string('full_name')->nullable();
             $table->string('company_name')->nullable();
             $table->string('email')->nullable();
+            $table->integer('status')->default(0);
             $table->string('phone_no')->nullable();
             $table->timestamps();
         });

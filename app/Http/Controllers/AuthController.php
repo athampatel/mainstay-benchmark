@@ -34,15 +34,26 @@ class AuthController extends Controller
         if ($token != '' && $customer != '') {            
             $adminUser =  Admin::where('remember_token','like', $token)->get();
         }
+       
     }
 
+
+    protected function autheticate(Request $request, $user){
+        echo "<pre>";
+        print_r($user);
+        echo "</pre>";
+        die;
+    }
+
+
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
-       
         $_user    = User::where('email',$response['emailaddress'])->first();
         if(!empty($_user)){
             return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
         }  
         $user   =  UserController::createUser($response,$action,$postdata);
+
+       
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $sales_person = array();
         if($response['salespersonemail'] != '')
@@ -50,10 +61,10 @@ class AuthController extends Controller
         if(empty($sales_person)) 
             $sales_person = SalesPersonController::createSalesPerson($response);
         if($sales_person){
-            $user_sales_persons = UserSalesPersons::where('user_id',$user['id'])->where('sales_person_id',$sales_person['id'])->first();
+            $user_sales_persons = UserSalesPersons::where('user_details_id',$user['details_id'])->where('sales_person_id',$sales_person['id'])->first();
             if(empty($user_sales_persons)){
                 UserSalesPersons::create([
-                    'user_id' => $user['id'],
+                    'user_details_id' => $user['details_id'],
                     'sales_person_id' => $sales_person['id']
                 ]);
             }
@@ -143,7 +154,7 @@ class AuthController extends Controller
                                                 'phone_no'      => $request->phone_no);
                     $data_request   = SignupRequest::create($signupdata);   
                     $request_id     = $data_request->id;            
-                    $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;                 
+                    $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             //}
             $details['title'] = "New customer request for portal access";   
             $details['subject'] = "New customer request for member portal access";
@@ -238,5 +249,9 @@ class AuthController extends Controller
                 ]);
             }
         }
+    }
+    public function logout(request $reuest){
+        Auth::guard('user')->logout();
+        return redirect('/');
     }
 }

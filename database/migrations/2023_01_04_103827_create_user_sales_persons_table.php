@@ -15,7 +15,7 @@ class CreateUserSalesPersonsTable extends Migration
     {
         Schema::create('user_sales_persons', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('user_details_id');
             $table->integer('sales_person_id');
             $table->timestamps();
         });

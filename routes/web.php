@@ -80,10 +80,13 @@ Route::middleware('auth')->group(function () {
 
     // get analysis page data
     Route::get('/get-analysis-page-data',[MenuController::class,'getAnalysisPageData']);
+
+    Route::get('/switch-account/{account}',[MenuController::class,'switchAccount']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
 Route::post('/get-notifications',[NotificationController::class,'getNotifications']);
+Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('admin.logout.submit');
 
 Route::get('/autheticate',[AuthController::class,'autheticate']);
 
@@ -121,7 +124,7 @@ Route::group(['prefix' => 'admin'], function () {
     //Route::resource('customers', '\App\Http\Controllers\Backend\CustomerController', ['names' => 'admin.customer']);
 
     
-    
+
     Route::resource('admins', '\App\Http\Controllers\Backend\AdminsController', ['names' => 'admin.admins']);
 
     // Login Routes
@@ -155,6 +158,10 @@ Route::group(['prefix' => 'admin'], function () {
 
     // export all customers
     Route::get('/exportAllCustomers',[UsersController::class,'ExportAllCustomers']);
+
+
+    Route::get('/signup-request', '\App\Http\Controllers\Backend\UsersController@UserAccessRequest')->name('admin.users.requests');
+
 }); 
 
 Route::get('send-mail', function () {

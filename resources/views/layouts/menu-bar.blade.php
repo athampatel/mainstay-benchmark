@@ -17,11 +17,11 @@
               @endif
             @elseif($key === 'logout')
               <li class="<?php echo $menu['active'] == 1 ? 'active':''; ?>">
-                <a href="http://localhost:8081/logout" id="{{$menu['link']}}" onclick="event.preventDefault();document.getElementById('customer-logout-form').submit();">
+                <a href="{{url('/')}}/logout" id="{{$menu['link']}}" onclick="event.preventDefault();document.getElementById('customer-logout-form').submit();">
                     <span class="menu-icons">{!! $menu['icon_name'] !!}</span>
                     <span class="links_name">{{$menu['name']}}</span>
                 </a>
-                <form id="customer-logout-form" action="http://localhost:8081/logout" method="POST" style="display: none;">
+                <form id="customer-logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;">
                 @csrf
                 </form>
               </li>

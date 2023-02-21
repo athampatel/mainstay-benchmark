@@ -27,6 +27,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone_no')->nullable();
             $table->string('ardivisionno');
+            $table->text('vmi_companycode')->nullable();
             $table->timestamps();
             $table->string('customername')->nullable()->change();
             $table->string('addressline1')->nullable()->change();
@@ -35,6 +36,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('city')->nullable()->change();
             $table->string('state')->nullable()->change();
             $table->string('zipcode')->nullable()->change();
+            
         });
     }
 

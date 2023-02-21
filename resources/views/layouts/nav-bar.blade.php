@@ -201,19 +201,42 @@
                 <div class="notification_count">2</div>
             </div>
         </div>
-        <div class="profile-details">
-            <div>
+
+
+
+        <div class="profile-details user-box dropdown border-light-2">
+            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 @if(Auth::user()->profile_image)
                     <img src="/{{Auth::user()->profile_image}}" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @else 
                     <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img" />
                 @endif
-            </div>
+
+           
+
             <div>
-                <div class="profile_position">Admin</div>
+
+                 <div class="profile_position">{{Auth::user()->name}}</div>
+                @if ($customerno = Session::get('customer_no'))                   
+                    <div class="profile_name" id="nav-bar-profile-name">{{$customerno}}</div>
+                @endif    
                 {{-- <div class="profile_name">John Deo</div> --}}
-                <div class="profile_name" id="nav-bar-profile-name">{{Auth::user()->name}}</div>
+                
             </div>
-        </div>
+            </a>
+
+            @if ($customers = Session::get('customers'))
+                <ul class="dropdown-menu dropdown-menu-end">
+                @php
+                    $sessionData = json_decode($customers,true);
+                @endphp
+                @foreach($sessionData as $sessioninfo)                   
+                    <li>
+                        <a class="dropdown-item @if( $sessioninfo['customerno'] == $customerno) selected @endif" href="@if( $sessioninfo['customerno'] == $customerno)javascript:void(0) @else {{ url('switch-account') }}/{{$sessioninfo['customerno']}}@endif"><i class="bx bx-user"></i><span>{{$sessioninfo['customerno']}}</span></a>
+                    </li>
+                @endforeach
+                </ul>    
+            @endif
+              
     </div>
   </nav>

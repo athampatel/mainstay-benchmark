@@ -75,6 +75,18 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('dashboard');
         return view('Pages.dashboard',$data); 
     }
+
+    public function switchAccount($customer_no = '',request $request){
+        $customer   = $request->session()->get('customers');
+        $current    = $request->session()->get('customer_no');
+        if($customer_no != $current){
+            foreach($customer as $_customer){
+                if($_customer['customerno'] == $customer_no)
+                    $request->session()->put('customer_no',$customer_no);
+            }
+        }
+        return redirect()->route('customer.dashboard');
+    }
     public function invoicePage(){
         $data['title']  = '';
         $data['current_menu']   = 'invoice';
@@ -202,7 +214,8 @@ class MenuController extends Controller
 
             $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;
-            $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->first();
+            $customer_no   = $request->session()->get('customers');
+            $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             // dd($final_data);
             return view('Pages.change-order',$final_data);
         } else {
@@ -285,12 +298,13 @@ class MenuController extends Controller
         // return view('pages.analysis',$data);
     }
     
-    public function accountSettingsPage(){
+    public function accountSettingsPage(request $request){
         $data['title']  = '';
         $data['current_menu']   = 'account-settings';
         $data['menus']          = $this->NavMenu('account-settings');
         $user_id = Auth::user()->id;
-        $data['user_detail'] = UserDetails::where('user_id',$user_id)->first();
+        $customer_no   = $request->session()->get('customer_no');
+        $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         return view('Pages.account-settings',$data);
     }
     public function helpPage(){
@@ -318,7 +332,8 @@ class MenuController extends Controller
             $offset = $page * $limit + 1;
         }
         $user_id = Auth::user()->id;
-        $user_details = UserDetails::where('user_id',$user_id)->first();
+        $customer_no   = $request->session()->get('customer_no');
+        $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
             $data = array(            
                 "filter" => [
@@ -408,8 +423,9 @@ class MenuController extends Controller
         } else {
             $offset = $page * $limit + 1;
         }
-        $user_id = Auth::user()->id;
-        $user_details = UserDetails::where('user_id',$user_id)->first();
+        $user_id        = Auth::user()->id;
+        $customer_no    = $request->session()->get('customer_no');
+        $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
             // $data = array(            
             //     "filter" => [

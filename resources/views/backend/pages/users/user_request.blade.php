@@ -28,7 +28,7 @@ User Create - Admin Panel
                     
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h4 class="header-title mb-0">User Information</h4>       
+                            <h4 class="header-title mb-0">Customer Information</h4>       
                         </div>
                     </div> 
                     @if(empty($customers))
@@ -64,13 +64,16 @@ User Create - Admin Panel
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                             @csrf 
+
+
+
                             @foreach($customers as $key => $user_info)
                             <div class="card mb-3">
                                 <div class="card-body">
                                     @if(count($customers) > 1)
                                         <div class="form-row">
                                             <div class="form-group col-md-12 col-sm-12 custom-checkbox">
-                                                <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" class="custom-control-input create_customerCheck" id="create_user_{{$key}}" />
+                                                <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" class="custom-control-input create_customerCheck" id="create_user_{{$key}}" checked />
                                                 <label class="custom-control-label px-3" for="create_user_{{$key}}">Create Customer - {{$user_info['customerno']}} </label>
                                             </div>   
                                         </div>
@@ -86,6 +89,8 @@ User Create - Admin Panel
                                             @endif
                                             
                                         </div>
+
+                                        @if($key == 0)
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label for="user_email">Customer Email</label>
                                             @if(isset($user->id))
@@ -94,6 +99,7 @@ User Create - Admin Panel
                                                 <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
                                             @endif
                                         </div>
+                                        @endif 
                                     </div>
 
                                     <div class="form-row">
@@ -213,6 +219,8 @@ User Create - Admin Panel
                                     </div>
                                     </div>
                                 </div>
+
+                                    <input type="hidden" name="vmi_companycode[{{$key}}]" value="{{$user_info['vmi_companycode']}}"> 
                                     @endforeach
                                     
                                     @if(isset($user->id))
