@@ -33,6 +33,46 @@
 			@include('layouts.nav-bar')
 			{{-- Home content --}}
 			@yield('content')
+			@php 
+				$notifications = [
+					[
+						'title' => 'New Customers',
+						'desc' =>  '5 new user registered',
+						'time' =>  '5 Sec ago'
+					],
+					[
+						'title' => 'New Managers',
+						'desc' =>  '2 new managers registered',
+						'time' =>  '10 Sec ago'
+					],
+					[
+						'title' => 'Order Shipped',
+						'desc' =>  'your order shipped',
+						'time' =>  '10 Sec ago'
+					],
+					[
+						'title' => 'Order Shipped',
+						'desc' =>  'your order shipped',
+						'time' =>  '10 Sec ago'
+					],
+					[
+						'title' => 'Order Shipped',
+						'desc' =>  'your order shipped',
+						'time' =>  '10 Sec ago'
+					],
+					[
+						'title' => 'Order Shipped',
+						'desc' =>  'your order shipped',
+						'time' =>  '10 Sec ago'
+					],
+					[
+						'title' => 'Order Shipped',
+						'desc' =>  'your order shipped',
+						'time' =>  '10 Sec ago'
+					],
+				]
+			@endphp
+			<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" />
 			{{-- Footer --}}
 			@include('layouts.footer-bar')
 		</section>
