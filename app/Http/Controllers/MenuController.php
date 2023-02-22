@@ -6,6 +6,8 @@ use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
+use App\Models\ApiData;
+use App\Models\ApiType;
 use App\Models\Post;
 use App\Models\SalesPersons;
 use App\Models\User;
@@ -573,6 +575,80 @@ class MenuController extends Controller
         echo json_encode($data);
         die();
 
+    }
+
+    public function getCustomerOpenOrdersData(Request $request){
+        $customer = $request->session()->get('customers');
+        $customer_no = $request->session()->get('customer_no');
+        $type = ApiType::where('name','salesorders')->first();
+        $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
+        if($api_data){
+            $response = json_decode($api_data->data);
+            $count_total = 0;
+            $test_counts = [];
+            foreach($response as $res){
+                $date = explode("-",$res->orderdate);
+                if($date[0] == '2022'){
+                    if(isset($test_counts['0-'.$date[1]])){
+                        $test_counts['0-'.$date[1]] = $test_counts['0-'.$date[1]] + $res->total_amount;
+                    } else {
+                        $test_counts['0-'.$date[1]] = $res->total_amount;
+                    }
+                }
+                $count_total = $count_total + $res->total_amount; 
+            }
+            $new_open_orders = [];
+            for($i = 1; $i <= 12 ; $i++){
+                $num = $i < 10 ? '0'.$i : $i;
+                $test_counts['0-'.$num] = isset($test_counts['0-'.$num]) ?  $test_counts['0-'.$num] : 0;
+                $new_open_orders[] = $test_counts['0-'.$num];
+            }
+            echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $count_total],'error' => []]);
+            die(); 
+        } else {
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=> "ARDivisionNo",
+                        "type"=> "equals",
+                        "value"=> $customer[0]->ardivisionno,
+                        "operator"=> "and"
+                    ],
+                    [
+                        "column"=> "CustomerNo",
+                        "type"=> "equals",
+                        "value"=> $customer_no,
+                        "operator"=> "and"
+                    ],
+                ],
+            );
+            
+            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            $response = $response['salesorders'];
+            $open_orders = [];
+            foreach($response as $res){
+                $date = explode("-",$res['orderdate']);
+                if($date[0] == '2022'){
+                    foreach($res['details'] as $detail){
+                        if(isset($open_orders['0-'.$date[1]])){
+                            $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
+                        } else {
+                            $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
+                        }
+                    }
+                }
+            }
+            $total = 0;
+            $new_open_orders = [];
+            for($i = 1; $i <= 12 ; $i++){
+                $num = $i < 10 ? '0'.$i : $i;
+                $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
+                $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
+                $new_open_orders[] = $open_orders['0-'.$num];
+            }
+            echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
+            die();
+        }
     }
 
 }

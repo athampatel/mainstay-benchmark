@@ -53,7 +53,7 @@
                         <div class="page-table-loader-div d-none">
                             <div class="chart-loader1"></div>
                         </div>
-                        <div class="table-responsive" id="open-orders-page-table-div">
+                        <div class="table-responsive overflow-hidden" id="open-orders-page-table-div">
                         </div>
                         <div class="col-12 pb-2">
                             <div id="pagination_disp"></div>
