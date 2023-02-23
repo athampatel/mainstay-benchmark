@@ -61,7 +61,8 @@
             </div>
 
             <div class="notification_count_section dropdown dropdown-large position-relative active">
-                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{-- <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> --}}
+                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative navbar_notification_icon" href="#" role="button" aria-expanded="false">
                     <div class="notification_icon">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                         <defs>
@@ -78,10 +79,10 @@
 
                    
                     </div>                
-                    <div class="notification_count">2</div>
+                    <div class="notification_count d-none">2</div>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-end">
+            {{-- <div class="dropdown-menu dropdown-menu-end">
                 <a href="javascript:;">
                     <div class="msg-header">
                         <p class="msg-header-title">Notifications</p>
@@ -192,7 +193,7 @@
                 <a href="javascript:;">
                     <div class="text-center msg-footer">View All Notifications</div>
                 </a>
-            </div>
+            </div> --}}
             </div>
         </div>
         <div class="profile-details">

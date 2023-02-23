@@ -12,7 +12,7 @@ class BottomNotificationComponent extends Component
      * @return void
      */
     public function __construct(
-        public int $count,
+        // public int $count,
         public array $notifications,
     )
     {

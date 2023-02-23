@@ -1,0 +1,177 @@
+.notfication_bottom{
+    position: absolute;
+    width: 20rem;
+    bottom: 0px;
+    right: 0px;
+  }
+  
+  .notfication_bottom.active{
+    border: 1px solid #D0D0D0;
+  }
+  
+  .notfication_bottom .notification{
+    position: absolute;
+    width: 20rem;
+    height: 3.125rem;
+    background: #9FCC47;
+    color: #fff;
+    bottom: 4.6875rem;
+    right: 1.4375rem;
+    padding-left: 1.8125rem;
+    padding-right: 0.9375rem;
+    border-radius: 0.4375rem;
+    display: flex;
+    align-items: center;
+    animation: fadeInRight 1s ease-in-out;
+  }
+  .bottom_notification_msg{
+    height: 60px;
+    background-color: #9FCC47;
+    color: #fff;
+    width: 20rem;
+    padding-left: 1.25rem;
+    padding-right: 0.4375rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #D0D0D0;
+  }
+  .bottom_notification_msg:last-child{
+    border: none;
+  }
+  .message_section{
+    display: flex;
+    align-items: center;
+  }
+  .message_icon{
+    height: 2.75rem;
+    width: 2.75rem;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .messsage_content{
+    padding-left: 0.625rem;
+  }
+  
+  .messsage_content .message_title{
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+  
+  .messsage_content .message_desc{
+    font-size: 0.75rem;
+  }
+  .notification_msg_time{
+    height: 100%;
+    display: flex;
+    align-items: start;
+    padding-top: 0.6875rem;
+    font-size: 0.75rem;
+  }
+  
+  .notfication_bottom.active .notification{
+    border-radius: unset;
+    border-top: 1px solid #D0D0D0;
+  }
+  
+  .messages{
+    position: absolute;
+    bottom: 7.8125rem;
+    right: 1.4375rem;
+    background-color:#9FCC47;
+    color: #fff;
+    display: none;
+    transition: 0.5s;
+  }
+  
+  .notfication_bottom.active .messages{
+    transition: 0.4s;
+    display: block;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .notfication_bottom .notification_bottomn_cancel{
+    display: block;
+    animation: fadeInRight 1s ease-in-out;
+  }
+  
+  .notfication_bottom.active .notification_bottomn_cancel{
+    display: none;
+  }
+  
+  .header{
+    display: flex;
+    align-items: center;
+    height: 3.3125rem;
+    width: 20rem;
+    padding: 0 1.25rem;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-bottom: 1px solid #D0D0D0;
+  }
+  
+  .header .close{
+    cursor: pointer;
+  }
+  
+  .notification .message{
+    font-size: 1rem;
+    font-weight: 600;
+    padding-left: 0.9375rem;
+  }
+  .notfication_bottom .icon-container{
+    position: relative;
+    width: 1.645rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 0.5625rem;
+  }
+  
+  .notification .count{
+    position: absolute;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background-color: #EA0000;
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.5625rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 0.375rem 0.5rem rgb(0 0 0 / 15%), 0 0 0 0.125rem #fff;
+    top: 0.5rem;
+    right: 1px;
+  }
+  .notfication_bottom .open-close{
+    cursor: pointer;
+  }
+  .notfication_bottom.active .open-close svg{
+    rotate: 180deg;
+  }
+  .open-close{
+    padding-left:1.0625rem;
+  }
+  
+  .notification_bottomn_cancel {
+    position: absolute;
+    bottom: 116px;
+    right: 336px;
+    cursor: pointer;
+  }
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(300px);
+    }
+    to {
+      opacity: 1;
+    }
+  }

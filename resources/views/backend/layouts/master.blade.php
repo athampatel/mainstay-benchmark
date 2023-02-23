@@ -29,6 +29,12 @@
         <section class="home-section position-relative main-content">
             @include('backend.layouts.partials.header')
             @yield('admin-content')
+            {{-- notification work start --}}
+            <div id="bottom_notification_disp"></div>  
+			{{-- <x-bottom-notification-component :notifications="$notifications" /> --}}
+            {{-- notification work end --}}
+            {{-- <input type="hidden" name="admin_user_id" value="{{Auth::guard('admin')->user()->id}}" id="admin_user_id">
+            <input type="hidden" name="admin_type" value="1" id="admin_type"> --}}
         </section>
         <!-- main content area end -->
         @include('backend.layouts.partials.footer')
