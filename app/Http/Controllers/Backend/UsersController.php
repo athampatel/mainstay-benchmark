@@ -75,15 +75,15 @@ class UsersController extends Controller
         $search = $request->input('search');
         $user =  $this->user;    
 
-        $lblusers = User::join('user_details','users.id','=','user_details.user_id')
-                    ->join('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->join('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+        $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
        
         if(!$this->superAdmin && !empty($user)){
-            $lblusers->join('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
             $lblusers->where('admins.id',$user->id);
         }elseif($this->superAdmin && $request->input('manager')){
-            $lblusers->join('admins','sales_persons.email','=','admins.email'); 
+            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
             $lblusers->where('admins.id',$request->input('manager'));
         }
 
@@ -302,9 +302,15 @@ class UsersController extends Controller
             $user_request->save();
         }
            
-        $status  = isset($response['status']) ? $response['status'] : '';
-        session()->flash($status, 'Customer has been created !!');
-        return redirect()->route('admin.users.index');
+        $status  = isset($response['status']) ? $response['status'] : 0;
+        $message = 'A new customer has been successfully created in the system.';
+        session()->flash($status, $message);
+        if($request->input('ajaxed')){
+            echo json_encode(array('status' => $status,'message' => $message,'redirect' => route('admin.users.index')));
+            die;
+        }else{
+            return redirect()->route('admin.users.index');
+        }
     }
 
     public function CreateCustomer($postdata = null){
@@ -394,7 +400,7 @@ class UsersController extends Controller
             $user->assignRole($request->roles);
         }
 
-        session()->flash('success', 'User has been updated !!');
+        session()->flash('success', 'Customer has been updated');
         return back();
     }
 
@@ -440,7 +446,15 @@ class UsersController extends Controller
             "offset" => 1,
             "limit" => 100,
         );
-        $customer = Customer::where('email')->first();
+        
+        //$customer = Customer::where('email',$search_text)->first();
+
+
+        $customer = Customer::leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->where('users.email',$search_text)
+                    ->orWhere('user_details.email',$search_text)
+                    ->orWhere('user_details.customerno',$search_text)->first();
+
         $res = $this->SDEApi->Request('post','Customers',$data);         
         $res['user'] = $customer; 
         echo json_encode($res);

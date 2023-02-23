@@ -28,7 +28,8 @@ class CreateUserDetailsTable extends Migration
             $table->string('phone_no')->nullable();
             $table->string('ardivisionno');
             $table->text('vmi_companycode')->nullable();
-            $table->timestamps();
+            $table->integer('is_active')->default(0);
+            $table->timestamp('updated_by')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('customername')->nullable()->change();
             $table->string('addressline1')->nullable()->change();
             $table->string('addressline2')->nullable()->change();
@@ -36,6 +37,8 @@ class CreateUserDetailsTable extends Migration
             $table->string('city')->nullable()->change();
             $table->string('state')->nullable()->change();
             $table->string('zipcode')->nullable()->change();
+            $table->timestamps();
+            
             
         });
     }

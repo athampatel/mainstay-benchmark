@@ -30,7 +30,7 @@ User Create - Admin Panel
                     <div class="card">
                         <div class="card-body">
                             
-                            <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer found</div>
+                            
                             <div class="form-row align-items-center form-row align-items-center col-md-8 col-12 mx-auto d-flex align-items-center">
                                 <div class="form-group col-md-9 col-sm-9">
                                     <label for="name">Search customer with customer number/email</label>
@@ -42,6 +42,9 @@ User Create - Admin Panel
                             </div>
                         </div>
                     </div> 
+
+                    <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer details found</div>
+
                     <div class="card multiple-container mt-3" style="display: none;">
                         <div class="card-body">
                             
@@ -132,7 +135,7 @@ User Create - Admin Panel
                                     <input type="hidden" name="vmi_companycode" id="vmi_companycode" value="">
                                     
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create Customer</button>
+                                <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                             </form>
                         </div>                    
                     </div>
@@ -170,7 +173,8 @@ User Create - Admin Panel
                 $(this).removeClass('error-field');
             }
         });
-        $(document.body).on('click','a.do_customer',function(e){
+        
+        /*$(document.body).on('click','a.do_customer',function(e){
             $('a.do_customer').each(function(){
                 $(this).removeClass('active');
             });
@@ -180,9 +184,80 @@ User Create - Admin Panel
             $('.userDetails-container').fadeIn();
             rendorUserForm(parseData,0);
 
+        });*/
+
+
+       
+
+        $(document.body).on('submit','#multiple-data',function(e){  
+            e.preventDefault();
+            var form = $(this);       
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                //dataType: "JSON",
+                data: form.serialize(),
+                beforeSend:function(){
+                    $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
+                },
+                success : function(resp) {     
+                    var result = JSON.stringify(resp);
+                    console.log(result);              
+                   if(result.status == 'success'){
+                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html(result.message);    
+                        window.location.href = result.redirect;
+                   }
+                   $(document.body).find('#preloader').remove();
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+            return false;
         });
+
+        $(document.body).on('change','input.insert-customer',function(e){
+            var parseData = $(this).parent().data('json');            
+            var customerno  = parseData.customerno;
+            if($(this).is(':checked')){
+                $(this).parent().addClass('active');                
+                $(this).addClass('active');
+                $('.userDetails-container').fadeIn();
+                
+                var _html = '<div id="'+customerno+'"><input type="hidden" name="create_user['+customerno+']" value="'+customerno+'" />';
+                $.each(parseData,function(ind,value){
+                   _html += '<input type="hidden" name="'+ind+'['+customerno+']" value="'+value+'" />';
+                });
+                _html += '</div>';
+                $('#multiple-data .dynamic-values').append(_html);
+                rendorUserForm(parseData,0);
+            }else{
+                $(this).parent().removeClass('active');
+                $('#multiple-data .dynamic-values').find('#'+customerno).remove();  
+                if($(document.body).find('input.insert-customer:checked').length > 0){
+                    var checked = $(document.body).find('input.insert-customer:checked').parent();
+                    var parseData = checked.data('json');                    
+                    rendorUserForm(parseData,0);
+                }
+            }
+            if($(document.body).find('input.insert-customer:checked').length > 1){
+                $('#create-customer .btn-primary').hide();
+                $('.form-data').show();
+            }else{
+                $('#create-customer .btn-primary').show();
+                $('.form-data').hide();
+            }
+
+        });
+
+       
+
         $(document.body).on('submit','#create-customer',function(e){
             //e.preventDefault();
+            if($(document.body).find('input.insert-customer:checked').length > 1){
+                return false;
+            }
+
             $('.userDetails-container .form-control').each(function(){
                     if($(this).hasClass('required')){
                         $(this).prop('required',true);
@@ -200,7 +275,7 @@ User Create - Admin Panel
         });
 
     })
-
+    
     $(document).on('click','#user-search',function(){
         $search_text = $('#search-customer-no').val();
         $.ajax({
@@ -210,43 +285,55 @@ User Create - Admin Panel
             data: { "_token": "{{ csrf_token() }}",'search_text':$search_text},
             beforeSend:function(){
                 $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
+                $('.multiple-container').fadeOut();
+                $('.multiple-container').find('.card-body').html('');
+                $('.userDetails-container').fadeOut();
             },
             success: function (res) {
                 var total_records = parseInt(res.customers.length);
                 if(total_records > 1){
-                    $('#customer_response_alert').addClass('alert-danger').removeClass('d-none').html('Multiple records found');     
+                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html('More than one customer account was found for the email address.');     
                     var customers = res.customers;  
-                    var _html = '';
+                    var _html = '';//'<form action="/customers" method="POST" id="create-multiple">';
+                    //var form_field = $('#create-customer').html();
+                   
                     $.each(customers,function(index,value){
-                        _html +='<div class="form-row duplicate-date">'+
-                                    '<div class="form-group col-md-12 col-sm-12">'+
-                                        '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer"><strong>Customer No:</strong>'+value.emailaddress+' ('+value.customerno+')'+
-                                        
-                                    '</a></div>'+                              
+                        _html +='<div class="form-row duplicate-date col-12 flex-wrap">'+
+                                    '<div class="form-group col-12 col-md-12 col-sm-12">'+
+                                        '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer">'+
+                                        '<input type="checkbox" class="insert-customer" name="customer[]" value="'+value.customerno+'" id="'+value.customerno+'" />'+
+                                        '<label for="'+value.customerno+'">'+
+                                        '<strong>Customer No: </strong>'+value.emailaddress+' ('+value.customerno+')'+
+                                        '</label></a>'+
+                                    '</div>'+
                                 '</div>';
                     });
+                     _html += '<form action="{{ route('admin.users.store') }}" method="POST" id="multiple-data" class="form-data col-12 col-md-12 flex-wrap" style="display:none"><input type="hidden" name="_token" value="{{ csrf_token() }}" /><input type="hidden" name="ajaxed" value="1" /><div class="dynamic-values"></div><button type="submit" class="btn btn-rounded btn-primary selected-customer mt-4 pr-4 pl-4">Add selected customers</button></form>';                    
                     $('.multiple-container').fadeIn();
                     $('.multiple-container').find('.card-body').html(_html);
                     return false; 
                 }else if(res.customers.length > 0){
                     $customer = res.customers[0];
                     rendorUserForm($customer,1);
-                } else {
-                    $('#customer_response_alert').removeClass('d-none');
+                    $('#customer_response_alert').removeClass('d-none').html('Customer details found for the specified account.');
                     $('#customer_response_alert').addClass('alert-success');
                     $('#customer_response_alert').removeClass('alert-danger');
+                    $('.userDetails-container').fadeIn();
+                    // 
                     /*setTimeout(() => {
                         $('#customer_response_alert').addClass('d-none');
                     },2000);*/
+                }else{
+                    $('#customer_response_alert').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('Unable to locate any customer details with the provided email address.');
                 }
-                $('.userDetails-container').fadeIn();
+                
             },
         complete:function(){
                 $(document.body).find('#preloader').remove();            }
         });
     })
 function rendorUserForm($customer,show){
-    console.log($customer,'__customer');
+   
     if("vmi_companycode" in $customer){
         $('#is_vmi').val(1);
     }
