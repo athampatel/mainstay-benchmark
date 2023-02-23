@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Helpers\SDEApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('get:open-orders')->everyMinute();
     }
 
     /**

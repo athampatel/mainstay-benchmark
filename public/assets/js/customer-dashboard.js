@@ -1,12 +1,12 @@
 window.addEventListener("load", function() {
     // customer open orders chart
-    customerOpenOrders()
+    GetCustomerOpenOrders();
+    // customerOpenOrders1() // uncomment
     //customer spending chart
-    customerSpendingChart()
+    customerSpendingChart() // uncomment
     // dashboard customer invoice order table
-    customer_invoice_orders()
-    
-    customerSalesHistory()
+    customer_invoice_orders() // uncomment
+    customerSalesHistory() // uncomment
 });
   
 function customerSalesHistory(){
@@ -127,12 +127,44 @@ function customerSalesChartDisplays(resp){
     chart.render();
 }
 
+function GetCustomerOpenOrders(){
+    $.ajax({
+        type: 'GET',
+        url: '/getCustomerOpenOrders',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        beforeSend:function(){
+            $('#dashboard-open-orders-chart .chart-loader-div').removeClass('d-none');
+        },
+        success: function (res) {  
+            // customerSalesChartDisplays(res)
+            res = JSON.parse(res);
+            if(res.success){
+                customerOpenOrders(res.data.data)
+                // let count = res.data.count.toFixed(2)
+                // open order total display work start
+                console.log(res.data.count.toFixed(2));
+                $('#open-orders-total-amount').text(`$ ${res.data.count.toFixed(2)}`)
+                // open order total display work end
+            }
+            console.log(res,'___get customer open orders');
+        },
+        complete:function(){
+            $('#dashboard-open-orders-chart .chart-loader-div').addClass('d-none');
+        }
+    });
+}
+
 // customer open orders chart display
-function customerOpenOrders(){
+function customerOpenOrders($array){
+    let arr = [];
+    $array.forEach(ar => {
+        arr.push(ar.toFixed(2));
+    })
     var options = {
         series: [{
                 name: 'sales',
-                data: [10,2,30,100,50,60,45,80,90,30,110,48]
+                // data: [10,2,30,100,50,60,45,80,90,30,110,48]
+                data: arr
             },
         ],
         chart: {
@@ -189,7 +221,7 @@ function customerOpenOrders(){
             title: {
                 text: ''
             },
-            min: 0,
+            // min: 0,
         },
         grid: {
             borderColor: '#797B7D',

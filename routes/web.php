@@ -82,6 +82,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-analysis-page-data',[MenuController::class,'getAnalysisPageData']);
 
     Route::get('/switch-account/{account}',[MenuController::class,'switchAccount']);
+
+    // get customer open orders data
+    Route::get('/getCustomerOpenOrders',[MenuController::class,'getCustomerOpenOrdersData']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

@@ -18,11 +18,9 @@
                 </div>  
               </div>
               <div class="box-details">
-                {{-- {{ dd(session('customers')->customername)}} --}}
                 @php
                     $customer_session =  session('customers');
                 @endphp
-                {{-- {{dd($customer_session[0])}} --}}
                 <div class="name">Customer info</div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
@@ -88,8 +86,8 @@
               </div>
               <div class="box-details">
                 <div class="name">Open Orders</div>
-                <div class="date">$21,827.13</div>
-                <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Open Order</a>
+                <div class="date" id="open-orders-total-amount"></div>
+                <a class="btn btn-primary btn-small font-12 dashboard-button" href="/open-orders">View Open Order</a>
               </div>
             </div>
           </div>
