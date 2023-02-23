@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class NotificationController extends Controller
 {
@@ -160,5 +162,64 @@ class NotificationController extends Controller
         }
         session()->flash('success', 'User has been deleted !!');
         return back();
+    }
+
+
+    /* bottom notifications */
+    public function getBottomNotifications(){
+        $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        if(!empty($notifications)){
+            $notification_code = View::make("components.bottom-notification-component")
+            ->with("notifications", $notifications)
+            ->render();
+            $response = ['success' => true,'notification_code' => $notification_code,'notifications_all'=> $notifications];
+            echo json_encode($response);
+            die();
+        } else {
+            $response = ['success' => false];
+            echo json_encode($response);
+            die();
+        }
+    }
+
+    public function getNewBottomNotifications(){
+        $start_time = date('Y-m-d h:i').':00';
+        $end_time = date('Y-m-d h:i').':59';
+        $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0 and created_at >= '".$start_time."' and created_at <= '".$end_time."'");
+        $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        $notification_all_code = View::make("components.bottom-notification-component")
+        ->with("notifications", $notifications_all)
+        ->render();
+        if(!empty($notifications)){
+            $notification_message_code = "";
+            foreach($notifications as $notification){
+            $notification_message_code .= View::make("components.bottom-notification-message")
+                ->with("title", $notification->type)
+                ->with("desc", $notification->text)
+                ->with("icon", '')
+                ->with("time", $notification->created_at)
+                ->with("link", $notification->action)
+                ->with("id", $notification->id)
+                ->render();
+            }
+            $response = ['success' => true,'notification_message_code' => $notification_message_code,'new_notifications'=> $notifications,'all_notifications' => $notifications_all,'all_notification_code' => $notification_all_code];
+            echo json_encode($response);
+            die();
+        } else {
+            $response = ['success'=> false];
+            echo json_encode($response);
+            die();
+        } 
+    }
+    public function changeNotificationStatus(Request $request){
+        $id  = $request->id;
+        $notification = Notification::where('id',$id)->first();
+        if($notification){
+            $notification->is_read = 1;
+            $notification->save();
+            $response = ['success' => true];
+            echo json_encode($response);
+            die();
+        }
     }
 }

@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 {{-- <link href="assets/css/icons.css" rel="stylesheet"> --}}
 <link href="/assets/css/dashboard.css" rel="stylesheet">
+{{-- <link href="/assets/css/notification.css" rel="stylesheet"> --}}
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" href="{{ asset('backend/assets/css/font-awesome.min.css') }}">

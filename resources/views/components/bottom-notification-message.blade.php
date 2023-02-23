@@ -1,4 +1,7 @@
-<div class="bottom_notification_msg">
+@php 
+$link = str_replace('\\','/',$link);
+@endphp
+<a href="#" data-link="{{$link}}" data-id="{{$id}}" class="bottom_notification_msg">
     <div class="message_section">
         <div class="message_icon">
             <svg id="Group_1295" data-name="Group 1295" xmlns="http://www.w3.org/2000/svg" width="25.794" height="22.85" viewBox="0 0 25.794 22.85">
@@ -11,5 +14,5 @@
             <div class="message_desc">{{$desc}}</div>
         </div>
     </div>
-    <div class="notification_msg_time">{{$time}}</div>
-</div>
+    <div class="notification_msg_time">{{\Carbon\Carbon::parse($time)->diffForHumans()}}</div>
+</a>

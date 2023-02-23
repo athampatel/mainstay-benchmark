@@ -89,6 +89,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
 Route::post('/get-notifications',[NotificationController::class,'getNotifications']);
+/* bottom notification work start */
+Route::post('/get-bottom-notifications',[NotificationController::class,'getBottomNotifications']);
+Route::post('/get-new-bottom-notifications',[NotificationController::class,'getNewBottomNotifications']);
+Route::post('/notification-seen',[NotificationController::class,'changeNotificationStatus']);
+/* bottom notification work end */
 Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('admin.logout.submit');
 
 Route::get('/autheticate',[AuthController::class,'autheticate']);

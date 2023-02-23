@@ -10,9 +10,14 @@
                 </svg>  
             </div>
         </div>
-        @foreach ($notifications as $notification)    
-            <x-bottom-notification-message :title="$notification['title']" :desc="$notification['desc']" icon="" :time="$notification['time']"/>
-        @endforeach
+        <div class="messages-container">
+            @foreach ($notifications as $notification)    
+                @php
+                $link = str_replace("/","\\",$notification->action)
+                @endphp
+                <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" icon="" :time="$notification->created_at" :link="$link" :id="$notification->id" />
+            @endforeach
+        </div>
         {{-- <x-bottom-notification-message :title="'New Customers'" :desc="'5 new user registered'" icon="" :time="'5 Sec ago'"/> --}}
     </div>
     <div class="notification">
@@ -32,11 +37,11 @@
                 </svg>              
             </div>
             <div class="count">
-                {{$count}}
+                {{count($notifications)}}
             </div>
         </div>
         <div class="message">
-            You have {{$count}} notification
+            You have <span id="message_count">{{count($notifications)}}</span> notification
         </div>
         <div class="open-close" id="bottom_message_arrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="17.806" height="9.649" viewBox="0 0 17.806 9.649">

@@ -33,7 +33,7 @@
 			@include('layouts.nav-bar')
 			{{-- Home content --}}
 			@yield('content')
-			@php 
+			{{-- @php 
 				$notifications = [
 					[
 						'title' => 'New Customers',
@@ -72,7 +72,7 @@
 					],
 				]
 			@endphp
-			<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" />
+			<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" /> --}}
 			{{-- Footer --}}
 			@include('layouts.footer-bar')
 		</section>
