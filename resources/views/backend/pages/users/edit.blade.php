@@ -150,7 +150,7 @@ User Edit - Admin Panel
                 <!-- data table end -->
                 
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12 mt-2">
                     <div class="card">
                         <div class="card-body">
@@ -158,7 +158,7 @@ User Edit - Admin Panel
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
