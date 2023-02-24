@@ -656,6 +656,10 @@ class SDEDataController extends Controller
                 $params = array('mail_view' => 'emails.change_order_request', 
                                 'subject'   => 'Change Order request', 
                                 'url'       => $url);
+
+                                /* 
+                                
+                                */
                 // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
                 \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
             }

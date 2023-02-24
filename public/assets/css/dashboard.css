@@ -2209,6 +2209,10 @@ table.dataTable td, table.dataTable th{
   right: 0px;
 }
 
+.animate_fade_right{
+  animation: fadeInRight 1s ease-in-out;
+}
+
 .notfication_bottom.active{
   border: 1px solid #D0D0D0;
 }
@@ -2227,6 +2231,7 @@ table.dataTable td, table.dataTable th{
   display: flex;
   align-items: center;
   animation: fadeInRight 1s ease-in-out;
+  cursor: pointer;
 }
 .bottom_notification_msg{
   height: 60px;
@@ -2311,7 +2316,7 @@ table.dataTable td, table.dataTable th{
 
 .notfication_bottom .notification_bottomn_cancel{
   display: block;
-  animation: fadeInRight 1s ease-in-out;
+  /* animation: fadeInRight 1s ease-in-out; */
 }
 
 .notfication_bottom.active .notification_bottomn_cancel{

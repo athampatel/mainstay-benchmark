@@ -150,6 +150,15 @@ User Edit - Admin Panel
                 <!-- data table end -->
                 
             </div>
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <div class="card">
+                        <div class="card-body">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda sunt quibusdam soluta inventore, tempora ad voluptatum quae consequatur fugit excepturi?
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

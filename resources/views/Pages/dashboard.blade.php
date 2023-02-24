@@ -21,23 +21,30 @@
                 @php
                     $customer_session =  session('customers');
                 @endphp
+                {{-- {{dd($customer_session)}} --}}
                 <div class="name">Customer info</div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
                   {{-- <div class="col-8 card-item-body">Adams Baker</div> --}}
-                  <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
+                  {{-- @if($customer_session) --}}
+                    <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
+                  {{-- @else 
+                    <div class="col-8 card-item-body"></div>
+                  @endif --}}
                 </div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Bill to Address</div><div>:</div></div>
                   {{-- <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div> --}}
                   @php 
                   $session_address = "";
-                  $session_address .= $customer_session[0]->addressline1 == "" ? '' : $customer_session[0]->addressline1 . ',';
-                  $session_address .= $customer_session[0]->addressline2 == "" ? '' : $customer_session[0]->addressline2 . ',';
-                  $session_address .= $customer_session[0]->addressline3 == "" ? '' : $customer_session[0]->addressline3 . ',';
-                  $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ',';
-                  $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ',';
-                  $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                  if($customer_session){
+                    $session_address .= $customer_session[0]->addressline1 == "" ? '' : $customer_session[0]->addressline1 . ',';
+                    $session_address .= $customer_session[0]->addressline2 == "" ? '' : $customer_session[0]->addressline2 . ',';
+                    $session_address .= $customer_session[0]->addressline3 == "" ? '' : $customer_session[0]->addressline3 . ',';
+                    $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ',';
+                    $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ',';
+                    $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                  }
                   @endphp
                   <div class="col-8 card-item-body">{{$session_address}}</span></div>
                 </div>

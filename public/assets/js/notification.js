@@ -34,11 +34,15 @@ jQuery(document).ready(function(){
                 $('#bottom_notification_disp').html(res.notification_code);
                 $('.navbar_notification_icon .notification_count').removeClass('d-none');
                 $('.navbar_notification_icon .notification_count').text(res.notifications_all.length);
-                const bottom_nofication_arrow = document.getElementById('bottom_message_arrow');
+                /* work on customer dashboard navbar work start */
+                /* work on customer dashboard navbar work end */
+                const bottom_nofication_arrow = document.querySelector('.notfication_bottom .notification');
                 const notification_bottom = document.querySelector('.notfication_bottom');
                 const notification_cancel = document.querySelector('.notification_bottomn_cancel');
                 bottom_nofication_arrow.onclick = function(){
                     notification_bottom.classList.toggle('active');
+                    notification_cancel.classList.remove('animate_fade_right');
+                    // notification_bottom.style.animation = none;
                 }
                 const bottom_nofication_close = document.querySelector('.messages .header .close');
                 bottom_nofication_close.onclick = function(){
@@ -67,12 +71,13 @@ setInterval(() => {
             const notification_bottom = document.querySelector('.notfication_bottom');
             if(res.success){ 
                 if(notification_bottom){
-                    let previous_count = parseInt($('#message_count').text());
-                    let count = previous_count + res.new_notifications.length;
+                    // let previous_count = parseInt($('#message_count').text());
+                    // let count = previous_count + res.new_notifications.length;
+                    let count = res.new_notifications.length;
                     $('#message_count').text(count);
                     $('.notification .count').text(count);
                     $('.navbar_notification_icon .notification_count').text(count);
-                    $('.notfication_bottom .messages-container').append(res.notification_message_code)
+                    $('.notfication_bottom .messages-container').html(res.notification_message_code)
                 } else {
                     $('.navbar_notification_icon .notification_count').removeClass('d-none');
                     $('.navbar_notification_icon .notification_count').text(res.all_notifications.length);

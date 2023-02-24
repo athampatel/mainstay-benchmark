@@ -77,10 +77,12 @@ class MenuController extends Controller
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
         $customer_no    = $request->session()->get('customer_no');
+        // dd($customer_no);
         $customers    = $request->session()->get('customers');
         // dd($customers);
         $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
+        // dd($data['region_manager']);
         return view('Pages.dashboard',$data); 
     }
 

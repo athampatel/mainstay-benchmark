@@ -167,7 +167,14 @@ class NotificationController extends Controller
 
     /* bottom notifications */
     public function getBottomNotifications(){
-        $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        // <div id="bottom_notification_disp"></div>  
+        if(auth('admin')->check()) {
+            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        } else {
+            $user_id = Auth::user()->id;
+            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
+        }
+        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
         if(!empty($notifications)){
             $notification_code = View::make("components.bottom-notification-component")
             ->with("notifications", $notifications)
@@ -183,10 +190,19 @@ class NotificationController extends Controller
     }
 
     public function getNewBottomNotifications(){
-        $start_time = date('Y-m-d h:i').':00';
-        $end_time = date('Y-m-d h:i').':59';
-        $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0 and created_at >= '".$start_time."' and created_at <= '".$end_time."'");
-        $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        // $start_time = date('Y-m-d h:i').':00';
+        // $end_time = date('Y-m-d h:i').':59';
+        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0 and created_at >= '".$start_time."' and created_at <= '".$end_time."'");
+        if(auth('admin')->check()) {
+            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+            $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
+        } else{
+            $user_id = Auth::user()->id;
+            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
+            $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
+        }
+        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+        // $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
         $notification_all_code = View::make("components.bottom-notification-component")
         ->with("notifications", $notifications_all)
         ->render();
@@ -216,6 +232,7 @@ class NotificationController extends Controller
         $notification = Notification::where('id',$id)->first();
         if($notification){
             $notification->is_read = 1;
+            $notification->status = 0;
             $notification->save();
             $response = ['success' => true];
             echo json_encode($response);

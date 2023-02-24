@@ -33,7 +33,7 @@
 											<input type="email" class="form-control" id="inputEmailAddress" name="email" value="" placeholder="Email Address *" required>
 										</div>
 										<div class="col-12">
-											<label for="inputPhoneNo" class="form-label">Contact No</label>
+											<label for="inputPhoneNo" class="form-label">Phone Number</label>
 											<input type="text" class="form-control" id="inputPhoneNo" name="phone_no" value="" placeholder="Contact No" >
 										</div>
 										<div class="col-12">

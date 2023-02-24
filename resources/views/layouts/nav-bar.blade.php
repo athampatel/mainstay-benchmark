@@ -183,7 +183,7 @@
                 </a>
             </div>
             </div>
-            <div class="notification_count_section active item-notification">
+            <div class="notification_count_section active item-notification navbar_notification_icon">
                 <div class="notification_icon">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                         <defs>
@@ -198,7 +198,7 @@
                         </g>
                     </svg>
                 </div>
-                <div class="notification_count">2</div>
+                <div class="notification_count d-none">2</div>
             </div>
         </div>
 
