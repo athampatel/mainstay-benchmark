@@ -597,7 +597,7 @@ class UsersController extends Controller
                 // env('APP_ENV')
                 // if()
                 if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
-                    $customer_emails = env('TEST_CUSTOMER_EMAIlS');
+                    $customer_emails = env('TEST_CUSTOMER_EMAILS');
                     $customer_emails = explode(',',$customer_emails);
                     foreach($customer_emails as $customer_email){
                         Mail::to($customer_email)->send(new \App\Mail\SendMail($params));
