@@ -10,7 +10,9 @@
                 <th class="border-0">Date</th>
                 <th class="border-0">Location</th>
                 <th class="border-0">Status</th>
+                @if($is_change_order)
                 <th class="border-0">Action</th>
+                @endif
             </tr>
         </thead>
         <tbody id="open-orders-page-table-body">
@@ -40,6 +42,7 @@
                     {{$saleorder['shiptocity']}}
                 </td>
                 <td class="status">Open</td>
+                @if($is_change_order)
                 <td class="action">
                     <a href="/order-change-order/{{$saleorder['salesorderno']}}" target="_blank">
                         Change
@@ -52,6 +55,7 @@
                         </svg>                         
                     </span>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>

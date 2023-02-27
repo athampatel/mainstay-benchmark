@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
-                        <div class="table-responsive" id="invoice-orders-page-table-div">
+                        <div class="table-responsive overflow-hidden" id="invoice-orders-page-table-div">
                         </div>
                         <div class="col-12 pb-2">
                             <div id="pagination_disp"></div>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\NotificationController;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 
 ini_set('max_execution_time', 300);
@@ -661,7 +662,15 @@ class SDEDataController extends Controller
                                 
                                 */
                 // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                $admin_emails = env('ADMIN_EMAILS');
+                if($admin_emails != ''){
+                    $admin_emails = explode(',',$admin_emails);
+                    foreach ($admin_emails as $admin_email) {
+                        // Mail::to($admin_email)->send(new \App\Mail\SendMail($params));
+                        Mail::bcc($admin_email)->send(new \App\Mail\SendMail($params));
+                    }
+                }
             }
             // Admin mail send work end
 

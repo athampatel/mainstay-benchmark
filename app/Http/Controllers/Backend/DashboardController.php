@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 class DashboardController extends Controller
 {
@@ -107,6 +108,7 @@ class DashboardController extends Controller
                             'link'      => ''); 
 
         return view('emails.email-body',compact('details')); */
+        // $routes = Route::getRoutes();
         return view('backend.pages.dashboard.index', compact('total_admins',
                                                             'total_roles', 
                                                             'total_permissions', 

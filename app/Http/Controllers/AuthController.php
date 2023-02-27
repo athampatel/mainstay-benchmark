@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use App\Models\SignupRequest;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -38,13 +39,13 @@ class AuthController extends Controller
     }
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
-        $_user    = User::where('email',$response['emailaddress'])->first();
+        $_user    = User::where('email',$response['emailaddress'])->where('active',1)->first();
         if(!empty($_user)){
+        // if($_user){
             return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
         }  
         $user   =  UserController::createUser($response,$action,$postdata);
 
-       
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $sales_person = array();
         if($response['salespersonemail'] != '')
@@ -70,6 +71,7 @@ class AuthController extends Controller
         $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
         $sp_email   = $response['salespersonemail'];
         $link       = "/fetch-customer/{$email}";
+        // dd(array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message , 'user' => $user ));
         return array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message , 'user' => $user );
     }
 
@@ -193,12 +195,19 @@ class AuthController extends Controller
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
-
-            \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
             // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-            \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-        }
+            // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+            $admin_emails = env('ADMIN_EMAILS');
+            if($admin_emails !=''){
+                $admin_emails = explode(',',$admin_emails);
+                foreach ($admin_emails as $admin_email) {
+                    // Mail::to($admin_email)->send(new \App\Mail\SendMail($details));
+                    Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
+                }
+            }
 
+        }
 
         return redirect()->back()->with($status, $message);
     }

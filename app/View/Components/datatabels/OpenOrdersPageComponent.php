@@ -12,9 +12,11 @@ class OpenOrdersPageComponent extends Component
      * @return void
      */
     public $saleorders = [];
-    public function __construct($saleorders)
+    public $is_change_order = false;
+    public function __construct($saleorders,$is_change_order)
     {
         $this->saleorders = $saleorders;
+        $this->is_change_order = $is_change_order;
     }
 
     /**

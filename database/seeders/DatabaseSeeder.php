@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
         // $this->call(CreateAdminSeeder::class);
         // $this->call(RolePermissionSeeder::class);
         // $this->call(ApiTypeSeeder::class);
-
         $this->call([
             CreateAdminSeeder::class,
             RolePermissionSeeder::class,
-            ApiTypeSeeder::class
+            ApiTypeSeeder::class,
+            CustomerMenuSeeder::class,
         ]);
     }
 }

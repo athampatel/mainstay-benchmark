@@ -44,7 +44,7 @@
                  <div class="card box card-background" style="background-color:#424448;border-radius:0.625rem;color:#fff;">
                       <div class="card-body col-12 p-3">
                           <div class="table-responsive">
-                              <table id="help-page-table" class="table">
+                              {{-- <table id="help-page-table" class="table">
                                 <thead>
                                   <tr>
                                     <th>Id</th>
@@ -60,9 +60,9 @@
                                             <td>{{$post->body}}</td>
                                           </tr>
                                       @endforeach
-                                  </tbody>
+                                  </tbody> --}}
                               </table>
-                              <x-pagination-component :pagination="$pagination" />
+                              {{-- <x-pagination-component :pagination="$pagination" /> --}}
                           </div>
                       </div>
                  </div>
@@ -71,7 +71,7 @@
       </div>
   </div>
 </div>
-@php 
+{{-- @php 
     $notifications = [
         [
             'title' => 'New Customers',
@@ -90,7 +90,7 @@
         ],
     ]
 @endphp
-<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" />
+<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" /> --}}
 @endsection
 
 @section('scripts')

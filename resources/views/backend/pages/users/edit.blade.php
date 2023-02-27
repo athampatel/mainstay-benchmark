@@ -44,7 +44,7 @@ User Edit - Admin Panel
                                     </div>
                                 </div>
 
-                                <h4 class="header-title">Change Password <small>(Leave it blank for no change))</small?</h4>   
+                                <h4 class="header-title">Change Password <small>(Leave it blank for no change))</small></h4>   
                                 <div class="form-row pt-4">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="password">Password</label>
@@ -55,6 +55,19 @@ User Edit - Admin Panel
                                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
                                     </div>
                                 </div>
+                                <h4 class="header-title">Customer Menus</h4>   
+                                @foreach($menus as $menu)
+                                    @if($loop->odd)
+                                        <div class="form-row pt-4">
+                                    @endif
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label for="password">{{$menu->name}}</label>
+                                            <input type="checkbox" class="ml-2 menus form-check-input" name="menus[]" placeholder="" value="{{$menu->id}}" {{ in_array("$menu->id",$menu_access) ? 'checked' : '' }}> 
+                                        </div>
+                                    @if($loop->even)
+                                        </div>
+                                    @endif
+                                @endforeach
                                 <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Update</button>
                             </form>
                         </div>
@@ -150,15 +163,27 @@ User Edit - Admin Panel
                 <!-- data table end -->
                 
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12 mt-2">
                     <div class="card">
                         <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda sunt quibusdam soluta inventore, tempora ad voluptatum quae consequatur fugit excepturi?
+                            @foreach ($menus as $menu)
+                                @if($loop->odd)
+                                <div class="row">
+                                @endif
+                                <div class="col text-white">
+                                    <input type="checkbox" class="form-checkbox menus" name="page_{{$menu->id}}"  value="{{$menu->id}}"> {{ $menu->name}}
+                                </div>
+                                @if($loop->odd)
+                                </div>
+                                @endif  
+                            @endforeach
+                            <input type="hidden" name="user_id" id="user_id" value="{{ Request::get('customer') }}">
+                            <button class="checkbox_menu btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
