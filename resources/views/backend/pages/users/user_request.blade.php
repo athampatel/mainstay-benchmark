@@ -240,8 +240,10 @@ User Create - Admin Panel
                         @else
                             <div class="card mb-3">                        
                                 <div class="card-body">
-                                    <div class="form-row d-flex flex-wrap mb-0">   
-                                         <a class="btn btn-primary pr-4 btn-rounded pl-4 px-5" href="{{route('admin.users.create')}}?email={{$userinfo['email']}}" target="_blank">Lookup Customer </a>     
+                                    <div class="form-row d-flex flex-wrap mb-0">
+                                        @if(isset($userinfo['email']))
+                                            <a class="btn btn-primary pr-4 btn-rounded pl-4 px-5" href="{{route('admin.users.create')}}?email={{$userinfo['email']}}" target="_blank">Lookup Customer </a>     
+                                        @endif
                                     </div>
                                 </div>
                             </div>        
