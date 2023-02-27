@@ -564,7 +564,7 @@ class UsersController extends Controller
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
-                dd($userinfo);
+                // dd($userinfo);
                 return view('backend.pages.users.user_request',compact('customers','user','userinfo')); 
             }
         }
