@@ -304,7 +304,6 @@ class MenuController extends Controller
             } else {
                 $pagination_code = '';
             }
-            /* menu work start */
             $change_order_menu_id = CustomerMenu::where('code','auth.customer.change-order')->pluck('id')->toArray();
             $change_order_menu_id = !empty($change_order_menu_id) ? $change_order_menu_id[0] : 0;
             $customers    = $request->session()->get('customers');
@@ -317,7 +316,6 @@ class MenuController extends Controller
                     $is_change_order = true;
                 } 
             }
-            /* menu work end */
             $table_code = View::make("components.datatabels.open-orders-page-component")
             ->with("saleorders", $response['salesorders'])
             ->with("is_change_order", $is_change_order)
