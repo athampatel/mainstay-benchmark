@@ -543,7 +543,7 @@ class UsersController extends Controller
             if($request_id)
                 $userinfo       = SignupRequest::find($request_id)->first();
             else
-                $userinfo       = SignupRequest::where('email','abdc@testreq.com')->first();
+                $userinfo       = SignupRequest::where('email',$email_address)->first();
             
             
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
@@ -564,6 +564,7 @@ class UsersController extends Controller
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
+                dd($userinfo);
                 return view('backend.pages.users.user_request',compact('customers','user','userinfo')); 
             }
         }
