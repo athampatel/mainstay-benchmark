@@ -35,14 +35,14 @@ Route::get('/delete',[AuthController::class,'delete']);
 
 // menu routes
 Route::middleware('auth')->group(function () {  
-    Route::get('/dashboard',[MenuController::class,'dashboard'])->name('customer.dashboard');
-    Route::get('/invoice',[MenuController::class,'invoicePage']);
-    Route::get('/open-orders',[MenuController::class,'openOrdersPage']);
+    Route::get('/dashboard',[MenuController::class,'dashboard'])->name('auth.customer.dashboard');
+    Route::get('/invoice',[MenuController::class,'invoicePage'])->name('auth.customer.invoice');
+    Route::get('/open-orders',[MenuController::class,'openOrdersPage'])->name('auth.customer.open-orders');
     // Route::get('/change-order',[MenuController::class,'changeOrderPage']);
-    Route::get('/vmi-user',[MenuController::class,'vmiUserPage']);
-    Route::get('/analysis',[MenuController::class,'analysisPage']);
-    Route::get('/account-settings',[MenuController::class,'accountSettingsPage']);
-    Route::get('/help',[MenuController::class,'helpPage']);
+    Route::get('/vmi-user',[MenuController::class,'vmiUserPage'])->name('auth.customer.vmi');
+    Route::get('/analysis',[MenuController::class,'analysisPage'])->name('auth.customer.analysis');
+    Route::get('/account-settings',[MenuController::class,'accountSettingsPage'])->name('auth.customer.account-settings');
+    Route::get('/help',[MenuController::class,'helpPage'])->name('auth.customer.help');
     // chart routes
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
     Route::get('/customer-invoice-orders',[SDEDataController::class,'getCustomerInvoiceOrders']);
@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     // open orders
     Route::get('/customer-open-orders-details',[SDEDataController::class,'getCustomerOpenOrdersDetails']);
-    Route::get('/order-change-order/{orderid}',[MenuController::class,'changeOrderPage']);
+    Route::get('/order-change-order/{orderid}',[MenuController::class,'changeOrderPage'])->name('auth.customer.change-order');
     Route::post('/change_order_items_save',[SDEDataController::class,'changeOrderPageSave']);
 
     // photo upload

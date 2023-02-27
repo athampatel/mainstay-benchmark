@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
 use App\Models\ApiData;
 use App\Models\ApiType;
+use App\Models\CustomerMenu;
+use App\Models\CustomerMenuAccess;
 use App\Models\Post;
 use App\Models\SalesPersons;
 use App\Models\User;
@@ -27,15 +29,15 @@ class MenuController extends Controller
        $menus = array('dashboard'           =>         array(  'name' => 'products & inventory', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/products_gray.svg')), 
                                                                 'active' => 0,  
-                                                                'link'=> '/dashboard'),
+                                                                'link'=> '/dashboard','code' => 'auth.customer.dashboard'),
                         'invoice'           =>          array(  'name' => 'invoiced orders', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/invoice_order_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/invoice'),
+                                                                'link'=> '/invoice','code' => 'auth.customer.invoice'),
                         'open-orders'       =>          array(  'name' => 'open orders', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/open_orders_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/open-orders'),
+                                                                'link'=> '/open-orders','code' => 'auth.customer.open-orders'),
                         // 'change-order'      =>          array(  'name' => 'change order', 
                         //                                         'icon_name' => file_get_contents(public_path('/assets/images/svg/change_order_gray.svg')),
                         //                                         'active' => 0,
@@ -43,23 +45,23 @@ class MenuController extends Controller
                         'vmi-user'          =>          array(  'name' => 'vmi user', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/vmi_user_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/vmi-user'),
+                                                                'link'=> '/vmi-user','code' => 'auth.customer.vmi'),
                         'analysis'          =>          array(  'name' => 'analysis', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/analysis_menu_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/analysis'),
+                                                                'link'=> '/analysis','code' => 'auth.customer.analysis'),
                         'account-settings'  =>          array(  'name' => 'account settings', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/account_settings_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/account-settings'),
+                                                                'link'=> '/account-settings','code' => 'auth.customer.account-settings'),
                         'help'              =>          array(  'name' => 'help', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/help_menu_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/help'),
+                                                                'link'=> '/help','code' => 'auth.customer.help'),
                         'logout'             =>          array( 'name' => 'logout', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/logout_menu_gray.svg')),
                                                                 'active' => 0,
-                                                                'link'=> '/logout')
+                                                                'link'=> '/logout','code' => 'auth.customer.logout')
         );
 
         if(isset($menus[$current])){
@@ -67,7 +69,6 @@ class MenuController extends Controller
         }else{
             $menus['dashboard']['active'] = 1;
         }
-     //   dd($menus);
         return $menus;
 
     }
@@ -76,10 +77,21 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
+
         $customer_no    = $request->session()->get('customer_no');
-        // dd($customer_no);
         $customers    = $request->session()->get('customers');
-        // dd($customers);
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['dashboard']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
+
         $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
         // dd($data['region_manager']);
@@ -95,217 +107,113 @@ class MenuController extends Controller
                     $request->session()->put('customer_no',$customer_no);
             }
         }
-        return redirect()->route('customer.dashboard');
+        return redirect()->route('auth.customer.dashboard');
     }
-    public function invoicePage(){
+    public function invoicePage(Request $request){
         $data['title']  = '';
         $data['current_menu']   = 'invoice';
         $data['menus']          = $this->NavMenu('invoice');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['invoice']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
         return view('Pages.invoice',$data);  
     }
     
-    public function openOrdersPage(){
+    public function openOrdersPage(Request $request){
         $final_data['title']  = '';
         $final_data['current_menu']   = 'open-orders';
         $final_data['menus']          = $this->NavMenu('open-orders');
-        // return view('pages.open-orders',$final_data);
-        // $posts = Post::paginate(10);
-        // $final_data['pagination'] = $posts->toArray();
-        return view('Pages.open-orders',$final_data);
-        // data getting work start
-        // $user_id = Auth::user()->id;
-        // $user_details = UserDetails::where('user_id',$user_id)->first();
-        // if($user_details){
-        //     $data = array(            
-        //         "filter" => [
-        //             [
-        //                 "column"=> "ARDivisionNo",
-        //                 "type"=> "equals",
-        //                 "value"=> "00",
-        //                 "operator"=> "and"
-        //             ],
-        //             [
-        //                 "column"=> "CustomerNo",
-        //                 "type"=> "equals",
-        //                 "value"=> "GEMWI00",
-        //                 "operator"=> "and"
-        //             ],
-        //         ],
-        //         "offset" => 1,
-        //         "limit" => 10,
-        //     );
-
-            
-        //     $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-        //     foreach($response['salesorders'] as $key => $order){
-        //         $total_amount = 0;
-        //         $total_quantity = 0;
-        //         foreach($order['details'] as $detail){
-        //             if($detail['quantityordered'] != 0){
-        //                 $total_quantity += $detail['quantityordered'];
-        //                 $total_amount += $detail['quantityordered'] * $detail['unitprice'];
-        //             }
-        //         }
-        //         $response['salesorders'][$key]['total_amount'] = $total_amount; 
-        //         $response['salesorders'][$key]['total_quantity'] = $total_quantity; 
-        //         $response['salesorders'][$key]['format_date'] = Carbon::createFromFormat('Y-m-d', $order['orderdate'])->format('M d,Y'); 
-        //     }
-        //     $final_data['orders'] = $response['salesorders'];
-        // }  
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $final_data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($final_data['menus']['open-orders']['code'],$final_data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $final_data['customer_menus'] = [];
+        }
         return view('Pages.open-orders',$final_data);
     }
     
-    public function changeOrderPage($orderid){           
+    public function changeOrderPage(Request $request,$orderid){           
+        // if()
         if(Auth::user()->is_vmi == 1){
             $final_data['title']  = '';
             $final_data['current_menu']   = 'change-order';
             $final_data['menus']          = $this->NavMenu('change-order');
-            // get order details work start
-            // $order_no = $request->order_no;
-            // $item_code = $request->item_code;
-           /* $data = array(            
-                "filter" => [
-                    [
-                        "column" =>  "SalesOrderNo",
-                        "type" =>  "equals",
-                        "value" => $orderid,
-                        "operator" =>  "and"
-                    ],
-                ],
-            );
-            $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-            if(empty($sales_order_history_header['salesorderhistoryheader'])){
-                    $response = ['success' => false, 'data' => [],'error' => ['No records found']];
-                    echo json_encode($response);
-                    die();
-            }
-            $sales_order_header = $sales_order_history_header['salesorderhistoryheader'][0];
-
-            $filter = [
-                [
-                    "column" =>  "SalesOrderNo",
-                    "type" =>  "equals",
-                    "value" => $orderid,
-                    "operator" =>  "and"
-                ],
-            ];
-
-            // if($item_code != ""){
-            //     $new_filter = [ 
-            //         "column" =>  "ItemCode",
-            //         "type" =>  "equals",
-            //         "value" => $item_code,
-            //         "operator" =>  "and"
-            //     ];
-            //     array_push($filter,$new_filter);
-            // }
-
-            $data1 = array(            
-                "filter" => $filter
-            );
-            $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-            $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
-            foreach ($sales_order_detail as $key => $sales_order) {
-                $data2 = array(            
-                    "filter" => [
-                        [
-                            "column" =>  "ItemCode",
-                            "type" =>  "equals",
-                            "value" => $sales_order['itemcode'],
-                            "operator" =>  "and"
-                        ],
-                    ],
-                );
-                $product_detail = $this->SDEApi->Request('post','Products',$data2);
-                $sales_order_detail[$key]['product_details'] = $product_detail['products'];
-            }
-            $sales_order_header['sales_order_history_detail'] = $sales_order_detail; */
             $user = User::find(Auth::user()->id);
 
             $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;
             $customer_no   = $request->session()->get('customers');
+            $customers    = $request->session()->get('customers');
+            $user_id = $customers[0]->user_id;
+            $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+            if($customer_menu_access){
+                $menu_access = explode(',',$customer_menu_access->access);
+                $final_data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+                if(!in_array($final_data['menus']['change-order']['code'],$final_data['customer_menus'])){
+                    return redirect()->back();
+                }
+            } else {
+                $final_data['customer_menus'] = [];
+            }
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
-            // dd($final_data);
             return view('Pages.change-order',$final_data);
         } else {
-            return redirect()->route('customer.dashboard');
+            return redirect()->route('auth.customer.dashboard');
         }
     }
     
-    public function vmiUserPage(){
+    public function vmiUserPage(Request $request){
         $data['title']  = '';
         $data['current_menu']   = 'vmi-user';
         $data['menus']          = $this->NavMenu('vmi-user');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['vmi-user']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
         return view('Pages.vmi-user',$data);
     }
 
     // analysis page
-    public function analysisPage(){
+    public function analysisPage(Request $request){
         $data['title']  = '';
         $data['current_menu']   = 'analysis';
         $data['menus']          = $this->NavMenu('analysis');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['analysis']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
         return view('Pages.analysis',$data);
-        // $arr = [
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-04-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 145,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-04-15',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 100,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-03-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 153,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-02-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 165,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-01-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 98,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-08-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 200,
-        //     ],
-        //     [
-        //         'no' => '87145254',
-        //         'date' => '2022-10-08',
-        //         'custpono' => '1234',
-        //         'city' => 'city',
-        //         'total_items' => 10,
-        //         'total_amount' => 198,
-        //     ],
-        // ];
-        // $data['response'] = $arr;
-        // return view('pages.analysis',$data);
     }
     
     public function accountSettingsPage(request $request){
@@ -314,19 +222,40 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('account-settings');
         $user_id = Auth::user()->id;
         $customer_no   = $request->session()->get('customer_no');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['account-settings']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         return view('Pages.account-settings',$data);
     }
-    public function helpPage(){
+    public function helpPage(Request $request){
         $data['title']  = '';
         $data['current_menu']  = 'help';
         $data['menus']         = $this->NavMenu('help');
         $data['posts'] = Post::paginate(10);
         $posts = Post::paginate(10);
         $data['pagination'] = $posts->toArray();
-        // $data['posts'] = Post::paginate(10)->withQueryString();
-        // $data['posts'] = Post::cursorPaginate(10);
-        // $data['posts'] = Post::cursorPaginate(10);
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($data['menus']['help']['code'],$data['customer_menus'])){
+                return redirect()->back();
+            }
+        } else {
+            $data['customer_menus'] = [];
+        }
         return view('Pages.help',$data);
     }
 
@@ -368,12 +297,30 @@ class MenuController extends Controller
 
             $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getOpenOrders');
             
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
-    
+            if($custom_pagination['last_page'] > 1){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            } else {
+                $pagination_code = '';
+            }
+            /* menu work start */
+            $change_order_menu_id = CustomerMenu::where('code','auth.customer.change-order')->pluck('id')->toArray();
+            $change_order_menu_id = !empty($change_order_menu_id) ? $change_order_menu_id[0] : 0;
+            $customers    = $request->session()->get('customers');
+            $user_id = $customers[0]->user_id;
+            $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+            $is_change_order = false;
+            if($customer_menu_access){
+                $menu_access = explode(',',$customer_menu_access->access);
+                if(in_array($change_order_menu_id,$menu_access)){
+                    $is_change_order = true;
+                } 
+            }
+            /* menu work end */
             $table_code = View::make("components.datatabels.open-orders-page-component")
             ->with("saleorders", $response['salesorders'])
+            ->with("is_change_order", $is_change_order)
             ->render();
             
             $response['pagination_code'] = $pagination_code;
@@ -492,9 +439,11 @@ class MenuController extends Controller
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             // dd($response);
             $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
+            if($custom_pagination['last_page'] > 1){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            }
     
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
             ->with("invoices", $response['salesorders'])

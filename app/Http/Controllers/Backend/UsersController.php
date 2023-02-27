@@ -23,11 +23,13 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
+use App\Models\CustomerMenu;
+use App\Models\CustomerMenuAccess;
 use App\Models\SignupRequest;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -250,7 +252,7 @@ class UsersController extends Controller
                 'email' => 'required|max:100|email|unique:users',
                 'salespersonno' => 'required|min:1',
             ]);
-
+            
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
@@ -288,7 +290,9 @@ class UsersController extends Controller
                 foreach($customer as $_customer){
                     if(!$user_id){
                         $response = $this->CreateCustomer($_customer);
-                        $user_id  = $response['id'];
+                        if($response['status'] != 0){
+                            $user_id  = $response['id'];
+                        }
                     }else{
                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
                     }
@@ -314,19 +318,26 @@ class UsersController extends Controller
     }
 
     public function CreateCustomer($postdata = null){
-
+        // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
-        $user       = isset($response['user']) ? $response['user'] : null;
-        $message    = 'Opps something went wrong';
-        $status     = 'error';  
-        $id         = 0;
-        if(!empty($user)){            
-            $this->sendActivationLink($user->id);
-            $message    = 'User has been created !!';
-            $status     = 'success';    
-            $id         = $user->id;
-        }
-        return array('status' => $status,'message' => $message,'id' => $id);
+        // if($response->getTargetUrl()){
+        //     return array('status' => 0);
+        // } else {
+        //     dd('not redirect');
+        // }
+        // die();
+            $user       = isset($response['user']) ? $response['user'] : null;
+            $message    = 'Oops something went wrong';
+            $status     = 'error';  
+            $id         = 0;
+            if(!empty($user)){            
+                $this->sendActivationLink($user->id);
+                $message    = 'User has been created !!';
+                $status     = 'success';    
+                $id         = $user->id;
+            }
+            return array('status' => $status,'message' => $message,'id' => $id);
+        // }
     }
     /**
      * Display the specified resource.
@@ -365,7 +376,14 @@ class UsersController extends Controller
                           'sales_persons.name as salespersonname'])->where('users.id',$id)->first();
 
         $roles  = Role::all();
-        return view('backend.pages.users.edit', compact('user'));
+        $menus = CustomerMenu::all();
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+        } else{
+            $menu_access = [];
+        }
+        return view('backend.pages.users.edit', compact('user','menus','menu_access'));
     }
 
     /**
@@ -387,7 +405,31 @@ class UsersController extends Controller
             'password' => 'nullable|min:6|confirmed',
         ]);
 
-
+        /* menu save work start */
+        // $customer_menu_access =  CustomerMenu
+        $customerAccess = CustomerMenuAccess::where('user_id',$id)->first();
+        $access_menus  = "";
+        $menus = $request->menus;
+        $total_count = count($menus);
+        $i = 1;
+        foreach($request->menus as $menu){
+            if($i == $total_count ){
+                $access_menus .= "$menu";
+            } else {
+                $access_menus .= "$menu,";
+            }
+            $i++;
+        }
+        if($customerAccess){
+            $customerAccess->access = $access_menus;
+            $customerAccess->save();
+        } else {
+            CustomerMenuAccess::create([
+                'user_id' => $id,
+                'access' => $access_menus
+            ]);
+        }
+        /* menu save work end*/
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password) {
@@ -550,8 +592,10 @@ class UsersController extends Controller
                                 'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
 
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
-                \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-
+                // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                // Mail::to($user->email)->send(new \App\Mail\SendMail($params));
+                Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                Mail::to('prakasha@tendersoftware.in')->send(new \App\Mail\SendMail($params));
                 // email send work end
                 $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
             } else {

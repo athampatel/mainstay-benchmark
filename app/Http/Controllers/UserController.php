@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerMenu;
+use App\Models\CustomerMenuAccess;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\SalesPersons;
@@ -20,8 +22,10 @@ class UserController extends Controller
                             'activation_token'  => '',
                             // 'activation_token' => Str::random(30),
         );
-
-        $user = User::create($userData);
+        $user = User::where('email',$data['emailaddress'])->first();
+        if(!$user){
+            $user = User::create($userData);
+        }
         if($action == 1) {
             $user->activation_token = Str::random(40);;
             $user->active = 1;
@@ -33,6 +37,22 @@ class UserController extends Controller
                 $user->is_vmi = 1;
                 $user->save();
             }
+            
+            $menus = CustomerMenu::all()->pluck('id');
+            $access = "";
+            $total_menus = count($menus);
+            $i = 1;
+            foreach($menus as $menu){
+                if($i == $total_menus){
+                    $access .= "$menu";
+                } else {
+                    $access .= "$menu,";
+                }
+            }
+            CustomerMenuAccess::create([
+                'user_id' => $user->id,
+                'access' => $access
+            ]);
         }
 
         if(!$user) return false;
@@ -52,7 +72,7 @@ class UserController extends Controller
                             'zipcode'           => $data['zipcode'],
                             'email'             => $data['emailaddress']);
        
-        if(empty($dataUser))
+        if(empty($user_details))
             $user_details = UserDetails::create($user_data);
         else
             $user_details->save($user_data);

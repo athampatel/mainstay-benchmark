@@ -8,6 +8,7 @@ use App\Models\SalesPersons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
@@ -29,6 +30,16 @@ class AdminsController extends Controller
      */
     public function index(Request $request)
     {
+        // $admin_emails = env('ADMIN_EMAILS');
+        // if($admin_emails !=''){
+            
+        //     $admin_emails = explode(',',$admin_emails);
+        // }
+        // dd($admin_emails);
+        // foreach ($admin_emails as $admin_email) {
+        //     // Mail::to($admin_email)->send(new \App\Mail\SendMail($params));
+        //     // Mail::bcc($admin_email)->send(new \App\Mail\SendMail($params));
+        // }
         if (is_null($this->user) || !$this->user->can('admin.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view any admin !');
         }
@@ -96,7 +107,8 @@ class AdminsController extends Controller
         }
 
         if($request->input('send_password')){
-            $to = 'atham@tendersoftware.in'; // $to = $admin->email;
+            // $to = 'atham@tendersoftware.in';
+            $to = $admin->email;
             $url    = 
             $details['subject'] = "Your Login Credentials";    
             $details['title']   = "Your Login Credentials";    
@@ -104,7 +116,8 @@ class AdminsController extends Controller
             $details['mail_view']    = "emails.new-account-details";
             
             $details['link']    = env('APP_URL').'/admin/login/';
-            \Mail::to($to)->send(new \App\Mail\SendMail($details));
+            // \Mail::to($to)->send(new \App\Mail\SendMail($details));
+            Mail::to($to)->send(new \App\Mail\SendMail($details));
         }
 
         

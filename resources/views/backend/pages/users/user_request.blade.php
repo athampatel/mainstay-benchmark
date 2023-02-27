@@ -64,10 +64,9 @@ User Create - Admin Panel
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                             @csrf 
-
-
-
+                            
                             @foreach($customers as $key => $user_info)
+                            <input type="hidden" name="create_user[{{$key}}]" value="1">
                             <div class="card mb-3">
                                 <div class="card-body">
                                     @if(count($customers) > 1)
