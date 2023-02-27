@@ -111,6 +111,7 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
  * Admin routes
  */
 
+Route::redirect('/login', '/sign-in');
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
 
