@@ -593,9 +593,18 @@ class UsersController extends Controller
 
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                // Mail::to($user->email)->send(new \App\Mail\SendMail($params));
-                Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                Mail::to('prakasha@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                // env('APP_ENV')
+                // if()
+                if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
+                    $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                    $customer_emails = explode(',',$customer_emails);
+                    foreach($customer_emails as $customer_email){
+                        Mail::to($customer_email)->send(new \App\Mail\SendMail($params));
+                    }
+                }  else {
+                    Mail::to($user->email)->send(new \App\Mail\SendMail($params));
+                }
                 // email send work end
                 $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
             } else {
