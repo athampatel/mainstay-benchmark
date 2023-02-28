@@ -1404,8 +1404,7 @@ nav .profile-details i{
  .slider1 {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
+  top: 0;  
   right: 0;
   bottom: 0;
   background-color:#fff;
@@ -2031,7 +2030,7 @@ nav .profile-details i{
 }
 .slider1:before{
   height: 2.3125rem;
-  width: 10.125rem;
+  width: 10.5rem;
   font-size: 0.75rem;
   font-weight: 700;
   background-color: #424448;
@@ -2565,20 +2564,37 @@ table.dataTable td, table.dataTable th{
     justify-content: space-between;
     margin-bottom: 0.5rem;
   }
+
+
+  .range-filter,.toggle-switcher{
+    width: 46%;
+  }
   .analysis-filter label select,
-  .toggle-switcher,.switch1{
+  .switch1{
+    width: 100%;
+  }
+  .analysis-filter label .down-arrow{
+    top:55%;
+  }
+  .slider1{
+    top:1.25rem;
+  }
+
+ /* .toggle-switcher .slider1{
     width: 100%;
   }
   .slider1:before{
     width: 50%;
   }
   #tab_input:checked + .slider1:before{
-    left: 3rem;
-  }
+    left: 2.5rem;
+  }*/
   .analysis-filter label{
     margin-left: 0rem;
     width: 48%;
   }
+
+  
  
   
 }
@@ -2598,6 +2614,32 @@ table.dataTable td, table.dataTable th{
   #tab_input:checked + .slider1:before{
     left: 2rem;
   }
+
+  .range-filter,.toggle-switcher{
+    width: 100%;
+  }
+  .analysis-filter label select,
+  .switch1{
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .analysis-filter label .down-arrow{
+    top:55%;
+  }
+  .slider1{
+    top:0rem;
+  }
+  #tab_input:checked + .slider1:after,
+  .slider1:before{
+    width: 50%;
+    left: 0px;
+  }
+  #tab_input:checked + .slider1:before{
+      transform: none !important;
+      left: auto;
+      right: 0px;
+      width: 50%;
+  }
 }
 
 @media (max-width: 550px) {
@@ -2610,7 +2652,7 @@ table.dataTable td, table.dataTable th{
   }
   .col-filter  .item-search{
     width: 100%;
-    margin-bottom: 0rem;
+    margin-top: 0.5rem;
   }
   .col-filter .datatable-search-input{
     width: 100%;

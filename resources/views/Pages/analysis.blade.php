@@ -14,7 +14,7 @@
 </div>
 <div class="home-content">
     <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap">
-        <div class="d-flex  align-items-center flex-wrap">
+        <div class="d-flex  align-items-center flex-wrap range-filter">
             <div class="page_title p-0">Analysis</div>
             <div class="d-flex analysis-filter">
                 <label for="" class="position-relative">
@@ -51,7 +51,7 @@
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
-                        <div class="col-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                        <div class="col-12 col-lg-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search"">
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
@@ -122,7 +122,7 @@
     <div class="padding-y-40 open-orders analysis_table_container" id="analysis_table_chart">
         <div class="col-12">
             <div class="card box" style="background:rgb(66, 68, 72)">
-                <div class="card-header col-12 p-3 d-flex align-items-center border-0">
+                <div class="card-header col-12 p-3 d-flex align-items-center border-0 justify-content-end">
                     <div class="col-6 d-flex align-items-center d-none d-lg-block">
                     </div>
                     <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end">
