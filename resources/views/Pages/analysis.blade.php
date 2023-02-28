@@ -87,7 +87,7 @@
                                         <th class="border-0">Invoice Number</th>
                                         <th class="border-0 text-center">Invoice Date</th>
                                         <th class="border-0">Customer PO Number</th>
-                                        <th class="border-0">Ship-to City,State</th>
+                                        <th class="border-0">City, State</th>
                                         <th class="border-0">Total Number of Items</th>
                                         <th class="border-0">Total Invoiced Amount</th>
                                     </tr>
@@ -123,9 +123,9 @@
         <div class="col-12">
             <div class="card box" style="background:rgb(66, 68, 72)">
                 <div class="card-header col-12 p-3 d-flex align-items-center border-0">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-6 d-flex align-items-center d-none d-lg-block">
                     </div>
-                    <div class="col-6 d-flex align-items-center justify-content-end">
+                    <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end">
                       <a class="btn btn-rounded btn-medium btn-bordered mr-2 export-chart-btn">EXPORT REPORT</a>
                       <a class="btn btn-rounded btn-medium btn-primary-dark">MORE DETAILS</a>
                     </div>

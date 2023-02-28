@@ -429,6 +429,7 @@ nav .notification_section .notification_icons .notification_count_section{
   width: 100%;
   padding: 0.5rem 1rem;
   color: #FFF;
+  font-size: 0.865rem;
 }
 .notification_section .profile-details .dropdown-menu .dropdown-item i{
   color: #FFF;
@@ -447,6 +448,7 @@ nav .profile-details img{
   object-fit: cover;
 }
 
+
 nav .profile-details .profile_position{
   font-size: 0.75rem;
   font-weight: 400;
@@ -454,6 +456,9 @@ nav .profile-details .profile_position{
   margin: 0 0.652rem;
   white-space: nowrap;
   text-transform: uppercase;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 nav .profile-details .profile_name{
@@ -463,7 +468,9 @@ nav .profile-details .profile_name{
   margin: 0 0.652rem;
   white-space: nowrap;
 }
-
+.dropdown-toggle-nocaret{
+  padding-left: 0px;
+}
 
 nav .profile-details i{
   font-size: 1.5rem;
@@ -857,7 +864,7 @@ nav .profile-details i{
 }
 
 .height_144{
-  height: 9rem;
+  height: 12rem;
 }
 
 .overview-boxes .form-control:autofil,
@@ -1308,7 +1315,6 @@ nav .profile-details i{
 #customer_sales_history{
   min-height: 23.5rem;
 }
-
 @media screen and (min-width: 1025px){
   .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper {
       width: 4.375rem;
@@ -2096,10 +2102,10 @@ nav .profile-details i{
   content: '';
 }
 .hamburger span:before {
-  top: -0.625rem; 
+  top: -0.525rem; 
 }
 .hamburger span:after {
-  bottom: -0.625rem;
+  bottom: -0.525rem;
 }
 /*
 #hamburger span, #hamburger span:before, #hamburger span:after {
@@ -2398,6 +2404,16 @@ table.dataTable td, table.dataTable th{
     opacity: 1;
   }
 }
+
+
+
+@media screen and (max-width: 1500px){
+  html{
+    font-size: 80%;
+
+  }
+}
+
 @media (max-width: 1240px) {
   .sidebar{
     width: 3.75rem;
@@ -2480,6 +2496,7 @@ table.dataTable td, table.dataTable th{
   .wrapper.toggled .sidebar, .sidebar.active{
     width: 100%;
     max-width: 17rem;
+    min-width: 17rem;
     transform: translate3d(0%, 0rem, 0rem);
     z-index: 999;
   }
@@ -2541,7 +2558,7 @@ table.dataTable td, table.dataTable th{
   .wrapper.toggled .home-section nav .sidebar-button{
     min-width: 5rem;
     position: absolute;
-    left: 18rem;
+    left: 2rem;
   }
   .analysis-filter{
     width: 100%;
@@ -2566,6 +2583,23 @@ table.dataTable td, table.dataTable th{
   
 }
 
+@media (max-width: 767px) {
+  html{
+    font-size: 95%;
+  }
+  .analysis-filter label .down-arrow{
+    top:60%;
+    z-index: 1;
+  }
+  .slider1{
+      width: 100%;
+  }
+  
+  #tab_input:checked + .slider1:before{
+    left: 2rem;
+  }
+}
+
 @media (max-width: 550px) {
   .col-filter{
     width: 100%;
@@ -2576,7 +2610,7 @@ table.dataTable td, table.dataTable th{
   }
   .col-filter  .item-search{
     width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0rem;
   }
   .col-filter .datatable-search-input{
     width: 100%;
@@ -2661,6 +2695,10 @@ table.dataTable td, table.dataTable th{
     flex-direction:column-reverse;
   }
   
+  .nav-item.mobile-search-icon{
+    position: relative;
+    left: -1rem;
+  }
 }
   @media (max-width: 400px) {
   

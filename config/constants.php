@@ -19,37 +19,37 @@
             'confirmation_error' => 'Customer not found',
         ],
         'customer_update' => [
-            'confirmation_message' => 'Customer has been updated'
+            'confirmation_message' => 'Customer has been updated successfully'
         ],
         'customer_delete' => [
-            'confirmation_message' => 'User has been deleted !!'
+            'confirmation_message' => 'Customer has been deleted'
         ],
         'change_order_request' => [
             'not_found' => 'change request not found' 
         ],
         'email_verification' => [
-            'confirmation_message' => 'verification-link-sent'
+            'confirmation_message' => 'Verification link sent'
         ],
         'customer_login' => [
-            'success_message' => 'Successully Logged in !',
+            'success_message' => 'Successully Logged in',
             'error_message' => 'Invalid email and password'
         ],
-        'admin_error_403' => 'Sorry !! You are Unauthorized to view any admin !',
-        'dashboard_error_403' => 'Sorry !! You are Unauthorized to view dashboard !',
+        'admin_error_403' => 'Sorry !! You are Unauthorized to view any admin',
+        'dashboard_error_403' => 'Sorry !! You are Unauthorized to view dashboard',
         'admin_create' => [
-            'confirmation_message' => 'Admin has been created !!',
+            'confirmation_message' => 'Admin has been created successfully',
         ],
         'superadmin_update' => [
-            'error' => 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test !',
+            'error' => 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test',
         ],
         'admin_update' => [
-            'confirmation_message' => 'Admin has been updated !!'
+            'confirmation_message' => 'Admin has been updated successfully'
         ],
         'superadmin_delete' => [
-            'error' => 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test !'
+            'error' => 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test'
         ],
         'admin_delete' => [
-            'confirmation_message' => 'Admin has been deleted !!'
+            'confirmation_message' => 'Admin has been deleted'
         ]
     ];
     config('constants.customer_update.confirmation_messsage');
