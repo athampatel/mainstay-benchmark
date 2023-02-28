@@ -66,7 +66,7 @@ User Create - Admin Panel
                             @csrf 
                             
                             @foreach($customers as $key => $user_info)
-                            <input type="hidden" name="create_user[{{$key}}]" value="1">
+                            {{-- <input type="hidden" name="create_user[{{$key}}]" value="1"> --}}
                             <div class="card mb-3">
                                 <div class="card-body">
                                     @if(count($customers) > 1)
@@ -230,13 +230,14 @@ User Create - Admin Panel
                                         @if(isset($user->id))
                                             <button class="btn btn-primary btn-rounded pr-4 pl-4" id="activate_user">Activate Customer </button>
                                         @else
+                                            <input type="hidden" name="create_user[{{$key}}]" value="1">
                                             <button class="btn btn-primary btn-rounded pr-4 pl-4 create_customers" id="create_customers">Create Customer </button>
                                         @endif
                                     
                                         <button class="btn btn-danger btn-rounded pr-4 pl-4" id="cancel_user">Decline Request</button>
                                     </div>
                                 </div>        
-                                </form> 
+                            </form> 
                         @else
                             <div class="card mb-3">                        
                                 <div class="card-body">
@@ -248,7 +249,6 @@ User Create - Admin Panel
                                 </div>
                             </div>        
                         @endif        
-                        
                 </div>
                 <!-- data table end -->
                 
@@ -266,12 +266,14 @@ User Create - Admin Panel
         $('.select2').select2();
     })
 
-    $(document).on('click','#activate_user',function(){
+    $(document).on('click','#activate_user',function(e){
+        e.preventDefault();
         $user_id = $('#user_id').val();
         AjaxRequest('/admin/user/activate','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
     });
 
-    $(document).on('click','#cancel_user',function(){
+    $(document).on('click','#cancel_user',function(e){
+        e.preventDefault();
         $user_id = $('#user_id').val();
         AjaxRequest('/admin/user/cancel','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
     });
@@ -290,10 +292,6 @@ User Create - Admin Panel
     }
 
     function userActivateResponseAction(res){
-
-        console.log(res);
-        return false;
-        
         if(res.success){
             $('#user_activate_message').text(res.message).removeClass('d-none');
             setTimeout(() => {

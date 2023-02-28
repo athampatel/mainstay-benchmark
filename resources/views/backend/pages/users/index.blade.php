@@ -107,7 +107,7 @@ Customers - Admin Panel
                                                     @if( $user->active == 1)
                                                         <span class="btn btn-success btn-rounded text-white" style="padding:5px;pointer-events:none;">Active</span>           
                                                     @elseif( $user->active == 0 && $user->is_deleted == 0)
-                                                        <a href="{{env('APP_URL')}}/admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark" style="padding:5px;">New</a>
+                                                        <a href="{{env('APP_URL')}}admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark" style="padding:5px;">New</a>
                                                     @endif
 
                                                     @if($user->is_vmi == 1 && $user->vmi_companycode != '' )
