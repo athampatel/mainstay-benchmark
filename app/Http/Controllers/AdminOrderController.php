@@ -85,7 +85,7 @@ class AdminOrderController extends Controller
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
                                     'action'    => '',
-                                    'status'    => 0,
+                                    'status'    => 1,
                                     'is_read'   => 0);                
 
             $notification = new NotificationController();

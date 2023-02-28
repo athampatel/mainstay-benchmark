@@ -680,7 +680,7 @@ class SDEDataController extends Controller
                                     'to_user'   => 0,
                                     'text'      => 'Change Order request',
                                     'action'    => $url,
-                                    'status'    => 0,
+                                    'status'    => 1,
                                     'is_read'   => 0);                
 
             $notification = new NotificationController();                        

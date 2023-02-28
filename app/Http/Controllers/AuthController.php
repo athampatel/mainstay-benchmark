@@ -196,15 +196,13 @@ class AuthController extends Controller
                                     'to_user'  => 0,
                                     'text'      => $message,
                                     'action'    => $url,
-                                    'status'    => 0,
+                                    'status'    => 1,
                                     'is_read'   => 0,
                                     'request_id' => $request_id);                
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
             // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-            // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
             $admin_emails = env('ADMIN_EMAILS');
             if($admin_emails !=''){
                 $admin_emails = explode(',',$admin_emails);
