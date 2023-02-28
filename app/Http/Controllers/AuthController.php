@@ -40,6 +40,7 @@ class AuthController extends Controller
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
 
+        // dd($response);
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
@@ -47,6 +48,7 @@ class AuthController extends Controller
             //return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
             return array('sp_email' => $email,'message' => 'Customer already exists' , 'user' => $_user,'status' => 0 );
         }  
+        
         $user   =  UserController::createUser($response,$action,$postdata);
 
         
@@ -142,7 +144,7 @@ class AuthController extends Controller
                         return $_details;
 
                     $error   = 0;
-                }elseif(count($response['customers']) > 1){
+                } elseif(count($response['customers']) > 1){
                     $_multiple  = 1;
                 }
             }
@@ -156,9 +158,10 @@ class AuthController extends Controller
                 $data_request   = SignupRequest::create($signupdata);   
                 $request_id     = $data_request->id;            
                 $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
-            }else{
-                $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             }
+            // else{
+            //     $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
+            // }
             $details['title']   = "New customer request for portal access";   
             $details['subject'] = "New customer request for member portal access";
            
@@ -175,6 +178,9 @@ class AuthController extends Controller
             $status     = isset($details['status']) ? $details['status'] : '';
             //$user       = User::where('email',$request->email)->first();           
         }
+        
+        $user = User::where('email',$request->email)->where('active',0)->first();
+        
         if($user){
             $user->activation_token = Str::random(30);
             $user->save();

@@ -25,11 +25,13 @@ use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
 use App\Models\CustomerMenu;
 use App\Models\CustomerMenuAccess;
+use App\Models\Notification;
 use App\Models\SignupRequest;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class UsersController extends Controller
 {
@@ -254,7 +256,7 @@ class UsersController extends Controller
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
-        }else{
+        } else {
            // $email_address  = $postdata['email'];
             $duplicate      = array();
             $customer       = array();
@@ -518,6 +520,13 @@ class UsersController extends Controller
     }
 
     public function getUserRequest($user_id,$admin_token = ''){
+        $is_notification = Notification::where('to_user',0)->where('action',URL::full())->where('status',1)->where('is_read',0)->first();
+        if($is_notification){
+            $is_notification->status = 0;
+            $is_notification->is_read = 1;
+            $is_notification->save();
+        }
+
         $current_user = $this->user;
         
         $isManager    = DashboardController::isManager($user_id,$current_user);
@@ -534,7 +543,7 @@ class UsersController extends Controller
             if(is_numeric($user_id)){
                 $user = User::find($user_id);              
               //  if($user && $user->active == 0 && $user->activation_token != '')
-                    $email_address = $user->email;            
+                $email_address = $user->email;            
             }else{
                 $email_address  = $user_id;
                 $user           = array();
@@ -583,10 +592,15 @@ class UsersController extends Controller
                 
                 $token = Str::random(30);
                 $_token = Hash::make($token);
-                DB::table('password_resets')->insert(
-                    // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
-                    ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
-                );
+                $is_password_reset = DB::table('password_resets')->where('email',$user->email)->first();
+                if($is_password_reset){
+                    DB::table('password_resets')->where('email',$user->email)->update(['token' => $_token,'created_at' =>date('Y-m-d h:i:s')]);
+                } else {
+                    DB::table('password_resets')->insert(
+                        // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
+                        ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
+                    );
+                }
 
                 $params = array('mail_view' => 'emails.user-active', 
                                 // 'subject' => 'reset password link', 
@@ -719,18 +733,25 @@ class UsersController extends Controller
     }
 
     public function ExportAllCustomers(){
-        
-		$table = User::all();
+		$customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get();
         $filename = "customers.csv";
         $handle = fopen($filename, 'w+');
 		fputcsv($handle, array(
-			'name',
-			'email'
+			'CUSTOMER NO',
+			'CUSTOMER NAME',
+			'EMAIL',
+			'AR DIVISION NO',
+			'BENCHMARK REGIONAL MANAGER',
 		));
-        foreach($table as $row) {
+        foreach($customers as $customer) {
             fputcsv($handle, array(
-                $row->name,
-                $row->email,
+                $customer->customerno,
+                $customer->customername,
+                $customer->email,
+                $customer->ardivisionno,
+                $customer->name,
             )); 
         }
         fclose($handle);
