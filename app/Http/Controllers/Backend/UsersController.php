@@ -251,7 +251,6 @@ class UsersController extends Controller
                 'email' => 'required|max:100|email|unique:users',
                 'salespersonno' => 'required|min:1',
             ]);
-            
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];

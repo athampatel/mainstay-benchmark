@@ -79,7 +79,7 @@ Admin Create - Admin Panel
                                         <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Create</button>
+                                <button type="submit" class="btn btn-primary btn-rounded mt-4 pr-4 pl-4">Create</button>
                             </form>
                         </div>
                     </div>

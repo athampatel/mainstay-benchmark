@@ -72,7 +72,7 @@ Role Create - Admin Panel
                                         @php  $i++; @endphp
                                     @endforeach
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Role</button>
+                                <button type="submit" class="btn btn-primary btn-rounded mt-4 pr-4 pl-4">Save Role</button>
                             </form>
                         </div>
                     </div>

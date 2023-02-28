@@ -223,14 +223,19 @@ User Create - Admin Panel
                 $(this).parent().addClass('active');                
                 $(this).addClass('active');
                 $('.userDetails-container').fadeIn();
-                
                 var _html = '<div id="'+customerno+'"><input type="hidden" name="create_user['+customerno+']" value="'+customerno+'" />';
                 $.each(parseData,function(ind,value){
                    _html += '<input type="hidden" name="'+ind+'['+customerno+']" value="'+value+'" />';
                 });
                 _html += '</div>';
-                $('#multiple-data .dynamic-values').append(_html);
+                $('#multiple-data .dynamic-values').append(_html);                
                 rendorUserForm(parseData,0);
+                if(parseData.salespersonemail == '' || parseData.salespersonno == ''){
+                    $(this).parent().addClass('error-active');  
+                    $('#customer_response_alert').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('Customer No ('+parseData.customerno+') missing region manager details');  
+                   $(this).prop('checked',false);
+                }
+
             }else{
                 $(this).parent().removeClass('active');
                 $('#multiple-data .dynamic-values').find('#'+customerno).remove();  
@@ -319,6 +324,7 @@ User Create - Admin Panel
                     $('#customer_response_alert').addClass('alert-success');
                     $('#customer_response_alert').removeClass('alert-danger');
                     $('.userDetails-container').fadeIn();
+                    $('#create-customer .btn-primary').show();
                     // 
                     /*setTimeout(() => {
                         $('#customer_response_alert').addClass('d-none');

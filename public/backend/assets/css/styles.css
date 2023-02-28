@@ -216,7 +216,7 @@
 }
 
 .metismenu li ul {
-    padding:0.935rem;
+    padding:0.935rem 0px 0.935rem 0.935rem;
 }
 
 .metismenu >li:hover>a,
@@ -2053,6 +2053,18 @@ p.card-text {
 }
 .form-control.search-control{
     padding-left: 3rem;
+    background-color: transparent !important;
+    color: #484848 !important;
+    font-size: 1rem;
+    outline: none !important;
+}
+
+.form-control.search-control::placeholder {
+    opacity: 0.5 !important;
+    color: #333 !important;
+}
+.form-control.search-control::-ms-input-placeholder {
+    color: #333 !important;
 }
 .error-field.form-control{
     border:1px solid red !important;
@@ -3063,6 +3075,13 @@ div.dataTables_wrapper div.dataTables_info{
     border-color: #9FCC47;
     color: #424448;
 }
+.multiple-container a.do_customer.error-active,
+.multiple-container a.do_customer.error-active:hover{
+    background: #cc4747 !important;
+    border-color: #cc4747;
+    color: #424448;
+}
+
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, 
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     top:0.8125rem !important;
@@ -3119,8 +3138,16 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     justify-content: center;
     margin-right: 0.25rem;
 }
-
+@media (max-width: 1400px){
+    html{
+        font-size:80%;
+    }
+}
 @media (max-width: 767px){
+    html{
+        font-size:100%;
+    }
+
     .admin-portal .home-content .overview-boxes{
         padding-left: 0px;
     }
@@ -3128,5 +3155,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
         padding-left: 0.935rem !important;
         margin-bottom: 1.5rem;
         float: left;    
+    }
+    .footer-area{
+        text-align: center !important;
     }
 }

@@ -99,7 +99,13 @@ class UserController extends Controller
                             'zipcode'           => $data['zipcode'],
                             'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : '');
 
-        $user_details = UserDetails::create($user_data);
+        $user_details = UserDetails::where('customerno',$data['customerno'])->first();
+        if(!empty($user_details)){
+            unset($user_data['customerno']);
+            $user_details->save($user_data);
+        }else{
+            $user_details = UserDetails::create($user_data);
+        }
         $sales_person = array();
         if($data['salespersonemail'] != '')
             $sales_person = SalesPersons::where('email',$data['salespersonemail'])->first();

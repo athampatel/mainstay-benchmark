@@ -11,10 +11,10 @@ Dashboard  - Admin Panel
 
 <div class="home-content">
     <span class="page_title">Dashboard</span>
-    <div class="overview-boxes widget_container_cards col-12">
+    <div class="overview-boxes widget_container_cards col-12 mt-3">
         <!-- page title area start -->
         <div class="page-title-area">
-            <div class="row align-items-center">
+            <div class="row align-items-center pb-3">
                 <div class="col-sm-12">
                     <div class="breadcrumbs-area clearfix">
                         <h4 class="page-title pull-left">Dashboard</h4>
@@ -33,7 +33,7 @@ Dashboard  - Admin Panel
     <div class="col-lg-12">
         <div class="row">
             @if ($usr->can('admin.create') || $usr->can('admin.view') ||  $usr->can('admin.edit') ||  $usr->can('admin.delete'))
-                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.admins.index') }}">
@@ -47,7 +47,7 @@ Dashboard  - Admin Panel
                 </div>
 
 
-                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <a href="{{ route('admin.admins.manager') }}">
@@ -61,7 +61,7 @@ Dashboard  - Admin Panel
                 </div>
             </div>
             @endif
-            <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+            <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.index') }}">
@@ -75,7 +75,7 @@ Dashboard  - Admin Panel
                     </div>
                 </div>
 
-            <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+            <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.index') }}?type=vmi">
@@ -90,7 +90,7 @@ Dashboard  - Admin Panel
                 </div>
 
 
-                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.requests') }}">
@@ -104,7 +104,7 @@ Dashboard  - Admin Panel
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-4 mt-1 mt-md-5 mb-1">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('admin.users.change-order') }}">

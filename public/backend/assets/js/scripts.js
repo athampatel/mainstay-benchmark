@@ -50,6 +50,14 @@
     Start Footer resizer
     ==================================*/
     var e = function() {
+
+        if (window.innerWidth <= 1364) {
+            $(".page-container").addClass("sbar_collapsed");
+        }else{
+            $(".page-container").removeClass("sbar_collapsed");
+
+        }
+
         var e =
             (window.innerHeight > 0 ? window.innerHeight : this.screen.height) -
             5;
