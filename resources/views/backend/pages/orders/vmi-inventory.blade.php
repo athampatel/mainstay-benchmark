@@ -30,13 +30,13 @@ VMI Inventory - Admin Panel
                         <div class="card-body">
                             <form method="post" id="change-item-form" class="order-form col-8 pt-3 mx-auto d-flex justify-content-between align-items-center" action="">
                                 <div class="form-row col-12 d-flex justify-content-between align-items-center">
-                                    <div class="mb-3 col-9 px-3">    
+                                    <div class="mb-3 col-12 col-md-9 col-lg-9 px-3">    
                                         <label for="formFile" class="form-label">Enter Inventory Item Code</label>
                                         <input class="form-control  col-12" type="text" placeholder="" value="" name="PurchaseOrderNumber" id="PurchaseOrderNumber" required autocomplete="off">
                                     </div>
                                     
-                                    <div class="form-button col-3 mt-2">                            
-                                        <button type="submit" class="font-12 btn btn-primary match-btn" id="get_item_details">Get Item Details</button>
+                                    <div class="form-button col-12 col-md-3 col-lg-3 mt-2">                            
+                                        <button type="submit" class="font-12 btn btn-primary btn-rounder match-btn" id="get_item_details">Get Item Details</button>
                                     </div>
                                 </div>
                             </form>
