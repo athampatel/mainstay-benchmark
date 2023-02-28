@@ -64,8 +64,9 @@ class UsersController extends Controller
      */
     
     public function index(Request $request)
-    {
-         $limit = $request->input('limit');
+    {   
+        // dd(config('constants.customer-signup.confirmation_messsage'));
+        $limit = $request->input('limit');
         if(!$limit){
             $limit = 10;
         }  
@@ -123,8 +124,6 @@ class UsersController extends Controller
         $users = $lblusers->offset($offset)->limit($limit)->get();
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-       
-        
         return view('backend.pages.users.index', compact('users','paginate','limit','search'));
     }
 
@@ -442,7 +441,8 @@ class UsersController extends Controller
             $user->assignRole($request->roles);
         }
 
-        session()->flash('success', 'Customer has been updated');
+        // session()->flash('success', 'Customer has been updated');
+        session()->flash('success', config('constants.customer_update.confirmation_message'));
         return back();
     }
 
@@ -462,7 +462,8 @@ class UsersController extends Controller
             //$user->delete();
         }
 
-        session()->flash('success', 'User has been deleted !!');
+        // session()->flash('success', 'User has been deleted !!');
+        session()->flash('success', config('constants.customer_delete.confirmation_message'));
         return back();
     }
 
@@ -589,7 +590,8 @@ class UsersController extends Controller
                 );
 
                 $params = array('mail_view' => 'emails.user-active', 
-                                'subject' => 'reset password link', 
+                                // 'subject' => 'reset password link', 
+                                'subject' => config('constants.customer_activate.mail.subject'), 
                                 'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
 
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
@@ -607,7 +609,8 @@ class UsersController extends Controller
                     Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 }
                 // email send work end
-                $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
+                // $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
+                $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
             } else {
                 $res = ['success' => false, 'message' =>'Customer not found'];
             }
@@ -631,9 +634,11 @@ class UsersController extends Controller
             $user->is_deleted = 1;
             $user->save();
             $user->delete();
-            $res = ['success' => true, 'message' =>'Customer Blocked successfully'];
+            // $res = ['success' => true, 'message' =>'Customer Blocked successfully'];
+            $res = ['success' => true, 'message' => config('constants.customer_cancel.confirmation_message')];
         } else {
-            $res = ['success' => false, 'message' =>'Customer not found'];
+            // $res = ['success' => false, 'message' =>'Customer not found'];
+            $res = ['success' => false, 'message' => config('constants.customer_cancel.confirmation_error')];
         }
         echo json_encode($res);
     }

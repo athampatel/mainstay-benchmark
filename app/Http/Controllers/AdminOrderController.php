@@ -85,7 +85,7 @@ class AdminOrderController extends Controller
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
                                     'action'    => '',
-                                    'status'    => 0,
+                                    'status'    => 1,
                                     'is_read'   => 0);                
 
             $notification = new NotificationController();
@@ -93,7 +93,8 @@ class AdminOrderController extends Controller
             echo json_encode(['success' => true, 'data' => ['status' => $data['status']], 'error' => []]);
             die();
         } else {
-            echo json_encode(['success' => false, 'data' => [] , 'error' =>'change request not found']);
+            // echo json_encode(['success' => false, 'data' => [] , 'error' =>'change request not found']);
+            echo json_encode(['success' => false, 'data' => [] , 'error' =>config('constants.change_order_request.not_found')]);
             die();
         }
     }

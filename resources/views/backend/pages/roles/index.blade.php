@@ -125,7 +125,9 @@ Role Page - Admin Panel
                                     @endforeach
                                     </tbody>
                                 </table>
-                                <x-pagination-component :pagination="$paginate" :search="$search" />
+                                @if($paginate['last_page'] > 1)
+                                    <x-pagination-component :pagination="$paginate" :search="$search" />
+                                @endif
                             </div>
                         </div>
                     </div>

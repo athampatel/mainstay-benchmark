@@ -138,10 +138,12 @@ Customers - Admin Panel
                                
                             </div>
                             {{-- <div class="pagination_disp"></div> --}}
-                            @if(empty($users))
-                            <div class="mt-3">
-                                <x-pagination-component :pagination="$paginate" :search="$search" />
-                            </div>    
+                            @if(!empty($users))
+                                @if($paginate['last_page'] > 1)
+                                    <div class="mt-3">
+                                        <x-pagination-component :pagination="$paginate" :search="$search" />
+                                    </div>
+                                @endif    
                             @endif
                         </div>
                     </div>

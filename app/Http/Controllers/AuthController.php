@@ -102,12 +102,15 @@ class AuthController extends Controller
         $postdata = $request->input();
 
         $user       = User::where('email',$request->email)->where('active',0)->first();
-        $message    = 'Thanks for validating your email address, you will get a confirmation';
+        // $message    = 'Thanks for validating your email address, you will get a confirmation';
+        $message    = config('constants.customer-signup.validation_email');;
         $status     = 'success';
         $_multiple  = 0;
 
-        $details    = array('subject'   => 'New customer request for member portal access',
-                            'title'     => 'Customer Portal Access');
+        // $details    = array('subject'   => 'New customer request for member portal access',
+        //                     'title'     => 'Customer Portal Access');
+        $details    = array('subject'   => config('constants.customer-signup.mail.subject'),
+                            'title'     => config('constants.customer-signup.mail.title'));
         
         $uniqueId   = $request->email;
         $request_id = 0;
@@ -165,7 +168,8 @@ class AuthController extends Controller
               
             $details['status']    = 'success';
 
-            $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+            // $details['message']   = 'Your request for member access has been submitted successfully, you will get a confirmation';
+            $details['message']   = config('constants.customer-signup.confirmation_message');
             
             $message    = isset($details['message']) ? $details['message'] : '';
             $status     = isset($details['status']) ? $details['status'] : '';
@@ -196,15 +200,13 @@ class AuthController extends Controller
                                     'to_user'  => 0,
                                     'text'      => $message,
                                     'action'    => $url,
-                                    'status'    => 0,
+                                    'status'    => 1,
                                     'is_read'   => 0,
                                     'request_id' => $request_id);                
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
             // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-            // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
             $admin_emails = env('ADMIN_EMAILS');
             if($admin_emails !=''){
                 $admin_emails = explode(',',$admin_emails);

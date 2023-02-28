@@ -61,7 +61,8 @@ class DashboardController extends Controller
             return redirect()->route('admin.login');
         }
         if (!$this->user->can('dashboard.view')) {
-            abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
+            // abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
+            abort(403, config('constants.dashboard_error_403'));
         }
 
         $user               = 0;
