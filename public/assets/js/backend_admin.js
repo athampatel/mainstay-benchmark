@@ -1,3 +1,7 @@
+// test work start
+// console.log(config('constants.customer-signup'),'__constant value');
+// console.log({{config('constants.customer_activate.confirmation_message'),'__constant value');
+// test work end
 // All customers 
 let start_filter_count =  parseInt($("#admin-customer-filter-count option:selected").val());
 let backend_customers;

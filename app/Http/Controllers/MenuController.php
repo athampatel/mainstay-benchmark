@@ -94,6 +94,7 @@ class MenuController extends Controller
 
         $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
+        $data['constants'] = config('constants');
         // dd($data['region_manager']);
         return view('Pages.dashboard',$data); 
     }
@@ -125,6 +126,7 @@ class MenuController extends Controller
         } else {
             $data['customer_menus'] = [];
         }
+        $data['constants'] = config('constants');
         return view('Pages.invoice',$data);  
     }
     
@@ -144,6 +146,7 @@ class MenuController extends Controller
         } else {
             $final_data['customer_menus'] = [];
         }
+        $final_data['constants'] = config('constants');
         return view('Pages.open-orders',$final_data);
     }
     
@@ -171,6 +174,7 @@ class MenuController extends Controller
                 $final_data['customer_menus'] = [];
             }
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
+            $final_data['constants'] = config('constants');
             return view('Pages.change-order',$final_data);
         } else {
             return redirect()->route('auth.customer.dashboard');
@@ -193,6 +197,7 @@ class MenuController extends Controller
         } else {
             $data['customer_menus'] = [];
         }
+        $data['constants'] = config('constants');
         return view('Pages.vmi-user',$data);
     }
 
@@ -213,6 +218,7 @@ class MenuController extends Controller
         } else {
             $data['customer_menus'] = [];
         }
+        $data['constants'] = config('constants');
         return view('Pages.analysis',$data);
     }
     
@@ -235,6 +241,8 @@ class MenuController extends Controller
             $data['customer_menus'] = [];
         }
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        // get constants 
+        $data['constants'] = config('constants');
         return view('Pages.account-settings',$data);
     }
     public function helpPage(Request $request){
@@ -256,6 +264,7 @@ class MenuController extends Controller
         } else {
             $data['customer_menus'] = [];
         }
+        $data['constants'] = config('constants');
         return view('Pages.help',$data);
     }
 

@@ -258,4 +258,7 @@
 
 @section('scripts')
 <script src="/assets/js/customer-dashboard.js"></script>
+<script>
+    const constants = <?php echo json_encode($constants); ?>;
+</script>
 @endsection

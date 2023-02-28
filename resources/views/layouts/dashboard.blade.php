@@ -51,14 +51,17 @@
 	<script src="/assets/js/app.js"></script>
 	<script src="/assets/js/menu.js"></script>
 	{{-- <script src="/assets/js/testCharts.js"></script> --}}
-	<script src="/assets/js/customer-charts.js"></script>
+	{{-- <script src="/assets/js/customer-charts.js"></script>
 	<script src="/assets/js/common-functions.js"></script>
-	<script src="/assets/js/notification.js"></script>
+	<script src="/assets/js/notification.js"></script> --}}
 	{{-- iconic icons --}}
 	{{-- test purpose only --}}
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	@yield('scripts')
+	<script src="/assets/js/customer-charts.js"></script>
+	<script src="/assets/js/common-functions.js"></script>
+	<script src="/assets/js/notification.js"></script>
 </body>
 </html>
 

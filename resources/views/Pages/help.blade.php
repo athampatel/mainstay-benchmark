@@ -135,5 +135,6 @@
   //     notification_bottom.classList.add('d-none');
   //     notification_cancel.classList.add('d-none');
   // }
+  const constants = <?php echo json_encode($constants); ?>;
 </script>
 @endsection

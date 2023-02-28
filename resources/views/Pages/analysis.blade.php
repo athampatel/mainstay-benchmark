@@ -145,6 +145,7 @@
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
      <script>
          let response_ = [];
+         const constants = <?php echo json_encode($constants); ?>;
     </script>
     <script src="/assets/js/moment.js"></script>
     <script src="/assets/js/analysis-page.js"></script>

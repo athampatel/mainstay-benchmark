@@ -25,7 +25,9 @@
             'confirmation_message' => 'Customer has been deleted'
         ],
         'change_order_request' => [
-            'not_found' => 'change request not found' 
+            'not_found' => 'change request not found',
+            'success' => 'Change order request sent successfully',
+            'no_changes' => 'No changes in the order' 
         ],
         'email_verification' => [
             'confirmation_message' => 'Verification link sent'
@@ -49,8 +51,10 @@
             'error' => 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test'
         ],
         'admin_delete' => [
-            'confirmation_message' => 'Admin has been deleted'
+            'confirmation_message' => 'Admin has been deleted !!'
+        ],
+        'customer_account_page' => [
+            'update_message' => 'Account Details Updated Succcessfully'
         ]
     ];
-    config('constants.customer_update.confirmation_messsage');
 ?>

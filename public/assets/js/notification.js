@@ -34,8 +34,6 @@ jQuery(document).ready(function(){
                 $('#bottom_notification_disp').html(res.notification_code);
                 $('.navbar_notification_icon .notification_count').removeClass('d-none');
                 $('.navbar_notification_icon .notification_count').text(res.notifications_all.length);
-                /* work on customer dashboard navbar work start */
-                /* work on customer dashboard navbar work end */
                 const bottom_nofication_arrow = document.querySelector('.notfication_bottom .notification');
                 const notification_bottom = document.querySelector('.notfication_bottom');
                 const notification_cancel = document.querySelector('.notification_bottomn_cancel');
