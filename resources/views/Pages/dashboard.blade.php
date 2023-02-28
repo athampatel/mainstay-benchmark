@@ -186,7 +186,7 @@
                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
               </div>
               {{-- export icons --}}
-              <div class="datatable-export">
+             <!-- <div class="datatable-export">
                 <div class="datatable-print">
                   <a href="">
                     <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="dashboard-open-orders-print-icon">
@@ -196,7 +196,7 @@
                   <a href="">
                     <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-open-orders-report-icon">
                   </a>
-                </div>
+                </div> --->
               </div>
             </div>
           </div>
