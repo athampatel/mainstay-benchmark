@@ -213,8 +213,11 @@
 <style>
 </style>
 
+@section('scripts')
 <script>
     let app_url = '{{ env('APP_URL') }}';
     let order_details = [];
     let changed_order_items = [];
+    const constants = <?php echo json_encode($constants); ?>;
 </script>
+@endsection

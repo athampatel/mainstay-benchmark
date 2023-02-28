@@ -1,3 +1,4 @@
+console.log('customer_charts');
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');
@@ -342,7 +343,8 @@ $(document).on('click','#profile-edit-save-button',function(e){
                     $("#account-detail-profile-img").prop("src", res1.data[0].path);
                 }
                 $('#nav-bar-profile-name').text(acc_name);
-                $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
+                // $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
+                $('#result-response-message').html(constants.customer_account_page.update_message).removeClass('alert-danger').addClass('alert-success');
                 $('.result-response').removeClass('d-none');
                 setTimeout(() => {
                     $('.result-response').addClass('d-none');
@@ -441,7 +443,8 @@ $(document).on('click','#order-save-button',function(e){
             }
         });
     } else {
-        $('#change-order-request-response-alert').text('No changes in the order');
+        // $('#change-order-request-response-alert').text('No changes in the order');
+        $('#change-order-request-response-alert').text(constants.change_order_request.no_changes);
         $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
         // setTimeout(() => {
         //     $('#change-order-request-response-alert').addClass('d-none');
@@ -452,7 +455,8 @@ $(document).on('click','#order-save-button',function(e){
 function change_order_save_response(res){
     changed_order_items = [];
     if(res.success){
-        $('#change-order-request-response-alert').text('Change order request sent successfully');
+        // $('#change-order-request-response-alert').text('Change order request sent successfully');
+        $('#change-order-request-response-alert').text(constants.change_order_request.success);
         $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-danger').addClass('alert-success');
         setTimeout(() => {
             $('#change-order-request-response-alert').addClass('d-none');

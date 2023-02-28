@@ -173,6 +173,12 @@
 </div>            
 @endsection
 
+@section('scripts')
+    <script>
+        const constants = <?php echo json_encode($constants); ?>;
+    </script>
+@endsection
+
 
 <style>
 .image-upload>input {
