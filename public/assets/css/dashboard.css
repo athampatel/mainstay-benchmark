@@ -2652,7 +2652,7 @@ table.dataTable td, table.dataTable th{
   }
   .col-filter  .item-search{
     width: 100%;
-    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   .col-filter .datatable-search-input{
     width: 100%;
