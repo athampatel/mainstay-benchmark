@@ -130,7 +130,7 @@
 .main-menu {
     height: calc(100% - 100px);
     overflow: hidden;
-    padding: 20px 0px 0 0;
+    padding: 1.25rem 0px 0 0;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -146,7 +146,7 @@
 }
 
 .sidebar-header {
-    padding: 15px 0px;
+    padding: 0.935rem 0px;
     background: #424448;
     border-bottom: 1px solid #424448;
 }
@@ -182,10 +182,10 @@
     position: absolute;
     content: '\f107';
     font-family: fontawesome;
-    right: 15px;
+    right: 0.935rem;
     top: 5px;
     color: #FFF;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 .metismenu li a.logout:after{
     display: none;
@@ -212,11 +212,11 @@
 }
 
 .metismenu li li a {
-    padding: 8px 20px;
+    padding: 8px 1.25rem;
 }
 
 .metismenu li ul {
-    padding:15px;
+    padding:0.935rem;
 }
 
 .metismenu >li:hover>a,
@@ -273,7 +273,7 @@
 .mainheader-area {
     background: #fff;
     border-bottom: 1px solid #f3f8fb;
-    padding-left: 15px;
+    padding-left: 0.935rem;
     position: relative;
     z-index: 99;
 }
@@ -293,8 +293,8 @@
 
 .horizontal-menu ul li a {
     display: block;
-    font-size: 13px;
-    padding: 10px 20px;
+    font-size: 0.8125rem;
+    padding: 10px 1.25rem;
     color: #000000;
     text-transform: capitalize;
 }
@@ -323,7 +323,7 @@
     visibility: hidden;
     border-top: 4px solid #007BFF;
     border-radius: 3px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 0.935rem rgba(0, 0, 0, 0.03);
 }
 
 .horizontal-menu .submenu li {
@@ -350,7 +350,7 @@
 }
 
 .header-bottom .search-box input {
-    max-width: 350px;
+    max-width: 21.875rem;
     width: 100%;
 }
 
@@ -359,13 +359,13 @@
 .slicknav_menu {
     background: #8255f7;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 .slicknav_menu>a {
     display: block;
     width: 100%;
-    padding: 15px;
+    padding: 0.935rem;
     margin: 0;
     background: transparent;
 }
@@ -394,7 +394,7 @@
 }
 
 .slicknav_nav li i {
-    width: 26px;
+    width: 1.625rem;
     display: inline-block;
 }
 
@@ -408,7 +408,7 @@
 /*-------------------- 2.2 Header Area -------------------*/
 
 .header-area {
-    padding: 15px 30px;
+    padding: 0.935rem 30px;
     background: #fff;
     border-bottom: 1px solid #d8e3e7;
 }
@@ -424,7 +424,7 @@
     height: 2px;
     background: #b3aaaa;
     margin: 4px 0;
-    border-radius: 15px;
+    border-radius: 0.935rem;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
     box-shadow: 0 0 0 4px rgba(99, 96, 96, 0.03);
@@ -434,7 +434,7 @@
     opacity: 0;
 }
 
-.nav-btn span:first-child {
+.nav-btn span:first-child {0.875rem
     -webkit-transform: rotate(45deg)translate(5px, 5px);
             transform: rotate(45deg)translate(5px, 5px);
 }
@@ -454,11 +454,11 @@
 }
 
 .search-box input {
-    width: 350px;
-    border-radius: 33px;
+    width: 21.875rem;
+    border-radius: 2.0625rem;
     border: none;
     height: 40px;
-    padding-left: 20px;
+    padding-left: 1.25rem;
     padding-right: 40px;
     letter-spacing: 0;
     background: #f3eeff;
@@ -479,8 +479,8 @@
 .search-box form i {
     position: absolute;
     right: 21px;
-    top: 14px;
-    font-size: 14px;
+    top: 0.875rem;
+    font-size: 0.875rem;
     color: #b1a7a7;
 }
 
@@ -498,7 +498,7 @@
 
 .notification-area li {
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 1.25rem;
     cursor: pointer;
     -webkit-user-select: none;
        -moz-user-select: none;
@@ -511,7 +511,7 @@
 }
 
 .notification-area li>i {
-    font-size: 26px;
+    font-size: 1.625rem;
     color: #bdbcbc;
     vertical-align: middle;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
@@ -533,16 +533,16 @@
     font-weight: 600;
     color: #fff;
     background: var(--primary-color);
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
     border-radius: 50%;
     text-align: center;
-    line-height: 20px;
+    line-height: 1.25rem;
     padding-left: 2px;
 }
 
 .notify-box {
-    width: 350px;
+    width: 21.875rem;
     border-radius: 10px;
     overflow: hidden;
     padding: 0;
@@ -552,9 +552,9 @@
 .notify-title {
     background: var(--primary-color);
     display: block;
-    padding: 18px 30px;
+    padding: 1.125rem 30px;
     color: #fff;
-    font-size: 15px;
+    font-size: 0.935rem;
     letter-spacing: 0;
     overflow: hidden;
 }
@@ -563,7 +563,7 @@
     float: right;
     display: inline-block;
     color: #ffee1d;
-    font-size: 13px;
+    font-size: 0.8125rem;
     text-decoration: underline;
 }
 
@@ -574,9 +574,9 @@
 .nofity-list a {
     padding: 0 30px;
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     border-bottom: 1px solid #f5f2f2;
-    padding-bottom: 15px;
+    padding-bottom: 0.935rem;
 }
 
 .nofity-list a:last-child {
@@ -586,7 +586,7 @@
 
 .notify-thumb {
     float: left;
-    margin-right: 20px;
+    margin-right: 1.25rem;
 }
 
 .notify-thumb i {
@@ -605,7 +605,7 @@
 }
 
 .notify-text p {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #4e4e4e;
     line-height: 22px;
     margin-bottom: 4px;
@@ -642,7 +642,7 @@
 
 .notify-text span.msg {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #4e4e4e;
     line-height: 22px;
     margin-bottom: 4px;
@@ -701,11 +701,11 @@ ul.breadcrumbs {
 .breadcrumbs li a,
 .breadcrumbs li span {
     display: block;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 400;
     color: #7801ff;
     letter-spacing: 0;
-    margin-right: 16px;
+    margin-right: 1rem;
     position: relative;
 }
 
@@ -713,7 +713,7 @@ ul.breadcrumbs {
     content: '/';
     color: #768387;
     position: absolute;
-    right: -13px;
+    right: -0.8125rem;
     top: 0;
 }
 
@@ -743,7 +743,7 @@ ul.breadcrumbs {
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    margin-right: 12px;
+    margin-right: 0.75rem;
 }
 
 .user-name {
@@ -805,11 +805,11 @@ ul.breadcrumbs {
 }
 
 .user-profile .dropdown-menu a {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #8a8a8a;
     letter-spacing: 0;
     font-weight: 500;
-    padding: 4px 120px;
+    padding: 4px 11.25rem;
     padding-left: 25px;
 }
 
@@ -826,7 +826,7 @@ ul.breadcrumbs {
 #user-search
 {
     height: 2.75rem;
-    top: 14px;
+    top: 0.875rem;
     min-width: 8rem;
     left: 1rem; 
 }
@@ -843,7 +843,7 @@ ul.breadcrumbs {
     margin-bottom: 1rem;
 }
 .admin-portal  .form-row > div.col-md-6{
-    width:calc(50% - 15px);
+    width:calc(50% - 0.935rem);
 }
 /*-------------------- END Page Title Area -------------------*/
 
@@ -890,25 +890,25 @@ ul.breadcrumbs {
 }
 
 .single-report p {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     color: #565656;
     background: #ececec;
     letter-spacing: 0;
     padding: 0 9px;
-    height: 20px;
-    line-height: 20px;
+    height: 1.25rem;
+    line-height: 1.25rem;
 }
 
 .single-report h2 {
-    font-size: 26px;
+    font-size: 1.625rem;
     color: #565656;
     font-weight: 500;
     letter-spacing: 0;
 }
 
 .single-report span {
-    font-size: 15px;
+    font-size: 0.935rem;
     font-weight: 600;
     color: #565656;
     letter-spacing: 0;
@@ -924,7 +924,7 @@ ul.breadcrumbs {
 /*-------------------- 2.5 Overview ------------------- */
 
 .custome-select {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #565656;
     font-weight: 500;
     letter-spacing: 0;
@@ -981,7 +981,7 @@ table.dbkit-table tr {
     height: 71px;
     border: 1px solid transparent;
     padding: 0 30px;
-    margin: 20px 2px 6px;
+    margin: 1.25rem 2px 6px;
     background: #f5f8f9;
 }
 
@@ -995,7 +995,7 @@ table.dbkit-table tr:hover {
 }
 
 table.dbkit-table tr td {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0;
     color: #616161;
@@ -1031,7 +1031,7 @@ table.dbkit-table tr td {
 
 .cripto-live ul li {
     margin-bottom: 27px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
     color: #565656;
     letter-spacing: 0;
@@ -1047,7 +1047,7 @@ table.dbkit-table tr td {
     width: 30px;
     margin-right: 10px;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
     background: #ffd615;
@@ -1093,11 +1093,11 @@ table.dbkit-table tr td {
 /*-------------------- 2.8 Trading History ------------------- */
 
 .trd-history-tabs ul li a {
-    font-size: 15px;
+    font-size: 0.935rem;
     font-weight: 500;
     color: #b0b0b0;
     letter-spacing: 0;
-    margin: 0 15px;
+    margin: 0 0.935rem;
     display: block;
     border-bottom: 2px solid transparent;
     padding-bottom: 7px;
@@ -1138,7 +1138,7 @@ table.dbkit-table tr td {
 }
 
 .lts-content span {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     color: #565656;
     letter-spacing: 0;
@@ -1146,11 +1146,11 @@ table.dbkit-table tr td {
 
 .lts-content h2 a {
     display: block;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #565656;
     letter-spacing: 0;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 }
 
 .lts-content h2 a:hover {
@@ -1158,7 +1158,7 @@ table.dbkit-table tr td {
 }
 
 .lts-content p {
-    font-size: 15px;
+    font-size: 0.935rem;
     font-weight: 400;
     color: #565656;
 }
@@ -1206,7 +1206,7 @@ table.dbkit-table tr td {
 
 .exchange-btn button {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 1.25rem;
     height: 79px;
     background: var(--primary-color);
     color: #fff;
@@ -1214,7 +1214,7 @@ table.dbkit-table tr td {
     font-weight: 700;
     border: none;
     border-radius: 2px;
-    font-size: 18px;
+    font-size: 1.125rem;
     outline: none;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -1253,11 +1253,11 @@ table.dbkit-table tr td {
     background: #fff;
     overflow: hidden;
     position: relative;
-    padding: 10px 15px 10px;
+    padding: 10px 0.935rem 10px;
 }
 
 #visitor_graph {
-    height: 400px;
+    height: 25rem;
 }
 
 
@@ -1281,7 +1281,7 @@ table.dbkit-table tr td {
     border: 2px solid #f1ebeb;
     border-radius: 50%;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: #4d4d4d;
     margin-left: 3px;
@@ -1293,17 +1293,17 @@ table.dbkit-table tr td {
 }
 
 .pagination_area ul li a i {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /* team member area */
 
 .team-search input {
-    height: 40px;
-    padding-left: 12px;
+    height: 2.5rem;
+    padding-left: 0.75rem;
     border: 1px solid #e1e1e1;
     letter-spacing: 0;
-    font-size: 13px;
+    font-size: 0.8125rem;
     border-radius: 2px;
 }
 
@@ -1322,14 +1322,14 @@ table.dbkit-table tr td {
 .member-box .media-body {}
 
 .member-box .media-body p {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     color: #4d4d4d;
 }
 
 .member-box .media-body span {
     display: block;
-    font-size: 15px;
+    font-size: 0.935rem;
     font-weight: 500;
     color: #4d4d4d;
     letter-spacing: 0;
@@ -1337,15 +1337,15 @@ table.dbkit-table tr td {
 
 .tm-social a {
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 0.935rem;
     font-size: 22px;
     color: #555;
 }
 
 .s-member {
-    padding: 16px 15px 17px;
+    padding: 1rem 0.935rem 17px;
     background: #f9f9f9;
-    margin: 15px 0;
+    margin: 0.935rem 0;
 }
 
 /*-------------------- END Dashboard Two ------------------- */
@@ -1379,7 +1379,7 @@ table.dbkit-table tr td {
 
 .seofct-icon {
     color: #9FCC47;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     display:flex;
     align-items: center;
@@ -1409,22 +1409,20 @@ table.dbkit-table tr td {
     margin-right: 1rem;
 }
 .seofct-icon i {
-    font-size: 52px;    
+    font-size: 2.5rem;    
     vertical-align: middle;
-    -webkit-transform: translateY(-5px);
-            transform: translateY(-5px);
     display: inline-block;
 }
 
 .seo-fact h2 {
-    font-size: 27px;
+    font-size: 1.625rem;
     color: #fff;
     letter-spacing: 0;
 }
 
 .seo-fact #seolinechart3,
 .seo-fact #seolinechart4 {
-    max-width: 200px;
+    max-width: 12.5rem;
 }
 
 /* socialads */
@@ -1436,7 +1434,7 @@ table.dbkit-table tr td {
 /* user-statistics */
 
 #user-statistics {
-    height: 350px;
+    height: 22rem;
 }
 
 /* salesanalytic */
@@ -1462,7 +1460,7 @@ table.dbkit-table tr td {
     position: absolute;
     left: -35px;
     top: 0;
-    height: calc(100% + 33px);
+    height: calc(100% + 2.0625rem);
     width: 1px;
     background: #e6cdff;
 }
@@ -1484,7 +1482,7 @@ table.dbkit-table tr td {
     line-height: 35px;
     border-radius: 50%;
     text-align: center;
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #fff;
 }
 
@@ -1505,7 +1503,7 @@ table.dbkit-table tr td {
 }
 
 .tm-title h4 {
-    font-size: 15px;
+    font-size: 0.935rem;
     letter-spacing: 0;
     color: #333;
     margin-bottom: 2px;
@@ -1513,7 +1511,7 @@ table.dbkit-table tr td {
 
 .tm-title span.time {
     color: #8c8a8a;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .tm-title span.time i {
@@ -1524,7 +1522,7 @@ table.dbkit-table tr td {
 
 .timeline-task p {
     color: #666;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 25px;
     margin-bottom: -10px;
 }
@@ -1570,8 +1568,8 @@ table.dbkit-table tr td {
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
     position: absolute;
-    top: -20px;
-    left: -20px;
+    top: -1.25rem;
+    left: -1.25rem;
     z-index: 1;
     opacity: 0;
 }
@@ -1609,7 +1607,7 @@ table.dbkit-table tr td {
     border-radius: 50%;
     overflow: hidden;
     float: left;
-    margin-right: 20px;
+    margin-right: 1.25rem;
 }
 
 .tstu-content {
@@ -1617,17 +1615,17 @@ table.dbkit-table tr td {
 }
 
 .tstu-name {
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #fff;
     letter-spacing: 0;
 }
 
 .profsn {
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     color: #fff;
     letter-spacing: 0.02em;
-    margin-bottom: 15px;
+    margin-bottom: 0.935rem;
 }
 
 .tst-item p {
@@ -1707,7 +1705,7 @@ table.dbkit-table tr td {
 /*-------------------- 8. Accroding ------------------- */
 
 .according .card {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .according .card:last-child {
@@ -1722,18 +1720,18 @@ table.dbkit-table tr td {
 .according .card-header a {
     display: block;
     background: #EFF3F6;
-    padding: 16px 15px;
+    padding: 1rem 0.935rem;
     border-radius: 3px;
     color: #444;
     letter-spacing: 0;
-    font-size: 15px;
+    font-size: 0.935rem;
     font-weight: 500;
 }
 
 .according .card-body {
     padding: 10px;
     border: 1px solid #eff3f6;
-    font-size: 14px;
+    font-size: 0.875rem;
     letter-spacing: 0;
     color: #444;
     line-height: 27px;
@@ -1752,9 +1750,9 @@ table.dbkit-table tr td {
     content: "\f106";
     font-family: fontawesome;
     position: absolute;
-    right: 13px;
+    right: 0.8125rem;
     color: #444;
-    font-size: 26px;
+    font-size: 1.625rem;
 }
 
 
@@ -1769,9 +1767,9 @@ table.dbkit-table tr td {
     content: "\e622";
     font-family: 'themify';
     position: absolute;
-    right: 13px;
+    right: 0.8125rem;
     color: #444;
-    font-size: 15px;
+    font-size: 0.935rem;
 }
 
 .gradiant-bg .card-header a {
@@ -1791,9 +1789,9 @@ table.dbkit-table tr td {
 
 .alert {
     letter-spacing: 0;
-    font-size: 13px;
+    font-size: 0.8125rem;
     border: none;
-    padding: 10px 16px;
+    padding: 10px 1rem;
 }
 
 .alert strong,
@@ -1844,13 +1842,13 @@ table.dbkit-table tr td {
 }
 
 .alert-dismiss .alert {
-    padding: 13px 15px;
+    padding: 0.8125rem 0.935rem;
 }
 
 .alert-dismiss .alert-dismissible .close {
     top: 4px;
     outline: none;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 /*-------------------- END Alert------------------- */
@@ -1885,19 +1883,19 @@ table.dbkit-table tr td {
     border-color: #9FCC47;
 }
 .btn-xl {
-    padding: 19px 24px;
+    padding: 1.25rem 1.5rem;
 }
 
 .btn-lg {
-    padding: 15px 22px;
+    padding: 0.935rem 1.375rem;
 }
 
 .btn-md {
-    padding: 12px 19px;
+    padding: 0.75rem 1.25rem;
 }
 
 .btn-sm {
-    padding: 9px 14px;
+    padding: 9px 0.875rem;
 }
 
 .btn-xs {
@@ -1905,9 +1903,9 @@ table.dbkit-table tr td {
 }
 
 .nav-pills .nav-link {
-    padding: 16px 48px;
     padding: 1rem 3rem;
-    line-height: 19px;
+    padding: 1rem 3rem;
+    line-height: 1.25rem;
 }
 
 /*-------------------- END Badge------------------- */
@@ -1920,7 +1918,7 @@ table.dbkit-table tr td {
 }
 
 .btn-rounded {
-    border-radius: 50px;
+    border-radius: 3.125rem;
 }
 
 /*-------------------- END Button ------------------- */
@@ -1928,9 +1926,9 @@ table.dbkit-table tr td {
 /*-------------------- 12. Cards ------------------- */
 
 .title {
-    font-size: 18px;
+    font-size: 1.125rem;
     color: #444;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 .card-bordered {
@@ -1938,7 +1936,7 @@ table.dbkit-table tr td {
 }
 
 p.card-text {
-    margin-bottom: 23px;
+    margin-bottom: 1.25rem;
 }
 
 /*-------------------- END Cards ------------------- */
@@ -1951,7 +1949,7 @@ p.card-text {
 }
 
 .dropdown-item {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /*-------------------- END Dropdown Button ------------------- */
@@ -1961,12 +1959,12 @@ p.card-text {
 
 .list-group-item {
     color: #444;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .media-body {
-    font-size: 13px;
-    line-height: 27px;
+    font-size: 0.8125rem;
+    line-height: 1.625rem;
 }
 
 
@@ -2002,7 +2000,7 @@ p.card-text {
 /*-------------------- 17. Form ------------------- */
 
 .form-rounded {
-    border-radius: 40px;
+    border-radius: 2.5rem;
 }
 
 .form-control:autofil,
@@ -2036,7 +2034,7 @@ p.card-text {
 .btn-form-control{
     position: relative;
     top: 5px;
-    min-height: 44px;
+    min-height: 2.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2101,7 +2099,7 @@ p.card-text {
 .input-group-lg>.input-group-append>.input-group-text,
 .input-group-lg>.input-group-prepend>.btn,
 .input-group-lg>.input-group-prepend>.input-group-text {
-    padding: 13.6px 16px;
+    padding: 13.6px 1rem;
     padding: .85rem 1rem;
 }
 
@@ -2114,7 +2112,7 @@ label {
 }
 
 .font-14 {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .input-rounded {
@@ -2125,18 +2123,18 @@ label {
 .custom-file-input,
 .custom-file {
     height: calc(2.25rem + 7px);
-    padding: 10.8px 12px;
+    padding: 10.8px 0.75rem;
     padding: .675rem .75rem;
 }
 
 .custom-file-label:after {
     height: calc(calc(2.25rem + 7px) - 1px * 2);
-    padding: 10.8px 12px;
+    padding: 10.8px 0.75rem;
     padding: .675rem .75rem;
 }
 
 .grid-col {
-    padding: 10px 15px;
+    padding: 10px 0.935rem;
     background: #f3f8fb;
     margin-bottom: 30px;
     color: #666;
@@ -2167,7 +2165,7 @@ label {
 
 .fw-icons a i {
     width: 30px;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -2190,7 +2188,7 @@ label {
 
 .icon-container [class^="ti-"] {
     width: 30px;
-    font-size: 14px;
+    font-size: 0.875rem;
     display: inline-block;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -2250,8 +2248,8 @@ table tr td [class^="ti-"] {
 
 .status-p {
     color: #fff;
-    padding: 0px 20px 1px;
-    border-radius: 20px;
+    padding: 0px 1.25rem 1px;
+    border-radius: 1.25rem;
     display: inline-block;
     text-transform: capitalize;
     vertical-align: middle;
@@ -2282,7 +2280,7 @@ div.dataTables_wrapper div.dataTables_length select {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0;
     border: none;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 table.dataTable.no-footer {
@@ -2397,11 +2395,11 @@ div.dataTables_wrapper div.dataTables_info{
 #mapamchart4,
 #mapamchart5,
 #mapamchart6 {
-    height: 400px;
+    height: 25rem;
 }
 
 #google_map {
-    height: 600px;
+    height: 37.5rem;
 }
 
 /*-------------------- END Map Start ------------------- */
@@ -2411,9 +2409,9 @@ div.dataTables_wrapper div.dataTables_info{
 .invoice-area {}
 
 .invoice-head {
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
     border-bottom: 1px solid #efebeb;
-    padding-bottom: 20px;
+    padding-bottom: 1.25rem;
 }
 
 .invoice-head .iv-left span {
@@ -2421,31 +2419,31 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .invoice-head span {
-    font-size: 21px;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #777;
 }
 
 .invoice-address h3 {
-    font-size: 24px;
+    font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: 600;
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 0.935rem;
 }
 
 .invoice-address h5 {
-    font-size: 17px;
-    margin-bottom: 10px;
+    font-size: 1.0625rem;
+    margin-bottom: 0.625rem;
 }
 
 .invoice-address p {
-    font-size: 15px;
+    font-size: 0.935rem;
     color: #555;
 }
 
 .invoice-date li {
-    font-size: 15px;
+    font-size: 0.935rem;
     color: #555;
     font-weight: 700;
     margin-bottom: 5px;
@@ -2472,10 +2470,10 @@ div.dataTables_wrapper div.dataTables_info{
 
 .invoice-buttons a {
     display: inline-block;
-    font-size: 15px;
+    font-size: 0.935rem;
     color: #fff;
     background: #815ef6;
-    padding: 12px 19px;
+    padding: 0.75rem 19px;
     border-radius: 3px;
     text-transform: capitalize;
     font-family: 'Lato', sans-serif;
@@ -2511,7 +2509,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .login-box form {
     margin: auto;
-    width: 450px;
+    width: 28.125rem;
     max-width: 100%;
     background: #424448;
     border-radius: 1.25rem;
@@ -2537,7 +2535,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .login-form-head p {
     color: #fff;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 22px;
 }
 
@@ -2589,7 +2587,7 @@ div.dataTables_wrapper div.dataTables_info{
     position: absolute;
     right: 1rem;
     color: rgba(255,255,255,0.5);
-    font-size: 16px;
+    font-size: 1rem;
     top:25%;
 }
 
@@ -2598,7 +2596,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .rmber-area {
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .submit-btn-area {
@@ -2607,7 +2605,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .submit-btn-area button {
     width: 100%;
-    height: 50px;
+    height: 3.125rem;
     border: none;
     background: #9FCC47;
     color: #424448;
@@ -2615,7 +2613,7 @@ div.dataTables_wrapper div.dataTables_info{
     text-transform: uppercase;
     letter-spacing: 0;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 0.75rem;
     box-shadow: 0 0 22px rgba(0, 0, 0, 0.07);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -2628,26 +2626,26 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .submit-btn-area button i {
-    margin-left: 15px;
+    margin-left: 0.935rem;
     -webkit-transition: margin-left 0.3s ease 0s;
     transition: margin-left 0.3s ease 0s;
 }
 
 .submit-btn-area button:hover i {
-    margin-left: 20px;
+    margin-left: 1.25rem;
 }
 
 .login-other a {
     display: block;
     width: 100%;
-    max-width: 250px;
+    max-width: 15.625rem;
     height: 43px;
     line-height: 43px;
     border-radius: 40px;
     text-transform: capitalize;
     letter-spacing: 0;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 0.75rem;
     box-shadow: 0 0 22px rgba(0, 0, 0, 0.07);
 }
 
@@ -2661,7 +2659,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .login-other a.fb-login:hover {
-    box-shadow: 0 5px 15px rgba(44, 113, 218, 0.38);
+    box-shadow: 0 5px 0.935rem rgba(44, 113, 218, 0.38);
 }
 
 .login-other a.google-login {
@@ -2670,7 +2668,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .login-other a.google-login:hover {
-    box-shadow: 0 5px 15px rgba(251, 87, 87, 0.38);
+    box-shadow: 0 5px 0.935rem rgba(251, 87, 87, 0.38);
 }
 
 .form-footer a {
@@ -2774,7 +2772,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .prc-list li a {
     display: block;
-    font-size: 15px;
+    font-size: 0.935rem;
     letter-spacing: 0;
     margin: 23px 0;
     color: #6d6969;
@@ -2782,7 +2780,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .prc-list li.bold {
     font-weight: 600;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 .prc-list>a {
@@ -2790,7 +2788,7 @@ div.dataTables_wrapper div.dataTables_info{
     margin-top: 40px;
     background: #805ff5;
     color: #fff;
-    padding: 11px 20px;
+    padding: 11px 1.25rem;
     border-radius: 40px;
 }
 
@@ -2853,7 +2851,7 @@ div.dataTables_wrapper div.dataTables_info{
     margin-top: 40px;
     background: #9FCC47;
     color: #424448;
-    padding: 16px 26px;
+    padding: 1rem 1.625rem;
     border-radius: 3px;
 }
 
@@ -2864,13 +2862,13 @@ div.dataTables_wrapper div.dataTables_info{
 
 .offset-area {
     position: fixed;
-    right: -320px;
+    right: -31.25rem;
     top: 0;
     height: 100vh;
-    width: 320px;
+    width: 31.25rem;
     background: #f9f9f9;
     z-index: 998;
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.05);
+    box-shadow: -5px 0 1.25rem rgba(0, 0, 0, 0.05);
     -webkit-transition: right 0.3s cubic-bezier(0.62, -0.01, 0.2, 0.83) 0s;
     transition: right 0.3s cubic-bezier(0.62, -0.01, 0.2, 0.83) 0s;
 }
@@ -2899,7 +2897,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .offset-menu-tab {
-    padding: 30px 20px;
+    padding: 30px 1.25rem;
 }
 
 .offset-menu-tab li {
@@ -2910,12 +2908,12 @@ div.dataTables_wrapper div.dataTables_info{
 
 .offset-menu-tab li a {
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     color: #444;
     font-weight: 600;
     font-family: 'lato', sans-serif;
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 0.935rem;
 }
 
 .offset-menu-tab li a.active {
@@ -2947,7 +2945,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 
 .offset-content {
-    padding: 15px;
+    padding: 0.935rem;
 }
 
 .recent-activity {
@@ -2957,7 +2955,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .offset-settings h4 {
     font-family: 'lato', sans-serif;
-    font-size: 18px;
+    font-size: 1.125rem;
     letter-spacing: 0;
     font-weight: 700;
     color: #444;
@@ -2988,8 +2986,8 @@ div.dataTables_wrapper div.dataTables_info{
     position: absolute;
     top: 5px;
     left: 5px;
-    width: 15px;
-    height: 15px;
+    width: 0.935rem;
+    height: 0.935rem;
     background: #fff;
     border-radius: 90px;
     -webkit-transition: 0.3s;
@@ -3016,7 +3014,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .s-settings p {
     color: #888383;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .s-sw-title {
@@ -3031,11 +3029,11 @@ div.dataTables_wrapper div.dataTables_info{
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .s-sw-title h5 {
-    font-size: 16px;
+    font-size: 1rem;
     color: #555;
 }
 
@@ -3067,7 +3065,7 @@ div.dataTables_wrapper div.dataTables_info{
 }
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, 
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
-    top:13px !important;
+    top:0.8125rem !important;
 }
 .add_inventory{
     position:relative;
@@ -3077,19 +3075,19 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
 .add_inventory:before{
     top: 3px;
     left: 11px;
-    height: 14px;
-    width: 14px;
+    height: 0.875rem;
+    width: 0.875rem;
     display: block;
     position: absolute;
     color: #FFF;
     border: 2px solid #9FCC47;
-    border-radius: 14px;
+    border-radius: 0.875rem;
     box-shadow: 0 0 3px #9FCC47;
     box-sizing: content-box;
     text-align: center;
     text-indent: 0 !important;
     font-family: 'Courier New', Courier, monospace;
-    line-height: 14px;
+    line-height: 0.875rem;
     content: '+';
     background-color: #9FCC47;
 }
@@ -3114,7 +3112,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     text-transform: uppercase;
     padding: 0.5rem;
     width: 5rem;
-    min-height: 33px;
+    min-height: 2.0625rem;
     font-size: 0.625rem;
     display: flex;
     align-items: center;
@@ -3127,7 +3125,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
         padding-left: 0px;
     }
     .admin-portal  .home-content .page_title{
-        padding-left: 15px !important;
+        padding-left: 0.935rem !important;
         margin-bottom: 1.5rem;
         float: left;    
     }

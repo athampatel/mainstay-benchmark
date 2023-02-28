@@ -39,14 +39,17 @@ class AuthController extends Controller
     }
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
-        $_user    = User::where('email',$response['emailaddress'])->where('active',1)->first();
+
+        $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
+        $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
         // if($_user){
-            return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
+            //return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
+            return array('sp_email' => $email,'message' => 'Customer already exists' , 'user' => $_user,'status' => 0 );
         }  
         $user   =  UserController::createUser($response,$action,$postdata);
 
-        $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
+        
         $sales_person = array();
         if($response['salespersonemail'] != '')
             $sales_person = SalesPersons::where('email',$response['salespersonemail'])->first();
@@ -127,29 +130,33 @@ class AuthController extends Controller
             $error      = 1;
             $_multiple  = 0;            
             if (!empty($response['customers'])){
-                if ( count($response['customers']) === 1 ) {
+                if (count($response['customers']) === 1 ) {
                     $response   = $response['customers'][0];
                     $_details   = self::CreateCustomer($response,0,$postdata);  
-                    if(is_array($_details))                  
-                        $details    = array_merge($details,$_details);                        
+                    if(is_array($_details))
+                        $details    = array_merge($details,$_details);
                     else
                         return $_details;
-                        $error      = 0;
+
+                    $error   = 0;
                 }elseif(count($response['customers']) > 1){
                     $_multiple  = 1;
                 }
             }
-           // if($error){
+            if($error){
                     
-                    $signupdata     =   array(  'full_name'     => $request->full_name,
-                                                'company_name'  => $request->company_name,
-                                                'email'         => $request->email,
-                                                'phone_no'      => $request->phone_no);
-                    $data_request   = SignupRequest::create($signupdata);   
-                    $request_id     = $data_request->id;            
-                    $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
-            //}
-            $details['title'] = "New customer request for portal access";   
+                $signupdata     =   array(  'full_name'     => $request->full_name,
+                                            'company_name'  => $request->company_name,
+                                            'email'         => $request->email,
+                                            'phone_no'      => $request->phone_no);
+                                            
+                $data_request   = SignupRequest::create($signupdata);   
+                $request_id     = $data_request->id;            
+                $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
+            }else{
+                $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
+            }
+            $details['title']   = "New customer request for portal access";   
             $details['subject'] = "New customer request for member portal access";
            
             if($_multiple){

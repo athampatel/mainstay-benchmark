@@ -413,7 +413,7 @@ nav .notification_section .notification_icons .notification_count_section{
   align-items: center;
   background: #F5F6FA;
   border-radius: 6px;
-  height: 50px;
+  height: 3.125rem;
   width: auto;  
 }
 .notification_section .profile-details .dropdown-menu{
