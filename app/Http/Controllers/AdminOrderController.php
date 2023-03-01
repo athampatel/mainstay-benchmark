@@ -101,7 +101,7 @@ class AdminOrderController extends Controller
 
     public function changeOrderRequestSync(Request $request){
         $data = $request->all();
-        dd($data);
+        // dd($data);
         // update change request api
         
     }

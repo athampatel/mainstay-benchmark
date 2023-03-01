@@ -291,7 +291,7 @@ class UsersController extends Controller
                 foreach($customer as $_customer){
                     if(!$user_id){
                         $response = $this->CreateCustomer($_customer);
-                        dd($response);
+                        // dd($response);
                         if($response['status'] != 0){
                             $user_id  = $response['id'];
                         }
@@ -334,7 +334,7 @@ class UsersController extends Controller
     public function CreateCustomer($postdata = null){
         // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
-        dd($response);
+        // dd($response);
         $user       = isset($response['user']) ? $response['user'] : null;
         $message    = 'Oops something went wrong';
         $status     = 'error';  
@@ -480,6 +480,9 @@ class UsersController extends Controller
     // get customer information
     public function getCustomerInfo(Request $request){
         $search_text = $request->search_text;
+        if($search_text == ''){
+
+        }
         // dd($search_text);
         $data = array(            
             "filter" => [
@@ -501,8 +504,6 @@ class UsersController extends Controller
         );
         
         //$customer = Customer::where('email',$search_text)->first();
-
-
         $customer = Customer::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)

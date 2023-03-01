@@ -110,7 +110,7 @@ Dashboard  - Admin Panel
                             <a href="{{ route('admin.users.change-order') }}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="seofct-icon"><span class="icon-item"><img src="assets/images/svg/open-orders.svg"></span> Change Order Request</div>
-                                    <h2>{{ $total_customers }}</h2>
+                                    <h2>{{ $change_request }}</h2>
                                 </div>
                             </a>
                         </div>

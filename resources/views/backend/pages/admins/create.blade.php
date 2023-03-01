@@ -37,7 +37,7 @@ Admin Create - Admin Panel
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="email">User Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="" value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
                                     </div>
                                 </div>
 
@@ -70,7 +70,7 @@ Admin Create - Admin Panel
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6">
                                         <label for="username">User Account Name</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif">
                                     </div>
                                 </div>
                                 <div class="form-row">
