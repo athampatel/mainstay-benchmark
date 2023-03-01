@@ -119,11 +119,18 @@ Customers - Admin Panel
 
                                                 <div class="btn-wrapper btns-2">
                                                     <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
-                                                
+                                                    {{-- @php 
+                                                    $user_id = $user->id;
+                                                    @endphp --}}
                                                     <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                                    onclick="event.preventDefault();deleteCustomer({{$user->id}})">
                                                         Delete
                                                     </a>
+                                                
+                                                    {{-- <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
+                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                                        Delete
+                                                    </a> --}}
 
                                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
@@ -153,4 +160,30 @@ Customers - Admin Panel
         </div>
     </div>    
 </div>
+@endsection
+
+
+@section('scripts')
+<script>
+function deleteCustomer(id){
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to delete the customer",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#9FCC47',
+    cancelButtonColor: '#424448',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+        // Swal.fire(
+        // 'Deleted!',
+        // 'Your file has been deleted.',
+        // 'success'
+        // )
+        document.getElementById(`delete-form-${id}`).submit();
+        }
+    })
+}
+</script>
 @endsection

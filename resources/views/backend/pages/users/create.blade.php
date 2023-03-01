@@ -156,6 +156,7 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+    const constants = <?php echo json_encode($constants); ?>;
     function ValidateEmail(emailaddress){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
             return true;
@@ -288,7 +289,12 @@ User Create - Admin Panel
     })
     
     $(document).on('click','#user-search',function(){
+        console.log(constants,'__constants');
         $search_text = $('#search-customer-no').val();
+        if($search_text == ''){
+            $('#customer_response_alert').addClass('alert-danger').removeClass('alert-success').removeClass('d-none').html('Search Customer With Customer Number/Email Field Is Required');     
+            return false;
+        }
         $.ajax({
             type: 'POST',
             url: '/admin/get_customer_info',
@@ -302,8 +308,10 @@ User Create - Admin Panel
             },
             success: function (res) {
                 var total_records = parseInt(res.customers.length);
+                
                 if(total_records > 1){
-                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html('More than one customer account was found for the email address.');     
+                    // $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html('More than one customer account was found for the email address.');     
+                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
                     var customers = res.customers;  
                     var _html = '';//'<form action="/customers" method="POST" id="create-multiple">';
                     //var form_field = $('#create-customer').html();

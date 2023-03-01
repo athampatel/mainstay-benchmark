@@ -48,7 +48,7 @@ function customerSalesChartDisplays(resp){
     var options = {
         show:true,
         series: [{
-                name: 'sales',
+                name: 'Sales',
                 data: $counts
             },
         ],
