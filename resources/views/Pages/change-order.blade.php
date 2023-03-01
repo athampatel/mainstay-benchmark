@@ -24,7 +24,7 @@
                             </div>
                             
                             <div class="form-button mt-2 col-12 col-md-3 col-lg-4">    
-                             <button type="submit" class="font-12 btn btn-primary" id="get_order_details">Get Order Details</button>
+                             <button type="submit" class="font-12 btn btn-primary btn-rounded" id="get_order_details">Get Order Details</button>
                             </div>
                         </form>
                     </div>
@@ -202,7 +202,7 @@
                     </div>
                    
                 </div>   
-                <button type="submit" class="btn btn-primary" id="order-save-button">Save Changes</button>
+                <button type="submit" class="btn btn-primary btn-rounded" id="order-save-button">Save Changes</button>
             </div>
         </div>
     </div>

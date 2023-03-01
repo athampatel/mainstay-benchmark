@@ -174,15 +174,16 @@ Route::group(['prefix' => 'admin'], function () {
 }); 
 
 Route::get('send-mail', function () {
-   
-    $url    = env('APP_URL').'/admin/user';
-    $params = array('mail_view' => 'emails.user-active1', 
-    'subject'   => 'New user Signup request', 
-    'url'       => $url);
-
-    Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+   $details = [
+    "subject" => "New customer request for member portal access",
+    "title" => "New customer request for portal access",
+    "body" => "A customer with email address Shane.Beisner@ge.com has requested forr member access, Please find the customer details below.<br/><br/><p><strong>Customer-No: </strong>GEMIL01</p><p><strong>Customer Name:</strong>GE HEALTHCARE</p><p><strong>Regional Person-No: </strong>MW1</p><p><strong>Sales Person Email: </strong>arooker@benchmarkproducts.com</p>",
+    "link" => "http://localhost:8081/admin/user/1/change-status/De8GJsnMfTDBsJQgpzpPeLuXM14W11?code=1",
+    "mail_view" => "emails.email-body"
+   ];
+    Mail::bcc('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
     
-    return view('welcome');
+    return "<h1>Mail Sended</h1>";
 });
 
 require __DIR__.'/auth.php';

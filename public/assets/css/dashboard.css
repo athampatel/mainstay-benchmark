@@ -1979,6 +1979,12 @@ nav .profile-details i{
 #backend_managers_wrapper .row:last-child{
   display: none;
 }
+#backend_change_order_requests_wrapper .row:first-child{
+  display: none;
+}
+#backend_change_order_requests_wrapper .row:last-child{
+  display: none;
+}
 /*open orders page */
 .padding-y-40{
   padding-left: 2.5rem;

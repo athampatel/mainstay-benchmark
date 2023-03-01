@@ -654,21 +654,25 @@ class SDEDataController extends Controller
             if($admin){    
                 $url    = env('APP_URL').'/admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
 
-                $params = array('mail_view' => 'emails.change_order_request', 
-                                'subject'   => 'Change Order request', 
-                                'url'       => $url);
-
-                                /* 
-                                
-                                */
-                // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                // \Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
+                // $details = array('mail_view' => 'emails.email-body', 
+                //                 'subject'   => 'Change Order request', 
+                //                 'url'       => $url);
+                $email = Auth::user()->email;
+                $details['mail_view']       =  'emails.email-body';
+                $details['link']            =  $url;
+                $details['title']           =  "Change Order Request";   
+                $details['subject']         =  "New Change Order Request";
+                $body      = "<p>A customer with email address {$email} has requested for order change request.<br/> Order Details</p>";
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer No: </span><span>'.$customer_no.'</span></p>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
+                $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
                 if($admin_emails != ''){
                     $admin_emails = explode(',',$admin_emails);
                     foreach ($admin_emails as $admin_email) {
                         // Mail::to($admin_email)->send(new \App\Mail\SendMail($params));
-                        Mail::bcc($admin_email)->send(new \App\Mail\SendMail($params));
+                        Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
                     }
                 }
             }

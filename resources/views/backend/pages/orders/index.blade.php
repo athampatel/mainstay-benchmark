@@ -14,11 +14,63 @@ Customer Change Order Requests - Admin Panel
                 <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
-                        <div class="card-body">                                    
+                        <div class="card-body">
+                            {{-- test work start --}}
+                            <div class="row">
+                                <div class="col-12 col-lg-3 col-md-12">
+                                    <p class="float-right mb-2">
+                                        <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.users.create') }}">Create Customer</a>
+                                    </p>            
+                                </div>
+                                <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
+                                    <div class="position-relative item-search">
+                                            {{-- <form id="customer_filter" action="/admin/customers" method="GET"> --}}
+                                                <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_change_order_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
+                                                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-change-order-search-img">
+                                            {{-- </form> --}}
+                                        </div> 
+                                        {{-- {{dd($paginate['per_page'])}} --}}
+                                        @php 
+                                        $select_options = [10,12,20];
+                                        @endphp
+                                        <div class="position-relative datatable-filter-div">
+                                            {{-- <form action="" method="get"> --}}
+                                                <select name="" class="datatable-filter-count" id="admin-change-order-filter-count">
+                                                    @foreach($select_options as $select_option)
+                                                        <option value="{{$select_option}}" {{$select_option == $paginate['per_page'] ? 'selected' :'' }}>{{$select_option}} Items</option>
+                                                    @endforeach
+                                                </select>
+                                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
+                                            {{-- </form> --}}
+                                        </div>
+                                        <form id="change_order_from" action="/admin/customers/change-orders" method="GET">
+                                            {{-- @csrf --}}
+                                        </form>
+                                    {{-- </form> --}}
+                                    <div class="datatable-export">
+                                        <div class="datatable-print">
+                                            <a href="">
+                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
+                                            </a>
+                                        </div>
+                                        <div class="datatable-report">
+                                            <a href="/admin/exportAllCustomers">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
+                                            </a>
+                                        </div>
+                                    </div>
+                                   {{-- form submit work start --}}
+                                    {{-- <form id="customer-page-form" action="http://localhost:8081/admin/customers" method="GET" style="display:none;">
+                                        <input type="hidden" name="_token" value="UVbairuWI4ETpda1GR7s6dIfkx0ynp1C9XRH2vSi">                
+                                    </form> --}}
+                                   {{-- form submit work end --}}
+                                </div>
+                            </div>     
+                            {{-- test work end --}}                             
                             <div class="clearfix"></div>
-                            <div class="data-tables">
+                            <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="dataTable" class="text-center datatable-dark">
+                                <table id="backend_change_order_requests" class="text-center datatable-dark">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">Customer No</th>
@@ -56,6 +108,11 @@ Customer Change Order Requests - Admin Panel
                                     </tbody>
                                 </table>
                             </div>
+                            @if($paginate['last_page'] > 1)
+                                <div class="mt-3">
+                                    <x-pagination-component :pagination="$paginate" :search="$search" />
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

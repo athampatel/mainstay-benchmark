@@ -257,6 +257,7 @@ class UsersController extends Controller
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
         } else {
+            // dd('comes in 2');
            // $email_address  = $postdata['email'];
             $duplicate      = array();
             $customer       = array();
@@ -290,8 +291,21 @@ class UsersController extends Controller
                 foreach($customer as $_customer){
                     if(!$user_id){
                         $response = $this->CreateCustomer($_customer);
+                        dd($response);
                         if($response['status'] != 0){
                             $user_id  = $response['id'];
+                        }
+                        if($request->input('send_password')){
+                            // $to = ->email;
+                            $url    = 
+                            $details['subject'] = "Your Login Credentials";    
+                            $details['title']   = "Your Login Credentials";    
+                            $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
+                            $details['mail_view']    = "emails.new-account-details";
+                            
+                            $details['link']    = env('APP_URL').'/admin/login/';
+                            // \Mail::to($to)->send(new \App\Mail\SendMail($details));
+                            Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
                         }
                     }else{
                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
@@ -320,23 +334,18 @@ class UsersController extends Controller
     public function CreateCustomer($postdata = null){
         // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
-        // if($response->getTargetUrl()){
-        //     return array('status' => 0);
-        // } else {
-        //     dd('not redirect');
-        // }
-        // die();
-            $user       = isset($response['user']) ? $response['user'] : null;
-            $message    = 'Oops something went wrong';
-            $status     = 'error';  
-            $id         = 0;
-            if(!empty($user)){            
-                $this->sendActivationLink($user->id);
-                $message    = 'User has been created !!';
-                $status     = 'success';    
-                $id         = $user->id;
-            }
-            return array('status' => $status,'message' => $message,'id' => $id);
+        dd($response);
+        $user       = isset($response['user']) ? $response['user'] : null;
+        $message    = 'Oops something went wrong';
+        $status     = 'error';  
+        $id         = 0;
+        if(!empty($user)){            
+            $this->sendActivationLink($user->id);
+            $message    = 'User has been created !!';
+            $status     = 'success';    
+            $id         = $user->id;
+        }
+        return array('status' => $status,'message' => $message,'id' => $id);
         // }
     }
     /**
@@ -602,11 +611,18 @@ class UsersController extends Controller
                     );
                 }
 
-                $params = array('mail_view' => 'emails.user-active', 
-                                // 'subject' => 'reset password link', 
-                                'subject' => config('constants.customer_activate.mail.subject'), 
-                                'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
+                // $params = array('mail_view' => 'emails.user-active', 
+                //                 // 'subject' => 'reset password link', 
+                //                 'subject' => config('constants.customer_activate.mail.subject'), 
+                //                 'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
 
+                $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
+                $details['mail_view']       =  'emails.email-body';
+                $details['link']            =  $url;
+                $details['title']           =  "Your Account is Activated";   
+                $details['subject']         =  "Your Account is Activated Please Set The Password";
+                $body      = "<p>Your account is activated in the Benchmark Member Portal Access. please check and set the new password <br/>";
+                $details['body'] = $body;
                 // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
                 // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
                 // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
@@ -616,10 +632,10 @@ class UsersController extends Controller
                     $customer_emails = env('TEST_CUSTOMER_EMAILS');
                     $customer_emails = explode(',',$customer_emails);
                     foreach($customer_emails as $customer_email){
-                        Mail::to($customer_email)->send(new \App\Mail\SendMail($params));
+                        Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
                     }
                 }  else {
-                    Mail::to($user->email)->send(new \App\Mail\SendMail($params));
+                    Mail::to($user->email)->send(new \App\Mail\SendMail($details));
                 }
                 // email send work end
                 // $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
@@ -661,16 +677,32 @@ class UsersController extends Controller
         return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
     }
 
-    public function CustomerChangeOrders(){
-        $user   = $this->user;                
+    public function CustomerChangeOrders(Request $request){
+        $user   = $this->user;
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+        $search = $request->input('search');                  
         if($this->superAdmin){
-
             $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                ->orderBy('change_order_requests.id','DESC')                                                
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->offset($offset)
+                                                ->limit($limit)                                                
                                                 ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+            $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->orderBy('change_order_requests.id','DESC')                                                
+                                                ->paginate(intval($limit));
 
         }elseif(DashboardController::isManager($user->id,$user)){
             $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
@@ -679,9 +711,20 @@ class UsersController extends Controller
                                                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                                 ->where('sales_persons.id',$user->id)
                                                 ->orderBy('change_order_requests.id','DESC')
+                                                ->offset($offset)
+                                                ->limit($limit)
                                                 ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+            $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->where('sales_persons.id',$user->id)
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->paginate(intval($limit));
         }
-        return view('backend.pages.orders.index',compact('change_request','user'));
+        $paginate = $change_requests->toArray();
+        $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+        return view('backend.pages.orders.index',compact('change_request','user','paginate','limit','search'));
     }
 
     public function CustomerChangeOrderDetails($change_id){

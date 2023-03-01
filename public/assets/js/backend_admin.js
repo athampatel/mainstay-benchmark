@@ -276,3 +276,72 @@ $('#admin_managers_search').keyup(function(){
         $('#managers_from').submit();
     }
 })
+
+// All Change Order Requests
+
+let change_order_filter_count =  parseInt($("#admin-change-order-filter-count option:selected").val());
+let backend_change_order;
+backend_change_order = $('#backend_change_order_requests').DataTable( {
+    searching: true,
+    lengthChange: true,
+    pageLength:change_order_filter_count,
+    paging: true,
+    ordering: false,
+    info: false,
+});
+
+$(document).on('change','#admin-change-order-filter-count',function(){
+    let val = parseInt($("#admin-change-order-filter-count option:selected").val());
+    // backend_customers.page.len(val).draw();
+    let search = $('#admin_change_order_search').val();
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#change_order_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#change_order_from');
+    $('#change_order_from').submit();
+})
+$('#admin-managers-search-img').click(function(){
+    let search = $('#admin_change_order_search').val();
+    let val = parseInt($("#admin-change-order-filter-count option:selected").val());
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#change_order_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#change_order_from');
+    $('#change_order_from').submit();
+})
+
+$('#admin_change_order_search').keyup(function(){
+    let search = $(this).val();
+    if(search == ''){
+        let val = parseInt($("#admin-change-order-filter-count option:selected").val());
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'limit',
+            name: 'limit',
+            value: val
+        }).appendTo('#change_order_from');
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'search',
+            name: 'search',
+            value: search
+        }).appendTo('#change_order_from');
+        $('#change_order_from').submit();
+    }
+})
