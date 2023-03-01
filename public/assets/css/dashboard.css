@@ -785,7 +785,7 @@ nav .profile-details i{
   font-size: 0.75rem;
 }
 .item-number,.btn-small{
-  padding:0.125rem 0.625rem !important;
+  padding:0.25rem 0.625rem !important;
 }
 
 .bench-datatable .item-number{
@@ -803,6 +803,7 @@ nav .profile-details i{
 .overview-boxes  .card.box{
   background: #424448;
   border-radius: 0.625rem;
+  margin-bottom: 0px;  
 }
 .overview-boxes .h1, 
 .overview-boxes .h2,
@@ -819,9 +820,8 @@ nav .profile-details i{
    color: #FFF; 
 }
 .overview-boxes .btn-primary{
-  color: #424448;
-  font-weight: bold;
-  font-size: 0.75rem;
+  color: #424448;  
+  text-transform: uppercase;  
   padding: 0.5rem 1rem;
 }
 
@@ -1318,6 +1318,24 @@ nav .profile-details i{
 @media screen and (min-width: 1025px){
   .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper {
       width: 4.375rem;
+  }
+  .no-right-pad{
+    padding-right: 0px;
+  }
+  .padd-small{
+
+  }
+  .no-left-pad{
+    padding-left: 0px;
+  }
+  .small-right-pad{
+    padding-right: 0.35rem;
+  }
+  .small-left-pad{
+    padding-left: 0.35rem;
+  }
+  .overview-boxes .box{
+    margin-top: 0.75rem;
   }
 }
 

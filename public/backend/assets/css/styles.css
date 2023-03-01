@@ -1857,10 +1857,9 @@ table.dbkit-table tr td {
 /*-------------------- 10. Badge------------------- */
 
 .btn {
-    padding: 0.45rem 1.5rem;
+    padding: 0.45rem 1rem;
     font-size: 0.75rem;
-    letter-spacing: 0;  
-    font-weight: bold;
+    letter-spacing: 0;      
     width: auto;
 }
 
@@ -3131,12 +3130,12 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     text-transform: uppercase;
     padding: 0.5rem;
     width: 5rem;
-    min-height: 2.0625rem;
-    font-size: 0.625rem;
+    min-height: 2.0625rem;    
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 0.25rem;
+    padding: 0.45rem 1rem !important;
 }
 @media (max-width: 1400px){
     html{

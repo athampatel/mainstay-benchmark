@@ -5,6 +5,8 @@ $(function () {
 	//new PerfectScrollbar('.header-notifications-list');
 	// search bar
 
+	$('.equal-height').matchHeight({byRow: true, property: 'height'});
+
 
 	$(".mobile-search-icon").on("click", function () {
 		$(".search-bar").addClass("full-search-bar");

@@ -48,6 +48,7 @@
   	<!--<script src="/assets/plugins/apexcharts-bundle/js/apex-custom.js"></script> -->
 	<script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js" integrity="sha512-/bOVV1DV1AQXcypckRwsR9ThoCj7FqTV2/0Bm79bL3YSyLkVideFLE3MIZkq1u5t28ke1c0n31WYCOrO01dsUg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="/assets/js/app.js"></script>
 	<script src="/assets/js/menu.js"></script>
 	{{-- <script src="/assets/js/testCharts.js"></script> --}}

@@ -7,9 +7,9 @@
 <div class="home-content">
   <span class="page_title">Dashboard</span>
     <div class="overview-boxes widget_container_cards col-12">
-      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 col-12">
+      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 col-12 widget-listing">
         {{-- customer info card --}}
-        <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="col-sm-12 col-md-12 col-lg-4 no-right-pad">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -53,7 +53,7 @@
           </div>
         </div>
         {{-- Region manager info card --}}
-        <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="col-sm-12 col-md-12 col-lg-4 padd-small">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -83,7 +83,7 @@
           </div>
         </div>
         {{-- Open orders card --}}
-        <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="col-sm-12 col-md-12 col-lg-4 no-left-pad">
           <div class="card box">						
             <div class="card-body col-12 d-flex align-items-center height_144">
               <div class="box-icon">
@@ -93,8 +93,8 @@
               </div>
               <div class="box-details">
                 <div class="name">Open Orders</div>
-                <div class="date" id="open-orders-total-amount"></div>
-                <a class="btn btn-primary btn-small font-12 dashboard-button" href="/open-orders">View Open Order</a>
+                <div class="date" id="open-orders-total-amount">$ {{number_format("10000",2,".",",")}}</div>
+                <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/open-orders">View Open Order</a>
               </div>
             </div>
           </div>
@@ -102,8 +102,8 @@
       </div> 
 
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-        <div class="col-sm-12 col-md-12 col-lg-6"">
-          <div class="card box item-card-block">
+        <div class="col-sm-12 col-md-12 col-lg-6">
+          <div class="card box item-card-block equal-height">
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
               <div class="col-12 col-md-12 col-lg-6 d-flex align-items-center">
                 <div class="box-icon small-icon rounder-border">
@@ -124,8 +124,8 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-12 col-lg-6"">
-          <div class="card box item-card-block">
+        <div class="col-sm-12 col-md-12 col-lg-6 no-left-pad">
+          <div class="card box item-card-block equal-height">
               <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
                   <div class="box-icon small-icon rounder-border">
@@ -150,8 +150,8 @@
     <!---ROW 3-->
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-     <div class="col-sm-12 col-md-12 col-lg-4">
-        <div class="card box item-card-block">
+     <div class="col-sm-12 col-md-12 col-lg-4 no-right-pad">
+        <div class="card box item-card-block equal-height">
           <div class="card-header col-12 p-3 border-0">
             <div class="col-12 d-flex align-items-center">              
               <h4 class="mb-0 title-4">Total Customer Spending</h4>
@@ -165,7 +165,7 @@
         </div>
      </div>	
      <div class="col-sm-12 col-md-12 col-lg-8">
-        <div class="card box item-card-block">
+        <div class="card box item-card-block equal-height">
           <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
             <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
               <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
@@ -205,9 +205,9 @@
     @if(Auth::user()->is_vmi == 1)
     {{-- vmi users --}}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-      <div class="col">
+      <div class="col small-right-pad">
         <div class="card box">						
-          <div class="card-body col-12 d-flex align-items-center">
+          <div class="card-body col-12 d-flex align-items-center equal-height">
             <div class="box-icon">
               <div class="icon-wrapper rounder-border">
                 <img src="assets/images/svg/noun-inventory.svg" />
@@ -215,15 +215,15 @@
             </div>
             <div class="box-details">
               <div class="name">inventory details</div>
-              <div class="date">{{ @session('vmi_physicalcountdate') ? @session('vmi_physicalcountdate') : ''}}</div>
-              <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Inventory</a>
+              <div class="date">{{ @session('vmi_physicalcountdate') ? date('m-d-Y',strtotime(@session('vmi_physicalcountdate'))) : ''}}</div>
+              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="#">View Inventory</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col small-left-pad">
         <div class="card box">						
-          <div class="card-body col-12 d-flex align-items-center">
+          <div class="card-body col-12 d-flex align-items-center equal-height">
             <div class="box-icon">
               <div class="icon-wrapper rounder-border"> 
                 <img src="assets/images/svg/onsite-count.svg" />
@@ -231,8 +231,8 @@
             </div>
             <div class="box-details">
               <div class="name">Next Onsite Count</div>
-              <div class="date">{{ @session('vmi_nextonsitedate') ? @session('vmi_nextonsitedate') : ''}}</div>
-              <a class="btn btn-primary btn-small font-12 dashboard-button" href="#">View Next Onsite Count</a>
+              <div class="date">{{ @session('vmi_nextonsitedate') ? date('m-d-Y',strtotime(@session('vmi_nextonsitedate'))) : ''}}</div>
+              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="#">View Next Onsite Count</a>
             </div>
           </div>
         </div>

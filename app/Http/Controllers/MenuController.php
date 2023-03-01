@@ -42,7 +42,7 @@ class MenuController extends Controller
                         //                                         'icon_name' => file_get_contents(public_path('/assets/images/svg/change_order_gray.svg')),
                         //                                         'active' => 0,
                         //                                         'link'=> 'change-order'),
-                        'vmi-user'          =>          array(  'name' => 'vmi user', 
+                        'vmi-user'          =>          array(  'name' => 'VMI user', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/vmi_user_gray.svg')),
                                                                 'active' => 0,
                                                                 'link'=> '/vmi-user','code' => 'auth.customer.vmi'),
