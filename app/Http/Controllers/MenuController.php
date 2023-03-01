@@ -151,23 +151,23 @@ class MenuController extends Controller
     }
     
     public function changeOrderPage(Request $request,$orderid){           
-        // if()
-        if(Auth::user()->is_vmi == 1){
+
+        $customer_no   = $request->session()->get('customer_no');
+        $customers    = $request->session()->get('customers');
+        if(Auth::user()){ // && $customers['vmi_companycode'] != ''
             $final_data['title']  = '';
-            $final_data['current_menu']   = 'change-order';
-            $final_data['menus']          = $this->NavMenu('change-order');
+            $final_data['current_menu']   = 'open-orders';
+            $final_data['menus']          = $this->NavMenu('open-orders');
             $user = User::find(Auth::user()->id);
 
             $final_data['order_id'] = $orderid;
-            $final_data['user'] = $user;
-            $customer_no   = $request->session()->get('customers');
-            $customers    = $request->session()->get('customers');
+            $final_data['user'] = $user;            
             $user_id = $customers[0]->user_id;
             $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
             if($customer_menu_access){
                 $menu_access = explode(',',$customer_menu_access->access);
                 $final_data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-                if(!in_array($final_data['menus']['change-order']['code'],$final_data['customer_menus'])){
+                if(!in_array($final_data['menus']['open-orders']['code'],$final_data['customer_menus'])){
                     return redirect()->back();
                 }
             } else {

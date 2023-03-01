@@ -96,9 +96,12 @@ class DashboardController extends Controller
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->where('admins.id',$this->user->id);
 
-            $total_customers    = $customers->get([ 'users.id'])->count();            
+            $total_customers    = $customers->get(['users.id'])->count();            
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
             $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
+
+            $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
+
 
         }
 
@@ -118,7 +121,8 @@ class DashboardController extends Controller
                                                             'total_customers',
                                                             'sales_persons',
                                                             'vmi_customers',
-                                                            'new_customers','change_request')); 
+                                                            'new_customers',
+                                                            'change_request')); 
 
     }
     public function getCustomers($userId = 0){

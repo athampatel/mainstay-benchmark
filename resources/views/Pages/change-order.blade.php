@@ -16,7 +16,7 @@
                                 <label for="formFile" class="form-label">Enter Purchase Order Number</label>
                                 <input class="form-control  col-12" type="text" placeholder="" value="{{$order_id}}" name="PurchaseOrderNumber" id="PurchaseOrderNumber" required autocomplete="off">
                             </div>
-                            <div class="mb-3 col-12 col-md-4 col-lg-4" id="item-code-selectbox">    
+                            <div class="mb-3 col-12 col-md-4 col-lg-4 px-md-3 px-0 px-lg-3" id="item-code-selectbox">    
                                 <label for="formFile" class="form-label">Enter Item Code</label>
                                 <select name="ItemCode" id="ItemCode" class="form-select">
                                     <option value="0" selected>All</option>                                   

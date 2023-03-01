@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     // open orders
     Route::get('/customer-open-orders-details',[SDEDataController::class,'getCustomerOpenOrdersDetails']);
-    Route::get('/order-change-order/{orderid}',[MenuController::class,'changeOrderPage'])->name('auth.customer.change-order');
+    Route::get('/change-order/{orderid}',[MenuController::class,'changeOrderPage'])->name('auth.customer.change-order');
     Route::post('/change_order_items_save',[SDEDataController::class,'changeOrderPageSave']);
 
     // photo upload

@@ -3159,4 +3159,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     .footer-area{
         text-align: center !important;
     }
+    #user-search{
+        left:0px;
+        width:100%;
+    }
 }

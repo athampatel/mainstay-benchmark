@@ -44,7 +44,7 @@
                 <td class="status">Open</td>
                 @if($is_change_order)
                 <td class="action">
-                    <a href="/order-change-order/{{$saleorder['salesorderno']}}" target="_blank">
+                    <a href="/change-order/{{$saleorder['salesorderno']}}" target="_blank">
                         Change
                     </a>
                     <span>

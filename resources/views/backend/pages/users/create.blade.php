@@ -31,13 +31,13 @@ User Create - Admin Panel
                         <div class="card-body">
                             
                             
-                            <div class="form-row align-items-center form-row align-items-center col-md-8 col-12 mx-auto d-flex align-items-center">
-                                <div class="form-group col-md-9 col-sm-9">
+                            <div class="form-row align-items-center form-row align-items-center col-12 col-md-8 col-lg-8 mx-auto d-flex align-items-center flex-wrap">
+                                <div class="form-group col-12 col-md-9 col-lg-9">
                                     <label for="name">Search Customer With Customer Number/Email</label>
                                     <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer Number Or Customer Email" value="{{$email}}" required>
                                 </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <button class="position-relative btn btn-rounded px-4 btn-primary" id='user-search'>Search</button>
+                                <div class="col-12 col-md-3">
+                                    <button class="position-relative btn btn-rounded px-4 btn-primary col-12" id='user-search'>Search</button>
                                 </div>
                             </div>
                         </div>

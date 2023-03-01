@@ -54,8 +54,8 @@ class NotificationController extends Controller
             $notification   =   Notification::where('is_read',0)->where('to_user',0)->where('status',1)->orderBy('id','DESC')->get();
             $type           = 1;   
         }else if(!empty($user)){    
-           $type                = 2;  
-           $notification       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+           $type               = 2;  
+            $notification       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->leftjoin('notifications','users.id','=','notifications.from_user')->get();
