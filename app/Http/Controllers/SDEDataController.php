@@ -270,7 +270,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','AliasItems',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
 
     public function getCustomers(){
@@ -295,7 +295,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','Customers',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
         // Customers
     }
 

@@ -86,7 +86,18 @@ class AuthController extends Controller
             'email'         => ['required', 'string', 'email', 'max:255'],
             'full_name'      => ['required', 'string', 'max:255'],
             'company_name'   => ['required', 'string', 'max:255'], // 'unique:users'
+            'phone_no' => ['numeric'],
         ]);
+
+        $is_user = User::where('email',$request->email)->first();
+        if($is_user){
+            if($is_user->active == 0 && $is_user->is_deleted == 0){
+                return back()->withErrors('Already You Have Requested. Please Wait ');
+            }   
+            if($is_user->is_deleted == 1){
+                return back()->withErrors('Please Contact Support');
+            }
+        }
 
         $data = array(            
             "filter" => [
@@ -248,7 +259,7 @@ class AuthController extends Controller
             ];
             
             if(!Auth::attempt($credentials1)){
-                dd('__comes in 1');
+                // dd('__comes in 1');
                 RateLimiter::hit($loginRequest->throttleKey());
                 throw ValidationException::withMessages([
                     'email' => trans('auth.failed'),

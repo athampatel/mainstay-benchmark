@@ -73,13 +73,15 @@ class DashboardController extends Controller
         $new_customers      = 0;
         $sales_persons      = 0;
         $vmi_customers      = 0;
+        $change_request     = 0;
 
         if(self::SuperAdmin($this->user)){
             $user               = $this->user;
             $total_roles        = Role::select('id')->get()->count();
             $total_admins       = Admin::select('id')->get()->count();
             $total_permissions  = Permission::select('id')->get()->count();        
-            $total_customers    = User::select('id')->where('active','=',1)->get()->count();            //new_customers
+            // $total_customers    = User::select('id')->where('active','=',1)->get()->count();            //new_customers
+            $total_customers    = User::select('id')->get()->count();            //new_customers
             $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::leftjoin('user_details','users.id','=','user_details.user_id')
@@ -116,7 +118,7 @@ class DashboardController extends Controller
                                                             'total_customers',
                                                             'sales_persons',
                                                             'vmi_customers',
-                                                            'new_customers')); 
+                                                            'new_customers','change_request')); 
 
     }
     public function getCustomers($userId = 0){

@@ -2400,6 +2400,7 @@ table.dataTable td, table.dataTable th{
   right: 21rem;
   cursor: pointer;
 }
+
 @keyframes fadeInRight {
   from {
     opacity: 0;
@@ -2409,8 +2410,6 @@ table.dataTable td, table.dataTable th{
     opacity: 1;
   }
 }
-
-
 
 @media screen and (max-width: 1500px){
   html{

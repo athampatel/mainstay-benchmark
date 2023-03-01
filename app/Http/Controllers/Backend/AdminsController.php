@@ -81,12 +81,27 @@ class AdminsController extends Controller
         }
 
         // Validation Data
-        $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|max:100|email|unique:admins',
-            'username' => 'required|max:100|unique:admins',
-            'password' => 'required|min:8',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|max:50',
+        //     'email' => 'required|max:100|email|unique:admins',
+        //     'username' => 'required|max:100|unique:admins',
+        //     'password' => 'required|min:8',
+        // ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required',
+                'email' => 'required|max:100|email|unique:admins',
+                'username' => 'required|max:100|unique:admins',
+                'password' => 'required|min:8',
+            ],
+            [
+                'name.required' => 'The Name field is required',
+                'email.required' => 'The Email field is required',
+                'username.required' => 'The User Account Name field is required',
+                'password.required' => 'The Password field is required',
+            ]
+        );
 
         // Create New Admin
         $admin = new Admin();
