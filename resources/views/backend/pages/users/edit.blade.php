@@ -68,7 +68,7 @@ User Edit - Admin Panel
                                         </div>
                                     @endif
                                 @endforeach
-                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Update</button>
+                                <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Update</button>
                             </form>
                         </div>
                     </div>

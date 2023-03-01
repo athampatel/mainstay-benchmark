@@ -33,8 +33,8 @@ User Create - Admin Panel
                             
                             <div class="form-row align-items-center form-row align-items-center col-md-8 col-12 mx-auto d-flex align-items-center">
                                 <div class="form-group col-md-9 col-sm-9">
-                                    <label for="name">Search customer with customer number/email</label>
-                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer no or customer email" value="{{$email}}" required>
+                                    <label for="name">Search Customer With Customer Number/Email</label>
+                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer Number Or Customer Email" value="{{$email}}" required>
                                 </div>
                                 <div class="col-md-3 col-sm-6">
                                     <button class="position-relative btn btn-rounded px-4 btn-primary" id='user-search'>Search</button>
@@ -43,7 +43,7 @@ User Create - Admin Panel
                         </div>
                     </div> 
 
-                    <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer details found</div>
+                    <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer Details Found</div>
 
                     <div class="card multiple-container mt-3" style="display: none;">
                         <div class="card-body">
@@ -74,8 +74,9 @@ User Create - Admin Panel
                                         <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter Name">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="ardivision_no">ardivisionno</label>
-                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter AR division no">
+                                        {{-- <label for="ardivision_no">ardivisionno</label> --}}
+                                        <label for="ardivision_no">AR Division No</label>
+                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter AR division No">
                                     </div>
                                 </div>
 
@@ -133,7 +134,12 @@ User Create - Admin Panel
                                     </div>
                                     <input type="hidden" name="is_vmi" id="is_vmi" value="0">
                                     <input type="hidden" name="vmi_companycode" id="vmi_companycode" value="">
-                                    
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 col-sm-12 custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="send_password" value="1" id="send-password" />
+                                        <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Create Customer</button>
                             </form>

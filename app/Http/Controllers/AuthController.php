@@ -119,11 +119,10 @@ class AuthController extends Controller
 
         $body      = "<p>A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details</p>";
 
-       // $body   .= '<table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448">';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span><span>'.$request->full_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name:</span><span>'.$request->company_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone No:</span><span>'.$request->phone_no.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address:</span><span>'.$request->email.'</span></p>'; 
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name: </span><span>'.$request->full_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span><span>'.$request->company_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone No: </span><span>'.$request->phone_no.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span><span>'.$request->email.'</span></p><br>'; 
        // $body   .= '</table>';
         $details['body'] = $body;  
 

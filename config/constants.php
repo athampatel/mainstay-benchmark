@@ -1,60 +1,66 @@
 <?php 
     return [
         'customer-signup' => [
-            'confirmation_message' => 'Your request for member access has been submitted successfully, you will get a confirmation',
-            'validation_email' => 'Thanks for validating your email address, you will get a confirmation',
+            // 'confirmation_message' => 'Your request for member access has been submitted successfully, you will get a confirmation',
+            'confirmation_message' => 'Request for access submitted. You will receive confirmation by email.',
+            'validation_email' => 'Thank you for validating your email address. You will receive confirmation by email.',
             'mail' => [
                 'title' => 'Customer Portal Access',
-                'subject' => 'New customer request for member portal access'
+                'subject' => 'Your request for access to the Benchmark member portal'
             ]
             ],
         'customer_activate' => [
-            'confirmation_message' => 'Customer activated successfully and email sent',
+            'confirmation_message' => 'Customer activated successfully, and email sent.',
             'mail' => [
-                'subject' => 'reset password link',
+                'subject' => 'Reset Password',
             ]
         ],
         'customer_cancel' => [
-            'confirmation_message' => 'Customer Blocked successfully',
+            'confirmation_message' => 'Customer blocked successfully',
             'confirmation_error' => 'Customer not found',
         ],
         'customer_update' => [
-            'confirmation_message' => 'Customer has been updated successfully'
+            'confirmation_message' => 'Customer updated successfully'
         ],
         'customer_delete' => [
-            'confirmation_message' => 'Customer has been deleted'
+            'confirmation_message' => 'Customer successfully deleted'
         ],
         'change_order_request' => [
-            'not_found' => 'change request not found',
+            'not_found' => 'Change Request not found',
             'success' => 'Change order request sent successfully',
             'no_changes' => 'No changes in the order' 
         ],
         'email_verification' => [
-            'confirmation_message' => 'Verification link sent'
+            'confirmation_message' => 'Verification email sent'
         ],
         'customer_login' => [
-            'success_message' => 'Successully Logged in',
-            'error_message' => 'Invalid email and password'
+            'success_message' => 'Login Successful',
+            'error_message' => 'Invalid email or password'
         ],
-        'admin_error_403' => 'Sorry !! You are Unauthorized to view any admin',
-        'dashboard_error_403' => 'Sorry !! You are Unauthorized to view dashboard',
+        'admin_error_403' => 'Sorry, you are not an authorized administrator',
+        'dashboard_error_403' => 'Sorry, dashboard access is not authorized',
         'admin_create' => [
-            'confirmation_message' => 'Admin has been created successfully',
+            'confirmation_message' => 'Admin created successfully',
         ],
         'superadmin_update' => [
-            'error' => 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test',
+            'error' => 'Sorry, you cannot update the Super Admin.  Please create a new user if you need to test',
         ],
         'admin_update' => [
-            'confirmation_message' => 'Admin has been updated successfully'
+            'confirmation_message' => 'Admin updated successfully'
         ],
         'superadmin_delete' => [
-            'error' => 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test'
+            'error' => 'Sorry, you cannot update the Super Admin.  Please create a new user if you need to test'
         ],
         'admin_delete' => [
-            'confirmation_message' => 'Admin has been deleted !!'
+            'confirmation_message' => 'Admin deleted'
         ],
         'customer_account_page' => [
             'update_message' => 'Account Details Updated Succcessfully'
-        ]
+        ],
+        'multiple_customer' => 'More than one customer account was found for the email address',
+        'customer_found' => 'Customer details found for the specified account',
+        'api_error' => 'Unable to locate any customer details for this email address',
+        'customer_not_found' => 'Unable to locate any customer details for this email address',
+        'missing_manager' => 'Customer No ({$customerNo}) is missing regional manager details',
     ];
 ?>

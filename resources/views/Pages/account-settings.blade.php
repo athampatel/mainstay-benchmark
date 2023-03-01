@@ -72,7 +72,7 @@
                         </div>
                     </div>      
                 </div>  
-                <button type="submit" class="btn btn-primary" id="profile-edit-save-button">Update Changes</button> 
+                <button type="submit" class="btn btn-primary btn-rounded" id="profile-edit-save-button">Update Changes</button> 
             </div>
 
             {{-- customer detail section --}}
