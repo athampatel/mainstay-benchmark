@@ -70,14 +70,16 @@ class AdminOrderController extends Controller
                 $changeOrderRequest->status_detail = 'Approved';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
-                $message = 'Change Order Request Approved';
+                // $message = 'Change Order Request Approved';
+                $message = config('constants.admin.change_order.approve');
             } else {
                 // Decline request
                 $changeOrderRequest->request_status = 2;
                 $changeOrderRequest->status_detail = 'Declined';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
-                $message = 'Change Order Request Declined';
+                // $message = 'Change Order Request Declined';
+                $message = config('constants.admin.change_order.decline');
             }
 
             $_notification = array( 'type'      => 'signup',

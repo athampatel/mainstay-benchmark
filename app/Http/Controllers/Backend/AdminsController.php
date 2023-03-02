@@ -90,9 +90,9 @@ class AdminsController extends Controller
         $this->validate(
             $request,
             [
-                'name' => 'required',
+                'name' => 'required|min:5',
                 'email' => 'required|max:100|email|unique:admins',
-                'username' => 'required|max:100|unique:admins',
+                'username' => 'required|min:5|max:100|unique:admins',
                 'password' => 'required|min:8',
             ],
             [
@@ -118,8 +118,10 @@ class AdminsController extends Controller
             // $to = 'atham@tendersoftware.in';
             $to = $admin->email;
             $url    = 
-            $details['subject'] = "Your Login Credentials";    
-            $details['title']   = "Your Login Credentials";    
+            // $details['subject'] = "Your Login Credentials";    
+            // $details['title']   = "Your Login Credentials";    
+            $details['subject'] = config('constants.email.admin.admin_create.subject');    
+            $details['title']   = config('constants.email.admin.admin_create.title');
             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
             $details['mail_view']    = "emails.new-account-details";
             

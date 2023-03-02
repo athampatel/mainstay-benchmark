@@ -28,8 +28,8 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="invoice-orders-page-filter-count">
-                                    <option value="12">12 Items</option>
                                     <option value="5" selected>5 Items</option>
+                                    <option value="12">12 Items</option>
                                     <option value="10">10 Items</option>
                                     <option value="20">20 Items</option>
                                 </select>

@@ -70,20 +70,23 @@ class NotificationController extends Controller
                 switch($_type):
                     case 'signup':
                         $icon = '<i class="bx bx-group"></i>';
-                        $text   = 'New Sign Up Request from Customer';
+                        // $text   = 'New Sign Up Request from Customer';
+                        $text   = config('constants.notification.signup');
                         break;
                     case 'change-order':
                         $icon = '<i class="bx bx-cart-alt"></i>';
-                        $text   = 'New Change Order Request from Customer';
-                        
+                        // $text   = 'New Change Order Request from Customer';
+                        $text   = config('constants.notification.change_order');
                         break;
                     case 'contact-details':
                         $icon = '<i class="bx bx-file"></i>';
-                        $text   = 'New Contact details update request from Customer';
+                        // $text   = 'New Contact details update request from Customer';
+                        $text   = config('constants.notification.contact_details');
                         break;
                     case 'inventory-update':
                         $icon = '<i class="bx bx-user-pin"></i>';
-                        $text   = 'New Inventory update request from Customer';
+                        // $text   = 'New Inventory update request from Customer';
+                        $text   = config('constants.notification.inventory_update');
                         break;    
                 endswitch;   
               /*  $content .= '<a href="'.$_notification->action.'?notify='.$_notification->id.'" class="notify-item" target="_blank">
@@ -160,7 +163,8 @@ class NotificationController extends Controller
         if (!is_null($user)) {            
             $user->delete();
         }
-        session()->flash('success', 'User has been deleted !!');
+        // session()->flash('success', 'User has been deleted !!');
+        session()->flash('success', config('constants.customer_delete.confirmation_message'));
         return back();
     }
 
@@ -169,7 +173,18 @@ class NotificationController extends Controller
     public function getBottomNotifications(){
         // <div id="bottom_notification_disp"></div>  
         if(auth('admin')->check()) {
-            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+            if($this->superAdmin){
+                // Super admin
+                $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+            } else {
+                // Manager
+                $notifications = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+            }
+            // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
         } else {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
@@ -194,8 +209,25 @@ class NotificationController extends Controller
         // $end_time = date('Y-m-d h:i').':59';
         // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0 and created_at >= '".$start_time."' and created_at <= '".$end_time."'");
         if(auth('admin')->check()) {
-            $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
-            $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
+            if($this->superAdmin){
+                // super admin
+                $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+                $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
+            } else {
+                // manager 
+                $notifications = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+                $notifications_all = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();             
+            }
+            // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+            // $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
         } else{
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");

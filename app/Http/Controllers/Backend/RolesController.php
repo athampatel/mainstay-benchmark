@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -30,7 +29,8 @@ class RolesController extends Controller
     public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('role.view')) {
-            abort(403, 'Sorry !! You are Unauthorized to view any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to view any role !');
+            abort(403, config('constants.403.role.view'));
         }
         $limit = $request->input('limit');
         if(!$limit){
@@ -52,7 +52,8 @@ class RolesController extends Controller
     public function create()
     {
         if (is_null($this->user) || !$this->user->can('role.create')) {
-            abort(403, 'Sorry !! You are Unauthorized to create any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to create any role !');
+            abort(403, config('constants.403.role.create'));
         }
 
         $all_permissions  = Permission::all();
@@ -69,7 +70,8 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('role.create')) {
-            abort(403, 'Sorry !! You are Unauthorized to create any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to create any role !');
+            abort(403, config('constants.403.role.create'));
         }
 
         // Validation Data
@@ -89,7 +91,8 @@ class RolesController extends Controller
             $role->syncPermissions($permissions);
         }
 
-        session()->flash('success', 'Role has been created !!');
+        // session()->flash('success', 'Role has been created !!');
+        session()->flash('success', config('constants.admin.role.create'));
         return back();
     }
 
@@ -113,7 +116,8 @@ class RolesController extends Controller
     public function edit(int $id)
     {
         if (is_null($this->user) || !$this->user->can('role.edit')) {
-            abort(403, 'Sorry !! You are Unauthorized to edit any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to edit any role !');
+            abort(403, config('constants.403.role.edit'));
         }
 
         $role = Role::findById($id, 'admin');
@@ -132,14 +136,16 @@ class RolesController extends Controller
     public function update(Request $request, int $id)
     {
         if (is_null($this->user) || !$this->user->can('role.edit')) {
-            abort(403, 'Sorry !! You are Unauthorized to edit any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to edit any role !');
+            abort(403, config('constants.403.role.edit'));
         }
 
         // TODO: You can delete this in your local. This is for heroku publish.
         // This is only for Super Admin role,
         // so that no-one could delete or disable it by somehow.
         if ($id === 1) {
-            session()->flash('error', 'Sorry !! You are not authorized to edit this role !');
+            // session()->flash('error', 'Sorry !! You are not authorized to edit this role !');
+            session()->flash('error', config('constants.403.role.edit'));
             return back();
         }
 
@@ -159,7 +165,7 @@ class RolesController extends Controller
             $role->syncPermissions($permissions);
         }
 
-        session()->flash('success', 'Role has been updated !!');
+        session()->flash('success', config('constants.admin.role.update'));
         return back();
     }
 
@@ -172,14 +178,16 @@ class RolesController extends Controller
     public function destroy(int $id)
     {
         if (is_null($this->user) || !$this->user->can('role.delete')) {
-            abort(403, 'Sorry !! You are Unauthorized to delete any role !');
+            // abort(403, 'Sorry !! You are Unauthorized to delete any role !');
+            abort(403, config('constants.403.role.delete'));
         }
 
         // TODO: You can delete this in your local. This is for heroku publish.
         // This is only for Super Admin role,
         // so that no-one could delete or disable it by somehow.
         if ($id === 1) {
-            session()->flash('error', 'Sorry !! You are not authorized to delete this role !');
+            // session()->flash('error', 'Sorry !! You are not authorized to delete this role !');
+            session()->flash('error', config('constants.403.role.delete'));
             return back();
         }
 
@@ -188,7 +196,7 @@ class RolesController extends Controller
             $role->delete();
         }
 
-        session()->flash('success', 'Role has been deleted !!');
+        session()->flash('success',config('constants.admin.role.delete'));
         return back();
     }
 }
