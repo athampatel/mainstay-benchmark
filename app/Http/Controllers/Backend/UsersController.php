@@ -300,12 +300,12 @@ class UsersController extends Controller
                         if($request->input('send_password')){
                             // $to = ->email;
                             $url    = 
-                            $details['subject'] = "Your Login Credentials";    
-                            $details['title']   = "Your Login Credentials";    
+                            $details['subject'] = config('constants.email.admin.customer_create.subject');
+                            $details['title']   = config('constants.email.admin.customer_create.title');    
                             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
                             $details['mail_view']    = "emails.new-account-details";
                             
-                            $details['link']    = env('APP_URL').'/admin/login/';
+                            $details['link']    = env('APP_URL').'/';
                             // \Mail::to($to)->send(new \App\Mail\SendMail($details));
                             Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
                         }
@@ -323,7 +323,8 @@ class UsersController extends Controller
         }
            
         $status  = isset($response['status']) ? $response['status'] : 0;
-        $message = 'A new customer has been successfully created in the system.';
+        // $message = 'A new customer has been successfully created in the system.';
+        $message = config('constants.admin_customer_create.success');
         session()->flash($status, $message);
         if($request->input('ajaxed')){
             echo json_encode(array('status' => $status,'message' => $message,'redirect' => route('admin.users.index')));
@@ -338,12 +339,14 @@ class UsersController extends Controller
         $response   = AuthController::CreateCustomer($postdata,1);
         // dd($response);
         $user       = isset($response['user']) ? $response['user'] : null;
-        $message    = 'Oops something went wrong';
+        // $message    = 'Oops something went wrong';
+        $message    = config('constants.admin_customer_create.mail.error');
         $status     = 'error';  
         $id         = 0;
         if(!empty($user)){            
             $this->sendActivationLink($user->id);
-            $message    = 'User has been created !!';
+            // $message    = 'User has been created !!';
+            $message    = config('constants.admin_customer_create.mail.success');
             $status     = 'success';    
             $id         = $user->id;
         }
@@ -620,15 +623,13 @@ class UsersController extends Controller
                 $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
-                $details['title']           =  "Your Account is Activated";   
-                $details['subject']         =  "Your Account is Activated Please Set The Password";
-                $body      = "<p>Your account is activated in the Benchmark Member Portal Access. please check and set the new password <br/>";
+                // $details['title']           =  "Your Account is Activated";   
+                // $details['subject']         =  "Your Account is Activated Please Set The Password";
+                // $body      = "<p>Your account is activated in the Benchmark Member Portal Access. please check and set the new password <br/>";
+                $details['title']           = config('constants.email.admin.customer_activate.title');   
+                $details['subject']         = config('constants.email.admin.customer_activate.subject');
+                $body      = config('constants.email.admin.customer_activate.body');
                 $details['body'] = $body;
-                // \Mail::to($user->email)->send(new \App\Mail\SendMail($params));
-                // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($params));
-                // env('APP_ENV')
-                // if()
                 if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
                     $customer_emails = env('TEST_CUSTOMER_EMAILS');
                     $customer_emails = explode(',',$customer_emails);
@@ -642,7 +643,7 @@ class UsersController extends Controller
                 // $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
             } else {
-                $res = ['success' => false, 'message' =>'Customer not found'];
+                $res = ['success' => false, 'message' => config('constants.customer_not_found')];
             }
             return json_encode($res);
 

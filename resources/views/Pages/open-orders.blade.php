@@ -13,7 +13,7 @@
     <div class="loader"></div>
 </div>
 <div class="home-content">
-    <span class="page_title">Open order</span>
+    <span class="page_title">Open orders</span>
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-12">
@@ -28,9 +28,8 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="open-orders-page-filter-count">
-                                    <option value="12" selected>12 Items</option>
-                                    <option value="5">5 Items</option>
                                     <option value="10">10 Items</option>
+                                    <option value="12" selected>12 Items</option>
                                     <option value="20">20 Items</option>
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
@@ -64,47 +63,6 @@
         </div>
     </div>
 </div>
-{{-- @php 
-    $notifications = [
-        [
-            'title' => 'New Customers',
-            'desc' =>  '5 new user registered',
-            'time' =>  '5 Sec ago'
-        ],
-        [
-            'title' => 'New Managers',
-            'desc' =>  '2 new managers registered',
-            'time' =>  '10 Sec ago'
-        ],
-        [
-            'title' => 'Order Shipped',
-            'desc' =>  'your order shipped',
-            'time' =>  '10 Sec ago'
-        ],
-        [
-            'title' => 'Order Shipped',
-            'desc' =>  'your order shipped',
-            'time' =>  '10 Sec ago'
-        ],
-        [
-            'title' => 'Order Shipped',
-            'desc' =>  'your order shipped',
-            'time' =>  '10 Sec ago'
-        ],
-        [
-            'title' => 'Order Shipped',
-            'desc' =>  'your order shipped',
-            'time' =>  '10 Sec ago'
-        ],
-        [
-            'title' => 'Order Shipped',
-            'desc' =>  'your order shipped',
-            'time' =>  '10 Sec ago'
-        ],
-    ]
-@endphp
-<x-bottom-notification-component :count="count($notifications)" :notifications="$notifications" /> --}}
-
 @endsection
 
 @section('scripts')

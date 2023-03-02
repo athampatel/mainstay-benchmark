@@ -22,7 +22,6 @@ Admin Edit - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
@@ -46,12 +45,11 @@ Admin Edit - Admin Panel
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                                        <input type="password" class="form-control password-field" id="password" name="password" placeholder="Enter Password">
                                     </div>
-                                <!-- <div class="form-group col-md-6 col-sm-12">
-                                        <label for="password_confirmation">Confirm Password</label>
-                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
-                                    </div> --->
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary mt-4 pr-4 pl-4">Gernerate Random Password</a>
+                                    </div>   
                                 </div>
 
                                 <div class="form-row">
@@ -74,8 +72,6 @@ Admin Edit - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
-
             </div>
         </div>
     </div>

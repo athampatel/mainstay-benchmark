@@ -549,7 +549,7 @@ class SDEDataController extends Controller
                 echo json_encode(['success' => true, 'data'=> [$response], 'error' => []]);
                 die();
             } else {
-                echo json_encode(['success' => false, 'data' => [] , 'error' => ['user not found']]);
+                echo json_encode(['success' => false, 'data' => [] , 'error' => [config('constants.user_not_found')]]);
                 die();
             }
         }
@@ -663,8 +663,10 @@ class SDEDataController extends Controller
                 $email = Auth::user()->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
-                $details['title']           =  "Change Order Request";   
-                $details['subject']         =  "New Change Order Request";
+                // $details['title']           =  "Change Order Request";   
+                // $details['subject']         =  "New Change Order Request";
+                $details['title']           =  config('constants.email.admin.change_order.title');   
+                $details['subject']         =  config('constants.email.admin.change_order.subject');
                 $body      = "<p>A customer with email address {$email} has requested for order change request.<br/> Order Details</p>";
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer No: </span><span>'.$customer_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
@@ -685,7 +687,7 @@ class SDEDataController extends Controller
             $_notification = array( 'type'      => 'change-order',
                                     'from_user' => $user_id,
                                     'to_user'   => 0,
-                                    'text'      => 'Change Order request',
+                                    'text'      => config('constants.notification.change_order'),
                                     'action'    => $url,
                                     'status'    => 1,
                                     'is_read'   => 0);                

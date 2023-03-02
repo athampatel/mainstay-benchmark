@@ -109,8 +109,12 @@ Role Page - Admin Panel
                                                 @endif
 
                                                 @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
+                                                    {{-- <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">
+                                                        Delete
+                                                    </a> --}}
+                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
+                                                    onclick="event.preventDefault();deleteRole({{$role->id}})">
                                                         Delete
                                                     </a>
 
@@ -138,4 +142,25 @@ Role Page - Admin Panel
         </div>
     </div>
 </div>    
+@endsection
+
+@section('scripts')
+<script>
+function deleteRole(id){
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to delete the Role",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#9FCC47',
+    cancelButtonColor: '#424448',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(`delete-form-${id}`).submit();
+            // document.getElementById('delete-form-{{ $role->id }}').submit();
+        }
+    })
+}
+</script>
 @endsection

@@ -46,7 +46,7 @@ class AuthController extends Controller
         if(!empty($_user)){
         // if($_user){
             //return redirect()->back()->withErrors(['user_exists' => 'Account already exists']); 
-            return array('sp_email' => $email,'message' => 'Customer already exists' , 'user' => $_user,'status' => 0 );
+            return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
         }  
         
         $user   =  UserController::createUser($response,$action,$postdata);
@@ -67,7 +67,8 @@ class AuthController extends Controller
             }
         }
        
-        $message    = 'Thanks for validating your email address, you will get a confirmation';
+        // $message    = 'Thanks for validating your email address, you will get a confirmation';
+        $message    = config('constants.email.customer.customer_create.message');
         $status     = 'success';        
         $body       = "Hi, <br /> A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
         $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
@@ -92,10 +93,12 @@ class AuthController extends Controller
         $is_user = User::where('email',$request->email)->first();
         if($is_user){
             if($is_user->active == 0 && $is_user->is_deleted == 0){
-                return back()->withErrors('Already You Have Requested. Please Wait ');
+                // return back()->withErrors('Already You Have Requested. Please Wait ');
+                return back()->withErrors(config('constants.email.customer.customer_create.requested_already'));
             }   
             if($is_user->is_deleted == 1){
-                return back()->withErrors('Please Contact Support');
+                // return back()->withErrors('Please Contact Support');
+                return back()->withErrors(config('constants.email.customer.customer_create.deleted_by_admin'));
             }
         }
 
@@ -172,8 +175,10 @@ class AuthController extends Controller
             // else{
             //     $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             // }
-            $details['title']   = "New customer request for portal access";   
-            $details['subject'] = "New customer request for member portal access";
+            // $details['title']   = "New customer request for portal access";   
+            // $details['subject'] = "New customer request for member portal access";
+            $details['title']   = config('constants.email.customer.customer_create.title');   
+            $details['subject'] = config('constants.email.customer.customer_create.subject');
            
             if($_multiple){
                 $link .= "&duplicate=".$_multiple;

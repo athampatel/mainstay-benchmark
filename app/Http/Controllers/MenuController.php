@@ -329,7 +329,6 @@ class MenuController extends Controller
             ->with("saleorders", $response['salesorders'])
             ->with("is_change_order", $is_change_order)
             ->render();
-            
             $response['pagination_code'] = $pagination_code;
             $response['table_code'] = $table_code;
 

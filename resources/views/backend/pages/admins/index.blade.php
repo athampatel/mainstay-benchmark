@@ -12,7 +12,6 @@ Admins - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">  
@@ -20,7 +19,7 @@ Admins - Admin Panel
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
                                         @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                            <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New User</a>
+                                            <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New Admin</a>
                                         @endif
                                     </p>        
                                 </div>
@@ -31,7 +30,6 @@ Admins - Admin Panel
                                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-admins-search-img">
                                             {{-- </form> --}}
                                         </div> 
-                                        {{-- {{dd($paginate['per_page'])}} --}}
                                         @php 
                                         $select_options = [10,12,20];
                                         @endphp
@@ -56,16 +54,11 @@ Admins - Admin Panel
                                             </a>
                                         </div>
                                         <div class="datatable-report">
-                                            <a href="/admin/exportAllCustomers">
+                                            <a href="#">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-admins-report-icon">
                                             </a>
                                         </div>
                                     </div>
-                                   {{-- form submit work start --}}
-                                    {{-- <form id="customer-page-form" action="http://localhost:8081/admin/customers" method="GET" style="display:none;">
-                                        <input type="hidden" name="_token" value="UVbairuWI4ETpda1GR7s6dIfkx0ynp1C9XRH2vSi">                
-                                    </form> --}}
-                                   {{-- form submit work end --}}
                                 </div>
                             </div>
                             {{-- <p class="float-right mb-2">
@@ -109,8 +102,12 @@ Admins - Admin Panel
                                                     @endif
                                                     
                                                     @if (Auth::guard('admin')->user()->can('admin.delete'))
-                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.admins.destroy', $admin->id) }}"
+                                                    {{-- <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.admins.destroy', $admin->id) }}"
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $admin->id }}').submit();">
+                                                        Delete
+                                                    </a> --}}
+                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.admins.destroy', $admin->id) }}"
+                                                    onclick="event.preventDefault();deleteAdmin({{$admin->id}})">
                                                         Delete
                                                     </a>
                                                     <form id="delete-form-{{ $admin->id }}" action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display: none;">
@@ -131,8 +128,6 @@ Admins - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
-                
             </div>
         </div>
     </div>
@@ -140,3 +135,22 @@ Admins - Admin Panel
 
 @endsection
 
+@section('scripts')
+<script>
+function deleteAdmin(id){
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to delete the admin",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#9FCC47',
+    cancelButtonColor: '#424448',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(`delete-form-${id}`).submit();
+        }
+    })
+}
+</script>
+@endsection
