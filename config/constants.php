@@ -28,7 +28,8 @@
         'change_order_request' => [
             'not_found' => 'Change Request not found',
             'success' => 'Change order request sent successfully',
-            'no_changes' => 'No changes in the order' 
+            'no_changes' => 'No changes in the order',
+            'request_exsist'    => 'A change request has already been placed for this order.'
         ],
         'email_verification' => [
             'confirmation_message' => 'Verification email sent'
