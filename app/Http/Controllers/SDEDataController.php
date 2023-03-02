@@ -321,7 +321,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','InvoiceHistoryDetail',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
 
     public function getInvoiceHistoryHeader(){
@@ -346,7 +346,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
     
     public function getItemWarehouses(){
@@ -371,7 +371,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','ItemWarehouses',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
     
     public function getProducts(){
@@ -396,7 +396,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','Products',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
     
     public function getSalesOrderHistoryDetail(){
@@ -421,7 +421,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
     
     public function getSalesOrderHistoryHeader(){
@@ -432,7 +432,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
 
     public function getSalespersons(){
@@ -443,7 +443,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('get','Salespersons',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
     
     public function getVendors(){
@@ -454,7 +454,7 @@ class SDEDataController extends Controller
 
         $response   = $this->SDEApi->Request('post','Vendors',$data);
         // echo \json_encode($response);
-        dd($response);
+        // dd($response);
     }
 
     public function changeUserStatus($id){
@@ -471,7 +471,7 @@ class SDEDataController extends Controller
 
     public function changeUserCancel($id){
         $user = User::find($id);
-        dd($user);
+        // dd($user);
     }
 
     // public function profilePicUpload(Request $request){

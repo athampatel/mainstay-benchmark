@@ -123,7 +123,7 @@ class UsersController extends Controller
                                 'sales_persons.name as sales_person']); //->groupBy('user_details.user_id');
 
         $userss = $lblusers->paginate(intval($limit));
-        $users = $lblusers->offset($offset)->limit($limit)->get();
+        $users = $lblusers->orderBy('user_details.customerno', 'asc')->offset($offset)->limit($limit)->get();
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         return view('backend.pages.users.index', compact('users','paginate','limit','search'));
@@ -232,7 +232,9 @@ class UsersController extends Controller
         $email  = '';
         if($request->input('email'))
             $email = $request->input('email');
-        return view('backend.pages.users.create', compact('roles','email'));
+        // return view('backend.pages.users.create', compact('roles','email'));
+        $constants = config('constants');
+        return view('backend.pages.users.create', compact('roles','email','constants'));
     }
 
     /**
@@ -480,9 +482,6 @@ class UsersController extends Controller
     // get customer information
     public function getCustomerInfo(Request $request){
         $search_text = $request->search_text;
-        if($search_text == ''){
-
-        }
         // dd($search_text);
         $data = array(            
             "filter" => [
@@ -512,6 +511,7 @@ class UsersController extends Controller
         $res = $this->SDEApi->Request('post','Customers',$data);         
         $res['user'] = $customer; 
         echo json_encode($res);
+        die();
     }
 
     public function UserAccessRequest(request $request){
