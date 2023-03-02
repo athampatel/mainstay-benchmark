@@ -3135,7 +3135,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     align-items: center;
     justify-content: center;
     margin-right: 0.25rem;
-    padding: 0.45rem 1rem !important;
+    padding: 0.45rem 3rem !important;
 }
 @media (max-width: 1400px){
     html{

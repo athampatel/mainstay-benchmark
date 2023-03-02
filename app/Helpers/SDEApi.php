@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class SDEApi
 {
-   public $end_point = 'https://sde.BenchmarkProducts.com:2959/sde';
+   public $end_point = 'https://sde.BenchmarkProducts.com:2960/sde';
    protected $username = '';
    protected $password = '';
    protected $is_ssl_verify = false;

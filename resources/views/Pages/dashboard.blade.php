@@ -62,7 +62,7 @@
                 </div>  
               </div>
               <div class="box-details w-75">
-                <div class="name">Region Manager info</div>
+                <div class="name">Relational Manager info</div>
                 <div class="row py-1">
                   <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
                   {{-- <div class="col-6 card-item-body">Tom Hanney</div> --}}

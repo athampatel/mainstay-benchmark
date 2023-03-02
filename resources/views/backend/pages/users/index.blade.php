@@ -80,7 +80,7 @@ Customers - Admin Panel
                                             <th width="10%">Name</th>
                                             <th width="10%">Email</th>
                                             <th width="10%">AR Division no</th>
-                                            <th width="10%">Benchmark Regional Manager</th>
+                                            <th width="10%">Benchmark Relational Manager</th>
                                             <th width="10%">Status</th>
                                             <th width="10%">Action</th>
                                         </tr>
