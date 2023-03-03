@@ -98,7 +98,7 @@ class MenuController extends Controller
 
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
-        $year                       = date('Y');   
+        $year                       = 2022;   
         $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
         $sale_map                   = array();
         if(!empty($saleby_productline)){
