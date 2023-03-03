@@ -25,7 +25,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 	@yield('styles')
    </head>
-<body>
+<body class="customer-portal">
 	<div class="wrapper">
 		@include('layouts.menu-bar')
 		<section class="home-section position-relative">
@@ -48,6 +48,9 @@
   	<!--<script src="/assets/plugins/apexcharts-bundle/js/apex-custom.js"></script> -->
 	<script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js" integrity="sha512-/bOVV1DV1AQXcypckRwsR9ThoCj7FqTV2/0Bm79bL3YSyLkVideFLE3MIZkq1u5t28ke1c0n31WYCOrO01dsUg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="/assets/js/app.js"></script>
 	<script src="/assets/js/menu.js"></script>

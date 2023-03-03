@@ -131,60 +131,60 @@ $(document).on('change','#ItemCode',function(e){
 function displayChangeOrderPage(res,itemcode){
     let itemcode1 = itemcode;
     if(res.success){
-        $_data = res.data.data;
+        $_data = res.data.data;       
         $('.result-icon').addClass('d-none');
         $('.result-data').removeClass('d-none');
-        $('#disp-order-id').text($_data.salesorderno);
-        
-        // shipment details
-        $('#ship-to-name').val($_data.shiptoname);
-        $('#ship-to-phonenumber').val();
-        $('#ship-to-email').val(res.data.user.email);
-        $('#ship-to-address1').val($_data.shiptoaddress1);
-        $('#ship-to-address2').val($_data.shiptoaddress2);
-        $('#ship-to-address3').val($_data.shiptoaddress3);
-        // state html
-        // let state_html = `<option value="" selected></option>`
-        // $('#ship-to-state').val($_data.shiptostate).prop('selected', true);//.change();
-        // $('#ship-to-city').text($_data.shiptocity).prop('selected', true).change();
-        $('#ship-to-state option:selected').val($_data.shiptostate);//.change();
-        $('#ship-to-state option:selected').text($_data.shiptostate);//.change();
-        $('#ship-to-city option:selected').val($_data.shiptocity).change();
-        $('#ship-to-city option:selected').text($_data.shiptocity).change();
-        $('#ship-to-zipcode').val($_data.shiptozipcode);
-        $('#shipvia').val($_data.shipvia);
-        // order details
-        $('#order-detail-order-no').val($_data.salesorderno);
-        $('#order-location').val($_data.shiptocity);
-        $('#AliasItemNumber').val();
-        $('#OrderDate').val($_data.orderdate);
-
-        $('#ordereddate_val').val($_data.orderdate);
-        $('#salesorderno_val').val($_data.salesorderno);
-        $('#customerno_val').val($_data.customerno);
-            
-        
-        // order status
-        let order_status = $_data.orderstatus == 'C' ? 'Completed' : 'Open';
-        $('#orderStatus option:selected').val(order_status);
-        $('#orderStatus option:selected').text(order_status);
-        
-        if($_data.orderstatus == 'C'){
-            $('#order-save-button').addClass('d-none')
-        } else {
-            $('#order-save-button').removeClass('d-none')
-        }
         // item details
         let item_details_html = '';
         let quantity_count = 0;
         let promise_date = '';
         let dropship = '';
-
-        console.log( $_data.sales_order_history_detail);
-
         $_data.sales_order_history_detail.forEach(Sale_item => {
+
+
+            $('#disp-order-id').text(Sale_item.salesorderno);
+        
+            // shipment details
+            $('#ship-to-name').val(Sale_item.shiptoname);
+            $('#ship-to-phonenumber').val();
+            $('#ship-to-email').val(res.data.user.email);
+            $('#ship-to-address1').val(Sale_item.shiptoaddress1);
+            $('#ship-to-address2').val(Sale_item.shiptoaddress2);
+            $('#ship-to-address3').val(Sale_item.shiptoaddress3);
+            // state html
+            // let state_html = `<option value="" selected></option>`
+            // $('#ship-to-state').val(Sale_item.shiptostate).prop('selected', true);//.change();
+            // $('#ship-to-city').text(Sale_item.shiptocity).prop('selected', true).change();
+            $('#ship-to-state option:selected').val(Sale_item.shiptostate);//.change();
+            $('#ship-to-state option:selected').text(Sale_item.shiptostate);//.change();
+            $('#ship-to-city option:selected').val(Sale_item.shiptocity).change();
+            $('#ship-to-city option:selected').text(Sale_item.shiptocity).change();
+            $('#ship-to-zipcode').val(Sale_item.shiptozipcode);
+            $('#shipvia').val(Sale_item.shipvia);
+            // order details
+            $('#order-detail-order-no').val(Sale_item.salesorderno);
+            $('#order-location').val(Sale_item.shiptocity);
+            $('#AliasItemNumber').val();
+            $('#OrderDate').val(Sale_item.orderdate);
+
+            $('#ordereddate_val').val(Sale_item.orderdate);
+            $('#salesorderno_val').val(Sale_item.salesorderno);
+            $('#customerno_val').val(Sale_item.customerno);
+                
+            
+            // order status
+            let order_status = Sale_item.orderstatus == 'C' ? 'Completed' : 'Open';
+            $('#orderStatus option:selected').val(order_status);
+            $('#orderStatus option:selected').text(order_status);
+            
+            if(Sale_item.orderstatus == 'C'){
+                $('#order-save-button').addClass('d-none')
+            } else {
+                $('#order-save-button').removeClass('d-none')
+            }
+            
             $.each(Sale_item.product_details,function(index,item){
-              
+               
                 if(item.quantityordered > 0){
                     quantity_count += item.quantityordered;
                         promise_date = item.promisedate;
@@ -214,56 +214,7 @@ function displayChangeOrderPage(res,itemcode){
 
                     dropship = item.dropship == 'Y' ? 'Yes' : 'No';
                 }
-             });
-            /*if(itemcode1 != 0){
-                if(item.itemcode == itemcode1){
-                    if(item.lastunitprice != 0){
-                        quantity_count += item.quantityorderedrevised;
-                        promise_date = item.promisedate;
-                        item_details_html += `<tr class="order_item_row">
-                            <td>${item.product_details.length > 0 ? item.product_details[0].itemcodedesc : ''}<br/>
-                            Item Code: <a href="javascript:void(0)" class="item-number font-12">${item.itemcode}</a></td>                                    
-                            <td class="order_item_quantity">${item.quantityorderedrevised}</td>
-                            <td class="order_unit_price">$ ${item.lastunitprice}</td>
-                            <td class="order_unit_total_price">$ ${item.quantityorderedrevised * item.lastunitprice}</td>
-                            <td class="order_item_actions">
-                                <a href="#" class="edit_order_item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
-                                        <g class="pen" transform="translate(-181.608 -111.379)">
-                                            <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
-                                        </g>
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>`;
-
-                        dropship = item.dropship == 'Y' ? 'Yes' : 'No';
-                    }
-                }
-            } else {
-                if(item.lastunitprice != 0){
-                    quantity_count += item.quantityorderedrevised;
-                        promise_date = item.promisedate;
-                        item_details_html += `<tr class="order_item_row">
-                            <td>${item.product_details.length > 0 ? item.product_details[0].itemcodedesc : ''}<br/>
-                            Item Code: <a href="javascript:void(0)" class="item-number font-12">${item.itemcode}</a></td>                                    
-                            <td class="order_item_quantity">${item.quantityorderedrevised}</td>
-                            <td class="order_unit_price">$ ${item.lastunitprice}</td>
-                            <td class="order_unit_total_price">$ ${item.quantityorderedrevised * item.lastunitprice}</td>
-                            <td class="order_item_actions">
-                                <a href="#" class="edit_order_item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
-                                        <g class="pen" transform="translate(-181.608 -111.379)">
-                                            <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
-                                        </g>
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>`;
-
-                    dropship = item.dropship == 'Y' ? 'Yes' : 'No';
-                }
-            }*/
+             });            
         })
         $('#disp-items-body').html(item_details_html);
         // get the count of the quantity

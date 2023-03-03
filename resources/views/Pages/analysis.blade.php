@@ -19,21 +19,26 @@
             <div class="d-flex analysis-filter">
                 <label for="" class="position-relative">
                     <span>By Item</span>
-                    <select name="" id="analysis_item_select" class="rounded analysis_select">
-                        <option value="" selected>Select Item</option>
+                    <select name="type" id="analysis_item_select" class="rounded analysis_select">
+                        <option value="">Select Item</option>
+                        <option value="product-line">By Product Line</option>
+                        <option value="product">By Product Item</option>
+                    </select>
+                    <div class="down-arrow"></div>
+                </label>                
+                <label class="position-relative">
+                    <span>By Range</span>
+                    <select name="range"id="analysis_range_select"class="rounded analysis_select">
+                        <option value="0" selected>Select Range</option>
+                        <option value="1">Last Month</option>
+                        <option value="2">Quarterly</option>
+                        <option value="3">Half Yearly</option>
+                        <option value="4">By Range</option>
                     </select>
                     <div class="down-arrow"></div>
                 </label>
-                <label class="position-relative">
-                    <span>By Range</span>
-                    <select name=""id="analysis_range_select"class="rounded analysis_select">
-                        <option value="0" selected>Select Range</option>
-                        <option value="1" selected>Last Month</option>
-                        <option value="2" selected>Quarterly</option>
-                        <option value="3" selected>Half Yearly</option>
-                        <option value="4" selected>By Range</option>
-                    </select>
-                    <div class="down-arrow"></div>
+                <label class="position-relative date-range-field d-none">                   
+                    <input type="text" name="daterange" value="" placeholder="select range" class="analysis_select" />
                 </label>
             </div>
         </div>

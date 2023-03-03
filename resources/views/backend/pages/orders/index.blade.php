@@ -87,18 +87,18 @@ Customer Change Order Requests - Admin Panel
                                             <td> <a class="" href="">{{ $_request->customerno }}</a></td>
                                             <td>{{ $_request->name }}</td>
                                             <td>{{ $_request->email }}</td>                                                                
-                                            <td>{{ $_request->ordered_date}}</td>
+                                            <td>{{ date('m-d-Y',strtotime($_request->ordered_date))}}</td>
                                             <td>{{ $_request->manager}}</td>
                                             <td>
 
                                                     @if($_request['request_status'] == 2)
-                                                        <span class="badge badge-danger text-white ">Declined</span>
+                                                        <span class="badge btn-danger btn-rounded text-white ">Declined</span>
                                                     @elseif($_request['request_status'] == 1)
-                                                        <span class="badge badge-success text-white">Approved</span>  
+                                                        <span class="badge   btn-success btn-rounded text-white">Approved</span>  
                                                     @else                                             
-                                                        <span class="badge badge-warning text-white">New</span>
+                                                        <span class="badge btn btn-primary btn-rounded badge-warning text-white">New</span>
                                                     @endif
-                                                <a class="btn btn-info text-white" href="{{ route('admin.users.change-order-view', $_request->id) }}">View       Info</a>
+                                                <a class="btn btn-info btn-rounded text-white" href="{{ route('admin.users.change-order-view', $_request->id) }}">View       Info</a>
                                                 <!--<a class="btn btn-danger text-white" href="{{ route('admin.users.destroy', $user->id) }}"
                                                 onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">Delete
                                                 </a> -->

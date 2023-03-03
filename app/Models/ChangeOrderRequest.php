@@ -14,6 +14,7 @@ class ChangeOrderRequest extends Model
         'order_no',
         'request_status',
         'status_detail',
+        'user_details_id',
         'updated_by',
         'sync',
         'ordered_date',

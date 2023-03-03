@@ -87,7 +87,22 @@ $(document).on('change','#tab_input',function(){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
     }
-})
+});
+
+$(document).on('change','select#analysis_range_select',function(){
+    if($(this).val() == 4){
+        $('.date-range-field').removeClass('d-none');
+    }else{
+        $('.date-range-field').addClass('d-none');
+    }
+});
+
+
+$('input[name="daterange"]').daterangepicker({
+        locale: {
+          format: 'MM-DD-YYYY'
+        },
+    });
 // getChartData(response_)
 function getChartData(res){
     let arr1 = [];
@@ -118,7 +133,7 @@ function getChartData(res){
 function renderAnalysisChart($counts){
     var options = {
         series: [{
-                name: 'sales',
+                name: 'Sales',
                 data: $counts
             },
         ],
@@ -183,7 +198,10 @@ function renderAnalysisChart($counts){
         yaxis: {
             title: {
                 text: ''
-            }
+            },
+            formatter: function(value, series) {
+                return '$'+ numberWithCommas(value);
+              }
         },
     };
 

@@ -1527,6 +1527,11 @@ nav .profile-details i{
   height: 1.875rem;
   padding-left: 0.625rem;
 }
+input.analysis_select {
+  border: none;
+  border-radius: 7px;
+  padding-right: 0px;
+}
 .analysis_select::after{
   content: '';
   position: absolute;
@@ -1570,7 +1575,9 @@ nav .profile-details i{
   background-repeat: no-repeat;
 }
 
-
+.order_item_actions a{
+  text-decoration: none;
+}
 /* datatable design work start */
 #help-page-table{
   color: #fff;
@@ -2433,6 +2440,11 @@ table.dataTable td, table.dataTable th{
 #customer-spending-chart .apexcharts-legend-series{
   margin:3px 0px !important;
 }
+
+.table-responsive { overflow-x: initial; }
+.daterangepicker .calendar th, .daterangepicker .calendar td{
+  font-size: 10px;
+}
 @keyframes fadeInRight {
   from {
     opacity: 0;
@@ -2451,30 +2463,53 @@ table.dataTable td, table.dataTable th{
 }
 
 @media (max-width: 1240px) {
-  .sidebar{
-    width: 3.75rem;
+  html{
+    font-size: 80%;
   }
-  .sidebar.active{
-    width: 13.75rem;
+  .sidebar{
+    width: 4rem;
+  }
+  .customer-portal .toggled .sidebar{
+    width: 13.75rem !important;
   }
   .home-section{
     width: calc(100% - 3.75rem);
     left: 3.75rem;
   }
-  .sidebar.active ~ .home-section{
+  .customer-portal .toggled .home-section{
     /* width: calc(100% - 13.75rem); */
     overflow: hidden;
     left: 13.75rem;
   }
   .home-section nav{
-    width: calc(100% - 3.75rem);
-    left: 3.75rem;
+    width: calc(100% - 2.75rem);
+    left: 2.75rem;
   }
   .sidebar.active ~ .home-section nav{
     width: calc(100% - 13.75rem);
     left: 13.75rem;
   }
+  .customer-portal .sidebar .nav-links{
+    padding-left: 1rem;
+  }
+  .customer-portal .sidebar .nav-links li a .links_name{
+    display:none;
+  } 
+  .customer-portal .toggled .sidebar .nav-links li a .links_name{
+    display: block;
+  }
+
+  .customer-portal .sidebar  .logo-details{
+      opacity: 0;
+  }
+  .customer-portal .toggled .sidebar .logo-details{
+    opacity: 1;
+  }
+  .customer-portal .wrapper.toggled .sidebar .logo-details img{
+    scale:1 !important;
+  }
 }
+
 @media (max-width: 1150px) {
   .home-content .sales-boxes{
     flex-direction: column;
@@ -2486,6 +2521,9 @@ table.dataTable td, table.dataTable th{
   }
   .home-content .sales-boxes .top-sales{
     margin: 0;
+  }
+  .table-responsive{
+    overflow-x: auto;
   }
 }
 /*
@@ -2676,6 +2714,12 @@ table.dataTable td, table.dataTable th{
       left: auto;
       right: 0px;
       width: 50%;
+  }
+  .overview-boxes .box{
+    margin-top: 0.5rem;
+  }
+  #customer-spending-chart .apexcharts-legend-text{
+    font-size: 0.625rem;
   }
 }
 

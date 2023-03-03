@@ -178,61 +178,14 @@ class SDEDataController extends Controller
                 ],
             ],
         );
-        $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-       if(empty($sales_order_history_header['salesorderhistoryheader'])){
-            $response = ['success' => false, 'data' => [],'error' => ['No records found']];
-            echo json_encode($response);
-            die();
-       }
-        $sales_order_header = $sales_order_history_header['salesorderhistoryheader'][0];
 
-        $filter = [
-            [
-                "column" =>  "salesorderno",
-                "type" =>  "equals",
-                "value" => $order_no,
-                "operator" =>  "and"
-            ],
-        ];
-
-        if($item_code != "" ){
-            $new_filter = [ 
-                "column" =>  "itemcode",
-                "type" =>  "equals",
-                "value" => $item_code,
-                "operator" =>  "and"
-            ];
-            array_push($filter,$new_filter);
-        }
-
-        $data1 = array(            
-            "filter" => $filter
-        );
-        
-        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data1);
-
+        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
         $sales_order_detail = $sales_order_history_detail['salesorders'];
-
-       foreach ($sales_order_detail as $key => $sales_order) {
-           
-            /*$data2 = array(            
-                "filter" => [
-                    [
-                        "column" =>  "ItemCode",
-                        "type" =>  "equals",
-                        "value" => $sales_order['itemcode'],
-                        "operator" =>  "and"
-                    ],
-                ],
-            );
-            $product_detail = $this->SDEApi->Request('post','Products',$data2);
-            $sales_order_detail[$key]['product_details'] = $product_detail['products']; */
-
-            $sales_order_detail[$key]['product_details'] = $sales_order['details'];
+        if(!empty($sales_order_detail)){
+            foreach ($sales_order_detail as $key => $sales_order) {
+                $sales_order_detail[$key]['product_details'] = $sales_order['details'];
+            }
         }
-
-      
-
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
         $user = User::find(Auth::user()->id);
         $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
@@ -660,13 +613,21 @@ class SDEDataController extends Controller
     // change order save function 
     public function changeOrderPageSave(Request $request){
         $data = $request->input('data');
-        $customer_no = $request->input('customer_no');
+       // $customer_no = $request->input('customer_no');
+
+        $customer_no   = $request->session()->get('customer_no');
         $sales_order_no = $request->input('sales_order_no');
         $ordered_date = $request->input('ordered_date');
         $user_id = Auth::user()->id;
         $user_details_id = UserDetails::where('customerno',$customer_no)
                            ->where('user_id',$user_id)
                            ->pluck('id')->first();
+
+
+         
+       // print_r($user_details_id);     die;
+                  
+                        
         if(!empty($data)){
             // $change_order_request = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->first(); 
             $is_insert = true;
@@ -681,13 +642,15 @@ class SDEDataController extends Controller
                 echo json_encode(['success' => false,'error'=> config('constants.change_order_request.request_exsist')]);
                 die();
             }
-            
-            $change_order_request = ChangeOrderRequest::create([
+
+            $array = [
                 'user_id'           => Auth::user()->id,
                 'user_details_id'   => $user_details_id,
                 'order_no'          => $sales_order_no,
                 'ordered_date'      => $ordered_date,
-            ]);
+            ];
+            
+            $change_order_request = ChangeOrderRequest::create($array);
             foreach($data as $da){
                 $changeOrderItem = ChangeOrderItem::where('order_table_id',$change_order_request->id)->where('item_code',$da['itemcode'])->first();
                 if(!$changeOrderItem){
@@ -704,7 +667,7 @@ class SDEDataController extends Controller
             // Admin mail send work start
             $admin      = Admin::first();
 
-            if($admin){    
+            //if($admin){    
                 $url    = env('APP_URL').'/admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
 
                 // $details = array('mail_view' => 'emails.email-body', 
@@ -717,20 +680,23 @@ class SDEDataController extends Controller
                 // $details['subject']         =  "New Change Order Request";
                 $details['title']           =  config('constants.email.admin.change_order.title');   
                 $details['subject']         =  config('constants.email.admin.change_order.subject');
-                $body      = "<p>A customer with email address {$email} has requested for order change request.<br/> Order Details</p>";
+                $body      = "<p>A customer with email address {$email} has requested an  order change request.<br/> Order Details</p>";
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer No: </span><span>'.$customer_no.'</span></p>';
-                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Regional Manager Person-No: </span><span>'.$sales_order_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
                 $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
-                if($admin_emails != ''){
-                    $admin_emails = explode(',',$admin_emails);
-                    foreach ($admin_emails as $admin_email) {
-                        // Mail::to($admin_email)->send(new \App\Mail\SendMail($params));
-                        Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
-                    }
+                $bcc_email = '';
+                if($admin_emails != ''){                   
+                    Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+                }else{
+                    Mail::to($admin->email)->send(new \App\Mail\SendMail($params));
                 }
-            }
+
+                
+
+                
+           // }
             // Admin mail send work end
 
 

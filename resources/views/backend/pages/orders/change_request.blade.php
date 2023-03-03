@@ -115,7 +115,7 @@ User Create - Admin Panel
                                         <div class="form-row">
                                             <div class="form-group col-md-6 col-sm-12">
                                                 <label for="user_state">Address Line 3</label>
-                                                <div class="text-secondary">{{$order_detail['shiptoaddress3']}}</div>
+                                                <div class="text-secondary">@if(isset($order_detail['shiptoaddress3'])) {{$order_detail['shiptoaddress3']}} @endif </div>
                                             </div>
                                             <div class="form-group col-md-6 col-sm-12">
                                                 <label for="user_zipcode">Zipcode</label>
@@ -153,13 +153,13 @@ User Create - Admin Panel
                                         <div class="mb-3">
                                             <div class="card-body px-0" id="change-order-request-buttons">
                                             @if($change_request['request_status'] == 2)
-                                            <div class="alert alert-danger text-secondary font-xs">This Request was Declined</div>
+                                            <div class="alert alert-danger text-secondary font-xs btn-rounded">This Request was Declined</div>
                                             @elseif($change_request['request_status'] == 1)
-                                                <div class="alert alert-success text-secondary font-xs">This Request was Approved</div>
-                                                <button class="btn btn-success pr-4 pl-4" id="approve_sync">Sent to Sage</button>
+                                                <div class="alert alert-success text-secondary font-xs btn-rounded">This Request was Approved</div>
+                                                <button class="btn btn-success pr-4 pl-4 btn-rounded" id="approve_sync">Sent to Sage</button>
                                             @else
-                                                <button class="btn btn-danger pr-4 pl-4" id="cancel_request">Decline Request</button>
-                                                <button class="btn btn-success pr-4 pl-4" id="approve_request">Approve Request</button>
+                                                <button class="btn btn-danger btn-rounded pr-4 pl-4" id="cancel_request">Decline Request</button>
+                                                <button class="btn btn-success btn-rounded pr-4 pl-4" id="approve_request">Approve Request</button>
                                             @endif
                                             </div>
                                         </div> 
@@ -213,7 +213,7 @@ User Create - Admin Panel
     function changeOrderRequestChange(res){
         if(res.success){
             if(res.data.status == 1){
-                let action_buttons = `<button class="btn btn-success pr-4 pl-4" id="sync_request">Add To SDE</button>`
+                let action_buttons = `<button class="btn btn-success btn-rounded pr-4 pl-4" id="sync_request">Sent to SAGE</button>`
                 $('#order-change-status-display').removeClass('d-none');
                 $('#order-change-status-display').addClass('alert-success').removeClass('alert-danger').text('Order Requested Approved Successfully');
                 $('#change-order-request-buttons').addClass('d-none')

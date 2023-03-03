@@ -6,8 +6,8 @@
 </div>
 <div class="home-content">
     <h1 class="page_title px-5 pt-3">Change order</h1>
-    <div class="overview-boxes widget_container_cards col-12">
-         <div class="row row-cols-1 col-12">
+    <div class="overview-boxes widget_container_cards col-12 ">
+         <div class="row row-cols-1 col-12 mb-2">
             <div class="col-12">
                 <div class="card box">						
                     <div class="card-body col-12 d-flex align-items-center">
@@ -33,7 +33,7 @@
         </div>       
         <div class="row row-cols-1 col-12">
             <div class="col-12">
-                <div class="alert alert-success text-center d-none" id="change-order-request-response-alert">Change Order Request sent successfully</div>
+                <div class="alert alert-success text-center d-none" id="change-order-request-response-alert">Change order request sent successfully.</div>
              </div>
         </div>
         <div class="row row-cols-1 col-12 result-data">

@@ -29,7 +29,7 @@
             <div class="alert alert-success text-center" id="result-response-message"></div>
         </div>
         <div class="row row-cols-1 col-12 result-data flex-wrap sm-rverse-flex">
-            <div class="col-12 col-md-4 col-lg-3 ">
+            <div class="col-12 col-md-3 col-lg-3 ">
                 <div class="card box mb-4">						
                     <div class="card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
@@ -76,7 +76,7 @@
             </div>
 
             {{-- customer detail section --}}
-            <div class="col-12 col-md-8  co-lg-9">
+            <div class="col-12 col-md-9  co-lg-9">
                 <div class="card box">	
                     <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">

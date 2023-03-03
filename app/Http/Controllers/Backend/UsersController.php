@@ -765,13 +765,15 @@ class UsersController extends Controller
             ],
         );
 
-        $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-        if(!empty($order_detail['salesorderhistoryheader'])){
-            $order_detail = $order_detail['salesorderhistoryheader'][0];
+        $order_detail = $this->SDEApi->Request('post','SalesOrders',$data);
+
+        if(!empty($order_detail['salesorders'])){
+            $order_detail = $order_detail['salesorders'][0];
         } else {
             $order_detail = [];
-        }
-       
+        }       
+
+        
 
         $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
 

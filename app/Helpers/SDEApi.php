@@ -118,7 +118,6 @@ class SDEApi
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
         ]);
-
         if($method === 'get') {
            $response = $request->get($this->end_point,$post_data);
         } else {
