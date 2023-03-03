@@ -15,24 +15,24 @@
         <tbody id="invoice-orders-page-table-body">
             @foreach($invoices as $invoice)
             <tr>
-                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$invoice['salesorderno']}}</a></td>
+                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td>
                 @php
                 $total = 0;
                 $price = 0;
-                $date = DateTime::createFromFormat('Y-m-d',$invoice['orderdate']);
+               
                 foreach ($invoice['details'] as $item){
-                    $total += $item['quantityordered'];
-                    $price += $item['quantityordered'] * $item['unitprice'];
+                    $total += $item['quantityshipped'];
+                    $price += $item['quantityshipped'] * $item['unitprice'];
                 }
                 @endphp
                 <td>{{$total}}</td>
                 <td>${{$price}}</td>
-                <td>{{$date->format('M d, Y')}}</td>
+                <td>{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td>
                 <td class="status">Shipped</td>
                 {{-- <td class="action">
-                    <a href="/order-change-order/{{$invoice['salesorderno']}}" target="_blank">
+                    <a href="/order-change-order/{{$invoice['invoiceno']}}" target="_blank">
                         Change
                     </a>
                     <span>

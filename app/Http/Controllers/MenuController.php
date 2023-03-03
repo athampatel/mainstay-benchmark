@@ -98,12 +98,8 @@ class MenuController extends Controller
 
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
-        // $year                       = date('Y');   
-        $year                       = '2022';   
+        $year                       = date('Y');   
         $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
-
-        //dd($customerDetails); 
-
         $sale_map                   = array();
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){ 
@@ -319,9 +315,6 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-
-
-            print_r($data); die; 
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
 
@@ -411,39 +404,40 @@ class MenuController extends Controller
         $customer_no    = $request->session()->get('customer_no');
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
-            // $data = array(            
-            //     "filter" => [
-            //         [
-            //             "column" =>  "CustomerNo",
-            //             "type" =>  "equals",
-            //             "value" =>  $user_details->customerno,
-            //             "operator" =>  "and"
-            //         ],
-            //         [
-            //             "column" => "ARDivisionNo",
-            //             "type" => "equals",
-            //             "value" => $user_details->ardivisionno,
-            //             "operator" => "and"
-            //         ],
-            //     ],
-            //     "offset" => 1,
-            //     "limit" => 2,
-            // );
-            // $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-            // foreach($response_data['salesorderhistoryheader'] as $key => $res){
-            //     $data1 = array(            
-            //         "filter" => [
-            //             [
-            //                 "column" => "SalesOrderNo",
-            //                 "type" => "equals",
-            //                 "value" => $res['salesorderno'],
-            //                 "operator" => "and"
-            //             ],
-            //         ]
-            //     );  
-            //     $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-            //     $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
-            // };
+            $data = array(            
+                "filter" => [
+                    [
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" => "ARDivisionNo",
+                        "type" => "equals",
+                        "value" => $user_details->ardivisionno,
+                        "operator" => "and"
+                    ],
+                ],
+                "offset" => 1,
+                "limit" => 2,
+            );
+            $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+
+            /*foreach($response_data['salesorderhistoryheader'] as $key => $res){
+                $data1 = array(            
+                    "filter" => [
+                        [
+                            "column" => "SalesOrderNo",
+                            "type" => "equals",
+                            "value" => $res['salesorderno'],
+                            "operator" => "and"
+                        ],
+                    ]
+                );  
+                $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+                $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
+            };
             $data = array(            
                 "filter" => [
                     [
@@ -463,9 +457,11 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
             
-            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            $response   = $this->SDEApi->Request('post','SalesOrders',$data);*/
             // dd($response);
-            // dd($response);
+
+            
+
             $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
@@ -474,7 +470,7 @@ class MenuController extends Controller
             }
     
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
-            ->with("invoices", $response['salesorders'])
+            ->with("invoices", $response['salesorderhistoryheader'])
             ->render();
             
             $response['pagination_code'] = $pagination_code;
@@ -700,39 +696,40 @@ class MenuController extends Controller
     public function getVmiData(Request $request){
         $customer = $request->session()->get('customers');
         $customer_no = $request->session()->get('customer_no');
-        $data = $request->all();
-        $page = $data['page'];
-        $limit = $data['count'];
-        if($page == 0){
-            $offset = 1;
-        } else {
-            $offset = $page * $limit + 1;
-        }
+
+        $offset = 1;
+        $limit = 10;
+        $page  = ($request->input('page')) ? $request->input('page') : 0;
         $data = array(            
-            "filter" => [
+            /*"filter" => [
                 [
                     "column"=> "companyCode",
                     "type"=> "equals",
-                    "value"=> $customer[0]->vmi_companycode,
+                    //"value"=> $customer[0]->vmi_companycode,
                     "operator"=> "and"
                 ],
-            ],
-            "offset" => $offset,
-            "limit" => $limit,
+            ],*/
+            "companyCode"   => "EL1",
+            "offset"        => $offset,
+            "limit"         => $limit,
         );
         
         $response   = $this->SDEApi->Request('post','Products',$data);
-        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],
-        $page,'/getInvoiceOrders');
+
+        
+        // pagination work
+        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
         $pagination_code = "";
         if($custom_pagination['last_page'] > 1){
             $pagination_code = View::make("components.ajax-pagination-component")
             ->with("pagination", $custom_pagination)
             ->render();
         }
+        // dd($response);
         $table_code = View::make("components.datatabels.vmi-component")
             ->with("vmiProducts", $response['products'])
             ->render();
+        // dd($table_code);
         $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
         echo json_encode($res);
         die(); 
