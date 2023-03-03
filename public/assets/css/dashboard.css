@@ -952,6 +952,10 @@ nav .profile-details i{
   height: 11.375rem;
 }
 
+.profile_img_disp{
+  border-radius: 50%;
+}
+
 #file_input_button{
   top: 2.8125rem;
   right: 1.5625rem;

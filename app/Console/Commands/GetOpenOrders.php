@@ -57,19 +57,6 @@ class GetOpenOrders extends Command
                 ],
             );
             $response = $sdeApi->Request('post','SalesOrders',$data);
-            $response = $response['salesorders'];
-            if(!empty($response)){
-                foreach ($response as $key => $res) {
-                    $total_amount = 0;
-                    $total_quantity = 0;
-                    foreach($res['details'] as $detail){
-                        $total_amount = $total_amount + ($detail['quantityordered'] * $detail['unitprice']);
-                        $total_quantity = $total_quantity + $detail['quantityordered'];
-                    }
-                    $response[$key]['total_amount']= $total_amount;
-                    $response[$key]['total_quantity']= $total_quantity;
-                }
-            }
             $type = ApiType::where('name','salesorders')->first();
             $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
             if($api_data){

@@ -103,15 +103,24 @@ class SaleByProductLineController extends Controller
             $year = date('Y');
         
         $saledetails    = array(); 
-        $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get();
+        $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get()->toArray();
         
-       
+       // dd($sale_details);
+
         if(empty($sale_details)){
             $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
             $SDEApi = new SDEApi();
 
+           
+            
+
            $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
-           $responsedata    = json_decode($prroductLine,true);
+
+        //    dd($prroductLine);
+           
+
+
+           $responsedata    = $prroductLine;
            
            if(isset($responsedata['SalesByCustProdLine'])){
                 foreach($responsedata['SalesByCustProdLine'] as $key => $line_data){

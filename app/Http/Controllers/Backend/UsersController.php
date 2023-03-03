@@ -247,7 +247,6 @@ class UsersController extends Controller
     {
         // Validation Data
         $postdata       = $request->input();
-        dd($postdata);
         $is_duplicate   = 0;
         $email_address  = '';
         if(!isset($postdata['create_user'])){
@@ -307,8 +306,19 @@ class UsersController extends Controller
                             $details['mail_view']    = "emails.new-account-details";
                             
                             $details['link']    = env('APP_URL').'/';
+                            
                             // \Mail::to($to)->send(new \App\Mail\SendMail($details));
-                            Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+                            if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
+                                $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                                $customer_emails = explode(',',$customer_emails);
+                                foreach($customer_emails as $customer_email){
+                                    Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
+                                }
+                            }  else {
+                                Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                            }
+                            // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+                            // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
                         }
                     }else{
                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
