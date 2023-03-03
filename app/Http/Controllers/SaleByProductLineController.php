@@ -122,9 +122,9 @@ class SaleByProductLineController extends Controller
 
            $responsedata    = $prroductLine;
            
-           if(isset($responsedata['SalesByCustProdLine'])){
-                foreach($responsedata['SalesByCustProdLine'] as $key => $line_data){
-                    $ProductLine = $line_data['ProductLine'];
+           if(isset($responsedata['salesbyproductline'])){
+                foreach($responsedata['salesbyproductline'] as $key => $line_data){
+                    $ProductLine = $line_data['productline'];
                     for($i = 1;$i<=12;$i++){                        
                         if(isset($line_data['DollarsSoldPeriod'.$i]) && $line_data['DollarsSoldPeriod'.$i] > 0){
                             $line_item = SaleByProductLine::where('user_details_id',$customer_id)
