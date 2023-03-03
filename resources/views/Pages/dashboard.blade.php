@@ -37,7 +37,7 @@
                 @endphp
                 {{-- {{dd($customer_session)}} --}}                
                 <div class="row py-1">
-                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
                   {{-- <div class="col-8 card-item-body">Adams Baker</div> --}}
                   {{-- @if($customer_session) --}}
                     <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
@@ -46,7 +46,7 @@
                   @endif --}}
                 </div>
                 <div class="row py-1">
-                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
                   {{-- <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div> --}}
                   @php 
                   $session_address = "";
@@ -79,21 +79,20 @@
             <div class="card-body col-12 d-flex align-items-center pt-0">
               <div class="box-details col-12">                
                 <div class="row py-1">
-                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                  {{-- <div class="col-6 card-item-body">Tom Hanney</div> --}}
-                  <div class="col-6 card-item-body">{{$region_manager->name}}</div>
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>                  
+                  <div class="col-8 card-item-body">{{$region_manager->name}}</div>
                 </div>
                 <div class="row py-1">
-                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>
-                  {{-- <div class="col-6 card-item-body">tomhanney@gmail.com</div> --}}
-                  <div class="col-6 card-item-body">{{$region_manager->email}}</div>
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>                  
+                  <div class="col-8 card-item-body">{{$region_manager->email}}</div>
                 </div>
-
+                {{--  
                 <div class="row py-1">
-                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
+                  <div class="col-34 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
                   <div class="col-6 card-item-body">999 333 4568</div>
-                  {{-- <div class="col-6 card-item-body">{{$region_manager->name}}</div> --}}
+                   <div class="col-6 card-item-body">{{$region_manager->name}}</div>
                 </div>
+                --}}
               </div>
             </div>
           </div>
