@@ -823,6 +823,7 @@ nav .profile-details i{
   color: #424448;  
   text-transform: uppercase;  
   padding: 0.5rem 1rem;
+  font-size: 0.75rem;
 }
 
 .overview-boxes .dashboard-button{

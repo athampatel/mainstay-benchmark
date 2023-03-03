@@ -1919,6 +1919,13 @@ table.dbkit-table tr td {
 .btn-rounded {
     border-radius: 3.125rem;
 }
+.badge.btn-rounded{  
+    text-transform: none;
+    font-size: 0.75rem;
+    font-weight: 400;
+    padding: 0.625rem 1rem;
+    min-width: 6rem;
+}
 
 /*-------------------- END Button ------------------- */
 
