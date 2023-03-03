@@ -85,6 +85,8 @@ Route::middleware('auth')->group(function () {
 
     // get customer open orders data
     Route::get('/getCustomerOpenOrders',[MenuController::class,'getCustomerOpenOrdersData']);
+    // get Vmi page data
+    Route::get('/getVmiData',[MenuController::class,'getVmiData']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

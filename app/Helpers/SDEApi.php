@@ -8,14 +8,16 @@ use Illuminate\Support\Facades\Http;
 
 class SDEApi
 {
-   public $end_point = 'https://sde.BenchmarkProducts.com:2960/sde';
+  //  public $end_point = 'https://sde.BenchmarkProducts.com:2960/sde';
+   public  $end_point ;
    protected $username = '';
    protected $password = '';
    protected $is_ssl_verify = false;
   //  protected $is_ssl_verify = true;
 
    public function __construct(){
-       // $this->end_point = env('API_URL');
+       // $this->end_point = env('API_URL');\
+        $this->end_point =  env('API_URL');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
        // $this->is_ssl_verify = env('SSL_VERIFY');

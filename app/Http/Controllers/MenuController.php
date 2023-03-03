@@ -553,30 +553,15 @@ class MenuController extends Controller
         $customer_no = $request->session()->get('customer_no');
         $type = ApiType::where('name','salesorders')->first();
         $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
+        $is_data_fetch = true;
         if($api_data){
-            $response = json_decode($api_data->data);
-            $count_total = 0;
-            $test_counts = [];
-            foreach($response as $res){
-                $date = explode("-",$res->orderdate);
-                if($date[0] == '2022'){
-                    if(isset($test_counts['0-'.$date[1]])){
-                        $test_counts['0-'.$date[1]] = $test_counts['0-'.$date[1]] + $res->total_amount;
-                    } else {
-                        $test_counts['0-'.$date[1]] = $res->total_amount;
-                    }
-                }
-                $count_total = $count_total + $res->total_amount; 
+            $time_now = date('Y-m-d h:i:s');
+            $update_time = $api_data->updated_at->diffInMinutes($time_now);
+            if($update_time <= 30){
+                $is_data_fetch = false;
             }
-            $new_open_orders = [];
-            for($i = 1; $i <= 12 ; $i++){
-                $num = $i < 10 ? '0'.$i : $i;
-                $test_counts['0-'.$num] = isset($test_counts['0-'.$num]) ?  $test_counts['0-'.$num] : 0;
-                $new_open_orders[] = $test_counts['0-'.$num];
-            }
-            echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $count_total],'error' => []]);
-            die(); 
-        } else {
+        }
+        if($is_data_fetch){
             $data = array(            
                 "filter" => [
                     [
@@ -595,31 +580,150 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            $is_api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
+            if($is_api_data){
+                $is_api_data->data = json_encode($response);
+                $is_api_data->updated_at = date('Y-m-d h:i:s'); 
+                $is_api_data->save(); 
+            } else {
+                ApiData::create([
+                    'customer_no' => $customer_no,
+                    'type' => $type->id,
+                    'data' => json_encode($response)
+                ]);
+            }
             $response = $response['salesorders'];
-            $open_orders = [];
-            foreach($response as $res){
-                $date = explode("-",$res['orderdate']);
-                if($date[0] == '2022'){
-                    foreach($res['details'] as $detail){
-                        if(isset($open_orders['0-'.$date[1]])){
-                            $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
-                        } else {
-                            $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
-                        }
+        } else {
+            $response = json_decode($api_data->data,true);
+            $response = $response['salesorders'];
+        }
+        $open_orders = [];
+        foreach($response as $res){
+            $date = explode("-",$res['orderdate']);
+            if($date[0] == '2022'){
+                foreach($res['details'] as $detail){
+                    if(isset($open_orders['0-'.$date[1]])){
+                        $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
+                    } else {
+                        $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
                     }
                 }
             }
-            $total = 0;
-            $new_open_orders = [];
-            for($i = 1; $i <= 12 ; $i++){
-                $num = $i < 10 ? '0'.$i : $i;
-                $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
-                $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
-                $new_open_orders[] = $open_orders['0-'.$num];
-            }
-            echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
-            die();
         }
+        $total = 0;
+        $new_open_orders = [];
+        for($i = 1; $i <= 12 ; $i++){
+            $num = $i < 10 ? '0'.$i : $i;
+            $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
+            $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
+            $new_open_orders[] = $open_orders['0-'.$num];
+        }
+        echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
+        die();
+        // if($api_data){
+        //     $response = json_decode($api_data->data);
+        //     $count_total = 0;
+        //     $test_counts = [];
+        //     foreach($response as $res){
+        //         $date = explode("-",$res->orderdate);
+        //         if($date[0] == '2022'){
+        //             if(isset($test_counts['0-'.$date[1]])){
+        //                 $test_counts['0-'.$date[1]] = $test_counts['0-'.$date[1]] + $res->total_amount;
+        //             } else {
+        //                 $test_counts['0-'.$date[1]] = $res->total_amount;
+        //             }
+        //         }
+        //         $count_total = $count_total + $res->total_amount; 
+        //     }
+        //     $new_open_orders = [];
+        //     for($i = 1; $i <= 12 ; $i++){
+        //         $num = $i < 10 ? '0'.$i : $i;
+        //         $test_counts['0-'.$num] = isset($test_counts['0-'.$num]) ?  $test_counts['0-'.$num] : 0;
+        //         $new_open_orders[] = $test_counts['0-'.$num];
+        //     }
+        //     echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $count_total],'error' => []]);
+        //     die(); 
+        // } else {
+            // $data = array(            
+            //     "filter" => [
+            //         [
+            //             "column"=> "ARDivisionNo",
+            //             "type"=> "equals",
+            //             "value"=> $customer[0]->ardivisionno,
+            //             "operator"=> "and"
+            //         ],
+            //         [
+            //             "column"=> "CustomerNo",
+            //             "type"=> "equals",
+            //             "value"=> $customer_no,
+            //             "operator"=> "and"
+            //         ],
+            //     ],
+            // );
+            
+            // $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            // $response = $response['salesorders'];
+            // $open_orders = [];
+            // foreach($response as $res){
+            //     $date = explode("-",$res['orderdate']);
+            //     if($date[0] == '2022'){
+            //         foreach($res['details'] as $detail){
+            //             if(isset($open_orders['0-'.$date[1]])){
+            //                 $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
+            //             } else {
+            //                 $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
+            //             }
+            //         }
+            //     }
+            // }
+            // $total = 0;
+            // $new_open_orders = [];
+            // for($i = 1; $i <= 12 ; $i++){
+            //     $num = $i < 10 ? '0'.$i : $i;
+            //     $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
+            //     $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
+            //     $new_open_orders[] = $open_orders['0-'.$num];
+            // }
+            // echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
+            // die();
+        // }
+    }
+
+    public function getVmiData(Request $request){
+        $customer = $request->session()->get('customers');
+        $customer_no = $request->session()->get('customer_no');
+        $offset = 1;
+        $limit = 10;
+        $data = array(            
+            "filter" => [
+                [
+                    "column"=> "companyCode",
+                    "type"=> "equals",
+                    "value"=> $customer[0]->vmi_companycode,
+                    "operator"=> "and"
+                ],
+            ],
+            "offset" => $offset,
+            "limit" => $limit,
+        );
+        
+        $response   = $this->SDEApi->Request('post','Products',$data);
+        // pagination work
+        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
+        $$pagination_code = "";
+        if($custom_pagination['last_page'] > 1){
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+        }
+        // dd($response);
+        $table_code = View::make("components.datatabels.vmi-component")
+            ->with("vmiProducts", $response['products'])
+            ->render();
+        // dd($table_code);
+        $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
+        echo json_encode($res);
+        die(); 
     }
 
 }
