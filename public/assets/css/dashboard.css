@@ -2419,6 +2419,15 @@ table.dataTable td, table.dataTable th{
   cursor: pointer;
 }
 
+#customer-spending-chart .apexcharts-legend-text{
+  color: #FFF !important;
+  padding-left: 0.5rem;
+  font-size: 14px !important
+}
+
+#customer-spending-chart .apexcharts-legend-series{
+  margin:3px 0px !important;
+}
 @keyframes fadeInRight {
   from {
     opacity: 0;

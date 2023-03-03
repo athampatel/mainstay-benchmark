@@ -101,7 +101,12 @@ function customerSalesChartDisplays(resp){
         	}
         },
         colors: ["#A4CD3C"],
-        
+        dataLabels: {
+            formatter(val, opts) {
+              const name = opts.w.globals.labels[opts.seriesIndex]
+              return [name, val.toFixed(1) + '%']
+            },
+          }, 
         yaxis: {
             title: {
                 text: ''
@@ -113,12 +118,23 @@ function customerSalesChartDisplays(resp){
             xaxis: {
               lines: {
                 show: true 
-               }
+               },
+               labels: {
+                formatter: function(val, index) {
+                    return '$'+ numberWithCommas(val);
+                 }
+              }
              },  
             yaxis: {
               lines: { 
                 show: true 
-               }
+               },
+               labels: {
+                formatter: function(val, index) {
+                    return '$'+ numberWithCommas(val);
+                 }
+              }
+
              },   
           },
     };
@@ -143,7 +159,7 @@ function GetCustomerOpenOrders(){
                 // let count = res.data.count.toFixed(2)
                 // open order total display work start
                 console.log(res.data.count.toFixed(2));
-                $('#open-orders-total-amount').text(`$ ${res.data.count.toFixed(2)}`)
+                $('#open-orders-total-amount').text(`$ ${numberWithCommas(res.data.count.toFixed(2))}`)
                 // open order total display work end
             }
             console.log(res,'___get customer open orders');
@@ -162,7 +178,7 @@ function customerOpenOrders($array){
     })
     var options = {
         series: [{
-                name: 'sales',
+                name: 'Sales',
                 // data: [10,2,30,100,50,60,45,80,90,30,110,48]
                 data: arr
             },
@@ -229,12 +245,22 @@ function customerOpenOrders($array){
             xaxis: {
                 lines: {
                     show: true 
-                }
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
             },  
             yaxis: {
                 lines: { 
                     show: true 
-                }
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
             },   
         },
     };
@@ -245,86 +271,64 @@ function customerOpenOrders($array){
 
 // customer spending chart display
 function customerSpendingChart(){
-    var options = {
-        series: [{
-                name: 'sales',
-                data: [10,2,30,100,50,60,45,80,90,30,110,48]
-            },
-        ],
-        chart: {
-            foreColor: '#9ba7b2',
-            type: 'line',
-            height: 360,
-            zoom:{
-                enabled:false
-            },
-            toolbar : {
-                show:false
-            },
-            dropShadow:{
-                enabled:true,
-                top:3,
-                left:14,
-                blur:4,
-                opacity:0.10,
-            }
-        },
-        stroke: {
-            width: 3,
-            curve:'straight'
-        },
 
-        xaxis: {
-            type:'month',
-            categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    var labels = [];
+    var value = [];
+    if(typeof(data_bycat) != 'undefined'){
+        $.each(data_bycat,function(index,values){
+            console.log(values);
+            var _label = values.label; //+' $'+numberWithCommas(values.value);
+            labels.push(_label);            
+            value.push(values.value);
+        });
+    }
+    var options = {
+        series: value,
+        chart: {
+        type: 'donut',
+        width: '70%', 
+        foreColor: '#373d3f'       
+      },
+      labels: labels,    
+      dataLabels: {
+        formatter(val, opts) {
+          const name = opts.w.globals.labels[opts.seriesIndex]
+          return [name, val.toFixed(1) + '%']
         },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                gradientToColors: ['#A4CD3C'],
-                shadeIntensity: 1,
-                type: 'horizontal',
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [0, 100, 100, 100]
-            },
+      },      
+      tooltip: {
+        x: {
+          show: false
         },
-        markers: {
-        	size: 4,
-        	colors: ["#A4CD3C"],
-        	strokeColors: "#A4CD3C",
-        	strokeWidth: 2,
-        	hover: {
-        		size: 7,
-        	}
-        },
-        colors: ["#A4CD3C"],
-        
-        yaxis: {
-            title: {
-                text: ''
-            },
-            min: 0,
-        },
-        grid: {
-            borderColor: '#797B7D',
-            show: true,
-            xaxis: {
-                lines: {
-                    show: true 
-                }
-            },  
-            yaxis: {
-                lines: { 
-                    show: true 
-                }
-            },   
-        },
+        y: {
+          formatter: function(value, series) {
+            return '$'+ numberWithCommas(value);
+          }
+        }
+      },
+      total: {
+        show: false,
+        showAlways: false,
+        label: 'Total',
+        fontSize: '22px',
+        fontFamily: 'Helvetica, Arial, sans-serif',
+        fontWeight: 600,
+        color: '#373d3f',
+        formatter: function (w) {
+          return w.globals.seriesTotals.reduce((a, b) => {
+            return a + b
+          }, 0)
+        }
+      }         
     };
+
 
     var chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);
     chart.render();
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // dashboard invoice order table

@@ -12,6 +12,7 @@ use App\Models\CustomerMenu;
 use App\Models\CustomerMenuAccess;
 use App\Models\Post;
 use App\Models\SalesPersons;
+use App\Http\Controllers\SaleByProductLineController as ProductLine;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
@@ -79,8 +80,8 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('dashboard');
 
         $customer_no    = $request->session()->get('customer_no');
-        $customers    = $request->session()->get('customers');
-        $user_id = $customers[0]->user_id;
+        $customers      = $request->session()->get('customers');
+        $user_id        = Auth::user()->id;
         $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
         if($customer_menu_access){
             $menu_access = explode(',',$customer_menu_access->access);
@@ -94,8 +95,21 @@ class MenuController extends Controller
 
         $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
-        $data['constants'] = config('constants');
-        // dd($data['region_manager']);
+
+        $data['constants']          = config('constants');
+        $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
+        $year                       = date('Y');   
+        $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
+        $sale_map                   = array();
+        if(!empty($saleby_productline)){
+            foreach($saleby_productline as $key => $value){ 
+                        
+                $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
+            }
+        }             
+        $data['saleby_productline'] = $saleby_productline;
+        $data['data_productline']   = $sale_map;
+
         return view('Pages.dashboard',$data); 
     }
 
