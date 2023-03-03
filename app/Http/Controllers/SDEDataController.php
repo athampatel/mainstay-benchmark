@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\NotificationController;
 use App\Models\ApiData;
+use App\Models\ApiType;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -36,7 +37,8 @@ class SDEDataController extends Controller
         $user = User::find($user_id);
         $customer_no   = $request->session()->get('customer_no');
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 4)->first();
+        $type = ApiType::where('name','CustomerSalesHistory')->first();
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
         $is_fetch_data = true;
         if($is_api_data){
             $time_now = date('Y-m-d h:i:s');
@@ -71,7 +73,7 @@ class SDEDataController extends Controller
         );
 
         $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
-        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 4)->first();
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data);
                 $is_api_data->updated_at = date('Y-m-d h:i:s'); 
@@ -79,7 +81,7 @@ class SDEDataController extends Controller
             } else {
                 ApiData::create([
                     'customer_no' => $user_details->customerno,
-                    'type' => 4,
+                    'type' => $type->id,
                     'data' => json_encode($response_data)
                 ]);
             }
@@ -96,8 +98,9 @@ class SDEDataController extends Controller
         $user_id = Auth::user()->id;
         $user = User::find($user_id)->toArray();
         $customer_no   = $request->session()->get('customer_no');
+        $type = ApiType::where('name','salesorderhistoryheader')->first();
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 3)->first();
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
         $is_fetch_data = true;
         if($is_api_data){
             $time_now = date('Y-m-d h:i:s');
@@ -126,7 +129,7 @@ class SDEDataController extends Controller
                 "limit" => 5,
             );
             $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-            $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 3)->first();
+            $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data['salesorderhistoryheader']);
                 $is_api_data->updated_at = date('Y-m-d h:i:s'); 
@@ -134,7 +137,7 @@ class SDEDataController extends Controller
             } else {
                 ApiData::create([
                     'customer_no' => $user_details->customerno,
-                    'type' => 3,
+                    'type' => $type->id,
                     'data' => json_encode($response_data['salesorderhistoryheader'])
                 ]);
             }
@@ -682,8 +685,9 @@ class SDEDataController extends Controller
                 $details['subject']         =  config('constants.email.admin.change_order.subject');
                 $body      = "<p>A customer with email address {$email} has requested an  order change request.<br/> Order Details</p>";
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer No: </span><span>'.$customer_no.'</span></p>';
-                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Regional Manager Person-No: </span><span>'.$sales_order_no.'</span></p>';
-                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
+                // $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
                 $bcc_email = '';

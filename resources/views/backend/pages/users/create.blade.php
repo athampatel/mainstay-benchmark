@@ -224,7 +224,8 @@ User Create - Admin Panel
         });
 
         $(document.body).on('change','input.insert-customer',function(e){
-            var parseData = $(this).parent().data('json');            
+            var parseData = $(this).parent().data('json');
+            console.log(parseData,'__parseData');            
             var customerno  = parseData.customerno;
             if($(this).is(':checked')){
                 $(this).parent().addClass('active');                

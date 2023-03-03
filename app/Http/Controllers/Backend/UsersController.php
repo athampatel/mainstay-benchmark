@@ -247,6 +247,7 @@ class UsersController extends Controller
     {
         // Validation Data
         $postdata       = $request->input();
+        dd($postdata);
         $is_duplicate   = 0;
         $email_address  = '';
         if(!isset($postdata['create_user'])){
