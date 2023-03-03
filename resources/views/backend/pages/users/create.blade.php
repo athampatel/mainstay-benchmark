@@ -235,14 +235,15 @@ User Create - Admin Panel
                    _html += '<input type="hidden" name="'+ind+'['+customerno+']" value="'+value+'" />';
                 });
                 _html += '</div>';
-                $('#multiple-data .dynamic-values').append(_html);                
-                rendorUserForm(parseData,0);
+                
                 if(parseData.salespersonemail == '' || parseData.salespersonno == ''){
                     $(this).parent().addClass('error-active');  
                     $('#customer_response_alert').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('Customer No ('+parseData.customerno+') missing region manager details');  
                    $(this).prop('checked',false);
+                }else{
+                    $('#multiple-data .dynamic-values').append(_html);                
+                    rendorUserForm(parseData,0);
                 }
-
             }else{
                 $(this).parent().removeClass('active');
                 $('#multiple-data .dynamic-values').find('#'+customerno).remove();  
@@ -269,6 +270,11 @@ User Create - Admin Panel
             if($(document.body).find('input.insert-customer:checked').length > 1){
                 return false;
             }
+
+            if($(document.body).find('input.insert-customer:checked').length > 1){
+                return false;
+            }
+
 
             $('.userDetails-container .form-control').each(function(){
                     if($(this).hasClass('required')){
