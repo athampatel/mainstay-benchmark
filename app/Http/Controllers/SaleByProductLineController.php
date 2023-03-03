@@ -111,17 +111,8 @@ class SaleByProductLineController extends Controller
             $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
             $SDEApi = new SDEApi();
 
-           
-            
-
            $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
-
-        //    dd($prroductLine);
-           
-
-
            $responsedata    = $prroductLine;
-           
            if(isset($responsedata['salesbyproductline'])){
                 foreach($responsedata['salesbyproductline'] as $key => $line_data){
                     $ProductLine = $line_data['productline'];
