@@ -132,13 +132,13 @@ class AuthController extends Controller
         $request_id = 0;
 
         $body      = "<p>A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details</p>";
-
+        // dd($body);
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name: </span><span>'.$request->full_name.'</span></p>';
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span><span>'.$request->company_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone No: </span><span>'.$request->phone_no.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span><span>'.$request->phone_no.'</span></p>';
         $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span><span>'.$request->email.'</span></p><br>'; 
        // $body   .= '</table>';
-        $details['body'] = $body;  
+        $details['body'] = $body;
 
         if(empty($user)){
             $response   = $this->SDEApi->Request('post','Customers',$data); 
@@ -202,7 +202,7 @@ class AuthController extends Controller
             $uniqueId  = $user->id;
         }
         $admin      = Admin::first(); 
-
+        // dd($details);
         if($admin){    
             $url    = env('APP_URL').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
 
@@ -228,6 +228,7 @@ class AuthController extends Controller
             $notification = new NotificationController();                        
             $notification->create($_notification);
             // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+            // dd($details);
             $admin_emails = env('ADMIN_EMAILS');
             if($admin_emails !=''){
                 $admin_emails = explode(',',$admin_emails);

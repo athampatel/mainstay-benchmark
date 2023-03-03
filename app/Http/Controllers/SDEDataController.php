@@ -684,7 +684,7 @@ class SDEDataController extends Controller
                 $details['title']           =  config('constants.email.admin.change_order.title');   
                 $details['subject']         =  config('constants.email.admin.change_order.subject');
                 $body      = "<p>A customer with email address {$email} has requested an  order change request.<br/> Order Details</p>";
-                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer No: </span><span>'.$customer_no.'</span></p>';
+                $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer-No: </span><span>'.$customer_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
                 // $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
@@ -694,7 +694,7 @@ class SDEDataController extends Controller
                 if($admin_emails != ''){                   
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                 }else{
-                    Mail::to($admin->email)->send(new \App\Mail\SendMail($params));
+                    Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
                 }
 
                 

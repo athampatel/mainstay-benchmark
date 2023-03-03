@@ -58,7 +58,7 @@
                                             @else
                                                 <p style="padding:10px 32px">Hi Support,</p>
                                             @endif
-											    <p style="padding:10px 32px">{!!$details['body']!!}</p>
+                                            <p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
                                     </td>
                                 </tr>

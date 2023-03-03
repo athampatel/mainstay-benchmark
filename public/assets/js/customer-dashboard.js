@@ -91,6 +91,16 @@ function customerSalesChartDisplays(resp){
                 stops: [0, 100, 100, 100]
             },
         },
+        tooltip: {
+            x: {
+                show: false
+            },
+            y: {
+                formatter: function($counts, series) {
+                return '$'+ numberWithCommas($counts);
+                }
+            }
+        },
         markers: {
         	size: 4,
         	colors: ["#A4CD3C"],
@@ -239,6 +249,16 @@ function customerOpenOrders($array){
             },
             // min: 0,
         },
+        tooltip: {
+            x: {
+                show: false
+            },
+            y: {
+                formatter: function(arr, series) {
+                return '$'+ numberWithCommas(arr);
+                }
+            }
+        },
         grid: {
             borderColor: '#797B7D',
             show: true,
@@ -274,6 +294,7 @@ function customerSpendingChart(){
 
     var labels = [];
     var value = [];
+    // console.log(value,'__value')
     if(typeof(data_bycat) != 'undefined'){
         $.each(data_bycat,function(index,values){
             console.log(values);
@@ -282,44 +303,151 @@ function customerSpendingChart(){
             value.push(values.value);
         });
     }
+    console.log(value,'__value');
+    console.log(labels,'___labels');
+    // var options = {
+    //     series: value,
+    //     chart: {
+    //     // type: 'donut',
+    //     type: 'line',
+    //     width: '70%', 
+    //     // foreColor: '#373d3f'       
+    //     foreColor: '#9ba7b2'       
+    //   },
+    //   labels: labels,    
+    //   dataLabels: {
+    //     formatter(val, opts) {
+    //       const name = opts.w.globals.labels[opts.seriesIndex]
+    //       return [name, val.toFixed(1) + '%']
+    //     },
+    //   },      
+    //   tooltip: {
+    //     x: {
+    //       show: false
+    //     },
+    //     y: {
+    //       formatter: function(value, series) {
+    //         return '$'+ numberWithCommas(value);
+    //       }
+    //     }
+    //   },
+    //   xaxis: {
+    //     type:'products',
+    //     categories:labels ,
+    // },
+    //   total: {
+    //     show: false,
+    //     showAlways: false,
+    //     label: 'Total',
+    //     fontSize: '22px',
+    //     fontFamily: 'Helvetica, Arial, sans-serif',
+    //     fontWeight: 600,
+    //     color: '#373d3f',
+    //     formatter: function (w) {
+    //       return w.globals.seriesTotals.reduce((a, b) => {
+    //         return a + b
+    //       }, 0)
+    //     }
+    //   }         
+    // };
+
     var options = {
-        series: value,
+        series: [{
+                name: 'Sales',
+                // name: labels,
+                data: value
+            },
+        ],
         chart: {
-        type: 'donut',
-        width: '70%', 
-        foreColor: '#373d3f'       
-      },
-      labels: labels,    
-      dataLabels: {
-        formatter(val, opts) {
-          const name = opts.w.globals.labels[opts.seriesIndex]
-          return [name, val.toFixed(1) + '%']
+            foreColor: '#9ba7b2',
+            type: 'line',
+            height: 360,
+            zoom:{
+                enabled:false
+            },
+            toolbar : {
+                show:false
+            },
+            dropShadow:{
+                enabled:true,
+                top:3,
+                left:14,
+                blur:4,
+                opacity:0.10,
+            }
         },
-      },      
-      tooltip: {
-        x: {
-          show: false
+        stroke: {
+            width: 3,
+            curve:'straight'
         },
-        y: {
-          formatter: function(value, series) {
-            return '$'+ numberWithCommas(value);
-          }
-        }
-      },
-      total: {
-        show: false,
-        showAlways: false,
-        label: 'Total',
-        fontSize: '22px',
-        fontFamily: 'Helvetica, Arial, sans-serif',
-        fontWeight: 600,
-        color: '#373d3f',
-        formatter: function (w) {
-          return w.globals.seriesTotals.reduce((a, b) => {
-            return a + b
-          }, 0)
-        }
-      }         
+
+        xaxis: {
+            type:'month',
+            categories: labels,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                gradientToColors: ['#A4CD3C'],
+                shadeIntensity: 1,
+                type: 'horizontal',
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100, 100, 100]
+            },
+        },
+        markers: {
+        	size: 4,
+        	colors: ["#A4CD3C"],
+        	strokeColors: "#A4CD3C",
+        	strokeWidth: 2,
+        	hover: {
+        		size: 7,
+        	}
+        },
+        colors: ["#A4CD3C"],
+        
+        yaxis: {
+            title: {
+                text: ''
+            },
+            // min: 0,
+        },
+        tooltip: {
+            x: {
+                show: true
+            },
+            y: {
+                formatter: function(value, series) {
+                return '$'+ numberWithCommas(value);
+                }
+            }
+        },
+        grid: {
+            borderColor: '#797B7D',
+            show: true,
+            xaxis: {
+                lines: {
+                    show: true 
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
+            },  
+            yaxis: {
+                lines: { 
+                    show: true 
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
+            },   
+        },
     };
 
 
