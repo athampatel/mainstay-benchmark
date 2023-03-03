@@ -36,7 +36,8 @@ function getInvoiceOrderAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            $('.backdrop').removeClass('d-none');
+            $('.page-table-loader-div').removeClass('d-none');
+            $('.open-orders .card.box').addClass('active');
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
@@ -54,7 +55,9 @@ function getInvoiceOrderAjax($page,$count){
             });
         },
         complete:function(){
-            $('.backdrop').addClass('d-none');
+            // $('.backdrop').addClass('d-none');
+            $('.open-orders .card.box').removeClass('active');
+            $('.page-table-loader-div').addClass('d-none');
         }
     });
 }

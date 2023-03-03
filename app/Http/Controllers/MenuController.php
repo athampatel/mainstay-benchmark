@@ -461,6 +461,7 @@ class MenuController extends Controller
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             // dd($response);
+            // dd($response);
             $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
@@ -695,8 +696,14 @@ class MenuController extends Controller
     public function getVmiData(Request $request){
         $customer = $request->session()->get('customers');
         $customer_no = $request->session()->get('customer_no');
-        $offset = 1;
-        $limit = 10;
+        $data = $request->all();
+        $page = $data['page'];
+        $limit = $data['count'];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
         $data = array(            
             "filter" => [
                 [
@@ -711,19 +718,17 @@ class MenuController extends Controller
         );
         
         $response   = $this->SDEApi->Request('post','Products',$data);
-        // pagination work
-        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
-        $$pagination_code = "";
+        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],
+        $page,'/getInvoiceOrders');
+        $pagination_code = "";
         if($custom_pagination['last_page'] > 1){
             $pagination_code = View::make("components.ajax-pagination-component")
             ->with("pagination", $custom_pagination)
             ->render();
         }
-        // dd($response);
         $table_code = View::make("components.datatabels.vmi-component")
             ->with("vmiProducts", $response['products'])
             ->render();
-        // dd($table_code);
         $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
         echo json_encode($res);
         die(); 

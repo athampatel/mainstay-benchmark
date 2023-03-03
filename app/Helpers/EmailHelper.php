@@ -14,6 +14,6 @@ class EmailHelper
    }
 
     public function Request($to,$subject, $content = null) {
-        // dd($to);
+        
     }
 }

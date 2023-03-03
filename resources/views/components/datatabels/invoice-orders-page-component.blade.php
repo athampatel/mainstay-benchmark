@@ -9,7 +9,7 @@
                 <th class="border-0">Price</th>
                 <th class="border-0">Date</th>
                 <th class="border-0">Status</th>
-                <th class="border-0">Action</th>
+                {{-- <th class="border-0">Action</th> --}}
             </tr>
         </thead>
         <tbody id="invoice-orders-page-table-body">
@@ -24,14 +24,14 @@
                 $date = DateTime::createFromFormat('Y-m-d',$invoice['orderdate']);
                 foreach ($invoice['details'] as $item){
                     $total += $item['quantityordered'];
-                    $price += $item['quantityordered'] * $item['lastunitprice'];
+                    $price += $item['quantityordered'] * $item['unitprice'];
                 }
                 @endphp
                 <td>{{$total}}</td>
                 <td>${{$price}}</td>
                 <td>{{$date->format('M d, Y')}}</td>
-                <td class="status">Open</td>
-                <td class="action">
+                <td class="status">Shipped</td>
+                {{-- <td class="action">
                     <a href="/order-change-order/{{$invoice['salesorderno']}}" target="_blank">
                         Change
                     </a>
@@ -42,7 +42,7 @@
                             </g>
                         </svg>                         
                     </span>
-                </td>
+                </td> --}}
             </tr>
             @endforeach
         </tbody>

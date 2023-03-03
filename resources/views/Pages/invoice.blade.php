@@ -9,9 +9,9 @@
 @endsection
 
 @section('content')
-<div class="backdrop d-none">
+{{-- <div class="backdrop d-none">
     <div class="loader"></div>
-</div>
+</div> --}}
 <div class="home-content">
     <span class="page_title">Invoice</span>
     <div class="padding-y-40 open-orders">
@@ -28,9 +28,9 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="invoice-orders-page-filter-count">
-                                    <option value="5" selected>5 Items</option>
-                                    <option value="12">12 Items</option>
+                                    <option value="5" >5 Items</option>
                                     <option value="10">10 Items</option>
+                                    <option value="12" selected>12 Items</option>
                                     <option value="20">20 Items</option>
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
@@ -51,6 +51,9 @@
                     </div>
                     <div class="card-body col-12 padding-y-0">
                         <div class="table-responsive overflow-hidden" id="invoice-orders-page-table-div">
+                        </div>
+                        <div class="page-table-loader-div d-none">
+                            <div class="chart-loader1"></div>
                         </div>
                         <div class="col-12 pb-2">
                             <div id="pagination_disp"></div>

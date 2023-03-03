@@ -4,8 +4,9 @@ $(function () {
 	//new PerfectScrollbar('.header-message-list');
 	//new PerfectScrollbar('.header-notifications-list');
 	// search bar
-
-	$('.equal-height').matchHeight({byRow: true, property: 'height'});
+	if($(document.body).find('.equal-height').length > 0){
+	 	$('.equal-height').matchHeight({byRow: true, property: 'height'}); // my comment
+	}
 
 
 	$(".mobile-search-icon").on("click", function () {
