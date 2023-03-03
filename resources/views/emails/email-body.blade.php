@@ -52,8 +52,13 @@
                                 <tr>
                                     <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
                                         <div style="line-height: 24px; padding:0px 32px">
-											<p style="padding:10px 32px">Hi Support,</p>
-											<p style="padding:10px 32px">{!!$details['body']!!}</p>
+											{{-- <p style="padding:10px 32px">Hi Support,</p> --}}
+                                            @if(isset($details['namealias']))
+											    <p style="padding:10px 32px">{!!$details['namealias']!!}</p>
+                                            @else
+                                                <p style="padding:10px 32px">Hi Support,</p>
+                                            @endif
+											    <p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
                                     </td>
                                 </tr>

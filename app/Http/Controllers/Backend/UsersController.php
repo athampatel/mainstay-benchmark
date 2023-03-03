@@ -321,7 +321,7 @@ class UsersController extends Controller
             $user_request['status'] = 1;
             $user_request->save();
         }
-           
+        // dd($response);  
         $status  = isset($response['status']) ? $response['status'] : 0;
         // $message = 'A new customer has been successfully created in the system.';
         $message = config('constants.admin_customer_create.success');
@@ -626,6 +626,7 @@ class UsersController extends Controller
                 // $details['title']           =  "Your Account is Activated";   
                 // $details['subject']         =  "Your Account is Activated Please Set The Password";
                 // $body      = "<p>Your account is activated in the Benchmark Member Portal Access. please check and set the new password <br/>";
+                $details['namealias'] = 'Hi '.$user->name;
                 $details['title']           = config('constants.email.admin.customer_activate.title');   
                 $details['subject']         = config('constants.email.admin.customer_activate.subject');
                 $body      = config('constants.email.admin.customer_activate.body');

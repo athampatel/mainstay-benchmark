@@ -49,8 +49,8 @@
                         </div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
-                        <div class="table-responsive">
-                            <table id="vmi-page-table" class="table bench-datatable border-0">
+                        <div class="table-responsive" id="vmi_table_disp">
+                            {{-- <table id="vmi-page-table" class="table bench-datatable border-0">
                                 <thead>
                                     <tr>
                                         <th class="border-0">Customer Item Number</th>
@@ -73,9 +73,10 @@
                                     </tr>
                                 @endfor
                                 </tbody>
-                            </table>
+                            </table> --}}
                         </div>
                         <div class="col-12 pb-2">
+                            <div id="pagination_disp"></div>
                         </div>
                     </div>
                 </div>

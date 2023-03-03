@@ -1913,13 +1913,18 @@ nav .profile-details i{
 .bench-datatable tbody tr:last-child td{
   border: none;
 }
-
+/* #dashboard-recent-invoice-order-table{
+  min-height: 54vh;
+} */
 #dashboard-recent-invoice-order-table_filter{
   display: none;
 }
 
 #dashboard-recent-invoice-order-table_wrapper .row:first-child{
   display: none;
+}
+#dashboard-recent-invoice-order-table_wrapper .row:nth-child(2) .col-sm-12{
+  min-height: 53vh;
 }
 #dashboard-recent-invoice-order-table_wrapper .row:last-child{
   display: none;

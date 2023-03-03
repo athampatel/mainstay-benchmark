@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\NotificationController;
-
+use App\Models\ApiData;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -36,7 +36,17 @@ class SDEDataController extends Controller
         $user = User::find($user_id);
         $customer_no   = $request->session()->get('customer_no');
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 4)->first();
+        $is_fetch_data = true;
+        if($is_api_data){
+            $time_now = date('Y-m-d h:i:s');
+            $update_time = $is_api_data->updated_at->diffInMinutes($time_now);
+            if($update_time <= 30){
+                $is_fetch_data = false;
+            }
+        }
         $year = date('Y');
+        if($is_fetch_data){
         $data = array(            
             "filter" => [
                 [
@@ -61,6 +71,21 @@ class SDEDataController extends Controller
         );
 
         $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 4)->first();
+            if($is_api_data){
+                $is_api_data->data = json_encode($response_data);
+                $is_api_data->updated_at = date('Y-m-d h:i:s'); 
+                $is_api_data->save(); 
+            } else {
+                ApiData::create([
+                    'customer_no' => $user_details->customerno,
+                    'type' => 4,
+                    'data' => json_encode($response_data)
+                ]);
+            }
+        } else {
+            $response_data = json_decode($is_api_data->data,true);
+        }
         $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => $year]];
         echo json_encode($response);
         die();
@@ -72,39 +97,64 @@ class SDEDataController extends Controller
         $user = User::find($user_id)->toArray();
         $customer_no   = $request->session()->get('customer_no');
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        $data = array(            
-            "filter" => [
-                [
-                    "column" =>  "CustomerNo",
-                    "type" =>  "equals",
-                    "value" =>  $user_details->customerno,
-                    "operator" =>  "and"
-                ],
-                [
-                    "column" => "ARDivisionNo",
-                    "type" => "equals",
-                    "value" => $user_details->ardivisionno,
-                    "operator" => "and"
-                ],
-            ],
-            "offset" => 1,
-            "limit" => 5,
-        );
-        $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-        foreach($response_data['salesorderhistoryheader'] as $key => $res){
-            $data1 = array(            
+        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 3)->first();
+        $is_fetch_data = true;
+        if($is_api_data){
+            $time_now = date('Y-m-d h:i:s');
+            $update_time = $is_api_data->updated_at->diffInMinutes($time_now);
+            if($update_time <= 30){
+                $is_fetch_data = false;
+            }
+        }
+        if($is_fetch_data){
+            $data = array(            
                 "filter" => [
                     [
-                        "column" => "SalesOrderNo",
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" => "ARDivisionNo",
                         "type" => "equals",
-                        "value" => $res['salesorderno'],
+                        "value" => $user_details->ardivisionno,
                         "operator" => "and"
                     ],
-                ]
-            );  
-            $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-            $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
-        };
+                ],
+                "offset" => 1,
+                "limit" => 5,
+            );
+            $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', 3)->first();
+            if($is_api_data){
+                $is_api_data->data = json_encode($response_data['salesorderhistoryheader']);
+                $is_api_data->updated_at = date('Y-m-d h:i:s'); 
+                $is_api_data->save(); 
+            } else {
+                ApiData::create([
+                    'customer_no' => $user_details->customerno,
+                    'type' => 3,
+                    'data' => json_encode($response_data['salesorderhistoryheader'])
+                ]);
+            }
+        } else {
+            $response_data['salesorderhistoryheader'] = json_decode($is_api_data->data,true);
+        }
+        // foreach($response_data['salesorderhistoryheader'] as $key => $res){
+        //     $data1 = array(            
+        //         "filter" => [
+        //             [
+        //                 "column" => "SalesOrderNo",
+        //                 "type" => "equals",
+        //                 "value" => $res['salesorderno'],
+        //                 "operator" => "and"
+        //             ],
+        //         ]
+        //     );  
+        //     $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+        //     $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
+        // };
         $table_code = View::make("components.datatabels.dashboard-invoice-component")
         ->with("invoices", $response_data['salesorderhistoryheader'])
         ->render();
