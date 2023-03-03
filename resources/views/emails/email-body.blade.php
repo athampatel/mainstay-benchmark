@@ -54,9 +54,9 @@
                                         <div style="line-height: 24px; padding:0px 32px">
 											{{-- <p style="padding:10px 32px">Hi Support,</p> --}}
                                             @if(isset($details['namealias']))
-											    <p style="padding:10px 32px">{!!$details['namealias']!!}</p>
+											    <p style="padding:10px 0px">{!!$details['namealias']!!}</p>
                                             @else
-                                                <p style="padding:10px 32px">Hi Support,</p>
+                                                <p style="padding:10px 0px">Hi Support,</p>
                                             @endif
                                             <p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
@@ -71,15 +71,15 @@
                     </tr>
 
                     <tr>
-                        <td align="center" style="padding:0px 32px;">
+                        <td align="center" style="padding:0px 60px;">
                             <table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448" style="border-radius:30px;">
                                 <tr>
                                     <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td align="center" style="color: #ffffff; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px; border-radius:30px">
-                                        <div style="display:flex;justify-content:center;align-items:center;height:26px;">
-                                            <a href="{{ $details['link'] }}" style="color: #ffffff; text-decoration: none;">Check Request</a>
+                                        <div style="display:flex;justify-content:center;align-items:center;height:26px;text-align: center;width: 100%;">
+                                            <a href="{{ $details['link'] }}" style="color: #ffffff; text-decoration: none;text-align: center;width: 100%;">Check Request</a>
                                         </div>
                                     </td>
                                 </tr>

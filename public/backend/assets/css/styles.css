@@ -3058,6 +3058,14 @@ div.dataTables_wrapper div.dataTables_info{
     padding: 1rem;
     background: #7B7C7F !important;
     border-radius: 0.5rem;
+    position: relative;
+}
+
+.multiple-container a.do_customer span{
+    position: absolute;
+    right: 30px;
+    font-size: 30px;
+    z-index: 999;
 }
 
 .multiple-container a.do_customer input{
@@ -3113,7 +3121,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
 .btn-wrapper,.status-btns{
     display: flex;
     flex-wrap: wrap;
-    min-width: 11rem;
+    min-width: 13rem;
     align-items: center;
     justify-content: center;
 }
@@ -3136,6 +3144,13 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     justify-content: center;
     margin-right: 0.25rem;
     padding: 0.45rem 3rem !important;
+}
+.dynamic-values .user_information{
+    background: #201e1e;
+    border-radius: 10px;
+}
+.dynamic-values .btn-primary,.dynamic-values .custom-checkbox{
+    display: none;
 }
 @media (max-width: 1400px){
     html{

@@ -70,11 +70,11 @@ class AuthController extends Controller
         // $message    = 'Thanks for validating your email address, you will get a confirmation';
         $message    = config('constants.email.customer.customer_create.message');
         $status     = 'success';        
-        $body       = "Hi, <br /> A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
-        $body       .= "<p><strong>customer No:</strong>".$response['customerno']."</p>"; 
+        $body       = " A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
+        $body       .= "<p><strong>Customer Number:</strong>".$response['customerno']."</p>"; 
         $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
-        $body       .= "<p><strong>Sales Person No:</strong>".$response['salespersonno']."</p>"; 
-        $body       .= "<p><strong>Sales Person Email:</strong>".$response['salespersonemail']."</p>"; 
+        $body       .= "<p><strong>Regional Manager Number:</strong>".$response['salespersonno']."</p>"; 
+        $body       .= "<p><strong>Regional Manager Email:</strong>".$response['salespersonemail']."</p>"; 
         $sp_email   = $response['salespersonemail'];
         $link       = "/fetch-customer/{$email}";
         // dd(array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message , 'user' => $user ));
