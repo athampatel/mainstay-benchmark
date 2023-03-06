@@ -86,7 +86,7 @@ class DashboardController extends Controller
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::leftjoin('user_details','users.id','=','user_details.user_id')
                                   ->where('user_details.vmi_companycode','!=','')->get()->count();
-            $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
+            $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();            
 
         }else{   
 

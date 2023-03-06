@@ -131,12 +131,12 @@ class AuthController extends Controller
         $uniqueId   = $request->email;
         $request_id = 0;
 
-        $body      = "<p>A customer with email address {$request->email} has requested for member portal access.<br/> Customer Details</p>";
+        $body      = "<p>The customer with email address {$request->email} has requested access to the member portal.</p>";
         // dd($body);
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name: </span><span>'.$request->full_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span><span>'.$request->company_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span><span>'.$request->phone_no.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span><span>'.$request->email.'</span></p><br>'; 
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span>&nbsp;<span>'.$request->full_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span>&nbsp;<span>'.$request->company_name.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span>&nbsp;<span>'.$request->phone_no.'</span></p>';
+        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span>&nbsp;<span>'.$request->email.'</span></p><br>'; 
        // $body   .= '</table>';
         $details['body'] = $body;
 
@@ -161,15 +161,16 @@ class AuthController extends Controller
                     $_multiple  = 1;
                 }
             }
-            if($error){
+            
                     
                 $signupdata     =   array(  'full_name'     => $request->full_name,
                                             'company_name'  => $request->company_name,
                                             'email'         => $request->email,
                                             'phone_no'      => $request->phone_no);
-                                            
                 $data_request   = SignupRequest::create($signupdata);   
-                $request_id     = $data_request->id;            
+                $request_id     = $data_request->id;  
+
+            if($error){              
                 $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             }
             // else{

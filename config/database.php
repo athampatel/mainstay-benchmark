@@ -106,6 +106,8 @@ return [
 
     'migrations' => 'migrations',
 
+    'strict' => false,
+
     /*
     |--------------------------------------------------------------------------
     | Redis Databases

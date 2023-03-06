@@ -95,27 +95,31 @@ class SaleByProductLineController extends Controller
         $customer_no = isset($customer['customerno']) ? $customer['customerno'] : '';
         $ardivisionno = isset($customer['ardivisionno']) ? $customer['ardivisionno'] : '';
         $customer_id = isset($customer['id']) ? $customer['id'] : '';
-        
         if($customer_no == '' || $ardivisionno == '')
             return false;
 
         if($year == '')
             $year = date('Y');
-        
         $saledetails    = array(); 
         $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get()->toArray();
-        
-       // dd($sale_details);
-
         if(empty($sale_details)){
             $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
             $SDEApi = new SDEApi();
+            $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
+            $responsedata    = $prroductLine;
+            if(isset($responsedata['salesbyproductline']) || isset($responsedata['SalesByCustProdLine'])){
 
-           $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
-           $responsedata    = $prroductLine;
-           if(isset($responsedata['salesbyproductline'])){
-                foreach($responsedata['salesbyproductline'] as $key => $line_data){
-                    $ProductLine = $line_data['productline'];
+                $salesbyproductline     = array();
+                if(isset($responsedata['salesbyproductline']))
+                    $salesbyproductline = $responsedata['salesbyproductline'];
+                elseif(isset($responsedata['SalesByCustProdLine']))
+                    $salesbyproductline = $responsedata['SalesByCustProdLine'];                
+
+                foreach($salesbyproductline as $key => $line_data){                   
+                    if(isset($line_data['productline']))
+                        $ProductLine = $line_data['productline'];
+                    elseif(isset($line_data['ProductLine']))
+                        $ProductLine = $line_data['ProductLine'];
                     for($i = 1;$i<=12;$i++){                        
                         if(isset($line_data['DollarsSoldPeriod'.$i]) && $line_data['DollarsSoldPeriod'.$i] > 0){
                             $line_item = SaleByProductLine::where('user_details_id',$customer_id)
@@ -125,9 +129,9 @@ class SaleByProductLineController extends Controller
 
                             $array = array('year'               => $year,
                                            'month'              => $i,
-                                           'value'               => $line_data['DollarsSoldPeriod'.$i],
+                                           'value'              => $line_data['DollarsSoldPeriod'.$i],
                                            'user_details_id'    => $customer_id,
-                                           'ProductLine'       => $ProductLine);
+                                           'ProductLine'        => $ProductLine);
 
                             if($line_item){
                                 $line_item->save($array);

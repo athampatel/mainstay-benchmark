@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\HourlyUpdate::class
     ];
 
     /**
@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('get:open-orders')->hourly();
+        $schedule->command('hour:update')->hourly();
+        $schedule->command('twice:ImportInvoiceOrders')->everyThirtyMinutes();
     }
 
     /**

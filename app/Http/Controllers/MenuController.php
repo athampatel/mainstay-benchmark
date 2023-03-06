@@ -16,6 +16,8 @@ use App\Http\Controllers\SaleByProductLineController as ProductLine;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\SchedulerLogController;
+use App\Http\Controllers\InvoicedOrdersController;
 
 class MenuController extends Controller
 {
@@ -79,6 +81,12 @@ class MenuController extends Controller
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
 
+
+        $products = new SchedulerLogController();
+        $products->runScheduler();
+        //$invoice = new InvoicedOrdersController();
+        //$invoice->getInvoiceOrders();
+        die;
         $customer_no    = $request->session()->get('customer_no');
         $customers      = $request->session()->get('customers');
         $user_id        = Auth::user()->id;
@@ -100,6 +108,8 @@ class MenuController extends Controller
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
         $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
+
+
         $sale_map                   = array();
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){ 
@@ -699,31 +709,30 @@ class MenuController extends Controller
 
         $offset = 1;
         $limit = 10;
-        $page  = ($request->input('page')) ? $request->input('page') : 0;
-        $data = array(            
-            /*"filter" => [
-                [
-                    "column"=> "companyCode",
-                    "type"=> "equals",
-                    //"value"=> $customer[0]->vmi_companycode,
-                    "operator"=> "and"
-                ],
-            ],*/
-            "companyCode"   => "EL1",
-            "offset"        => $offset,
-            "limit"         => $limit,
-        );
+        $page  = ($_GET['page']) ? $_GET['page'] : 0;
+        $user_id = Auth::user()->id;
+        $customer_details = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first()->toArray();
+        $companycode = $customer_details['vmi_companycode'];
+        $response['products'] = array();   
+        if($companycode){
+                $data = array(                             
+                    "companyCode"   => $companycode,
+                    "offset"        => $offset,
+                    "limit"         => $limit,
+                );
         
-        $response   = $this->SDEApi->Request('post','Products',$data);
+            $response   = $this->SDEApi->Request('post','Products',$data);
 
-        
-        // pagination work
-        $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
-        $pagination_code = "";
-        if($custom_pagination['last_page'] > 1){
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
+            
+         // pagination work
+            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
+            
+            $pagination_code = "";
+            if($custom_pagination['last_page'] > 1){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            }
         }
         // dd($response);
         $table_code = View::make("components.datatabels.vmi-component")
