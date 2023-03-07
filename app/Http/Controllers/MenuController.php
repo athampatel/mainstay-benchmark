@@ -6,6 +6,7 @@ use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
+use App\Http\Controllers\Backend\UsersController;
 use App\Models\ApiData;
 use App\Models\ApiType;
 use App\Models\CustomerMenu;
@@ -328,8 +329,9 @@ class MenuController extends Controller
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
 
-            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getOpenOrders');
-            
+            // $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getOpenOrders');
+            $path = '/getOpenOrders';
+            $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
@@ -363,11 +365,19 @@ class MenuController extends Controller
 
     // custom ajax pagination
     public static function AjaxgetPagination($offset,$limit,$total,$page,$path){
+        /* test work start */
+        // $check['offset'] = $offset;
+        // $check['limit'] = $limit;
+        // $check['total'] = $total;
+        // $check['page'] = $page;
+        // $check['path'] = $path;
+        // dd($check);
+        /* test work end */
         $custom_pagination['from'] = $offset;
         $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
         $custom_pagination['total'] = $total;
         $custom_pagination['first_page'] = 1;
-        $custom_pagination['last_page'] = ceil($total / $limit);
+        $custom_pagination['last_page'] = intval(ceil($total / $limit));
         $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
         $custom_pagination['curr_page'] = intval($page);
         $custom_pagination['next_page'] = $page + 1;
@@ -380,9 +390,9 @@ class MenuController extends Controller
                 $active_number[] = $page + 2;
             } else {
                 if($page == 0 || $page == 1){
+                    // if()
                     $active_number = [1,2,3];
-                }
-                if(($page + 1) == $last){
+                } elseif(($page + 1) == $last){
                     for($i = 2;$i >= 0;$i--){
                         $active_number []= $last - $i;
                     }       
@@ -468,11 +478,9 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);*/
-            // dd($response);
-
-            
-
-            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
+            // $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
+            $path = '/getInvoiceOrders';
+            $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
@@ -704,12 +712,16 @@ class MenuController extends Controller
     }
 
     public function getVmiData(Request $request){
+        $data = $request->all();
+        $page = $data['page'];
+        $limit = $data['count'];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
         $customer = $request->session()->get('customers');
         $customer_no = $request->session()->get('customer_no');
-
-        $offset = 1;
-        $limit = 10;
-        $page  = ($_GET['page']) ? $_GET['page'] : 0;
         $user_id = Auth::user()->id;
         $customer_details = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first()->toArray();
         $companycode = $customer_details['vmi_companycode'];
@@ -719,29 +731,52 @@ class MenuController extends Controller
                     "companyCode"   => $companycode,
                     "offset"        => $offset,
                     "limit"         => $limit,
+                    "filter" => [
+                        [
+                            "column"=> "ItemType",
+                            "type"=> "equals",
+                            "value"=> '1',
+                            "operator"=> "and"
+                        ],
+                    ], 
                 );
         
             $response   = $this->SDEApi->Request('post','Products',$data);
-
-            
-         // pagination work
-            $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
-            
+            $path = '/getInvoiceOrders';
+            $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             $pagination_code = "";
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
                 ->render();
             }
+            $table_code = View::make("components.datatabels.vmi-component")
+                ->with("vmiProducts", $response['products'])
+                ->render();
+                $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
+        } else {
+            $res = ['success' => false];
         }
-        // dd($response);
-        $table_code = View::make("components.datatabels.vmi-component")
-            ->with("vmiProducts", $response['products'])
-            ->render();
-        // dd($table_code);
-        $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
         echo json_encode($res);
         die(); 
+    }
+
+    public static function CreatePaginationData($response,$limit,$page,$offset,$path){
+        $custom_pagination = array();
+        $last_page = intval(ceil($response['meta']['records'] / $limit));
+        $custom_pagination['links'] = UsersController::customPagination(1,$last_page,$response['meta']['records'],intval($limit),intval($page + 1),'');
+        $total = $response['meta']['records'];
+        $custom_pagination['from'] = $offset;
+        $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
+        $custom_pagination['total'] = $total;
+        $custom_pagination['first_page'] = 1;
+        $custom_pagination['last_page'] = intval(ceil($total / $limit));
+        $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
+        $custom_pagination['curr_page'] = intval($page);
+        $custom_pagination['next_page'] = $page + 1;
+        $custom_pagination['path'] = $path;
+
+        return $custom_pagination;
     }
 
 }

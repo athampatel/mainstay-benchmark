@@ -23,6 +23,9 @@ User Create - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
+                <div class="loader-container d-none">
+                    <div class="loader"></div>
+                </div>
                 <!-- data table start -->
                 <div class="col-12 mt-5">
                     
@@ -53,7 +56,7 @@ User Create - Admin Panel
                                     <span class="col-9 text-white">{{$userinfo['company_name']}}</span>
                                 </div> 
                                 <div class="form-group col-md-12 col-sm-12 mb-0">                                   
-                                    <label class="custom-control-label col-3">Phone No</label>
+                                    <label class="custom-control-label col-3">Phone Number</label>
                                     <span class="col-9 text-white">{{$userinfo['phone_no']}}</span>
                                 </div>  
                             </div>
@@ -80,7 +83,7 @@ User Create - Admin Panel
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_no">Customer No</label>
+                                            <label for="user_no">Customer Number</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['customerno']}}</div>
                                             @else
@@ -111,7 +114,8 @@ User Create - Admin Panel
                                             @endif    
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="ardivision_no">ardivisionno</label>
+                                            {{-- <label for="ardivision_no">ardivisionno</label> --}}
+                                            <label for="ardivision_no">AR Division Number</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
                                             @else
@@ -181,7 +185,7 @@ User Create - Admin Panel
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_divison_no">Division No </label>
+                                            <label for="sales_person_divison_no">Division Number </label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
                                             @else    
@@ -228,7 +232,7 @@ User Create - Admin Panel
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         @if(isset($user->id))
-                                            <button class="btn btn-primary btn-rounded pr-4 pl-4" id="activate_user">Activate Customer </button>
+                                            <button class="btn btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">Activate Customer </button>
                                         @else
                                             <input type="hidden" name="create_user[{{$key}}]" value="1">
                                             <button class="btn btn-primary btn-rounded pr-4 pl-4 create_customers" id="create_customers">Create Customer </button>
@@ -251,7 +255,7 @@ User Create - Admin Panel
                         @endif        
                 </div>
                 <!-- data table end -->
-                
+                {{-- Your account has been activated. Please set a password in the Benchmark portal. --}}
             </div>
         </div>
     </div>            
@@ -268,12 +272,14 @@ User Create - Admin Panel
     $(document).on('click','#activate_user',function(e){
         e.preventDefault();
         $user_id = $('#user_id').val();
+        $('.loader-container').removeClass('d-none');
         AjaxRequest('/admin/user/activate','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
     });
 
     $(document).on('click','#cancel_user',function(e){
         e.preventDefault();
         $user_id = $('#user_id').val();
+        $('.loader-container').removeClass('d-none');
         AjaxRequest('/admin/user/cancel','POST',{ "_token": "{{ csrf_token() }}",'user_id':$user_id},'userActivateResponseAction')
     });
 
@@ -291,6 +297,7 @@ User Create - Admin Panel
     }
 
     function userActivateResponseAction(res){
+        $('.loader-container').addClass('d-none');
         if(res.success){
             $('#user_activate_message').text(res.message).removeClass('d-none');
             setTimeout(() => {

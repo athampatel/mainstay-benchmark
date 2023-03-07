@@ -7,7 +7,8 @@
             'mail' => [
                 'title' => 'Customer Portal Access',
                 'subject' => 'Your request for access to the Benchmark member portal'
-            ]
+            ],
+            'password-reset' => 'Your password has been updated successfully. Kindly use your new credentials to log in.'
         ],
         'customer_already_exists' => 'Customer already exists',
         'customer_activate' => [
@@ -78,7 +79,7 @@
                 'customer_activate' => [
                     'title' => 'Your account is activated.',
                     'subject' => 'Your account is activated. Please set the password.',
-                    'body' => '<p>Your account has been activated for the Benchmark Member Portal access. Please check and set a new password. <br/>'
+                    'body' => '<p>Your account has been activated. Please set a password in the Benchmark Member portal.<br/> Please check and set a new password. <br/>'
                 ],
                 'customer_create' => [
                     'title' => 'Your Login Credentials',

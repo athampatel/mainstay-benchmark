@@ -690,7 +690,6 @@ class SDEDataController extends Controller
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
-                $bcc_email = '';
                 if($admin_emails != ''){                   
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                 }else{
@@ -702,15 +701,15 @@ class SDEDataController extends Controller
                 
            // }
             // Admin mail send work end
-
-
-            $_notification = array( 'type'      => 'change-order',
+            $_notification = array( 'type'      => 'Change Order',
                                     'from_user' => $user_id,
                                     'to_user'   => 0,
                                     'text'      => config('constants.notification.change_order'),
                                     'action'    => $url,
                                     'status'    => 1,
-                                    'is_read'   => 0);                
+                                    'is_read'   => 0,
+                                    'icon_path' => 'assets/images/svg/sign_up_notification.svg'
+                                );                
 
             $notification = new NotificationController();                        
             $notification->create($_notification);

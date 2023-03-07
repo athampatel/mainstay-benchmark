@@ -71,10 +71,10 @@ class AuthController extends Controller
         $message    = config('constants.email.customer.customer_create.message');
         $status     = 'success';        
         $body       = " A customer with email address {$email} has requested for member access, Please find the customer details below.<br/>";
-        $body       .= "<p><strong>Customer Number:</strong>".$response['customerno']."</p>"; 
-        $body       .= "<p><strong>Customer Name:</strong>".$response['customername']."</p>"; 
-        $body       .= "<p><strong>Regional Manager Number:</strong>".$response['salespersonno']."</p>"; 
-        $body       .= "<p><strong>Regional Manager Email:</strong>".$response['salespersonemail']."</p>"; 
+        $body       .= "<p><strong>Customer Number: </strong>".$response['customerno']."</p>"; 
+        $body       .= "<p><strong>Customer Name: </strong>".$response['customername']."</p>"; 
+        $body       .= "<p><strong>Regional Manager Number: </strong>".$response['salespersonno']."</p>"; 
+        $body       .= "<p><strong>Regional Manager Email: </strong>".$response['salespersonemail']."</p>"; 
         $sp_email   = $response['salespersonemail'];
         $link       = "/fetch-customer/{$email}";
         // dd(array('body' => $body,'link' => $link,'status' => $status,'sp_email' => $sp_email,'message' => $message , 'user' => $user ));
@@ -87,17 +87,15 @@ class AuthController extends Controller
             'email'         => ['required', 'string', 'email', 'max:255'],
             'full_name'      => ['required', 'string', 'max:255'],
             'company_name'   => ['required', 'string', 'max:255'], // 'unique:users'
-            'phone_no' => ['numeric'],
+            // 'phone_no' => ['numeric'],
         ]);
 
         $is_user = User::where('email',$request->email)->first();
         if($is_user){
             if($is_user->active == 0 && $is_user->is_deleted == 0){
-                // return back()->withErrors('Already You Have Requested. Please Wait ');
                 return back()->withErrors(config('constants.email.customer.customer_create.requested_already'));
             }   
             if($is_user->is_deleted == 1){
-                // return back()->withErrors('Please Contact Support');
                 return back()->withErrors(config('constants.email.customer.customer_create.deleted_by_admin'));
             }
         }
@@ -161,18 +159,17 @@ class AuthController extends Controller
                     $_multiple  = 1;
                 }
             }
-            
                     
-                $signupdata     =   array(  'full_name'     => $request->full_name,
-                                            'company_name'  => $request->company_name,
-                                            'email'         => $request->email,
-                                            'phone_no'      => $request->phone_no);
-                $data_request   = SignupRequest::create($signupdata);   
-                $request_id     = $data_request->id;  
+            $signupdata     =   array(  'full_name'     => $request->full_name,
+                                        'company_name'  => $request->company_name,
+                                        'email'         => $request->email,
+                                        'phone_no'      => $request->phone_no);
+            $data_request   = SignupRequest::create($signupdata);   
+            $request_id     = $data_request->id;  
 
             if($error){              
                 $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
-            }
+            // } 
             // else{
             //     $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             // }
@@ -216,15 +213,17 @@ class AuthController extends Controller
                             'subject'   => 'New user Signup request', 
                             'url'       => $url);   */
             $details['link']            =  $url;      
-            $details['mail_view']       =  'emails.email-body';             
-            $_notification = array( 'type'      => 'signup',
+            $details['mail_view']       =  'emails.email-body'; 
+            $_notification = array( 'type'      => 'Sign Up',
                                     'from_user'  => $uniqueId,
                                     'to_user'  => 0,
                                     'text'      => $message,
                                     'action'    => $url,
                                     'status'    => 1,
                                     'is_read'   => 0,
-                                    'request_id' => $request_id);                
+                                    'request_id' => $request_id,
+                                    'icon_path' => '/assets/images/svg/sign_up_notification.svg'
+                                );                
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
@@ -266,14 +265,12 @@ class AuthController extends Controller
             ];
             
             if(!Auth::attempt($credentials1)){
-                // dd('__comes in 1');
                 RateLimiter::hit($loginRequest->throttleKey());
                 throw ValidationException::withMessages([
                     'email' => trans('auth.failed'),
                     // 'active' => trans('auth.active'),
                 ]);
             } else {
-                // dd('__comes in 2');
                 RateLimiter::hit($loginRequest->throttleKey());
                 throw ValidationException::withMessages([
                     // 'email' => trans('auth.failed'),
