@@ -22,7 +22,6 @@ Role Edit - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">                            
@@ -32,12 +31,14 @@ Role Edit - Admin Panel
                                 @method('PUT')
                                 @csrf
                                 <div class="form-group mb-5">
-                                    <label for="name">Role Name</label>
+                                    {{-- <label for="name">Role Name</label> --}}
+                                    <label for="name">{{ config('constants.label.admin.role_name') }}</label>
                                     <input type="text" class="form-control" id="name" value="{{ $role->name }}" name="name" placeholder="Enter a Role Name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="name">Permissions</label>
+                                    {{-- <label for="name">Permissions</label> --}}
+                                    <label for="name">{{ config('constants.label.admin.permissions') }}</label>
 
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="checkPermissionAll" value="1" {{ App\User::roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}>
@@ -75,13 +76,12 @@ Role Edit - Admin Panel
                                         @php  $i++; @endphp
                                     @endforeach
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-rounded mt-4 pr-4 pl-4">Update Role</button>
+                                {{-- <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4">Update Role</button> --}}
+                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.update_role') }}</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
-                
             </div>
         </div>
     </div>

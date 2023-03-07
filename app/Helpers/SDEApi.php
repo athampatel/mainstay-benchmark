@@ -108,7 +108,6 @@ class SDEApi
 
   
   public function Request($method = 'post',$resource = 'Customers', $data = null){
-    
         $default_data = array(
             "user" 		    => $this->username,
             "password" 	  => $this->password,
@@ -117,11 +116,12 @@ class SDEApi
         $post_data = array_merge($default_data,$data);
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
+            'timeout' => env('API_MAX_TIME')
         ]);
         if($method === 'get') {
-           $response = $request->get($this->end_point,$post_data);
+          $response = $request->get($this->end_point,$post_data);
         } else {
-            $response = $request->post($this->end_point,$post_data);
+          $response = $request->post($this->end_point,$post_data);
         }
         return $response->json();
     }

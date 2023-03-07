@@ -77,6 +77,19 @@ class MenuController extends Controller
 
     }
 
+    public static function CustomerPageRestriction($user_id,$menus,$current_menu){
+        $customer_menus = [];
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        if($customer_menu_access){
+            $menu_access = explode(',',$customer_menu_access->access);
+            $customer_menus = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+            if(!in_array($menus[$current_menu]['code'],$customer_menus)){
+                return false;
+            }
+        }
+        return $customer_menus;
+    }
+
     public function dashboard(Request $request){
         $data['title']  = '';
         $data['current_menu']   = 'dashboard';
@@ -87,20 +100,12 @@ class MenuController extends Controller
         $products->runScheduler();
         //$invoice = new InvoicedOrdersController();
         //$invoice->getInvoiceOrders();
-        die;
         $customer_no    = $request->session()->get('customer_no');
         $customers      = $request->session()->get('customers');
-        $user_id        = Auth::user()->id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['dashboard']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $user_id        = $customers[0]->user_id;
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
 
         $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
@@ -141,16 +146,9 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('invoice');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['invoice']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
         return view('Pages.invoice',$data);  
     }
@@ -161,16 +159,9 @@ class MenuController extends Controller
         $final_data['menus']          = $this->NavMenu('open-orders');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $final_data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($final_data['menus']['open-orders']['code'],$final_data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $final_data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
+        if(!$response) return redirect()->back();
+        $final_data['customer_menus'] = $response;
         $final_data['constants'] = config('constants');
         return view('Pages.open-orders',$final_data);
     }
@@ -188,16 +179,9 @@ class MenuController extends Controller
             $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;            
             $user_id = $customers[0]->user_id;
-            $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-            if($customer_menu_access){
-                $menu_access = explode(',',$customer_menu_access->access);
-                $final_data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-                if(!in_array($final_data['menus']['open-orders']['code'],$final_data['customer_menus'])){
-                    return redirect()->back();
-                }
-            } else {
-                $final_data['customer_menus'] = [];
-            }
+            $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
+            if(!$response) return redirect()->back();
+            $final_data['customer_menus'] = $response;
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants'] = config('constants');
             return view('Pages.change-order',$final_data);
@@ -212,16 +196,9 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('vmi-user');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['vmi-user']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
         return view('Pages.vmi-user',$data);
     }
@@ -233,16 +210,9 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('analysis');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['analysis']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
         return view('Pages.analysis',$data);
     }
@@ -255,18 +225,10 @@ class MenuController extends Controller
         $customer_no   = $request->session()->get('customer_no');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['account-settings']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        // get constants 
         $data['constants'] = config('constants');
         return view('Pages.account-settings',$data);
     }
@@ -279,16 +241,9 @@ class MenuController extends Controller
         $data['pagination'] = $posts->toArray();
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
-        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-        if($customer_menu_access){
-            $menu_access = explode(',',$customer_menu_access->access);
-            $data['customer_menus'] = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
-            if(!in_array($data['menus']['help']['code'],$data['customer_menus'])){
-                return redirect()->back();
-            }
-        } else {
-            $data['customer_menus'] = [];
-        }
+        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+        if(!$response) return redirect()->back();
+        $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
         return view('Pages.help',$data);
     }
@@ -364,52 +319,43 @@ class MenuController extends Controller
     }
 
     // custom ajax pagination
-    public static function AjaxgetPagination($offset,$limit,$total,$page,$path){
-        /* test work start */
-        // $check['offset'] = $offset;
-        // $check['limit'] = $limit;
-        // $check['total'] = $total;
-        // $check['page'] = $page;
-        // $check['path'] = $path;
-        // dd($check);
-        /* test work end */
-        $custom_pagination['from'] = $offset;
-        $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
-        $custom_pagination['total'] = $total;
-        $custom_pagination['first_page'] = 1;
-        $custom_pagination['last_page'] = intval(ceil($total / $limit));
-        $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
-        $custom_pagination['curr_page'] = intval($page);
-        $custom_pagination['next_page'] = $page + 1;
-        $custom_pagination['path'] = $path;
-        $last = ceil($total / $limit); 
-        if(intval($total) > $limit ){
-            if($page !=0 && ($page + 1) != $last){
-                $active_number[] = $page;
-                $active_number[] = $page + 1;
-                $active_number[] = $page + 2;
-            } else {
-                if($page == 0 || $page == 1){
-                    // if()
-                    $active_number = [1,2,3];
-                } elseif(($page + 1) == $last){
-                    for($i = 2;$i >= 0;$i--){
-                        $active_number []= $last - $i;
-                    }       
-                }
-            }
-        } else {
-            $active_number[] = 1;
-        }
-        foreach($active_number as $number){               
-            $custom_link = [
-                'label' => $number,
-                'active' => $page + 1 == $number,
-            ];
-            $custom_pagination['links'][] = $custom_link;
-        }
-        return $custom_pagination;
-    }
+    // public static function AjaxgetPagination($offset,$limit,$total,$page,$path){
+    //     $custom_pagination['from'] = $offset;
+    //     $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
+    //     $custom_pagination['total'] = $total;
+    //     $custom_pagination['first_page'] = 1;
+    //     $custom_pagination['last_page'] = intval(ceil($total / $limit));
+    //     $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
+    //     $custom_pagination['curr_page'] = intval($page);
+    //     $custom_pagination['next_page'] = $page + 1;
+    //     $custom_pagination['path'] = $path;
+    //     $last = ceil($total / $limit); 
+    //     if(intval($total) > $limit ){
+    //         if($page !=0 && ($page + 1) != $last){
+    //             $active_number[] = $page;
+    //             $active_number[] = $page + 1;
+    //             $active_number[] = $page + 2;
+    //         } else {
+    //             if($page == 0 || $page == 1){
+    //                 $active_number = [1,2,3];
+    //             } elseif(($page + 1) == $last){
+    //                 for($i = 2;$i >= 0;$i--){
+    //                     $active_number []= $last - $i;
+    //                 }       
+    //             }
+    //         }
+    //     } else {
+    //         $active_number[] = 1;
+    //     }
+    //     foreach($active_number as $number){               
+    //         $custom_link = [
+    //             'label' => $number,
+    //             'active' => $page + 1 == $number,
+    //         ];
+    //         $custom_pagination['links'][] = $custom_link;
+    //     }
+    //     return $custom_pagination;
+    // }
 
     public function getInvoiceOrders(Request $request){
         $data = $request->all();

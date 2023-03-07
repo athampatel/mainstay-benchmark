@@ -5,52 +5,41 @@
 Role Page - Admin Panel
 @endsection
 
-
 @section('admin-content')
 <div class="home-content">
     <span class="page_title">Roles</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title float-left">Roles List</h4>
-                             {{-- extra work start --}}
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
-                                        @if (Auth::guard('admin')->user()->can('role.create'))
-                                            <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.roles.create') }}">Create New Role</a>
-                                        @endif
+                                    @if (Auth::guard('admin')->user()->can('role.create'))
+                                        <a class="btn btn-primary btn-rounded text-capitalize text-white" href="{{ route('admin.roles.create') }}">{{ config('constants.label.admin.buttons.create_new_role') }}</a>
+                                    @endif
                                     </p>         
                                 </div>
-                                <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
+                                <div class="col-12 col-lg-9 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
-                                            {{-- <form id="customer_filter" action="/admin/customers" method="GET"> --}}
-                                                <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_roles_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
-                                                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-roles-search-img">
-                                            {{-- </form> --}}
-                                        </div> 
-                                        {{-- {{dd($paginate['per_page'])}} --}}
-                                        @php 
-                                        $select_options = [10,12,20];
-                                        @endphp
-                                        <div class="position-relative datatable-filter-div">
-                                            {{-- <form action="" method="get"> --}}
-                                                <select name="" class="datatable-filter-count" id="admin-roles-filter-count">
-                                                    @foreach($select_options as $select_option)
-                                                        <option value="{{$select_option}}" {{$select_option == $paginate['per_page'] ? 'selected' :'' }}>{{$select_option}} Items</option>
-                                                    @endforeach
-                                                </select>
-                                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-                                            {{-- </form> --}}
-                                        </div>
-                                        <form id="roles_from" action="/admin/roles" method="GET">
-                                            {{-- @csrf --}}
-                                        </form>
-                                    {{-- </form> --}}
+                                        <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_roles_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
+                                        <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-roles-search-img">
+                                    </div> 
+                                    @php 
+                                    $select_options = [10,12,20];
+                                    @endphp
+                                    <div class="position-relative datatable-filter-div">
+                                        <select name="" class="datatable-filter-count" id="admin-roles-filter-count">
+                                            @foreach($select_options as $select_option)
+                                                <option value="{{$select_option}}" {{$select_option == $paginate['per_page'] ? 'selected' :'' }}>{{$select_option}} Items</option>
+                                            @endforeach
+                                        </select>
+                                        <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
+                                    </div>
+                                    <form id="roles_from" action="/admin/roles" method="GET"></form>
                                     <div class="datatable-export">
                                         <div class="datatable-print">
                                             <a href="">
@@ -63,26 +52,15 @@ Role Page - Admin Panel
                                             </a>
                                         </div>
                                     </div>
-                                   {{-- form submit work start --}}
-                                    {{-- <form id="customer-page-form" action="http://localhost:8081/admin/customers" method="GET" style="display:none;">
-                                        <input type="hidden" name="_token" value="UVbairuWI4ETpda1GR7s6dIfkx0ynp1C9XRH2vSi">                
-                                    </form> --}}
-                                   {{-- form submit work end --}}
                                 </div>
                             </div>
-                             {{-- extra work end --}}
-                            {{-- <p class="float-right mb-2">
-                                @if (Auth::guard('admin')->user()->can('role.create'))
-                                    <a class="btn btn-primary text-white" href="{{ route('admin.roles.create') }}">Create New Role</a>
-                                @endif
-                            </p> --}}
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
                                 <table id="backend_roles" class="text-center datatable-dark">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="5%">Sl</th>
+                                            <th width="5%">{{ config('constants.label.admin.sl') }}</th>
                                             <th width="10%">Name</th>
                                             <th width="60%">Permissions</th>
                                             <th width="15%">Action</th>
@@ -90,7 +68,7 @@ Role Page - Admin Panel
                                     </thead>
                                     <tbody>
                                     @foreach ($roles as $role)
-                                    <tr>
+                                        <tr>
                                             <td>{{ $loop->index+1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>
@@ -109,15 +87,10 @@ Role Page - Admin Panel
                                                 @endif
 
                                                 @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                    {{-- <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $role->id }}').submit();">
-                                                        Delete
-                                                    </a> --}}
-                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.roles.destroy', $role->id) }}"
+                                                    <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete" href="{{ route('admin.roles.destroy', $role->id) }}"
                                                     onclick="event.preventDefault();deleteRole({{$role->id}})">
                                                         Delete
                                                     </a>
-
                                                     <form id="delete-form-{{ $role->id }}" action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
                                                         @csrf
@@ -136,8 +109,6 @@ Role Page - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
-                
             </div>
         </div>
     </div>
@@ -152,13 +123,12 @@ function deleteRole(id){
     text: "You want to delete the Role",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#9FCC47',
-    cancelButtonColor: '#424448',
+    confirmButtonColor: '#A2D45E',
+    cancelButtonColor: '#CE202F',
     confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById(`delete-form-${id}`).submit();
-            // document.getElementById('delete-form-{{ $role->id }}').submit();
         }
     })
 }

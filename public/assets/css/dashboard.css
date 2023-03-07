@@ -768,7 +768,8 @@ nav .profile-details i{
     align-items: center;
     text-transform: uppercase;
     border-radius: 1.725rem;
-    border:0.0625rem solid #9FCC47;
+    /* border:0.0625rem solid #9FCC47; */
+    border:0.0625rem solid #A2D45E;
     color: #FFF;
 }
 
@@ -932,7 +933,8 @@ nav .profile-details i{
     position: absolute;
     top:0rem;
     left: 0rem;
-    background-color:#9FCC47;
+    /* background-color:#9FCC47; */
+    background-color:#A2D45E;
     top:0.1875rem;
     border-radius: 0.125rem;
 }
@@ -2486,6 +2488,55 @@ table.dataTable td, table.dataTable th{
     opacity: 0;
   }
 }
+
+/* Benchmark button colors */
+.bm-alert-danger{
+  background-color: #CE202F !important;
+  /* color: #fff !important; */
+}
+
+.box-shadow-none {
+  box-shadow: none !important;
+}
+.bm-btn-delete{
+  background-color: #CE202F;
+  border: 1px solid #CE202F !important;
+}
+.bm-btn-white{
+  background-color: #BBBBBB;
+  border: 1px solid #BBBBBB;
+}
+.bm-btn-info {
+  background-color: #0095A9;
+  border: 1px solid #0095A9;
+}
+.bm-btn-secondary{
+  background-color: #BBBBBB;
+  border: 1px solid #BBBBBB;
+}
+.bm-btn-primary {
+  background-color: #A2D45E !important;
+}
+.bm-btn-gray {
+  background-color: #54565B;
+}
+.bm-btn-red {
+  background-color: #CE202F;
+  /* border: 1px solid #CE202F !important; */
+}
+.bm-btn-dark-green {
+  background-color: #235D39;
+}
+.bm-btn-dark-blue {
+  background-color: #0C436A ;
+}
+.bm-btn-light-blue {
+  background-color: #0095A9;
+}
+.bm-btn-light-gray{
+  background-color: #BBBBBB;
+} 
+
 
 @media screen and (max-width: 1500px){
   html{
