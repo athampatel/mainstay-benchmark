@@ -13,7 +13,6 @@ Relational Managers - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
@@ -59,7 +58,7 @@ Relational Managers - Admin Panel
                                 <table id="backend_managers" class="text-center datatable-dark dataTable">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="10%">Manger No</th>
+                                            <th width="10%">{{config('constants.label.admin.manager_no')}}</th>
                                             <th width="10%">Name</th>
                                             <th width="10%">Email</th>                                   
                                             <th width="10%">Account</th>
@@ -77,13 +76,11 @@ Relational Managers - Admin Panel
                                                     @if($user->user_id != '')                                                         
                                                         <a class="btn btn-rounded btn-medium btn-bordered" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers">Customers</a>
                                                     @else
-                                                        <a class="btn btn-rounded btn-light text-dark" href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
+                                                        <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
                                                     @endif
                                                 </div>
                                             </td>
                                             <td>
-
-
                                                 <div class="btn-wrapper btns-2">
                                                     @if($user->user_id != '')  
                                                         <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.index') }}/{{$user->user_id}}/edit">View</a>
@@ -91,8 +88,7 @@ Relational Managers - Admin Panel
                                                   <!--  <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                                         Delete
-                                                    </a> -->
-                                                    
+                                                    </a> -->                              
                                                 </div>
                                             </td>
                                         </tr>
@@ -108,8 +104,6 @@ Relational Managers - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
-                
             </div>
         </div>
     </div>

@@ -29,28 +29,24 @@ User Create - Admin Panel
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            
-                            
                             <div class="form-row align-items-center form-row align-items-center col-12 col-md-8 col-lg-8 mx-auto d-flex align-items-center flex-wrap">
                                 <div class="form-group col-12 col-md-9 col-lg-9">
-                                    <label for="name">Search Customer With Customer Number/Email</label>
+                                    <label for="name">{{ config('constants.label.admin.search_customer_number_email') }}</label>
                                     <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer Number Or Customer Email" value="{{$email}}" required>
                                 </div>
                                 <div class="col-12 col-md-3">
-                                    <button class="position-relative btn btn-rounded px-4 btn-primary col-12" id='user-search'>Search</button>
+                                    <button class="position-relative bm-btn-primary text-capitalize btn btn-rounded px-4 btn-primary col-12" id='user-search'>{{ config('constants.label.admin.buttons.customer_search') }}</button>
                                 </div>
                             </div>
                         </div>
                     </div> 
 
                     <div class="alert alert-success d-none text-center" id="customer_response_alert">Customer Details Found</div>
-
-                    <div class="card multiple-container mt-3" style="display: none;">
+                    <div class="card multiple-container mt-3" style="display:none;">
                         <div class="card-body">
-                            
                         </div>
                     </div>
-                <div class="card userDetails-container mt-3" style="display: none;">
+                <div class="card userDetails-container mt-3" style="display:none;">
                     <div class="card-body">
                         <div class="userDetails-container" >        
                             <h4 class="header-title">Create New Customer</h4>
@@ -59,77 +55,91 @@ User Create - Admin Panel
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_no">Customer No</label>
-                                        <input type="text" class="form-control required" id="user_no" name="customerno" placeholder="Enter User Number" required>
+                                        {{-- <label for="user_no">Customer No</label> --}}
+                                        <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
+                                        <input type="text" class="form-control required" id="user_no" name="customerno" placeholder="Enter {{ config('constants.label.admin.customer_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_email">Customer Email</label>
-                                        <input type="email" class="form-control required" id="user_email" name="email" placeholder="Enter User Email" required>
+                                        {{-- <label for="user_email">Customer Email</label> --}}
+                                        <label for="user_email">{{ config('constants.label.admin.user_email') }}</label>
+                                        <input type="email" class="form-control required" id="user_email" name="email" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_name">Customer Name</label>
-                                        <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter Name">
+                                        {{-- <label for="user_name">Customer Name</label> --}}
+                                        <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
+                                        <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter {{ config('constants.label.admin.customer_name') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         {{-- <label for="ardivision_no">ardivisionno</label> --}}
-                                        <label for="ardivision_no">AR Division No</label>
-                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter AR division No">
+                                        {{-- <label for="ardivision_no">AR Division No</label> --}}
+                                        <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
+                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
                                     </div>
                                 </div>
 
                                 <h6 class="text-secondary">Address</h6><br>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_1">Address Line 1</label>
-                                        <input type="text" name="addressline1" class="form-control" id="address_line_1" placeholder="Enter Address line 1">
+                                        {{-- <label for="address_line_1">Address Line 1</label> --}}
+                                        <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
+                                        <input type="text" name="addressline1" class="form-control" id="address_line_1" placeholder="Enter {{ config('constants.label.admin.address_line_1') }} ">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_2">Address Line 2</label>
-                                        <input type="text" name="addressline2" class="form-control" id="address_line_2" placeholder="Enter Address line 2">
+                                        {{-- <label for="address_line_2">Address Line 2</label> --}}
+                                        <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
+                                        <input type="text" name="addressline2" class="form-control" id="address_line_2" placeholder="Enter {{ config('constants.label.admin.address_line_2') }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="address_line_3">Address Line 3</label>
-                                        <input type="text" name="addressline3" class="form-control" id="address_line_3" placeholder="Enter Address line 3">
+                                        {{-- <label for="address_line_3">Address Line 3</label> --}}
+                                        <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
+                                        <input type="text" name="addressline3" class="form-control" id="address_line_3" placeholder="Enter {{ config('constants.label.admin.address_line_3') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_city">City</label>
-                                        <input type="text" name="city" class="form-control" id="user_city" placeholder="Enter City">
+                                        {{-- <label for="user_city">City</label> --}}
+                                        <label for="user_city">{{ config('constants.label.admin.city') }}</label>
+                                        <input type="text" name="city" class="form-control" id="user_city" placeholder="Enter {{ config('constants.label.admin.city') }}">
                                     </div>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_state">State</label>
-                                        <input type="text" name="state" class="form-control" id="user_state" placeholder="Enter State">
+                                        {{-- <label for="user_state">State</label> --}}
+                                        <label for="user_state">{{ config('constants.label.admin.state') }}</label>
+                                        <input type="text" name="state" class="form-control" id="user_state" placeholder="Enter {{ config('constants.label.admin.state') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_zipcode">Zipcode</label>
-                                        <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter Zipcode">
+                                        {{-- <label for="user_zipcode">Zipcode</label> --}}
+                                        <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
+                                        <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter {{ config('constants.label.admin.zipcode') }}">
                                     </div>
                                 </div>
                                 <h6 class="text-secondary">Sales person</h6><br>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="sales_person_divison_no">Division No </label>
-                                        <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter Division No">
+                                        {{-- <label for="sales_person_divison_no">Division No </label> --}}
+                                        <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }}</label>
+                                        <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter {{ config('constants.label.admin.division_no') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="sales_person_no">Benchmark Relational Manager Number</label>
-                                        <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Sales Person No">
+                                        {{-- <label for="sales_person_no">Benchmark Relational Manager Number</label> --}}
+                                        <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
+                                        <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Sales Person Number">
                                     </div>
                                 </div>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="sales_person_name">Benchmark Relational Manager Name</label>
+                                        {{-- <label for="sales_person_name">Benchmark Relational Manager Name</label> --}}
+                                        <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
                                         <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="sales_person_email">Benchmark Relational Manager Email</label>
+                                        {{-- <label for="sales_person_email">Benchmark Relational Manager Email</label> --}}
+                                        <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
                                         <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                                     </div>
                                     <input type="hidden" name="is_vmi" id="is_vmi" value="0">
@@ -138,15 +148,16 @@ User Create - Admin Panel
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-sm-12 custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" name="send_password" value="1" id="send-password" />
-                                        <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label>
+                                        {{-- <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label> --}}
+                                        <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Create Customer</button>
+                                {{-- <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Create Customer</button> --}}
+                                <button type="submit" class="btn btn-rounded bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create_customer') }}</button>
                             </form>
                         </div>                    
                     </div>
                 </div>
-                <!-- data table end -->
             </div>
         </div>
     </div>
@@ -211,7 +222,7 @@ User Create - Admin Panel
                     var result = JSON.stringify(resp);
                     console.log(result);              
                    if(result.status == 'success'){
-                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html(result.message);    
+                    $('#customer_response_alert').addClass('alert-success').addClass('text-dark').removeClass('alert-danger').removeClass('d-none').html(result.message);    
                         window.location.href = result.redirect;
                    }
                    $(document.body).find('#preloader').remove();
@@ -322,7 +333,8 @@ User Create - Admin Panel
         console.log(constants,'__constants');
         $search_text = $('#search-customer-no').val();
         if($search_text == ''){
-            $('#customer_response_alert').addClass('alert-danger').removeClass('alert-success').removeClass('d-none').html('Search Customer With Customer Number/Email Field Is Required');     
+            // $('#customer_response_alert').addClass('alert-danger').removeClass('alert-success').removeClass('d-none').html('Search Customer With Customer Number/Email Field Is Required');     
+            $('#customer_response_alert').addClass('alert-danger').addClass('text-white').addClass('bm-alert-danger').removeClass('alert-success').removeClass('bm-btn-primary').removeClass('d-none').html(constants.validation.admin.search_customer_number_email);     
             return false;
         }
         $.ajax({
@@ -338,14 +350,10 @@ User Create - Admin Panel
             },
             success: function (res) {
                 var total_records = parseInt(res.customers.length);
-                
                 if(total_records > 1){
-                    // $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html('More than one customer account was found for the email address.');     
-                    $('#customer_response_alert').addClass('alert-success').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
+                    $('#customer_response_alert').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary').removeClass('text-white').removeClass('bm-alert-danger').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
                     var customers = res.customers;  
-                    var row_html = '';//'<form action="/customers" method="POST" id="create-multiple">';
-                    //var form_field = $('#create-customer').html();
-                   
+                    var row_html = ''; 
                     $.each(customers,function(index,value){
                         row_html +='<div class="form-row duplicate-date col-12 flex-wrap">'+
                                     '<div class="form-group col-12 col-md-12 col-sm-12">'+
@@ -357,26 +365,22 @@ User Create - Admin Panel
                                     '</div>'+
                                 '</div>';
                     });
-                     var _html = '<form action="{{ route('admin.users.store') }}" method="POST" id="multiple-data" class="form-data col-12 col-md-12 flex-wrap"><input type="hidden" name="_token" value="{{ csrf_token() }}" /><input type="hidden" name="ajaxed" value="1" /><div class="dynamic-values">'+row_html+'</div><button type="submit" class="btn btn-rounded btn-primary selected-customer mt-4 pr-4 pl-4">Add selected customers</button></form>';                    
+                     var _html = '<form action="{{ route('admin.users.store') }}" method="POST" id="multiple-data" class="form-data col-12 col-md-12 flex-wrap"><input type="hidden" name="_token" value="{{ csrf_token() }}" /><input type="hidden" name="ajaxed" value="1" /><div class="dynamic-values">'+row_html+'</div><button type="submit" class="btn btn-rounded btn-primary selected-customer text-capitalize mt-4 pr-4 pl-4">Add selected customers</button></form>';                    
                     $('.multiple-container').fadeIn();
                     $('.multiple-container').find('.card-body').html(_html);
                     return false; 
-                }else if(res.customers.length > 0){
+                } else if(res.customers.length > 0){
                     $customer = res.customers[0];
                     rendorUserForm($customer,1);
-                    $('#customer_response_alert').removeClass('d-none').html('Customer details found for the specified account.');
+                    $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
                     $('#customer_response_alert').addClass('alert-success');
+                    $('#customer_response_alert').addClass('text-dark');
                     $('#customer_response_alert').removeClass('alert-danger');
                     $('.userDetails-container').fadeIn();
                     $('#create-customer .btn-primary').show();
-                    // 
-                    /*setTimeout(() => {
-                        $('#customer_response_alert').addClass('d-none');
-                    },2000);*/
-                }else{
-                    $('#customer_response_alert').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('Unable to locate any customer details with the provided email address.');
+                } else {
+                    $('#customer_response_alert').removeClass('alert-success').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(constants.validation.admin.customer_search_unable);
                 }
-                
             },
         complete:function(){
                 $(document.body).find('#preloader').remove();            }
@@ -406,8 +410,7 @@ function rendorUserForm($customer,show,container){
    container.find('#sales_person_email').val($customer.salespersonemail);
    container.find('#vmi_companycode').val($customer.vmi_companycode);
     if(show == 1)
-        $('#customer_response_alert').removeClass('alert-danger').removeClass('d-none').addClass('alert-success');;
-        
+        $('#customer_response_alert').removeClass('alert-danger').removeClass('text-white').removeClass('bm-alert-danger').removeClass('d-none').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary');
     setTimeout(() => {
         $('#customer_response_alert').addClass('d-none');
         $('.userDetails-container .form-control').each(function(){

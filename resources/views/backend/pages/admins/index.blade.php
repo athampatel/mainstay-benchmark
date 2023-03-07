@@ -19,7 +19,8 @@ Admins - Admin Panel
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
                                         @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                            <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New Admin</a>
+                                            {{-- <a class="btn btn-primary btn-rounded text-white" href="{{ route('admin.admins.create') }}">Create New Admin</a> --}}
+                                            <a class="btn btn-primary btn-rounded text-capitalize text-white" href="{{ route('admin.admins.create') }}">{{ config('constants.label.admin.buttons.create_new_admin') }}</a>
                                         @endif
                                     </p>        
                                 </div>
@@ -73,7 +74,7 @@ Admins - Admin Panel
                                     <thead class="text-capitalize">
                                         <tr>
                                             
-                                            <th width="5%">Sl</th>
+                                            <th width="5%">{{ config('constants.label.admin.sl') }}</th>
                                             <th width="10%">User Name</th>
                                             <th width="10%">Name</th>
                                             <th width="10%">Email</th>
@@ -98,7 +99,7 @@ Admins - Admin Panel
                                             <td>
                                                 <div class="btn-wrapper btns-2">
                                                     @if (Auth::guard('admin')->user()->can('admin.edit'))
-                                                        <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.edit', $admin->id) }}">Edit</a>
+                                                        <a class="btn btn-rounded btn-medium btn-primary text-capitalize" href="{{ route('admin.admins.edit', $admin->id) }}">Edit</a>
                                                     @endif
                                                     
                                                     @if (Auth::guard('admin')->user()->can('admin.delete'))
@@ -106,7 +107,7 @@ Admins - Admin Panel
                                                     onclick="event.preventDefault(); document.getElementById('delete-form-{{ $admin->id }}').submit();">
                                                         Delete
                                                     </a> --}}
-                                                    <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.admins.destroy', $admin->id) }}"
+                                                    <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.admins.destroy', $admin->id) }}"
                                                     onclick="event.preventDefault();deleteAdmin({{$admin->id}})">
                                                         Delete
                                                     </a>

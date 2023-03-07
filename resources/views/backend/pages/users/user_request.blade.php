@@ -15,9 +15,6 @@ User Create - Admin Panel
 </style>
 @endsection
 @section('admin-content')
-<!-- page title area start -->
-
-
 <div class="home-content">
     <span class="page_title">Activate Customer</span>
     <div class="overview-boxes widget_container_cards col-12">
@@ -26,9 +23,7 @@ User Create - Admin Panel
                 <div class="loader-container d-none">
                     <div class="loader"></div>
                 </div>
-                <!-- data table start -->
                 <div class="col-12 mt-5">
-                    
                     <div class="card mb-3">
                         <div class="card-body">
                             <h4 class="header-title mb-0">Customer Information</h4>       
@@ -44,19 +39,19 @@ User Create - Admin Panel
                         <div class="card-body">
                             <div class="form-row d-flex flex-wrap mb-0">
                                 <div class="form-group col-md-12 col-sm-12">                                   
-                                    <label class="custom-control-label col-3">Full Name</label>
+                                    <label class="custom-control-label col-3">{{ config('constants.label.admin.full_name') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['full_name']}}</span>
                                 </div>  
                                 <div class="form-group col-md-12 col-sm-12">                                   
-                                    <label class="custom-control-label col-3">Email Address</label>
+                                    <label class="custom-control-label col-3">{{ config('constants.label.admin.email_address') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['email']}}</span>
                                 </div> 
                                 <div class="form-group col-md-12 col-sm-12">                                   
-                                    <label class="custom-control-label col-3">Company Name</label>
+                                    <label class="custom-control-label col-3">{{ config('constants.label.admin.company_name') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['company_name']}}</span>
                                 </div> 
                                 <div class="form-group col-md-12 col-sm-12 mb-0">                                   
-                                    <label class="custom-control-label col-3">Phone Number</label>
+                                    <label class="custom-control-label col-3">{{ config('constants.label.admin.phone_no') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['phone_no']}}</span>
                                 </div>  
                             </div>
@@ -67,9 +62,7 @@ User Create - Admin Panel
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                             @csrf 
-                            
                             @foreach($customers as $key => $user_info)
-                            {{-- <input type="hidden" name="create_user[{{$key}}]" value="1"> --}}
                             <div class="card mb-3">
                                 <div class="card-body">
                                     @if(count($customers) > 1)
@@ -83,18 +76,17 @@ User Create - Admin Panel
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_no">Customer Number</label>
+                                            <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['customerno']}}</div>
                                             @else
                                                 <input type="text" class="form-control required customerno" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
                                             @endif
-                                            
                                         </div>
 
                                         @if($key == 0)
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_email">Customer Email</label>
+                                            <label for="user_email">{{ config('constants.label.admin.customer_email') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['emailaddress']}}</div>
                                             @else
@@ -106,7 +98,7 @@ User Create - Admin Panel
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_name">Customer Name</label>
+                                            <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['customername']}}</div>
                                             @else
@@ -114,8 +106,7 @@ User Create - Admin Panel
                                             @endif    
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            {{-- <label for="ardivision_no">ardivisionno</label> --}}
-                                            <label for="ardivision_no">AR Division Number</label>
+                                            <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
                                             @else
@@ -127,7 +118,7 @@ User Create - Admin Panel
                                     <h6 class="text-secondary">Address</h6><br>
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_1">Address Line 1</label>
+                                            <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['addressline1']}}</div>
                                             @else
@@ -135,7 +126,7 @@ User Create - Admin Panel
                                             @endif    
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_2">Address Line 2</label>
+                                            <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['addressline2']}}</div>
                                             @else
@@ -145,7 +136,7 @@ User Create - Admin Panel
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_3">Address Line 3</label>
+                                            <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['addressline3']}}</div>
                                             @else
@@ -153,7 +144,7 @@ User Create - Admin Panel
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_city">City</label>
+                                            <label for="user_city">{{ config('constants.label.admin.city') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['city']}}</div>
                                             @else
@@ -164,7 +155,7 @@ User Create - Admin Panel
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_state">State</label>
+                                            <label for="user_state">{{ config('constants.label.admin.state') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['state']}}</div>
                                             @else 
@@ -172,7 +163,7 @@ User Create - Admin Panel
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_zipcode">Zipcode</label>
+                                            <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['zipcode']}}</div>
                                             @else    
@@ -185,7 +176,7 @@ User Create - Admin Panel
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_divison_no">Division Number </label>
+                                            <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }} </label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
                                             @else    
@@ -193,7 +184,7 @@ User Create - Admin Panel
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_no">Benchmark Regional Manager Number</label>
+                                            <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['salespersonno']}}</div>
                                             @else
@@ -204,7 +195,7 @@ User Create - Admin Panel
                                     
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_name">Benchmark Regional Manager Name</label>
+                                            <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['salespersonname']}}</div>
                                             @else 
@@ -212,7 +203,7 @@ User Create - Admin Panel
                                             @endif    
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_email">Benchmark Regional Manager Email</label>
+                                            <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
                                             @if(isset($user->id))
                                                 <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
                                             @else        
@@ -229,33 +220,31 @@ User Create - Admin Panel
                                     @if(isset($user->id))
                                         <input type="hidden" name="" value="{{$user->id}}" id="user_id">
                                     @endif
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        @if(isset($user->id))
-                                            <button class="btn btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">Activate Customer </button>
-                                        @else
-                                            <input type="hidden" name="create_user[{{$key}}]" value="1">
-                                            <button class="btn btn-primary btn-rounded pr-4 pl-4 create_customers" id="create_customers">Create Customer </button>
-                                        @endif
-                                    
-                                        <button class="btn btn-danger btn-rounded pr-4 pl-4" id="cancel_user">Decline Request</button>
-                                    </div>
-                                </div>        
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            @if(isset($user->id))
+                                                <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
+                                            @else
+                                                <input type="hidden" name="create_user[{{$key}}]" value="1">
+                                                <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                            @endif
+                                        
+                                            <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
+                                        </div>
+                                    </div>        
                             </form> 
                         @else
                             <div class="card mb-3">                        
                                 <div class="card-body">
                                     <div class="form-row d-flex flex-wrap mb-0">
                                         @if(isset($userinfo['email']))
-                                            <a class="btn btn-primary pr-4 btn-rounded pl-4 px-5" href="{{route('admin.users.create')}}?email={{$userinfo['email']}}" target="_blank">Lookup Customer </a>     
+                                            <a class="btn btn-primary bm-btn-primary text-capitalize pr-4 btn-rounded pl-4 px-5" href="{{route('admin.users.create')}}?email={{$userinfo['email']}}" target="_blank">{{ config('constants.label.admin.buttons.lookup_customer') }} </a>     
                                         @endif
                                     </div>
                                 </div>
                             </div>        
                         @endif        
                 </div>
-                <!-- data table end -->
-                {{-- Your account has been activated. Please set a password in the Benchmark portal. --}}
             </div>
         </div>
     </div>            

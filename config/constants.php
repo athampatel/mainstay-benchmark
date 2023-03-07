@@ -129,6 +129,76 @@
             'change_order' => 'New Change Order Request from Customer',
             'contact_details' => 'New Contact details update request from Customer',
             'inventory_update' => 'New Inventory update request from Customer'
+        ],
+
+        'label' => [
+            'admin' => [
+                // user requests
+                'full_name' => 'Full Name',
+                'email_address' => 'Email Address',
+                'company_name' => 'Company Name',
+                'sl' => 'sl',
+                'user_name' => 'User Name',
+                'password' => 'Password',
+                'user_email' => 'User Email',
+                'assign_roles' => 'Assign Roles',
+                'user_account_name' => 'User Account Name',
+                'send_login_credentials' => 'Send Login Credentials',
+                'role_name' => 'Role Name',
+                'search_customer_number_email' => 'Search Customer With Customer Number/Email',
+                'customer_no' => 'Customer Number',
+                'customer_email' => 'Customer Email',
+                'customer_name' => 'Customer Name',
+                'ar_division_no' => 'AR Division Number',
+                'phone_no' => 'Phone Number',
+                'address_line_1' => 'Address Line 1',
+                'address_line_2' => 'Address Line 2',
+                'address_line_3' => 'Address Line 3',
+                'city' => 'City',
+                'state' => 'State',
+                'zipcode' => 'Zipcode',
+                'division_no' => 'Division Number',
+                'permissions' => 'Permissions',
+                'manager_no' => 'Manager Number',
+                'admin_name' => 'Admin Name',
+                'admin_email' => 'Admin Email',
+                'admin_username' => 'Admin Username',
+                'contact_no' => 'Contact Number',
+                // relational manager
+                'relational_manager_no' => 'Benchmark Relational Manager Number',
+                'relational_manager_name' => 'Benchmark Relational Manager Name',
+                'relational_manager_email' => 'Benchmark Relational Manager Email',
+                'generate_random_password' => 'Generate Radmon Password',
+                'relational_manager' => 'Benchmark Relational Manager',
+                'region_manager' => 'Region Manager',
+                'order_date' => 'Order Date',
+                'buttons' => [
+                    'create' => 'Create',
+                    'save_role' => 'Save Role',
+                    'search' => 'Search',
+                    'create_customer' => 'Create Customer',
+                    'create_new_admin' => 'Create New Admin',
+                    'customer_search' => 'Search',
+                    'create_new_role' => 'Create New Role',
+                    'update_role' => 'Update Role',
+                    'save_admin' => 'Save Admin',
+                    'lookup_customer' => 'Lookup Customer',
+                    'decline_request' => 'Decline Request',
+                    'activate_customer' => 'Activate Customer',
+                    'create_request' => 'Create Request',
+                ]
+            ],
+            'customer' => [
+
+            ]
+        ],
+        'validation' => [
+            'admin' => [
+                'search_customer_number_email' => 'Search Customer With Customer Number/Email Field Is Required',
+                'customer_search_unable' => 'Unable to locate any customer details with the provided email address.',
+                'customer_detail_found' => 'Customer details found for the specified account.',
+            ]
         ]
     ];
+    // {{ config('constants.label.admin.role_name') }}
 ?>

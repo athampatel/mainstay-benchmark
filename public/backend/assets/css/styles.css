@@ -831,7 +831,8 @@ ul.breadcrumbs {
     left: 1rem; 
 }
 .badge.badge-info{
-    background: #9FCC47;
+    /* background: #9FCC47; */
+    background: #A2D45E;
     margin: 0.125rem;
 }
 .form-check{
@@ -1864,8 +1865,10 @@ table.dbkit-table tr td {
 }
 
 .btn-primary{
-    background: #9FCC47;
-    border-color: #9FCC47;
+    /* background: #9FCC47;
+    border-color: #9FCC47; */
+    background: #A2D45E;
+    border-color: #A2D45E;
     color: #424448;
 }
 .btn-primary.match-btn{
@@ -1878,8 +1881,11 @@ table.dbkit-table tr td {
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active{
-    background: #9FCC47;
-    border-color: #9FCC47;
+    /* background: #9FCC47;
+    border-color: #9FCC47; */
+    background: #A2D45E;
+    border-color: #A2D45E;
+    box-shadow: none;
 }
 .btn-xl {
     padding: 1.25rem 1.5rem;
