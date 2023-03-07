@@ -14,6 +14,14 @@
 								<div class="text-center py-4">
 									<h3 class="login-from-title font-open-sans font-bold font-32">Reset account password</h3>									
 								</div>
+								@if(Session::has('status'))
+									<div class="alert alert-success">{{ Session::get('status')}}</div>
+									<script>
+										setTimeout(function() {
+											window.location.href = "/"
+										}, 2000); // 2 second
+									 </script>
+								@endif
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
 										<div class="alert alert-danger">{{$error}}</div>

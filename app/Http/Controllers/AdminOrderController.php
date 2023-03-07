@@ -81,21 +81,21 @@ class AdminOrderController extends Controller
                 // $message = 'Change Order Request Declined';
                 $message = config('constants.admin.change_order.decline');
             }
-
-            $_notification = array( 'type'      => 'signup',
+            $_notification = array( 'type'      => 'Sign Up',
                                     'from_user'  => Auth::guard('admin')->user()->id,
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
                                     'action'    => '',
                                     'status'    => 1,
-                                    'is_read'   => 0);                
+                                    'is_read'   => 0,
+                                    'icon_path' => 'assets/images/svg/sign_up_notification.svg'
+                                );                
 
             $notification = new NotificationController();
             $notification->create($_notification);
             echo json_encode(['success' => true, 'data' => ['status' => $data['status']], 'error' => []]);
             die();
         } else {
-            // echo json_encode(['success' => false, 'data' => [] , 'error' =>'change request not found']);
             echo json_encode(['success' => false, 'data' => [] , 'error' =>config('constants.change_order_request.not_found')]);
             die();
         }

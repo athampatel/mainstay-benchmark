@@ -102,8 +102,21 @@ setInterval(() => {
 },60000);
 
 $(document).on('click','.navbar_notification_icon',function(){
-    $('.notfication_bottom').removeClass('d-none');
-    $('.notification_bottomn_cancel').removeClass('d-none');
+    // $('.notfication_bottom').removeClass('d-none');
+    // $('.notification_bottomn_cancel').removeClass('d-none');
+    if($('.notfication_bottom').hasClass("d-none")){
+        // animation
+        $('.notfication_bottom').removeClass('animate_fade_out_right');
+        $('.notfication_bottom').removeClass('d-none');
+        $('.notification_bottomn_cancel').removeClass('d-none');     
+    } else {
+        $('.notfication_bottom').addClass('animate_fade_out_right');
+        $('.notfication_bottom').removeClass('active');
+        setTimeout(()=> {
+            $('.notfication_bottom').addClass('d-none');
+            $('.notification_bottomn_cancel').addClass('d-none');    
+        },800);
+    }
 })
 
 $(document).on('click','.bottom_notification_msg',function(e){

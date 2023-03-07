@@ -15,7 +15,7 @@
                 @php
                 $link = str_replace("/","\\",$notification->action)
                 @endphp
-                <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" icon="" :time="$notification->created_at" :link="$link" :id="$notification->id" />
+                <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" :icon="$notification->icon_path" :time="$notification->created_at" :link="$link" :id="$notification->id" />
             @endforeach
         </div>
         {{-- <x-bottom-notification-message :title="'New Customers'" :desc="'5 new user registered'" icon="" :time="'5 Sec ago'"/> --}}
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="message">
-            You have <span id="message_count">{{count($notifications)}}</span> notification
+            You have <span id="message_count">{{count($notifications)}}</span> {{ count($notifications) > 1 ? 'notifications': 'notification' }}
         </div>
         <div class="open-close" id="bottom_message_arrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="17.806" height="9.649" viewBox="0 0 17.806 9.649">
