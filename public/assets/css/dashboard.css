@@ -2495,6 +2495,10 @@ table.dataTable td, table.dataTable th{
   /* color: #fff !important; */
 }
 
+/* #admin-nav-profile-detail{
+  cursor: pointer;
+} */
+
 .box-shadow-none {
   box-shadow: none !important;
 }

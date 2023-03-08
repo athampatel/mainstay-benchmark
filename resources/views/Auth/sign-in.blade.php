@@ -38,7 +38,8 @@
 										<div class="col-12">
 											<div class="d-grid">
 												<button type="submit" class="btn mb-4 button-bg-primary-green  padding-y-15 font-open-sans font-semi-bold font-20">Sign in</button>
-												<a href="{{route('register')}}" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Join as a customer?</a>
+												{{-- <a href="{{route('register')}}" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Join as a customer?</a> --}}
+												<a href="/sign-up" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Join as a customer?</a>
 											</div>
 										</div>
 										<div class="col-12 py-3 text-center"><a href="{{ url('forgot-password') }}" class="font-open-sans font-regular font-20 primary-gray">Forgot Your Password?</a>

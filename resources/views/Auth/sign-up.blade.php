@@ -22,7 +22,8 @@
 									<h3 class="login-from-title font-32 font-open-sans font-bold pb-3">Sign Up</h3>									
 								</div>								
 								<div class="form-body">
-									<form class="row g-3" method="POST" action="{{route('register')}}">
+									{{-- <form class="row g-3" method="POST" action="{{route('register')}}"> --}}
+									<form class="row g-3" method="POST" action="/sign-up">
 										@csrf
 										<div class="col-12"> 
 											<label for="inputFullname" class="form-label">Full Name</label>

@@ -30,7 +30,7 @@ User Create - Admin Panel
                         </div>
                     </div> 
                     @if(empty($customers))
-                         <div class="alert alert-danger text-center">Customer not found with the details requested.</div>
+                         <div class="alert alert-danger text-center">{{ config('constants.user_request_not_found') }}</div>
                     @endif
                     <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
 

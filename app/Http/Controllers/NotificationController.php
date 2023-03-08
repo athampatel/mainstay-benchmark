@@ -67,6 +67,8 @@ class NotificationController extends Controller
         if(!empty($notification)){
             foreach($notification as $_notification){
                 $_type = $_notification->type;
+                $icon = '';
+                $text = '';
                 switch($_type):
                     case 'signup':
                         $icon = '<i class="bx bx-group"></i>';

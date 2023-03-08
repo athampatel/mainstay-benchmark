@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\ApiLog;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 // sde : Simple data exchange
 
@@ -123,6 +125,43 @@ class SDEApi
         } else {
           $response = $request->post($this->end_point,$post_data);
         }
+        // if(!$response->successful()){
+        self::responseErrorCheck($response,$data,$resource);
+        // }
+
         return $response->json();
+      }
+
+    public static function responseErrorCheck($response,$data,$resource){
+      $response_code = $response->getStatusCode();
+      $error_codes = explode(',', env('API_ERROR_CODES'));
+      if(in_array($response_code,$error_codes)){
+        $error_message = json_decode($response->body(), true)['message'];
+        
+        // insert api log
+        ApiLog::create([
+          'resource' => $resource,
+          'data' =>  json_encode($data),
+          'error_code' => $response_code,
+          'message' => $error_message,
+        ]);
+
+        // send a mail 
+        $details['title']   = config('constants.api_error_email.title');   
+        $details['subject'] = config('constants.api_error_email.subject');
+        $details['status']    = 'success';
+        $details['message']   = config('constants.api_error_email.message');
+        $body      = "<p style='max-width:590px;font-weight:bold;font-size:14px;'>The Api with resource <span style='color:#000'>{$resource} </span>has get an {$response_code} error.</p>";
+        // dd($body);
+        // $body   .= '<p><span style="max-width:590px;font-weight:bold;font-size:14px;">Filter Data: </span>&nbsp;</p>';
+        // $body .= "<p style='max-width:590px;'><span style='max-width:590px;'>".json_encode($data)."</span></p>";
+        $details['body'] = $body;
+        $url = '';
+        $details['link']            =  $url;      
+        $details['mail_view']       =  'emails.email-body';
+        $admin_emails = env('ADMIN_EMAILS');
+        Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+        return;
+      }
     }
 }
