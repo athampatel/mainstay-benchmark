@@ -108,9 +108,9 @@ class SchedulerLogController extends Controller
                     ->get()->toArray(); 
         if(!empty($customers)){
             foreach($customers as $customer){
-                $year       = 2022;
-                $endyear    = 2022;               
-                $limit      = 100;
+                $year       = 2018;
+                $endyear    = date('Y');               
+                $limit      = 200;
                 while($year <= $endyear){
                     $completed      = 0;
                     $page           = 0;
@@ -119,8 +119,7 @@ class SchedulerLogController extends Controller
                                             ->where('resource',$resourcetype)
                                             ->where('index_type',$year)
                                             ->get()->first();
-                                           
-
+                    $offset = 0;
                     if(!$schduler){
                        
                         $_data  = array('offset' => $page,
@@ -149,51 +148,46 @@ class SchedulerLogController extends Controller
                         $page       = $schduler['current_page'];
                         $completed  = $schduler['completed'];
                         $page       = $schduler['current_page'];
-                        if($page <= 1){
-                            $page = $limit + 1;
+                        if($page <= 0){                           
+                            $page = 1;
                         }else{
-                            $page = ($page * $limit) + 1;
+                            $offset = ($page * $limit) + 1;
                             $page = $page + 1;
-                        }
-
-                        $_data['offset'] = $page; 
-                    }                   
-                    if(!$completed){
+                        }                        
+                        $_data['offset'] = $offset;
+                       
+                    }    
+                                   
+                    if(!$completed){                       
                         $orders   = $SDEApi->Request('post','SalesOrderHistoryHeader',$_data);
                          
 
-                        $fileName = $customer['id'].'-'.$year.'-'.$customer['customerno'].'-SalesOrderHistoryHeader.json';
+                        $fileName = $customer['details_id'].'-'.$year.'-'.$customer['customerno'].'-SalesOrderHistoryHeader.json';
                         $total     = 0;
                         if(!empty($orders)){                        
-                            
-                            /*if(isset($orders['salesorderhistoryheader'])){
-                                $salesorderhistoryheader = $orders['salesorderhistoryheader'];
-                            }elseif(isset($orders['SalesOrderHistoryHeader'])){
-                                $salesorderhistoryheader = $orders['SalesOrderHistoryHeader'];
-                            }*/
-                            //if(!empty($salesorderhistoryheader)){
                             Storage::disk('json')->put($fileName,json_encode($orders));
-                                
-                            //}
                             if(isset($orders['meta'])){
                                 $total   = $orders['meta']['records'];
                             }else{
                                 $total   = -1;
                             }
-
-                            
                         }
 
                         $all    =    $limit;
                         if($page > 0)
                             $all = ($page * $limit) + 1;
 
-                       //$is_completed = 0;
-                        if($year > date('Y') && ($total <= $limit || $total >= $all))
+                        $is_completed = 0;
+                        $total_records = $offset + $limit;
+
+                        if($total_records >= $total && $year < date('Y'))
+                            $is_completed = 1;                        
+                        elseif($total <= 0  && $year != date('Y'))
                             $is_completed = 1;
-                        elseif($total <= 0 || $total <= $limit)
-                            $is_completed = 1;
-                      
+                        elseif($year == date('Y') && $total_records >= $total)    
+                            $page = 0;
+                        
+
                         $schedulerLog = array(  'user_details_id'   => $customer['details_id'],
                                                 'resource'          => $resourcetype,
                                                 'filter'            => json_encode($_data),
@@ -208,16 +202,15 @@ class SchedulerLogController extends Controller
                             $schduler['total']          = $total;
                             $schduler['current_page']   = $page;
                             $schduler['completed']      = $is_completed;
+                            $schduler->save();
                         }
-                        
-                        echo "<pre>";
-                        print_r($_data);
-                        print_r($orders);    
+                       
                     }
                     $year++;
                 }
             }
-        }            
+        }  
+        return true;          
     }
 }
 

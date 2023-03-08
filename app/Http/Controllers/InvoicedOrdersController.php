@@ -101,21 +101,26 @@ class InvoicedOrdersController extends Controller
                 if(file_exists($path.'/'.$filename)) {         
                   $time = filectime($path.'/'.$filename);                
                   $file_created = $current_time - $time;
-                  if($file_created <= 50000){
+                  if($file_created <= 3600){
                         $content = File::get($path.'/'.$filename);
                         $data = json_decode($content,true);
                         if(!empty($data)){
-                            foreach($data as $_order){
+                            if(isset($data['salesorderhistoryheader'])){
+                                $salesorderhistoryheader = $data['salesorderhistoryheader'];
+                            }elseif(isset($data['SalesOrderHistoryHeader'])){
+                                $salesorderhistoryheader = $data['SalesOrderHistoryHeader'];
+                            }
+                            foreach($salesorderhistoryheader as $_order){
                                 $customerno     = $_order['customerno'];
                                 $UserDetails    = UserDetails::where('customerno',$customerno)->get()->first();
                                 $salesInfo['user_details_id'] = $UserDetails->id;
-                                $salesorderno   = $_order['salesorderno'];
-
                                 /* CODE TO REPLACE EMPTY SALE ORDERS */ 
                                 if($_order['salesorderno'] == ''){
                                    $_order['salesorderno']  = $_order['invoiceno'];
                                    $_order['orderdate']     = $_order['invoicedate'];
                                 }
+
+                                $salesorderno   = $_order['salesorderno'];
 
                                 $salesorder     = SaleOrders::where('salesorderno',$salesorderno)->where('user_details_id',$UserDetails->id)->get()->first();
                                 $order_id       = 0;
@@ -145,10 +150,7 @@ class InvoicedOrdersController extends Controller
                                     foreach($sale_key as $key => $info){
                                         if(isset($_order[$info]))
                                             $salesorder[$info]   = $_order[$info];
-                                    } 
-
-                                    
-
+                                    }
                                     $salesorder->save();
                                     $order_id  = $salesorder->id;
                                 }
@@ -222,7 +224,7 @@ class InvoicedOrdersController extends Controller
                             }
                         }
                     }
-                   // unlink($path.'/'.$filename);
+                   unlink($path.'/'.$filename);
                 }
                
             }            
