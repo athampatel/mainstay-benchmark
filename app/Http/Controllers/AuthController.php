@@ -169,7 +169,7 @@ class AuthController extends Controller
 
             if($error){              
                 $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
-            // } 
+            } 
             // else{
             //     $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             // }
