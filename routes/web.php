@@ -8,7 +8,11 @@ use App\Http\Controllers\SDEDataController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SchedulerLogController;
+use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\Mail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +104,20 @@ Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('adm
 
 Route::get('/autheticate',[AuthController::class,'autheticate']);
 
+
+/**LOG USED FOR TESTTNNG PURPOSE */
+
+
+Route::get('/products/fetch-sde-manual',[ProductsController::class,'getProducts'])->name('fectch-products');
+Route::get('/products/import-sde-manual',[ProductsController::class,'CheckUpdateProducts'])->name('import-products');
+
+
+Route::get('/invoiced-orders/fetch-sde-manual',[SchedulerLogController::class,'getProducts'])->name('fectch-products');
+Route::get('/invoiced-orders/invoice-sde-manual',[InvoicedOrdersController::class,'getInvoiceOrders'])->name('import-products');
+
+    //$invoice = new InvoicedOrdersController();
+        //$invoice->getInvoiceOrders();
+        //die; 
 
 
 

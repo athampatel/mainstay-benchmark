@@ -99,10 +99,9 @@ class MenuController extends Controller
         //$products = new SchedulerLogController();
         //$products->runScheduler();
         //die; 
-        $invoice = new InvoicedOrdersController();
-        $invoice->getInvoiceOrders();
-        die; 
-
+        //$invoice = new InvoicedOrdersController();
+        //$invoice->getInvoiceOrders();
+        //die; 
         $customer_no    = $request->session()->get('customer_no');
         $customers      = $request->session()->get('customers');
         $user_id        = $customers[0]->user_id;
