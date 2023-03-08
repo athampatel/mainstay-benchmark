@@ -196,7 +196,7 @@
             </div> --}}
             </div>
         </div>
-        <div class="profile-details">
+        <div class="profile-details" id="admin-nav-profile-detail">
             <div class="profile-image">   
                     <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img" />
             </div>

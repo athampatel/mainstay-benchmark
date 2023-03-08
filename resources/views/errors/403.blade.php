@@ -11,6 +11,11 @@
     <p class="mt-2">
         {{ $exception->getMessage() }}
     </p>
-    <a href="{{ route('admin.dashboard') }}">Back to Dashboard</a>
-    <a href="{{ route('admin.login') }}">Login Again !</a>
+    @if(Request::is('admin/*'))
+        <a href="{{ route('admin.dashboard') }}">Back to Dashboard</a>
+        <a href="{{ route('admin.login') }}">Login Again</a>
+    @else 
+        <a href="/dashboard">Back to Dashboard</a>
+        <a href="/sign-in">Login Again</a>
+    @endif
 @endsection

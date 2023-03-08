@@ -130,7 +130,14 @@
             'contact_details' => 'New Contact details update request from Customer',
             'inventory_update' => 'New Inventory update request from Customer'
         ],
-
+        'user_request_not_found' => 'Customer was not found with the requested details.',
+        'api_error_message' => 'Something went wrong.',
+        'api_error_email' => [
+            'title' => 'SDE Api Error',
+            'subject' => 'SDE Api Error Occur',
+            'message' => 'the error api message',
+        ],
+        '404_page_message' => 'This page does not exist. Sorry about that.',      
         'label' => [
             'admin' => [
                 // user requests

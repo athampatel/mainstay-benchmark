@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\AdminsController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SDEDataController;
@@ -190,6 +191,10 @@ Route::group(['prefix' => 'admin'], function () {
 
 
     Route::get('/signup-request', '\App\Http\Controllers\Backend\UsersController@UserAccessRequest')->name('admin.users.requests');
+
+    // profiles
+    Route::get('/profile',[AdminsController::class,'adminProfile']);
+    Route::post('/profile-save',[AdminsController::class,'adminProfileSave']);
 
 }); 
 

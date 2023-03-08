@@ -248,4 +248,13 @@ class AdminsController extends Controller
         session()->flash('success', config('constants.admin_delete.confirmation_message'));
         return back();
     }
+    // get profile
+    public function adminProfile(){
+        $profile_details = Auth::guard('admin')->user();
+        return view('backend.pages.admins.profile',compact('profile_details'));
+    }
+    // profile save
+    public function adminProfileSave(Request $request){
+        dd($request);
+    }
 }

@@ -349,37 +349,50 @@ User Create - Admin Panel
                 $('.userDetails-container').fadeOut();
             },
             success: function (res) {
-                var total_records = parseInt(res.customers.length);
-                if(total_records > 1){
-                    $('#customer_response_alert').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary').removeClass('text-white').removeClass('bm-alert-danger').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
-                    var customers = res.customers;  
-                    var row_html = ''; 
-                    $.each(customers,function(index,value){
-                        row_html +='<div class="form-row duplicate-date col-12 flex-wrap">'+
-                                    '<div class="form-group col-12 col-md-12 col-sm-12">'+
-                                        '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer">'+
-                                        '<input type="checkbox" class="insert-customer" name="customer[]" value="'+value.customerno+'" id="'+value.customerno+'" />'+
-                                        '<label for="'+value.customerno+'">'+
-                                        '<strong>Customer No: </strong>'+value.emailaddress+' ('+value.customerno+')'+
-                                        '</label><span class="angle"><i class="fa fa-angle-down"></i></span></a>'+
-                                    '</div>'+
-                                '</div>';
-                    });
-                     var _html = '<form action="{{ route('admin.users.store') }}" method="POST" id="multiple-data" class="form-data col-12 col-md-12 flex-wrap"><input type="hidden" name="_token" value="{{ csrf_token() }}" /><input type="hidden" name="ajaxed" value="1" /><div class="dynamic-values">'+row_html+'</div><button type="submit" class="btn btn-rounded btn-primary selected-customer text-capitalize mt-4 pr-4 pl-4">Add selected customers</button></form>';                    
-                    $('.multiple-container').fadeIn();
-                    $('.multiple-container').find('.card-body').html(_html);
-                    return false; 
-                } else if(res.customers.length > 0){
-                    $customer = res.customers[0];
-                    rendorUserForm($customer,1);
-                    $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
-                    $('#customer_response_alert').addClass('alert-success');
-                    $('#customer_response_alert').addClass('text-dark');
-                    $('#customer_response_alert').removeClass('alert-danger');
-                    $('.userDetails-container').fadeIn();
-                    $('#create-customer .btn-primary').show();
+                /* check the response error status */
+                let is_error = false;
+                let is_error_message = '';
+                if("status" in res){
+                    if(res.status == 'error'){
+                        is_error = true;
+                        is_error_message = res.message
+                    }  
+                } 
+                if(!is_error){
+                    var total_records = parseInt(res.customers.length);
+                    if(total_records > 1){
+                        $('#customer_response_alert').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary').removeClass('text-white').removeClass('bm-alert-danger').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
+                        var customers = res.customers;  
+                        var row_html = ''; 
+                        $.each(customers,function(index,value){
+                            row_html +='<div class="form-row duplicate-date col-12 flex-wrap">'+
+                                        '<div class="form-group col-12 col-md-12 col-sm-12">'+
+                                            '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer">'+
+                                            '<input type="checkbox" class="insert-customer" name="customer[]" value="'+value.customerno+'" id="'+value.customerno+'" />'+
+                                            '<label for="'+value.customerno+'">'+
+                                            '<strong>Customer No: </strong>'+value.emailaddress+' ('+value.customerno+')'+
+                                            '</label><span class="angle"><i class="fa fa-angle-down"></i></span></a>'+
+                                        '</div>'+
+                                    '</div>';
+                        });
+                        var _html = '<form action="{{ route('admin.users.store') }}" method="POST" id="multiple-data" class="form-data col-12 col-md-12 flex-wrap"><input type="hidden" name="_token" value="{{ csrf_token() }}" /><input type="hidden" name="ajaxed" value="1" /><div class="dynamic-values">'+row_html+'</div><button type="submit" class="btn btn-rounded btn-primary selected-customer text-capitalize mt-4 pr-4 pl-4">Add selected customers</button></form>';                    
+                        $('.multiple-container').fadeIn();
+                        $('.multiple-container').find('.card-body').html(_html);
+                        return false; 
+                    } else if(res.customers.length > 0){
+                        $customer = res.customers[0];
+                        rendorUserForm($customer,1);
+                        $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
+                        $('#customer_response_alert').addClass('alert-success');
+                        $('#customer_response_alert').addClass('text-dark');
+                        $('#customer_response_alert').removeClass('alert-danger');
+                        $('.userDetails-container').fadeIn();
+                        $('#create-customer .btn-primary').show();
+                    } else {
+                        $('#customer_response_alert').removeClass('alert-success').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(constants.validation.admin.customer_search_unable);
+                    }
                 } else {
-                    $('#customer_response_alert').removeClass('alert-success').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(constants.validation.admin.customer_search_unable);
+                    $('#customer_response_alert').removeClass('alert-success').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(constants.api_error_message);
                 }
             },
         complete:function(){

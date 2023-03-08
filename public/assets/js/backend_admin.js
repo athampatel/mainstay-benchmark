@@ -345,3 +345,52 @@ $('#admin_change_order_search').keyup(function(){
         $('#change_order_from').submit();
     }
 })
+
+// profile page
+
+// var fileInput = document.getElementById("file-input-admin");
+// $(document).on('click','#file_input_button_admin',function(){
+//     fileInput.click();
+// })
+
+// $(document).on('change','#file-input-admin',function(e){
+//     $image = $('#file-input-admin').prop('files')[0];
+//     var reader = new FileReader();
+//     reader.onload = function (e) {
+//         $('.profile_img_disp').attr('src', e.target.result);
+//     }
+//     reader.readAsDataURL($image);
+// });
+
+// // profile image save 
+// $(document).on('click','#admin-profile-edit-save-button',function(e){
+//     e.preventDefault();
+//     let formData1 = new FormData();
+//     $image = $('#file-input-admin').prop('files')[0];
+//     let password = $('#Acc_password').val();
+//     let confirm_password = $('#Acc_confirm_password').val();
+//     formData1.append('photo', $image);
+//     formData1.append('password', password);
+//     formData1.append('password_confirmation', confirm_password);
+//     $.ajax({
+//         type: 'POST',
+//         url: '/admin/profile-save',
+//         contentType: 'multipart/form-data',
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//         data: formData1,
+//         success: function (res) {
+//             let res1 = JSON.parse(res);
+//             console.log(res1,'__ profile edit save response');
+//             return false;
+//         }
+//     });
+// })
+
+// // nav profile details
+// $(document).on('click','#admin-nav-profile-detail',function(e){
+//     e.preventDefault();
+//     window.location.href = "/admin/profile";
+// })
