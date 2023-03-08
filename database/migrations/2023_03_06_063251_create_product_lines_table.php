@@ -15,7 +15,7 @@ class CreateProductLinesTable extends Migration
     {
         Schema::create('product_lines', function (Blueprint $table) {
             $table->id();
-            $table->text('product_line')->unique();
+            $table->text('product_line')->nullable();
             $table->timestamps();
         });
     }

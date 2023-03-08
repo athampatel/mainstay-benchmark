@@ -15,7 +15,7 @@ class CreateProductVendorsTable extends Migration
     {
         Schema::create('product_vendors', function (Blueprint $table) {
             $table->id();
-            $table->text('vendor_code')->unique();
+            $table->text('vendor_code')->nullable();
             $table->text('vendor_name')->nullable();
             $table->timestamps();
         });
