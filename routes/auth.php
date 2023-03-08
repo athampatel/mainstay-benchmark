@@ -12,8 +12,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('sign-up', [RegisteredUserController::class, 'create'])
-                ->name('register');
+    Route::get('sign-up', [RegisteredUserController::class, 'create']);
 
     // Route::post('sign-up', [RegisteredUserController::class, 'store']);
     Route::post('sign-up', [AuthController::class, 'user_register']);
