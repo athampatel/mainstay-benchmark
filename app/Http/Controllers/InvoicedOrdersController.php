@@ -138,8 +138,7 @@ class InvoicedOrdersController extends Controller
                                         if(isset($_order[$info]))
                                             $salesInfo[$info]   = $_order[$info];
                                     }
-                                    /* CODE TO REPLACE EMPTY SALE ORDERS */ 
-                                   
+                                    /* CODE TO REPLACE EMPTY SALE ORDERS */                                    
                                     $salesorder = SaleOrders::create($salesInfo);
                                     $order_id  = $salesorder->id;
                                 }else{
