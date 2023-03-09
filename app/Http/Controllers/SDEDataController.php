@@ -674,7 +674,9 @@ class SDEDataController extends Controller
             $admin      = Admin::first();
 
             //if($admin){    
-                $url    = env('APP_URL').'/admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
+                // $url    = env('APP_URL').'admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
+                // $url    = env('APP_URL').'admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
+                $url    = env('APP_URL').'admin/customers/change-orders/'.$change_order_request->id;
 
                 // $details = array('mail_view' => 'emails.email-body', 
                 //                 'subject'   => 'Change Order request', 
@@ -711,7 +713,7 @@ class SDEDataController extends Controller
                                     'action'    => $url,
                                     'status'    => 1,
                                     'is_read'   => 0,
-                                    'icon_path' => 'assets/images/svg/sign_up_notification.svg'
+                                    'icon_path' => '/assets/images/svg/change_order_notification.svg'
                                 );                
 
             $notification = new NotificationController();                        
