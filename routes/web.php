@@ -113,7 +113,7 @@ Route::get('/products/fetch-sde-manual',[ProductsController::class,'getProducts'
 Route::get('/products/import-sde-manual',[ProductsController::class,'CheckUpdateProducts'])->name('import-products');
 
 
-Route::get('/invoiced-orders/fetch-sde-manual',[SchedulerLogController::class,'getProducts'])->name('fectch-invoice');
+Route::get('/invoiced-orders/fetch-sde-manual',[SchedulerLogController::class,'runScheduler'])->name('fectch-invoice');
 Route::get('/invoiced-orders/invoice-sde-manual',[InvoicedOrdersController::class,'getInvoiceOrders'])->name('import-invoice');
 
     //$invoice = new InvoicedOrdersController();
