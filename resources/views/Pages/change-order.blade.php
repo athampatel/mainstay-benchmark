@@ -198,7 +198,7 @@
                                     <th>Description</th>
                                     <th>Quantity</th>
                                     <th>Unit Price</th>                                    
-                                    <th>Price</th>
+                                    <th>Total Order Amount</th>
                                     @if($is_change_order)
                                     <th>&nbsp;</th>
                                     @endif

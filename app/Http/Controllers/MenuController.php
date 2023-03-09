@@ -383,7 +383,6 @@ class MenuController extends Controller
                 "limit" => 2,
             );
             $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-            // ddd($response);
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             if($custom_pagination['last_page'] > 1){

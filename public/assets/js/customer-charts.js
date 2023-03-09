@@ -418,7 +418,7 @@ function change_order_save_response(res){
         $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-danger').addClass('alert-success');
         setTimeout(() => {
             $('#change-order-request-response-alert').addClass('d-none');
-            window.location = app_url+"/open-orders";
+            window.location = app_url+"open-orders";
         }, 2000);
         
     } else {
