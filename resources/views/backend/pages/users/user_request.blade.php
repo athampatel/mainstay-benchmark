@@ -38,19 +38,19 @@ User Create - Admin Panel
                     <div class="card mb-3">                        
                         <div class="card-body">
                             <div class="form-row d-flex flex-wrap mb-0">
-                                <div class="form-group col-md-12 col-sm-12">                                   
+                                <div class="form-group col-12  col-md-12 col-sm-12">                                   
                                     <label class="custom-control-label col-3">{{ config('constants.label.admin.full_name') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['full_name']}}</span>
                                 </div>  
-                                <div class="form-group col-md-12 col-sm-12">                                   
+                                <div class="form-group col-12  col-md-12 col-sm-12">                                   
                                     <label class="custom-control-label col-3">{{ config('constants.label.admin.email_address') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['email']}}</span>
                                 </div> 
-                                <div class="form-group col-md-12 col-sm-12">                                   
+                                <div class="form-group col-12  col-md-12 col-sm-12">                                   
                                     <label class="custom-control-label col-3">{{ config('constants.label.admin.company_name') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['company_name']}}</span>
                                 </div> 
-                                <div class="form-group col-md-12 col-sm-12 mb-0">                                   
+                                <div class="form-group col-12  col-md-12 col-sm-12 mb-0">                                   
                                     <label class="custom-control-label col-3">{{ config('constants.label.admin.phone_no') }}</label>
                                     <span class="col-9 text-white">{{$userinfo['phone_no']}}</span>
                                 </div>  

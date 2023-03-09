@@ -32,6 +32,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\SchedulerLogController;
 
 class UsersController extends Controller
 {
@@ -258,6 +259,7 @@ class UsersController extends Controller
         $postdata       = $request->input();
         $is_duplicate   = 0;
         $email_address  = '';
+        $user_id = 0;
         if(!isset($postdata['create_user'])){
             $request->validate([
                 'customername' => 'required|max:50',
@@ -267,6 +269,7 @@ class UsersController extends Controller
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
+            $user_id = $response['id'];
         } else {
             // dd('comes in 2');
            // $email_address  = $postdata['email'];
@@ -296,12 +299,11 @@ class UsersController extends Controller
                     }
                 }
                 //}
-            }          
-            $user_id = 0;
+            }                     
             if(!empty($customer)){
-                foreach($customer as $_customer){
+                foreach($customer as $insert_key => $_customer){
                     if(!$user_id){
-                        $response = $this->CreateCustomer($_customer);
+                        $response = $this->CreateCustomer($_customer,$insert_key);
                         // dd($response);
                         if($response['status'] != 0){
                             $user_id  = $response['id'];
@@ -341,6 +343,11 @@ class UsersController extends Controller
             $user_request['status'] = 1;
             $user_request->save();
         }
+
+
+        $SchedulerLog = new SchedulerLogController();
+        $SchedulerLog->CreateScheduler($user_id);
+        
         // dd($response);  
         $status  = isset($response['status']) ? $response['status'] : 0;
         // $message = 'A new customer has been successfully created in the system.';
@@ -354,7 +361,7 @@ class UsersController extends Controller
         }
     }
 
-    public function CreateCustomer($postdata = null){
+    public function CreateCustomer($postdata = null,$key = 0){
         // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
         // dd($response);
@@ -363,12 +370,12 @@ class UsersController extends Controller
         $message    = config('constants.admin_customer_create.mail.error');
         $status     = 'error';  
         $id         = 0;
-        if(!empty($user)){            
+        if(!empty($user) && !$key){            
             $this->sendActivationLink($user->id);
             // $message    = 'User has been created !!';
             $message    = config('constants.admin_customer_create.mail.success');
             $status     = 'success';    
-            $id         = $user->id;
+            $id         = $user->id;            
         }
         return array('status' => $status,'message' => $message,'id' => $id);
         // }
@@ -678,6 +685,10 @@ class UsersController extends Controller
                 // email send work end
                 // $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
+
+                $SchedulerLog = new SchedulerLogController();
+                $SchedulerLog->CreateScheduler($user->id);
+            
             } else {
                 $res = ['success' => false, 'message' => config('constants.customer_not_found')];
             }

@@ -6,6 +6,7 @@ use App\Models\InvoicedOrders;
 use Illuminate\Http\Request;
 use App\Models\SaleOrders;
 use App\Models\UserDetails;
+use App\Models\User;
 use App\Models\Products;
 use App\Models\OrderDetails;
 use App\Helpers\SDEApi;
@@ -112,7 +113,12 @@ class InvoicedOrdersController extends Controller
                             }
                             foreach($salesorderhistoryheader as $_order){
                                 $customerno     = $_order['customerno'];
-                                $UserDetails    = UserDetails::where('customerno',$customerno)->get()->first();
+                                //$UserDetails    = UserDetails::where('customerno',$customerno)->get()->first();
+                                $UserDetails = User::leftjoin('user_details','users.id','=','user_details.user_id')
+                                               ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                               ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                               ->where('users.is_deleted',0)->where('users.active',1)->where('user_details.customerno',$customerno)->select(['user_details.*'])->get()->first();
+
                                 $salesInfo['user_details_id'] = $UserDetails->id;
                                 /* CODE TO REPLACE EMPTY SALE ORDERS */ 
                                 if($_order['salesorderno'] == ''){
