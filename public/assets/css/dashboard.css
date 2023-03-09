@@ -2541,6 +2541,21 @@ table.dataTable td, table.dataTable th{
   background-color: #BBBBBB;
 } 
 
+.open-view-details{
+  font-size: 0.75rem;
+  letter-spacing: 0;
+}
+.export-drop-down{
+  margin-top: 0.3125rem;
+  background: #7b7c7f;
+  display: block;
+  min-width: 7rem;
+}
+.export-drop-down a {
+  color: #fff;
+  font-size: 0.765rem;
+  user-select: none;
+}
 
 @media screen and (max-width: 1500px){
   html{

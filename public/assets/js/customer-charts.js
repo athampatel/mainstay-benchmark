@@ -1,4 +1,3 @@
-console.log('customer_charts');
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');
@@ -12,6 +11,9 @@ $(document).on('click','.order-item-detail',function(e){
             console.log(res,'___product data');
         }
     });
+
+    // invoice detail page
+    // let invoice_sales_orderno = 
 })
 
 //change order form page
@@ -74,7 +76,6 @@ $('#change-order-form').on('submit', function(e) {
 });
 
 function orderDetailsAjax($PurchaseOrderNumber,$ItemCode){
-    
     $.ajax({
         type: 'POST',
         url: '/order-detail',
@@ -182,12 +183,32 @@ function displayChangeOrderPage(res,itemcode){
             } else {
                 $('#order-save-button').removeClass('d-none')
             }
-            
+            console.log(res,'___change order response');
             $.each(Sale_item.product_details,function(index,item){
                
                 if(item.quantityordered > 0){
                     quantity_count += item.quantityordered;
                         promise_date = item.promisedate;
+                        /* is_change_order */
+                        let is_action ='';
+                        if(res.data.is_change_order){
+                            is_action = `<td class="order_item_actions">    
+                                            <a href="#" class="edit_order_item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
+                                                    <g class="pen" transform="translate(-181.608 -111.379)">
+                                                        <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
+                                                    </g>
+                                                </svg>
+                                            </a>
+                                            <a href="#" class="d-none order-item-cancel-link" >
+                                                <ion-icon name="close-outline" class="order-item-cancel"></ion-icon>
+                                            </a>
+                                            <a href="#" class="d-none order-item-save-link">
+                                                <ion-icon name="save-outline" class="order-item-save"></ion-icon>
+                                            </a>
+                                        </td>`;
+                        }
+                        /* is_change_order */
                         item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                             <td>${item.itemcodedesc}<br/>
                             Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">${item.itemcode}</a></td> 
@@ -195,21 +216,7 @@ function displayChangeOrderPage(res,itemcode){
                             <input type="number" name="order_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled></td>
                             <td class="order_unit_price" data-val="${item.unitprice}">$ ${item.unitprice}</td>
                             <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${item.quantityordered * item.unitprice}</td>
-                            <td class="order_item_actions">
-                                <a href="#" class="edit_order_item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
-                                        <g class="pen" transform="translate(-181.608 -111.379)">
-                                            <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#9fcc47" stroke="#9fcc47" stroke-width="0.5"/>
-                                        </g>
-                                    </svg>
-                                </a>
-                                <a href="#" class="d-none order-item-cancel-link" >
-                                    <ion-icon name="close-outline" class="order-item-cancel"></ion-icon>
-                                </a>
-                                <a href="#" class="d-none order-item-save-link">
-                                    <ion-icon name="save-outline" class="order-item-save"></ion-icon>
-                                </a>
-                            </td>
+                            ${is_action}
                         </tr>`;
 
                     dropship = item.dropship == 'Y' ? 'Yes' : 'No';

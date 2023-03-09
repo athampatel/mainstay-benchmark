@@ -8,7 +8,6 @@
   <span class="page_title">Dashboard</span>
     <div class="overview-boxes widget_container_cards col-12">
       <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 col-12 widget-listing">
-        {{-- customer info card --}}
         <div class="col-sm-12 col-md-12 col-lg-4 no-right-pad">
           <div class="card box equal-height">						
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
@@ -34,20 +33,13 @@
                 <div class="box-details col-12"> 
                 @php
                     $customer_session =  session('customers');
-                @endphp
-                {{-- {{dd($customer_session)}} --}}                
+                @endphp             
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                  {{-- <div class="col-8 card-item-body">Adams Baker</div> --}}
-                  {{-- @if($customer_session) --}}
                     <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
-                  {{-- @else 
-                    <div class="col-8 card-item-body"></div>
-                  @endif --}}
                 </div>
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
-                  {{-- <div class="col-8 card-item-body">3589 sagamore Pkwy N, Suite 220, Indiana, Lafayette,47904</span></div> --}}
                   @php 
                   $session_address = "";
                   if($customer_session){
@@ -65,7 +57,7 @@
             </div>
           </div>
         </div>
-        {{-- Region manager info card --}}
+
         <div class="col-sm-12 col-md-12 col-lg-4 padd-small">
           <div class="card box equal-height">					
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
@@ -86,18 +78,11 @@
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>                  
                   <div class="col-8 card-item-body">{{$region_manager->email}}</div>
                 </div>
-                {{--  
-                <div class="row py-1">
-                  <div class="col-34 card-item-header d-flex justify-content-between"><div>Phone Number</div><div>:</div></div>
-                  <div class="col-6 card-item-body">999 333 4568</div>
-                   <div class="col-6 card-item-body">{{$region_manager->name}}</div>
-                </div>
-                --}}
               </div>
             </div>
           </div>
         </div>
-        {{-- Open orders card --}}
+        
         <div class="col-sm-12 col-md-12 col-lg-4 no-left-pad">
           <div class="card box equal-height">	
            <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
@@ -110,7 +95,7 @@
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
                 <div class="box-details col-12 px-5">                                 
-                <div class="date" id="open-orders-total-amount">$ {{number_format("10000",2,".",",")}}</div>
+                <div class="date" id="open-orders-total-amount">$ {{number_format("0",2,".",",")}}</div>
                 <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/open-orders">View Open Order</a>
               </div>
             </div>
@@ -129,8 +114,15 @@
                 <h4 class="mb-0 title-4">Sale/Invoice Orders</h4>
               </div>
               <div class="col-12 col-md-12 col-lg-6 d-flex align-items-center justify-content-end col-btn">
-                <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
-                <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
+                <div class="position-relative">
+                    <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-sales-invoice" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                    <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-sales-invoice" id="export-sales-invoice-drop">
+                      <a class="dropdown-item export-sales-invoice-item" data-type="png">PNG</a>
+                      <a class="dropdown-item export-sales-invoice-item" data-type="svg">SVG</a>
+                      <a class="dropdown-item export-sales-invoice-item" data-type="csv">CSV</a>
+                    </div>
+                </div>
+                <a class="btn btn-rounded btn-medium btn-primary" href="/invoice">MORE DETAILS</a>
               </div>
             </div>
             <div id="customer_sales_history" class="col-12 p-2">
@@ -151,8 +143,16 @@
                   <h4 class="mb-0 title-4">Open Orders</h4>
                 </div>
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
-                  <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a>
-                  <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a>
+                  {{-- <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a> --}}
+                  <div class="position-relative">
+                    <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-open-oders-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                    <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-open-orders" id="export-open-orders-drop">
+                      <a class="dropdown-item export-open-orders-item" data-type="png">PNG</a>
+                      <a class="dropdown-item export-open-orders-item" data-type="svg">SVG</a>
+                      <a class="dropdown-item export-open-orders-item" data-type="csv">CSV</a>
+                    </div>
+                  </div>
+                  <a class="btn btn-rounded btn-medium btn-primary" href="/open-orders">MORE DETAILS</a>
                 </div> 
               </div>
             <div id="dashboard-open-orders-chart" class="col-12 p-2">
@@ -165,16 +165,28 @@
       </div>
 
     <!---ROW 3-->
-
-   
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
     @if($saleby_productline)     
      <div class="col-sm-12 col-md-12 col-lg-5 no-right-pad">
         <div class="card box item-card-block equal-height">
-          <div class="card-header col-12 p-3 border-0">
-            <div class="col-12 d-flex align-items-center">              
+          <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
+            <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
+              <div class="box-icon small-icon rounder-border">
+                <img src="assets/images/svg/open-orders.svg" />
+              </div>  
               <h4 class="mb-0 title-4">Total Customer Spending</h4>
             </div>
+            <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
+              <div class="position-relative">
+                <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-total-spending-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-total-spending" id="export-total-spending-drop">
+                  <a class="dropdown-item export-total-spending-item" data-type="png">PNG</a>
+                  <a class="dropdown-item export-total-spending-item" data-type="svg">SVG</a>
+                  <a class="dropdown-item export-total-spending-item" data-type="csv">CSV</a>
+                </div>
+              </div>
+              {{-- <a class="btn btn-rounded btn-medium btn-primary" href="/open-orders">MORE DETAILS</a> --}}
+            </div> 
           </div>
 					<div id="customer-spending-chart" class="col-12 p-2">
             <div class="chart-loader-div d-none">
@@ -195,8 +207,6 @@
                 <input type="text" class="datatable-search-input" placeholder="Search in All Columns" id="open-orders-chart-search" aria-controls="help-page-table">
                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-chart-search-img">
               </div> 
-              {{-- <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a> --}}
-              {{-- <a class="btn btn-rounded btn-medium btn-primary">MORE DETAILS</a> --}}
               <div class="position-relative datatable-filter-div">
                 <select name="" class="datatable-filter-count" id="dashboard-open-orders-filter-count">
                   <option value="5" selected>05 Items</option>
@@ -205,7 +215,6 @@
                 </select>
                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
               </div>
-              {{-- export icons --}}
             </div>
           </div>
           <div class="card-body col-12 p-3">
@@ -223,7 +232,6 @@
     </div>
 
     @if(Auth::user()->is_vmi == 1)
-    {{-- vmi users --}}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
       <div class="col small-right-pad">
         <div class="card box">						
@@ -236,7 +244,7 @@
             <div class="box-details">
               <div class="name">inventory details</div>
               <div class="date">{{ @session('vmi_physicalcountdate') ? date('m-d-Y',strtotime(@session('vmi_physicalcountdate'))) : ''}}</div>
-              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="#">View Inventory</a>
+              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/vmi-user">View Inventory</a>
             </div>
           </div>
         </div>
@@ -252,16 +260,15 @@
             <div class="box-details">
               <div class="name">Next Onsite Count</div>
               <div class="date">{{ @session('vmi_nextonsitedate') ? date('m-d-Y',strtotime(@session('vmi_nextonsitedate'))) : ''}}</div>
-              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="#">View Next Onsite Count</a>
+              <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/vmi-user">View Next Onsite Count</a>
             </div>
           </div>
         </div>
       </div>
     </div>
     @endif
-
     </div>
-  </div>  <!--- home-content ---->
+  </div>  
 @endsection
 
 @section('scripts')

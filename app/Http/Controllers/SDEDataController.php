@@ -169,6 +169,9 @@ class SDEDataController extends Controller
 
     // sales order detail
     public function getSalesOrderDetail(Request $request){
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $is_change_order = MenuController::CheckChangeOrderAccess($user_id);
         $order_no = $request->order_no;
         $item_code = $request->item_code;
         $data = array(            
@@ -191,7 +194,7 @@ class SDEDataController extends Controller
         }
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
         $user = User::find(Auth::user()->id);
-        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
+        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user, 'is_change_order' => $is_change_order ],'error' => []];
         echo json_encode($response);
     }
 

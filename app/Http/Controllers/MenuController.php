@@ -30,7 +30,8 @@ class MenuController extends Controller
 
     public function NavMenu($current = ''){
 
-       $menus = array('dashboard'           =>         array(  'name' => 'products & inventory', 
+    //    $menus = array('dashboard'           =>         array(  'name' => 'products & inventory', 
+       $menus = array('dashboard'           =>         array(  'name' => 'Dashboard', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/products_gray.svg')), 
                                                                 'active' => 0,  
                                                                 'link'=> '/dashboard','code' => 'auth.customer.dashboard'),
@@ -94,8 +95,6 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
-
-
         //$products = new SchedulerLogController();
         //$products->runScheduler();
         //die; 
@@ -172,15 +171,15 @@ class MenuController extends Controller
 
         $customer_no   = $request->session()->get('customer_no');
         $customers    = $request->session()->get('customers');
-        if(Auth::user()){ // && $customers['vmi_companycode'] != ''
+        if(Auth::user()){
             $final_data['title']  = '';
             $final_data['current_menu']   = 'open-orders';
             $final_data['menus']          = $this->NavMenu('open-orders');
             $user = User::find(Auth::user()->id);
-
             $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;            
             $user_id = $customers[0]->user_id;
+            $final_data['is_change_order'] = self::CheckChangeOrderAccess($user_id);
             $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
             if(!$response) return redirect()->back();
             $final_data['customer_menus'] = $response;
@@ -261,8 +260,10 @@ class MenuController extends Controller
         } else {
             $offset = $page * $limit + 1;
         }
-        $user_id = Auth::user()->id;
+        // $user_id = Auth::user()->id;
         $customer_no   = $request->session()->get('customer_no');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
             $data = array(            
@@ -285,8 +286,6 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-
-            // $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getOpenOrders');
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] > 1){
@@ -296,18 +295,11 @@ class MenuController extends Controller
             } else {
                 $pagination_code = '';
             }
-            $change_order_menu_id = CustomerMenu::where('code','auth.customer.change-order')->pluck('id')->toArray();
-            $change_order_menu_id = !empty($change_order_menu_id) ? $change_order_menu_id[0] : 0;
+            // $change_order_menu_id = CustomerMenu::where('code','auth.customer.change-order')->pluck('id')->toArray();
+            // $change_order_menu_id = !empty($change_order_menu_id) ? $change_order_menu_id[0] : 0;
             $customers    = $request->session()->get('customers');
             $user_id = $customers[0]->user_id;
-            $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
-            $is_change_order = false;
-            if($customer_menu_access){
-                $menu_access = explode(',',$customer_menu_access->access);
-                if(in_array($change_order_menu_id,$menu_access)){
-                    $is_change_order = true;
-                } 
-            }
+            $is_change_order = self::CheckChangeOrderAccess($user_id);
             $table_code = View::make("components.datatabels.open-orders-page-component")
             ->with("saleorders", $response['salesorders'])
             ->with("is_change_order", $is_change_order)
@@ -391,42 +383,7 @@ class MenuController extends Controller
                 "limit" => 2,
             );
             $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-
-            /*foreach($response_data['salesorderhistoryheader'] as $key => $res){
-                $data1 = array(            
-                    "filter" => [
-                        [
-                            "column" => "SalesOrderNo",
-                            "type" => "equals",
-                            "value" => $res['salesorderno'],
-                            "operator" => "and"
-                        ],
-                    ]
-                );  
-                $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-                $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
-            };
-            $data = array(            
-                "filter" => [
-                    [
-                        "column"=> "ARDivisionNo",
-                        "type"=> "equals",
-                        "value"=> $user_details->ardivisionno,
-                        "operator"=> "and"
-                    ],
-                    [
-                        "column"=> "CustomerNo",
-                        "type"=> "equals",
-                        "value"=> $user_details->customerno,
-                        "operator"=> "and"
-                    ],
-                ],
-                "offset" => $offset,
-                "limit" => $limit,
-            );
-            
-            $response   = $this->SDEApi->Request('post','SalesOrders',$data);*/
-            // $custom_pagination = self::AjaxgetPagination($offset,$limit,$response['meta']['records'],$page,'/getInvoiceOrders');
+            // ddd($response);
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             if($custom_pagination['last_page'] > 1){
@@ -551,16 +508,18 @@ class MenuController extends Controller
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             $is_api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
+            // dd($is_api_data);
             if($is_api_data){
                 $is_api_data->data = json_encode($response);
                 $is_api_data->updated_at = date('Y-m-d h:i:s'); 
                 $is_api_data->save(); 
             } else {
-                ApiData::create([
+               $api_data = ApiData::create([
                     'customer_no' => $customer_no,
                     'type' => $type->id,
                     'data' => json_encode($response)
                 ]);
+                // dd($api_data);
             }
             $response = $response['salesorders'];
         } else {
@@ -590,73 +549,6 @@ class MenuController extends Controller
         }
         echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
         die();
-        // if($api_data){
-        //     $response = json_decode($api_data->data);
-        //     $count_total = 0;
-        //     $test_counts = [];
-        //     foreach($response as $res){
-        //         $date = explode("-",$res->orderdate);
-        //         if($date[0] == '2022'){
-        //             if(isset($test_counts['0-'.$date[1]])){
-        //                 $test_counts['0-'.$date[1]] = $test_counts['0-'.$date[1]] + $res->total_amount;
-        //             } else {
-        //                 $test_counts['0-'.$date[1]] = $res->total_amount;
-        //             }
-        //         }
-        //         $count_total = $count_total + $res->total_amount; 
-        //     }
-        //     $new_open_orders = [];
-        //     for($i = 1; $i <= 12 ; $i++){
-        //         $num = $i < 10 ? '0'.$i : $i;
-        //         $test_counts['0-'.$num] = isset($test_counts['0-'.$num]) ?  $test_counts['0-'.$num] : 0;
-        //         $new_open_orders[] = $test_counts['0-'.$num];
-        //     }
-        //     echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $count_total],'error' => []]);
-        //     die(); 
-        // } else {
-            // $data = array(            
-            //     "filter" => [
-            //         [
-            //             "column"=> "ARDivisionNo",
-            //             "type"=> "equals",
-            //             "value"=> $customer[0]->ardivisionno,
-            //             "operator"=> "and"
-            //         ],
-            //         [
-            //             "column"=> "CustomerNo",
-            //             "type"=> "equals",
-            //             "value"=> $customer_no,
-            //             "operator"=> "and"
-            //         ],
-            //     ],
-            // );
-            
-            // $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-            // $response = $response['salesorders'];
-            // $open_orders = [];
-            // foreach($response as $res){
-            //     $date = explode("-",$res['orderdate']);
-            //     if($date[0] == '2022'){
-            //         foreach($res['details'] as $detail){
-            //             if(isset($open_orders['0-'.$date[1]])){
-            //                 $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
-            //             } else {
-            //                 $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
-            //             }
-            //         }
-            //     }
-            // }
-            // $total = 0;
-            // $new_open_orders = [];
-            // for($i = 1; $i <= 12 ; $i++){
-            //     $num = $i < 10 ? '0'.$i : $i;
-            //     $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
-            //     $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
-            //     $new_open_orders[] = $open_orders['0-'.$num];
-            // }
-            // echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
-            // die();
-        // }
     }
 
     public function getVmiData(Request $request){
@@ -727,4 +619,71 @@ class MenuController extends Controller
         return $custom_pagination;
     }
 
+    public static function CheckChangeOrderAccess($user_id){
+        $is_change_order = false;
+        $customer_menu_access = CustomerMenuAccess::where('user_id',$user_id)->first();
+        $menu_access = explode(',',$customer_menu_access->access);
+        $customer_menus = CustomerMenu::whereIn('id',$menu_access)->pluck('code')->toArray();
+        $change_order_menu_code = CustomerMenu::where('name','Customer Change Order Request')->pluck('code')->first();
+        if(in_array($change_order_menu_code,$customer_menus)){
+            $is_change_order = true;
+        }
+        return $is_change_order;
+    }
+
+    // show invoice detail
+    public function showInvoiceDetail(Request $request,$orderid){
+        $customer_no   = $request->session()->get('customer_no');
+        $customers    = $request->session()->get('customers');
+        if(Auth::user()){
+            $final_data['title']  = '';
+            $final_data['current_menu']   = 'invoice';
+            $final_data['menus']          = $this->NavMenu('invoice');
+            $user = User::find(Auth::user()->id);
+            $final_data['order_id'] = $orderid;
+            $final_data['user'] = $user;            
+            $user_id = $customers[0]->user_id;
+            // $final_data['is_change_order'] = self::CheckChangeOrderAccess($user_id);
+            $final_data['is_change_order'] = false;
+            $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
+            if(!$response) return redirect()->back();
+            $final_data['customer_menus'] = $response;
+            $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
+            $final_data['constants'] = config('constants');
+            return view('Pages.invoice-detail',$final_data);
+        } else {
+            return redirect()->route('auth.customer.dashboard');
+        }
+    }
+
+    // get invoice detail
+    public function getInvoiceDetail(Request $request){
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $is_change_order = MenuController::CheckChangeOrderAccess($user_id);
+        $order_no = $request->order_no;
+        $item_code = $request->item_code;
+        $data = array(            
+            "filter" => [
+                [
+                    "column" =>  "SalesOrderNo",
+                    "type" =>  "equals",
+                    "value" => $order_no,
+                    "operator" =>  "and"
+                ],
+            ],
+        );
+
+        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
+        $sales_order_detail = $sales_order_history_detail['salesorders'];
+        if(!empty($sales_order_detail)){
+            foreach ($sales_order_detail as $key => $sales_order) {
+                $sales_order_detail[$key]['product_details'] = $sales_order['details'];
+            }
+        }
+        $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
+        $user = User::find(Auth::user()->id);
+        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user, 'is_change_order' => $is_change_order ],'error' => []];
+        echo json_encode($response);
+    }
 }

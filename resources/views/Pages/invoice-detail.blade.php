@@ -15,21 +15,21 @@
             <div class="col-12">
                 <div class="card box">						
                     <div class="card-body col-12 d-flex align-items-center">
-                        <form method="post" id="change-order-form" class="order-form col-12 col-md-12 col-lg-8 pt-3 mx-auto d-flex justify-content-between align-items-center flex-wrap" action="">
+                        <form method="post" id="invoice-order-form" class="order-form col-12 col-md-12 col-lg-8 pt-3 mx-auto d-flex justify-content-between align-items-center flex-wrap" action="">
                             <div class="mb-3 col-12 col-md-4 col-lg-4">    
                                 <label for="formFile" class="form-label">Enter Purchase Order Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="" value="{{$order_id}}" name="PurchaseOrderNumber" id="PurchaseOrderNumber" required autocomplete="off" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" placeholder="" value="{{$order_id}}" name="InvoicePurchaseOrderNumber" id="InvoicePurchaseOrderNumber" required autocomplete="off" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
-                            <div class="mb-3 col-12 col-md-4 col-lg-4 px-md-3 px-0 px-lg-3" id="item-code-selectbox">    
+                            <div class="mb-3 col-12 col-md-4 col-lg-4 px-md-3 px-0 px-lg-3" id="invoice-item-code-selectbox">    
                                 <label for="formFile" class="form-label">Enter Item Code</label>
-                                <select name="ItemCode" id="ItemCode" class="form-select" {{ $is_change_order ? '': 'disabled'}}>
+                                <select name="InvoiceItemCode" id="InvoiceItemCode" class="form-select" {{ $is_change_order ? '': 'disabled'}}>
                                     <option value="0" selected>All</option>                                   
                                 </select>
                             </div>
                             
                             <div class="form-button mt-2 col-12 col-md-3 col-lg-4">
                             @if($is_change_order)    
-                             <button type="submit" class="font-12 btn btn-primary btn-rounded text-capitalize" id="get_order_details">Get Order Details</button>
+                             <button type="submit" class="font-12 btn btn-primary btn-rounded text-capitalize" id="invoice_get_order_details">Get Order Details</button>
                             @endif
                             </div>
                         </form>
@@ -226,8 +226,9 @@
 @section('scripts')
 <script>
     let app_url = '{{ env('APP_URL') }}';
-    let order_details = [];
+    let invoice_order_details = [];
     let changed_order_items = [];
     const constants = <?php echo json_encode($constants); ?>;
 </script>
+<script src="/assets/js/invoice-detail.js"></script>
 @endsection
