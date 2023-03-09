@@ -8,7 +8,10 @@ window.addEventListener("load", function() {
     customer_invoice_orders() // uncomment
     customerSalesHistory() // uncomment
 });
-  
+let customer_sales_chart;
+let customer_open_orders;
+let customer_total_spedning_chart;
+
 function customerSalesHistory(){
     $.ajax({
         type: 'GET',
@@ -102,21 +105,21 @@ function customerSalesChartDisplays(resp){
             }
         },
         markers: {
-        	size: 4,
-        	colors: ["#A4CD3C"],
-        	strokeColors: "#A4CD3C",
-        	strokeWidth: 2,
-        	hover: {
-        		size: 7,
-        	}
+            size: 4,
+            colors: ["#A4CD3C"],
+            strokeColors: "#A4CD3C",
+            strokeWidth: 2,
+            hover: {
+                size: 7,
+            }
         },
         colors: ["#A4CD3C"],
         dataLabels: {
             formatter(val, opts) {
-              const name = opts.w.globals.labels[opts.seriesIndex]
-              return [name, val.toFixed(1) + '%']
+            const name = opts.w.globals.labels[opts.seriesIndex]
+            return [name, val.toFixed(1) + '%']
             },
-          }, 
+        }, 
         yaxis: {
             title: {
                 text: ''
@@ -126,31 +129,31 @@ function customerSalesChartDisplays(resp){
             show: true,
             borderColor: '#797B7D',
             xaxis: {
-              lines: {
+            lines: {
                 show: true 
-               },
-               labels: {
+            },
+            labels: {
                 formatter: function(val, index) {
                     return '$'+ numberWithCommas(val);
-                 }
-              }
-             },  
+                }
+            }
+            },  
             yaxis: {
-              lines: { 
+            lines: { 
                 show: true 
-               },
-               labels: {
+            },
+            labels: {
                 formatter: function(val, index) {
                     return '$'+ numberWithCommas(val);
-                 }
-              }
+                }
+            }
 
-             },   
-          },
+            },   
+        },
     };
 
-    var chart = new ApexCharts(document.querySelector("#customer_sales_history"), options);
-    chart.render();
+    customer_sales_chart = new ApexCharts(document.querySelector("#customer_sales_history"), options);
+    customer_sales_chart.render();
 }
 
 function GetCustomerOpenOrders(){
@@ -162,17 +165,11 @@ function GetCustomerOpenOrders(){
             $('#dashboard-open-orders-chart .chart-loader-div').removeClass('d-none');
         },
         success: function (res) {  
-            // customerSalesChartDisplays(res)
             res = JSON.parse(res);
             if(res.success){
                 customerOpenOrders(res.data.data)
-                // let count = res.data.count.toFixed(2)
-                // open order total display work start
-                console.log(res.data.count.toFixed(2));
-                $('#open-orders-total-amount').text(`$ ${numberWithCommas(res.data.count.toFixed(2))}`)
-                // open order total display work end
+                $('#open-orders-total-amount').text(`$ ${numberWithCommas(res.data.count.toFixed(2))}`)               
             }
-            console.log(res,'___get customer open orders');
         },
         complete:function(){
             $('#dashboard-open-orders-chart .chart-loader-div').addClass('d-none');
@@ -189,7 +186,6 @@ function customerOpenOrders($array){
     var options = {
         series: [{
                 name: 'Sales',
-                // data: [10,2,30,100,50,60,45,80,90,30,110,48]
                 data: arr
             },
         ],
@@ -247,7 +243,6 @@ function customerOpenOrders($array){
             title: {
                 text: ''
             },
-            // min: 0,
         },
         tooltip: {
             x: {
@@ -285,26 +280,21 @@ function customerOpenOrders($array){
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#dashboard-open-orders-chart"), options);
-    chart.render();
+    customer_open_orders = new ApexCharts(document.querySelector("#dashboard-open-orders-chart"), options);
+    customer_open_orders.render();
 }
 
 // customer spending chart display
 function customerSpendingChart(){
-
     var labels = [];
     var value = [];
-    // console.log(value,'__value')
     if(typeof(data_bycat) != 'undefined'){
         $.each(data_bycat,function(index,values){
-            console.log(values);
-            var _label = values.label; //+' $'+numberWithCommas(values.value);
+            var _label = values.label;
             labels.push(_label);            
             value.push(values.value);
         });
     }
-    console.log(value,'__value');
-    console.log(labels,'___labels');
     // var options = {
     //     series: value,
     //     chart: {
@@ -354,7 +344,6 @@ function customerSpendingChart(){
     var options = {
         series: [{
                 name: 'Sales',
-                // name: labels,
                 data: value
             },
         ],
@@ -412,7 +401,6 @@ function customerSpendingChart(){
             title: {
                 text: ''
             },
-            // min: 0,
         },
         tooltip: {
             x: {
@@ -451,8 +439,8 @@ function customerSpendingChart(){
     };
 
 
-    var chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);
-    chart.render();
+    customer_total_spedning_chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);
+    customer_total_spedning_chart.render();
 }
 
 function numberWithCommas(x) {
@@ -497,5 +485,57 @@ $(document).on('change','#dashboard-open-orders-filter-count',function(){
     dashboard_invoice_order_table.page.len(val).draw();
 })
 
+// export chart functions
 
+// customer sales orders
+$(document).on('click','#export-sales-invoice',function(e){
+    e.preventDefault();
+    $('#export-sales-invoice-drop').toggleClass('d-none')
+})
+$(document).on('click','.export-sales-invoice-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    exportChart(customer_sales_chart,type);
+    $('#export-sales-invoice-drop').toggleClass('d-none')
+})
 
+// customer open orders
+$(document).on('click','#export-open-oders-chart',function(e){
+    e.preventDefault();
+    $('#export-open-orders-drop').toggleClass('d-none')
+})
+$(document).on('click','.export-open-orders-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    exportChart(customer_open_orders,type);
+    $('#export-open-orders-drop').toggleClass('d-none')
+})
+
+// total customers spending
+$(document).on('click','#export-total-spending-chart',function(e){
+    e.preventDefault();
+    $('#export-total-spending-drop').toggleClass('d-none')
+})
+$(document).on('click','.export-total-spending-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    exportChart(customer_total_spedning_chart,type);
+    $('#export-total-spending-drop').toggleClass('d-none')
+})
+
+function exportChart(chartname,type){
+    var cts = chartname.ctx;
+    var w = chartname.w;
+    if(type == 'svg'){
+        chartname.exports.exportToSVG(cts)
+    } 
+    if(type == 'png'){
+        chartname.exports.exportToPng(cts);
+    }
+    if(type == 'csv'){
+        chartname.exports.exportToCSV({
+            series: w.config.series,
+            columnDelimiter:','
+        });
+    }
+}
