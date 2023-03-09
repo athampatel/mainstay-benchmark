@@ -28,9 +28,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('get:open-orders')->hourly();
-        $schedule->command('hour:update')->hourly();
-        $schedule->command('command:ProductFetch')->everySixHours();
-        $schedule->command('command:ProductUpdate')->everyThreeHours();
+        $schedule->command('hour:update')->everyTenMinutes(); // to pull sale order details
+        $schedule->command('command:ProductFetch')->everyTenMinutes();
+        $schedule->command('command:ProductUpdate')->everyTenMinutes();
         $schedule->command('twice:ImportInvoiceOrders')->everyThirtyMinutes();
     }
 
