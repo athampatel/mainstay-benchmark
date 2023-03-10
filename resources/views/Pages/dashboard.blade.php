@@ -220,9 +220,61 @@
           </div>
           <div class="card-body col-12 p-3">
           <div class="table-responsive" id="dashboard-recent-invoice-order-table-div">
-            <div class="chart-loader-div">
-              <div class="chart-loader"></div>
-            </div>		
+
+             @if(!empty($recent_orders['orders']))    
+             <table id="dashboard-recent-invoice-order-table" class="table bench-datatable">
+                  <thead>
+                      <tr>
+                          <th class="border-0">ID</th>
+                        <!-- <th class="border-0">Customer name</th> -->
+                          <th class="border-0">Customer email</th>
+                          <th class="border-0">Total items</th>
+                          <th class="border-0">Price</th>
+                          <th class="border-0">Date</th>
+                          <th class="border-0">Location</th>
+                          {{-- <th class="border-0">Status</th> 
+                          <th class="border-0">Action</th>--}}
+                      </tr>
+                      </thead>
+                      <tbody id="invoice-orders-table-body">
+                        
+                          @foreach ($recent_orders['orders'] as $invoice)                              
+                              <tr>
+                                  <td><a href="{{url('/invoice-detail')}}/{{$invoice['salesorderno']}}" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td>
+                                  <!--<td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td> -->
+                                  <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td> 
+                                  <td>{{$invoice['total_qty']}}</td>
+                                  {{-- <td>${{$price}}</td> --}}
+                                  <td>${{number_format($invoice['total'],0,".",",")}}</td>
+                                  <td>{{$invoice['date']}}</td>
+                                  <td class="location"><span class="svg-icon location-icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
+                                  </span> {{ucwords($invoice['shiptocity'])}}
+                                  </td>
+                                  {{-- <td class="status">{{ $invoice['orderstatus'] == 'C' ? 'Completed': 'Open'}}</td> 
+                                  <td class="action">
+                                      <a href="/change-order/{{$invoice['salesorderno']}}">
+                                          Change
+                                      </a>
+                                      <span>
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16.899" height="16.87" viewBox="0 0 16.899 16.87">
+                                              <g id="pen" transform="translate(-181.608 -111.379)">
+                                                  <path id="Path_955" data-name="Path 955" d="M197.835,114.471,195.368,112a1.049,1.049,0,0,0-1.437,0l-11.468,11.5a.618.618,0,0,0-.163.325l-.434,3.552a.52.52,0,0,0,.163.461.536.536,0,0,0,.38.163h.054l3.552-.434a.738.738,0,0,0,.325-.163l11.5-11.5a.984.984,0,0,0,.3-.7,1.047,1.047,0,0,0-.3-.732Zm-12.119,12.038-2.684.325.325-2.684,9.76-9.76,2.359,2.359Zm10.519-10.546-2.359-2.332.786-.786,2.359,2.359Z" transform="translate(0 0)" fill="#F96969" stroke="#F96969" stroke-width="0.5"/>
+                                              </g>
+                                          </svg>                         
+                                      </span>
+                                  </td>--}}
+                              </tr>
+                          @endforeach
+                      </tbody>
+              </table>   
+             @else
+              <div class="chart-loader-div">
+                <div class="chart-loader"></div>
+              </div>	
+             @endif
+                  
+           	
           </div>
             <div class="d-flex col-12 justify-content-end pb-2">
                 <a href="/invoice" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
@@ -276,6 +328,13 @@
 <script src="/assets/js/customer-dashboard.js"></script>
 <script type="text/javascript">
     const constants = <?php echo json_encode($constants); ?>;
+    @if(!empty($sales_orders))     
+      var sales_orders = <?php echo json_encode($sales_orders); ?>;   
+      customerSalesChartDisplays(sales_orders,1);
+    @endif
+    @if(!empty($recent_orders['orders']))     
+      var recent_orders = <?php echo json_encode($recent_orders); ?>;       
+    @endif
     @if($saleby_productline)     
        var sell_bycat = <?php echo json_encode($saleby_productline); ?>;
        var data_bycat = <?php echo json_encode($data_productline); ?>;            

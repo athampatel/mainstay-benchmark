@@ -120,7 +120,7 @@ class MenuController extends Controller
         $sales_orders               = new SaleOrdersController();
         $sales_args                 = array('from' => $year.'-01-01','to' => $year.'-12-31');
         $sales_by_year              = $sales_orders->getSaleByYear($customer_no,$sales_args,$request);
-        $recent_orders              = $sales_orders->getRecentOrders($customer_no);
+        $recent_orders              = $sales_orders->getRecentOrders($customer_no,6);
         $SaleByCategory             = $sales_orders->getSaleByCategory($customer_no,$year);
 
        /* $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
@@ -133,9 +133,9 @@ class MenuController extends Controller
        
         $data['saleby_productline'] = $SaleByCategory; 
         $data['data_productline']   = $SaleByCategory;
-        $data['sales_orders']       = $sales_orders;
-        $data['recent_orders']       = $recent_orders;
 
+        $data['sales_orders']       = $sales_by_year;
+        $data['recent_orders']      = $recent_orders;
         return view('Pages.dashboard',$data); 
     }
 
@@ -156,10 +156,16 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('invoice');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
+        $customer_no   = $request->session()->get('customer_no');
+        $sales_orders               = new SaleOrdersController();
+        $page                       = 0;
+
+        $recent_orders              = $sales_orders->getRecentOrders($customer_no,12,$page,1);
         $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
-        $data['constants'] = config('constants');
+        $data['constants'] = config('constants');        
+        $data['recent_orders'] = $recent_orders;
         return view('Pages.invoice',$data);  
     }
     
@@ -678,8 +684,11 @@ class MenuController extends Controller
             $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
             if(!$response) return redirect()->back();
             $final_data['customer_menus'] = $response;
-            $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
-            $final_data['constants'] = config('constants');
+            $sales_orders   = new SaleOrdersController();
+            $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
+            $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
+            $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
+            $final_data['constants']    = config('constants');
             return view('Pages.invoice-detail',$final_data);
         } else {
             return redirect()->route('auth.customer.dashboard');

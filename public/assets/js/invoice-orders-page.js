@@ -8,20 +8,17 @@ let pagecount = parseInt($("#invoice-orders-page-filter-count option:selected").
 //open orders table filter
 $(document).on('change','#invoice-orders-page-filter-count',function(){
     let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
-    // let current_page = $('#current_page').val();
+    // let current_page = $('#current_page').val();    
     getInvoiceOrderAjax(0,val)
     // open_order_page_table.page.len(val).draw();
 })
-
 getInvoiceOrderAjax(0,pagecount)
-
 $(document).on('click','.pagination_link',function(e){
     e.preventDefault();
     $page = $(this).data('val');
     $val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
     getInvoiceOrderAjax($page,$val)
 })
-
 $('#invoice-orders-page-search').keyup(function(){
     open_order_page_table.search($(this).val()).draw();
 })
@@ -29,6 +26,10 @@ $('#invoice-orders-page-search').keyup(function(){
 let open_order_page_table;
 
 function getInvoiceOrderAjax($page,$count){
+    
+    if(typeof(recent_orders) != 'undefined')
+        return false;
+
     $.ajax({
         type: 'GET',
         url: '/getInvoiceOrders',

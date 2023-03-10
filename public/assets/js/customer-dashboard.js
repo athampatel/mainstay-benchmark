@@ -13,6 +13,10 @@ let customer_open_orders;
 let customer_total_spedning_chart;
 
 function customerSalesHistory(){
+
+    if(typeof(sales_orders) != 'undefined') 
+        return false; 
+
     $.ajax({
         type: 'GET',
         url: '/customersales',
@@ -30,21 +34,30 @@ function customerSalesHistory(){
 }
 
 // dashboard customer sales order display
-function customerSalesChartDisplays(resp){
-    $res = JSON.parse(resp);
+function customerSalesChartDisplays(resp,status){
     $counts = [];
     $categories = [];
-    $customer_data = $res.data.data.customersaleshistory;
-    for(let i = 1; i <= 12 ; i++ ){
-        let is_add = true;
-        $customer_data.forEach(da => {
-            if(da.fiscalperiod == i){
-                is_add = false;
-                $counts.push(Math.round(da.dollarssold))
+    if(status == 1){
+        console.log(resp);
+        $.each(resp,function(index,vale){
+            $counts.push(Math.round(vale.total));
+            $categories.push(vale.month)
+        });
+    }else{
+        $categories = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        $res = JSON.parse(resp);        
+        $customer_data = $res.data.data.customersaleshistory;
+        for(let i = 1; i <= 12 ; i++ ){
+            let is_add = true;
+            $customer_data.forEach(da => {
+                if(da.fiscalperiod == i){
+                    is_add = false;
+                    $counts.push(Math.round(da.dollarssold))
+                }
+            })
+            if(is_add){
+                $counts.push(0);
             }
-        })
-        if(is_add){
-            $counts.push(0);
         }
     }
     // console.log($counts,'___counts');
@@ -80,7 +93,7 @@ function customerSalesChartDisplays(resp){
 
         xaxis: {
             type:'month',
-            categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            categories: $categories,
         },
         fill: {
             type: 'gradient',
@@ -466,6 +479,9 @@ function numberWithCommas(x) {
 // dashboard invoice order table
 let dashboard_invoice_order_table;
 function customer_invoice_orders(){
+    if(typeof(recent_orders) != 'undefined') 
+        return false; 
+
     $.ajax({
         type: 'GET',
         url: '/customer-invoice-orders',
