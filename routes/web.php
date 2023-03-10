@@ -102,6 +102,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCustomerOpenOrders',[MenuController::class,'getCustomerOpenOrdersData']);
     // get Vmi page data
     Route::get('/getVmiData',[MenuController::class,'getVmiData']);
+
+    Route::get('/invoice-detail/{orderid}',[MenuController::class,'showInvoiceDetail']);
+    Route::post('/invoice-order-detail',[MenuController::class,'getInvoiceDetail']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
@@ -112,7 +115,6 @@ Route::post('/get-new-bottom-notifications',[NotificationController::class,'getN
 Route::post('/notification-seen',[NotificationController::class,'changeNotificationStatus']);
 /* bottom notification work end */
 Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('admin.logout.submit');
-
 Route::get('/autheticate',[AuthController::class,'autheticate']);
 
 
