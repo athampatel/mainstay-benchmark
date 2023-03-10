@@ -160,7 +160,7 @@ class MenuController extends Controller
         $sales_orders               = new SaleOrdersController();
         $page                       = 0;
 
-        $recent_orders              = $sales_orders->getRecentOrders($customer_no,12,$page,1);
+        $recent_orders              = $sales_orders->getRecentOrders($customer_no,15,$page,1);
         $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
