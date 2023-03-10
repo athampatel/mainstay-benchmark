@@ -274,6 +274,7 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+
         if($page == 0){
             $offset = 1;
         } else {
@@ -305,6 +306,7 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            // dd($response);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             // dd($custom_pagination);
@@ -630,10 +632,10 @@ class MenuController extends Controller
         $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
         $custom_pagination['total'] = $total;
         $custom_pagination['first_page'] = 0;
-        $custom_pagination['last_page'] = intval(ceil($total / $limit));
+        $custom_pagination['last_page'] = intval(ceil($total / $limit)) - 1;
         $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
         $custom_pagination['curr_page'] = intval($page);
-        $custom_pagination['next_page'] = intval(ceil($total / $limit)) == $page ? intval(ceil($total / $limit)) : $page + 1;
+        $custom_pagination['next_page'] = intval(ceil($total / $limit)) - 1 == $page ? intval(ceil($total / $limit)) - 1 : $page + 1;
         $custom_pagination['path'] = $path;
 
         return $custom_pagination;
