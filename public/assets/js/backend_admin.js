@@ -394,3 +394,11 @@ $('#admin_change_order_search').keyup(function(){
 //     e.preventDefault();
 //     window.location.href = "/admin/profile";
 // })
+
+// export tables
+
+// customer table
+
+// $(document).on('click','#admin-customer-report-icon',function(){
+//    $()
+// })

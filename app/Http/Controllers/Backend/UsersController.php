@@ -68,6 +68,9 @@ class UsersController extends Controller
     
     public function index(Request $request)
     {   
+        if(!Auth::guard('admin')->user()){
+            return redirect()->route('admin.login');
+        }
         // dd(config('constants.customer-signup.confirmation_messsage'));
         $limit = $request->input('limit');
         if(!$limit){
@@ -131,15 +134,6 @@ class UsersController extends Controller
     }
 
     public static function customPagination($first_page,$last_page,$total,$per_page,$active_page,$link_path){
-        /* test work start */
-        // $check['first_page'] = $first_page;
-        // $check['last_page'] = $last_page;
-        // $check['total'] = $total;
-        // $check['per_page'] = $per_page;
-        // $check['active_page'] = $active_page;
-        // $check['link_path'] = $link_path;
-        // dd($check);
-        /* test work end */
         $first_page = 1;
         $links =[];
         if($first_page == $last_page){

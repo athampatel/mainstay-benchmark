@@ -686,6 +686,7 @@ class MenuController extends Controller
             $final_data['customer_menus'] = $response;
             $sales_orders   = new SaleOrdersController();
             $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
+            // dd($final_data['details']);
             $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
             $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants']    = config('constants');

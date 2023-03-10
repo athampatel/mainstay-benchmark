@@ -2560,6 +2560,19 @@ table.dataTable td, table.dataTable th{
   font-size: 0.765rem;
   user-select: none;
 }
+.export-drop-down-table{
+  margin-top: 0.3125rem;
+  background: #7b7c7f;
+  display: block;
+  min-width: 7rem;
+  top: 1.75rem;
+  right: -1.25rem;
+}
+.export-drop-down-table a {
+  color: #fff;
+  font-size: 0.765rem;
+  user-select: none;
+}
 
 @media screen and (max-width: 1500px){
   html{
