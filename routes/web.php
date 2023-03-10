@@ -12,7 +12,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
+use App\Http\Controllers\SaleOrdersController;
 use Illuminate\Support\Facades\Mail;
+
 
 
 /*
@@ -48,10 +50,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/analysis',[MenuController::class,'analysisPage'])->name('auth.customer.analysis');
     Route::get('/account-settings',[MenuController::class,'accountSettingsPage'])->name('auth.customer.account-settings');
     Route::get('/help',[MenuController::class,'helpPage'])->name('auth.customer.help');
+
+    
     // chart routes
     Route::get('/customersales',[SDEDataController::class,'getCustomerSalesHistory']);
     Route::get('/customer-invoice-orders',[SDEDataController::class,'getCustomerInvoiceOrders']);
     Route::post('/order-detail',[SDEDataController::class,'getSalesOrderDetail']);
+
+    Route::get('/customer-sales',[SaleOrdersController::class,'getSaleByYear']);
+
+    
+
+
 
     // open orders
     Route::get('/customer-open-orders-details',[SDEDataController::class,'getCustomerOpenOrdersDetails']);
@@ -92,10 +102,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCustomerOpenOrders',[MenuController::class,'getCustomerOpenOrdersData']);
     // get Vmi page data
     Route::get('/getVmiData',[MenuController::class,'getVmiData']);
-    
-    // invoice order page
-    Route::get('/invoice-detail/{orderid}',[MenuController::class,'showInvoiceDetail']);
-    Route::post('/invoice-order-detail',[MenuController::class,'getInvoiceDetail']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
