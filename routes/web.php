@@ -102,6 +102,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCustomerOpenOrders',[MenuController::class,'getCustomerOpenOrdersData']);
     // get Vmi page data
     Route::get('/getVmiData',[MenuController::class,'getVmiData']);
+
+    Route::get('/invoice-detail/{orderid}',[MenuController::class,'showInvoiceDetail']);
+    Route::post('/invoice-order-detail',[MenuController::class,'getInvoiceDetail']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
