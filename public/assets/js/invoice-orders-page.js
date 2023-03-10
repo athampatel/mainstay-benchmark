@@ -27,9 +27,10 @@ let open_order_page_table;
 
 function getInvoiceOrderAjax($page,$count){
     
-   // if(typeof(recent_orders) != 'undefined')
+    if(typeof(recent_orders) != 'undefined')
+        return false;
+    
     return false;
-
     $.ajax({
         type: 'GET',
         url: '/getInvoiceOrders',
