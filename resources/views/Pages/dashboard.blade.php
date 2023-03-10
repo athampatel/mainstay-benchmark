@@ -95,7 +95,8 @@
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
                 <div class="box-details col-12 px-5">                                 
-                <div class="date" id="open-orders-total-amount">$ {{number_format("0",2,".",",")}}</div>
+                {{-- <div class="date" id="open-orders-total-amount">$ {{number_format("0",2,".",",")}}</div> --}}
+                <div class="date" id="open-orders-total-amount">$ 0</div>
                 <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/open-orders">View Open Order</a>
               </div>
             </div>

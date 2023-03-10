@@ -6,12 +6,12 @@
             <input type="hidden" name="" id="pagination_path" value="{{$pagination['path']}}">
             <input type="hidden" name="" id="current_page" value="{{$pagination['curr_page']}}">
             <div class="pagination_button">
-                <a href="" data-val="{{$pagination['first_page']}}" >
+                <a href="" data-val="{{$pagination['first_page']}}" class="pagination_link" >
                     <img src="assets/images/svg/pagination_first.svg" />
                 </a>
             </div>
             <div class="pagination_button">
-                <a href="" data-val="{{$pagination['prev_page']}}">
+                <a href="" data-val="{{$pagination['prev_page']}}" class="pagination_link">
                     <img src="assets/images/svg/pagination_prev.svg" />
                 </a>
             </div>
@@ -25,12 +25,12 @@
         </div>
         <div class="d-flex">
             <div class="pagination_button">
-                <a href='' data-val="{{$pagination['next_page']}}">
+                <a href='' data-val="{{$pagination['next_page']}}" class="pagination_link">
                     <img src="assets/images/svg/pagination_next.svg" />
                 </a>
             </div>
             <div class="pagination_button">
-                <a href="" data-val="{{$pagination['last_page']}}">
+                <a href="" data-val="{{$pagination['last_page']}}" class="pagination_link">
                     <img src="assets/images/svg/pagination_last.svg" />
                 </a>
             </div>

@@ -40,14 +40,14 @@ function customerSalesChartDisplays(resp){
         $customer_data.forEach(da => {
             if(da.fiscalperiod == i){
                 is_add = false;
-                $counts.push(da.dollarssold)
+                $counts.push(Math.round(da.dollarssold))
             }
         })
         if(is_add){
             $counts.push(0);
         }
     }
-    
+    // console.log($counts,'___counts');
     var options = {
         show:true,
         series: [{
@@ -124,6 +124,11 @@ function customerSalesChartDisplays(resp){
             title: {
                 text: ''
             },
+            labels: {
+                formatter:function($counts, series) {
+                    return '$'+ numberWithCommas($counts);
+                }
+            }
         },
         grid: {
             show: true,
@@ -168,7 +173,7 @@ function GetCustomerOpenOrders(){
             res = JSON.parse(res);
             if(res.success){
                 customerOpenOrders(res.data.data)
-                $('#open-orders-total-amount').text(`$ ${numberWithCommas(res.data.count.toFixed(2))}`)               
+                $('#open-orders-total-amount').text(`$ ${numberWithCommas(Math.round(res.data.count))}`)               
             }
         },
         complete:function(){
@@ -181,7 +186,8 @@ function GetCustomerOpenOrders(){
 function customerOpenOrders($array){
     let arr = [];
     $array.forEach(ar => {
-        arr.push(ar.toFixed(2));
+        // arr.push(ar.toFixed(2));
+        arr.push(Math.round(ar));
     })
     var options = {
         series: [{
@@ -243,6 +249,11 @@ function customerOpenOrders($array){
             title: {
                 text: ''
             },
+            labels: {
+                formatter: function(arr, index) {
+                    return '$'+ numberWithCommas(arr);
+                 }
+              }
         },
         tooltip: {
             x: {
@@ -292,7 +303,7 @@ function customerSpendingChart(){
         $.each(data_bycat,function(index,values){
             var _label = values.label;
             labels.push(_label);            
-            value.push(values.value);
+            value.push(Math.round(values.value));
         });
     }
     // var options = {
@@ -401,6 +412,11 @@ function customerSpendingChart(){
             title: {
                 text: ''
             },
+            labels: {
+                formatter: function(value, index) {
+                    return '$'+ numberWithCommas(value);
+                 }
+              }
         },
         tooltip: {
             x: {
