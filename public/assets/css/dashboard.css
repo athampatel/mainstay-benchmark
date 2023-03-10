@@ -789,6 +789,10 @@ nav .profile-details i{
   padding:0.25rem 0.625rem !important;
 }
 
+.item-number{
+  min-width: 6.875rem;
+}
+
 .bench-datatable .item-number{
   background-color: #9FCC47;
 }

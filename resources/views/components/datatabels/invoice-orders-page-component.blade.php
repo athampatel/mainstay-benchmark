@@ -29,7 +29,8 @@
                 }
                 @endphp
                 <td>{{$total}}</td>
-                <td>${{$price}}</td>
+                {{-- <td>${{$price}}</td> --}}
+                <td>${{number_format($price,2,".",",")}}</td>
                 <td>{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td>
                 <td class="status">Shipped</td>
                 <td class="action">

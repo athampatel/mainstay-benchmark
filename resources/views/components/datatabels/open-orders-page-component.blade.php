@@ -31,7 +31,8 @@
                 }
                 @endphp
                 <td>{{$total}}</td>
-                <td>${{$price}}</td>
+                {{-- <td>${{$price}}</td> --}}
+                <td>${{number_format($price,2,".",",")}}</td>
                 <td>{{$date->format('M d, Y')}}</td>
                 <td class="location">
                     <span>

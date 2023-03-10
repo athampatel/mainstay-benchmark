@@ -41,7 +41,7 @@ function getVmiDataAjax($page,$count){
             vmi_page_table = $('#vmi-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
-                pageLength:pagecount,
+                pageLength:$count,
                 paging: true,
                 ordering: false,
                 info: false,

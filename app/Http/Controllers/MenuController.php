@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -234,6 +235,24 @@ class MenuController extends Controller
         return view('Pages.account-settings',$data);
     }
     public function helpPage(Request $request){
+        /* test work start */
+        // $orders = DB::table('sale_orders')
+        //             ->select('sale_orders.orderdate', DB::raw('SUM(order_details.unitprice) AS total'), DB::raw('SUM(order_details.quantityshipped) AS total_qty'), 'sale_orders.salesorderno as order_id', 'sale_orders.shiptostate','sale_orders.shiptocity')
+        //             ->leftJoin('order_details', 'sale_orders.id', '=', 'order_details.sale_orders_id')
+        //             ->leftJoin('user_details', 'sale_orders.user_details_id', '=', 'user_details.id')
+        //             ->leftJoin('users', 'user_details.user_id', '=', 'users.id')
+        //             ->where('order_details.quantityshipped', '>', 0)
+        //             ->where('order_details.unitprice', '>', 0)
+        //             ->where('users.active', 1)
+        //             ->where('user_details.customerno', 'GEMWI00')
+        //             ->groupBy('sale_orders.id','sale_orders.salesorderno','sale_orders.shiptocity','sale_orders.shiptostate','sale_orders.orderdate')
+        //             ->orderBy('sale_orders.orderdate', 'DESC')
+        //             ->get()->toArray();
+        // echo '<pre>';
+        // print_r($orders);            
+        // echo '</pre>';
+        // die();            
+        /* test work end */
         $data['title']  = '';
         $data['current_menu']  = 'help';
         $data['menus']         = $this->NavMenu('help');
@@ -288,6 +307,7 @@ class MenuController extends Controller
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
+            // dd($custom_pagination);
             if($custom_pagination['last_page'] > 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
@@ -525,6 +545,7 @@ class MenuController extends Controller
             $response = json_decode($api_data->data,true);
             $response = $response['salesorders'];
         }
+        // dd($response);
         $open_orders = [];
         foreach($response as $res){
             $date = explode("-",$res['orderdate']);
@@ -535,7 +556,7 @@ class MenuController extends Controller
                     } else {
                         $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
                     }
-                }
+                }   
             }
         }
         $total = 0;
@@ -608,11 +629,11 @@ class MenuController extends Controller
         $custom_pagination['from'] = $offset;
         $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
         $custom_pagination['total'] = $total;
-        $custom_pagination['first_page'] = 1;
+        $custom_pagination['first_page'] = 0;
         $custom_pagination['last_page'] = intval(ceil($total / $limit));
         $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
         $custom_pagination['curr_page'] = intval($page);
-        $custom_pagination['next_page'] = $page + 1;
+        $custom_pagination['next_page'] = intval(ceil($total / $limit)) == $page ? intval(ceil($total / $limit)) : $page + 1;
         $custom_pagination['path'] = $path;
 
         return $custom_pagination;

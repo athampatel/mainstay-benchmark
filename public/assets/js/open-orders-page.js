@@ -1,4 +1,3 @@
-console.log('__open orders page.js')
 if ($('#dataTable').length) {
     $('#dataTable').DataTable({
         responsive: true
@@ -47,7 +46,7 @@ function getOpenOrderAjax($page,$count){
             open_order_page_table = $('#open-orders-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
-                pageLength:pagecount,
+                pageLength:$count,
                 paging: true,
                 ordering: false,
                 info: false,
