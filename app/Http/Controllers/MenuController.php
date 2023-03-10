@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SaleOrdersController;
 
 class MenuController extends Controller
 {
@@ -115,18 +116,25 @@ class MenuController extends Controller
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
-        $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
 
+        $sales_orders               = new SaleOrdersController();
+        $sales_args                 = array('from' => $year.'-01-01','to' => $year.'-12-31');
+        $sales_by_year              = $sales_orders->getSaleByYear($customer_no,$sales_args,$request);
+        $recent_orders              = $sales_orders->getRecentOrders($customer_no);
+        $SaleByCategory             = $sales_orders->getSaleByCategory($customer_no,$year);
 
+       /* $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
         $sale_map                   = array();
         if(!empty($saleby_productline)){
-            foreach($saleby_productline as $key => $value){ 
-                        
+            foreach($saleby_productline as $key => $value){                         
                 $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
             }
-        }             
-        $data['saleby_productline'] = $saleby_productline;
-        $data['data_productline']   = $sale_map;
+        }             */
+       
+        $data['saleby_productline'] = $SaleByCategory; 
+        $data['data_productline']   = $SaleByCategory;
+        $data['sales_orders']       = $sales_orders;
+        $data['recent_orders']       = $recent_orders;
 
         return view('Pages.dashboard',$data); 
     }
