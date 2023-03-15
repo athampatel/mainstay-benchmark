@@ -17,7 +17,7 @@
         <div class="d-flex  align-items-center flex-wrap range-filter">
             <div class="page_title p-0">Analysis</div>
             <div class="d-flex analysis-filter">
-                <label for="" class="position-relative">
+                <label for="" class="position-relative" id="analysis_item_select_label">
                     <span>By Item</span>
                     <select name="type" id="analysis_item_select" class="rounded analysis_select">
                         <option value="">Select Item</option>
@@ -26,7 +26,10 @@
                     </select>
                     <div class="down-arrow"></div>
                 </label>                
-                <label class="position-relative">
+                @php 
+                $lastMonth = new DateTime('last month');
+                @endphp
+                <label class="position-relative" id="analysis_range_select_label">
                     <span>By Range</span>
                     <select name="range"id="analysis_range_select"class="rounded analysis_select">
                         <option value="0" selected>Select Range</option>
@@ -39,6 +42,21 @@
                 </label>
                 <label class="position-relative date-range-field d-none">                   
                     <input type="text" name="daterange" value="" placeholder="select range" class="analysis_select" />
+                </label>
+                {{-- year select box --}}
+                <label for="" class="position-relative" id="analysis_year_select_label">
+                    <span>By Year</span>
+                    @php
+                    $year = intval(date('Y'));
+                    @endphp
+                    <select name="type" id="analysis_year_select" class="rounded analysis_select">
+                        @for($i = 0 ; $i < 10; $i++ )
+                        <option value="{{$year - $i}}" {{$year - $i == $year ? 'selected' : ''}}>{{$year - $i}}</option>
+                        @endfor
+                        {{-- <option value="product-line">By Product Line</option>
+                        <option value="product">By Product Item</option> --}}
+                    </select>
+                    <div class="down-arrow"></div>
                 </label>
             </div>
         </div>
@@ -88,6 +106,7 @@
                         <div class="table-responsive" id="invoice-order-page-table-div">
                         </div>
                         <div class="col-12 pb-2">
+                            <div id="pagination_disp"></div>
                         </div>
                     </div>
                 </div>
@@ -122,6 +141,6 @@
          let response_ = [];
          const constants = <?php echo json_encode($constants); ?>;
     </script>
-    <script src="/assets/js/moment.js"></script>
+    // <script src="/assets/js/moment.js"></script>
     <script src="/assets/js/analysis-page.js"></script>
 @endsection
