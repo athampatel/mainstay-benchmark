@@ -25,7 +25,7 @@ function customerSalesHistory(){
             $('#customer_sales_history .chart-loader-div').removeClass('d-none');
         },
         success: function (res) {  
-            customerSalesChartDisplays(res)
+            customerSalesChartDisplays(res,2)
         },
         complete:function(){
             $('#customer_sales_history .chart-loader-div').addClass('d-none');
@@ -479,8 +479,8 @@ function numberWithCommas(x) {
 // dashboard invoice order table
 let dashboard_invoice_order_table;
 function customer_invoice_orders(){
-    if(typeof(recent_orders) != 'undefined') 
-        return false; 
+    // if(typeof(recent_orders) != 'undefined') 
+    //     return false; 
 
     $.ajax({
         type: 'GET',

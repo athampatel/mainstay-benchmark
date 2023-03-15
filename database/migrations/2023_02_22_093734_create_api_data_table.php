@@ -17,6 +17,7 @@ class CreateApiDataTable extends Migration
             $table->id();
             $table->string('customer_no');
             $table->integer('type');
+            $table->integer('year')->nullable();
             $table->longText('data')->nullable();
             $table->timestamps();
         });

@@ -1883,7 +1883,7 @@ input.analysis_select {
 }
 .datatable-report a{ 
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 
@@ -2035,6 +2035,10 @@ input.analysis_select {
 }
 #backend_change_order_requests_wrapper .row:last-child{
   display: none;
+}
+
+.export-admin-customer-item{
+  cursor: pointer;
 }
 /*open orders page */
 .padding-y-40{

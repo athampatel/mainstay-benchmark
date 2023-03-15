@@ -14,7 +14,7 @@ class ApiTypeSeeder extends Seeder
      */
     public function run() {
         $count = ApiType::count();
-        if($count < 5){
+        if($count < 6){
             ApiType::truncate();
             ApiType::create([
                 'name' => 'salesorders'
@@ -30,6 +30,9 @@ class ApiTypeSeeder extends Seeder
             ]);
             ApiType::create([
                 'name' => 'Products'
+            ]);
+            ApiType::create([
+                'name' => 'analysis'
             ]);
         }
     }

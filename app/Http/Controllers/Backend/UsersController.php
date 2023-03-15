@@ -23,6 +23,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\PdfController;
 use App\Models\CustomerMenu;
 use App\Models\CustomerMenuAccess;
 use App\Models\Notification;
@@ -716,7 +717,6 @@ class UsersController extends Controller
     }
 
     public function  CustomerInventory($userId) {
-        //echo "Update Inventory Here".$userId; die; 
         return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
     }
 
@@ -771,8 +771,6 @@ class UsersController extends Controller
     }
 
     public function CustomerChangeOrderDetails($change_id){
-        //$change_request = ChangeOrderRequest::find($orderId);
-
         $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
@@ -781,7 +779,6 @@ class UsersController extends Controller
                                                 ->orderBy('change_order_requests.id','DESC')
                                                 ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email'])->first();
 
-       // $user_details = UserDetails::where('customerno',$customerno)->first();
         $data = array(            
             "filter" => [
                 [
@@ -845,5 +842,142 @@ class UsersController extends Controller
         fclose($handle);
         $headers = array('Content-Type' => 'text/csv');
         return response()->download($filename, 'customers.csv', $headers);
+    }
+
+    public function ExportAllCustomerInPdf(){
+        $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
+        $filename = "customers.pdf";
+        PdfController::generatePdf($customers,$filename);
+    }
+
+    // managers to export
+    public function ExportAllManagersToExcel(){
+        $managers = $this->ExportAllManagersData();
+        $filename = "managers.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array(
+        'MANAGER NUMBER',
+        'MANAGER NAME',
+        'MANAGER EMAIL'
+        ));
+        foreach($managers as $manager) {
+        fputcsv($handle, array(
+            $manager['person_number'],
+            $manager['name'],
+            $manager['email']
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'managers.csv', $headers);
+    }
+
+    public function ExportAllManagersToPdf(){
+        $managers = $this->ExportAllManagersData();
+        $name = 'usermanagers.pdf';
+        PdfController::generatePdf($managers,$name);
+    }
+
+    public function ExportAllManagersData(){
+        $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        ->get(['sales_persons.person_number','sales_persons.name','sales_persons.email'])->toArray();
+        return $managers;
+    }
+
+    // orders
+    public function ExportAllOrdersToExcel(){
+        $change_requests = $this->ExportAllOrdersData();
+        $filename = "change-orders.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array(
+        'CUSTOMER NUMBER',
+        'CUSTOMER NAME',
+        'CUSTOMER EMAIL',
+        'ORDER DATE',
+        'REGION MANAGER',
+        'ORDER NUMBER'
+        ));
+        foreach($change_requests as $change_request) {
+        fputcsv($handle, array(
+            $change_request['customerno'],
+            $change_request['name'],
+            $change_request['email'],
+            $change_request['ordered_date'],
+            $change_request['manager'],
+            $change_request['order_no'],
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'change-orders.csv', $headers);
+    }
+
+    public function ExportAllOrdersToPdf(){
+        $change_request = $this->ExportAllOrdersData();
+        $name = 'change-order-lists.pdf';
+        PdfController::generatePdf($change_request,$name);
+    }
+    
+    public function ExportAllOrdersData(){
+        $user   = $this->user;
+        if($this->superAdmin){
+            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->get(['user_details.customerno','users.name','users.email','change_order_requests.ordered_date','sales_persons.name as manager','change_order_requests.order_no'])->toArray();
+
+        }elseif(DashboardController::isManager($user->id,$user)){
+            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                ->where('sales_persons.id',$user->id)
+                                                ->orderBy('change_order_requests.id','DESC')
+                                                ->get(['user_details.customerno','users.name','users.email','change_order_requests.ordered_date','sales_persons.name as manager','change_order_requests.order_no'])->toArray();
+        }
+
+        return $change_request;
+    }
+
+    // signup requests
+    public function ExportAllSignupToExcel(){
+        $users = $this->ExportSignupData();
+        $filename = "sign-up-requests.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array(
+        'FULL NAME',
+        'COMPANY NAME',
+        'EMAIL',
+        'PHONE NUMBER',
+        ));
+        foreach($users as $user) {
+        fputcsv($handle, array(
+            $user['full_name'],
+            $user['company_name'],
+            $user['email'],
+            $user['phone_no'],
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'sign-up-requests.csv', $headers);
+    }
+    public function ExportAllSignupToPdf(){
+        $users = $this->ExportSignupData();
+        $name = 'sign-up-requests.pdf';
+        PdfController::generatePdf($users,$name);
+    }
+
+    public function ExportSignupData(){
+        $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                    ->orderBy('signup_requests.id','DESC')
+                    ->where('signup_requests.status',0)
+                    ->select(['signup_requests.full_name','signup_requests.company_name','signup_requests.email','signup_requests.phone_no'])
+                    ->get()->toArray();
+        return $users;
     }
 }

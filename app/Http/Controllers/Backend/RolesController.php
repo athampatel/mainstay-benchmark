@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PdfController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -198,5 +199,30 @@ class RolesController extends Controller
 
         session()->flash('success',config('constants.admin.role.delete'));
         return back();
+    }
+
+    public function ExportAllRolesInPdf(){
+        $roles = Role::all()->toArray();
+        $name = 'user-roles.pdf';
+        PdfController::generatePdf($roles,$name);
+    }
+
+    public function ExportAllRolesInExcel(){
+        $roles = Role::all()->toArray();
+        $filename = "user-roles.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array(
+        'NAME',
+        'GUARD NAME',
+        ));
+        foreach($roles as $role) {
+        fputcsv($handle, array(
+            $role['name'],
+            $role['guard_name']
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'user-roles.csv', $headers);
     }
 }
