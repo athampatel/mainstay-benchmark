@@ -44,10 +44,14 @@ Relational Managers - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-managers-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report">
+                                        <div class="datatable-report position-relative">
                                             <a href="/admin/exportAllCustomers">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-managers-report-icon">
                                             </a>
+                                            <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-managers-drop">
+                                                <a href="/admin/exportAllManagersInExcel" class="dropdown-item export-admin-managers-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllManagersInPdf' class="dropdown-item export-admin-managers-item" data-type="pdf">Export to PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

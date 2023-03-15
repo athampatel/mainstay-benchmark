@@ -46,13 +46,14 @@ Customers - Admin Panel
                                             </a>
                                         </div>
                                         <div class="datatable-report position-relative">
-                                            <a href="/admin/exportAllCustomers">
+                                            {{-- <a href="/admin/exportAllCustomers"> --}}
+                                            <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
                                             </a>
-                                            {{-- <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-customers-drop">
-                                                <a class="dropdown-item export-admin-customer-item" data-type="png">Export to Excel</a>
-                                                <a class="dropdown-item export-admin-customer-item" data-type="svg">Export to PDF</a>
-                                            </div> --}}
+                                            <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-customers-drop">
+                                                <a href="/admin/exportAllCustomers" class="dropdown-item export-admin-customer-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllCustomerInPdf' class="dropdown-item export-admin-customer-item" data-type="pdf">Export to PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
