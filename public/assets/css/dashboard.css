@@ -2533,6 +2533,12 @@ table.dataTable td, table.dataTable th{
   background-color: #BBBBBB;
   border: 1px solid #BBBBBB;
 }
+
+.bm-btn-white:hover{
+  color: #000;
+  background-color: #BBBBBB;
+  border: 1px solid #BBBBBB;
+}
 .bm-btn-info {
   background-color: #0095A9;
   border: 1px solid #0095A9;

@@ -63,7 +63,8 @@ function getAnalysispageData($page,$count,range,year){
                 lengthChange: true,
                 pageLength:$count,
                 paging: true,
-                ordering: false,
+                // ordering: false,
+                ordering: true,
                 info: false,
             });
 
