@@ -5,9 +5,10 @@
                 <th class="border-0">Invoice Number</th>
                 <th class="border-0 text-center">Invoice Date</th>
                 <th class="border-0">Customer PO Number</th>
-                <th class="border-0">Ship-to City,State</th>
+                <th class="border-0">Location</th>
                 <th class="border-0">Total Number of Items</th>
                 <th class="border-0">Total Invoiced Amount</th>
+                <th class="border-0">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +39,8 @@
         }
         @endphp
             <tr>
-                {{-- <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$record['invoiceno']}}</a></td> --}}
-                <td><a href="/invoice-detail/{{$record['salesorderno']}}" class="item-number font-12 btn btn-rounded" target="_blank">#{{$record['invoiceno']}}</a></td>
+                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$record['invoiceno']}}</a></td>
+                {{-- <td><a href="/invoice-detail/{{$record['salesorderno']}}" class="item-number font-12 btn btn-rounded" target="_blank">#{{$record['invoiceno']}}</a></td> --}}
                 <td class="text-center">{{$date->format('M d, Y')}}</td>
                 <td>{{$record['customerpono']}}</td>
                 <td class="location">
@@ -51,6 +52,11 @@
                 {{-- {{dd($total_amount)}} --}}
                 <td>{{$total_quantity}}</td>
                 <td>${{number_format($total_amount,2,".",",")}}</td>
+                <td class="action">
+                    <a href="/invoice-detail/{{$record['salesorderno']}}" class="btn btn-primary btn-rounded text-capitalize text-dark open-view-details" target="_blank">
+                        view details
+                    </a>
+                </td>
             </tr>
         @endforeach
         </tbody>

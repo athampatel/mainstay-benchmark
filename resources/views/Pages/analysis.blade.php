@@ -49,8 +49,9 @@
                     $year = intval(date('Y'));
                     @endphp
                     <select name="type" id="analysis_year_select" class="rounded analysis_select">
-                        @for($i = 0 ; $i < 10; $i++ )
-                        <option value="{{$year - $i}}" {{$year - $i == $year ? 'selected' : ''}}>{{$year - $i}}</option>
+                        
+                        @for($i = $year ; $i >= 2018; $i-- )
+                        <option value="{{$i}}" {{$i == $year ? 'selected' : ''}}>{{$i}}</option>
                         @endfor
                         {{-- <option value="product-line">By Product Line</option>
                         <option value="product">By Product Item</option> --}}
