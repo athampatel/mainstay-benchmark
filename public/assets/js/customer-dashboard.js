@@ -29,6 +29,7 @@ function customerSalesHistory(){
         },
         complete:function(){
             $('#customer_sales_history .chart-loader-div').addClass('d-none');
+            $('.equal-height').matchHeight({byRow: true, property: 'height'});
         }
     });
 }
@@ -191,6 +192,8 @@ function GetCustomerOpenOrders(){
         },
         complete:function(){
             $('#dashboard-open-orders-chart .chart-loader-div').addClass('d-none');
+            $('.equal-height').matchHeight({byRow: true, property: 'height'});
+       
         }
     });
 }
@@ -503,6 +506,7 @@ function customer_invoice_orders(){
         },
         complete:function(){
             $('#dashboard-recent-invoice-order-table-div .chart-loader-div').addClass('d-none');
+            $('.equal-height').matchHeight({byRow: true, property: 'height'});
         }
     });
 }

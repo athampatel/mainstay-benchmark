@@ -36,10 +36,20 @@ class RolesController extends Controller
         $limit = $request->input('limit');
         if(!$limit){
             $limit = 10;
-        }  
+        } 
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+
         $search = $request->input('search');
-        $roles = Role::all();
-        $roless = Role::paginate(intval($limit));
+        if($search){
+           $roles = Role::where('name','like','%'.$search.'%')->get();
+           $roless = Role::where('name','like','%'.$search.'%')->paginate(intval($limit));
+        } else {
+            $roles = Role::all();
+            $roless = Role::paginate(intval($limit));
+        }
         $paginate = $roless->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         return view('backend.pages.roles.index', compact('roles','search','paginate','limit'));

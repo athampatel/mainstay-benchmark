@@ -32,10 +32,13 @@ function getVmiDataAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            $('.page-table-loader-div').removeClass('d-none');
-            $('.open-orders .card.box').addClass('active');
+            // $('.page-table-loader-div').removeClass('d-none');
+            // $('.open-orders .card.box').addClass('active');
+            beforeVmiOrderAjax();
         },
         success: function (res) {  
+            console.log(res,'___Response vmi');
+            // $('#pagination_disp').html(res.pagination_code);
             $('#pagination_disp').html(res.pagination_code);
             $('#vmi_table_disp').html(res.table_code);
             vmi_page_table = $('#vmi-page-table').DataTable( {
@@ -49,8 +52,21 @@ function getVmiDataAjax($page,$count){
             });
         },
         complete:function(){
-            $('.open-orders .card.box').removeClass('active');
-            $('.page-table-loader-div').addClass('d-none');
+            // $('.open-orders .card.box').removeClass('active');
+            // $('.page-table-loader-div').addClass('d-none');
+            afterVmiOrderAjax();
         }
     });
+}
+
+function beforeVmiOrderAjax(){
+    $('.table_loader').removeClass('d-none');
+    $('#vmi_table_disp').addClass('d-none');
+    $('#pagination_disp').addClass('d-none');
+}
+
+function afterVmiOrderAjax(){
+    $('.table_loader').addClass('d-none');
+    $('#vmi_table_disp').removeClass('d-none');
+    $('#pagination_disp').removeClass('d-none');
 }

@@ -15,7 +15,7 @@
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-12">
-                <div class="card box">
+                <div class="card box min-height-75">
                     <div class="card-header col-12 p-3 d-flex border-0">
                         
                         <div class="col-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
@@ -47,6 +47,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="table_loader d-none">
+                        <div class="chart-loader1"></div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
                         <div class="page-table-loader-div d-none">

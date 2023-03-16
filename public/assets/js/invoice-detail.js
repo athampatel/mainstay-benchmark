@@ -1,6 +1,6 @@
-setTimeout(function(){
-    getInvoiceDetails()
-},200);
+// setTimeout(function(){
+// },200);
+getInvoiceDetails()
 
 function getInvoiceDetails(){
     let $order_id = $('#orderid_val').val();

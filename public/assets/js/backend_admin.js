@@ -308,7 +308,7 @@ $(document).on('change','#admin-change-order-filter-count',function(){
     }).appendTo('#change_order_from');
     $('#change_order_from').submit();
 })
-$('#admin-managers-search-img').click(function(){
+$('#admin-change-order-search-img').click(function(){
     let search = $('#admin_change_order_search').val();
     let val = parseInt($("#admin-change-order-filter-count option:selected").val());
     $('<input>').attr({
@@ -343,6 +343,75 @@ $('#admin_change_order_search').keyup(function(){
             value: search
         }).appendTo('#change_order_from');
         $('#change_order_from').submit();
+    }
+})
+
+
+// All Signup Requests
+let signup_request_filter_count =  parseInt($("#admin-signup-filter-count option:selected").val());
+let backend_signup_request;
+backend_signup_request = $('#backend_signup_request').DataTable( {
+    searching: true,
+    lengthChange: true,
+    pageLength:signup_request_filter_count,
+    paging: true,
+    ordering: false,
+    info: false,
+});
+
+$(document).on('change','#admin-signup-filter-count',function(){
+    let val = parseInt($("#admin-signup-filter-count option:selected").val());
+    // backend_customers.page.len(val).draw();
+    let search = $('#admin_signup_search').val();
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#admin_signup_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#admin_signup_from');
+    $('#admin_signup_from').submit();
+})
+$('#admin-signup-search-img').click(function(){
+    let search = $('#admin_signup_search').val();
+    let val = parseInt($("#admin-signup-filter-count option:selected").val());
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#admin_signup_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#admin_signup_from');
+    $('#admin_signup_from').submit();
+})
+
+$('#admin_signup_search').keyup(function(){
+    let search = $(this).val();
+    if(search == ''){
+        let val = parseInt($("#admin-signup-filter-count option:selected").val());
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'limit',
+            name: 'limit',
+            value: val
+        }).appendTo('#admin_signup_from');
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'search',
+            name: 'search',
+            value: search
+        }).appendTo('#admin_signup_from');
+        $('#admin_signup_from').submit();
     }
 })
 

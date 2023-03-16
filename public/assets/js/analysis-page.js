@@ -1,7 +1,4 @@
-window.addEventListener('load', function() {
-    $('.backdrop').addClass('d-none');
-});
-
+let analysis_page_chart;
 // table and chart toggle show
 let is_table = localStorage.getItem('is_table');
 let tab_input = document.getElementById('tab_input');
@@ -45,19 +42,22 @@ let current_year = parseInt($('#analysis_year_select option:selected').val());
 getAnalysispageData(0,pageCount,select_by_range,current_year)
 
 function getAnalysispageData($page,$count,range,year){
-    // return false
+    let chart_type = parseInt($('#analysis_item_select option:selected').val());
     $.ajax({
         type: 'GET',
         url: '/get-analysis-page-data',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,'year' : year,'range':range},
-        beforeSend:function(){},
+        data: { "page" : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type},
+        beforeSend:function(){
+            beforeAjax()
+        },
         success: function (res) {  
             $('#invoice-order-page-table-div').html(res.table_code);
             $('#pagination_disp').html(res.pagination_code)
             let analysis_data = res.analysis_data;
             let range_months = res.range_months;
+            let product_data = res.product_data;
             analysis_page_table = $('#analysis-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -66,26 +66,76 @@ function getAnalysispageData($page,$count,range,year){
                 ordering: false,
                 info: false,
             });
+
             // analysis chart 
-           $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
-           let months = $analaysis_count['months'];
-           let chart_count = $analaysis_count['final'];
+            let months = [];
+            let chart_count = [];
+            if(chart_type == 0){
+                $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
+                months = $analaysis_count['months'];
+                chart_count = $analaysis_count['final'];
+            } else {
+                $analaysis_count =  getProductLineCount(product_data);
+                months = $analaysis_count['products'];
+                chart_count = $analaysis_count['counts'];
+            }
+
            renderAnalysisChart(chart_count,months);
         },
-        complete:function(){}
+        complete:function(){
+            AfterAjax() 
+        }
     });
+}
+// before ajax start
+function beforeAjax(){
+    $('.table_loader').removeClass('d-none');
+    $('#invoice-order-page-table-div').addClass('d-none');
+    $('#pagination_disp').addClass('d-none');
+    $('#analysis_page_chart').addClass('d-none');
+    //select box disabled work start
+    $('#analysis_item_select').prop('disabled', true);
+    $('#analysis_range_select').prop('disabled', true);
+    $('#analysis_year_select').prop('disabled', true);
+    $('input[name="daterange"]').prop('disabled', true);
+}
+// After ajax complete
+function AfterAjax(){
+    $('.table_loader').addClass('d-none');
+    $('#invoice-order-page-table-div').removeClass('d-none');
+    $('#pagination_disp').removeClass('d-none');
+    $('#analysis_page_chart').removeClass('d-none');
+    // select box enable work start
+    $('#analysis_item_select').prop('disabled', false);
+    $('#analysis_range_select').prop('disabled', false);
+    $('#analysis_year_select').prop('disabled', false);
+    $('input[name="daterange"]').prop('disabled', false);
+}
+
+// product by line chart
+function getProductLineCount(product_data){
+    let products = [];
+    let counts = [];
+    product_data.forEach(pro => {
+        products.push(pro.label);
+        counts.push(pro.value);
+    })
+    return {'products': products,'counts' : counts};
 }
 
 // analysis chart data
 function getAnalaysisDataCount(data,range,range_months){
     let arr1 = [];
     let months = [];
+    let test_array = [];
     data.forEach( (da,k) => {
        if(range == 0){
         arr1[da.fiscalperiod] = da.dollarssold;
+        test_array.push(da.fiscalperiod);
        } else {
             if(range == 1){
                 let last_month_number = moment().subtract(1, 'month').format('MM');
+                test_array = [last_month_number];
                 if(last_month_number == da.fiscalperiod){
                     let last_mont_name = moment().subtract(1,'month').format('MMM');
                     arr1['01'] = da.dollarssold;
@@ -93,19 +143,19 @@ function getAnalaysisDataCount(data,range,range_months){
                 }
             }
             if(range == 2){
-                let test_array = ['01','02','03'];
+                test_array = ['01','02','03'];
                 if(test_array.includes(da.fiscalperiod)){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
             }
             if(range == 3){
-                let test_array = ['01','02','03','04','05','06'];
+                test_array = ['01','02','03','04','05','06'];
                 if(test_array.includes(da.fiscalperiod)){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
             }
             if(range == 4){
-                let test_array = range_months;
+                test_array = range_months;
                 if(test_array.includes(da.fiscalperiod)){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
@@ -119,16 +169,11 @@ function getAnalaysisDataCount(data,range,range_months){
     if(range == 2) last_number = 3;
     if(range == 3) last_number = 6;
     if(range == 4) last_number = range_months.length;
-    
-    // months
-    if(range == 0) months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    if(range == 2) months = ['Jan','Feb','Mar'];
-    if(range == 3) months = ['Jan','Feb','Mar','Apr','May','Jun'];
-    if(range == 4){
-        range_months.forEach(mon => {
-           months.push(getMonthNameShort(mon))
-        })
-    }
+
+    months = [];
+    test_array.forEach(mon => {
+        months.push(getMonthNameShort(mon))
+    })
     
     let final = [];
     if(range == 4){
@@ -189,7 +234,10 @@ $(document).on('click','.pagination_link',function(e){
 
 // filter boxes
 $(document).on('change','#analysis_item_select',function(){
-    // console.log('__changed');
+    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
+    let select_by_range = parseInt($('#analysis_range_select option:selected').val());
+    let current_year = parseInt($('#analysis_year_select option:selected').val());
+    getAnalysispageData(0,pageCount,select_by_range,current_year)
 })
 // range select
 $(document).on('change','#analysis_range_select',function(){
@@ -198,10 +246,11 @@ $(document).on('change','#analysis_range_select',function(){
 
 $(document).on('change','select#analysis_range_select',function(){
     let year = parseInt($('#analysis_year_select option:selected').val());
+    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     if($(this).val() == 4){
         $('.date-range-field').removeClass('d-none');
     }else{
-        getAnalysispageData(0,12,$(this).val(),year)
+        getAnalysispageData(0,pageCount,$(this).val(),year)
         $('.date-range-field').addClass('d-none');
     }
 });
@@ -209,11 +258,12 @@ $(document).on('change','select#analysis_range_select',function(){
 $(document).on('change','select#analysis_year_select',function(){
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());
+    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     if(range == 4){
         // $('.date-range-field').removeClass('d-none');
         // $("#analysis_range_select").val(0).change();
     }else{
-        getAnalysispageData(0,12,range,year)
+        getAnalysispageData(0,pageCount,range,year)
         $('.date-range-field').addClass('d-none');
     }
 });
@@ -262,7 +312,6 @@ $('input[name="daterange"]').daterangepicker({
 // }
     
 function renderAnalysisChart(ct_counts,ct_months){
-    // return false;
     let percent = `${ct_months.length * 3}%`;
     const chart_div = document.querySelector("#analysis_page_chart");
     chart_div.innerHTML = '';
@@ -275,7 +324,7 @@ function renderAnalysisChart(ct_counts,ct_months){
         chart: {
             foreColor: '#9ba7b2',
             type: 'bar',
-            height: 600,
+            height: 650,
             zoom:{
                 enabled:false
             },
@@ -319,6 +368,16 @@ function renderAnalysisChart(ct_counts,ct_months){
                 stops: [0, 100, 100, 100]
             },
         },
+        tooltip: {
+            x: {
+                show: false
+            },
+            y: {
+                formatter: function($ct_counts, series) {
+                return '$'+ numberWithCommas($ct_counts);
+                }
+            }
+        },
         markers: {
             size: 4,
             colors: ["#A4CD3C"],
@@ -334,12 +393,47 @@ function renderAnalysisChart(ct_counts,ct_months){
             title: {
                 text: ''
             },
-            formatter: function(ct_counts, series) {
-                return '$'+ numberWithCommas(ct_counts);
-              }
+            labels: {
+                formatter:function($ct_counts, series) {
+                    return '$'+ numberWithCommas($ct_counts);
+                }
+            }
         },
     };
 
-    const chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
-    chart.render();
+    analysis_page_chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
+    analysis_page_chart.render();
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// export functions
+$(document).on('click','#export-analysis-chart',function(e){
+    e.preventDefault();
+    $('#export-analysis-drop-down').toggleClass('d-none');
+})
+
+$(document).on('click','.export-analysis-chart-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    exportChart(analysis_page_chart,type);
+    $('#export-analysis-drop-down').toggleClass('d-none')
+})
+
+function exportChart(chartname,type){
+    var cts = chartname.ctx;
+    var w = chartname.w;
+    if(type == 'svg'){
+        chartname.exports.exportToSVG(cts)
+    } 
+    if(type == 'png'){
+        chartname.exports.exportToPng(cts);
+    }
+    if(type == 'csv'){
+        chartname.exports.exportToCSV({
+            series: w.config.series,
+            columnDelimiter:','
+        });
+    }
 }

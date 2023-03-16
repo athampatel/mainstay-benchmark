@@ -208,7 +208,7 @@ class SaleOrdersController extends Controller
     public function getOrderDetails($customerNo = 0,$sale_order = 0){
         if(!$customerNo || $sale_order)
            return false;
-
+        dd($sale_order);
         $order     =    SaleOrders::leftjoin('invoiced_orders','sale_orders.id','invoiced_orders.sale_orders_id')
                                     ->leftjoin('user_details','sale_orders.user_details_id','user_details.id')                               
                                     ->leftjoin('users','user_details.user_id','users.id')                     

@@ -116,7 +116,9 @@ class UsersController extends Controller
             $lblusers->where(function($lblusers) use($search){
                 $lblusers->orWhere('users.name','like','%'.$search.'%')
                         ->orWhere('users.email','like','%'.$search.'%')
-                        ->orWhere('user_details.customerno','like','%'.$search.'%');
+                        ->orWhere('user_details.customerno','like','%'.$search.'%')
+                        ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
+                        ->orWhere('sales_persons.name','like','%'.$search.'%');
             });
         }
         $lblusers->select(['users.*','user_details.user_id as customer',
@@ -213,11 +215,43 @@ class UsersController extends Controller
         if(!$limit){
             $limit = 10;
         }  
+        // $lbsmanagers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email');
+                    // ->get(['sales_persons.*','admins.id as user_id']);
         $search = $request->input('search');
-        $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        if($search) {   
+            $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                    ->orWhere('sales_persons.person_number','like','%'.$search.'%')
+                    ->orWhere('sales_persons.name','like','%'.$search.'%')
+                    ->orWhere('sales_persons.email','like','%'.$search.'%')
+                    ->get(['sales_persons.*','admins.id as user_id']);
+            $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                ->orWhere('sales_persons.person_number','like','%'.$search.'%')
+                ->orWhere('sales_persons.name','like','%'.$search.'%')
+                ->orWhere('sales_persons.email','like','%'.$search.'%')
+                ->paginate(intval($limit));    
+        } else {
+            $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                     ->get(['sales_persons.*','admins.id as user_id']);
         $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
         ->paginate(intval($limit));
+        }
+        // if($search){
+        //     $lbsmanagers->where(function($lbsmanagers) use($search){
+        //         $lbsmanagers->orWhere('sales_persons.person_number','like','%'.$search.'%')
+        //                 ->orWhere('sales_persons.name','like','%'.$search.'%')
+        //                 ->orWhere('sales_persons.email','like','%'.$search.'%');
+        //     });
+        //     $managers = $lbsmanagers->get();
+        //     // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        // // ->paginate(intval($limit));
+        // } else {    
+        //     $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        //     ->paginate(intval($limit));
+        // }
+        // $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        //             ->get(['sales_persons.*','admins.id as user_id']);
+        // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        // ->paginate(intval($limit));
         $paginate = $managerss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // return view('backend.pages.managers.index', compact('managers'));
@@ -545,12 +579,31 @@ class UsersController extends Controller
         if(!$limit){
             $limit = 10;
         }
-        $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                    ->orderBy('signup_requests.id','DESC')
-                    ->where('signup_requests.status',0)
-                    ->select(['signup_requests.*','users.id as user_id'])
-                    ->get();  
-        $search = $request->input('search'); 
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+
+        $search = $request->input('search');
+        if($search) {
+            $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                        ->orderBy('signup_requests.id','DESC')
+                        ->where('signup_requests.status',0)
+                        ->where(function($users) use($search){
+                            $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
+                            ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
+                            ->orWhere('signup_requests.email','like','%'.$search.'%') 
+                            ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
+                        })
+                        ->select(['signup_requests.*','users.id as user_id'])
+                        ->get();  
+        } else {
+            $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                        ->orderBy('signup_requests.id','DESC')
+                        ->where('signup_requests.status',0)
+                        ->select(['signup_requests.*','users.id as user_id'])
+                        ->get();  
+        }
         return view('backend.pages.users.signup-request',compact('users','search')); 
     }
 
@@ -732,38 +785,88 @@ class UsersController extends Controller
         }
         $search = $request->input('search');                  
         if($this->superAdmin){
-            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                ->orderBy('change_order_requests.id','DESC')
-                                                ->offset($offset)
-                                                ->limit($limit)                                                
-                                                ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
-            $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                ->orderBy('change_order_requests.id','DESC')                                                
-                                                ->paginate(intval($limit));
+            if($search){
+                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where(function($change_request) use($search){
+                                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('users.email','like','%'.$search.'%');
+                                                    })
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->offset($offset)
+                                                    ->limit($limit)                                                
+                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->orderBy('change_order_requests.id','DESC')                                                
+                                                    ->paginate(intval($limit));
+            } else {
+                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->offset($offset)
+                                                    ->limit($limit)                                                
+                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->orderBy('change_order_requests.id','DESC')                                                
+                                                    ->paginate(intval($limit));
+            }
 
         }elseif(DashboardController::isManager($user->id,$user)){
-            $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                ->where('sales_persons.id',$user->id)
-                                                ->orderBy('change_order_requests.id','DESC')
-                                                ->offset($offset)
-                                                ->limit($limit)
-                                                ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
-            $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                ->where('sales_persons.id',$user->id)
-                                                ->orderBy('change_order_requests.id','DESC')
-                                                ->paginate(intval($limit));
+            if($search) {
+                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('sales_persons.id',$user->id)
+                                                    ->where(function($change_request) use($search){
+                                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('users.email','like','%'.$search.'%');
+                                                    })
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->offset($offset)
+                                                    ->limit($limit)
+                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('sales_persons.id',$user->id)
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->paginate(intval($limit));
+
+            } else {
+                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('sales_persons.id',$user->id)
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->offset($offset)
+                                                    ->limit($limit)
+                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
+                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('sales_persons.id',$user->id)
+                                                    ->orderBy('change_order_requests.id','DESC')
+                                                    ->paginate(intval($limit));
+            }
+
         }
         $paginate = $change_requests->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
