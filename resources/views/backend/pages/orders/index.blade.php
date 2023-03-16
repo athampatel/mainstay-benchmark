@@ -44,10 +44,14 @@ Customer Change Order Requests - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report">
-                                            <a href="/admin/exportAllCustomers">
-                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
+                                        <div class="datatable-report position-relative">
+                                            <a href="">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-orders-icon">
                                             </a>
+                                            <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-orders-drop">
+                                                <a href="/admin/exportAllChangeOrdersInExcel" class="dropdown-item export-admin-orders-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllChangeOrdersInPdf' class="dropdown-item export-admin-orders-item" data-type="pdf">Export to PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -1883,7 +1883,7 @@ input.analysis_select {
 }
 .datatable-report a{ 
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 
@@ -2035,6 +2035,10 @@ input.analysis_select {
 }
 #backend_change_order_requests_wrapper .row:last-child{
   display: none;
+}
+
+.export-admin-customer-item{
+  cursor: pointer;
 }
 /*open orders page */
 .padding-y-40{
@@ -2556,6 +2560,19 @@ table.dataTable td, table.dataTable th{
   min-width: 7rem;
 }
 .export-drop-down a {
+  color: #fff;
+  font-size: 0.765rem;
+  user-select: none;
+}
+.export-drop-down-table{
+  margin-top: 0.3125rem;
+  background: #7b7c7f;
+  display: block;
+  min-width: 7rem;
+  top: 1.75rem;
+  right: -1.25rem;
+}
+.export-drop-down-table a {
   color: #fff;
   font-size: 0.765rem;
   user-select: none;

@@ -160,12 +160,13 @@ class MenuController extends Controller
         $sales_orders               = new SaleOrdersController();
         $page                       = 0;
 
-        $recent_orders              = $sales_orders->getRecentOrders($customer_no,15,$page,1);
+        // $recent_orders              = $sales_orders->getRecentOrders($customer_no,15,$page,1);
         $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['constants'] = config('constants');        
-        $data['recent_orders'] = $recent_orders;
+        // $data['recent_orders'] = $recent_orders;
+        $data['recent_orders'] = [];
         return view('Pages.invoice',$data);  
     }
     
@@ -415,8 +416,8 @@ class MenuController extends Controller
                         "operator" => "and"
                     ],
                 ],
-                "offset" => 1,
-                "limit" => 2,
+                "offset" => $offset,
+                "limit" => $limit,
             );
             $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
@@ -426,7 +427,7 @@ class MenuController extends Controller
                 ->with("pagination", $custom_pagination)
                 ->render();
             }
-    
+            // dd();
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
             ->with("invoices", $response['salesorderhistoryheader'])
             ->render();
@@ -440,7 +441,7 @@ class MenuController extends Controller
         }  
     }
 
-    public function getAnalysisPageData(Request $request){
+    public function getAnalysisPageData1(Request $request){
         $arr = [
             [
                 'no' => '89742',
@@ -552,7 +553,7 @@ class MenuController extends Controller
                $api_data = ApiData::create([
                     'customer_no' => $customer_no,
                     'type' => $type->id,
-                    'data' => json_encode($response)
+                    'data' => json_encode($response),
                 ]);
                 // dd($api_data);
             }
@@ -685,7 +686,9 @@ class MenuController extends Controller
             if(!$response) return redirect()->back();
             $final_data['customer_menus'] = $response;
             $sales_orders   = new SaleOrdersController();
-            $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
+            // $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
+            $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);
+            // dd($final_data['details']);            
             $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
             $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants']    = config('constants');
@@ -698,31 +701,200 @@ class MenuController extends Controller
     // get invoice detail
     public function getInvoiceDetail(Request $request){
         $customers    = $request->session()->get('customers');
+        $customer_no    = $request->session()->get('customer_no');
         $user_id = $customers[0]->user_id;
-        $is_change_order = MenuController::CheckChangeOrderAccess($user_id);
+        $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $order_no = $request->order_no;
-        $item_code = $request->item_code;
+        if($user_details){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" => "ARDivisionNo",
+                        "type" => "equals",
+                        "value" => $user_details->ardivisionno,
+                        "operator" => "and"
+                    ],
+                    [
+                        "column" => "salesorderno",
+                        "type" => "equals",
+                        "value" => $order_no,
+                        "operator" => "and"
+                    ],
+                ],
+                "offset" => 1,
+                "limit" => 2,
+            );
+            $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $res['success'] = false;
+            $res['error'] = 'Order Details not found';
+            if(!empty($response['salesorderhistoryheader'])){
+               $res['order_detail'] =  $response['salesorderhistoryheader'][0];
+               $res['user_detail'] = $user_details;
+               $res['success'] = true;
+            }
+
+            echo json_encode($res);
+            die();
+        }
+    }
+
+    public function getAnalysisPageData(Request $request){
+        $data = $request->all();
+        $page = isset($data['page']) ? $data['page'] : 0;
+        $limit = isset($data['count']) ? intval($data['count']) : 12;
+        $year = isset($data['year']) ? $data['year'] : intval(date('Y'));
+        // $year = 2022;
+        $range = isset($data['range']) ? intval($data['range']) : 0;
+        $response_table_data = [];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
+        $customer_no    = $request->session()->get('customer_no');
+        $user_id        = Auth::user()->id;
+        $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        // table data
+        $response_table = [];
+        // date by filter work start
+        $filter_dates = $this->getRangeDates($range,$year);
+        $filter_start_date = $filter_dates['start'];
+        $filter_end_date = $filter_dates['end'];
+        $date_filter = [
+            [
+                "column" => "invoicedate",
+                "type" => "greaterthan",
+                "value" => $filter_start_date,
+                "operator" => "and"
+            ],
+            [
+                "column" => "invoicedate",
+                "type" => "lessthan",
+                "value" => $filter_end_date,
+                "operator" => "and"
+            ]
+        ];
+        // date by filter work end
+        if($user_details){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" => "ARDivisionNo",
+                        "type" => "equals",
+                        "value" => $user_details->ardivisionno,
+                        "operator" => "and"
+                    ],
+                ],
+                "offset" => $offset,
+                "limit" => $limit,
+            );
+            // merge the filter data into the data filter
+            $data['filter'] = array_merge($date_filter,$data['filter']);
+            $response_table = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $response_table_data = $response_table['salesorderhistoryheader'];
+        }
+        $table_code = View::make("components.datatabels.analysis-page-component")
+        ->with("analysisdata", $response_table_data)
+        ->render();
+
+        $path = '/get-analysis-page-data';
+        $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
+        $pagination_code = "";
+        if($custom_pagination['last_page'] > 1){
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+        }
+
+        // chart data
+        // change the year if range is selected
+        if($range == 4){
+            $year = explode('-',$filter_start_date)[0];
+        }
         $data = array(            
             "filter" => [
                 [
-                    "column" =>  "SalesOrderNo",
+                    "column" => "ARDivisionNo",
+                    "type" => "equals",
+                    "value" => $user_details->ardivisionno,
+                    "operator" => "and"
+                ],
+                [
+                    "column" =>  "CustomerNo",
                     "type" =>  "equals",
-                    "value" => $order_no,
+                    "value" =>  $user_details->customerno,
                     "operator" =>  "and"
                 ],
-            ],
+                [
+                    "column" =>  "FiscalYear",
+                    "type" =>  "equals",
+                    "value" =>  $year,
+                    "operator" =>  "and"
+                ]
+            ]
         );
 
-        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
-        $sales_order_detail = $sales_order_history_detail['salesorders'];
-        if(!empty($sales_order_detail)){
-            foreach ($sales_order_detail as $key => $sales_order) {
-                $sales_order_detail[$key]['product_details'] = $sales_order['details'];
+        $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $res['table_code'] = $table_code;
+        $res['pagination_code'] = $pagination_code;
+        $res['analysis_data'] = $response_data['customersaleshistory'];
+        $res['range_months'] =  $filter_dates['range_months'];
+        echo json_encode($res);
+        die();
+    }
+
+    public function getRangeDates($range,$year) {
+        $start_date = '';
+        $end_date = '';
+        $range_months = [];
+        $current_month = Carbon::now()->format('m');
+        if($range != 0){
+            if($range ==  1){
+                $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(2)->endOfMonth()->format('Y-m-d');            
+                $end_date = $year."-"."$current_month"."-01";
             }
+            if($range == 2){
+                // $start_date = Carbon::parse($year . '-' . $current_month . '-01')->subMonths(4)->endOfMonth()->format('Y-m-d');
+                $start_date = ($year - 1).'-12-31';
+                $end_date = $year. '-04-01';
+            }
+            if($range == 3){
+                // $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(7)->endOfMonth()->format('Y-m-d');
+                $start_date = ($year - 1).'-12-31';
+                $end_date = $year."-"."07-01";
+            }
+            if($range == 4){
+                $dates = explode('&',$year);
+                $start_date = $dates[0];
+                $end_date = $dates[1];
+
+                $start = Carbon::parse($start_date);
+                $end = Carbon::parse($end_date);
+
+                $interval = \DateInterval::createFromDateString('1 month');
+                $period = new \DatePeriod($start, $interval, $end);
+
+                foreach ($period as $dt) {
+                    $range_months[] = $dt->format("m");
+                }
+            }
+        } else {
+            $start_date = ($year - 1) . "-12-31";
+            $end_date = ($year + 1)."-01-01";
         }
-        $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
-        $user = User::find(Auth::user()->id);
-        $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user, 'is_change_order' => $is_change_order ],'error' => []];
-        echo json_encode($response);
+
+        return ['start' => $start_date, 'end' => $end_date ,'range_months' => $range_months];
     }
 }

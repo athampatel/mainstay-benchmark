@@ -45,10 +45,15 @@ Customers - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report">
-                                            <a href="/admin/exportAllCustomers">
+                                        <div class="datatable-report position-relative">
+                                            {{-- <a href="/admin/exportAllCustomers"> --}}
+                                            <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
                                             </a>
+                                            <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-customers-drop">
+                                                <a href="/admin/exportAllCustomers" class="dropdown-item export-admin-customer-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllCustomerInPdf' class="dropdown-item export-admin-customer-item" data-type="pdf">Export to PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -88,11 +93,11 @@ Customers - Admin Panel
                                                         {{-- <span class="btn btn-success btn-rounded text-white" style="padding:5px;pointer-events:none;">Active</span>            --}}
                                                         <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
                                                     @elseif( $user->active == 0 && $user->is_deleted == 0)
-                                                        <a href="{{env('APP_URL')}}admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary" style="padding:5px;">New</a>
+                                                        <a href="{{env('APP_URL')}}admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
                                                     @endif
 
                                                     @if($user->is_vmi == 1 && $user->vmi_companycode != '' )
-                                                        <a data-customer="{{$user->id}}" class="btn btn-rounded btn-info text-white bm-btn-info"  href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory">Inventory</a>
+                                                        <a data-customer="{{$user->id}}" class="btn btn-rounded btn-info text-capitalize text-white bm-btn-info"  href="{{ route('admin.users.inventory',$user->id) }}" title="Add / Update Inventory">Inventory</a>
                                                     @endif
                                                 </div>
                                             </td>

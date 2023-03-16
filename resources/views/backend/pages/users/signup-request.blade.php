@@ -41,10 +41,14 @@ Customers - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report">
-                                            <a href="/admin/exportAllCustomers">
-                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
+                                        <div class="datatable-report position-relative">
+                                            <a href="#">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-signup-report-icon">
                                             </a>
+                                            <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-signup-admins-drop">
+                                                <a href="/admin/exportAllSignupsInExcel" class="dropdown-item export-signup-admins-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllSignupInPdf' class="dropdown-item export-signup-admins-item" data-type="pdf">Export to PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

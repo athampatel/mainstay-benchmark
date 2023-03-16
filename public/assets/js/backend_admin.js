@@ -394,3 +394,90 @@ $('#admin_change_order_search').keyup(function(){
 //     e.preventDefault();
 //     window.location.href = "/admin/profile";
 // })
+
+// export tables
+
+// customer table
+$(document).on('click','#admin-customer-report-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-customers-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-customer-item',function(){
+    $('#export-admin-customers-drop').addClass('d-none');
+})
+
+// roles table
+$(document).on('click','#admin-roles-report-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-roles-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-roles-item',function(){
+    $('#export-admin-roles-drop').addClass('d-none');
+})
+
+// admins table
+$(document).on('click','#admin-admins-report-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-admins-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-admins-item',function(){
+    $('#export-admin-admins-drop').addClass('d-none');
+})
+
+// orders table
+$(document).on('click','#admin-customer-orders-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-orders-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-orders-item',function(){
+    $('#export-admin-orders-drop').addClass('d-none');
+})
+
+// managers table
+$(document).on('click','#admin-managers-report-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-managers-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-managers-item',function(){
+    $('#export-admin-managers-drop').addClass('d-none');
+})
+
+// signup request page
+$(document).on('click','#admin-signup-report-icon',function(e){
+    e.preventDefault();
+    $('#export-signup-admins-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-signup-admins-item',function(){
+    $('#export-signup-admins-drop').addClass('d-none');
+})
+
+// $(document).on('click','.export-admin-customer-item',function(e){
+    // e.preventDefault();
+    // let type = $(e.currentTarget).data('type');
+    // if(type == 'csv'){
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/admin/profile-save',
+    //         contentType: 'multipart/form-data',
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    //         data: formData1,
+    //         success: function (res) {
+    //             let res1 = JSON.parse(res);
+    //             console.log(res1,'__ profile edit save response');
+    //             return false;
+    //         }
+    //     });
+    // }
+    // if(type == 'pdf'){
+    //     console.log('__pdf');
+    // }
+// })

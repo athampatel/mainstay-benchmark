@@ -1,4 +1,3 @@
-console.log('__invoice orders page.js')
 if ($('#dataTable').length) {
     $('#dataTable').DataTable({
         responsive: true
@@ -27,10 +26,10 @@ let open_order_page_table;
 
 function getInvoiceOrderAjax($page,$count){
     
-    if(typeof(recent_orders) != 'undefined')
-        return false;
+    // if(typeof(recent_orders) != 'undefined')
+    //     return false;
     
-    return false;
+    // return false;
     $.ajax({
         type: 'GET',
         url: '/getInvoiceOrders',
@@ -43,13 +42,11 @@ function getInvoiceOrderAjax($page,$count){
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
-            console.log(res,'___response');
             $('#invoice-orders-page-table-div').html(res.table_code);
-            /* data table generate */
             open_order_page_table = $('#invoice-orders-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
-                pageLength:pagecount,
+                pageLength:$count,
                 paging: true,
                 ordering: false,
                 info: false,
@@ -63,3 +60,18 @@ function getInvoiceOrderAjax($page,$count){
         }
     });
 }
+
+
+// export details options
+$(document).on('click','#invoice-orders-report-page-icon',function(e){
+    e.preventDefault();
+    console.log('clicked');
+    $('#export-invoice-orders-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-invoice-orders-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    console.log(type,'___type');
+    $('#export-invoice-orders-drop').addClass('d-none');
+})

@@ -12,6 +12,7 @@ class ApiData extends Model
     protected $fillable = [
         'customer_no',
         'type',
-        'data'
+        'data',
+        'year'
     ];
 }

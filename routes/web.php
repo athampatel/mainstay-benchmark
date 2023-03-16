@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\AdminsController;
+use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SDEDataController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\SaleOrdersController;
 use Illuminate\Support\Facades\Mail;
 
@@ -109,24 +111,22 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
 Route::post('/get-notifications',[NotificationController::class,'getNotifications']);
-/* bottom notification work start */
+
 Route::post('/get-bottom-notifications',[NotificationController::class,'getBottomNotifications']);
 Route::post('/get-new-bottom-notifications',[NotificationController::class,'getNewBottomNotifications']);
 Route::post('/notification-seen',[NotificationController::class,'changeNotificationStatus']);
-/* bottom notification work end */
+
 Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('admin.logout.submit');
 Route::get('/autheticate',[AuthController::class,'autheticate']);
 
 
 /**LOG USED FOR TESTTNNG PURPOSE */
 
+// Route::get('/products/fetch-sde-manual',[ProductsController::class,'getProducts'])->name('fectch-products');
+// Route::get('/products/import-sde-manual',[ProductsController::class,'CheckUpdateProducts'])->name('import-products');
 
-Route::get('/products/fetch-sde-manual',[ProductsController::class,'getProducts'])->name('fectch-products');
-Route::get('/products/import-sde-manual',[ProductsController::class,'CheckUpdateProducts'])->name('import-products');
-
-
-Route::get('/invoiced-orders/fetch-sde-manual',[SchedulerLogController::class,'runScheduler'])->name('fectch-invoice');
-Route::get('/invoiced-orders/invoice-sde-manual',[InvoicedOrdersController::class,'getInvoiceOrders'])->name('import-invoice');
+// Route::get('/invoiced-orders/fetch-sde-manual',[SchedulerLogController::class,'runScheduler'])->name('fectch-invoice');
+// Route::get('/invoiced-orders/invoice-sde-manual',[InvoicedOrdersController::class,'getInvoiceOrders'])->name('import-invoice');
 
     //$invoice = new InvoicedOrdersController();
         //$invoice->getInvoiceOrders();
@@ -208,19 +208,32 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/profile',[AdminsController::class,'adminProfile']);
     Route::post('/profile-save',[AdminsController::class,'adminProfileSave']);
 
-}); 
-
-// Route::get('send-mail', function () {
-//    $details = [
-//     "subject" => "New customer request for member portal access",
-//     "title" => "New customer request for portal access",
-//     "body" => "A customer with email address Shane.Beisner@ge.com has requested forr member access, Please find the customer details below.<br/><br/><p><strong>Customer-No: </strong>GEMIL01</p><p><strong>Customer Name:</strong>GE HEALTHCARE</p><p><strong>Regional Person-No: </strong>MW1</p><p><strong>Sales Person Email: </strong>arooker@benchmarkproducts.com</p>",
-//     "link" => "http://localhost:8081/admin/user/1/change-status/De8GJsnMfTDBsJQgpzpPeLuXM14W11?code=1",
-//     "mail_view" => "emails.email-body"
-//    ];
-//     Mail::bcc('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
+    // Export pdf file
+    // Customers
+    Route::get('/exportAllCustomerInPdf',[UsersController::class,'ExportAllCustomerInPdf']);
+    // user roles
+    Route::get('/exportAllUserRolesInpdf',[RolesController::class,'ExportAllRolesInPdf']);
+    // admins
+    Route::get('/exportAllAdminsInPdf',[AdminsController::class,'ExportAllAdminsToPdf']);
+    // managers
+    Route::get('/exportAllManagersInPdf',[UsersController::class,'ExportAllManagersToPdf']);
+    // change order
+    Route::get('/exportAllChangeOrdersInPdf',[UsersController::class,'ExportAllOrdersToPdf']);
+    // User Signup Request
+    Route::get('/exportAllSignupInPdf',[UsersController::class,'ExportAllSignupToPdf']);
     
-//     return "<h1>Mail Sended</h1>";
-// });
+    // csv
+    
+    // Change orders
+    Route::get('/exportAllChangeOrdersInExcel',[UsersController::class,'ExportAllOrdersToExcel']);
+    // Managers
+    Route::get('/exportAllManagersInExcel',[UsersController::class,'ExportAllManagersToExcel']);
+    // Admins
+    Route::get('/exportAllAdminsInExcel',[AdminsController::class,'ExportAllAdminsToExcel']);
+    // signup
+    Route::get('/exportAllSignupsInExcel',[UsersController::class,'ExportAllSignupToExcel']);
+    // Roles
+    Route::get('/exportAllUserRolesInExcel',[RolesController::class,'ExportAllRolesInExcel']);
+}); 
 
 require __DIR__.'/auth.php';

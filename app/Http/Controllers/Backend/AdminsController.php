@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PdfController;
 use App\Models\Admin;
 use App\Models\SalesPersons;
 use Illuminate\Http\Request;
@@ -256,5 +257,33 @@ class AdminsController extends Controller
     // profile save
     public function adminProfileSave(Request $request){
         dd($request);
+    }
+
+    // export into excel
+    public function ExportAllAdminsToExcel(){
+        $admins = Admin::all()->toArray();
+        $filename = "admins.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array(
+        'USERNAME',
+        'NAME',
+        'EMAIL'
+        ));
+        foreach($admins as $admin) {
+        fputcsv($handle, array(
+            $admin['username'],
+            $admin['name'],
+            $admin['email']
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'admins.csv', $headers);
+    }
+    // export into pdf
+    public function ExportAllAdminsToPdf(){
+        $admins = Admin::select('name','email','username')->get()->toArray();
+        $name = 'admins.pdf';
+        PdfController::generatePdf($admins,$name);
     }
 }
