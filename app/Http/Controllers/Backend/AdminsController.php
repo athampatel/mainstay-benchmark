@@ -38,10 +38,27 @@ class AdminsController extends Controller
         $limit = $request->input('limit');
         if(!$limit){
             $limit = 10;
-        }  
+        } 
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        } 
         $search = $request->input('search');
-        $admins = Admin::all();
-        $adminss = Admin::paginate(intval($limit));
+        if($search){
+            // $admins = new Admin();
+            // $admins->where(function($admins) use($search){
+            //     $admins->orWhere('admins.name','like','%'.$search.'%')
+            //             ->orWhere('admins.email','like','%'.$search.'%')
+            //             ->orWhere('admins.username','like','%'.$search.'%');
+            // });
+            // $admins = $admins->get();
+            $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->get();
+            // $adminss = Admin::paginate(intval($limit));
+            $adminss = Admin::paginate(intval($limit));
+        } else {
+            $admins = Admin::all();
+            $adminss = Admin::paginate(intval($limit));
+        }
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // return view('backend.pages.admins.index', compact('admins'));

@@ -117,25 +117,25 @@ class MenuController extends Controller
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
 
-        $sales_orders               = new SaleOrdersController();
-        $sales_args                 = array('from' => $year.'-01-01','to' => $year.'-12-31');
-        $sales_by_year              = $sales_orders->getSaleByYear($customer_no,$sales_args,$request);
-        $recent_orders              = $sales_orders->getRecentOrders($customer_no,6);
-        $SaleByCategory             = $sales_orders->getSaleByCategory($customer_no,$year);
+        // $sales_orders               = new SaleOrdersController();
+        // $sales_args                 = array('from' => $year.'-01-01','to' => $year.'-12-31');
+        // $sales_by_year              = $sales_orders->getSaleByYear($customer_no,$sales_args,$request);
+        // $recent_orders              = $sales_orders->getRecentOrders($customer_no,6);
+        // $SaleByCategory             = $sales_orders->getSaleByCategory($customer_no,$year);
 
-       /* $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
+        $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
         $sale_map                   = array();
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){                         
                 $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
             }
-        }             */
+        }            
        
-        $data['saleby_productline'] = $SaleByCategory; 
-        $data['data_productline']   = $SaleByCategory;
+        $data['saleby_productline'] = $sale_map; 
+        $data['data_productline']   = $sale_map;
 
-        $data['sales_orders']       = $sales_by_year;
-        $data['recent_orders']      = $recent_orders;
+        // $data['sales_orders']       = $sales_by_year;
+        // $data['recent_orders']      = $recent_orders;
         return view('Pages.dashboard',$data); 
     }
 
@@ -619,14 +619,15 @@ class MenuController extends Controller
                 );
         
             $response   = $this->SDEApi->Request('post','Products',$data);
-            $path = '/getInvoiceOrders';
+            $path = '/getVmiData';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
+            // dd($custom_pagination);
             $pagination_code = "";
-            if($custom_pagination['last_page'] > 1){
-                $pagination_code = View::make("components.ajax-pagination-component")
-                ->with("pagination", $custom_pagination)
-                ->render();
-            }
+            // if($custom_pagination['last_page'] > 1){
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+            // }
             $table_code = View::make("components.datatabels.vmi-component")
                 ->with("vmiProducts", $response['products'])
                 ->render();
@@ -687,7 +688,7 @@ class MenuController extends Controller
             $final_data['customer_menus'] = $response;
             $sales_orders   = new SaleOrdersController();
             // $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
-            $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);
+            $final_data['details']      = $sales_orders->getOrderDetails($customer_no,$orderid);
             // dd($final_data['details']);            
             $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
             $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
@@ -749,7 +750,6 @@ class MenuController extends Controller
         $page = isset($data['page']) ? $data['page'] : 0;
         $limit = isset($data['count']) ? intval($data['count']) : 12;
         $year = isset($data['year']) ? $data['year'] : intval(date('Y'));
-        // $year = 2022;
         $range = isset($data['range']) ? intval($data['range']) : 0;
         $response_table_data = [];
         if($page == 0){
@@ -762,7 +762,6 @@ class MenuController extends Controller
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         // table data
         $response_table = [];
-        // date by filter work start
         $filter_dates = $this->getRangeDates($range,$year);
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
@@ -780,7 +779,7 @@ class MenuController extends Controller
                 "operator" => "and"
             ]
         ];
-        // date by filter work end
+
         if($user_details){
             $data = array(            
                 "filter" => [
@@ -819,7 +818,6 @@ class MenuController extends Controller
         }
 
         // chart data
-        // change the year if range is selected
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
@@ -847,10 +845,28 @@ class MenuController extends Controller
         );
 
         $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+
+        // product by line chart
+        $saleby_productline         = ProductLine::getSaleDetails($user_details,$year);
+        $sale_map                   = array();
+        if(!empty($saleby_productline)){
+            foreach($saleby_productline as $key => $value){   
+                $total_val = 0;
+                foreach($value[$year] as $k => $v){
+                    $k = $k > 9 ? strval($k) : "0$k";
+                    if(in_array($k,$filter_dates['range_months'])){
+                        $total_val = $total_val + $v;
+                    }
+                }                  
+                $sale_map[] = array('label' => $key,'value' => $total_val);
+            }
+        }
+
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
         $res['analysis_data'] = $response_data['customersaleshistory'];
         $res['range_months'] =  $filter_dates['range_months'];
+        $res['product_data'] = $sale_map;
         echo json_encode($res);
         die();
     }
@@ -864,16 +880,21 @@ class MenuController extends Controller
             if($range ==  1){
                 $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(2)->endOfMonth()->format('Y-m-d');            
                 $end_date = $year."-"."$current_month"."-01";
+                $last_month = Carbon::now()->subMonth()->month;
+                $last_month = $last_month > 9 ? $last_month : "0$last_month"; 
+                $range_months = [$last_month];
             }
             if($range == 2){
                 // $start_date = Carbon::parse($year . '-' . $current_month . '-01')->subMonths(4)->endOfMonth()->format('Y-m-d');
                 $start_date = ($year - 1).'-12-31';
                 $end_date = $year. '-04-01';
+                $range_months = ['01','02','03'];
             }
             if($range == 3){
                 // $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(7)->endOfMonth()->format('Y-m-d');
                 $start_date = ($year - 1).'-12-31';
                 $end_date = $year."-"."07-01";
+                $range_months = ['01','02','03','04','05','06'];
             }
             if($range == 4){
                 $dates = explode('&',$year);
@@ -891,6 +912,7 @@ class MenuController extends Controller
                 }
             }
         } else {
+            $range_months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
             $start_date = ($year - 1) . "-12-31";
             $end_date = ($year + 1)."-01-01";
         }

@@ -37,8 +37,7 @@ function getInvoiceOrderAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            $('.page-table-loader-div').removeClass('d-none');
-            $('.open-orders .card.box').addClass('active');
+            beforeChangeOrderAjax();
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
@@ -54,9 +53,7 @@ function getInvoiceOrderAjax($page,$count){
             });
         },
         complete:function(){
-            // $('.backdrop').addClass('d-none');
-            $('.open-orders .card.box').removeClass('active');
-            $('.page-table-loader-div').addClass('d-none');
+            afterChangeOrderAjax();
         }
     });
 }
@@ -75,3 +72,15 @@ $(document).on('click','.export-invoice-orders-item',function(e){
     console.log(type,'___type');
     $('#export-invoice-orders-drop').addClass('d-none');
 })
+
+function beforeChangeOrderAjax(){
+    $('.table_loader').removeClass('d-none');
+    $('#invoice-orders-page-table-div').addClass('d-none');
+    $('#pagination_disp').addClass('d-none');
+}
+
+function afterChangeOrderAjax(){
+    $('.table_loader').addClass('d-none');
+    $('#invoice-orders-page-table-div').removeClass('d-none');
+    $('#pagination_disp').removeClass('d-none');
+}

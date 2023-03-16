@@ -1336,6 +1336,15 @@ nav .profile-details i{
 #customer_sales_history{
   min-height: 23.5rem;
 }
+
+#dashboard-open-orders-chart{
+  min-height: 23.5rem;
+}
+
+#customer-spending-chart{
+  min-height: 23.5rem;
+}
+
 @media screen and (min-width: 1025px){
   .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper {
       width: 4.375rem;
@@ -1951,9 +1960,9 @@ input.analysis_select {
 #dashboard-recent-invoice-order-table_wrapper .row:first-child{
   display: none;
 }
-#dashboard-recent-invoice-order-table_wrapper .row:nth-child(2) .col-sm-12{
+/* #dashboard-recent-invoice-order-table_wrapper .row:nth-child(2) .col-sm-12{
   min-height: 53vh;
-}
+} */
 #dashboard-recent-invoice-order-table_wrapper .row:last-child{
   display: none;
 }
@@ -2036,7 +2045,13 @@ input.analysis_select {
 #backend_change_order_requests_wrapper .row:last-child{
   display: none;
 }
-
+/* signup requests */
+#backend_signup_request_wrapper .row:first-child{
+  display: none;
+}
+#backend_signup_request_wrapper .row:last-child{
+  display: none;
+}
 .export-admin-customer-item{
   cursor: pointer;
 }
@@ -2051,9 +2066,9 @@ input.analysis_select {
   border-radius: 0.9375rem;
   margin-top: 1.5rem;
 }
-.open-orders .card.box.active{
+/* .open-orders .card.box.active{
   min-height: 37.5rem;
-}
+} */
 /* analysis page filter */
 .analysis-filter{
   padding-left: 0.3125rem;
@@ -2576,6 +2591,10 @@ table.dataTable td, table.dataTable th{
   color: #fff;
   font-size: 0.765rem;
   user-select: none;
+}
+
+.min-height-75{
+  min-height: 75vh;
 }
 
 @media screen and (max-width: 1500px){

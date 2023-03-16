@@ -35,14 +35,12 @@ function getOpenOrderAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            $('.page-table-loader-div').removeClass('d-none');
-            $('.open-orders .card.box').addClass('active');
+            beforeOpenOrderAjax();
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
             console.log(res,'___response');
             $('#open-orders-page-table-div').html(res.table_code);
-            /* data table generate */
             open_order_page_table = $('#open-orders-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -54,8 +52,19 @@ function getOpenOrderAjax($page,$count){
             });
         },
         complete:function(){
-            $('.open-orders .card.box').removeClass('active');
-            $('.page-table-loader-div').addClass('d-none');
+            afterOpenOrderAjax();
         }
     });
+}
+
+function beforeOpenOrderAjax(){
+    $('.table_loader').removeClass('d-none');
+    $('#open-orders-page-table-div').addClass('d-none');
+    $('#pagination_disp').addClass('d-none');
+}
+
+function afterOpenOrderAjax(){
+    $('.table_loader').addClass('d-none');
+    $('#open-orders-page-table-div').removeClass('d-none');
+    $('#pagination_disp').removeClass('d-none');
 }

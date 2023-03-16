@@ -20,21 +20,21 @@ Customers - Admin Panel
                                 <div class="col-12 col-lg-3 col-md-12"></div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
-                                        <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_customer_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
-                                        <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-customer-search-img">
+                                        <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_signup_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
+                                        <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-signup-search-img">
                                     </div>     
                                     @php 
                                     $select_options = [10,12,20];
                                     @endphp
                                     <div class="position-relative datatable-filter-div">
-                                        <select name="" class="datatable-filter-count" id="admin-customer-filter-count">
+                                        <select name="" class="datatable-filter-count" id="admin-signup-filter-count">
                                             @foreach($select_options as $select_option)
                                                 <option value="{{$select_option}}">{{$select_option}} Items</option>
                                             @endforeach
                                         </select>
                                         <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                                     </div>
-                                    <form id="customer_from" action="/admin/customers" method="GET"></form>
+                                    <form id="admin_signup_from" action="/admin/signup-request" method="GET"></form>
                                     <div class="datatable-export">
                                         <div class="datatable-print">
                                             <a href="">
@@ -55,7 +55,7 @@ Customers - Admin Panel
                             </div>
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
-                                <table id="backend_customers" class="text-center datatable-dark">
+                                <table id="backend_signup_request" class="text-center datatable-dark">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="20%">Full Name</th>

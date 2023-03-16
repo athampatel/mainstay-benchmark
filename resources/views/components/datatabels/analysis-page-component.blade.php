@@ -38,7 +38,8 @@
         }
         @endphp
             <tr>
-                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$record['invoiceno']}}</a></td>
+                {{-- <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$record['invoiceno']}}</a></td> --}}
+                <td><a href="/invoice-detail/{{$record['salesorderno']}}" class="item-number font-12 btn btn-rounded" target="_blank">#{{$record['invoiceno']}}</a></td>
                 <td class="text-center">{{$date->format('M d, Y')}}</td>
                 <td>{{$record['customerpono']}}</td>
                 <td class="location">

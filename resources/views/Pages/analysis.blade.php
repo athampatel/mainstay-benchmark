@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="backdrop">
+<div class="backdrop d-none">
     <div class="loader"></div>
 </div>
 <div class="home-content">
@@ -20,9 +20,8 @@
                 <label for="" class="position-relative" id="analysis_item_select_label">
                     <span>By Item</span>
                     <select name="type" id="analysis_item_select" class="rounded analysis_select">
-                        <option value="">Select Item</option>
-                        <option value="product-line">By Product Line</option>
-                        <option value="product">By Product Item</option>
+                        <option value="0" selected>By Sales</option>
+                        <option value="1">By Product Line</option>
                     </select>
                     <div class="down-arrow"></div>
                 </label>                
@@ -70,7 +69,7 @@
     <div class="padding-y-40 open-orders analysis_table_container d-none" id="analysis_table_container">
         <div class="row">
             <div class="col-12">
-                <div class="card box">
+                <div class="card box min-height-75">
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
@@ -81,10 +80,10 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="analysis-page-filter-count">
-                                    <option value="5">5 Items</option>
-                                    <option value="10">10 Items</option>
                                     <option value="12" selected>12 Items</option>
                                     <option value="20">20 Items</option>
+                                    <option value="30">30 Items</option>
+                                    <option value="50">50 Items</option>
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
@@ -102,6 +101,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="table_loader d-none">
+                        <div class="chart-loader1"></div>
+                    </div>
                     <div class="card-body col-12 padding-y-0">
                         <div class="table-responsive" id="invoice-order-page-table-div">
                         </div>
@@ -115,14 +117,24 @@
     </div>
     <div class="padding-y-40 open-orders analysis_table_container" id="analysis_table_chart">
         <div class="col-12">
-            <div class="card box" style="background:rgb(66, 68, 72)">
+            <div class="card box min-height-75" style="background:rgb(66, 68, 72)">
                 <div class="card-header col-12 p-3 d-flex align-items-center border-0 justify-content-end">
                     <div class="col-6 d-flex align-items-center d-none d-lg-block">
                     </div>
                     <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end">
-                      <a class="btn btn-rounded btn-medium btn-bordered mr-2 export-chart-btn">EXPORT REPORT</a>
-                      <a class="btn btn-rounded btn-medium btn-primary-dark">MORE DETAILS</a>
+                        <div class="position-relative">
+                            <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-analysis-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                            <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-sales-invoice" id="export-analysis-drop-down">
+                              <a class="dropdown-item export-analysis-chart-item" data-type="png">PNG</a>
+                              <a class="dropdown-item export-analysis-chart-item" data-type="svg">SVG</a>
+                              <a class="dropdown-item export-analysis-chart-item" data-type="csv">CSV</a>
+                            </div>
+                        </div>
+                      {{-- <a class="btn btn-rounded btn-medium btn-bordered mr-2 export-chart-btn" id="export-analysis-chart">EXPORT REPORT</a> --}}
                     </div>
+                  </div>
+                  <div class="table_loader d-none">
+                    <div class="chart-loader1"></div>
                   </div>
                 <div id="analysis_page_chart" class="col-12"></div>
             </div>
