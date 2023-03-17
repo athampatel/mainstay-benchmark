@@ -282,7 +282,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation Data
         $postdata       = $request->input();
         $is_duplicate   = 0;
         $email_address  = '';
@@ -463,8 +462,6 @@ class UsersController extends Controller
             'password' => 'nullable|min:6|confirmed',
         ]);
 
-        /* menu save work start */
-        // $customer_menu_access =  CustomerMenu
         $customerAccess = CustomerMenuAccess::where('user_id',$id)->first();
         $access_menus  = "";
         $menus = $request->menus;
@@ -487,7 +484,6 @@ class UsersController extends Controller
                 'access' => $access_menus
             ]);
         }
-        /* menu save work end*/
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password) {
@@ -500,7 +496,6 @@ class UsersController extends Controller
             $user->assignRole($request->roles);
         }
 
-        // session()->flash('success', 'Customer has been updated');
         session()->flash('success', config('constants.customer_update.confirmation_message'));
         return back();
     }
@@ -678,7 +673,6 @@ class UsersController extends Controller
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
-                // dd($userinfo);
                 return view('backend.pages.users.user_request',compact('customers','user','userinfo')); 
             }
         }
@@ -702,7 +696,6 @@ class UsersController extends Controller
                     DB::table('password_resets')->where('email',$user->email)->update(['token' => $_token,'created_at' =>date('Y-m-d h:i:s')]);
                 } else {
                     DB::table('password_resets')->insert(
-                        // ['email' => $user->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
                         ['email' => $user->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
                     );
                 }
@@ -791,7 +784,7 @@ class UsersController extends Controller
             $company_code = $user_details->vmi_companycode;
             $user_detail_id = $user_details->id;
         }
-        return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id'));  //,compact('customers','user')
+        return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id')); 
     }
 
     public function CustomerChangeOrders(Request $request){
