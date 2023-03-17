@@ -700,6 +700,7 @@ class SDEDataController extends Controller
                 }else{
                     Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
                 }
+                // Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
 
                 
 

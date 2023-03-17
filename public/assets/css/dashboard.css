@@ -1953,6 +1953,11 @@ input.analysis_select {
 /* #dashboard-recent-invoice-order-table{
   min-height: 54vh;
 } */
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting{
+  background-image: none !important;
+}
 #dashboard-recent-invoice-order-table_filter{
   display: none;
 }
@@ -2602,7 +2607,9 @@ table.dataTable td, table.dataTable th{
 .min-height-75{
   min-height: 75vh;
 }
-
+.min-height-160{
+  min-height: 10rem;
+}
 @media screen and (max-width: 1500px){
   html{
     font-size: 80%;

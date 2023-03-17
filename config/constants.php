@@ -122,6 +122,13 @@
             'change_order' => [
                 'approve' => 'The approved change order request.',
                 'decline' => 'The declined change order request.'   
+            ],
+            'inventory_update' => [
+                'success' => 'unable to update item quantity',
+                'error' => 'Quantity updated successfully',
+                'validation' => [
+                    'new_quanity' => 'New Quantity Field is required'
+                ]
             ]
         ],
         'notification' => [

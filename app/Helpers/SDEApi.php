@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Admin;
 use App\Models\ApiLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -160,7 +161,14 @@ class SDEApi
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = env('ADMIN_EMAILS');
-        Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+        // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+        $is_local = env('APP_ENV') == 'dev' ? true : false;
+        if($is_local){
+          Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+        } else {
+          $admin_emails = Admin::all()->pluck('email')->toArray();
+          Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+        }
         return;
       }
     }

@@ -20,7 +20,7 @@
           pageLength:5,
           paging: false,
           // searching: false,
-          ordering: false,
+          ordering: true,
           info: false,
       });
       let searchbox = `<div><input type="search" class="form-control form-control-sm" placeholder="Search in All Columns" id="help-page-table-search" aria-controls="help-page-table"><img src="/assets/images/svg/grid-search.svg" alt=""></div>`;

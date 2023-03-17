@@ -325,7 +325,7 @@ class MenuController extends Controller
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             // dd($custom_pagination);
-            if($custom_pagination['last_page'] > 1){
+            if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
                 ->render();
@@ -422,7 +422,7 @@ class MenuController extends Controller
             $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
-            if($custom_pagination['last_page'] > 1){
+            if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
                 ->render();
@@ -617,7 +617,6 @@ class MenuController extends Controller
                         ],
                     ], 
                 );
-        
             $response   = $this->SDEApi->Request('post','Products',$data);
             $path = '/getVmiData';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
@@ -811,7 +810,7 @@ class MenuController extends Controller
         $path = '/get-analysis-page-data';
         $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
         $pagination_code = "";
-        if($custom_pagination['last_page'] > 1){
+        if($custom_pagination['last_page'] >= 1){
             $pagination_code = View::make("components.ajax-pagination-component")
             ->with("pagination", $custom_pagination)
             ->render();

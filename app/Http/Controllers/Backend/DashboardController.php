@@ -57,6 +57,15 @@ class DashboardController extends Controller
     }
     public function index()
     {
+        // $admin_emails = Admin::all()->pluck('email')->toArray();
+        // dd($admin_emails);
+        // $is_local = env('APP_ENV') == 'dev' ? true : false;
+        // if($is_local){
+        //   dd('develop');
+        // } else {
+        //   dd('production');
+        // }
+
         if(is_null($this->user)){
             return redirect()->route('admin.login');
         }
@@ -89,7 +98,7 @@ class DashboardController extends Controller
             $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();            
 
         }else{   
-
+            $manager = $this->user;
             $customers          =   User::leftjoin('user_details','users.id','=','user_details.user_id')
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
@@ -100,8 +109,15 @@ class DashboardController extends Controller
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
             $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
 
-            $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
-
+            // $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
+            $change_request     = ChangeOrderRequest::select('change_order_requests.id')
+                                    ->leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('request_status','=',0)
+                                    ->where('admins.id',$manager->id)
+                                    ->get()->count();     
 
         }
 

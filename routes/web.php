@@ -234,6 +234,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/exportAllSignupsInExcel',[UsersController::class,'ExportAllSignupToExcel']);
     // Roles
     Route::get('/exportAllUserRolesInExcel',[RolesController::class,'ExportAllRolesInExcel']);
+
+    // inventory item
+    Route::post('/getAdminVmiItem',[UsersController::class,'GetInventoryItem']);
+    // update inventory item
+    Route::post('/update_inventory_item',[UsersController::class,'UpdateInventoryItem']);
 }); 
 
 require __DIR__.'/auth.php';
