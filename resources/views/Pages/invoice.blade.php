@@ -32,7 +32,7 @@
                                     <option value="15">15 Items</option>
                                     <option value="20">20 Items</option>
                                     <option value="50">50 Items</option>
-                                    <option value="10">100 Items</option>
+                                    <option value="100">100 Items</option>
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>

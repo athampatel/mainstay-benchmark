@@ -338,13 +338,20 @@ class UsersController extends Controller
                             
                             $details['link']    = env('APP_URL').'/';
                         
-                            if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
-                                $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                                $customer_emails = explode(',',$customer_emails);
-                                foreach($customer_emails as $customer_email){
-                                    Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
-                                }
-                            }  else {
+                            // if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
+                            //     $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                            //     $customer_emails = explode(',',$customer_emails);
+                            //     foreach($customer_emails as $customer_email){
+                            //         Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
+                            //     }
+                            // }  else {
+                            //     Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                            // }
+                            $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                            $is_local = env('APP_ENV') == 'dev' ? true : false;
+                            if($is_local){
+                                Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                            } else {
                                 Mail::to($request->email)->send(new \App\Mail\SendMail($details));
                             }
                         }
@@ -723,16 +730,24 @@ class UsersController extends Controller
                 $details['subject']         = config('constants.email.admin.customer_activate.subject');
                 $body      = config('constants.email.admin.customer_activate.body');
                 $details['body'] = $body;
-                if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
-                    $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                    $customer_emails = explode(',',$customer_emails);
-                    foreach($customer_emails as $customer_email){
-                        Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
-                    }
-                }  else {
+                // if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
+                //     $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                //     $customer_emails = explode(',',$customer_emails);
+                //     foreach($customer_emails as $customer_email){
+                //         Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
+                //     }
+                // }  else {
+                //     Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+                // }
+                
+                $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                $is_local = env('APP_ENV') == 'dev' ? true : false;
+                if($is_local){
+                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                } else {
                     Mail::to($user->email)->send(new \App\Mail\SendMail($details));
                 }
-                
+
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
 
                 $SchedulerLog = new SchedulerLogController();

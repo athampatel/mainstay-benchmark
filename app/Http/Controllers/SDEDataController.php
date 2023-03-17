@@ -379,8 +379,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','ItemWarehouses',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
     
     public function getProducts(){
@@ -404,8 +402,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','Products',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
     
     public function getSalesOrderHistoryDetail(){
@@ -429,8 +425,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
     
     public function getSalesOrderHistoryHeader(){
@@ -440,8 +434,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
 
     public function getSalespersons(){
@@ -451,8 +443,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('get','Salespersons',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
     
     public function getVendors(){
@@ -462,8 +452,6 @@ class SDEDataController extends Controller
         );
 
         $response   = $this->SDEApi->Request('post','Vendors',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
 
     public function changeUserStatus($id){
@@ -480,7 +468,6 @@ class SDEDataController extends Controller
 
     public function changeUserCancel($id){
         $user = User::find($id);
-        // dd($user);
     }
 
     // public function profilePicUpload(Request $request){
@@ -499,7 +486,6 @@ class SDEDataController extends Controller
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
         $user_details = UserDetails::where('user_id',$user_id)->first();
-        // $password = $request->password;
         $data = $request->all();
         $validation_array = [];
         if($request->password){
@@ -532,14 +518,12 @@ class SDEDataController extends Controller
                     $file->move(public_path('images'), $image_name);
                     $path = 'images/'.$image_name;
                 }
-                // database save
                 if($file){
                     $user->profile_image = $path;
                 }
                 if($request->password != ""){
                     $user->password = Hash::make($request->password);
                 }
-                // update user detail information
                 $user_details->customername = $request->acc_name;
                 $user_details->addressline1 = $request->acc_address_line_1;
                 $user_details->addressline2 = $request->acc_address_line_2;
@@ -592,25 +576,8 @@ class SDEDataController extends Controller
         $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
         $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
 
-       /* foreach ($sales_order_detail as $key => $sales_order) {
-            $data2 = array(            
-                "filter" => [
-                    [
-                        "column" =>  "ItemCode",
-                        "type" =>  "equals",
-                        "value" => $sales_order['itemcode'],
-                        "operator" =>  "and"
-                    ],
-                ],
-            );
-            $product_detail = $this->SDEApi->Request('post','Products',$data2);
-            $sales_order_detail[$key]['product_details'] = $product_detail['products'];
-        }*/
-        
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
 
-
-        //echo json_encode($sales_order_header);
         $user = User::find(Auth::user()->id);
         $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
         echo json_encode($response);
@@ -619,23 +586,15 @@ class SDEDataController extends Controller
     // change order save function 
     public function changeOrderPageSave(Request $request){
         $data = $request->input('data');
-       // $customer_no = $request->input('customer_no');
-
         $customer_no   = $request->session()->get('customer_no');
         $sales_order_no = $request->input('sales_order_no');
         $ordered_date = $request->input('ordered_date');
         $user_id = Auth::user()->id;
         $user_details_id = UserDetails::where('customerno',$customer_no)
                            ->where('user_id',$user_id)
-                           ->pluck('id')->first();
-
-
-         
-       // print_r($user_details_id);     die;
-                  
+                           ->pluck('id')->first();           
                         
         if(!empty($data)){
-            // $change_order_request = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->first(); 
             $is_insert = true;
             $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)->where('order_no',$sales_order_no)->get()->toArray(); 
             foreach($change_order_requests as $order_request){
@@ -643,7 +602,6 @@ class SDEDataController extends Controller
                     $is_insert = false;
                 }
             }
-            // if(!$change_order_request || $change_order_request->request_status != 0){
             if(!$is_insert){
                 echo json_encode(['success' => false,'error'=> config('constants.change_order_request.request_exsist')]);
                 die();
@@ -669,44 +627,33 @@ class SDEDataController extends Controller
                     ]);
                 }
             }
-
-            // Admin mail send work start
-            $admin      = Admin::first();
-
-            //if($admin){    
-                // $url    = env('APP_URL').'admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
-                // $url    = env('APP_URL').'admin/order/'.$sales_order_no.'/change/'.$change_order_request->id.'/'.$customer_no;
+                $admin      = Admin::first();
                 $url    = env('APP_URL').'admin/customers/change-orders/'.$change_order_request->id;
-
-                // $details = array('mail_view' => 'emails.email-body', 
-                //                 'subject'   => 'Change Order request', 
-                //                 'url'       => $url);
                 $email = Auth::user()->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
-                // $details['title']           =  "Change Order Request";   
-                // $details['subject']         =  "New Change Order Request";
                 $details['title']           =  config('constants.email.admin.change_order.title');   
                 $details['subject']         =  config('constants.email.admin.change_order.subject');
                 $body      = "<p>A customer with email address {$email} has requested an  order change request.<br/> Order Details</p>";
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer-No: </span><span>'.$customer_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
-                // $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.$ordered_date.'</span></p><br/>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
-                if($admin_emails != ''){                   
+                
+                // if($admin_emails != ''){                   
+                //     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+                // }else{
+                //     Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
+                // }
+                $is_local = env('APP_ENV') == 'dev' ? true : false;
+                if($is_local){
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
-                }else{
-                    Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
+                } else {
+                //   $admin_emails = Admin::all()->pluck('email')->toArray();
+                  Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
                 }
-                // Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
-
                 
-
-                
-           // }
-            // Admin mail send work end
             $_notification = array( 'type'      => 'Change Order',
                                     'from_user' => $user_id,
                                     'to_user'   => 0,
