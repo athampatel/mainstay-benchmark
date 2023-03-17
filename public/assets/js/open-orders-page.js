@@ -46,7 +46,7 @@ function getOpenOrderAjax($page,$count){
                 lengthChange: true,
                 pageLength:$count,
                 paging: true,
-                ordering: false,
+                ordering: true,
                 info: false,
                 // responsive: true
             });

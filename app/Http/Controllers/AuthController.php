@@ -227,15 +227,19 @@ class AuthController extends Controller
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
-            // \Mail::to('atham@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-            // dd($details);
             $admin_emails = env('ADMIN_EMAILS');
-            if($admin_emails !=''){
-                $admin_emails = explode(',',$admin_emails);
-                foreach ($admin_emails as $admin_email) {
-                    // Mail::to($admin_email)->send(new \App\Mail\SendMail($details));
-                    Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
-                }
+            // if($admin_emails !=''){
+            //     $admin_emails = explode(',',$admin_emails);
+            //     foreach ($admin_emails as $admin_email) {
+            //         Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
+            //     }
+            // }
+            $is_local = env('APP_ENV') == 'dev' ? true : false;
+            if($is_local){
+              Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+            } else {
+              $admin_emails = Admin::all()->pluck('email')->toArray();
+              Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
             }
 
         }

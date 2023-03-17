@@ -55,7 +55,7 @@ class NotificationController extends Controller
             $type           = 1;   
         }else if(!empty($user)){    
            $type               = 2;  
-            $notification       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_id')
+            $notification       =    User::leftjoin('user_sales_persons','users.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->leftjoin('notifications','users.id','=','notifications.from_user')->get();
@@ -173,25 +173,26 @@ class NotificationController extends Controller
 
     /* bottom notifications */
     public function getBottomNotifications(){
-        // <div id="bottom_notification_disp"></div>  
         if(auth('admin')->check()) {
             if($this->superAdmin){
                 // Super admin
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
             } else {
+                $manager = $this->user;
                 // Manager
-                $notifications = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
-                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')
+                                    ->where('admins.id',$manager->id)
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
             }
-            // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
         } else {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
         }
-        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+
         if(!empty($notifications)){
             $notification_code = View::make("components.bottom-notification-component")
             ->with("notifications", $notifications)
@@ -207,9 +208,6 @@ class NotificationController extends Controller
     }
 
     public function getNewBottomNotifications(){
-        // $start_time = date('Y-m-d h:i').':00';
-        // $end_time = date('Y-m-d h:i').':59';
-        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0 and created_at >= '".$start_time."' and created_at <= '".$end_time."'");
         if(auth('admin')->check()) {
             if($this->superAdmin){
                 // super admin
@@ -217,26 +215,28 @@ class NotificationController extends Controller
                 $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
             } else {
                 // manager 
-                $notifications = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                $manager = $this->user;
+                $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
-                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
-                $notifications_all = User::leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')
+                                    ->where('admins.id',$manager->id)
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+
+                $notifications_all = User::leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->leftjoin('user_details','user_details.user_id','=','users.id')
-                                    ->leftjoin('notifications','users.id','=','notifications.from_user')->where('to_user', 0)->where('status',1)->where('is_read',0)->get();             
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')
+                                    ->where('admins.id',$manager->id)
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();             
             }
-            // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
-            // $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
         } else{
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
             $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
         }
-        // $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
-        // $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
         $notification_all_code = View::make("components.bottom-notification-component")
         ->with("notifications", $notifications_all)
         ->render();

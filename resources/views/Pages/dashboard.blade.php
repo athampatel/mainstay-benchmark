@@ -59,7 +59,7 @@
         </div>
 
         <div class="col-sm-12 col-md-12 col-lg-4 padd-small">
-          <div class="card box equal-height">					
+          <div class="card box equal-height min-height-160">					
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
               <div class="col-12 col-md-12 col-lg-12 d-flex align-items-center">
                 <div class="box-icon small-icon rounder-border">
@@ -204,7 +204,7 @@
               <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
             </div>
             <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            
-              <div class="position-relative item-search">
+              {{-- <div class="position-relative item-search">
                 <input type="text" class="datatable-search-input" placeholder="Search in All Columns" id="open-orders-chart-search" aria-controls="help-page-table">
                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-chart-search-img">
               </div> 
@@ -215,7 +215,7 @@
                   <option value="20">20 Items</option>
                 </select>
                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-              </div>
+              </div> --}}
             </div>
           </div>
           <div class="card-body col-12 p-3">

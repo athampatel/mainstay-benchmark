@@ -34,6 +34,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\SchedulerLogController;
+use App\Models\UserDetails;
+use App\Models\VmiInventoryRequest;
 
 class UsersController extends Controller
 {
@@ -43,7 +45,6 @@ class UsersController extends Controller
     {
         $this->SDEApi = $SDEApi;
         $this->middleware(function ($request, $next) {
-            // $this->user = Auth::guard('admin')->user(); // null
             $this->user = Auth::guard('admin')->user(); // null
             if(!$this->user){
                 $unique_token = $request->segment(5); 
@@ -72,7 +73,6 @@ class UsersController extends Controller
         if(!Auth::guard('admin')->user()){
             return redirect()->route('admin.login');
         }
-        // dd(config('constants.customer-signup.confirmation_messsage'));
         $limit = $request->input('limit');
         if(!$limit){
             $limit = 10;
@@ -254,7 +254,6 @@ class UsersController extends Controller
         // ->paginate(intval($limit));
         $paginate = $managerss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        // return view('backend.pages.managers.index', compact('managers'));
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit'));
     }
 
@@ -271,7 +270,6 @@ class UsersController extends Controller
         $email  = '';
         if($request->input('email'))
             $email = $request->input('email');
-        // return view('backend.pages.users.create', compact('roles','email'));
         $constants = config('constants');
         return view('backend.pages.users.create', compact('roles','email','constants'));
     }
@@ -300,8 +298,6 @@ class UsersController extends Controller
             $email_address = $postdata['email'];
             $user_id = $response['id'];
         } else {
-            // dd('comes in 2');
-           // $email_address  = $postdata['email'];
             $duplicate      = array();
             $customer       = array();
             $create_user    =  $postdata['create_user'];
@@ -316,7 +312,6 @@ class UsersController extends Controller
                     $is_duplicate = 1;  
                 }
                 
-                //if(!$is_duplicate){                      
                 foreach($postdata as $data_key => $_val){
                     
                     if($data_key == '_token'){
@@ -327,27 +322,22 @@ class UsersController extends Controller
                         }
                     }
                 }
-                //}
             }                     
             if(!empty($customer)){
                 foreach($customer as $insert_key => $_customer){
                     if(!$user_id){
                         $response = $this->CreateCustomer($_customer,$insert_key);
-                        // dd($response);
                         if($response['status'] != 0){
                             $user_id  = $response['id'];
                         }
                         if($request->input('send_password')){
-                            // $to = ->email;
-                            $url    = 
                             $details['subject'] = config('constants.email.admin.customer_create.subject');
                             $details['title']   = config('constants.email.admin.customer_create.title');    
                             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
                             $details['mail_view']    = "emails.new-account-details";
                             
                             $details['link']    = env('APP_URL').'/';
-                            
-                            // \Mail::to($to)->send(new \App\Mail\SendMail($details));
+                        
                             if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
                                 $customer_emails = env('TEST_CUSTOMER_EMAILS');
                                 $customer_emails = explode(',',$customer_emails);
@@ -357,8 +347,6 @@ class UsersController extends Controller
                             }  else {
                                 Mail::to($request->email)->send(new \App\Mail\SendMail($details));
                             }
-                            // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
-                            // Mail::to('gokulnr@tendersoftware.in')->send(new \App\Mail\SendMail($details));
                         }
                     }else{
                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
@@ -377,9 +365,7 @@ class UsersController extends Controller
         $SchedulerLog = new SchedulerLogController();
         $SchedulerLog->CreateScheduler($user_id);
         
-        // dd($response);  
         $status  = isset($response['status']) ? $response['status'] : 0;
-        // $message = 'A new customer has been successfully created in the system.';
         $message = config('constants.admin_customer_create.success');
         session()->flash($status, $message);
         if($request->input('ajaxed')){
@@ -391,23 +377,18 @@ class UsersController extends Controller
     }
 
     public function CreateCustomer($postdata = null,$key = 0){
-        // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
-        // dd($response);
         $user       = isset($response['user']) ? $response['user'] : null;
-        // $message    = 'Oops something went wrong';
         $message    = config('constants.admin_customer_create.mail.error');
         $status     = 'error';  
         $id         = 0;
         if(!empty($user) && !$key){            
             $this->sendActivationLink($user->id);
-            // $message    = 'User has been created !!';
             $message    = config('constants.admin_customer_create.mail.success');
             $status     = 'success';    
             $id         = $user->id;            
         }
         return array('status' => $status,'message' => $message,'id' => $id);
-        // }
     }
     /**
      * Display the specified resource.
@@ -533,7 +514,6 @@ class UsersController extends Controller
             //$user->delete();
         }
 
-        // session()->flash('success', 'User has been deleted !!');
         session()->flash('success', config('constants.customer_delete.confirmation_message'));
         return back();
     }
@@ -541,7 +521,6 @@ class UsersController extends Controller
     // get customer information
     public function getCustomerInfo(Request $request){
         $search_text = $request->search_text;
-        // dd($search_text);
         $data = array(            
             "filter" => [
                 [
@@ -561,7 +540,6 @@ class UsersController extends Controller
             "limit" => 100,
         );
         
-        //$customer = Customer::where('email',$search_text)->first();
         $customer = Customer::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)
@@ -585,24 +563,57 @@ class UsersController extends Controller
         }
 
         $search = $request->input('search');
-        if($search) {
-            $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                        ->orderBy('signup_requests.id','DESC')
-                        ->where('signup_requests.status',0)
-                        ->where(function($users) use($search){
-                            $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
-                            ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
-                            ->orWhere('signup_requests.email','like','%'.$search.'%') 
-                            ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
-                        })
-                        ->select(['signup_requests.*','users.id as user_id'])
-                        ->get();  
+        if($this->superAdmin){
+            if($search) {
+                $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->where(function($users) use($search){
+                                $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.email','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
+                            })
+                            ->select(['signup_requests.*','users.id as user_id'])
+                            ->get();  
+            } else {
+                $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->select(['signup_requests.*','users.id as user_id'])
+                            ->get();  
+            }
         } else {
-            $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                        ->orderBy('signup_requests.id','DESC')
-                        ->where('signup_requests.status',0)
-                        ->select(['signup_requests.*','users.id as user_id'])
-                        ->get();  
+            $manager = $this->user;
+            if($search) {
+                $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->leftjoin('user_details','user_details.user_id','=','users.id')
+                            ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                            ->leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('admins.id',$manager->id)
+                            ->where('signup_requests.status',0)
+                            ->where(function($users) use($search){
+                                $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.email','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
+                            })
+                            ->select(['signup_requests.*','users.id as user_id'])
+                            ->get();  
+            } else {
+                $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->leftjoin('user_details','user_details.user_id','=','users.id')
+                            ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                            ->leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->where('admins.id',$manager->id)
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->select(['signup_requests.*','users.id as user_id'])
+                            ->get();  
+            }
         }
         return view('backend.pages.users.signup-request',compact('users','search')); 
     }
@@ -630,7 +641,6 @@ class UsersController extends Controller
         if(!empty($admin)){
             if(is_numeric($user_id)){
                 $user = User::find($user_id);              
-              //  if($user && $user->active == 0 && $user->activation_token != '')
                 $email_address = $user->email;            
             }else{
                 $email_address  = $user_id;
@@ -705,17 +715,9 @@ class UsersController extends Controller
                     $notification->save(); 
                 }
 
-                // $params = array('mail_view' => 'emails.user-active', 
-                //                 // 'subject' => 'reset password link', 
-                //                 'subject' => config('constants.customer_activate.mail.subject'), 
-                //                 'url' => env('APP_URL').'reset-password/'.$token.'?email='.$user->email);
-
                 $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
-                // $details['title']           =  "Your Account is Activated";   
-                // $details['subject']         =  "Your Account is Activated Please Set The Password";
-                // $body      = "<p>Your account is activated in the Benchmark Member Portal Access. please check and set the new password <br/>";
                 $details['namealias'] = 'Hi '.$user->name;
                 $details['title']           = config('constants.email.admin.customer_activate.title');   
                 $details['subject']         = config('constants.email.admin.customer_activate.subject');
@@ -730,8 +732,7 @@ class UsersController extends Controller
                 }  else {
                     Mail::to($user->email)->send(new \App\Mail\SendMail($details));
                 }
-                // email send work end
-                // $res = ['success' => true, 'message' =>'Customer activated successfully and email sent'];
+                
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
 
                 $SchedulerLog = new SchedulerLogController();
@@ -760,17 +761,22 @@ class UsersController extends Controller
             $user->is_deleted = 1;
             $user->save();
             $user->delete();
-            // $res = ['success' => true, 'message' =>'Customer Blocked successfully'];
             $res = ['success' => true, 'message' => config('constants.customer_cancel.confirmation_message')];
         } else {
-            // $res = ['success' => false, 'message' =>'Customer not found'];
             $res = ['success' => false, 'message' => config('constants.customer_cancel.confirmation_error')];
         }
         echo json_encode($res);
     }
 
     public function  CustomerInventory($userId) {
-        return view('backend.pages.orders.vmi-inventory');  //,compact('customers','user')
+        $company_code = '';
+        $user_detail_id = ''; 
+        $user_details = UserDetails::where('user_id',$userId)->first();
+        if($user_details){
+            $company_code = $user_details->vmi_companycode;
+            $user_detail_id = $user_details->id;
+        }
+        return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id'));  //,compact('customers','user')
     }
 
     public function CustomerChangeOrders(Request $request){
@@ -784,6 +790,7 @@ class UsersController extends Controller
             $offset = ($offset - 1) * $limit;
         }
         $search = $request->input('search');                  
+        $paginate = [];
         if($this->superAdmin){
             if($search){
                 $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
@@ -804,8 +811,15 @@ class UsersController extends Controller
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where(function($change_request) use($search){
+                                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                                        ->orWhere('users.email','like','%'.$search.'%');
+                                                    })
                                                     ->orderBy('change_order_requests.id','DESC')                                                
                                                     ->paginate(intval($limit));
+                $paginate = $change_requests->toArray();
             } else {
                 $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
@@ -821,54 +835,111 @@ class UsersController extends Controller
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                                     ->orderBy('change_order_requests.id','DESC')                                                
                                                     ->paginate(intval($limit));
+                $paginate = $change_requests->toArray();
             }
 
-        }elseif(DashboardController::isManager($user->id,$user)){
+        // }elseif(DashboardController::isManager($user->id,$user)){
+        }else {
+            $manager = $this->user;
             if($search) {
-                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                    ->where('sales_persons.id',$user->id)
-                                                    ->where(function($change_request) use($search){
-                                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
-                                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
-                                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
-                                                        ->orWhere('users.email','like','%'.$search.'%');
-                                                    })
-                                                    ->orderBy('change_order_requests.id','DESC')
-                                                    ->offset($offset)
-                                                    ->limit($limit)
-                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
-                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                    ->where('sales_persons.id',$user->id)
-                                                    ->orderBy('change_order_requests.id','DESC')
-                                                    ->paginate(intval($limit));
+                // $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                //                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
+                //                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                //                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                //                                     ->where('sales_persons.id',$manager->id)
+                //                                     ->where(function($change_request) use($search){
+                //                                         $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                //                                         ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                //                                         ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                //                                         ->orWhere('users.email','like','%'.$search.'%');
+                //                                     })
+                //                                     ->orderBy('change_order_requests.id','DESC')
+                //                                     ->offset($offset)
+                //                                     ->limit($limit)
+                //                                     ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_request = ChangeOrderRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('users', 'users.id','=','user_details.user_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('request_status','=',0)
+                                    ->where('admins.id',$manager->id)
+                                    ->where(function($change_request) use($search){
+                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                        ->orWhere('users.email','like','%'.$search.'%');
+                                    })
+                                    ->orderBy('change_order_requests.id','DESC')
+                                    ->offset($offset)
+                                    ->limit($limit)
+                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                // $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                //                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
+                //                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                //                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                //                                     ->where('sales_persons.id',$manager->id)
+                //                                     ->orderBy('change_order_requests.id','DESC')
+                //                                     ->paginate(intval($limit));
+                $change_requests = ChangeOrderRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('users', 'users.id','=','user_details.user_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('request_status','=',0)
+                                    ->where('admins.id',$manager->id)
+                                    ->where(function($change_request) use($search){
+                                        $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                        ->orWhere('sales_persons.name','like','%'.$search.'%') 
+                                        ->orWhere('user_details.customerno','like','%'.$search.'%') 
+                                        ->orWhere('users.email','like','%'.$search.'%');
+                                    })
+                                    ->orderBy('change_order_requests.id','DESC')
+                                    ->paginate(intval($limit));
+                $paginate = $change_requests->toArray();
 
             } else {
-                $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                    ->where('sales_persons.id',$user->id)
-                                                    ->orderBy('change_order_requests.id','DESC')
-                                                    ->offset($offset)
-                                                    ->limit($limit)
-                                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
-                $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
-                                                    ->leftjoin('user_details','users.id','=','user_details.user_id')
-                                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                                    ->where('sales_persons.id',$user->id)
-                                                    ->orderBy('change_order_requests.id','DESC')
-                                                    ->paginate(intval($limit));
+                // $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                //                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
+                //                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                //                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                //                                     ->where('sales_persons.id',$manager->id)
+                //                                     ->orderBy('change_order_requests.id','DESC')
+                //                                     ->offset($offset)
+                //                                     ->limit($limit)
+                //                                     ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $change_request = ChangeOrderRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('users', 'users.id','=','user_details.user_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('request_status','=',0)
+                                    ->where('admins.id',$manager->id)
+                                    ->orderBy('change_order_requests.id','DESC')
+                                    ->offset($offset)
+                                    ->limit($limit)
+                                    ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                // $change_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                //                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
+                //                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                //                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                //                                     ->where('sales_persons.id',$manager->id)
+                //                                     ->orderBy('change_order_requests.id','DESC')
+                //                                     ->paginate(intval($limit));
+                $change_requests = ChangeOrderRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('users', 'users.id','=','user_details.user_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('request_status','=',0)
+                                    ->where('admins.id',$manager->id)
+                                    ->orderBy('change_order_requests.id','DESC')
+                                    ->paginate(intval($limit));
+                                    // ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
+                $paginate = $change_requests->toArray();
             }
 
         }
-        $paginate = $change_requests->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         return view('backend.pages.orders.index',compact('change_request','user','paginate','limit','search'));
     }
@@ -1082,5 +1153,60 @@ class UsersController extends Controller
                     ->select(['signup_requests.full_name','signup_requests.company_name','signup_requests.email','signup_requests.phone_no'])
                     ->get()->toArray();
         return $users;
+    }
+
+    public function GetInventoryItem(Request $request){
+        $data = $request->all();
+        $item_code = $data['icode'];
+        $company_code = $data['ccode'];
+        $data = array(                             
+            "companyCode"   => $company_code,
+            "offset"        => 0,
+            "limit"         => 2,
+            "filter" => [
+                [
+                    "column"=> "itemcode",
+                    "type"=> "equals",
+                    "value"=> $item_code,
+                    "operator"=> "and"
+                ],
+            ], 
+        );
+        $sdeApi = new SDEApi();
+        $response = $sdeApi->Request('post','Products',$data);
+        $response = $response['products'];
+        $res = ['success' => true,'data' => $response, 'error' => []];
+        echo json_encode($res);
+        die();
+    }
+
+    public function UpdateInventoryItem(Request $request){
+        $user = $this->user;
+        $data = $request->all();
+        $company_code = $data['company_code'];
+        $item_code = $data['item_code'];
+        $user_detail_id = $data['user_id'];
+        $old_quantity = $data['old_quantity'];
+        $new_quantity = $data['new_quantity'];
+        if(!$new_quantity){
+            $res = ['success' => false, 'error' => config('constants.admin.inventory_update.validation.new_quanity')];
+            echo json_encode($res);
+            die();
+        }
+        $VmiInventoryRequest = VmiInventoryRequest::create([
+            'company_code' => $company_code,
+            'item_code' => $item_code,
+            'user_detail_id' => $user_detail_id,
+            'old_qty_hand' => $old_quantity,
+            'new_qty_hand'=> $new_quantity,
+            'change_user' => $user->id 
+        ]);
+        $res = ['success' => false, 'error' => config('constants.admin.inventory_update.error')];
+        if($VmiInventoryRequest){
+            $res = ['success' => true, 'message' => config('constants.admin.inventory_update.success')];
+        }
+
+        echo json_encode($res);
+        die();
     }
 }

@@ -6,6 +6,9 @@ VMI Inventory - Admin Panel
 
 @section('admin-content')
 
+<div class="backdrop d-none">
+    <div class="loader"></div>
+</div>
 <div class="home-content">    
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
@@ -22,7 +25,7 @@ VMI Inventory - Admin Panel
                 </div>
                 <!-- data table end -->
             </div>
-
+        
             <div class="row">
                 <!-- data table start -->
                 <div class="col-12 mt-3">
@@ -32,11 +35,12 @@ VMI Inventory - Admin Panel
                                 <div class="form-row col-12 d-flex justify-content-between align-items-center flex-wrap">
                                     <div class="mb-3 col-12 col-md-9 col-lg-9 px-0 px-md-3 px-lg-3">    
                                         <label for="formFile" class="form-label">Enter Inventory Item Code</label>
-                                        <input class="form-control  col-12" type="text" placeholder="" value="" name="PurchaseOrderNumber" id="PurchaseOrderNumber" required autocomplete="off">
+                                        <input class="form-control  col-12" type="text" placeholder="" value="" name="PurchaseOrderNumber" id="inventory_item_code" required autocomplete="off">
                                     </div>
-                                    
+                                    <input type="hidden" name="company_code" value="{{$company_code}}" id="company_code">
+                                    <input type="hidden" name="user_id" value="{{$user_detail_id}}" id="user_id">
                                     <div class="form-button col-12 col-md-3 col-lg-3 mt-2">                            
-                                        <button type="submit" class="font-12 btn btn-primary btn-rounder match-btn" id="get_item_details">Get Item Details</button>
+                                        <button class="font-12 btn btn-primary btn-rounder match-btn text-capitalize bm-btn-primary btn-rounded" id="get_inventory_item_details">Get Item Details</button>
                                     </div>
                                 </div>
                             </form>
@@ -44,10 +48,22 @@ VMI Inventory - Admin Panel
                     </div>
                 </div>
 
-                <div class="col-12 mt-3 item-details d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert text-center" id="inventory_update_status"></div>
+                    </div>
+                </div>
+                
+                <div class="col-12 mt-3 inventory_item-details d-none">
                     <div class="card">
                         <div class="card-body">
                             <form method="post" id="update-item-form" class="order-form col-8 pt-3 mx-auto d-flex justify-content-center flex-wrap align-items-center" action="">
+                                <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
+                                    <label for="formFile" class="form-label col-12 col-md-4">Item Code</label>
+                                    <div class="col-12 col-md-8">
+                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemCodeDetail" id="ItemCodeDetail" required autocomplete="off">
+                                    </div>                            
+                                </div>
                                 <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
                                     <label for="formFile" class="form-label col-12 col-md-4">Item Code Description</label>
                                     <div class="col-12 col-md-8">
@@ -57,9 +73,15 @@ VMI Inventory - Admin Panel
                                 <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
                                     <label for="formFile" class="form-label col-12 col-md-4">Product Line</label>
                                     <div class="col-12 col-md-8">
-                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemCodeDesc" id="ItemCodeDesc" required autocomplete="off">
+                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemProductLine" id="itemProductLine" required autocomplete="off">
                                     </div>                            
                                 </div>
+                                {{-- <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
+                                    <label for="formFile" class="form-label col-12 col-md-4">Product Line Description</label>
+                                    <div class="col-12 col-md-8">
+                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemProductLineDesc" id="itemProductLineDesc" required autocomplete="off">
+                                    </div>                            
+                                </div> --}}
 
                                 <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
                                     <label for="formFile" class="form-label col-12 col-md-4">Primary Vendor No</label>
@@ -74,9 +96,27 @@ VMI Inventory - Admin Panel
                                         <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="PrimaryAPDivisionNo" id="PrimaryAPDivisionNo" required autocomplete="off">
                                     </div>                            
                                 </div>
+                                <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
+                                    <label for="formFile" class="form-label col-12 col-md-4">Quantity In Hand</label>
+                                    <div class="col-12 col-md-8">
+                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="qtyInHand" id="qtyInHand" required autocomplete="off">
+                                    </div>                            
+                                </div>
+                                <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
+                                    <label for="formFile" class="form-label col-12 col-md-4">Quantity Purchased</label>
+                                    <div class="col-12 col-md-8">
+                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="quantityPurchased" id="quantityPurchased" required autocomplete="off">
+                                    </div>                            
+                                </div>
+                                <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
+                                    <label for="formFile" class="form-label col-12 col-md-4">Update Quantity In Hand</label>
+                                    <div class="col-12 col-md-8">
+                                        <input class="form-control col-12" type="number" placeholder="" value="" name="newQuantityInHand" id="newQuantityInHand" required autocomplete="off">
+                                    </div>                            
+                                </div>
                                 <div class="form-row col-12 d-flex justify-content-center align-items-center">
                                     <div class="form-button col-12 mt-2">                            
-                                        <button type="submit" class="font-12 btn btn-primary" id="update_items">Update Inventory</button>
+                                        <button class="font-12 btn btn-primary bm-btn-primary text-capitalize btn-rounded" id="update_inventory_items">Update Inventory</button>
                                     </div>
                                 </div>    
                             </form>
