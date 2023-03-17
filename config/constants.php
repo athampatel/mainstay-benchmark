@@ -124,8 +124,8 @@
                 'decline' => 'The declined change order request.'   
             ],
             'inventory_update' => [
-                'success' => 'unable to update item quantity',
-                'error' => 'Quantity updated successfully',
+                'error' => 'unable to update item quantity',
+                'success' => 'Quantity updated successfully',
                 'validation' => [
                     'new_quanity' => 'New Quantity Field is required'
                 ]
