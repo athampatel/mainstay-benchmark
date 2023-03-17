@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Mail;
 
 class SDEApi
 {
-  //  public $end_point = 'https://sde.BenchmarkProducts.com:2960/sde';
    public  $end_point ;
    protected $username = '';
    protected $password = '';
@@ -23,8 +22,6 @@ class SDEApi
         $this->end_point =  env('API_URL');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
-       // $this->is_ssl_verify = env('SSL_VERIFY');
-		    //$this->end_point = env('API_URL');
    }
 
    public function getAliasItems( $data = null ) {
@@ -126,9 +123,7 @@ class SDEApi
         } else {
           $response = $request->post($this->end_point,$post_data);
         }
-        // if(!$response->successful()){
         self::responseErrorCheck($response,$data,$resource);
-        // }
 
         return $response->json();
       }
@@ -138,8 +133,7 @@ class SDEApi
       $error_codes = explode(',', env('API_ERROR_CODES'));
       if(in_array($response_code,$error_codes)){
         $error_message = json_decode($response->body(), true)['message'];
-        
-        // insert api log
+      
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),
@@ -153,9 +147,6 @@ class SDEApi
         $details['status']    = 'success';
         $details['message']   = config('constants.api_error_email.message');
         $body      = "<p style='max-width:590px;font-weight:bold;font-size:14px;'>The Api with resource <span style='color:#000'>{$resource} </span>has get an {$response_code} error.</p>";
-        // dd($body);
-        // $body   .= '<p><span style="max-width:590px;font-weight:bold;font-size:14px;">Filter Data: </span>&nbsp;</p>';
-        // $body .= "<p style='max-width:590px;'><span style='max-width:590px;'>".json_encode($data)."</span></p>";
         $details['body'] = $body;
         $url = '';
         $details['link']            =  $url;      

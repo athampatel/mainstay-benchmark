@@ -32,7 +32,6 @@ class AdminsController extends Controller
     public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('admin.view')) {
-            // abort(403, 'Sorry !! You are Unauthorized to view any admin !');
             abort(403,config('constants.admin_error_403'));
         }
         $limit = $request->input('limit');
@@ -45,15 +44,7 @@ class AdminsController extends Controller
         } 
         $search = $request->input('search');
         if($search){
-            // $admins = new Admin();
-            // $admins->where(function($admins) use($search){
-            //     $admins->orWhere('admins.name','like','%'.$search.'%')
-            //             ->orWhere('admins.email','like','%'.$search.'%')
-            //             ->orWhere('admins.username','like','%'.$search.'%');
-            // });
-            // $admins = $admins->get();
             $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->get();
-            // $adminss = Admin::paginate(intval($limit));
             $adminss = Admin::paginate(intval($limit));
         } else {
             $admins = Admin::all();
@@ -61,7 +52,6 @@ class AdminsController extends Controller
         }
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        // return view('backend.pages.admins.index', compact('admins'));
         return view('backend.pages.admins.index', compact('admins','search','paginate','limit'));
     }
 
@@ -73,7 +63,6 @@ class AdminsController extends Controller
     public function create(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('admin.create')) {
-            // abort(403, 'Sorry !! You are Unauthorized to create any admin !');
             abort(403, config('constants.admin_error_403'));
         }
         $manager = '';        
@@ -94,17 +83,10 @@ class AdminsController extends Controller
     public function store(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('admin.create')) {
-            // abort(403, 'Sorry !! You are Unauthorized to create any admin !');
             abort(403, config('constants.admin_error_403'));
         }
 
         // Validation Data
-        // $request->validate([
-        //     'name' => 'required|max:50',
-        //     'email' => 'required|max:100|email|unique:admins',
-        //     'username' => 'required|max:100|unique:admins',
-        //     'password' => 'required|min:8',
-        // ]);
         $this->validate(
             $request,
             [
@@ -133,18 +115,14 @@ class AdminsController extends Controller
         }
 
         if($request->input('send_password')){
-            // $to = 'atham@tendersoftware.in';
             $to = $admin->email;
-            $url    = 
-            // $details['subject'] = "Your Login Credentials";    
-            // $details['title']   = "Your Login Credentials";    
+            $url    =  
             $details['subject'] = config('constants.email.admin.admin_create.subject');    
             $details['title']   = config('constants.email.admin.admin_create.title');
             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
             $details['mail_view']    = "emails.new-account-details";
             
             $details['link']    = env('APP_URL').'/admin/login/';
-            // Mail::to($to)->send(new \App\Mail\SendMail($details));
             $is_local = env('APP_ENV') == 'dev' ? true : false;
             $test_emails = env('TEST_CUSTOMER_EMAILS');
             if($is_local){
@@ -154,9 +132,6 @@ class AdminsController extends Controller
             }            
         }
 
-        
-
-        // session()->flash('success', 'Admin has been created !!');
         session()->flash('success', config('constants.admin_create.confirmation_message'));
         return redirect()->route('admin.admins.index');
     }
@@ -181,7 +156,6 @@ class AdminsController extends Controller
     public function edit(int $id)
     {
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            // abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
             abort(403, config('constants.admin_error_403'));
         }
 
@@ -204,11 +178,7 @@ class AdminsController extends Controller
             abort(403, config('constants.admin_error_403'));
         }
 
-        // TODO: You can delete this in your local. This is for heroku publish.
-        // This is only for Super Admin role,
-        // so that no-one could delete or disable it by somehow.
         if ($id === 1) {
-            // session()->flash('error', 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test !');
             session()->flash('error',config('constants.superadmin_update.error'));
             return back();
         }
@@ -237,7 +207,6 @@ class AdminsController extends Controller
             $admin->assignRole($request->roles);
         }
 
-        // session()->flash('success', 'Admin has been updated !!');
         session()->flash('success', config('constants.admin_update.confirmation_message'));
         return back();
     }
@@ -251,15 +220,10 @@ class AdminsController extends Controller
     public function destroy(int $id)
     {
         if (is_null($this->user) || !$this->user->can('admin.delete')) {
-            // abort(403, 'Sorry !! You are Unauthorized to delete any admin !');
             abort(403, config('constants.admin_error_403'));
         }
 
-        // TODO: You can delete this in your local. This is for heroku publish.
-        // This is only for Super Admin role,
-        // so that no-one could delete or disable it by somehow.
         if ($id === 1) {
-            // session()->flash('error', 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test !');
             session()->flash('error', config('constants.superadmin_delete.error'));
             return back();
         }
@@ -279,7 +243,7 @@ class AdminsController extends Controller
     }
     // profile save
     public function adminProfileSave(Request $request){
-        dd($request);
+        // dd($request);
     }
 
     // export into excel
