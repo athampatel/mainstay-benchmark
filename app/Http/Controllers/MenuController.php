@@ -619,14 +619,18 @@ class MenuController extends Controller
                 );
             $response   = $this->SDEApi->Request('post','Products',$data);
             $path = '/getVmiData';
+            if(!$response) {
+                $response = [];
+            }
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
-            // dd($custom_pagination);
             $pagination_code = "";
-            // if($custom_pagination['last_page'] > 1){
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
+            if(!empty($response)){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            }
             // }
+            if(empty($response)) $response['products'] = [];
             $table_code = View::make("components.datatabels.vmi-component")
                 ->with("vmiProducts", $response['products'])
                 ->render();
@@ -639,6 +643,9 @@ class MenuController extends Controller
     }
 
     public static function CreatePaginationData($response,$limit,$page,$offset,$path){
+        if(empty($response)){
+            $response['meta']['records'] = 0;
+        }
         $custom_pagination = array();
         $last_page = intval(ceil($response['meta']['records'] / $limit));
         $custom_pagination['links'] = UsersController::customPagination(1,$last_page,$response['meta']['records'],intval($limit),intval($page + 1),'');

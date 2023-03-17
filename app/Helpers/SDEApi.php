@@ -124,7 +124,7 @@ class SDEApi
           $response = $request->post($this->end_point,$post_data);
         }
         self::responseErrorCheck($response,$data,$resource);
-
+        
         return $response->json();
       }
 
@@ -132,8 +132,13 @@ class SDEApi
       $response_code = $response->getStatusCode();
       $error_codes = explode(',', env('API_ERROR_CODES'));
       if(in_array($response_code,$error_codes)){
-        $error_message = json_decode($response->body(), true)['message'];
-      
+        // $error_message = json_decode($response->body(), true)['message'];
+        $error_message = json_decode($response->body(), true);
+        if(!$error_message) {
+          $error_message = 'null';
+        } else {
+          $error_message = $error_message['message'];
+        }
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),

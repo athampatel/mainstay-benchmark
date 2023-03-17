@@ -95,12 +95,12 @@
                             </div>
                             <div class="datatable-export">
                                 <div class="datatable-print">
-                                    <a href="">
+                                    <a>
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="analysis-print-icon">
                                     </a>
                                 </div>
                                 <div class="datatable-report">
-                                    <a href="">
+                                    <a>
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
                                     </a>
                                 </div>
