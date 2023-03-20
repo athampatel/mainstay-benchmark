@@ -1890,6 +1890,33 @@ input.analysis_select {
 .vmi-datatable-report span{
   padding-right: 0.4375rem;
 }
+
+
+/* inventory */
+
+.vmi-inventory-report{
+  width: 8.8125rem;
+  height: 1.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8125rem;
+  color: #fff;
+}
+
+.vmi-inventory-report:hover{
+  color: #fff;
+}
+
+.vmi-inventory-report div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.vmi-inventory-report span{
+  padding-right: 0.4375rem;
+}
+
 .datatable-report a{ 
   display: flex;
   justify-content: start;
@@ -2056,6 +2083,20 @@ table.dataTable thead .sorting{
 }
 #backend_signup_request_wrapper .row:last-child{
   display: none;
+}
+
+/* vmi inventory page */
+#vmi-inventory-page-table_wrapper .row:first-child{
+  display: none;
+}
+#vmi-inventory-page-table_wrapper .row:last-child{
+  display: none;
+}
+#admin-vmi-inventory-export{
+  cursor: pointer;
+}
+.gap-5{
+  gap: 0.3125rem;
 }
 .export-admin-customer-item{
   cursor: pointer;
@@ -2609,6 +2650,9 @@ table.dataTable td, table.dataTable th{
 }
 .min-height-160{
   min-height: 10rem;
+}
+.min-height-0{
+  min-height: 0 !important;
 }
 @media screen and (max-width: 1500px){
   html{

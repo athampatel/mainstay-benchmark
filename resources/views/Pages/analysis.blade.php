@@ -42,19 +42,15 @@
                 <label class="position-relative date-range-field d-none">                   
                     <input type="text" name="daterange" value="" placeholder="select range" class="analysis_select" />
                 </label>
-                {{-- year select box --}}
                 <label for="" class="position-relative" id="analysis_year_select_label">
                     <span>By Year</span>
                     @php
                     $year = intval(date('Y'));
                     @endphp
                     <select name="type" id="analysis_year_select" class="rounded analysis_select">
-                        
                         @for($i = $year ; $i >= 2018; $i-- )
                         <option value="{{$i}}" {{$i == $year ? 'selected' : ''}}>{{$i}}</option>
                         @endfor
-                        {{-- <option value="product-line">By Product Line</option>
-                        <option value="product">By Product Item</option> --}}
                     </select>
                     <div class="down-arrow"></div>
                 </label>
@@ -81,10 +77,6 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="analysis-page-filter-count">
-                                    {{-- <option value="12" selected>12 Items</option>
-                                    <option value="20">20 Items</option>
-                                    <option value="30">30 Items</option>
-                                    <option value="50">50 Items</option> --}}
                                     <option value="12" selected>12 Items</option>
                                     <option value="15">15 Items</option>
                                     <option value="20">20 Items</option>
@@ -136,7 +128,6 @@
                               <a class="dropdown-item export-analysis-chart-item" data-type="csv">CSV</a>
                             </div>
                         </div>
-                      {{-- <a class="btn btn-rounded btn-medium btn-bordered mr-2 export-chart-btn" id="export-analysis-chart">EXPORT REPORT</a> --}}
                     </div>
                   </div>
                   <div class="table_loader d-none">
@@ -159,6 +150,5 @@
          let response_ = [];
          const constants = <?php echo json_encode($constants); ?>;
     </script>
-    // <script src="/assets/js/moment.js"></script>
     <script src="/assets/js/analysis-page.js"></script>
 @endsection

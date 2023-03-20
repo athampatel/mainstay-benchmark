@@ -25,10 +25,6 @@
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="vmi-page-filter-count">
-                                    {{-- <option value="5">5 Items</option>
-                                    <option value="10">10 Items</option>
-                                    <option value="12" selected>12 Items</option>
-                                    <option value="20">20 Items</option> --}}
                                     <option value="12" selected>12 Items</option>
                                     <option value="15">15 Items</option>
                                     <option value="20">20 Items</option>

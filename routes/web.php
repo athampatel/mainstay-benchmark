@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\AdminsController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SDEDataController;
 use App\Http\Controllers\UserController;
@@ -239,6 +240,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/getAdminVmiItem',[UsersController::class,'GetInventoryItem']);
     // update inventory item
     Route::post('/update_inventory_item',[UsersController::class,'UpdateInventoryItem']);
+
+    // get Users Vmi Data
+    Route::get('/getAdminVmiData',[UsersController::class,'GetUserVmiData']);
+    // Save Users Vmi data
+    Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
+    // download vmi inventory
+    Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
 }); 
+
+
+// Export route
+
+Route::resource('/salesOrderExportResponse',ExportController::class);
 
 require __DIR__.'/auth.php';

@@ -313,6 +313,7 @@ $('input[name="daterange"]').daterangepicker({
 // }
     
 function renderAnalysisChart(ct_counts,ct_months){
+    console.log(ct_months,'ct months');
     let percent = `${ct_months.length * 3}%`;
     const chart_div = document.querySelector("#analysis_page_chart");
     chart_div.innerHTML = '';
@@ -354,7 +355,8 @@ function renderAnalysisChart(ct_counts,ct_months){
              enabled: false //changeable
         },
         xaxis: {
-            type:'month',
+            // type:'month',
+            type:'category',
             categories: ct_months
         },
         fill: {
@@ -432,6 +434,7 @@ function exportChart(chartname,type){
         chartname.exports.exportToPng(cts);
     }
     if(type == 'csv'){
+        console.log(w,'___w');
         chartname.exports.exportToCSV({
             series: w.config.series,
             columnDelimiter:','
