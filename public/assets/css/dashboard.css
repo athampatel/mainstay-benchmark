@@ -1733,7 +1733,7 @@ input.analysis_select {
 }
 .pagination_button a{
   height: 1.1875rem;
-  width: 1.1875rem;
+  min-width: 1.1875rem;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -1805,6 +1805,7 @@ input.analysis_select {
   font-size: 0.75rem;
   font-weight: 400;
   cursor: pointer;
+  outline: none;
 }
 
 .datatable-filter-count option{
@@ -1893,7 +1894,6 @@ input.analysis_select {
 
 
 /* inventory */
-
 .vmi-inventory-report{
   width: 8.8125rem;
   height: 1.875rem;
@@ -1915,6 +1915,23 @@ input.analysis_select {
 }
 .vmi-inventory-report span{
   padding-right: 0.4375rem;
+}
+
+.bottom-0{
+  bottom: 0;
+}
+
+.border-top-radius-0 {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+.border-bottom-radius-0 {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.box-shadow-none{
+  box-shadow: none !important;
 }
 
 .datatable-report a{ 
@@ -2648,12 +2665,25 @@ table.dataTable td, table.dataTable th{
 .min-height-75{
   min-height: 75vh;
 }
+
 .min-height-160{
   min-height: 10rem;
 }
+
 .min-height-0{
   min-height: 0 !important;
 }
+
+#vmi-inventory-actions{
+  justify-content: end;
+  gap: 0.3125rem;
+}
+
+#vmi-inventory-datatable-export span{
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 @media screen and (max-width: 1500px){
   html{
     font-size: 80%;
@@ -2920,7 +2950,19 @@ table.dataTable td, table.dataTable th{
   #customer-spending-chart .apexcharts-legend-text{
     font-size: 0.625rem;
   }
+  #vmi-inventory-datatable-export{
+    width: 90% !important;
+    margin-top: 0.3125rem;
+  }
+  #vmi-inventory-datatable-export{
+    width: 45% !important;
+  }
+  #vmi-inventory-datatable-export .vmi-datatable-print{
+    width: 50% !important;
+  }
 }
+
+
 
 @media (max-width: 550px) {
   .col-filter{
@@ -2932,6 +2974,7 @@ table.dataTable td, table.dataTable th{
   }
   .col-filter  .item-search{
     width: 100%;
+    /* margin-bottom: 0.5rem; */
     margin-bottom: 0.5rem;
   }
   .col-filter .datatable-search-input{
@@ -2947,6 +2990,23 @@ table.dataTable td, table.dataTable th{
   .datatable-export{
     width: 45%;
   }
+  /* 50% */
+  #vmi-inventory-datatable-export{
+    width: 45%;
+  }
+  #vmi-inventory-datatable-export .vmi-datatable-print{
+    width: 50%;
+  }
+ #vmi-inventory-datatable-export .vmi-datatable-print span{
+    display: none;
+  }
+ #vmi-inventory-datatable-export .vmi-inventory-report {
+    width: 50%;
+  }
+  #vmi-inventory-datatable-export .vmi-inventory-report span{
+    display: none;
+  }
+
   .row-cols-1> div{
     padding-left: 0rem;
     padding-right: 0rem;
@@ -3053,7 +3113,7 @@ table.dataTable td, table.dataTable th{
       width: 100%;
    }
    .datatable-filter-div{
-      margin-top: 0.3125rem;
+      /* margin-top: 0.3125rem; */
       width: 100%;
       margin-left: 0;
    }
@@ -3062,6 +3122,19 @@ table.dataTable td, table.dataTable th{
     margin-left: 0;
     margin-top: 0.3125rem;
    }
+   .col-filter  .item-search{
+    width: 100%;
+    /* margin-bottom: 0.5rem; */
+    margin-bottom: 0 !important;
+  }
+
+   /* .vmi-datatable-export{ */
+    #vmi-inventory-datatable-export{
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0.3125rem;
+   }
+
    .datatable-filter-count{
       width: 100%;
 
@@ -3072,6 +3145,30 @@ table.dataTable td, table.dataTable th{
    .datatable-report{
     width: 50%;
    }
+  #vmi-inventory-datatable-export .vmi-datatable-print span{
+    display: block;
+  }
+  #vmi-inventory-datatable-export .vmi-inventory-report span{
+    display: block;
+  }
+   /* #vmi-inventory-actions{
+      justify-content: start;
+   } */
+   .col-filter{
+    padding-left: 0 !important;
+   }
+/* 
+  #vmi-inventory-datatable-export{
+    margin-top: 0.3125rem;  
+    width: 16.625rem;
+  }
+   
+   #vmi-inventory-datatable-export .vmi-datatable-print{
+    width: 7.8125rem;
+   } */
+
+   /* #vmi-inventory-datatable-export */
+  
   }
   @media (max-width: 425px) {
    .analysis_table_options{
@@ -3092,6 +3189,27 @@ table.dataTable td, table.dataTable th{
     margin-left: 0;
     margin-top: 0.3125rem;
    }
+   /* .vmi-datatable-export{ */
+   #vmi-inventory-datatable-export{
+    width: 100% !important;
+    margin-left: 0;
+    margin-top: 0.3125rem;
+  }
+
+  #vmi-inventory-datatable-export .vmi-datatable-print{
+    width: 50%;
+  }
+  #vmi-inventory-datatable-export .vmi-inventory-report{
+    width: 50%;
+  }
+
+ #vmi-inventory-datatable-export .vmi-datatable-print span{
+    display: block;
+  }
+  #vmi-inventory-datatable-export .vmi-inventory-report span{
+    display: block;
+  }
+
    .datatable-filter-count{
       width: 100%;
 
@@ -3102,6 +3220,69 @@ table.dataTable td, table.dataTable th{
    .datatable-report{
     width: 50%;
    }
+   /* .col-filter{
+    padding-left: 0 !important;
+   } */
   }
+
+  /* @media screen and (max-width: 425px) and (min-width:370px) {
+    #vmi-inventory-search{
+      width: 20.1rem !important;
+    }
+    #vmi-inventory-datatable-export{
+      margin-left: 0;
+      margin-top: 0.3125rem;
+      width: 20.1rem;
+    }
+    #vmi-inventory-datatable-export .vmi-datatable-print{
+      width: 9.8125rem;
+    }
+  } */
+  /* @media screen and (max-width: 565px) and (min-width:425px) {
+    #vmi-inventory-search{
+      width: 23.625rem !important;
+    }
+    #vmi-inventory-datatable-export{
+      margin-left: 0;
+      margin-top: 0.3125rem;
+      width: 23.5rem;
+    }
+    #vmi-inventory-datatable-export{
+      margin-top: 0.3125rem !important;
+    }
+    #vmi-inventory-datatable-export .vmi-datatable-print{
+      width: 9.8125rem;
+    }
+  } */
+/* 
+  @media screen and (max-width:425px) {
+    #vmi-inventory-search{
+      width: 23.625rem !important
+    }
+    #admin-vmi-filter-count{
+      margin-left: 0;
+      margin-top: 0.3125rem;
+      width: 23.5rem !important;
+    }
+    #vmi-inventory-datatable-export{
+      margin-top: 0.3125rem !important;
+    }
+    #vmi-inventory-datatable-export .vmi-datatable-print{
+      width: 9.8125rem !important;
+    }
+  } */
+  /* @media(max-width:px) and (min-width:425px) {
+    #vmi-inventory-search{
+      width: 20.1rem !important;
+   }
+   #vmi-inventory-datatable-export{
+    margin-left: 0;
+    margin-top: 0.3125rem;
+    width: 20.1rem;
+   }
+   #vmi-inventory-datatable-export .vmi-datatable-print{
+    width: 9.8125rem;
+   }
+  } */
   /* analysis page responsive work end */
 }

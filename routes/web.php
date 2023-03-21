@@ -166,8 +166,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/getAllCustomers',[UsersController::class,'getAllCustomers']);
     //Route::resource('customers', '\App\Http\Controllers\Backend\CustomerController', ['names' => 'admin.customer']);
 
-    
-
     Route::resource('admins', '\App\Http\Controllers\Backend\AdminsController', ['names' => 'admin.admins']);
 
     // Login Routes

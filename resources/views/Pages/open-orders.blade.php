@@ -17,7 +17,7 @@
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-12">
-                <div class="card box min-height-75">
+                <div class="card box min-height-75 mb-0 border-bottom-radius-0">
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
@@ -54,15 +54,12 @@
                         <div class="chart-loader1"></div>
                     </div>
                     <div class="card-body col-12 padding-y-0 position-relative">
-                        {{-- <div class="page-table-loader-div d-none">
-                            <div class="chart-loader1"></div>
-                        </div> --}}
                         <div class="table-responsive overflow-hidden" id="open-orders-page-table-div">
                         </div>
-                        <div class="col-12 pb-2">
-                            <div id="pagination_disp"></div>
-                        </div>
                     </div>
+                </div>
+                <div class="col-12 pb-2 card box mt-0 box-shadow-none border-top-radius-0">
+                    <div id="pagination_disp"></div>
                 </div>
             </div>	
         </div>

@@ -11,19 +11,29 @@ VMI Inventory - Admin Panel
 </div>
 
 <div class="home-content">
-    <span class="page_title">Inventory Item Lists</span>
+    <div class="row">
+        <div class="col-12">
+            <span class="page_title">Inventory Item Lists</span>
+        </div>
+    </div>
     <div class="padding-y-40 open-orders">
-        <div class="col-12 mt-2">
-            <div class="card">
-                <div class="card-body d-flex justify-content-between">
-                    <div class="">
-                        <h4 class="header-title float-left mb-0">Actions</h4>                   
+        <div class="row">
+            <div class="col-sm-12 mt-2">
+                <div class="card">
+                    <div class="row card-body">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <h4 class="header-title float-left mb-0">Actions</h4>                   
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="d-flex" id="vmi-inventory-actions">
+                                <a href="javascript:void(0)" id="vmi_inventory_edit" class="btn bm-btn-primary btn-rounded">Edit</a>
+                                <a href="javascript:void(0)" id="vmi_inventory_save" class="btn bm-btn-primary d-none btn-rounded">Save</a>
+                                <a href="javascript:void(0)" id="vmi_inventory_cancel" class="btn bm-btn-red d-none btn-rounded text-white">Cancel</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="">
-                        <a href="javascript:void(0)" id="vmi_inventory_edit" class="btn bm-btn-primary btn-rounded">Edit</a>
-                        <a href="javascript:void(0)" id="vmi_inventory_save" class="btn bm-btn-primary d-none btn-rounded">Save</a>
-                        <a href="javascript:void(0)" id="vmi_inventory_cancel" class="btn bm-btn-red d-none btn-rounded text-white">Cancel</a>
-                    </div>
+                    {{-- <div class="card-body d-flex justify-content-between"> --}}
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
@@ -34,9 +44,10 @@ VMI Inventory - Admin Panel
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card box min-height-75 mt-0">
-                    <div class="card-header col-12 p-3 d-flex border-0">
-                        <div class="col-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                <div class="card box min-height-75 mt-0 mb-0 border-bottom-radius-0">
+                    <div class="row">
+                    <div class="card-header col-12 p-3 d-flex border-0 justify-content-end">
+                        <div class="col-12 col-lg-9 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search">
                                 <input type="text" class="form-control1 min-height-0 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="vmi-inventory-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="vmi-inventory-search-img">
@@ -51,7 +62,7 @@ VMI Inventory - Admin Panel
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="vmi-datatable-export">
+                            <div class="vmi-datatable-export" id="vmi-inventory-datatable-export">
                                 <div class="vmi-datatable-print">
                                     <span>Print</span>
                                     <a href="">
@@ -69,6 +80,7 @@ VMI Inventory - Admin Panel
                         <input type="hidden" name="company_code" id="vmi_company_code" value="{{$company_code}}">
                         <input type="hidden" name="user_detail_id" id="user_detail_id" value="{{$user_detail_id}}">
                     </div>
+                </div>
                     <div class="table_loader d-none">
                         <div class="chart-loader1"></div>
                     </div>
@@ -77,10 +89,14 @@ VMI Inventory - Admin Panel
                             <div class="chart-loader1"></div>
                         </div>
                         <div class="table-responsive" id="vmi_inventory_table_disp"></div>
-                        <div class="col-12 pb-2">
+                        {{-- <div class="col-12 pb-2 position-absolute bottom-0">
                             <div id="pagination_disp"></div>
-                        </div>
+                        </div> --}}
                     </div>
+                </div>
+                {{-- change to this place --}}
+                <div class="col-12 pb-2 card box mb-0 mt-0 border-top-radius-0 box-shadow-none">
+                    <div id="pagination_disp"></div>
                 </div>
             </div>	
         </div>

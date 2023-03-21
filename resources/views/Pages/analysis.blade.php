@@ -14,7 +14,7 @@
 </div>
 <div class="home-content">
     <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap">
-        <div class="d-flex  align-items-center flex-wrap range-filter">
+        <div class="d-flex align-items-center flex-wrap range-filter">
             <div class="page_title p-0">Analysis</div>
             <div class="d-flex analysis-filter">
                 <label for="" class="position-relative" id="analysis_item_select_label">
@@ -66,7 +66,7 @@
     <div class="padding-y-40 open-orders analysis_table_container d-none" id="analysis_table_container">
         <div class="row">
             <div class="col-12">
-                <div class="card box min-height-75">
+                <div class="card box min-height-75 mb-0 border-bottom-radius-0">
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
@@ -105,10 +105,14 @@
                     <div class="card-body col-12 padding-y-0">
                         <div class="table-responsive" id="invoice-order-page-table-div">
                         </div>
-                        <div class="col-12 pb-2">
+                        {{-- <div class="col-12 pb-2">
                             <div id="pagination_disp"></div>
-                        </div>
+                        </div> --}}
                     </div>
+                </div>
+                {{-- pagination code --}}
+                <div class="col-12 pb-2 card box mt-0 box-shadow-none border-top-radius-0">
+                    <div id="pagination_disp"></div>
                 </div>
             </div>	
         </div>
