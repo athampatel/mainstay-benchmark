@@ -85,7 +85,14 @@ Customers - Admin Panel
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>                           
+                            </div>
+                            @if(!empty($users))
+                                @if($paginate['last_page'] > 1)
+                                    <div class="mt-3">
+                                        <x-pagination-component :pagination="$paginate" :search="$search" />
+                                    </div>
+                                @endif    
+                            @endif                          
                         </div>
                     </div>
                 </div>

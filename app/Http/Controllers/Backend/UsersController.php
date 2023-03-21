@@ -79,8 +79,14 @@ class UsersController extends Controller
             $limit = 10;
         }  
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
+        }
+        
+        // if($_GET['page'] == 1){
+        if(isset($_GET['page']) && $_GET['page'] == 1){ 
+            $offset = $offset - 1;
         }
 
         $search = $request->input('search');
@@ -213,17 +219,29 @@ class UsersController extends Controller
 
     public function UserManagers(Request $request){
         $limit = $request->input('limit');
+        
         if(!$limit){
             $limit = 10;
-        }  
-        // $lbsmanagers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email');
-                    // ->get(['sales_persons.*','admins.id as user_id']);
+        }
+
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+        if($_GET['page'] == 1){
+            $offset = $offset - 1;
+        }
+        
         $search = $request->input('search');
+        
         if($search) {   
             $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                     ->orWhere('sales_persons.person_number','like','%'.$search.'%')
                     ->orWhere('sales_persons.name','like','%'.$search.'%')
                     ->orWhere('sales_persons.email','like','%'.$search.'%')
+                    ->offset($offset)
+                    ->limit(intval($limit))
                     ->get(['sales_persons.*','admins.id as user_id']);
             $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                 ->orWhere('sales_persons.person_number','like','%'.$search.'%')
@@ -232,27 +250,13 @@ class UsersController extends Controller
                 ->paginate(intval($limit));    
         } else {
             $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                    ->offset($offset)
+                    ->limit(intval($limit))
                     ->get(['sales_persons.*','admins.id as user_id']);
-        $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        ->paginate(intval($limit));
+            $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                    ->paginate(intval($limit));
         }
-        // if($search){
-        //     $lbsmanagers->where(function($lbsmanagers) use($search){
-        //         $lbsmanagers->orWhere('sales_persons.person_number','like','%'.$search.'%')
-        //                 ->orWhere('sales_persons.name','like','%'.$search.'%')
-        //                 ->orWhere('sales_persons.email','like','%'.$search.'%');
-        //     });
-        //     $managers = $lbsmanagers->get();
-        //     // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        // // ->paginate(intval($limit));
-        // } else {    
-        //     $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        //     ->paginate(intval($limit));
-        // }
-        // $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        //             ->get(['sales_persons.*','admins.id as user_id']);
-        // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        // ->paginate(intval($limit));
+        
         $paginate = $managerss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit'));
@@ -561,8 +565,13 @@ class UsersController extends Controller
             $limit = 10;
         }
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
+        }
+
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset - 1;
         }
 
         $search = $request->input('search');
@@ -578,14 +587,32 @@ class UsersController extends Controller
                                 ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
                             })
                             ->select(['signup_requests.*','users.id as user_id'])
+                            ->offset($offset)
+                            ->limit(intval($limit))
                             ->get();  
+                $userss = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->where(function($users) use($search){
+                                $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.email','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
+                            })
+                            ->paginate(intval($limit));
             } else {
                 $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
                             ->orderBy('signup_requests.id','DESC')
                             ->where('signup_requests.status',0)
+                            ->offset($offset)
+                            ->limit(intval($limit))
                             ->select(['signup_requests.*','users.id as user_id'])
                             ->get();  
-            }
+                $userss = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->paginate(intval($limit));
+            }   
         } else {
             $manager = $this->user;
             if($search) {
@@ -603,8 +630,25 @@ class UsersController extends Controller
                                 ->orWhere('signup_requests.email','like','%'.$search.'%') 
                                 ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
                             })
+                            ->offset($offset)
+                            ->limit(intval($limit))
                             ->select(['signup_requests.*','users.id as user_id'])
                             ->get();  
+                $userss = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->leftjoin('user_details','user_details.user_id','=','users.id')
+                            ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                            ->leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('admins.id',$manager->id)
+                            ->where('signup_requests.status',0)
+                            ->where(function($users) use($search){
+                                $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.email','like','%'.$search.'%') 
+                                ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
+                            })
+                            ->paginate(intval($limit));
             } else {
                 $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
                             ->leftjoin('user_details','user_details.user_id','=','users.id')
@@ -614,11 +658,24 @@ class UsersController extends Controller
                             ->where('admins.id',$manager->id)
                             ->orderBy('signup_requests.id','DESC')
                             ->where('signup_requests.status',0)
+                            ->offset($offset)
+                            ->limit(intval($limit))
                             ->select(['signup_requests.*','users.id as user_id'])
                             ->get();  
+                $userss = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->leftjoin('user_details','user_details.user_id','=','users.id')
+                            ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                            ->leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->where('admins.id',$manager->id)
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                           ->paginate(intval($limit));  
             }
         }
-        return view('backend.pages.users.signup-request',compact('users','search')); 
+        $paginate = $userss->toArray();
+        $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+        return view('backend.pages.users.signup-request',compact('users','search','paginate','limit')); 
     }
 
     public function getUserRequest($user_id,$admin_token = ''){
@@ -799,6 +856,9 @@ class UsersController extends Controller
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
+        }
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset - 1;
         }
         $search = $request->input('search');                  
         $paginate = [];

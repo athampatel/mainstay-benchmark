@@ -41,13 +41,16 @@ class RolesController extends Controller
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
         }
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset - 1;
+        }
 
         $search = $request->input('search');
         if($search){
-           $roles = Role::where('name','like','%'.$search.'%')->get();
+           $roles = Role::where('name','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
            $roless = Role::where('name','like','%'.$search.'%')->paginate(intval($limit));
         } else {
-            $roles = Role::all();
+            $roles = Role::offset($offset)->limit(intval($limit))->get();
             $roless = Role::paginate(intval($limit));
         }
         $paginate = $roless->toArray();

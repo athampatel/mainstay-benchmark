@@ -42,12 +42,16 @@ class AdminsController extends Controller
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
         } 
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset - 1;
+        }
+        
         $search = $request->input('search');
         if($search){
-            $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->get();
+            $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
             $adminss = Admin::paginate(intval($limit));
         } else {
-            $admins = Admin::all();
+            $admins = Admin::offset($offset)->limit(intval($limit))->get();
             $adminss = Admin::paginate(intval($limit));
         }
         $paginate = $adminss->toArray();

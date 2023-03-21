@@ -9,15 +9,12 @@
 @endsection
 
 @section('content')
-{{-- <div class="backdrop d-none">
-    <div class="loader"></div>
-</div> --}}
 <div class="home-content">
     <span class="page_title">Invoiced Orders</span>
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-12">
-                <div class="card box min-height-75">
+                <div class="card box min-height-75 mb-0 border-bottom-radius-0">
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div>
@@ -58,56 +55,12 @@
                         <div class="chart-loader1"></div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
-                        
                         <div class="table-responsive overflow-hidden" id="invoice-orders-page-table-div">
-                        {{-- @if(!empty($recent_orders['orders']))     
-                        <table id="invoice-orders-page-table" class="table bench-datatable border-0">
-                            <thead>
-                                <tr>
-                                    <th class="border-0 text-center">ID</th>
-                                    <th class="border-0 text-center">Customer name</th>
-                                    <th class="border-0 text-center">Customer email</th>
-                                    <th class="border-0 text-center">Customer Po Number</th>
-                                    <th class="border-0 text-center">Total items</th>
-                                    <th class="border-0 text-center">Price</th>
-                                    <th class="border-0 text-center">Date</th>
-                                    <th class="border-0 text-center">Status</th>
-                                    <th class="border-0 text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="invoice-orders-page-table-body"> --}}
-                                    {{-- @foreach ($recent_orders['orders'] as $invoice)                              
-                                    <tr>
-                                        <td class="text-center"><a href="{{url('/invoice-detail')}}/{{$invoice['salesorderno']}}" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a></td>
-                                        <td class="text-center"><a href="javascript:void(0)" class="customer-name">{{$invoice['shiptoname']}}</a></td> 
-                                        <td class="text-center"><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td> 
-                                        <td class="text-center">{{$invoice['customerpono']}} </td>
-                                        <td class="text-center">{{$invoice['total_qty']}}</td>
-                                        <td class="text-center">${{number_format($invoice['total'],0,".",",")}}</td>
-                                        <td class="text-center">{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td>
-                                        <td class="status">Shipped</td>
-                                        <td class="action text-center">
-                                        <a href="/invoice-detail/{{$invoice['salesorderno']}}" class="btn btn-primary btn-rounded text-capitalize text-dark open-view-details" target="_blank">
-                                            view details
-                                        </a>
-                                    </td>
-                                    </tr>
-                                @endforeach --}}
-
-                               
-                            {{-- </tbody>
-                        </table> --}}
-                        {{-- @endif; --}}
                         </div>
-                        {{-- @if(empty($recent_orders['orders']))  --}}
-                        {{-- <div class="page-table-loader-div d-none">
-                            <div class="chart-loader1"></div>
-                        </div> --}}
-                        <div class="col-12 pb-2">
-                            <div id="pagination_disp"></div>
-                        </div>
-                        {{-- @endif --}}
                     </div>
+                </div>
+                <div class="col-12 pb-2 card box mt-0 border-top-radius-0 box-shadow-none">
+                    <div id="pagination_disp"></div>
                 </div>
             </div>	
         </div>
