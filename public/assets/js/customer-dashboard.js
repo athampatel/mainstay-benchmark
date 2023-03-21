@@ -569,6 +569,7 @@ function exportChart(chartname,type){
         chartname.exports.exportToPng(cts);
     }
     if(type == 'csv'){
+        console.log(w,'___config series');
         chartname.exports.exportToCSV({
             series: w.config.series,
             columnDelimiter:','

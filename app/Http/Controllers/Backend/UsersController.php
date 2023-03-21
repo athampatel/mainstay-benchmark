@@ -23,6 +23,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PdfController;
 use App\Models\CustomerMenu;
 use App\Models\CustomerMenuAccess;
@@ -784,7 +785,9 @@ class UsersController extends Controller
             $company_code = $user_details->vmi_companycode;
             $user_detail_id = $user_details->id;
         }
-        return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id')); 
+        $constants = config('constants');
+        // return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id')); 
+        return view('backend.pages.orders.vmi-inventory-list',compact('company_code','user_detail_id','constants')); 
     }
 
     public function CustomerChangeOrders(Request $request){
@@ -1216,5 +1219,95 @@ class UsersController extends Controller
 
         echo json_encode($res);
         die();
+    }
+
+    public function GetUserVmiData(Request $request){
+        $data = $request->all();
+        $page = $data['page'];
+        $limit = $data['count'];
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
+        $user_detail_id = $data['user_detail_id'];
+        $company_code = $data['company_code'];
+        $data = array(                             
+            "companyCode"   => $company_code,
+            "offset"        => $offset,
+            "limit"         => $limit,
+        );
+        $sdeApi = new SDEApi();
+        $response = $sdeApi->Request('post','Products',$data);
+        
+        $table_code = View::make("components.datatabels.vmi-inventory-list-component")
+        ->with("vmiProducts", $response['products'])
+        ->render();
+
+        $path = '/getAdminVmiData';
+        $custom_pagination = MenuController::CreatePaginationData($response,$limit,$page,$offset,$path);
+        $pagination_code = View::make("components.ajax-pagination-component")
+        ->with("pagination", $custom_pagination)
+        ->render();
+        
+        $res = ['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code];
+        echo json_encode($res);
+        die(); 
+    }
+
+    public function SaveUserVmiData(Request $request){
+        $user = $this->user;
+        $data = $request->all();
+        $value_changes = json_decode($data['vmi_changes'],true);
+        $company_code = $data['company_code'];
+        $user_detail_id = $data['user_detail_id'];
+        foreach($value_changes as $key => $value_change){
+            $VmiInventoryRequest = VmiInventoryRequest::create([
+                'company_code' => $company_code,
+                'item_code' => $key,
+                'user_detail_id' => $user_detail_id,
+                'old_qty_hand' => $value_change['old_qty'],
+                'new_qty_hand'=> $value_change['new_qty'],
+                'change_user' => $user->id 
+            ]);
+        }
+        $res = ['success' => true,'message' => config('constants.admin.inventory_update.success')];
+        echo json_encode($res);
+        die();
+    }
+
+    public function ExportVmiInventory(Request $request){
+        $data = $request->all();
+        $company_code = $data['company_code'];
+        $data = array(                             
+            "companyCode"   => $company_code
+        );
+        $sdeApi = new SDEApi();
+        $response = $sdeApi->Request('post','Products',$data);
+
+        // export csv file
+        $products = $response['products'];
+        $filename = "vmi_inventory.csv";
+        $handle = fopen($filename, 'w+');
+		fputcsv($handle, array(
+			'ITEM CODE',
+			'ITEM CODE DESCRIPTION',
+			'VENDOR NAME',
+			'QUANTITY ON HAND',
+			'QUANTITY PURCHASED',
+		));
+        foreach($products as $product) {
+            fputcsv($handle, array(
+                $product['itemcode'],
+                $product['itemcodedesc'],
+                $product['vendorname'],
+                $product['quantityonhand'],
+                $product['quantitypurchased'],
+            )); 
+        }
+
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'vmi_inventory.csv', $headers);
     }
 }

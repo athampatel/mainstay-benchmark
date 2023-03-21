@@ -212,6 +212,10 @@
                 'customer_search_unable' => 'Unable to locate any customer details with the provided email address.',
                 'customer_detail_found' => 'Customer details found for the specified account.',
             ]
+            ],
+        // vmi inventory
+        'vmi_inventory' => [
+            'no_change' => 'There is no change is added',
         ]
     ];
     // {{ config('constants.label.admin.role_name') }}
