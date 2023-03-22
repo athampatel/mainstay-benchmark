@@ -59,7 +59,7 @@ Customer Change Order Requests - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_change_order_requests" class="text-center datatable-dark">
+                                <table id="backend_change_order_requests" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>

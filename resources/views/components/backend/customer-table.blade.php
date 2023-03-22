@@ -1,4 +1,4 @@
-<table id="backend_customers" class="text-center datatable-dark">
+<table id="backend_customers" class="text-center datatable-dark backend_datatables">
     <thead class="text-capitalize">
         <tr>
             <th width="10%">Customer No</th>

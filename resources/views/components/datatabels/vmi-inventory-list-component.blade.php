@@ -2,13 +2,13 @@
     <table id="vmi-inventory-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                <th class="border-0">Customer Item Number</th>
-                <th class="border-0">Benchmark Item Number</th>
-                <th class="border-0">Item Description</th>
-                <th class="border-0">Vendor Name</th>
-                <th class="border-0">Oty on Hand</th>
-                <th class="border-0">Quantity purchased(Year)</th>
-                <th class="border-0">Quantity Counted</th>
+                <th class="border-0" style="width:151px">Customer Item Number</th>
+                <th class="border-0" style="width:151px">Benchmark Item Number</th>
+                <th class="border-0" style="width:151px">Item Description</th>
+                <th class="border-0" style="width:151px">Vendor Name</th>
+                <th class="border-0" style="width:151px">Oty on Hand</th>
+                <th class="border-0" style="width:151px">Quantity purchased(Year)</th>
+                <th class="border-0" style="width:151px">Quantity Counted</th>
             </tr>
         </thead>
         <tbody>
