@@ -138,6 +138,7 @@ function getVmiInventoryAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
+                responsive: true
             });
         },
         complete:function(){

@@ -10,6 +10,7 @@ if($('#backend_customers').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-customer-filter-count',function(){
@@ -81,6 +82,7 @@ if($('#backend_roles').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-roles-filter-count',function(){
@@ -153,6 +155,7 @@ if($('#backend_admins').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-admins-filter-count',function(){
@@ -224,6 +227,7 @@ if($('#backend_managers').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-managers-filter-count',function(){
@@ -295,6 +299,7 @@ if($('#backend_change_order_requests').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-change-order-filter-count',function(){
@@ -366,6 +371,7 @@ if($('#backend_signup_request').length){
         paging: true,
         ordering: true,
         info: false,
+        responsive: true
     });
     
     $(document).on('change','#admin-signup-filter-count',function(){
@@ -630,4 +636,34 @@ $(document).on('click','#update_inventory_items',function(e){
             $('.backdrop').addClass('d-none');
         }
     });
+})
+
+// main search work start
+// $('.full-search-bar input').
+$(document).on('keyup','#full_search_input',function(e){
+    e.preventDefault()
+    let searchText = $(e.currentTarget).val();
+    let matches = searchWords.filter(search => {
+      return search.name.toLowerCase().includes(searchText)
+    });
+    let modal_body_display = "";
+    matches.forEach(match => {
+        let disp = `<div>
+                        <a href="${match.link}">${match.name}</a>
+                    </div>`;
+        modal_body_display += disp;
+    });
+    $('#search_modal_disp_body').html(modal_body_display);
+    $("#searchmodal").css("display", "block");
+    if(searchText == ''){
+        $("#searchmodal").css("display", "none");
+    }
+    if(matches.length == 0){
+        let no_results_found = '<div>No Results found</div>';
+        $('#search_modal_disp_body').html(no_results_found);
+    }
+})
+
+$(window).scroll(function (e) {
+    $("#searchmodal").css("display", "none");
 })

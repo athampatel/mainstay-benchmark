@@ -59,7 +59,7 @@ Relational Managers - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_managers" class="text-center datatable-dark dataTable">
+                                <table id="backend_managers" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">{{config('constants.label.admin.manager_no')}}</th>

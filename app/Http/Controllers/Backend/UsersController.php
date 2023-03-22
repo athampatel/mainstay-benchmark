@@ -229,7 +229,8 @@ class UsersController extends Controller
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
         }
-        if($_GET['page'] == 1){
+        
+        if(isset($_GET['page']) && $_GET['page'] == 1){
             $offset = $offset - 1;
         }
         

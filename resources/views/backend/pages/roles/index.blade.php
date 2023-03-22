@@ -61,7 +61,7 @@ Role Page - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_roles" class="text-center datatable-dark">
+                                <table id="backend_roles" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="5%">{{ config('constants.label.admin.sl') }}</th>

@@ -55,7 +55,7 @@ Customers - Admin Panel
                             </div>
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
-                                <table id="backend_signup_request" class="text-center datatable-dark">
+                                <table id="backend_signup_request" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="20%">Full Name</th>

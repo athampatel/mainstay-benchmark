@@ -74,7 +74,7 @@ Admins - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_admins" class="text-center datatable-dark dataTable">
+                                <table id="backend_admins" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             

@@ -1,7 +1,7 @@
 {{-- new code  --}}
 <div class="search-bar flex-grow-1">
     <div class="position-relative search-bar-box col-12"> 
-        <input type="text" class="form-control search-control" placeholder="Type to search..." spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
+        <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
         <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
     </div>
 </div>

@@ -21,7 +21,7 @@ Customers - Admin Panel
                                     <p class="float-right mb-2">
                                         <a class="btn btn-primary btn-rounded text-white text-capitalize" href="{{ route('admin.users.create') }}">{{ config('constants.label.admin.buttons.create_customer') }}</a>
                                     </p>            
-                                </div>
+                                </div>                  
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">   
                                         <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_customer_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
@@ -61,7 +61,7 @@ Customers - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_customers" class="text-center datatable-dark">
+                                <table id="backend_customers" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
@@ -137,10 +137,39 @@ Customers - Admin Panel
         </div>
     </div>    
 </div>
+{{-- admin search modal work start --}}
+<div class="modal fade show" id="searchmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="search_modal_disp_body">
+                <div class="">
+                    <a href="/roles">Roles</a>
+                </div>
+                <div class="">
+                    <a href="/roles">Customers</a>
+                </div>
+                <div class="">
+                    <a href="/roles">admins</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- admin search modal work start --}}
+@php 
+$searchWords = [
+    [ 'name' => 'Roles','link' => '/admin/roles'],
+    [ 'name' => 'Customers','link' => '/admin/customers'],
+    [ 'name' => 'admins','link' => '/admin/admins'],
+    [ 'name' => 'Signups','link' => '/admin/signups'],
+    [ 'name' => 'roleres','link' => '/admin/signups'],
+];
+@endphp
 @endsection
 
 @section('scripts')
 <script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
 function deleteCustomer(id){
     Swal.fire({
     title: 'Are you sure?',
