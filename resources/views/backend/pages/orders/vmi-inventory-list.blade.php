@@ -11,23 +11,23 @@ VMI Inventory - Admin Panel
 </div>
 
 <div class="home-content">
-    <div class="row">
-        <div class="col-12">
-            <span class="page_title">Inventory Item Lists</span>
-        </div>
-    </div>
+    {{-- <div class="row">
+        <div class="col-12"> --}}
+            {{-- <span class="page_title">Inventory Item Lists</span> --}}
+        {{-- </div>
+    </div> --}}
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-sm-12 mt-2">
                 <div class="card">
                     <div class="row card-body">
                         <div class="col-sm-12 col-md-6 col-lg-6">
-                            <h4 class="header-title float-left mb-0">Actions</h4>                   
+                            <h4 class="header-title float-left mb-0">Inventory Items</h4>                   
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="d-flex" id="vmi-inventory-actions">
                                 <a href="javascript:void(0)" id="vmi_inventory_edit" class="btn bm-btn-primary btn-rounded">Edit</a>
-                                <a href="javascript:void(0)" id="vmi_inventory_save" class="btn bm-btn-primary d-none btn-rounded">Save</a>
+                                <a href="javascript:void(0)" id="vmi_inventory_save" class="btn bm-btn-primary d-none btn-rounded">Post Counts</a>
                                 <a href="javascript:void(0)" id="vmi_inventory_cancel" class="btn bm-btn-red d-none btn-rounded text-white">Cancel</a>
                             </div>
                         </div>
