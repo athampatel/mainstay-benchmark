@@ -25,17 +25,20 @@ Admin Edit - Admin Panel
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Edit Admin - {{ $admin->name }}</h4>
+                            <h4 class="header-title">Edit User - {{ $admin->name }}</h4>
                             @include('backend.layouts.partials.messages')
                             {{-- {{dd($admin->profile_path)}} --}}
                             <form action="{{ route('admin.admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data" id="admin_edit_form">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="name">Admin Name</label> --}}
+                                    {{-- <div class="form-group col-md-6 col-sm-12">
                                         <label for="name">{{ config('constants.label.admin.admin_name') }}</label>
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
+                                    </div> --}}
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         {{-- <label for="email">Admin Email</label> --}}
@@ -66,10 +69,14 @@ Admin Edit - Admin Panel
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        {{-- <label for="username">Admin Username</label> --}}
+                                    {{-- <div class="form-group col-md-6 col-sm-6">
                                         <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
                                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}">
+                                    </div> --}}
+
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="name">{{ config('constants.label.admin.admin_name') }}</label>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
                                     </div>
                                 </div>
                                 

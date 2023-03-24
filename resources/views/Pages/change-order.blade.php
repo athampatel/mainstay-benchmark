@@ -28,9 +28,9 @@
                             </div>
                             
                             <div class="form-button mt-2 col-12 col-md-3 col-lg-4">
-                            @if($is_change_order)    
-                             <button type="submit" class="font-12 btn btn-primary btn-rounded text-capitalize" id="get_order_details">Get Order Details</button>
-                            @endif
+                            {{-- @if($is_change_order)     --}}
+                             {{-- <button type="submit" class="font-12 btn btn-primary btn-rounded text-capitalize" id="get_order_details">Get Order Details</button> --}}
+                            {{-- @endif --}}
                             </div>
                         </form>
                     </div>
