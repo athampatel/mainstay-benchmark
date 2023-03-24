@@ -6,7 +6,7 @@
 </div>
 <div class="home-content">
     @if($is_change_order)
-    <h1 class="page_title px-5 pt-3">Change order</h1>
+    <h1 class="page_title px-5 pt-3">Open order</h1>
     @else 
     <h1 class="page_title px-5 pt-3">View order</h1>
     @endif
