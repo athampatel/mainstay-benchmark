@@ -76,6 +76,7 @@
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
     <script>
         const constants = <?php echo json_encode($constants); ?>;
+        const searchWords = <?php echo json_encode($searchWords); ?>;
         // @if(!empty($recent_orders['orders']))     
             // var recent_orders = <?php echo json_encode($recent_orders); ?>;       
         // @endif

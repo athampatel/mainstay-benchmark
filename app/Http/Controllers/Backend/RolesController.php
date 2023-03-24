@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PdfController;
+use App\Models\SearchWord;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +56,10 @@ class RolesController extends Controller
         }
         $paginate = $roless->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.roles.index', compact('roles','search','paginate','limit'));
+
+        // Search words
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.roles.index', compact('roles','search','paginate','limit','searchWords'));
     }
 
     /**
@@ -72,7 +76,8 @@ class RolesController extends Controller
 
         $all_permissions  = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view('backend.pages.roles.create', compact('all_permissions', 'permission_groups'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.roles.create', compact('all_permissions', 'permission_groups','searchWords'));
     }
 
     /**

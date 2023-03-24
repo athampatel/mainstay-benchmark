@@ -27,8 +27,8 @@ Admin Edit - Admin Panel
                         <div class="card-body">
                             <h4 class="header-title">Edit Admin - {{ $admin->name }}</h4>
                             @include('backend.layouts.partials.messages')
-
-                            <form action="{{ route('admin.admins.update', $admin->id) }}" method="POST">
+                            {{-- {{dd($admin->profile_path)}} --}}
+                            <form action="{{ route('admin.admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data" id="admin_edit_form">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
@@ -72,9 +72,26 @@ Admin Edit - Admin Panel
                                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}">
                                     </div>
                                 </div>
+                                
+                                {{-- profile upload --}}
+                                <h6>Profile Picture</h6><br>
+                                <div class="form-row">
+                                    <div class="d-flex align-items-center justify-content-center" style="position: relative">
+                                        <div class="image-upload position-relative">
+                                            @if($admin->profile_path)
+                                            <img src="/{{$admin->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
+                                            @else 
+                                            <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                                            @endif
+                                            <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button_admin" class="position-absolute">
+                                            <input id="file-input-admin" name="profile_picture" type="file" accept=".jpg, .jpeg, .png"/>
+                                        </div>  
+                                    </div>
+                                </div>
 
                                 {{-- <button type="submit" class="btn btn-primary btn-rounded mt-4 pr-4 pl-4">Save Admin</button> --}}
-                                <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.save_admin') }}</button>
+                                {{-- <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.save_admin') }}</button> --}}
+                                <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4" id="admin_user_edit_save">{{ config('constants.label.admin.buttons.save_admin') }}</button>
                             </form>
                         </div>
                     </div>

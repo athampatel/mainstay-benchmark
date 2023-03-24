@@ -2,8 +2,9 @@
     <table id="invoice-orders-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                <th class="border-0">ID</th>
-                <th class="border-0">Customer name</th>
+                {{-- <th class="border-0">ID</th> --}}
+                <th class="border-0">Invoice Number</th>
+                <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer email</th>
                 <th class="border-0">Customer Po Number</th>
                 <th class="border-0">Total items</th>

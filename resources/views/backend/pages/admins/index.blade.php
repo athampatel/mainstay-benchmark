@@ -79,6 +79,7 @@ Admins - Admin Panel
                                         <tr>
                                             
                                             <th width="5%">{{ config('constants.label.admin.sl') }}</th>
+                                            <th width="10%">Profile picture</th>
                                             <th width="10%">User Name</th>
                                             <th width="10%">Name</th>
                                             <th width="10%">Email</th>
@@ -90,6 +91,13 @@ Admins - Admin Panel
                                     @foreach ($admins as $admin)
                                     <tr>
                                             <td>{{ $loop->index+1 }}</td>
+                                            <td>
+                                                @if($admin->profile_path)
+                                                    <img src="/{{$admin->profile_path}}" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
+                                                @else
+                                                    <img src="/assets/images/svg/user_logo.png" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
+                                                @endif
+                                            </td>
                                             <td>{{ $admin->username }}</td>
                                             <td>{{ $admin->name }}</td>
                                             <td>{{ $admin->email }}</td>
@@ -142,6 +150,7 @@ Admins - Admin Panel
 
 @section('scripts')
 <script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
 function deleteAdmin(id){
     Swal.fire({
     title: 'Are you sure?',

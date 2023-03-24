@@ -76,5 +76,6 @@
      <script src="/assets/js/vmi-page.js"></script>
     <script>
         const constants = <?php echo json_encode($constants); ?>;
+        const searchWords = <?php echo json_encode($searchWords); ?>;
     </script>
 @endsection

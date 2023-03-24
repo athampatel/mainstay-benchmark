@@ -26,7 +26,7 @@
                     </g>
                   </svg>
                   </div>  
-                  <h4 class="mb-0 title-4">Customer info</h4>
+                  <h4 class="mb-0 title-4">Customer Info</h4>
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
@@ -63,9 +63,14 @@
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
               <div class="col-12 col-md-12 col-lg-12 d-flex align-items-center">
                 <div class="box-icon small-icon rounder-border">
-                  <img src="assets/images/svg/region_manager_info_icon.svg" />
+                  @if($region_manager->profile)
+                      <img src="/{{$region_manager->profile}}" class="rounded-circle regin_manager_profile"/>
+                  @else
+                      {{-- <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/> --}}
+                      <img src="assets/images/svg/region_manager_info_icon.svg" />
+                  @endif  
                 </div>  
-                <h4 class="mb-0 title-4">Relational Manager info</h4>
+                <h4 class="mb-0 title-4">Regional Manager Info</h4>
               </div>             
             </div>	
             <div class="card-body col-12 d-flex align-items-center pt-0">
@@ -90,7 +95,7 @@
                   <div class="box-icon small-icon rounder-border">
                    <img src="assets/images/svg/open-orders.svg" />
                   </div>  
-                  <h4 class="mb-0 title-4">Open Orders</h4>
+                  <h4 class="mb-0 title-4">Open Order</h4>
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
@@ -314,6 +319,7 @@
 <script src="/assets/js/customer-dashboard.js"></script>
 <script type="text/javascript">
     const constants = <?php echo json_encode($constants); ?>;
+    const searchWords = <?php echo json_encode($searchWords); ?>;
     // @if(!empty($sales_orders))     
     //   var sales_orders = <?php echo json_encode($sales_orders); ?>;   
     //   customerSalesChartDisplays(sales_orders,1);

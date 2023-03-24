@@ -77,4 +77,7 @@ Role Create - Admin Panel
 
 @section('scripts')
      @include('backend.pages.roles.partials.scripts')
+     <script>
+      const searchWords = <?php echo json_encode($searchWords); ?>;  
+     </script>
 @endsection

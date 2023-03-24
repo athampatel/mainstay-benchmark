@@ -1,7 +1,7 @@
 {{-- new code  --}}
 <div class="search-bar flex-grow-1">
     <div class="position-relative search-bar-box col-12"> 
-        <input type="text" class="form-control search-control" placeholder="Type to search..." spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
+        <input id="full_search_input" type="text" class="form-control search-control" placeholder="Type to search..." spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
         <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
     </div>
 </div>
@@ -38,7 +38,7 @@
     <div class="notification_section">
         <div class="notification_icons d-flex align-items-center">
             <div class="notification_count_section item-config">
-                <div class="notification_icon">
+                <div class="notification_icon" id="account_setting_nav" data-toggle="tooltip" data-placement="bottom" title="Account Settings">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.154" height="22.644" viewBox="0 0 21.154 22.644">
                     <defs>
                         <clipPath class="clip-path">
@@ -54,7 +54,7 @@
             </div>
             <div class="notification_count_section dropdown dropdown-large position-relative item-message">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="notification_icon">
+                    <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
                         <defs>
                             <clipPath class="clip-path">
@@ -71,7 +71,7 @@
                 </a>
             </div>
             <div class="notification_count_section active item-notification navbar_notification_icon">
-                <div class="notification_icon">
+                <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Notifications">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                         <defs>
                             <clipPath class="clip-path">

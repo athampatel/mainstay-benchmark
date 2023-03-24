@@ -32,5 +32,6 @@
       }) 
   }
   const constants = <?php echo json_encode($constants); ?>;
+  const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

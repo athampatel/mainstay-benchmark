@@ -65,6 +65,7 @@ Customers - Admin Panel
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
+                                            <th width="10%">Profile Picture</th>
                                             <th width="10%">Name</th>
                                             <th width="10%">Email</th>
                                             <th width="10%">{{ config('constants.label.admin.ar_division_no') }}</th>
@@ -77,6 +78,13 @@ Customers - Admin Panel
                                     @foreach ($users as $user)
                                         <tr>
                                             <td> <a class="" href="{{ route('admin.users.edit', $user->id) }}">{{ $user->customerno }}</a></td>
+                                            <td>
+                                                @if($user->profile_image)
+                                                    <img src="/{{$user->profile_image}}" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @else
+                                                    <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @endif  
+                                            </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->ardivisionno }}</td>
@@ -137,33 +145,14 @@ Customers - Admin Panel
         </div>
     </div>    
 </div>
-{{-- admin search modal work start --}}
-<div class="modal fade show" id="searchmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="search_modal_disp_body">
-                <div class="">
-                    <a href="/roles">Roles</a>
-                </div>
-                <div class="">
-                    <a href="/roles">Customers</a>
-                </div>
-                <div class="">
-                    <a href="/roles">admins</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{{-- admin search modal work start --}}
 @php 
-$searchWords = [
-    [ 'name' => 'Roles','link' => '/admin/roles'],
-    [ 'name' => 'Customers','link' => '/admin/customers'],
-    [ 'name' => 'admins','link' => '/admin/admins'],
-    [ 'name' => 'Signups','link' => '/admin/signups'],
-    [ 'name' => 'roleres','link' => '/admin/signups'],
-];
+// $searchWords = [
+//     [ 'name' => 'Roles','link' => '/admin/roles'],
+//     [ 'name' => 'Customers','link' => '/admin/customers'],
+//     [ 'name' => 'admins','link' => '/admin/admins'],
+//     [ 'name' => 'Signups','link' => '/admin/signups'],
+//     [ 'name' => 'roleres','link' => '/admin/signups'],
+// ];
 @endphp
 @endsection
 

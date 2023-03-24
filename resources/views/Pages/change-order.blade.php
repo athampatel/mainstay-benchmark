@@ -187,7 +187,7 @@
                             <div class="box-icon small-icon rounder-border">
                                 <img src="/assets/images/svg/order-details.svg" />
                             </div>  
-                            <h4 class="mb-0 title-5">item Details</h4>
+                            <h4 class="mb-0 title-5">Item Details</h4>
                         </div>                    
                     </div>   
 
@@ -229,5 +229,6 @@
     let order_details = [];
     let changed_order_items = [];
     const constants = <?php echo json_encode($constants); ?>;
+    const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

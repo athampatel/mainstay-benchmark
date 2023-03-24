@@ -146,16 +146,16 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">BenchMark Relational Manager Name</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
+                                <label class="form-label">Benchmark Relational Manager Name</label>
+                                <input class="form-control col-12" type="text" placeholder="Benchmark Relational Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
                             </div>
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">BenchMark Relational Manager Email</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
+                                <label class="form-label">Benchmark Relational Manager Email</label>
+                                <input class="form-control col-12" type="text" placeholder="Benchmark Relational Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
                             </div>
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">BenchMark Relational Manager Phone Number</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
+                                <label class="form-label">Benchmark Relational Manager Phone Number</label>
+                                <input class="form-control col-12" type="text" placeholder="Benchmark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>
                         </div>
                         {{-- <div class="row">
@@ -176,6 +176,7 @@
 @section('scripts')
     <script>
         const constants = <?php echo json_encode($constants); ?>;
+        const searchWords = <?php echo json_encode($searchWords); ?>;
     </script>
 @endsection
 

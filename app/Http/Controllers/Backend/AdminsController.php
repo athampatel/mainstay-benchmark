@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PdfController;
 use App\Models\Admin;
 use App\Models\SalesPersons;
+use App\Models\SearchWord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
@@ -56,7 +58,9 @@ class AdminsController extends Controller
         }
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.admins.index', compact('admins','search','paginate','limit'));
+        // Search words
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords'));
     }
 
     /**
@@ -75,7 +79,8 @@ class AdminsController extends Controller
                                     ->where('sales_persons.id',$request->input('manager'))
                                     ->get(['sales_persons.*'])->first();
         $roles  = Role::all();
-        return view('backend.pages.admins.create', compact('roles','manager'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.admins.create', compact('roles','manager','searchWords'));
     }
 
     /**
@@ -177,6 +182,7 @@ class AdminsController extends Controller
      */
     public function update(Request $request, int $id)
     {
+        // dd($request->all());
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
             // abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
             abort(403, config('constants.admin_error_403'));
@@ -197,6 +203,25 @@ class AdminsController extends Controller
             'password' => 'nullable|min:8',
         ]);
 
+        // profile picture update 
+        $file = $request->file('profile_picture');
+        $path = "";
+        if($file){
+            if($admin->profile_path){
+                $image_path =str_replace('/','\\',$admin->profile_path);
+                if(File::exists(public_path().'\\'.$image_path)){
+                    File::delete(public_path().'\\'.$image_path);
+                }
+            }
+            
+            $user_name = str_replace(' ', '', $admin->name);
+            $image_name = $user_name.'_admin_'.date('Ymd_his').'.'. $file->extension();
+            $file->move(public_path('images'), $image_name);
+            $path = 'images/'.$image_name;
+        }
+        if($file){
+            $admin->profile_path = $path;
+        }
 
         $admin->name = $request->name;
         $admin->email = $request->email;
@@ -241,13 +266,38 @@ class AdminsController extends Controller
         return back();
     }
     // get profile
-    public function adminProfile(){
+    public function adminProfile(){ 
         $profile_details = Auth::guard('admin')->user();
         return view('backend.pages.admins.profile',compact('profile_details'));
     }
     // profile save
     public function adminProfileSave(Request $request){
         // dd($request);
+        $user_id = Auth::guard('admin')->user()->id;
+        // dd($user);
+        $admin = Admin::where('id',$user_id)->first();
+        $file = $request->file('photo_1');
+        $path = "";
+        if($file){
+            // file delete 
+            if(Auth::guard('admin')->user()->profile_path){
+                $image_path =str_replace('/','\\',Auth::guard('admin')->user()->profile_path);
+                if(File::exists(public_path().'\\'.$image_path)){
+                    File::delete(public_path().'\\'.$image_path);
+                }
+            }
+            
+            $user_name = str_replace(' ', '', Auth::guard('admin')->user()->name);
+            $image_name = $user_name.'_admin_'.date('Ymd_his').'.'. $file->extension();
+            $file->move(public_path('images'), $image_name);
+            $path = 'images/'.$image_name;
+        }
+        if($file){
+            // profile_path
+            $admin->profile_path = $path;
+        }
+        $admin->save();
+        echo json_encode(['success' => true, 'data' => ['path' => '/'.$path,'message' => 'Profile Updated Successfully']]);
     }
 
     // export into excel

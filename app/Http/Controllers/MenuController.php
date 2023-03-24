@@ -21,6 +21,7 @@ use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
+use App\Models\SearchWord;
 
 class MenuController extends Controller
 {
@@ -110,9 +111,11 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
 
-        $data['region_manager'] =  SalesPersons::select('sales_persons.*')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
-                                                ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)->first();
-
+        $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
+                                                ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
+                                                ->leftjoin('admins','admins.email','=','sales_persons.email')
+                                                ->first();
+        // dd($data['region_manager']);
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
@@ -136,6 +139,9 @@ class MenuController extends Controller
 
         // $data['sales_orders']       = $sales_by_year;
         // $data['recent_orders']      = $recent_orders;
+        // search words
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords;
         return view('Pages.dashboard',$data); 
     }
 
@@ -167,6 +173,8 @@ class MenuController extends Controller
         $data['constants'] = config('constants');        
         // $data['recent_orders'] = $recent_orders;
         $data['recent_orders'] = [];
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords;
         return view('Pages.invoice',$data);  
     }
     
@@ -180,6 +188,9 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $final_data['customer_menus'] = $response;
         $final_data['constants'] = config('constants');
+        // search words
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $final_data['searchWords']   = $searchWords;
         return view('Pages.open-orders',$final_data);
     }
     
@@ -201,6 +212,8 @@ class MenuController extends Controller
             $final_data['customer_menus'] = $response;
             $final_data['user_detail'] = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants'] = config('constants');
+            $searchWords = SearchWord::where('type',2)->get()->toArray();
+            $final_data['searchWords']   = $searchWords;
             return view('Pages.change-order',$final_data);
         } else {
             return redirect()->route('auth.customer.dashboard');
@@ -217,6 +230,8 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords;
         return view('Pages.vmi-user',$data);
     }
 
@@ -231,6 +246,8 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords;
         return view('Pages.analysis',$data);
     }
     
@@ -247,6 +264,8 @@ class MenuController extends Controller
         $data['customer_menus'] = $response;
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $data['constants'] = config('constants');
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords; 
         return view('Pages.account-settings',$data);
     }
     public function helpPage(Request $request){
@@ -280,6 +299,8 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['constants'] = config('constants');
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['searchWords']   = $searchWords;
         return view('Pages.help',$data);
     }
 
@@ -699,6 +720,8 @@ class MenuController extends Controller
             $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
             $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants']    = config('constants');
+            $searchWords = SearchWord::where('type',2)->get()->toArray();
+            $final_data['searchWords']   = $searchWords;
             return view('Pages.invoice-detail',$final_data);
         } else {
             return redirect()->route('auth.customer.dashboard');

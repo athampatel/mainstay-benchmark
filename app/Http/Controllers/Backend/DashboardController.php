@@ -8,6 +8,7 @@ use App\Models\SalesPersons;
 use App\Models\ChangeOrderRequest;
 use App\Models\SignupRequest;
 use App\Models\ChangeOrderItem;
+use App\Models\SearchWord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -131,6 +132,10 @@ class DashboardController extends Controller
 
         return view('emails.email-body',compact('details')); */
         // $routes = Route::getRoutes();
+
+        // search words
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+
         return view('backend.pages.dashboard.index', compact('total_admins',
                                                             'total_roles', 
                                                             'total_permissions', 
@@ -138,7 +143,8 @@ class DashboardController extends Controller
                                                             'sales_persons',
                                                             'vmi_customers',
                                                             'new_customers',
-                                                            'change_request')); 
+                                                            'change_request',
+                                                            'searchWords')); 
 
     }
     public function getCustomers($userId = 0){

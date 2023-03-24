@@ -123,3 +123,8 @@ Dashboard  - Admin Panel
 </div>
 </div>
 @endsection
+@section('scripts')
+<script>
+    const searchWords = <?php echo json_encode($searchWords); ?>;
+</script>
+@endsection

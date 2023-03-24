@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             ApiTypeSeeder::class,
             CustomerMenuSeeder::class,
+            SearchWordSeeder::class
         ]);
     }
 }

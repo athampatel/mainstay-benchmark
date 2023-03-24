@@ -6,16 +6,21 @@
                 <th class="border-0" style="width:151px">Benchmark Item Number</th>
                 <th class="border-0" style="width:151px">Item Description</th>
                 <th class="border-0" style="width:151px">Vendor Name</th>
-                <th class="border-0" style="width:151px">Oty on Hand</th>
-                <th class="border-0" style="width:151px">Quantity purchased(Year)</th>
+                <th class="border-0" style="width:151px">Qty on Hand</th>
+                <th class="border-0" style="width:151px">Purchased(Year)</th>
                 <th class="border-0" style="width:151px">Quantity Counted</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($vmiProducts as $product)    
             <tr class="vmi_row">
-                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#8974224</a></td>
-                <td><a href="javascript:void(0)" class="customer-name">{{$product['itemcode']}}</a></td>
+                <td>
+                    <a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#8974224</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="customer-name">{{$product['itemcode']}}</a>
+                    {{-- <div>{{$product['itemcodedesc']}}</div>  --}}
+                </td>
                 <td>{{$product['itemcodedesc']}}</td>
                 <td>{{$product['vendorname']}}</td>
                 <td class="qty_hand" data-val={{$product['quantityonhand']}}>{{$product['quantityonhand']}}</td>
