@@ -15,7 +15,7 @@ Admins - Admin Panel
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">  
-                            <div class="row">
+                            <div class="row" id="filter_row">
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
                                         @if (Auth::guard('admin')->user()->can('admin.edit'))
@@ -51,7 +51,7 @@ Admins - Admin Panel
                                     <div class="datatable-export">
                                         <div class="datatable-print">
                                             <a href="">
-                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-admins-print-icon">
+                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute admin_print" id="admin-admins-print-icon">
                                             </a>
                                         </div>
                                         <div class="datatable-report position-relative">
@@ -144,7 +144,48 @@ Admins - Admin Panel
             </div>
         </div>
     </div>
-</div>        
+</div> 
+
+{{-- print table --}}
+<div id="print_table">
+    <div>Admin Users</div>
+    <table class="text-center datatable-dark dataTable backend_datatables">
+        <thead class="text-capitalize">
+            <tr>
+                <th width="5%" class="text-dark">{{ config('constants.label.admin.sl') }}</th>
+                <th class="text-dark">Profile picture</th>
+                <th class="text-dark">User Name</th>
+                <th class="text-dark">Name</th>
+                <th class="text-dark">Email</th>
+                <th class="text-dark">Roles</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach ($admins as $admin)
+        <tr>
+            <td class="text-dark">{{ $loop->index+1 }}</td>
+            <td>
+                @if($admin->profile_path)
+                    <img src="/{{$admin->profile_path}}" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
+                @else
+                    <img src="/assets/images/svg/user_logo.png" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
+                @endif
+            </td>
+            <td class="text-dark">{{ $admin->username }}</td>
+            <td class="text-dark">{{ $admin->name }}</td>
+            <td class="text-dark">{{ $admin->email }}</td>
+            <td class="text-dark">
+                @foreach ($admin->roles as $role)
+                    <span>
+                        {{ $role->name }}
+                    </span>
+                @endforeach
+            </td>
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
 
 @endsection
 

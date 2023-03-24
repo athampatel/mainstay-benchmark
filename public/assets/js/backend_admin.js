@@ -736,3 +736,9 @@ $(document).on('click','#admin-profile-edit-save-button',function(e){
         }
     });
 })
+
+// admin print
+$(document).on('click','.admin_print',function(e){
+    e.preventDefault();
+    window.print();
+})
