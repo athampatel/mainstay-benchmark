@@ -2,10 +2,11 @@
     <table id="open-orders-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                <th class="border-0">ID</th>
-                <th class="border-0">Customer name</th>
-                <th class="border-0">Customer email</th>
-                <th class="border-0">Total items</th>
+                {{-- <th class="border-0">ID</th> --}}
+                <th class="border-0">Order Number</th>
+                <th class="border-0">Customer Name</th>
+                <th class="border-0">Customer Email</th>
+                <th class="border-0">Total Items</th>
                 <th class="border-0">Price</th>
                 <th class="border-0">Date</th>
                 <th class="border-0">Location</th>

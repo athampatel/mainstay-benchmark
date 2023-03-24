@@ -168,6 +168,7 @@ User Create - Admin Panel
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     const constants = <?php echo json_encode($constants); ?>;
+    const searchWords = <?php echo json_encode($searchWords); ?>;
     function ValidateEmail(emailaddress){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
             return true;

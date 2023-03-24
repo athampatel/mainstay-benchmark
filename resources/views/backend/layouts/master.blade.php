@@ -29,6 +29,7 @@
         <section class="home-section position-relative main-content">
             @include('backend.layouts.partials.header')
             @yield('admin-content')
+            @include('backend.layouts.partials.search_modal')
             {{-- notification work start --}}
             <div id="bottom_notification_disp"></div>  
 			{{-- <x-bottom-notification-component :notifications="$notifications" /> --}}

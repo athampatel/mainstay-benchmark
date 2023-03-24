@@ -640,30 +640,99 @@ $(document).on('click','#update_inventory_items',function(e){
 
 // main search work start
 // $('.full-search-bar input').
-$(document).on('keyup','#full_search_input',function(e){
-    e.preventDefault()
-    let searchText = $(e.currentTarget).val();
-    let matches = searchWords.filter(search => {
-      return search.name.toLowerCase().includes(searchText)
-    });
-    let modal_body_display = "";
-    matches.forEach(match => {
-        let disp = `<div>
-                        <a href="${match.link}">${match.name}</a>
-                    </div>`;
-        modal_body_display += disp;
-    });
-    $('#search_modal_disp_body').html(modal_body_display);
-    $("#searchmodal").css("display", "block");
-    if(searchText == ''){
-        $("#searchmodal").css("display", "none");
-    }
-    if(matches.length == 0){
-        let no_results_found = '<div>No Results found</div>';
-        $('#search_modal_disp_body').html(no_results_found);
-    }
+// $(document).on('keyup','#full_search_input',function(e){
+//     e.preventDefault()
+//     let searchText = $(e.currentTarget).val();
+//     let matches = searchWords.filter(search => {
+//       return search.name.toLowerCase().includes(searchText)
+//     });
+//     let modal_body_display = "";
+//     matches.forEach(match => {
+//         let disp = `<div>
+//                         <a href="${match.link}">${match.name}</a>
+//                     </div>`;
+//         modal_body_display += disp;
+//     });
+//     $('#search_modal_disp_body').html(modal_body_display);
+//     $("#searchmodal").css("display", "block");
+//     if(searchText == ''){
+//         $("#searchmodal").css("display", "none");
+//     }
+//     if(matches.length == 0){
+//         let no_results_found = '<div>No Results found</div>';
+//         $('#search_modal_disp_body').html(no_results_found);
+//     }
+// })
+
+// $(window).scroll(function (e) {
+//     $("#searchmodal").css("display", "none");
+// })
+
+// profile upload
+$(document).on('click','#admin-nav-profile-detail',function(e){
+    e.preventDefault();
+    window.location = '/admin/profile';
 })
 
-$(window).scroll(function (e) {
-    $("#searchmodal").css("display", "none");
+var admin_file_input = document.getElementById("file-input-admin");
+$(document).on('click','#file_input_button_admin',function(){
+    admin_file_input.click();
+})
+
+$(document).on('change','#file-input-admin',function(e){
+    $image = $('#file-input-admin').prop('files')[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $('.profile_img_disp_admin').attr('src', e.target.result);
+    }
+    reader.readAsDataURL($image);
+});
+
+
+// 
+$(document).on('click','#admin-profile-edit-save-button',function(e){
+    e.preventDefault();
+    var formData = new FormData();
+    $image = $('#file-input-admin').prop('files')[0];
+    formData.append('photo_1', $image);
+    $.ajax({
+        type: 'POST',
+        url: '/admin/profile-save',
+        contentType: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: formData,
+        beforeSend:function(){
+            $('.backdrop').removeClass('d-none');
+        },
+        success: function (res) {
+            // console.log(res,'__profile admin upload response');
+            let res1 = JSON.parse(res);
+            // console.log()
+            // return false;
+            if(res1.success){
+                // if(res1.data){
+                    console.log(res1.data.path,'___res path');
+                    $("#nav-bar-profile-img_admin").prop("src", res1.data.path);
+                    $("#nav-bar-profile-img_admin").prop("height", 45);
+                    $("#nav-bar-profile-img_admin").prop("width", 45);
+                // }
+                // $('#nav-bar-profile-name').text(acc_name);
+                // $('#result-response-message').html("Account Details Updated Succcessfully").removeClass('alert-danger').addClass('alert-success');
+                // $('#result-response-message').html(constants.customer_account_page.update_message).removeClass('alert-danger').addClass('alert-success');
+                $('#display_profile_upload_msg').removeClass('d-none');
+                $('#display_profile_upload_msg').addClass('alert-success').removeClass('alert-danger').html(res1.data.message);
+                setTimeout(() => {
+                    $('#display_profile_upload_msg').addClass('d-none');
+                }, 2000);
+            } else {
+                // update fail
+            }
+        },
+        complete:function(){
+            $('.backdrop').addClass('d-none');
+        }
+    });
 })

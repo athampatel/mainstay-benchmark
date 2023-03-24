@@ -33,6 +33,7 @@
 			@include('layouts.nav-bar')
 			{{-- Home content --}}
 			@yield('content')
+			@include('backend.layouts.partials.search_modal')
 			{{-- Footer --}}
 			{{-- <div id="bottom_notification_disp"></div>   --}}
 			@include('layouts.footer-bar')

@@ -385,6 +385,7 @@ nav .notification_section .notification_icons .notification_count_section{
 
 .notification_count_section .notification_icon{
     position: relative;
+    cursor: pointer;
 }
 
 .notification_count_section .notification_count{
@@ -414,7 +415,8 @@ nav .notification_section .notification_icons .notification_count_section{
   background: #F5F6FA;
   border-radius: 0.375rem;
   height: 3.125rem;
-  width: auto;  
+  width: auto;
+  cursor: pointer;  
 }
 .notification_section .profile-details .dropdown-menu{
   border-top-left-radius:0rem;
@@ -1343,6 +1345,24 @@ nav .profile-details i{
 
 #customer-spending-chart{
   min-height: 23.5rem;
+}
+
+/* admin profile */
+#file_input_button_admin{
+  top: 1.875rem;
+  right: 1.5625rem;
+  cursor: pointer;
+}
+
+.profile_img_disp_admin{
+  height: 182px;
+  width: 182px;
+  border-radius: 50%;
+}
+
+#nav-bar-profile-img_admin{
+  height: 45px !important;
+  width: 45px !important;
 }
 
 @media screen and (min-width: 1025px){
@@ -2698,6 +2718,29 @@ tr.child ul{
   margin-left: 282px !important;
 }
 
+/* Quantity input */
+.quantity_counted{
+    height: 1.875rem;
+    width: 6.875rem;
+    border-radius: 0.5rem;
+    padding: 0.3125rem;
+    outline: none;
+    accent-color: #9fcc47;
+    border: none;
+}
+
+.image-upload>input {
+  display: none;
+}
+.datatable_profile{
+  height: 2.8125rem;
+  width: 2.8125rem;
+}
+.regin_manager_profile{
+  height:29.48px;
+  width: 28.5px;
+}
+
   @media screen and (max-width: 1500px){
     html{
       font-size: 80%;
@@ -3327,13 +3370,81 @@ tr.child ul{
       max-width: 240px !important;
    } */
    .backend_datatables{
-      max-width: 240px !important;
+      max-width: 15rem !important;
    }
    
    #vmi-inventory-page-table{
-      max-width: 250px !important;
+      max-width: 15.625rem !important;
    }
-  
+
+   /* bottom notification */
+   .notfication_bottom .notification{
+      width: 15rem;
+      height: 2.125rem;
+      padding-left: 0.75rem;
+   }
+   .notification .message{
+      font-size: 0.6875rem;
+   }
+
+   .notification .icon-container .icon svg{
+      width: 0.9375rem;
+   }
+   .notification .count{
+      width: 0.6875rem;
+      height: 0.6875rem;
+      top: 0.375rem;
+   }
+   .open-close svg{
+      width: 0.75rem;
+   }
+
+   .notfication_bottom .messages .header{
+     width: 15rem;
+   }
+   .messages-container a {
+     width: 15rem;
+   }
+   .message_section{
+      align-items: start;
+   }
+   .message_icon{
+      height: 1.75rem;
+      width: 1.75rem;
+   }
+   .messages{
+      bottom: 6.8125rem;
+   }
+   .message_icon img{
+      height: 1rem;
+   }
+   .messsage_content .message_title{
+      font-size: 0.75rem;
+   }
+   .messsage_content .message_desc{
+      font-size: 0.6875rem;
+   }
+   .notification_msg_time{
+      font-size: 0.625rem;
+   }
+   .close svg{
+      width: 0.75rem;
+   }
+   .notification_bottomn_cancel {
+      bottom:6.25rem;
+      right:16rem;
+   }
+   #pagination_display_div1{
+      flex-direction: column;
+   }
+   #pagination_display_div2{
+      display: flex;
+      align-items: center;
+   }
+   #vmi-post-count-bottom{
+      margin-bottom: 0.625rem;
+   }
+
   }
 
   /* @media (max-width:767px) and (min-width:426px){

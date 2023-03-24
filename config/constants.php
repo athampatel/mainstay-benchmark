@@ -191,7 +191,7 @@
                     'save_role' => 'Save Role',
                     'search' => 'Search',
                     'create_customer' => 'Create Customer',
-                    'create_new_admin' => 'Create New Admin',
+                    'create_new_admin' => 'Create New User',
                     'customer_search' => 'Search',
                     'create_new_role' => 'Create New Role',
                     'update_role' => 'Update Role',

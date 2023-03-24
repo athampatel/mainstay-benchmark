@@ -121,6 +121,7 @@ Role Page - Admin Panel
 
 @section('scripts')
 <script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
 function deleteRole(id){
     Swal.fire({
     title: 'Are you sure?',

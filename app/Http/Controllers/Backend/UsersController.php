@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\SchedulerLogController;
 use App\Models\UserDetails;
 use App\Models\VmiInventoryRequest;
+use App\Models\SearchWord;
 
 class UsersController extends Controller
 {
@@ -140,7 +141,9 @@ class UsersController extends Controller
         $users = $lblusers->orderBy('user_details.customerno', 'asc')->offset($offset)->limit($limit)->get();
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.users.index', compact('users','paginate','limit','search'));
+        // search words
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.users.index', compact('users','paginate','limit','search','searchWords'));
     }
 
     public static function customPagination($first_page,$last_page,$total,$per_page,$active_page,$link_path){
@@ -260,7 +263,9 @@ class UsersController extends Controller
         
         $paginate = $managerss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.managers.index', compact('managers','search','paginate','limit'));
+        // search words
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords'));
     }
 
     
@@ -277,7 +282,8 @@ class UsersController extends Controller
         if($request->input('email'))
             $email = $request->input('email');
         $constants = config('constants');
-        return view('backend.pages.users.create', compact('roles','email','constants'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.users.create', compact('roles','email','constants','searchWords'));
     }
 
     /**
@@ -1286,11 +1292,13 @@ class UsersController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $ignores = intval($data['ignores']);
         if($page == 0){
             $offset = 1;
         } else {
             $offset = $page * $limit + 1;
         }
+        $offset = $offset + $ignores;
         $user_detail_id = $data['user_detail_id'];
         $company_code = $data['company_code'];
         $data = array(                             
@@ -1301,17 +1309,51 @@ class UsersController extends Controller
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post','Products',$data);
         
+        // Remove unwanted products
+        $count = 0;
+        foreach($response['products'] as $key => $product){
+            $string = $product['itemcode'];
+            if (substr($string, 0, 1) === '/') {
+                $count = $count + 1;
+                unset($response['products'][$key]);
+            }
+        }
+        
+        // Again get a response
+        if($count > 0){
+            $offset1 = $offset + $limit;
+            $data1 = array(                             
+                "companyCode"   => $company_code,
+                "offset"        => $offset1,
+                "limit"         => $count,
+            );
+            $sdeApi = new SDEApi();
+            $response1 = $sdeApi->Request('post','Products',$data1);
+            $response['products'] = array_merge($response1['products'],$response['products']);    
+        }
+        
+        // total 
+        $response['meta']['records'] = $response['meta']['records'] - $count;
+        $response['meta']['records'] = $response['meta']['records'] - $ignores;
+        
+        // offset
+        $response['meta']['offset'] = $response['meta']['offset'] - $ignores;
+        $response['meta']['offset'] = $response['meta']['offset'] - $ignores;
+        
+        $response['products'] = array_values($response['products']);
+
         $table_code = View::make("components.datatabels.vmi-inventory-list-component")
         ->with("vmiProducts", $response['products'])
         ->render();
 
         $path = '/getAdminVmiData';
         $custom_pagination = MenuController::CreatePaginationData($response,$limit,$page,$offset,$path);
-        $pagination_code = View::make("components.ajax-pagination-component")
+
+        $pagination_code = View::make("components.admin-vmi-ajax-pagination-component")
         ->with("pagination", $custom_pagination)
         ->render();
         
-        $res = ['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code];
+        $res = ['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code, 'count' => $count];
         echo json_encode($res);
         die(); 
     }

@@ -153,6 +153,7 @@
      <script>
          let response_ = [];
          const constants = <?php echo json_encode($constants); ?>;
+         const searchWords = <?php echo json_encode($searchWords); ?>;
     </script>
     <script src="/assets/js/analysis-page.js"></script>
 @endsection

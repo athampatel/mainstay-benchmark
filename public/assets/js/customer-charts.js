@@ -294,6 +294,7 @@ $(document).on('click','#profile-edit-save-button',function(e){
         data: formData,
         success: function (res) {
             let res1 = JSON.parse(res);
+            console.log(res1,'__res1');
             if(res1.success){
                 if(res1.data.length > 0){
                     console.log(res1.data[0].path,'___res path');
@@ -434,3 +435,8 @@ function change_order_save_response(res){
         // }, 2000);
     }
 }
+
+// nav icon path setting
+$(document).on('click','#account_setting_nav',function(e){
+    window.location = '/account-settings';
+})
