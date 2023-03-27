@@ -108,6 +108,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/invoice-detail/{orderid}',[MenuController::class,'showInvoiceDetail']);
     Route::post('/invoice-order-detail',[MenuController::class,'getInvoiceDetail']);
+
+    // change order request page
+    Route::get('/requests/change_orders',[MenuController::class,'getChangeOrderRequests']);
+    Route::get('/getChangeOrderRequest',[MenuController::class,'getAllChangeRequests']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

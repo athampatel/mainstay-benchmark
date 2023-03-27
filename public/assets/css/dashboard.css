@@ -2079,6 +2079,14 @@ table.dataTable thead .sorting{
   display: none;
 }
 
+/* change order request table */
+
+#change-order-request-page-table_wrapper .row:first-child{
+  display: none;
+}
+#change-order-request-page-table_wrapper .row:last-child{
+  display: none;
+}
 /* admin tables */
 /* #dataTable_wrapper
 #open-orders-page-table_filter{
@@ -2758,73 +2766,56 @@ tr.child ul{
 
 /* print */
 @media print {
+  
   #print_table{
     display: block !important;
   }
+  
   #print_table th{
-    /* display: block !important; */
+    color: #000 !important;
   } 
+  
   #print_table td{
-    /* display: block !important; */
+    max-width: 75px !important;
+    word-break: break-all !important;
+    color: #000 !important;
   }
+  
   nav{
     display: none !important;
   }
- .page_title{
+
+  .page_title{
     font-size: 12px !important;
- }
- #backend_admins{
-  display: none !important;
- }
- #filter_row{
-    display: none !important;
- }
- #bottom_notification_disp{
-    display: none !important;
- }
- footer{
-    display: none !important;
- }
- .sorting_1::before{
-    display: none !important;
- }
- .home-content{
-  display: none !important;
- }
- /* #backend_admins{
-  width: 595px !important;
-  max-width: 595px !important;
- } */
-
- /* #backend_admins tr th{
-    width: 10% !important;
- }
- #backend_admins tr td{
-    width: 10% !important;
- } */
-
- /* #backend_admins {
-  border-collapse: collapse;
-  width: 100% !important;
-}
-#backend_admins td, table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-#backend_admins th {
-  background-color: #f2f2f2;
-} */
-  /* table {
-      border-collapse: collapse;
-      width: 100%;
   }
-  table td, table th {
-      border: 1px solid #ddd;
-      padding: 8px;
+
+  #backend_admins{
+    display: none !important;
   }
-  table th {
-      background-color: #f2f2f2;
-  } */
+
+  #backend_customers{
+    display: none !important;
+  }
+
+  #filter_row{
+    display: none !important;
+  }
+  
+  #bottom_notification_disp{
+    display: none !important;
+  }
+  
+  footer{
+    display: none !important;
+  }
+  
+  .sorting_1::before{
+    display: none !important;
+  }
+  
+  .home-content{
+    display: none !important;
+  }
 }
 
   @media screen and (max-width: 1500px){

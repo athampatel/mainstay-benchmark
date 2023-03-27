@@ -17,8 +17,7 @@ Customer Change Order Requests - Admin Panel
                             <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
-                                        {{-- <a class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-white" href="{{ route('admin.users.create') }}">Create Customer</a> --}}
-                                        <a class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-white" href="{{ route('admin.users.create') }}">{{ config('constants.label.admin.buttons.create_request') }}</a>
+                                        {{-- <a class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-white" href="{{ route('admin.users.create') }}">{{ config('constants.label.admin.buttons.create_request') }}</a> --}}
                                     </p>            
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
@@ -39,7 +38,7 @@ Customer Change Order Requests - Admin Panel
                                     </div>
                                     <form id="change_order_from" action="/admin/customers/change-orders" method="GET"></form>
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
@@ -105,4 +104,28 @@ Customer Change Order Requests - Admin Panel
         </div>
     </div>
 </div>
+<table id="print_table" class="text-center datatable-dark backend_datatables">
+    <thead class="text-capitalize">
+        <tr>
+            <th width="5%">S.No:</th>
+            <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
+            <th width="10%">{{ config('constants.label.admin.customer_name') }}</th>
+            <th width="10%">{{ config('constants.label.admin.customer_email') }}</th>
+            <th width="10%">{{ config('constants.label.admin.order_date') }}</th>
+            <th width="10%">{{ config('constants.label.admin.region_manager') }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($print_requests as $print_request)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $print_request->customerno }}</td>
+            <td>{{ $print_request->name }}</td>
+            <td>{{ $print_request->email }}</td>                                                                
+            <td>{{ date('m-d-Y',strtotime($print_request->ordered_date))}}</td>
+            <td>{{ $print_request->manager}}</td>                             
+        </tr>
+    @endforeach
+    </tbody>
+</table>
 @endsection

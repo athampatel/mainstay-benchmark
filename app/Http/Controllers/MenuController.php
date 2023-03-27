@@ -21,6 +21,7 @@ use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
+use App\Models\ChangeOrderRequest;
 use App\Models\SearchWord;
 
 class MenuController extends Controller
@@ -33,7 +34,6 @@ class MenuController extends Controller
 
     public function NavMenu($current = ''){
 
-    //    $menus = array('dashboard'           =>         array(  'name' => 'products & inventory', 
        $menus = array('dashboard'           =>         array(  'name' => 'Dashboard', 
                                                                 'icon_name' => file_get_contents(public_path('/assets/images/svg/products_gray.svg')), 
                                                                 'active' => 0,  
@@ -98,12 +98,6 @@ class MenuController extends Controller
         $data['title']  = '';
         $data['current_menu']   = 'dashboard';
         $data['menus']          = $this->NavMenu('dashboard');
-        //$products = new SchedulerLogController();
-        //$products->runScheduler();
-        //die; 
-        //$invoice = new InvoicedOrdersController();
-        //$invoice->getInvoiceOrders();
-        //die; 
         $customer_no    = $request->session()->get('customer_no');
         $customers      = $request->session()->get('customers');
         $user_id        = $customers[0]->user_id;
@@ -115,16 +109,9 @@ class MenuController extends Controller
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
                                                 ->leftjoin('admins','admins.email','=','sales_persons.email')
                                                 ->first();
-        // dd($data['region_manager']);
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
-
-        // $sales_orders               = new SaleOrdersController();
-        // $sales_args                 = array('from' => $year.'-01-01','to' => $year.'-12-31');
-        // $sales_by_year              = $sales_orders->getSaleByYear($customer_no,$sales_args,$request);
-        // $recent_orders              = $sales_orders->getRecentOrders($customer_no,6);
-        // $SaleByCategory             = $sales_orders->getSaleByCategory($customer_no,$year);
 
         $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
         $sale_map                   = array();
@@ -137,8 +124,6 @@ class MenuController extends Controller
         $data['saleby_productline'] = $sale_map; 
         $data['data_productline']   = $sale_map;
 
-        // $data['sales_orders']       = $sales_by_year;
-        // $data['recent_orders']      = $recent_orders;
         // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords;
@@ -166,7 +151,6 @@ class MenuController extends Controller
         $sales_orders               = new SaleOrdersController();
         $page                       = 0;
 
-        // $recent_orders              = $sales_orders->getRecentOrders($customer_no,15,$page,1);
         $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
@@ -269,24 +253,6 @@ class MenuController extends Controller
         return view('Pages.account-settings',$data);
     }
     public function helpPage(Request $request){
-        /* test work start */
-        // $orders = DB::table('sale_orders')
-        //             ->select('sale_orders.orderdate', DB::raw('SUM(order_details.unitprice) AS total'), DB::raw('SUM(order_details.quantityshipped) AS total_qty'), 'sale_orders.salesorderno as order_id', 'sale_orders.shiptostate','sale_orders.shiptocity')
-        //             ->leftJoin('order_details', 'sale_orders.id', '=', 'order_details.sale_orders_id')
-        //             ->leftJoin('user_details', 'sale_orders.user_details_id', '=', 'user_details.id')
-        //             ->leftJoin('users', 'user_details.user_id', '=', 'users.id')
-        //             ->where('order_details.quantityshipped', '>', 0)
-        //             ->where('order_details.unitprice', '>', 0)
-        //             ->where('users.active', 1)
-        //             ->where('user_details.customerno', 'GEMWI00')
-        //             ->groupBy('sale_orders.id','sale_orders.salesorderno','sale_orders.shiptocity','sale_orders.shiptostate','sale_orders.orderdate')
-        //             ->orderBy('sale_orders.orderdate', 'DESC')
-        //             ->get()->toArray();
-        // echo '<pre>';
-        // print_r($orders);            
-        // echo '</pre>';
-        // die();            
-        /* test work end */
         $data['title']  = '';
         $data['current_menu']  = 'help';
         $data['menus']         = $this->NavMenu('help');
@@ -316,7 +282,6 @@ class MenuController extends Controller
         } else {
             $offset = $page * $limit + 1;
         }
-        // $user_id = Auth::user()->id;
         $customer_no   = $request->session()->get('customer_no');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
@@ -342,10 +307,8 @@ class MenuController extends Controller
             );
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
-            // dd($response);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
-            // dd($custom_pagination);
             if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
@@ -353,8 +316,6 @@ class MenuController extends Controller
             } else {
                 $pagination_code = '';
             }
-            // $change_order_menu_id = CustomerMenu::where('code','auth.customer.change-order')->pluck('id')->toArray();
-            // $change_order_menu_id = !empty($change_order_menu_id) ? $change_order_menu_id[0] : 0;
             $customers    = $request->session()->get('customers');
             $user_id = $customers[0]->user_id;
             $is_change_order = self::CheckChangeOrderAccess($user_id);
@@ -369,45 +330,6 @@ class MenuController extends Controller
             die();
         }  
     }
-
-    // custom ajax pagination
-    // public static function AjaxgetPagination($offset,$limit,$total,$page,$path){
-    //     $custom_pagination['from'] = $offset;
-    //     $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
-    //     $custom_pagination['total'] = $total;
-    //     $custom_pagination['first_page'] = 1;
-    //     $custom_pagination['last_page'] = intval(ceil($total / $limit));
-    //     $custom_pagination['prev_page'] = $page - 1 == -1 ? 0 : $page - 1;
-    //     $custom_pagination['curr_page'] = intval($page);
-    //     $custom_pagination['next_page'] = $page + 1;
-    //     $custom_pagination['path'] = $path;
-    //     $last = ceil($total / $limit); 
-    //     if(intval($total) > $limit ){
-    //         if($page !=0 && ($page + 1) != $last){
-    //             $active_number[] = $page;
-    //             $active_number[] = $page + 1;
-    //             $active_number[] = $page + 2;
-    //         } else {
-    //             if($page == 0 || $page == 1){
-    //                 $active_number = [1,2,3];
-    //             } elseif(($page + 1) == $last){
-    //                 for($i = 2;$i >= 0;$i--){
-    //                     $active_number []= $last - $i;
-    //                 }       
-    //             }
-    //         }
-    //     } else {
-    //         $active_number[] = 1;
-    //     }
-    //     foreach($active_number as $number){               
-    //         $custom_link = [
-    //             'label' => $number,
-    //             'active' => $page + 1 == $number,
-    //         ];
-    //         $custom_pagination['links'][] = $custom_link;
-    //     }
-    //     return $custom_pagination;
-    // }
 
     public function getInvoiceOrders(Request $request){
         $data = $request->all();
@@ -448,14 +370,13 @@ class MenuController extends Controller
                 ->with("pagination", $custom_pagination)
                 ->render();
             }
-            // dd();
+
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
             ->with("invoices", $response['salesorderhistoryheader'])
             ->render();
             
             $response['pagination_code'] = $pagination_code;
             $response['table_code'] = $table_code;
-            /* custom pagination work end */
             
             echo json_encode($response);
             die();
@@ -565,7 +486,6 @@ class MenuController extends Controller
             
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             $is_api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
-            // dd($is_api_data);
             if($is_api_data){
                 $is_api_data->data = json_encode($response);
                 $is_api_data->updated_at = date('Y-m-d h:i:s'); 
@@ -576,14 +496,12 @@ class MenuController extends Controller
                     'type' => $type->id,
                     'data' => json_encode($response),
                 ]);
-                // dd($api_data);
             }
             $response = $response['salesorders'];
         } else {
             $response = json_decode($api_data->data,true);
             $response = $response['salesorders'];
         }
-        // dd($response);
         $open_orders = [];
         foreach($response as $res){
             $date = explode("-",$res['orderdate']);
@@ -650,7 +568,6 @@ class MenuController extends Controller
                 ->with("pagination", $custom_pagination)
                 ->render();
             }
-            // }
             if(empty($response)) $response['products'] = [];
             $table_code = View::make("components.datatabels.vmi-component")
                 ->with("vmiProducts", $response['products'])
@@ -708,15 +625,12 @@ class MenuController extends Controller
             $final_data['order_id'] = $orderid;
             $final_data['user'] = $user;            
             $user_id = $customers[0]->user_id;
-            // $final_data['is_change_order'] = self::CheckChangeOrderAccess($user_id);
             $final_data['is_change_order'] = false;
             $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
             if(!$response) return redirect()->back();
             $final_data['customer_menus'] = $response;
             $sales_orders   = new SaleOrdersController();
-            // $final_data['details']      = $sales_orders->getOrderDetails($customer_no,);            
             $final_data['details']      = $sales_orders->getOrderDetails($customer_no,$orderid);
-            // dd($final_data['details']);            
             $response                   = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']); 
             $final_data['user_detail']  = UserDetails::where('user_id',$user->id)->where('customerno',$customer_no)->first();
             $final_data['constants']    = config('constants');
@@ -914,13 +828,11 @@ class MenuController extends Controller
                 $range_months = [$last_month];
             }
             if($range == 2){
-                // $start_date = Carbon::parse($year . '-' . $current_month . '-01')->subMonths(4)->endOfMonth()->format('Y-m-d');
                 $start_date = ($year - 1).'-12-31';
                 $end_date = $year. '-04-01';
                 $range_months = ['01','02','03'];
             }
             if($range == 3){
-                // $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(7)->endOfMonth()->format('Y-m-d');
                 $start_date = ($year - 1).'-12-31';
                 $end_date = $year."-"."07-01";
                 $range_months = ['01','02','03','04','05','06'];
@@ -947,5 +859,78 @@ class MenuController extends Controller
         }
 
         return ['start' => $start_date, 'end' => $end_date ,'range_months' => $range_months];
+    }
+
+    public function getChangeOrderRequests(Request $request){
+        $final_data['title']  = '';
+        $final_data['current_menu']   = 'open-orders';
+        $final_data['menus']          = $this->NavMenu('open-orders');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
+        if(!$response) return redirect()->back();
+        $final_data['customer_menus'] = $response;
+        $final_data['constants'] = config('constants');
+        // search words
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $final_data['searchWords']   = $searchWords;
+        return view('Pages.change-order-request',$final_data);
+    }
+
+    public function getAllChangeRequests (Request $request){
+        $data = $request->all();
+        $page = $data['page'];
+        $limit = $data['count'];
+
+        if($page == 0){
+            $offset = 1;
+        } else {
+            $offset = $page * $limit + 1;
+        }
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)
+                                ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
+                                ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
+                                ->offset($offset)->limit($limit)
+                                ->get()->toArray();
+        // generate table code
+        $table_code = View::make("components.change-order-request-component")
+            ->with("change_orders", $change_order_requests)
+            ->render(); 
+
+        $page_data = ChangeOrderRequest::where('user_id',$user_id)
+                                ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
+                                ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
+                                ->paginate(intval($limit));
+        
+        $paginate = $page_data->toArray();
+
+        $response  = [];
+        $response['meta']['records'] = $paginate['total'];
+        $path = '/getChangeOrderRequest';
+        $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
+        $pagination_code = "";
+        if(!empty($response)){
+            $pagination_code = View::make("components.ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+        }
+        echo json_encode(['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code]);
+
+    }
+
+    public static function getPageNumberInUrl($url,$sym = '?'){
+        $string = $url;
+        $char = $sym;
+        $pos = strpos($string, $char);
+        if ($pos !== false) {
+            $remaining_string = substr($string, $pos+1);
+            if(preg_match('/^[0-9]+$/', $remaining_string)){
+                return intval($remaining_string);
+            } else {
+                return self::getPageNumberInUrl($remaining_string,'=');
+            }
+        }
     }
 }

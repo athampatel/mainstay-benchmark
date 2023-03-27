@@ -49,7 +49,7 @@ Admins - Admin Panel
                                         </form>
                                     {{-- </form> --}}
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute admin_print" id="admin-admins-print-icon">
                                             </a>

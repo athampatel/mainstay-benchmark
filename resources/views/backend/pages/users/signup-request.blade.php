@@ -36,7 +36,7 @@ Customers - Admin Panel
                                     </div>
                                     <form id="admin_signup_from" action="/admin/signup-request" method="GET"></form>
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
@@ -100,4 +100,31 @@ Customers - Admin Panel
         </div>
     </div>    
 </div>
+
+<table id="print_table" class="text-center datatable-dark backend_datatables">
+    <thead class="text-capitalize">
+        <tr>
+            <th width="5%">S.No</th>
+            <th width="20%">Full Name</th>
+            <th width="20%">Email</th>
+            <th width="20%">{{ config('constants.label.admin.contact_no') }}</th>
+            <th width="20%">Company Name</th>
+            <th width="10%">Request Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($print_users as $print_user)
+        <tr>
+            <td>{{$loop->iteration}}</td>
+            <td>{{$print_user->full_name}}</td>
+            <td>{{$print_user->email}}</td>
+            <td>{{$print_user->phone_no}}</td>
+            <td>{{$print_user->company_name}}</td>
+            <td>
+                {{$print_user->created_at->format('Y-m-d - H:i:s ')}}
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 @endsection

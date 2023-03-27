@@ -138,12 +138,14 @@ class UsersController extends Controller
                                 'sales_persons.name as sales_person']); //->groupBy('user_details.user_id');
 
         $userss = $lblusers->paginate(intval($limit));
+        $print_users = $lblusers->orderBy('user_details.customerno', 'asc')->get();
         $users = $lblusers->orderBy('user_details.customerno', 'asc')->offset($offset)->limit($limit)->get();
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // search words
+        // dd($paginate);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.users.index', compact('users','paginate','limit','search','searchWords'));
+        return view('backend.pages.users.index', compact('users','paginate','limit','search','searchWords','print_users'));
     }
 
     public static function customPagination($first_page,$last_page,$total,$per_page,$active_page,$link_path){
@@ -260,12 +262,13 @@ class UsersController extends Controller
             $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                     ->paginate(intval($limit));
         }
-        
+        $print_managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->get(['sales_persons.*','admins.id as user_id']);
         $paginate = $managerss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords'));
+        return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords','print_managers'));
     }
 
     
@@ -619,7 +622,12 @@ class UsersController extends Controller
                             ->orderBy('signup_requests.id','DESC')
                             ->where('signup_requests.status',0)
                             ->paginate(intval($limit));
-            }   
+            } 
+            $print_users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                            ->orderBy('signup_requests.id','DESC')
+                            ->where('signup_requests.status',0)
+                            ->select(['signup_requests.*','users.id as user_id'])
+                            ->get();  
         } else {
             $manager = $this->user;
             if($search) {
@@ -679,10 +687,20 @@ class UsersController extends Controller
                             ->where('signup_requests.status',0)
                            ->paginate(intval($limit));  
             }
+            $print_users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                        ->leftjoin('user_details','user_details.user_id','=','users.id')
+                        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                        ->leftjoin('admins','sales_persons.email','=','admins.email')
+                        ->where('admins.id',$manager->id)
+                        ->orderBy('signup_requests.id','DESC')
+                        ->where('signup_requests.status',0)
+                        ->select(['signup_requests.*','users.id as user_id'])
+                        ->get();  
         }
         $paginate = $userss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.users.signup-request',compact('users','search','paginate','limit')); 
+        return view('backend.pages.users.signup-request',compact('users','search','paginate','limit','print_users')); 
     }
 
     public function getUserRequest($user_id,$admin_token = ''){
@@ -915,7 +933,12 @@ class UsersController extends Controller
                                                     ->paginate(intval($limit));
                 $paginate = $change_requests->toArray();
             }
-
+        $print_requests = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
+                        ->leftjoin('user_details','users.id','=','user_details.user_id')
+                        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                        ->orderBy('change_order_requests.id','DESC')
+                        ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
         // }elseif(DashboardController::isManager($user->id,$user)){
         }else {
             $manager = $this->user;
@@ -1016,10 +1039,19 @@ class UsersController extends Controller
                                     // ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
                 $paginate = $change_requests->toArray();
             }
+            $print_requests = ChangeOrderRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                            ->leftjoin('users', 'users.id','=','user_details.user_id')
+                            ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                            ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                            ->leftjoin('admins','sales_persons.email','=','admins.email')
+                            ->where('request_status','=',0)
+                            ->where('admins.id',$manager->id)
+                            ->orderBy('change_order_requests.id','DESC')
+                            ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
 
         }
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        return view('backend.pages.orders.index',compact('change_request','user','paginate','limit','search'));
+        return view('backend.pages.orders.index',compact('change_request','user','paginate','limit','search','print_requests'));
     }
 
     public function CustomerChangeOrderDetails($change_id){

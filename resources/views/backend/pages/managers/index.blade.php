@@ -39,7 +39,7 @@ Relational Managers - Admin Panel
                                         </div>
                                         <form id="managers_from" action="/admin/admins/manager" method="GET"></form>
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-managers-print-icon">
                                             </a>
@@ -111,7 +111,26 @@ Relational Managers - Admin Panel
             </div>
         </div>
     </div>
-</div>    
+</div> 
+{{-- print tables --}}
+<table id="print_table" class="text-center datatable-dark dataTable backend_datatables">
+    <thead class="text-capitalize">
+        <tr>
+            <th width="10%" class="text-dark">{{config('constants.label.admin.manager_no')}}</th>
+            <th width="10%" class="text-dark">Name</th>
+            <th width="10%" class="text-dark">Email</th>                                  
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($print_managers as $print_manager)
+        <tr>
+            <td class="text-dark">{{ $print_manager->person_number }}</td>
+            <td class="text-dark">{{ $print_manager->name }}</td>
+            <td class="text-dark">{{ $print_manager->email }}</td>                                                               
+        </tr>
+    @endforeach
+    </tbody>
+</table>
 @endsection
 @section('scripts')
 <script>
