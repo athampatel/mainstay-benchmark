@@ -3548,7 +3548,7 @@ tr.child ul{
       flex-direction: column;
    }
    #pagination_display_div2{
-      display: flex;
+      display: flex !important;
       align-items: center;
    }
    #vmi-post-count-bottom{

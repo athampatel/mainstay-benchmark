@@ -32,8 +32,9 @@
               <div class="card-body col-12 d-flex align-items-center pt-0">
                 <div class="box-details col-12"> 
                 @php
-                    $customer_session =  session('customers');
+                  $customer_session =  session('customers');
                 @endphp             
+                    {{-- {{dd($customer_session)}} --}}
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
                     <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
