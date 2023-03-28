@@ -13,6 +13,12 @@
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
                 <div class="col-12 col-md-12 col-lg-12 d-flex align-items-center">
                   <div class="box-icon small-icon rounder-border">
+                    @php
+                      $customer_session =  session('customers');
+                    @endphp               
+                  @if($customer_session[0]->profile_image)
+                  <img src="/{{$customer_session[0]->profile_image}}" class="rounded-circle regin_manager_profile"/>
+                  @else
                   <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
                     <g id="Group_1194" data-name="Group 1194" transform="translate(-332 -170)">
                       <g id="Ellipse_11" data-name="Ellipse 11" transform="translate(332 170)" fill="#424448" stroke="#9fcc47" stroke-width="1">
@@ -25,16 +31,14 @@
                       </g>
                     </g>
                   </svg>
+                  @endif
                   </div>  
                   <h4 class="mb-0 title-4">Customer Info</h4>
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
                 <div class="box-details col-12"> 
-                @php
-                  $customer_session =  session('customers');
-                @endphp             
-                    {{-- {{dd($customer_session)}} --}}
+                
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
                     <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>

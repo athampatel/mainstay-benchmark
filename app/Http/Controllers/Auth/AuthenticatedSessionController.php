@@ -40,8 +40,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
         $user = Auth::user();
-        // dd($user);
-        $customer = UserDetails::where('user_id',$user->id)->get();
+        $customer = UserDetails::where('user_id',$user->id)
+                    ->leftjoin('users','users.id','=','user_details.user_id')
+                    ->select('user_details.*','users.profile_image')
+                    ->get();
+
         if($user->is_vmi){
             $data = array(            
                 "filter" => [

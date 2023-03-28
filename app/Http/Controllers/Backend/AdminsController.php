@@ -182,6 +182,7 @@ class AdminsController extends Controller
      */
     public function update(Request $request, int $id)
     {
+
         // dd($request->all());
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
             // abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
