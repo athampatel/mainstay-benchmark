@@ -39,6 +39,7 @@ Admin Edit - Admin Panel
                                     <div class="form-group col-md-6 col-sm-6">
                                         <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
                                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
+                                        <input type="hidden" name="username" value="{{ $admin->username }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         {{-- <label for="email">Admin Email</label> --}}
