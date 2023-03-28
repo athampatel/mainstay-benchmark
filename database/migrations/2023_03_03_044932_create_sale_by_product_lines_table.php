@@ -17,6 +17,7 @@ class CreateSaleByProductLinesTable extends Migration
             $table->id();
             $table->integer('user_details_id');
             $table->text('ProductLine')->nullable();
+            $table->text('ProductLineDesc')->nullable();
             $table->text('year')->nullable();
             $table->text('month')->nullable();
             $table->text('value')->nullable();

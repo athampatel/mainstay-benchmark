@@ -62,160 +62,166 @@ User Create - Admin Panel
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                             @csrf 
-                            @foreach($customers as $key => $user_info)
                             <div class="card mb-3">
-                                <div class="card-body">
-                                    @if(count($customers) > 1)
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12 col-sm-12 custom-checkbox">
-                                                <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" class="custom-control-input create_customerCheck" id="create_user_{{$key}}" checked />
-                                                <label class="custom-control-label px-3" for="create_user_{{$key}}">Create Customer - {{$user_info['customerno']}} </label>
-                                            </div>   
-                                        </div>
-                                    @endif
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['customerno']}}</div>
-                                            @else
-                                                <input type="text" class="form-control required customerno" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
+                            @foreach($customers as $key => $user_info)
+                                        <div class="card-body {{$loop->first ? 'customer_header_row_first' : 'customer_header_row'}}" >
+                                            @if(count($customers) > 1)
+                                            <div class="customer_header" id="customer_header_{{$key}}">
+                                                <div class="form-row mb-0">
+                                                    <div class="form-group col-md-12 col-sm-12 custom-checkbox">
+                                                        <input type="checkbox" name="create_user[{{$key}}]" value="{{$key}}" class="custom-control-input create_customerCheck customer_mult_check" id="create_user_{{$key}}" checked />
+                                                        <label class="custom-control-label px-3" for="create_user_{{$key}}">Create Customer - {{$user_info['customerno']}} </label>
+                                                        <i class="fa fa-angle-down customer_header_icon"></i>
+                                                    </div>   
+                                                </div>
+                                            </div>
                                             @endif
+                                            <div class="customer_data" id="create_user_body_{{$key}}">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['customerno']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required customerno" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
+                                                        @endif
+                                                    </div>
+    
+                                                    @if($key == 0)
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_email">{{ config('constants.label.admin.customer_email') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['emailaddress']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
+                                                        @endif
+                                                    </div>
+                                                    @endif 
+                                                </div>
+    
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['customername']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="customername[{{$key}}]" placeholder="Enter Name" value="{{$user_info['customername']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required" required  name="ardivisionno[{{$key}}]" placeholder="Enter AR division no" value="{{$user_info['ardivisionno']}}">
+                                                        @endif 
+                                                    </div>
+                                                </div>
+    
+                                                <h6 class="text-secondary">Address</h6><br>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['addressline1']}}</div>
+                                                        @else
+                                                            <input type="text" name="addressline1[{{$key}}]" class="form-control" placeholder="Enter Address line 1" value="{{$user_info['addressline1']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['addressline2']}}</div>
+                                                        @else
+                                                            <input type="text" name="addressline2[{{$key}}]" class="form-control"  placeholder="Enter Address line 2" value="{{$user_info['addressline2']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['addressline3']}}</div>
+                                                        @else
+                                                            <input type="text" name="addressline3[{{$key}}]" class="form-control" placeholder="Enter Address line 3" value="{{$user_info['addressline3']}}"> 
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_city">{{ config('constants.label.admin.city') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['city']}}</div>
+                                                        @else
+                                                            <input type="text" name="city[{{$key}}]" class="form-control" placeholder="Enter City" value="{{$user_info['city']}}"> 
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_state">{{ config('constants.label.admin.state') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['state']}}</div>
+                                                        @else 
+                                                            <input type="text" name="state[{{$key}}]" class="form-control"  placeholder="Enter State" value="{{$user_info['state']}}"> 
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['zipcode']}}</div>
+                                                        @else    
+                                                            <input type="text" name="zipcode[{{$key}}]" class="form-control" placeholder="Enter Zipcode" value="{{$user_info['zipcode']}}"> 
+                                                        @endif
+                                                    </div>
+                                                </div>
+    
+                                                <h6 class="text-secondary">Benchmark Regional Manager</h6><br>
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }} </label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
+                                                        @else    
+                                                            <input type="text" name="salespersondivisionno[{{$key}}]" class="form-control required" required  placeholder="Enter Division No" value="{{$user_info['salespersondivisionno']}}"> 
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['salespersonno']}}</div>
+                                                        @else
+                                                            <input type="text" name="salespersonno[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person No" value="{{$user_info['salespersonno']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['salespersonname']}}</div>
+                                                        @else 
+                                                            <input type="text" name="salespersonname[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person Name" value="{{$user_info['salespersonname']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
+                                                        @else        
+                                                            <input type="text" name="salespersonemail[{{$key}}]" class="form-control required" required  placeholder="Enter Sales Person Email" value="{{$user_info['salespersonemail']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        @if($key == 0)
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_email">{{ config('constants.label.admin.customer_email') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['emailaddress']}}</div>
-                                            @else
-                                                <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
-                                            @endif
-                                        </div>
-                                        @endif 
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['customername']}}</div>
-                                            @else
-                                                <input type="text" class="form-control required"  required name="customername[{{$key}}]" placeholder="Enter Name" value="{{$user_info['customername']}}"> 
-                                            @endif    
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['ardivisionno']}}</div>
-                                            @else
-                                                <input type="text" class="form-control required" required  name="ardivisionno[{{$key}}]" placeholder="Enter AR division no" value="{{$user_info['ardivisionno']}}">
-                                            @endif 
-                                        </div>
-                                    </div>
-
-                                    <h6 class="text-secondary">Address</h6><br>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['addressline1']}}</div>
-                                            @else
-                                                <input type="text" name="addressline1[{{$key}}]" class="form-control" placeholder="Enter Address line 1" value="{{$user_info['addressline1']}}"> 
-                                            @endif    
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['addressline2']}}</div>
-                                            @else
-                                                <input type="text" name="addressline2[{{$key}}]" class="form-control"  placeholder="Enter Address line 2" value="{{$user_info['addressline2']}}"> 
-                                            @endif    
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['addressline3']}}</div>
-                                            @else
-                                                <input type="text" name="addressline3[{{$key}}]" class="form-control" placeholder="Enter Address line 3" value="{{$user_info['addressline3']}}"> 
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_city">{{ config('constants.label.admin.city') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['city']}}</div>
-                                            @else
-                                                <input type="text" name="city[{{$key}}]" class="form-control" placeholder="Enter City" value="{{$user_info['city']}}"> 
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_state">{{ config('constants.label.admin.state') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['state']}}</div>
-                                            @else 
-                                                <input type="text" name="state[{{$key}}]" class="form-control"  placeholder="Enter State" value="{{$user_info['state']}}"> 
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['zipcode']}}</div>
-                                            @else    
-                                                <input type="text" name="zipcode[{{$key}}]" class="form-control" placeholder="Enter Zipcode" value="{{$user_info['zipcode']}}"> 
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <h6 class="text-secondary">Benchmark Regional Manager</h6><br>
-                                    
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }} </label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['salespersondivisionno']}}</div>
-                                            @else    
-                                                <input type="text" name="salespersondivisionno[{{$key}}]" class="form-control required" required  placeholder="Enter Division No" value="{{$user_info['salespersondivisionno']}}"> 
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['salespersonno']}}</div>
-                                            @else
-                                                <input type="text" name="salespersonno[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person No" value="{{$user_info['salespersonno']}}"> 
-                                            @endif    
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['salespersonname']}}</div>
-                                            @else 
-                                                <input type="text" name="salespersonname[{{$key}}]" class="form-control required" required placeholder="Enter Sales Person Name" value="{{$user_info['salespersonname']}}"> 
-                                            @endif    
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
-                                            @if(isset($user->id))
-                                                <div class="text-secondary">{{$user_info['salespersonemail']}}</div>
-                                            @else        
-                                                <input type="text" name="salespersonemail[{{$key}}]" class="form-control required" required  placeholder="Enter Sales Person Email" value="{{$user_info['salespersonemail']}}"> 
-                                            @endif    
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
+                                    {{-- </div> --}}
+                            {{-- test working end --}}
 
                                     <input type="hidden" name="vmi_companycode[{{$key}}]" value="{{$user_info['vmi_companycode']}}"> 
                                     @endforeach
+                                    </div>
                                     
                                     @if(isset($user->id))
                                         <input type="hidden" name="" value="{{$user->id}}" id="user_id">
@@ -252,6 +258,7 @@ User Create - Admin Panel
 @endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>    
     $(document).ready(function() {

@@ -41,7 +41,7 @@ Role Page - Admin Panel
                                     </div>
                                     <form id="roles_from" action="/admin/roles" method="GET"></form>
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-roles-print-icon">
                                             </a>

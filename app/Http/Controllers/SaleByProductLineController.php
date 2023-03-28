@@ -120,18 +120,27 @@ class SaleByProductLineController extends Controller
                         $ProductLine = $line_data['productline'];
                     elseif(isset($line_data['ProductLine']))
                         $ProductLine = $line_data['ProductLine'];
+                    // product line description
+                    if(isset($line_data['productlinedesc']))
+                        $ProductLineDesc = $line_data['productlinedesc'];
+                    elseif(isset($line_data['ProductLineDesc']))
+                        $ProductLineDesc = $line_data['ProductLineDesc'];
                     for($i = 1;$i<=12;$i++){                        
                         if(isset($line_data['DollarsSoldPeriod'.$i]) && $line_data['DollarsSoldPeriod'.$i] > 0){
                             $line_item = SaleByProductLine::where('user_details_id',$customer_id)
                                                             ->where('year',$year)
                                                             ->where('month',$i)
-                                                            ->where('ProductLine',$ProductLine)->first();
+                                                            ->where('ProductLine',$ProductLine)
+                                                            ->where('ProductLineDesc',$ProductLineDesc)
+                                                            ->first();
 
                             $array = array('year'               => $year,
                                            'month'              => $i,
                                            'value'              => $line_data['DollarsSoldPeriod'.$i],
                                            'user_details_id'    => $customer_id,
-                                           'ProductLine'        => $ProductLine);
+                                           'ProductLine'        => $ProductLine,
+                                           'ProductLineDesc'    => $ProductLineDesc,
+                                        );
 
                             if($line_item){
                                 $line_item->save($array);

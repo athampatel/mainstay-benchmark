@@ -11,6 +11,7 @@ class SaleByProductLine extends Model
     protected $fillable = [
         'user_details_id',
         'ProductLine',
+        'ProductLineDesc',
         'year',
         'month',
         'value'

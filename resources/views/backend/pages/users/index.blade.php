@@ -40,7 +40,7 @@ Customers - Admin Panel
                                     </div>
                                     <form id="customer_from" action="/admin/customers" method="GET"></form>                                    
                                     <div class="datatable-export">
-                                        <div class="datatable-print">
+                                        <div class="datatable-print admin">
                                             <a href="">
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
@@ -145,15 +145,58 @@ Customers - Admin Panel
         </div>
     </div>    
 </div>
-@php 
-// $searchWords = [
-//     [ 'name' => 'Roles','link' => '/admin/roles'],
-//     [ 'name' => 'Customers','link' => '/admin/customers'],
-//     [ 'name' => 'admins','link' => '/admin/admins'],
-//     [ 'name' => 'Signups','link' => '/admin/signups'],
-//     [ 'name' => 'roleres','link' => '/admin/signups'],
-// ];
-@endphp
+
+{{-- customers print table --}}
+<table id="print_table" class="text-center datatable-dark backend_datatables">
+    <thead class="text-capitalize">
+        <tr>
+            <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
+            <th width="10%">Profile Picture</th>
+            <th width="10%">Name</th>
+            <th width="10%">Email</th>
+            <th width="10%">{{ config('constants.label.admin.ar_division_no') }}</th>
+            <th width="10%">{{ config('constants.label.admin.relational_manager') }}</th>
+            <th width="10%">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($print_users as $print_user)
+        <tr>
+            <td> <a class="" href="{{ route('admin.users.edit', $print_user->id) }}">{{ $print_user->customerno }}</a></td>
+            <td>
+                @if($print_user->profile_image)
+                    <img src="/{{$print_user->profile_image}}" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                @else
+                    <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                @endif  
+            </td>
+            <td>{{ $print_user->name }}</td>
+            <td>{{ $print_user->email }}</td>
+            <td>{{ $print_user->ardivisionno }}</td>
+            <td>
+                @if($print_user->sales_person != '')
+                    {{$print_user->sales_person}} ({{$print_user->person_number}})
+                @else
+                    -
+                @endif
+            </td>                                    
+            <td>
+                <div class="status-btns">
+                    @if( $print_user->active == 1)
+                        Active <br>
+                    @elseif( $print_user->active == 0 && $print_user->is_deleted == 0)
+                        New <br>
+                    @endif
+
+                    @if($print_user->is_vmi == 1 && $print_user->vmi_companycode != '' )
+                        Inventory
+                    @endif
+                </div>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 @endsection
 
 @section('scripts')

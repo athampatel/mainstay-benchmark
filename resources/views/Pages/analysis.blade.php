@@ -64,6 +64,7 @@
         </div>
     </div>
     <div class="padding-y-40 open-orders analysis_table_container d-none" id="analysis_table_container">
+        <div id="export_message_display" class="alert alert-success d-none text-center"></div>
         <div class="row">
             <div class="col-12">
                 <div class="card box min-height-75 mb-0 border-bottom-radius-0">
@@ -91,10 +92,14 @@
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="analysis-print-icon">
                                     </a>
                                 </div>
-                                <div class="datatable-report">
+                                <div class="datatable-report position-relative">
                                     <a>
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
                                     </a>
+                                    <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-analysis-page-drop">
+                                        <a class="dropdown-item export-analysis-page-item" data-type="csv">Export to Excel</a>
+                                        <a class="dropdown-item export-analysis-page-item" data-type="pdf">Export to PDF</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

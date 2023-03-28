@@ -17,7 +17,7 @@
         <tbody id="invoice-orders-page-table-body">
             @foreach($invoices as $invoice)
             <tr>
-                <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
+                <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{$invoice['customerpono']}}</a></td>

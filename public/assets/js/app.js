@@ -274,3 +274,7 @@ $(document).on('keyup','#full_search_input',function(e){
 $(window).scroll(function (e) {
     $("#searchmodal").css("display", "none");
 })
+
+$(document).on('click','#change_order_Request_nav',function(){
+	window.location = '/requests/change_orders';
+})
