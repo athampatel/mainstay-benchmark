@@ -58,12 +58,12 @@ Customers - Admin Panel
                                 <table id="backend_signup_request" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="20%">Full Name</th>
-                                            <th width="20%">Email</th>
-                                            <th width="20%">{{ config('constants.label.admin.contact_no') }}</th>
-                                            <th width="20%">Company Name</th>
-                                            <th width="10%">Request Date</th>
-                                            <th width="10%">Action</th>
+                                            <th {{-- width="10%" --}}>Full Name</th>
+                                            <th {{-- width="20%" --}}>Email</th>
+                                            <th {{-- width="20%" --}}>{{ config('constants.label.admin.contact_no') }}</th>
+                                            <th {{-- width="20%" --}}>Company Name</th>
+                                            <th {{-- width="10%" --}}>Request Date</th>
+                                            <th {{-- width="10%" --}}>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,7 +73,8 @@ Customers - Admin Panel
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->phone_no}}</td>
                                             <td>{{$user->company_name}}</td>
-                                            <td>{!!$user->created_at->format('Y-m-d H:i:s')!!}</td>
+                                            {{-- <td>{!!$user->created_at->format('Y-m-d H:i:s')!!}</td> --}}
+                                            <td>{!!$user->created_at->format('M d, Y')!!}</td>
                                             <td>
                                                 @if($user['user_id'] != null)
                                                 <a href="{{env('APP_URL')}}admin/user/{{$user->user_id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded text-capitalize btn-primary bm-btn-primary">View Details</a>
@@ -121,7 +122,7 @@ Customers - Admin Panel
             <td>{{$print_user->phone_no}}</td>
             <td>{{$print_user->company_name}}</td>
             <td>
-                {{$print_user->created_at->format('Y-m-d - H:i:s ')}}
+                {{$print_user->created_at->format('M d, Y')}}
             </td>
         </tr>
         @endforeach

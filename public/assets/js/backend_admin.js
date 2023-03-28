@@ -622,3 +622,21 @@ $(document).on('click','.datatable-print.admin a',function(e){
     e.preventDefault();
     window.print();
 })
+
+
+// admin customer request toggle
+$(document).on('change','.customer_mult_check',function(e){
+    e.preventDefault();
+    let value = $(e.currentTarget).val();
+    let accord_name = `#create_user_body_${value}`;
+    let accord_header_name = `#customer_header_${value}`;
+    if($(e.currentTarget).is(':checked')){
+        $(accord_name).removeClass('d-none');
+        $(accord_header_name).css("background-color", "#9FCC47");
+        $(accord_header_name+' .customer_header_icon').css("transform", "rotate(180deg)");
+    } else {
+        $(accord_name).addClass('d-none');
+        $(accord_header_name).css("background-color", "#7B7C7F");
+        $(accord_header_name+' .customer_header_icon').css("transform", "rotate(0deg)");
+    }
+})

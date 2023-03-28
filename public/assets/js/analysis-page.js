@@ -441,3 +441,49 @@ function exportChart(chartname,type){
         });
     }
 }
+
+// export analysis  
+$(document).on('click','#analysis-report-icon',function(e){
+    e.preventDefault();
+    $('#export-analysis-page-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-analysis-page-item',function(e){
+    e.preventDefault();
+    let type = $(e.currentTarget).data('type');
+    let year = parseInt($('#analysis_year_select option:selected').val());
+    let range = parseInt($('#analysis_range_select option:selected').val());
+    if(range == 4){
+        let range_text = $('input[name="daterange"]').val();
+        let range_start1 = range_text.slice(0,10);
+        let range_end1 = range_text.substring(13);
+        let range_start = moment(range_start1,'MM-DD-YYYY').subtract(1,'days').format('YYYY-MM-DD');
+        let range_end = moment(range_end1,'MM-DD-YYYY').add(1,'days').format('YYYY-MM-DD');
+        year = `${range_start}&${range_end}`;  
+    } 
+    let type1 = 1;
+    if(type == 'csv'){
+        type1 = 1;
+    } 
+    if(type == 'pdf'){
+        type1 = 2;
+    }
+
+    // ajax call
+    $.ajax({
+        type: 'POST',
+        url: '/exportAnalysis',
+        dataType: "JSON",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: { 'year' : year,'range':range,'type':type1},
+        success: function (res) {  
+            if(res.success){
+                $('#export_message_display').html(res.message).removeClass('d-none');
+            }
+            setTimeout(() => {
+                $('#export_message_display').addClass('d-none');
+            }, 2000);
+        }
+    });
+    $('#export-analysis-page-drop').addClass('d-none');
+})

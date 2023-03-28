@@ -21,8 +21,10 @@ use App\Http\Controllers\SchedulerLogController;
 use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
+use App\Models\AnalaysisExportRequest;
 use App\Models\ChangeOrderRequest;
 use App\Models\SearchWord;
+use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
@@ -112,15 +114,13 @@ class MenuController extends Controller
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
-
         $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
         $sale_map                   = array();
         if(!empty($saleby_productline)){
-            foreach($saleby_productline as $key => $value){                         
+            foreach($saleby_productline as $key => $value){         
                 $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
             }
         }            
-       
         $data['saleby_productline'] = $sale_map; 
         $data['data_productline']   = $sale_map;
 
@@ -932,5 +932,52 @@ class MenuController extends Controller
                 return self::getPageNumberInUrl($remaining_string,'=');
             }
         }
+    }
+
+    // analysis export
+    public function analysisExport(Request $request){
+        $data = $request->all();
+        $range = $data['range'];
+        $year = $data['year'];
+        $type = $data['type'];
+        $customer_no    = $request->session()->get('customer_no');
+        $user_detail = UserDetails::where('customerno',$customer_no)->first();
+        
+        // generate a data
+        $filter_dates = $this->getRangeDates($range,$year);
+        $start_date = $filter_dates['start'];
+        $end_date = $filter_dates['end'];
+        $year1 = '';
+        if($range == 0){
+            $year1 = Carbon::parse($start_date)->addYear()->format('Y');
+        } else {
+            $year1 = Carbon::parse($start_date)->format('Y'); 
+        }
+        
+        $start_date = Carbon::parse($start_date)->addDay()->format('Y-m-d');
+        $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');
+        // generate a unique requested id
+        $time_stamp = Carbon::now()->format('Ymd_his');
+        $time_stamp = $time_stamp.'_'.$user_detail->id;
+
+        // $unique_request_id = Str::random(30);
+
+        // create a analysis page request
+        $analysisRequest = AnalaysisExportRequest::create([
+            'customer_no' =>  $customer_no,
+            'user_detail_id' => $user_detail->id,
+            'ardivisiono' => $user_detail->ardivisionno,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'year' => $year1,
+            'unique_id' => $time_stamp,
+            'type' => intval($type),
+            'status' => 0,
+        ]);
+
+        if($analysisRequest){
+            return json_encode(['success' => true,'message' => 'Export Request sent successfully']);
+        }
+        return json_encode(['success' => false]);
     }
 }

@@ -2763,6 +2763,39 @@ tr.child ul{
   display: none;
 }
 
+/* customer  */
+.customer_header{
+  background-color: #9FCC47;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.customer_header_icon{
+  float: right;
+  margin-right: 10px;
+  font-size: 25px !important;
+}
+
+.customer_data{
+  background:#201e1e;
+  padding: 1rem;
+  border-radius: 12px;
+}
+.customer_header_row{
+  padding:0 1rem 1rem 1rem !important;
+}
+.customer_header_row_first{
+  padding:1rem 1rem 0.5rem 1rem !important;
+}
+
+.customer_mult_check:checked ~ .customer_header_icon{
+  transform: rotate(180deg);
+}
+
+#analysis-report-icon{
+  cursor: pointer;
+}
 
 /* print */
 @media print {

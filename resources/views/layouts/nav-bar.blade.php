@@ -54,7 +54,7 @@
             </div>
             <div class="notification_count_section dropdown dropdown-large position-relative item-message">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="">
+                    <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Change Order Requests" id="change_order_Request_nav">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
                         <defs>
                             <clipPath class="clip-path">

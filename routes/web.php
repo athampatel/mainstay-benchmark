@@ -112,6 +112,9 @@ Route::middleware('auth')->group(function () {
     // change order request page
     Route::get('/requests/change_orders',[MenuController::class,'getChangeOrderRequests']);
     Route::get('/getChangeOrderRequest',[MenuController::class,'getAllChangeRequests']);
+
+    // export data in analysis page
+    Route::post('/exportAnalysis',[MenuController::class,'analysisExport']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
