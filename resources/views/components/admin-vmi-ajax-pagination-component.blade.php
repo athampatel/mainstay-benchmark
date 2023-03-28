@@ -7,7 +7,7 @@
     <div class="pagination_text">{{$pagination['from']}}-{{$pagination['to']}} of {{$pagination['total']}} items</div>
     <div class="d-flex align-items-center" id="pagination_display_div1">
         <div class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-dark d-none" id="vmi-post-count-bottom">Post Counts</div>
-        <div id="pagination_display_div2">
+        <div id="pagination_display_div2" class="d-flex">
             <div class="d-flex">
                 <input type="hidden" name="" id="pagination_path" value="{{$pagination['path']}}">
                 <input type="hidden" name="" id="current_page" value="{{$pagination['curr_page']}}">
