@@ -28,7 +28,7 @@
     <div class="notification_section">
         <div class="notification_icons d-flex align-items-center">
             <div class="notification_count_section">
-                <div class="notification_icon">
+                <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Account Settings" id="account_setting_nav">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.154" height="22.644" viewBox="0 0 21.154 22.644">
                     <defs>
                         <clipPath class="clip-path">
@@ -44,7 +44,7 @@
             </div>
 
             <div class="notification_count_section">
-                <div class="notification_icon">
+                <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Change Order Requests" id="admin_nav_change">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.446" height="21.446" viewBox="0 0 21.446 21.446">
                         <defs>
                             <clipPath class="clip-path">
@@ -63,7 +63,7 @@
             <div class="notification_count_section dropdown dropdown-large position-relative active">
                 {{-- <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> --}}
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative navbar_notification_icon" href="#" role="button" aria-expanded="false">
-                    <div class="notification_icon">
+                    <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Notifications">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                         <defs>
                             <clipPath class="clip-path">

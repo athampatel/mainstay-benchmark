@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
 
+@section('title')
+{{config('constants.page_title.customers.analysis')}} - Benchmark
+@endsection
+
 @section('content')
 <div class="backdrop d-none">
     <div class="loader"></div>
@@ -86,7 +90,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export">
+                            {{-- <div class="datatable-export">
                                 <div class="datatable-print">
                                     <a>
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="analysis-print-icon">
@@ -97,6 +101,18 @@
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
                                     </a>
                                     <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-analysis-page-drop">
+                                        <a class="dropdown-item export-analysis-page-item" data-type="csv">Export to Excel</a>
+                                        <a class="dropdown-item export-analysis-page-item" data-type="pdf">Export to PDF</a>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="analysis-page-export">
+                                <div class="user-select-none">Export</div>
+                                <div class="d-flex justify-content-center align-items-center position-relative">
+                                    <a href="" class="d-flex justify-content-center align-items-center">
+                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
+                                    </a>
+                                    <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="export-admin-customers" id="export-analysis-page-drop">
                                         <a class="dropdown-item export-analysis-page-item" data-type="csv">Export to Excel</a>
                                         <a class="dropdown-item export-analysis-page-item" data-type="pdf">Export to PDF</a>
                                     </div>
@@ -146,6 +162,7 @@
             </div>
         </div>	
     </div>
+    <div class="" id="analysis_page_des_chart"></div>
 </div>
 @endsection
 

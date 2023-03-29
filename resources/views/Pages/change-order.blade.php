@@ -1,5 +1,9 @@
 @extends('layouts.dashboard')
 
+@section('title')
+{{config('constants.page_title.customers.change_order')}} - Benchmark
+@endsection
+
 @section('content')
 <div class="backdrop d-none">
     <div class="loader"></div>

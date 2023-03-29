@@ -115,6 +115,9 @@ Route::middleware('auth')->group(function () {
 
     // export data in analysis page
     Route::post('/exportAnalysis',[MenuController::class,'analysisExport']);
+
+    // help message send
+    Route::post('/sendHelp',[MenuController::class,'sendHelp']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

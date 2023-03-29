@@ -1,5 +1,8 @@
 @extends('layouts.dashboard')
 
+@section('title')
+{{config('constants.page_title.customers.dashboard')}} - Benchmark
+@endsection
 @section('content')
 <div class="backdrop d-none">
   <div class="loader"></div>
@@ -280,6 +283,8 @@
      </div>	
     </div>
 
+    {{-- customer total spending in description --}}
+    <div id="customer-spending-desc-chart"></div>
     @if(Auth::user()->is_vmi == 1)
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
       <div class="col small-right-pad">
@@ -335,6 +340,7 @@
     @if($saleby_productline)     
        var sell_bycat = <?php echo json_encode($saleby_productline); ?>;
        var data_bycat = <?php echo json_encode($data_productline); ?>;            
+       var data_bycat_desc = <?php echo json_encode($data_productline_desc); ?>;            
     @endif 
 </script>
 @endsection

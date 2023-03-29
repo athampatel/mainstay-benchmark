@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
 
+@section('title')
+{{config('constants.page_title.customers.invoice')}} - Benchmark
+@endsection
+
 @section('content')
 <div class="home-content">
     <span class="page_title">Invoiced Orders</span>
@@ -33,7 +37,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export">
+                            {{-- <div class="datatable-export">
                                 <div class="datatable-print">
                                     <a href="">
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="invoice-orders-print-page-icon">
@@ -46,6 +50,19 @@
                                     <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-invoice-orders-drop">
                                         <a href="/admin/exportAllCustomers" class="dropdown-item export-invoice-orders-item" data-type="csv">Export to Excel</a>
                                         <a href='/admin/exportAllCustomerInPdf' class="dropdown-item export-invoice-orders-item" data-type="pdf">Export to PDF</a>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            {{-- export change --}}
+                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="invoice-order-export">
+                                <div class="user-select-none">Export</div>
+                                <div class="d-flex justify-content-center align-items-center position-relative">
+                                    <a href="" class="d-flex justify-content-center align-items-center">
+                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-invoice-orders-report-icon">
+                                    </a>
+                                    <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="export-admin-customers" id="export-invoice-page-drop">
+                                        <a class="dropdown-item export-invoice-page-item" data-type="csv">Export to Excel</a>
+                                        <a class="dropdown-item export-invoice-page-item" data-type="pdf">Export to PDF</a>
                                     </div>
                                 </div>
                             </div>
