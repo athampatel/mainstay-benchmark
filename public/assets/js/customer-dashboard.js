@@ -11,6 +11,7 @@ window.addEventListener("load", function() {
 let customer_sales_chart;
 let customer_open_orders;
 let customer_total_spedning_chart;
+let customer_total_spedning_desc_chart;
 
 function customerSalesHistory(){
 
@@ -314,6 +315,7 @@ function customerOpenOrders($array){
 // customer spending chart display
 function customerSpendingChart(){
     var labels = [];
+    var labels_desc = [];
     var value = [];
     if(typeof(data_bycat) != 'undefined'){
         $.each(data_bycat,function(index,values){
@@ -322,6 +324,16 @@ function customerSpendingChart(){
             value.push(Math.round(values.value));
         });
     }
+
+    // description
+    if(typeof(data_bycat_desc) != 'undefined'){
+        $.each(data_bycat_desc,function(index,values){
+            let __label = values.label;
+            labels_desc.push(__label);            
+        });
+    }
+    
+    console.log(labels_desc,'__labels_desc');
     // var options = {
     //     series: value,
     //     chart: {
@@ -473,6 +485,116 @@ function customerSpendingChart(){
 
     customer_total_spedning_chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);
     customer_total_spedning_chart.render();
+
+    // customer-spending-desc-chart
+
+    var options1 = {
+        series: [{
+                name: 'Sales',
+                data: value
+            },
+        ],
+        chart: {
+            foreColor: '#9ba7b2',
+            type: 'line',
+            height: 360,
+            zoom:{
+                enabled:false
+            },
+            toolbar : {
+                show:false
+            },
+            dropShadow:{
+                enabled:true,
+                top:3,
+                left:14,
+                blur:4,
+                opacity:0.10,
+            }
+        },
+        stroke: {
+            width: 3,
+            curve:'straight'
+        },
+
+        xaxis: {
+            type:'month',
+            categories: labels_desc,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                gradientToColors: ['#A4CD3C'],
+                shadeIntensity: 1,
+                type: 'horizontal',
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100, 100, 100]
+            },
+        },
+        markers: {
+        	size: 4,
+        	colors: ["#A4CD3C"],
+        	strokeColors: "#A4CD3C",
+        	strokeWidth: 2,
+        	hover: {
+        		size: 7,
+        	}
+        },
+        colors: ["#A4CD3C"],
+        
+        yaxis: {
+            title: {
+                text: ''
+            },
+            labels: {
+                formatter: function(value, index) {
+                    return '$'+ numberWithCommas(value);
+                 }
+              }
+        },
+        tooltip: {
+            x: {
+                show: true
+            },
+            y: {
+                formatter: function(value, series) {
+                return '$'+ numberWithCommas(value);
+                }
+            }
+        },
+        grid: {
+            borderColor: '#797B7D',
+            show: true,
+            xaxis: {
+                lines: {
+                    show: true 
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
+            },  
+            yaxis: {
+                lines: { 
+                    show: true 
+                },
+                labels: {
+                    formatter: function(val, index) {
+                        return '$'+ numberWithCommas(val);
+                     }
+                  }
+            },   
+        },
+    };
+
+
+    customer_total_spedning_desc_chart = new ApexCharts(document.querySelector("#customer-spending-desc-chart"), options1);
+    customer_total_spedning_desc_chart.render();
+    let customer_spending_desc = document.getElementById('customer-spending-desc-chart');
+    customer_spending_desc.style.display = 'none';
 }
 
 function numberWithCommas(x) {
@@ -555,7 +677,9 @@ $(document).on('click','#export-total-spending-chart',function(e){
 $(document).on('click','.export-total-spending-item',function(e){
     e.preventDefault();
     let type = $(e.currentTarget).data('type');
-    exportChart(customer_total_spedning_chart,type);
+    // exportChart(customer_total_spedning_chart,type);
+
+    exportChart(customer_total_spedning_desc_chart,type);
     $('#export-total-spending-drop').toggleClass('d-none')
 })
 

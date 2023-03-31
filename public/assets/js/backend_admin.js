@@ -640,3 +640,15 @@ $(document).on('change','.customer_mult_check',function(e){
         $(accord_header_name+' .customer_header_icon').css("transform", "rotate(0deg)");
     }
 })
+
+// admin nav bar
+$(document).on('click','#account_setting_nav',function(e){
+    e.preventDefault();
+    window.location = '/admin/profile';
+})
+
+
+$(document).on('click','#admin_nav_change',function(e){
+    e.preventDefault();
+    window.location = '/admin/customers/change-orders';
+})

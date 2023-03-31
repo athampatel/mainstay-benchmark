@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
 
+@section('title')
+{{config('constants.page_title.customers.change_request')}} - Benchmark
+@endsection
+
 @section('content')
 <div class="backdrop d-none">
     <div class="loader"></div>
@@ -36,7 +40,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export">
+                            {{-- <div class="datatable-export">
                                 <div class="datatable-print">
                                     <a href="">
                                         <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="dashboard-change-order-request-print-icon">
@@ -47,7 +51,20 @@
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-change-order-request-report-icon">
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
+                            {{-- new export --}}
+                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="change-request-page-export">
+                                <div class="user-select-none">Export</div>
+                                <div class="d-flex justify-content-center align-items-center position-relative">
+                                    <a href="" class="d-flex justify-content-center align-items-center">
+                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="change-request-report-icon">
+                                    </a>
+                                    <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="export-admin-customers" id="export-change-request-page-drop">
+                                        <a class="dropdown-item export-change-request-page-item" data-type="csv">Export to Excel</a>
+                                        <a class="dropdown-item export-change-request-page-item" data-type="pdf">Export to PDF</a>
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                     <div class="table_loader d-none">
@@ -77,5 +94,16 @@
     <script>
         const constants = <?php echo json_encode($constants); ?>;
         const searchWords = <?php echo json_encode($searchWords); ?>;
+
+        $(document).on('click','#change-request-page-export',function(e){
+            e.preventDefault();
+            $('#export-change-request-page-drop').toggleClass('d-none');
+        })
+
+        $(document).on('click','.export-change-request-page-item',function(e){
+            e.preventDefault();
+            // $('#export-change-request-page-drop').toggleClass('d-none');
+            console.log('__change_request_page_export_item_clicked');
+        })
     </script>
 @endsection

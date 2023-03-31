@@ -216,6 +216,23 @@
         // vmi inventory
         'vmi_inventory' => [
             'no_change' => 'There is no change is added',
+        ],
+
+
+        // page title
+        'page_title' => [
+            'customers'=> [
+                'dashboard' => 'Dashboard',
+                'invoice' => 'Invoiced Orders',
+                'open_order' => 'Open Orders',
+                'analysis' => 'Analysis',
+                'vmi' => 'VMI',
+                'account_setting' => 'Account Settings',
+                'help' => 'Help',
+                'invoice_detail' => 'Invoice Detail',
+                'change_order' => 'Open Order',
+                'change_request' => 'Change Orders'
+            ]
         ]
     ];
     // {{ config('constants.label.admin.role_name') }}

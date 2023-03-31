@@ -1844,7 +1844,8 @@ input.analysis_select {
   margin-left: 0.75rem;
 }
 .vmi-datatable-export{
-  width: 17.625rem; /* 141 */
+  /* width: 17.625rem; */ /* 141 */
+  width: 8.8125rem; /* 141 */
   height: 1.875rem;
   background-color: #7B7C7F;
   color: #fff;
@@ -1952,6 +1953,10 @@ input.analysis_select {
 
 .box-shadow-none{
   box-shadow: none !important;
+}
+
+.text-decoration-none{
+  text-decoration: none;
 }
 
 .datatable-report a{ 
@@ -2690,6 +2695,24 @@ table.dataTable td, table.dataTable th{
   user-select: none;
 }
 
+.export-drop-down-table.customer{
+  margin-top: 0.3125rem;
+  background: #7b7c7f;
+  display: block;
+  min-width: 7rem;
+  top: 0.75rem;
+  right: -2.25rem;
+}
+
+.export-drop-down-table.vmi{
+  margin-top: 0.3125rem;
+  background: #7b7c7f;
+  display: block;
+  min-width: 7rem;
+  top: 1.75rem;
+  right:0.75rem;
+}
+
 .min-height-75{
   min-height: 75vh;
 }
@@ -2795,6 +2818,54 @@ tr.child ul{
 
 #analysis-report-icon{
   cursor: pointer;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.gap-15{
+  gap: 0.9375rem !important;
+}
+
+.user-select-none{
+  user-select: none;
+}
+
+#help_textarea{
+  background: #7B7C7F;
+  border-radius: 0.625rem;
+  padding: 0.9375rem;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-size: 0.75rem;
+}
+
+#help-save-button{
+  margin-top: 0.625rem;
+}
+
+#help_textarea::placeholder{
+  color: #bdbebf;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* button active */
+.btn-primary:active{
+  background-color: #8eb83b;
+  border-color: #8eb83b;
+}
+
+.btn-primary:focus{
+  background-color: #8eb83b;
+  border-color: #8eb83b;
+  box-shadow:0 0 0 0.25rem rgba(142,184,59,0.5);
+}
+
+.btn-primary:active:focus{
+  box-shadow:0 0 0 0.25rem rgba(142,184,59,0.5);
 }
 
 /* print */

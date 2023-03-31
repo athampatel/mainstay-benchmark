@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
 use App\Models\AnalaysisExportRequest;
 use App\Models\ChangeOrderRequest;
+use App\Models\HelpRequest;
 use App\Models\SearchWord;
 use Illuminate\Support\Str;
 
@@ -114,15 +115,27 @@ class MenuController extends Controller
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;   
-        $saleby_productline         = ProductLine::getSaleDetails($customerDetails,$year);
+        $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
+        
+        $saleby_productline = $saleby_productline1['sales_details']; 
+        $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 
         $sale_map                   = array();
+        $sale_map_desc                   = array();
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){         
                 $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
             }
         }            
+        
+        if(!empty($saleby_productline_desc)){
+            foreach($saleby_productline_desc as $key => $value){         
+                $sale_map_desc[] = array('label' => $key,'value' => array_sum($value[$year]));
+            }
+        }
+
         $data['saleby_productline'] = $sale_map; 
         $data['data_productline']   = $sale_map;
+        $data['data_productline_desc']   = $sale_map_desc;
 
         // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
@@ -305,7 +318,7 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-            
+
             $response   = $this->SDEApi->Request('post','SalesOrders',$data);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
@@ -588,6 +601,7 @@ class MenuController extends Controller
         $last_page = intval(ceil($response['meta']['records'] / $limit));
         $custom_pagination['links'] = UsersController::customPagination(1,$last_page,$response['meta']['records'],intval($limit),intval($page + 1),'');
         $total = $response['meta']['records'];
+        // $custom_pagination['from'] = $offset;
         $custom_pagination['from'] = $offset;
         $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
         $custom_pagination['total'] = $total;
@@ -790,8 +804,13 @@ class MenuController extends Controller
         $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
 
         // product by line chart
-        $saleby_productline         = ProductLine::getSaleDetails($user_details,$year);
+        $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
+        $saleby_productline = $saleby_productline1['sales_details']; 
+        $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
+
         $sale_map                   = array();
+        $sale_map_desc                   = array();
+
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){   
                 $total_val = 0;
@@ -804,12 +823,26 @@ class MenuController extends Controller
                 $sale_map[] = array('label' => $key,'value' => $total_val);
             }
         }
+        
+        if(!empty($saleby_productline_desc)){
+            foreach($saleby_productline_desc as $key => $value){   
+                $total_val = 0;
+                foreach($value[$year] as $k => $v){
+                    $k = $k > 9 ? strval($k) : "0$k";
+                    if(in_array($k,$filter_dates['range_months'])){
+                        $total_val = $total_val + $v;
+                    }
+                }                  
+                $sale_map_desc[] = array('label' => $key,'value' => $total_val);
+            }
+        }
 
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
         $res['analysis_data'] = $response_data['customersaleshistory'];
         $res['range_months'] =  $filter_dates['range_months'];
         $res['product_data'] = $sale_map;
+        $res['product_data_desc'] = $sale_map_desc;
         echo json_encode($res);
         die();
     }
@@ -882,10 +915,20 @@ class MenuController extends Controller
         $page = $data['page'];
         $limit = $data['count'];
 
-        if($page == 0){
-            $offset = 1;
-        } else {
-            $offset = $page * $limit + 1;
+        // if($page == 0){
+        //     // $offset = 1;
+        //     $offset = 0;
+        // } else {
+        //     $offset = $page * $limit + 1;
+        // }
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        
+        if($offset > 1){
+            $offset = $offset * $limit;
+        } 
+        
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset * $limit;
         }
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
@@ -909,12 +952,15 @@ class MenuController extends Controller
         $response  = [];
         $response['meta']['records'] = $paginate['total'];
         $path = '/getChangeOrderRequest';
+        $offset = $offset + 1;
         $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
         $pagination_code = "";
         if(!empty($response)){
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
-            ->render();
+            if($custom_pagination['last_page'] > 0){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            }
         }
         echo json_encode(['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code]);
 
@@ -979,5 +1025,26 @@ class MenuController extends Controller
             return json_encode(['success' => true,'message' => 'Export Request sent successfully']);
         }
         return json_encode(['success' => false]);
+    }
+
+    // Send Help
+    public function sendHelp(Request $request){
+        $data = $request->all();
+        // get user detail id
+        $customer_no    = $request->session()->get('customer_no');
+        $user_detail = UserDetails::where('customerno',$customer_no)->first();
+
+        $helpRequest = HelpRequest::create([
+            'user_detail_id' => $user_detail->id,
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone_no' => $data['phone_no'],
+            'message' => $data['message'],
+        ]);
+
+        if($helpRequest){
+            echo json_encode(['success' => true, 'message' => 'Message sent successfully']);
+            die();
+        }
     }
 }

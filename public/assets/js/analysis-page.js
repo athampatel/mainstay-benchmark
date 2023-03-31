@@ -1,4 +1,5 @@
 let analysis_page_chart;
+let analysis_page_chart_desc;
 // table and chart toggle show
 let is_table = localStorage.getItem('is_table');
 let tab_input = document.getElementById('tab_input');
@@ -58,6 +59,7 @@ function getAnalysispageData($page,$count,range,year){
             let analysis_data = res.analysis_data;
             let range_months = res.range_months;
             let product_data = res.product_data;
+            let product_data_desc = res.product_data_desc;
             analysis_page_table = $('#analysis-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -71,17 +73,23 @@ function getAnalysispageData($page,$count,range,year){
             // analysis chart 
             let months = [];
             let chart_count = [];
+            let months_desc = [];
             if(chart_type == 0){
                 $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
                 months = $analaysis_count['months'];
+                months_desc = $analaysis_count['months'];
                 chart_count = $analaysis_count['final'];
             } else {
                 $analaysis_count =  getProductLineCount(product_data);
+                $analaysis_count_desc =  getProductLineCount(product_data_desc);
                 months = $analaysis_count['products'];
                 chart_count = $analaysis_count['counts'];
+                months_desc = $analaysis_count_desc['products'];
             }
-
+            console.log(months_desc,'__monthly desc');
+            // return false;
            renderAnalysisChart(chart_count,months);
+           renderAnalysisDescChart(chart_count,months_desc);
         },
         complete:function(){
             AfterAjax() 
@@ -407,6 +415,104 @@ function renderAnalysisChart(ct_counts,ct_months){
     analysis_page_chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
     analysis_page_chart.render();
 }
+function renderAnalysisDescChart(ct_counts,ct_months){
+    console.log(ct_months,'ct months');
+    let percent = `${ct_months.length * 3}%`;
+    const chart_div = document.querySelector("#analysis_page_des_chart");
+    chart_div.innerHTML = '';
+    var options1 = {
+        series: [{
+                name: 'Sales',
+                data: ct_counts
+            },
+        ],
+        chart: {
+            foreColor: '#9ba7b2',
+            type: 'bar',
+            height: 650,
+            zoom:{
+                enabled:false
+            },
+            toolbar : {
+                show:false
+            },
+            dropShadow:{
+                enabled:true,
+                top:3,
+                left:14,
+                blur:4,
+                opacity:0.10,
+            }
+        },
+        stroke: {
+            width: 2,
+            curve:'straight'
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth:percent
+            },
+        },
+        dataLabels: {
+             enabled: false //changeable
+        },
+        xaxis: {
+            // type:'month',
+            type:'category',
+            categories: ct_months
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                gradientToColors: ['#A4CD3C'],
+                shadeIntensity: 1,
+                type: 'horizontal',
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100, 100, 100]
+            },
+        },
+        tooltip: {
+            x: {
+                show: false
+            },
+            y: {
+                formatter: function($ct_counts, series) {
+                return '$'+ numberWithCommas($ct_counts);
+                }
+            }
+        },
+        markers: {
+            size: 4,
+            colors: ["#A4CD3C"],
+            strokeColors: "#fff",
+            strokeWidth: 2,
+            hover: {
+                size: 7,
+            }
+        },
+        colors: ["#A4CD3C"],
+        
+        yaxis: {
+            title: {
+                text: ''
+            },
+            labels: {
+                formatter:function($ct_counts, series) {
+                    return '$'+ numberWithCommas($ct_counts);
+                }
+            }
+        },
+    };
+
+    analysis_page_chart_desc = new ApexCharts(document.querySelector("#analysis_page_des_chart"), options1);
+    analysis_page_chart_desc.render();
+
+    let analysis_page_desc_chart = document.getElementById('analysis_page_des_chart');
+    analysis_page_desc_chart.style.display = 'none'; 
+}
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -420,7 +526,9 @@ $(document).on('click','#export-analysis-chart',function(e){
 $(document).on('click','.export-analysis-chart-item',function(e){
     e.preventDefault();
     let type = $(e.currentTarget).data('type');
-    exportChart(analysis_page_chart,type);
+    // exportChart(analysis_page_chart,type);
+    console.log(analysis_page_chart_desc,'__analysis_page_chart_desc');
+    exportChart(analysis_page_chart_desc,type);
     $('#export-analysis-drop-down').toggleClass('d-none')
 })
 
@@ -487,3 +595,15 @@ $(document).on('click','.export-analysis-page-item',function(e){
     });
     $('#export-analysis-page-drop').addClass('d-none');
 })
+
+
+// export toggle
+$(document).on('click','#analysis-page-export',function(e){
+    e.preventDefault();
+    $('#export-analysis-page-drop').toggleClass('d-none');
+})
+
+// $(document).on('click','.export-analysis-page-item',function(e){
+//     e.preventDefault();
+//     console.log()
+// })

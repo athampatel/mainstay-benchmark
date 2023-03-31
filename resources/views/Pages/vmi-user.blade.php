@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
 
+@section('title')
+{{config('constants.page_title.customers.vmi')}} - Benchmark
+@endsection
+
+
 @section('content')
 <div class="home-content">
     <span class="page_title">VMI</span>
@@ -32,7 +37,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="vmi-datatable-export">
+                            {{-- <div class="vmi-datatable-export">
                                 <div class="vmi-datatable-print">
                                     <span>Print</span>
                                     <a href="">
@@ -44,6 +49,18 @@
                                     <a href="">
                                         <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi-report-icon">
                                     </a>
+                                </div>
+                            </div> --}}
+                            <div class="vmi-datatable-export cursor-pointer">
+                                <div class="vmi-datatable-report position-relative">
+                                    <span class="user-select-none cursor-pointer">Download</span>
+                                    <a href="">
+                                        <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi-report-icon">
+                                    </a>
+                                    <div class="dropdown-menu export-drop-down-table vmi d-none" aria-labelledby="export-admin-customers" id="export-vmi-page-drop">
+                                        <a class="dropdown-item export-vmi-page-item" data-type="csv">Export to Excel</a>
+                                        <a class="dropdown-item export-vmi-page-item" data-type="pdf">Export to PDF</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

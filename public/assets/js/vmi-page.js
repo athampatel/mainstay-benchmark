@@ -70,3 +70,14 @@ function afterVmiOrderAjax(){
     $('#vmi_table_disp').removeClass('d-none');
     $('#pagination_disp').removeClass('d-none');
 }
+
+// export 
+$(document).on('click','.vmi-datatable-export',function(e){
+    e.preventDefault();
+    $('#export-vmi-page-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-vmi-page-item',function(e){
+    e.preventDefault();
+    console.log('__vmi export item clicked');
+})

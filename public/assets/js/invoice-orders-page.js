@@ -84,3 +84,13 @@ function afterChangeOrderAjax(){
     $('#invoice-orders-page-table-div').removeClass('d-none');
     $('#pagination_disp').removeClass('d-none');
 }
+
+$(document).on('click','#invoice-order-export',function(e){
+    e.preventDefault();
+    $('#export-invoice-page-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-invoice-page-item',function(e){
+    e.preventDefault();
+    console.log('invoice item clicked');
+})

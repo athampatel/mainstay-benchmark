@@ -68,3 +68,15 @@ function afterOpenOrderAjax(){
     $('#open-orders-page-table-div').removeClass('d-none');
     $('#pagination_disp').removeClass('d-none');
 }
+
+
+$(document).on('click','#open-order-page-export',function(e){
+    e.preventDefault();
+    $('#export-open-orders-page-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-open-orders-page-item',function(e){
+    e.preventDefault();
+    // $('#export-open-orders-page-drop').toggleClass('d-none');
+    console.log('__open orders item clicked');
+})

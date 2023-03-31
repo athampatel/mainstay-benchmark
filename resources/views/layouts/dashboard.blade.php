@@ -23,6 +23,7 @@
 	{{-- <link href="assets/css/icons.css" rel="stylesheet"> --}}
 	<link href="/assets/css/dashboard.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+	<title>@yield('title')</title>
 	@yield('styles')
    </head>
 <body class="customer-portal">
