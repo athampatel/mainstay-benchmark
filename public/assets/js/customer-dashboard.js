@@ -678,8 +678,11 @@ $(document).on('click','.export-total-spending-item',function(e){
     e.preventDefault();
     let type = $(e.currentTarget).data('type');
     // exportChart(customer_total_spedning_chart,type);
-
-    exportChart(customer_total_spedning_desc_chart,type);
+    if(type == 'csv'){
+        exportChart(customer_total_spedning_desc_chart,type);
+    } else {
+        exportChart(customer_total_spedning_chart,type);
+    }
     $('#export-total-spending-drop').toggleClass('d-none')
 })
 

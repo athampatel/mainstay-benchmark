@@ -22,6 +22,7 @@ use App\Http\Controllers\InvoicedOrdersController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
 use App\Models\AnalaysisExportRequest;
+use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\SearchWord;
@@ -338,6 +339,7 @@ class MenuController extends Controller
             ->render();
             $response['pagination_code'] = $pagination_code;
             $response['table_code'] = $table_code;
+            $response['total_records'] = $custom_pagination['total'];
 
             echo json_encode($response);
             die();
@@ -390,6 +392,7 @@ class MenuController extends Controller
             
             $response['pagination_code'] = $pagination_code;
             $response['table_code'] = $table_code;
+            $response['total_records'] = $custom_pagination['total'];
             
             echo json_encode($response);
             die();
@@ -585,7 +588,7 @@ class MenuController extends Controller
             $table_code = View::make("components.datatabels.vmi-component")
                 ->with("vmiProducts", $response['products'])
                 ->render();
-                $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code];
+                $res = ['success' => true, 'data' => $response, 'table_code' => $table_code,'pagination_code' => $pagination_code,'total_records' => $custom_pagination['total']];
         } else {
             $res = ['success' => false];
         }
@@ -914,13 +917,6 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
-
-        // if($page == 0){
-        //     // $offset = 1;
-        //     $offset = 0;
-        // } else {
-        //     $offset = $page * $limit + 1;
-        // }
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
         
         if($offset > 1){
@@ -935,6 +931,7 @@ class MenuController extends Controller
         $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
+                                ->where('request_status',0)
                                 ->offset($offset)->limit($limit)
                                 ->get()->toArray();
         // generate table code
@@ -944,6 +941,7 @@ class MenuController extends Controller
 
         $page_data = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
+                                ->where('request_status',0)
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
                                 ->paginate(intval($limit));
         
@@ -1002,11 +1000,10 @@ class MenuController extends Controller
         
         $start_date = Carbon::parse($start_date)->addDay()->format('Y-m-d');
         $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');
+        
         // generate a unique requested id
         $time_stamp = Carbon::now()->format('Ymd_his');
         $time_stamp = $time_stamp.'_'.$user_detail->id;
-
-        // $unique_request_id = Str::random(30);
 
         // create a analysis page request
         $analysisRequest = AnalaysisExportRequest::create([
@@ -1019,10 +1016,13 @@ class MenuController extends Controller
             'unique_id' => $time_stamp,
             'type' => intval($type),
             'status' => 0,
+            'request_body' => '',
+            'resource' => 'SalesOrderHistoryHeader',
+            'is_analysis' => 1 
         ]);
 
         if($analysisRequest){
-            return json_encode(['success' => true,'message' => 'Export Request sent successfully']);
+            return json_encode(['success' => true,'message' => config('constants.analysis_message.message')]);
         }
         return json_encode(['success' => false]);
     }
@@ -1030,7 +1030,6 @@ class MenuController extends Controller
     // Send Help
     public function sendHelp(Request $request){
         $data = $request->all();
-        // get user detail id
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
 
@@ -1043,8 +1042,49 @@ class MenuController extends Controller
         ]);
 
         if($helpRequest){
-            echo json_encode(['success' => true, 'message' => 'Message sent successfully']);
+            echo json_encode(['success' => true, 'message' => config('constants.help_message.message')]);
             die();
         }
+    }
+
+    public function getChangeOrderInfo(Request $request,$order_id){
+        $final_data['title']  = '';
+        $final_data['current_menu']   = 'open-orders';
+        $final_data['menus']          = $this->NavMenu('open-orders');
+        $customers    = $request->session()->get('customers');
+        $user_id = $customers[0]->user_id;
+        $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
+        if(!$response) return redirect()->back();
+        $final_data['customer_menus'] = $response;
+        $final_data['constants'] = config('constants');
+        // search words
+        $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $final_data['searchWords']   = $searchWords;
+
+        $order_request = ChangeOrderRequest::where('order_no',$order_id)->where('request_status',0)->get()->first();
+        $order_information = ChangeOrderItem::where('order_table_id',$order_request->id)->get();
+        $final_data['order_request']   = $order_request;
+        $final_data['order_information']   = $order_information;
+        // dd($order_request);
+        // dd($order_information);
+        return view('Pages.change_order_info',$final_data);
+    }
+
+    // cancel change order
+    public function cancelChangeOrder(Request $request){
+        $data = $request->all();
+        $order_no = $data['order_no'];
+        $request_id = $data['request_id'];
+        // cancel work
+        $change_order_request = ChangeOrderRequest::where('order_no',$order_no)->where('id',$request_id)->get()->first();
+        if($change_order_request){
+            $change_order_request->request_status = 2;
+            $change_order_request->save();
+            $response = [ 'success' => true, 'message' => 'Change order request cancelled successfully'];
+        } else {
+            $response = [ 'success' => false, 'message' => 'Unable to find the change order request'];
+        }
+        echo json_encode($response);
+        die();
     }
 }

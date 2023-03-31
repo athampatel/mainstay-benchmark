@@ -3,7 +3,8 @@
         <thead>
             <tr>
                 {{-- <th class="border-0">ID</th> --}}
-                <th class="border-0">Invoice Number</th>
+                {{-- <th class="border-0">Invoice Number</th> --}}
+                <th class="border-0">Invoice #</th>
                 <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer email</th>
                 <th class="border-0">Customer Po Number</th>
@@ -32,7 +33,8 @@
                 <td>{{$total}}</td>
                 {{-- <td>${{$price}}</td> --}}
                 <td>${{number_format($price,2,".",",")}}</td>
-                <td>{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td>
+                {{-- <td>{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td> --}}
+                <td>{{ \Carbon\Carbon::parse($invoice['invoicedate'])->format('M d, Y') }}</td>
                 <td class="status">Shipped</td>
                 <td class="action">
                     <a href="/invoice-detail/{{$invoice['salesorderno']}}" class="btn btn-primary btn-rounded text-capitalize text-dark open-view-details" target="_blank">

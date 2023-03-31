@@ -116,6 +116,19 @@ Dashboard  - Admin Panel
                         </div>
                     </div>
                 </div>
+                {{-- export request count --}}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ route('admin.users.exports') }}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="seofct-icon"><span class="icon-item"><img src="assets/images/svg/download_admin.svg"></span> Export Request</div>
+                                    <h2>{{ $customer_export_count }}</h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
   </div>

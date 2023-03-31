@@ -1,6 +1,7 @@
 <div class="d-flex align-items-center justify-content-between">
     @if(!empty($pagination))
     <div class="pagination_text">{{$pagination['from']}}-{{$pagination['to']}} of {{$pagination['total']}} items</div>
+    <input type="hidden" name="table_total_items" id="table_total_items" value="{{$pagination['total']}}">
     <div class="d-flex align-items-center">
         <div class="d-flex">
             <input type="hidden" name="" id="pagination_path" value="{{$pagination['path']}}">

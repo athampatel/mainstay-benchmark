@@ -144,7 +144,8 @@
                     <div class="card-body col-12">
                         <div class="row flex-wrap">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
-                                <label class="form-label">Order Number</label>
+                                {{-- <label class="form-label">Order Number</label> --}}
+                                <label class="form-label">Order #</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    

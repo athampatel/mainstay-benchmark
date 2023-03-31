@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\AdminsController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SDEDataController;
@@ -113,11 +114,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/requests/change_orders',[MenuController::class,'getChangeOrderRequests']);
     Route::get('/getChangeOrderRequest',[MenuController::class,'getAllChangeRequests']);
 
+    // change order info 
+    Route::get('/change-order/info/{order_id}',[MenuController::class,'getChangeOrderInfo']);
+    Route::post('/cancelChangeRequest',[MenuController::class,'cancelChangeOrder']);
+
     // export data in analysis page
     Route::post('/exportAnalysis',[MenuController::class,'analysisExport']);
 
     // help message send
     Route::post('/sendHelp',[MenuController::class,'sendHelp']);
+
+    // exports
+
+    // invoice
+    Route::get('/invoice-export/csv',[CustomerExportController::class,'exportInvoiceCsv']);
+    Route::get('/invoice-export/pdf',[CustomerExportController::class,'exportInvoicePdf']);
+    
+    // open orders
+    Route::get('/open-export/csv',[CustomerExportController::class,'exportOpenCsv']);
+    Route::get('/open-export/pdf',[CustomerExportController::class,'exportOpenPdf']);
+    
+    // vmi page
+    Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);
+    Route::get('/vmi-page-export/pdf',[CustomerExportController::class,'exportVmiPdf']);
+
+    // request
+    Route::post('/exportInvoiceOrders',[CustomerExportController::class,'invoiceRequest']);
+    Route::post('/exportOpenOrders',[CustomerExportController::class,'openOrdersRequest']);
+    Route::post('/exportVmiUser',[CustomerExportController::class,'vmiUserRequest']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);
@@ -143,14 +167,6 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
         //$invoice->getInvoiceOrders();
         //die; 
 
-
-
-//Route::get('/email-view', function () {
-  //  return view('emails/email-body');
-//});
-
-
-
 /**
  * Admin routes
  */
@@ -167,6 +183,11 @@ Route::group(['prefix' => 'admin'], function () {
 
 
     Route::get('/customers/change-orders', '\App\Http\Controllers\Backend\UsersController@CustomerChangeOrders')->name('admin.users.change-order');
+
+    Route::get('/customers/exports',[UsersController::class,'customerExports'])->name('admin.users.exports');
+
+    // customer export info
+    Route::get('/customer/request/{id}',[UsersController::class,'customerExportInfo']);
 
     Route::get('/customers/change-orders/{order_id}', '\App\Http\Controllers\Backend\UsersController@CustomerChangeOrderDetails')->name('admin.users.change-order-view');
 

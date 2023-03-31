@@ -278,3 +278,7 @@ $(window).scroll(function (e) {
 $(document).on('click','#change_order_Request_nav',function(){
 	window.location = '/requests/change_orders';
 })
+
+// setTimeout(() => {
+// 	$('.home-content').removeClass('welcome_loader');
+// }, 2000);

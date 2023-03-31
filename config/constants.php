@@ -1,85 +1,85 @@
 <?php 
     return [
         'customer-signup' => [
-            // 'confirmation_message' => 'Your request for member access has been submitted successfully, you will get a confirmation',
-            'confirmation_message' => 'Request for access submitted. You will receive confirmation by email.',
-            'validation_email' => 'Thank you for validating your email address. You will receive confirmation by email.',
+            'confirmation_message' => 'A request for access has been submitted. You will receive confirmation via email.',
+            'validation_email' => 'Thank you for validating your email address. You will receive confirmation via email.',
             'mail' => [
                 'title' => 'Customer Portal Access',
-                'subject' => 'Your request for access to the Benchmark member portal'
+                'subject' => 'Your request for access to the Benchmark member portal has been received.'
             ],
-            'password-reset' => 'Your password has been updated successfully. Kindly use your new credentials to log in.'
+            'password-reset' => 'Your password has been updated successfully. Please use your new credentials to log in.'
         ],
-        'customer_already_exists' => 'Customer already exists',
+        'customer_already_exists' => 'This customer already exists.',
         'customer_activate' => [
-            'confirmation_message' => 'Customer activated successfully, and email sent.',
+            'confirmation_message' => 'The customer has been activated successfully, and an email has been sent.',
             'mail' => [
                 'subject' => 'Reset Password',
             ]
         ],
         'customer_cancel' => [
-            'confirmation_message' => 'Customer blocked successfully',
-            'confirmation_error' => 'Customer not found',
+            'confirmation_message' => 'The customer has been blocked successfully.',
+            'confirmation_error' => 'The customer was not found.',
         ],
         'customer_update' => [
-            'confirmation_message' => 'Customer updated successfully'
+            'confirmation_message' => 'The customer has been updated successfully.'
         ],
         'customer_delete' => [
-            'confirmation_message' => 'Customer successfully deleted'
+            'confirmation_message' => 'The customer has been successfully deleted.'
         ],
-        'user_not_found' => 'user not found',
+        'user_not_found' => 'The user was not found.',
         'change_order_request' => [
-            'not_found' => 'Change Request not found',
-            'success' => 'Change order request sent successfully',
-            'no_changes' => 'No changes in the order',
+            'not_found' => 'The change request was not found.',
+            'success' => 'The change order request has been sent successfully.',
+            'no_changes' => 'There are no changes to be made to the order.',
             'request_exsist'    => 'An order change request has already been submitted.'
         ],
         'email_verification' => [
-            'confirmation_message' => 'Verification email sent'
+            'confirmation_message' => 'A verification email has been sent.'
         ],
         'customer_login' => [
-            'success_message' => 'Login Successful',
-            'error_message' => 'Invalid email or password'
+            'success_message' => 'Login successful.',
+            'error_message' => 'The email or password entered is invalid.'
         ],
-        'admin_error_403' => 'Sorry, you are not an authorized administrator',
-        'dashboard_error_403' => 'Sorry, dashboard access is not authorized',
+        'admin_error_403' => 'Sorry, you are not an authorized administrator.',
+        'dashboard_error_403' => 'Sorry, access to the dashboard is not authorized.',
         'admin_create' => [
-            'confirmation_message' => 'Admin created successfully',
+            'confirmation_message' => 'The admin has been created successfully.',
         ],
         'superadmin_update' => [
-            'error' => 'Sorry, you cannot update the Super Admin.  Please create a new user if you need to test',
+            'error' => 'Sorry, you cannot update the Super Admin. Please create a new user if you need to test.',
         ],
         'admin_update' => [
-            'confirmation_message' => 'Admin updated successfully'
+            'confirmation_message' => 'The admin has been updated successfully.'
         ],
         'superadmin_delete' => [
-            'error' => 'Sorry, you cannot update the Super Admin.  Please create a new user if you need to test'
+            'error' => 'Sorry, you cannot delete the Super Admin. Please create a new user if you need to test.'
         ],
         'admin_delete' => [
-            'confirmation_message' => 'Admin deleted'
+            'confirmation_message' => 'The admin has been deleted.'
         ],
         'customer_account_page' => [
-            'update_message' => 'Account Details Updated Succcessfully'
+            'update_message' => 'The account details have been updated successfully.'
         ],
-        'multiple_customer' => 'More than one customer account was found for the email address',
-        'customer_found' => 'Customer details found for the specified account',
-        'api_error' => 'Unable to locate any customer details for this email address',
-        'customer_not_found' => 'Unable to locate any customer details for this email address',
-        'missing_manager' => 'Customer No ({$customerNo}) is missing regional manager details',
+        'multiple_customer' => 'More than one customer account was found for the email address.',
+        'customer_found' => 'Customer details have been found for the specified account.',
+        'api_error' => 'We are unable to locate any customer details for this email address.',
+        'customer_not_found' => 'We are unable to locate any customer details for this email address.',
+        // 'missing_manager' => 'Customer No ({$customerNo}) is missing regional manager details',
+        'missing_manager' => 'The regional manager details are missing for Customer No ({$customerNo}).',
         'admin_customer_create' => [
-            'success' => 'The system has successfully created a new customer.',
+            'success' => 'A new customer has been created successfully.',
             'mail' => [
                 'success' => 'A user has been created.',
-                'error' => 'Oops something went wrong',
+                'error' => 'Oops! Something went wrong.',
             ]
         ],
-        'customer_not_found' => 'Customer not found',
+        'customer_not_found' => 'The customer was not found.',
         'email' => [
             'admin' => [
                 'customer_activate' => [
-                    'title' => 'Your account is activated.',
-                    'subject' => 'Your account is activated. Please set the password.',
-                    'body' => '<p>Your account has been activated. Please set a password in the Benchmark Member portal.<br/> Please check and set a new password. <br/>'
+                    'title' => 'Your account has been activated.',
+                    'subject' => 'Your account has been activated. Please set your password.',
+                    'body' => '<p>Your account has been activated. Please set a password in the Benchmark Member portal.<br/> Please check your account and set a new password. <br/>'
                 ],
                 'customer_create' => [
                     'title' => 'Your Login Credentials',
@@ -96,9 +96,9 @@
             ],
             'customer' => [
                 'customer_create' => [
-                    'message' => 'Thank you for validating your email address. You will receive a confirmation.',
-                    'requested_already' => 'You have already made a request. Please wait.',
-                    'deleted_by_admin' => 'Please Contact Support',
+                    'message' => 'Thank you for validating your email address. You will receive a confirmation message.',
+                    'requested_already' => 'You have already made a request. Please wait for a response.',
+                    'deleted_by_admin' => 'Please contact support for assistance.',
                     'title' => 'New customer request for portal access',
                     'subject' => 'New customer request for member portal access'
                 ]
@@ -120,25 +120,25 @@
                 'delete' => 'Role has been deleted !!'
             ],
             'change_order' => [
-                'approve' => 'The approved change order request.',
-                'decline' => 'The declined change order request.'   
+                'approve' => 'The request for a change order has been approved.',
+                'decline' => 'The request for a change order has been declined.'   
             ],
             'inventory_update' => [
-                'error' => 'Unable to update item quantity',
-                'success' => 'Quantity updated successfully',
+                'error' => 'It is not possible to update the quantity of the item.',
+                'success' => 'The quantity has been updated successfully.',
                 'validation' => [
-                    'new_quanity' => 'New quantity field is required'
+                    'new_quanity' => 'Please provide a value for the new quantity field. It is required.'
                 ]
             ]
         ],
         'notification' => [
-            'signup' => 'New Sign Up Request from Customer',
-            'change_order' => 'New Change Order Request from Customer',
-            'contact_details' => 'New Contact details update request from Customer',
-            'inventory_update' => 'New Inventory update request from Customer'
+            'signup' => 'A new sign-up request has been received from a customer.',
+            'change_order' => 'A new change order request has been received from a customer.',
+            'contact_details' => 'A customer has requested an update to their contact details.',
+            'inventory_update' => 'A customer has submitted a request to update the inventory.'
         ],
-        'user_request_not_found' => 'Customer was not found with the requested details.',
-        'api_error_message' => 'Something went wrong.',
+        'user_request_not_found' => 'We were unable to find a customer with the requested details.',
+        'api_error_message' => 'An error has occurred.',
         'api_error_email' => [
             'title' => 'SDE Api Error',
             'subject' => 'SDE Api Error Occur',
@@ -208,14 +208,14 @@
         ],
         'validation' => [
             'admin' => [
-                'search_customer_number_email' => 'Search Customer With Customer Number/Email Field Is Required',
-                'customer_search_unable' => 'Unable to locate any customer details with the provided email address.',
-                'customer_detail_found' => 'Customer details found for the specified account.',
+                'search_customer_number_email' => 'The search for a customer requires either the customer number or email to be provided in the search field. This field is mandatory.',
+                'customer_search_unable' => 'We were unable to locate any customer details with the email address provided.',
+                'customer_detail_found' => 'Customer details have been found for the specified account.',
             ]
             ],
         // vmi inventory
         'vmi_inventory' => [
-            'no_change' => 'There is no change is added',
+            'no_change' => 'No changes have been added.',
         ],
 
 
@@ -233,7 +233,17 @@
                 'change_order' => 'Open Order',
                 'change_request' => 'Change Orders'
             ]
-        ]
+        ],
+
+        'export_message' => [
+            'message' => 'Your export request has been sent successfully.'
+        ],
+        'analysis_message' => [
+            'message' => 'Your export request has been sent successfully.'
+        ],
+        'help_message' => [
+            'message' => 'Your message has been sent successfully.'
+        ],
     ];
     // {{ config('constants.label.admin.role_name') }}
 ?>

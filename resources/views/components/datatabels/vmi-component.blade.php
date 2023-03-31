@@ -2,8 +2,10 @@
     <table id="vmi-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                <th class="border-0">Customer Item Number</th>
-                <th class="border-0">Benchmark Item Number</th>
+                {{-- <th class="border-0">Customer Item Number</th> --}}
+                <th class="border-0">Customer Item #</th>
+                {{-- <th class="border-0">Benchmark Item Number</th> --}}
+                <th class="border-0">Benchmark Item #</th>
                 <th class="border-0">Item Description</th>
                 <th class="border-0">Vendor Name</th>
                 <th class="border-0">Oty on Hand</th>

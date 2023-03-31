@@ -37,20 +37,6 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            {{-- <div class="vmi-datatable-export">
-                                <div class="vmi-datatable-print">
-                                    <span>Print</span>
-                                    <a href="">
-                                        <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="vmi-print-icon">
-                                    </a>
-                                </div>
-                                <div class="vmi-datatable-report">
-                                    <span>Download</span>
-                                    <a href="">
-                                        <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi-report-icon">
-                                    </a>
-                                </div>
-                            </div> --}}
                             <div class="vmi-datatable-export cursor-pointer">
                                 <div class="vmi-datatable-report position-relative">
                                     <span class="user-select-none cursor-pointer">Download</span>
@@ -58,8 +44,8 @@
                                         <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi-report-icon">
                                     </a>
                                     <div class="dropdown-menu export-drop-down-table vmi d-none" aria-labelledby="export-admin-customers" id="export-vmi-page-drop">
-                                        <a class="dropdown-item export-vmi-page-item" data-type="csv">Export to Excel</a>
-                                        <a class="dropdown-item export-vmi-page-item" data-type="pdf">Export to PDF</a>
+                                        <a class="dropdown-item export-vmi-page-item" data-type="csv" id="vmi-page-export-csv">Export to Excel</a>
+                                        <a class="dropdown-item export-vmi-page-item" data-type="pdf" id="vmi-page-export-pdf">Export to PDF</a>
                                     </div>
                                 </div>
                             </div>
@@ -91,8 +77,10 @@
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
      <script src="/assets/js/vmi-page.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const constants = <?php echo json_encode($constants); ?>;
         const searchWords = <?php echo json_encode($searchWords); ?>;
+        const env_maximum = '{{ env('EXPORT_MAXIMUM') }}';
     </script>
 @endsection

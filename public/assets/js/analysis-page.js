@@ -1,5 +1,5 @@
-let analysis_page_chart;
-let analysis_page_chart_desc;
+var analysis_page_chart;
+var analysis_page_chart_desc;
 // table and chart toggle show
 let is_table = localStorage.getItem('is_table');
 let tab_input = document.getElementById('tab_input');
@@ -88,11 +88,12 @@ function getAnalysispageData($page,$count,range,year){
             }
             console.log(months_desc,'__monthly desc');
             // return false;
-           renderAnalysisChart(chart_count,months);
-           renderAnalysisDescChart(chart_count,months_desc);
+           renderAnalysisChart(chart_count,months,months_desc);
+        //    renderAnalysisDescChart(chart_count,months_desc);
         },
         complete:function(){
-            AfterAjax() 
+            AfterAjax()
+            // document.querySelector('#analysis-page-des-chart').style.display = 'none'; 
         }
     });
 }
@@ -320,11 +321,12 @@ $('input[name="daterange"]').daterangepicker({
 //     return final;
 // }
     
-function renderAnalysisChart(ct_counts,ct_months){
+function renderAnalysisChart(ct_counts,ct_months,ct_desc){
     console.log(ct_months,'ct months');
     let percent = `${ct_months.length * 3}%`;
     const chart_div = document.querySelector("#analysis_page_chart");
     chart_div.innerHTML = '';
+    // document.querySelector("#analysis-page-des-chart").innerHTML = '';
     var options = {
         series: [{
                 name: 'Sales',
@@ -411,108 +413,104 @@ function renderAnalysisChart(ct_counts,ct_months){
             }
         },
     };
+    // var desc_options = {
+    //     series: [{
+    //             name: 'Sales',
+    //             data: ct_counts
+    //         },
+    //     ],
+    //     chart: {
+    //         foreColor: '#9ba7b2',
+    //         type: 'bar',
+    //         height: 650,
+    //         zoom:{
+    //             enabled:false
+    //         },
+    //         toolbar : {
+    //             show:false
+    //         },
+    //         dropShadow:{
+    //             enabled:true,
+    //             top:3,
+    //             left:14,
+    //             blur:4,
+    //             opacity:0.10,
+    //         }
+    //     },
+    //     stroke: {
+    //         width: 2,
+    //         curve:'straight'
+    //     },
+    //     plotOptions: {
+    //         bar: {
+    //             horizontal: false,
+    //             columnWidth:percent
+    //         },
+    //     },
+    //     dataLabels: {
+    //          enabled: false //changeable
+    //     },
+    //     xaxis: {
+    //         // type:'month',
+    //         type:'category',
+    //         categories: ct_desc
+    //     },
+    //     fill: {
+    //         type: 'gradient',
+    //         gradient: {
+    //             shade: 'light',
+    //             gradientToColors: ['#A4CD3C'],
+    //             shadeIntensity: 1,
+    //             type: 'horizontal',
+    //             opacityFrom: 1,
+    //             opacityTo: 1,
+    //             stops: [0, 100, 100, 100]
+    //         },
+    //     },
+    //     tooltip: {
+    //         x: {
+    //             show: false
+    //         },
+    //         y: {
+    //             formatter: function($ct_counts, series) {
+    //             return '$'+ numberWithCommas($ct_counts);
+    //             }
+    //         }
+    //     },
+    //     markers: {
+    //         size: 4,
+    //         colors: ["#A4CD3C"],
+    //         strokeColors: "#fff",
+    //         strokeWidth: 2,
+    //         hover: {
+    //             size: 7,
+    //         }
+    //     },
+    //     colors: ["#A4CD3C"],
+        
+    //     yaxis: {
+    //         title: {
+    //             text: ''
+    //         },
+    //         labels: {
+    //             formatter:function($ct_counts, series) {
+    //                 return '$'+ numberWithCommas($ct_counts);
+    //             }
+    //         }
+    //     },
+    // };
 
     analysis_page_chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
     analysis_page_chart.render();
-}
-function renderAnalysisDescChart(ct_counts,ct_months){
-    console.log(ct_months,'ct months');
-    let percent = `${ct_months.length * 3}%`;
-    const chart_div = document.querySelector("#analysis_page_des_chart");
-    chart_div.innerHTML = '';
-    var options1 = {
-        series: [{
-                name: 'Sales',
-                data: ct_counts
-            },
-        ],
-        chart: {
-            foreColor: '#9ba7b2',
-            type: 'bar',
-            height: 650,
-            zoom:{
-                enabled:false
-            },
-            toolbar : {
-                show:false
-            },
-            dropShadow:{
-                enabled:true,
-                top:3,
-                left:14,
-                blur:4,
-                opacity:0.10,
-            }
-        },
-        stroke: {
-            width: 2,
-            curve:'straight'
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth:percent
-            },
-        },
-        dataLabels: {
-             enabled: false //changeable
-        },
-        xaxis: {
-            // type:'month',
-            type:'category',
-            categories: ct_months
-        },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                gradientToColors: ['#A4CD3C'],
-                shadeIntensity: 1,
-                type: 'horizontal',
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [0, 100, 100, 100]
-            },
-        },
-        tooltip: {
-            x: {
-                show: false
-            },
-            y: {
-                formatter: function($ct_counts, series) {
-                return '$'+ numberWithCommas($ct_counts);
-                }
-            }
-        },
-        markers: {
-            size: 4,
-            colors: ["#A4CD3C"],
-            strokeColors: "#fff",
-            strokeWidth: 2,
-            hover: {
-                size: 7,
-            }
-        },
-        colors: ["#A4CD3C"],
-        
-        yaxis: {
-            title: {
-                text: ''
-            },
-            labels: {
-                formatter:function($ct_counts, series) {
-                    return '$'+ numberWithCommas($ct_counts);
-                }
-            }
-        },
-    };
+    
+    // analysis_page_chart_desc = new ApexCharts(document.querySelector("#analysis-page-des-chart"), desc_options);
+    // analysis_page_chart_desc.render();
 
-    analysis_page_chart_desc = new ApexCharts(document.querySelector("#analysis_page_des_chart"), options1);
-    analysis_page_chart_desc.render();
-
-    let analysis_page_desc_chart = document.getElementById('analysis_page_des_chart');
-    analysis_page_desc_chart.style.display = 'none'; 
+    // setTimeout(() => {
+    //     document.querySelector('#analysis-page-des-chart').style.display = 'none';
+    // }, 2000);
 }
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -526,9 +524,36 @@ $(document).on('click','#export-analysis-chart',function(e){
 $(document).on('click','.export-analysis-chart-item',function(e){
     e.preventDefault();
     let type = $(e.currentTarget).data('type');
+    // analysis_page_chart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
     // exportChart(analysis_page_chart,type);
     console.log(analysis_page_chart_desc,'__analysis_page_chart_desc');
-    exportChart(analysis_page_chart_desc,type);
+    // if(type == 'csv'){
+    //     exportChart(analysis_page_chart_desc,type);
+    // } else {
+        exportChart(analysis_page_chart,type);
+    // }
+    // document.querySelector('#analysis-page-des-chart').style.display = 'block';
+    // if(type == 'svg'){
+    //     let cts = analysis_page_chart.ctx;
+    //     let w = analysis_page_chart.w;
+    //     analysis_page_chart.exports.exportToSVG(cts)
+    // } 
+    // if(type == 'png'){
+    //     let cts = analysis_page_chart.ctx;
+    //     let w = analysis_page_chart.w;
+    //     analysis_page_chart.exports.exportToPng(cts);
+    // }
+    // if(type == 'csv'){
+    //     let cts = analysis_page_chart_desc.ctx;
+    //     let w = analysis_page_chart_desc.w;
+    //     console.log(w,'___w');
+    //     analysis_page_chart_desc.exports.exportToCSV({
+    //         series: w.config.series,
+    //         columnDelimiter:','
+    //     });
+    // }
+    // document.querySelector('#analysis-page-des-chart').style.display = 'none';
+
     $('#export-analysis-drop-down').toggleClass('d-none')
 })
 

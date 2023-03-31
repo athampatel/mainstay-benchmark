@@ -354,6 +354,76 @@ if($('#backend_change_order_requests').length){
     })
 }
 
+// admin exports
+if($('#backend_export_requests').length){
+    // All Signup Requests
+    let admin_export_filter_count =  parseInt($("#admin-exports-filter-count option:selected").val());
+    let backend_admin_exports;
+    backend_admin_exports = $('#backend_export_requests').DataTable( {
+        searching: true,
+        lengthChange: true,
+        pageLength:admin_export_filter_count,
+        paging: true,
+        ordering: true,
+        info: false,
+        responsive: true
+    });
+    
+    $(document).on('change','#admin-exports-filter-count',function(){
+        let val = parseInt($("#admin-exports-filter-count option:selected").val());
+        let search = $('#admin_exports_search').val();
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'limit',
+            name: 'limit',
+            value: val
+        }).appendTo('#admins_exports_from');
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'search',
+            name: 'search',
+            value: search
+        }).appendTo('#admins_exports_from');
+        $('#admins_exports_from').submit();
+    })
+    $('#admin-exports-search-img').click(function(){
+        let search = $('#admin_exports_search').val();
+        let val = parseInt($("#admin-exports-filter-count option:selected").val());
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'limit',
+            name: 'limit',
+            value: val
+        }).appendTo('#admins_exports_from');
+        $('<input>').attr({
+            type: 'hidden',
+            id: 'search',
+            name: 'search',
+            value: search
+        }).appendTo('#admins_exports_from');
+        $('#admins_exports_from').submit();
+    })
+    
+    $('#admin_exports_search').keyup(function(){
+        let search = $(this).val();
+        if(search == ''){
+            let val = parseInt($("#admin-exports-filter-count option:selected").val());
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'limit',
+                name: 'limit',
+                value: val
+            }).appendTo('#admins_exports_from');
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'search',
+                name: 'search',
+                value: search
+            }).appendTo('#admins_exports_from');
+            $('#admins_exports_from').submit();
+        }
+    })
+}
 if($('#backend_signup_request').length){
     // All Signup Requests
     let signup_request_filter_count =  parseInt($("#admin-signup-filter-count option:selected").val());

@@ -15,9 +15,12 @@ class AnalaysisExportRequest extends Model
         'ardivisiono',
         'start_date',
         'end_date',
-        'unique_id',
-        'type',
+        'unique_id', 
+        'type', 
         'status',
-        'year'
+        'year',
+        'request_body',
+        'resource',
+        'is_analysis'
     ];
 }
