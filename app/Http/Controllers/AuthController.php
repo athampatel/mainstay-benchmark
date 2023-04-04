@@ -234,7 +234,7 @@ class AuthController extends Controller
             //         Mail::bcc($admin_email)->send(new \App\Mail\SendMail($details));
             //     }
             // }
-            $is_local = env('APP_ENV') == 'dev' ? true : false;
+            $is_local = env('APP_ENV') == 'local' ? true : false;
             if($is_local){
               Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
             } else {

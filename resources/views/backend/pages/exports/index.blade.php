@@ -43,13 +43,13 @@ Customer Export Requests - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-exports-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report position-relative">
+                                        <div class="datatable-report admin position-relative">
                                             <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-exports-icon">
                                             </a>
                                             <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-exports-drop">
-                                                <a href="" class="dropdown-item export-admin-exports-item" data-type="csv">Export to Excel</a>
-                                                <a href='' class="dropdown-item export-admin-exports-item" data-type="pdf">Export to PDF</a>
+                                                <a href="/admin/exportAllExports" class="dropdown-item export-admin-exports-item" data-type="csv">Export to Excel</a>
+                                                <a href='/admin/exportAllExportsInPdf' class="dropdown-item export-admin-exports-item" data-type="pdf">Export to PDF</a>
                                             </div>
                                         </div>
                                     </div>
@@ -97,4 +97,25 @@ Customer Export Requests - Admin Panel
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
+// function deleteCustomer(id){
+//     Swal.fire({
+//     title: 'Are you sure?',
+//     text: "You want to delete the customer",
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#9FCC47',
+//     cancelButtonColor: '#424448',
+//     confirmButtonText: 'Yes, delete it!'
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//         document.getElementById(`delete-form-${id}`).submit();
+//         }
+//     })
+// }
+</script>
 @endsection

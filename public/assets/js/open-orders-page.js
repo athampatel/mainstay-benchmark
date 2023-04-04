@@ -1,15 +1,8 @@
-if ($('#dataTable').length) {
-    $('#dataTable').DataTable({
-        responsive: true
-    });
-}
 let pagecount = parseInt($("#open-orders-page-filter-count option:selected").val());
 //open orders table filter
 $(document).on('change','#open-orders-page-filter-count',function(){
     let val = parseInt($("#open-orders-page-filter-count option:selected").val());
-    // let current_page = $('#current_page').val();
     getOpenOrderAjax(0,val)
-    // open_order_page_table.page.len(val).draw();
 })
 
 getOpenOrderAjax(0,pagecount)
@@ -40,7 +33,6 @@ function getOpenOrderAjax($page,$count){
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
             $('#open-orders-page-table-div').html(res.table_code);
-            // export option
             if(res.total_records > parseInt(env_maximum)){
                 $('#export-open-csv').prop('src','#');
                 $('#export-open-pdf').prop('src','#');
@@ -109,7 +101,6 @@ function downloadExportAjax(type){
             Swal.fire({
                 position: 'center-center',
                 icon: 'success',
-                // icon: 'error',
                 title: 'Request Sent',
                 text: res.message,
                 showConfirmButton: false,

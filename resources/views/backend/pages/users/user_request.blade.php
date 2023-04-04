@@ -76,7 +76,7 @@ User Create - Admin Panel
                                                 </div>
                                             </div>
                                             @endif
-                                            <div class="customer_data" id="create_user_body_{{$key}}">
+                                            <div class="customer_data {{isset($user->id) ? '' : 'backdark'}}" id="create_user_body_{{$key}}">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
                                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>

@@ -64,7 +64,7 @@ Export Info - Admin Panel
                                             <div class="form-group col-md-6 col-sm-12">
                                                 <label for="user_email">Customer Name</label>
                                                 <div class="text-secondary">{{$user_detail->customername}}</div>
-                                            </div>
+                                            </div> 
                                         </div>
                 
                                         <div class="form-row">

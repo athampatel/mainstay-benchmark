@@ -229,6 +229,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     // export all customers
     Route::get('/exportAllCustomers',[UsersController::class,'ExportAllCustomers']);
+    Route::get('/exportAllExports',[UsersController::class,'ExportAllExports']);
 
 
     Route::get('/signup-request', '\App\Http\Controllers\Backend\UsersController@UserAccessRequest')->name('admin.users.requests');
@@ -250,6 +251,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/exportAllChangeOrdersInPdf',[UsersController::class,'ExportAllOrdersToPdf']);
     // User Signup Request
     Route::get('/exportAllSignupInPdf',[UsersController::class,'ExportAllSignupToPdf']);
+    //  export requests
+    Route::get('/exportAllExportsInPdf',[UsersController::class,'ExportAllExportsPdf']);
     
     // csv
     

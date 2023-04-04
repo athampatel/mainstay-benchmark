@@ -1,7 +1,7 @@
 {{-- new code  --}}
 <div class="search-bar flex-grow-1">
     <div class="position-relative search-bar-box col-12"> 
-        <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
+        <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true" autocomplete="off"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
         <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
     </div>
 </div>
@@ -32,7 +32,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21.154" height="22.644" viewBox="0 0 21.154 22.644">
                     <defs>
                         <clipPath class="clip-path">
-                        <rect class="Rectangle_29" data-name="Rectangle 29" width="21.154" height="22.644" fill="#424448"/>
+                            <rect class="Rectangle_29" data-name="Rectangle 29" width="21.154" height="22.644" fill="#424448"/>
                         </clipPath>
                     </defs>
                     <g class="Group_895" data-name="Group 895" clip-path="url(#clip-path)">

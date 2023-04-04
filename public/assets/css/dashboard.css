@@ -1895,6 +1895,12 @@ input.analysis_select {
   align-items: center;
 }
 
+.datatable-report.admin a{
+  width: 3.4375rem;
+  display: flex;
+  justify-content: center;
+}
+
 .vmi-datatable-report{
   width: 8.8125rem;
   height: 1.875rem;
@@ -2752,8 +2758,8 @@ tr.child ul{
 }
 
 #searchmodal .modal-dialog{
-  min-width: calc(100vw - 290px) !important;
-  margin-left: 282px !important;
+  min-width: calc(100vw - 50%) !important;
+  margin-left: 31% !important;
 }
 
 /* Quantity input */
@@ -2808,10 +2814,15 @@ tr.child ul{
 }
 
 .customer_data{
-  background:#201e1e;
+  /* background:#201e1e; */
   padding: 1rem;
   border-radius: 12px;
 }
+
+.backdark{
+  background:#201e1e;
+}
+
 .customer_header_row{
   padding:0 1rem 1rem 1rem !important;
 }
@@ -2920,6 +2931,62 @@ tr.child ul{
   background-color: #fff;
   opacity: 0.45;
 }
+
+.search_modal_content{
+  background: #9fcc47;
+}
+
+.search_message_div{
+  padding: 5px 20px;
+  width: 100%;
+  color: #fff;
+  text-decoration: none;
+}
+
+.search_message_div:hover{
+  background-color: #8bb23e;
+  color: #fff;
+}
+
+#search_modal_disp_body{
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* datatable testing sorting work start */
+#backend_customers thead tr th.sorting_disabled{
+  cursor: pointer;
+  position: relative;
+}
+
+#backend_customers thead tr th.sorting_disabled span.asc{
+  right: 1em;
+  content: "\2191";
+  position: absolute;
+  bottom: 0.9em;
+  display: block;
+  opacity: 0.3;
+}
+
+#backend_customers thead tr th.sorting_disabled {
+  position: relative;
+  cursor: pointer;
+}
+
+#backend_customers thead tr th.sorting_disabled span.desc{
+  right: 0.5em;
+  content: "\2193";
+  position: absolute;
+  bottom: 0.9em;
+  display: block;
+  opacity: 0.3;	
+}
+
+#backend_customers{
+  width: 1501px !important;
+}
+/* datatable testing sorting work end */
 
 /* print */
 @media print {
@@ -3171,6 +3238,12 @@ tr.child ul{
     .analysis-filter label{
       margin-left: 0rem;
       width: 48%;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    #searchmodal .modal-dialog{
+      margin-left: 25% !important;
     }
   }
   @media (max-width: 767px) {
@@ -3453,6 +3526,19 @@ tr.child ul{
     .datatable-report{
       width: 50%;
     }
+
+    #searchmodal .modal-dialog{
+      min-width: calc(100vw - 15px) !important;
+      margin-left: 9px !important;
+      margin-top: 30px;
+    }
+  }
+
+  @media (max-width:768px) {
+    #searchmodal .modal-dialog{
+      min-width: calc(100vw - 15px) !important;
+      margin-left: 9px !important;
+    }
   }
 
   @media (max-width: 400px) {  
@@ -3500,21 +3586,20 @@ tr.child ul{
       word-break: break-all !important;
       text-align: left !important;
    }
-   /* #backend_customers{
-    max-width: 305px !important;
-   }
-   #backend_roles{
-    max-width: 305px !important;
-   }
-   #backend_admins{
-    max-width: 305px !important;
-   }
-   #backend_managers{
-    max-width: 305px !important;
-  } */
-  .backend_datatables{
-    max-width: 305px !important;
-   }
+
+    .backend_datatables{
+      max-width: 305px !important;
+    }
+
+    #searchmodal .modal-dialog{
+      min-width: calc(100vw - 15px) !important;
+      margin-top: 30px !important;
+      margin-left: 8px !important;
+    }
+    
+    .search_message_div{
+      padding: 3px 5px;
+    }
   }
  
   @media (max-width: 320px) {
@@ -3540,7 +3625,7 @@ tr.child ul{
     width: 100%;
     /* margin-bottom: 0.5rem; */
     margin-bottom: 0 !important;
-  }
+   }
 
    /* .vmi-datatable-export{ */
     #vmi-inventory-datatable-export{
@@ -3554,55 +3639,48 @@ tr.child ul{
 
    }
    .datatable-print{
-    width: 50%;
+      width: 50%;
    }
    .datatable-report{
-    width: 50%;
+      width: 50%;
    }
-  #vmi-inventory-datatable-export .vmi-datatable-print span{
-    display: block;
-  }
-  #vmi-inventory-datatable-export .vmi-inventory-report span{
-    display: block;
-  }
-  .col-filter{
-    padding-left: 0 !important;
-  }
+   
+    #vmi-inventory-datatable-export .vmi-datatable-print span{
+      display: block;
+    }
 
-   tr.child{
+    #vmi-inventory-datatable-export .vmi-inventory-report span{
+      display: block;
+    }
+   
+    .col-filter{
+      padding-left: 0 !important;
+    }
+
+    tr.child{
       max-width: 250px !important;
-  }
-   td.child li {
+    }
+   
+    td.child li {
       max-width: 250px !important;
-   }
-   td.child li span.dtr-title{
+    }
+   
+    td.child li span.dtr-title{
       text-align: left !important;
       max-width: 50% !important;
       padding-right: 5px;
       min-width: 0 !important;
       word-break: break-all !important;
       display: block !important;
-   }
+    }
 
-   td.child li span.dtr-data{
+    td.child li span.dtr-data{
       width: 50% !important;
       display: block !important;
       word-break: break-all !important;
       text-align: left !important;
-   }
+    }
 
-   /* #backend_customers{
-      max-width: 240px !important;
-   }
-   #backend_roles{
-      max-width: 240px !important;
-   }
-   #backend_admins{
-      max-width: 240px !important;
-   } */
-   /* #backend_managers{
-      max-width: 240px !important;
-   } */
    .backend_datatables{
       max-width: 15rem !important;
    }
@@ -3611,7 +3689,6 @@ tr.child ul{
       max-width: 15.625rem !important;
    }
 
-   /* bottom notification */
    .notfication_bottom .notification{
       width: 15rem;
       height: 2.125rem;
@@ -3679,21 +3756,13 @@ tr.child ul{
       margin-bottom: 0.625rem;
    }
 
+   #searchmodal .modal-dialog{
+      min-width: calc(100vw - 15px) !important;
+      margin-left:8px !important;
+      margin-top:26px !important;
+   }
+   .search_message_div{
+      padding: 3px 5px;
+   }
+
   }
-
-  /* @media (max-width:767px) and (min-width:426px){
-    #backend_customers{
-      max-width: 684px !important;
-    }
-    tr.child ul{
-      width: 100% !important;
-      text-align: left !important;
-    }
-  } */
-
-  /* @media (max-width:768px) and (min-width:426px){
-    td.child ul {
-      width: 100% !important;
-      text-align: left !important;
-    }
-  } */

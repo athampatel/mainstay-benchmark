@@ -45,7 +45,7 @@ Customers - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report position-relative">
+                                        <div class="datatable-report admin position-relative">
                                             {{-- <a href="/admin/exportAllCustomers"> --}}
                                             <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
@@ -64,14 +64,35 @@ Customers - Admin Panel
                                 <table id="backend_customers" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
-                                            <th width="10%">Profile Picture</th>
-                                            <th width="10%">Name</th>
-                                            <th width="10%">Email</th>
-                                            <th width="10%">{{ config('constants.label.admin.ar_division_no') }}</th>
-                                            <th width="10%">{{ config('constants.label.admin.relational_manager') }}</th>
-                                            <th width="10%">Status</th>
-                                            <th width="10%">Action</th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.customer_no') }}
+                                                <span data-col='customerno' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='customerno' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Profile Picture
+                                                {{-- <span data-col='profile' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='profile' data-table='customers' class="desc" data-col=''>&#x2193;</span> --}}
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Name
+                                                <span data-col='name' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Email
+                                                <span data-col='email' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.ar_division_no') }}
+                                                <span data-col='ardivisionno' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='ardivisionno' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.relational_manager') }}
+                                                <span data-col='sales_person' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='sales_person' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Status
+                                                <span data-col='customer_status' data-table='customers' class="asc">&#x2191;</span>
+                                                <span data-col='customer_status' data-table='customers' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th {{-- width="10%" --}}>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

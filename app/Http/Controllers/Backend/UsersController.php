@@ -39,6 +39,7 @@ use App\Models\UserDetails;
 use App\Models\VmiInventoryRequest;
 use App\Models\SearchWord;
 use App\Models\AnalaysisExportRequest;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -363,7 +364,7 @@ class UsersController extends Controller
                             //     Mail::to($request->email)->send(new \App\Mail\SendMail($details));
                             // }
                             $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                            $is_local = env('APP_ENV') == 'dev' ? true : false;
+                            $is_local = env('APP_ENV') == 'local' ? true : false;
                             if($is_local){
                                 Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                             } else {
@@ -818,7 +819,7 @@ class UsersController extends Controller
                 // }
                 
                 $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                $is_local = env('APP_ENV') == 'dev' ? true : false;
+                $is_local = env('APP_ENV') == 'local' ? true : false;
                 if($is_local){
                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                 } else {
@@ -1256,6 +1257,7 @@ class UsersController extends Controller
         $headers = array('Content-Type' => 'text/csv');
         return response()->download($filename, 'sign-up-requests.csv', $headers);
     }
+    
     public function ExportAllSignupToPdf(){
         $users = $this->ExportSignupData();
         $name = 'sign-up-requests.pdf';
@@ -1535,7 +1537,48 @@ class UsersController extends Controller
     public function customerExportInfo(Request $request,$id){
         $customer_export_count =  AnalaysisExportRequest::where('id',$id)->select('analaysis_export_requests.*')->get()->first();
         $user_detail = UserDetails::where('id',$customer_export_count->user_detail_id)->get()->first();
-        // dd($customer_export_count);
         return view('backend.pages.exports.info',compact('customer_export_count','user_detail'));
+    }
+
+    public function ExportAllExports(){
+        $requests = self::ExportAllExportData();
+        $filename = "export_requests.csv";
+        $handle = fopen($filename,'w+');
+        fputcsv($handle, array(
+            'CUSTOMER NUMBER',
+            'RESOURCE',
+            'TYPE',
+            'REQUESTED DATE'
+        ));
+        foreach($requests as $request) {
+        $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+        $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+        fputcsv($handle, array(
+            $request['customer_no'],
+            $request['resource'],
+            $type,
+            $requested_date
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'export_requests.csv', $headers); 
+    }
+
+    public function ExportAllExportsPdf(){
+        $requests = self::ExportAllExportData();
+        $name = 'Exports-list.pdf';
+        PdfController::generatePdf($requests,$name);
+    }
+
+    public static function ExportAllExportData(){
+        $requests =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','analaysis_export_requests.user_detail_id')
+        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+        ->leftjoin('admins','sales_persons.email','=','admins.email')
+        ->where('status',0)
+        ->select('analaysis_export_requests.*')->get()->toArray();
+
+        return $requests;
     }
 }

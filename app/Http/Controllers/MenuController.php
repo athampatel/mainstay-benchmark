@@ -140,6 +140,7 @@ class MenuController extends Controller
 
         // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
+        $data['user'] = Auth::user();
         $data['searchWords']   = $searchWords;
         return view('Pages.dashboard',$data); 
     }

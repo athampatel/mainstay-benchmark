@@ -8,10 +8,38 @@ if($('#backend_customers').length){
         lengthChange: true,
         pageLength:start_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
+        order: [],
         info: false,
-        responsive: true
+        responsive: true,
     });
+
+    /* test function work start */
+
+    $(document).on('click','th span',function(e){
+        e.preventDefault();
+        $('th span').css({'opacity':0.3})
+        $(e.currentTarget).css({'opacity':1})
+        let order = $(e.currentTarget).data('col');
+        console.log(order,'__order');
+        // let search = $('#admin_customer_search').val();
+        // let val = parseInt($("#admin-customer-filter-count option:selected").val());
+        // $('<input>').attr({
+        //     type: 'hidden',
+        //     id: 'limit',
+        //     name: 'limit',
+        //     value: val
+        // }).appendTo('#customer_from');
+        // $('<input>').attr({
+        //     type: 'hidden',
+        //     id: 'search',
+        //     name: 'search',
+        //     value: search
+        // }).appendTo('#customer_from');
+        // $('#customer_from').submit();
+    })
+
+    /* test function work end */
     
     $(document).on('change','#admin-customer-filter-count',function(){
         let val = parseInt($("#admin-customer-filter-count option:selected").val());
@@ -554,6 +582,15 @@ $(document).on('click','#admin-signup-report-icon',function(e){
 
 $(document).on('click','.export-signup-admins-item',function(){
     $('#export-signup-admins-drop').addClass('d-none');
+})
+// exports page
+$(document).on('click','#admin-customer-exports-icon',function(e){
+    e.preventDefault();
+    $('#export-admin-exports-drop').toggleClass('d-none');
+})
+
+$(document).on('click','.export-admin-exports-item',function(){
+    $('#export-admin-exports-drop').addClass('d-none');
 })
 
 if($('#get_inventory_item_details').length){

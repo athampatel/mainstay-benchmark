@@ -18,9 +18,10 @@
                   <div class="box-icon small-icon rounder-border">
                     @php
                       $customer_session =  session('customers');
-                    @endphp               
-                  @if($customer_session[0]->profile_image)
-                  <img src="/{{$customer_session[0]->profile_image}}" class="rounded-circle regin_manager_profile"/>
+                    @endphp 
+                  {{-- @if($customer_session[0]->profile_image) --}}
+                  @if($user->profile_image)
+                    <img src="/{{$user->profile_image}}" class="rounded-circle regin_manager_profile"/>
                   @else
                   <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
                     <g id="Group_1194" data-name="Group 1194" transform="translate(-332 -170)">
@@ -107,7 +108,7 @@
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
-                <div class="box-details col-12 px-5">                                 
+                <div class="box-details col-12 px-5">                 
                 {{-- <div class="date" id="open-orders-total-amount">$ {{number_format("0",2,".",",")}}</div> --}}
                 <div class="date" id="open-orders-total-amount">$ 0</div>
                 <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/open-orders">View Open Orders</a>

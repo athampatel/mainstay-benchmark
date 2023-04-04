@@ -301,6 +301,7 @@ $(document).on('click','#profile-edit-save-button',function(e){
                     $("#nav-bar-profile-img").prop("src", res1.data[0].path);
                     $("#nav-bar-profile-img").prop("height", 45);
                     $("#nav-bar-profile-img").prop("width", 45);
+                    $("#nav-bar-profile-img").css({"border-radius" : '50%'});
                     $("#account-detail-profile-img").prop("src", res1.data[0].path);
                 }
                 $('#nav-bar-profile-name').text(acc_name);
