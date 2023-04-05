@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\PdfController;
 use App\Models\SearchWord;
 use App\User;
@@ -242,19 +243,14 @@ class RolesController extends Controller
     public function ExportAllRolesInExcel(){
         $roles = Role::all()->toArray();
         $filename = "user-roles.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'NAME',
-        'GUARD NAME',
-        ));
-        foreach($roles as $role) {
-        fputcsv($handle, array(
-            $role['name'],
-            $role['guard_name']
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'user-roles.csv', $headers);
+        $header_array = array(
+            'NAME',
+            'GUARD NAME',
+        );
+        $array_keys = array(
+            'name',
+            'guard_name'
+        );
+        return CustomerExportController::ExportExcelFunction($roles,$header_array,$filename,1,$array_keys);
     }
 }

@@ -102,8 +102,8 @@ Customer Change Order Requests - Admin Panel
                                                     <span class="badge bm-btn-delete btn-rounded text-capitalize text-white ">Declined</span>
                                                 @elseif($_request['request_status'] == 1)
                                                     <span class="badge bm-btn-primary btn-success btn-rounded text-capitalize text-white">Approved</span>  
-                                                @else                                             
-                                                    <span class="badge btn btn-primary bm-btn-primary btn-rounded badge-warning text-capitalize text-white">New</span>
+                                                {{-- @else                                             
+                                                    <span class="badge btn btn-primary bm-btn-primary btn-rounded badge-warning text-capitalize text-white">New</span> --}}
                                                 @endif
                                                 <a class="btn btn-info btn-rounded text-white" href="{{ route('admin.users.change-order-view', $_request->id) }}">View Info</a>
                                             </td>                                    

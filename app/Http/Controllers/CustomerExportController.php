@@ -152,8 +152,8 @@ class CustomerExportController extends Controller
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $response = self::exportInvoiceData($user_detail);
         $filename = "invoice-detail.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
+        
+        $header_array = array(
             'INVOICE NUMBER',
             'CUSTOMER NAME',
             'CUSTOMER EMAIL',
@@ -162,23 +162,8 @@ class CustomerExportController extends Controller
             'PRICE',
             'DATE',
             'STATUS'
-        ));
-
-        foreach($response as $invoice) {
-            fputcsv($handle, array(
-                $invoice['INVOICE_NUMBER'],
-                $invoice['CUSTOMER_NAME'],
-                $invoice['CUSTOMER_EMAIL'],
-                $invoice['CUSTOMER_PO_NUMBER'],
-                $invoice['TOTAL_ITEMS'],
-                $invoice['PRICE'],
-                $invoice['DATE'],
-                $invoice['STATUS'],
-            )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'invoice-detail.csv', $headers);
+        );
+        return self::ExportExcelFunction($response,$header_array,$filename);
     }
 
     // invoice pdf
@@ -196,8 +181,7 @@ class CustomerExportController extends Controller
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $response = self::exportOpenData($user_detail);
         $filename = "open-orders.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
+        $header_array = array(
             'SALES ORDER NUMBER',
             'CUSTOMER NAME',
             'CUSTOMER EMAIL',
@@ -206,23 +190,8 @@ class CustomerExportController extends Controller
             'DATE',
             'STATUS',
             'LOCATION'
-        ));
-
-        foreach($response as $invoice) {
-            fputcsv($handle, array(
-                $invoice['SALES_ORDER_NUMBER'],
-                $invoice['CUSTOMER_NAME'],
-                $invoice['CUSTOMER_EMAIL'],
-                $invoice['TOTAL_ITEMS'],
-                $invoice['PRICE'],
-                $invoice['DATE'],
-                $invoice['STATUS'],
-                $invoice['LOCATION'],
-            )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'open-orders.csv', $headers);
+        );
+        return self::ExportExcelFunction($response,$header_array,$filename);
     }
 
     // open orders pdf
@@ -236,34 +205,19 @@ class CustomerExportController extends Controller
     
     // vmi csv
     public function exportVmiCsv(Request $request){
-        // dd(config('constants.export_message.message'));
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $response = self::exportVmiData($user_detail);
         $filename = "Vmi-detail.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-            'CUSTOMER ITEM NUMBER',
-            'BENCHMARK ITEM NUMBER',
-            'ITEM DESCRIPTION',
-            'VENDOR NAME',
-            'QUANTITY ON HAND',
-            'QUANTITY PURCHASED(YEAR)',
-        ));
-
-        foreach($response as $invoice) {
-            fputcsv($handle, array(
-                $invoice['CUSTOMER_ITEM_NUMBER'],
-                $invoice['BENCHMARK_ITEM_NUMBER'],
-                $invoice['ITEM_DESCRIPTION'],
-                $invoice['VENDOR_NAME'],
-                $invoice['QUANTITY_ON_HAND'],
-                $invoice['QUANTITY_PURCHASED(YEAR)'],
-            )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'Vmi-detail.csv', $headers);
+        $header_array = array(
+                'CUSTOMER ITEM NUMBER',
+                'BENCHMARK ITEM NUMBER',
+                'ITEM DESCRIPTION',
+                'VENDOR NAME',
+                'QUANTITY ON HAND',
+                'QUANTITY PURCHASED(YEAR)',
+        );
+        return self::ExportExcelFunction($response,$header_array,$filename);
     }
 
     // vmi pdf
@@ -395,48 +349,40 @@ class CustomerExportController extends Controller
         return $response_array;
     }
 
-    /* test work start */
-    function test(Request $request){
-        // Fetch user detail from session
-        $customer_no = $request->session()->get('customer_no');
-        $user_detail = UserDetails::where('customerno', $customer_no)->first();
-        $response = self::exportVmiData($user_detail);
-        // Generate CSV contents in memory
+    // common function
+    public static function ExportExcelFunction($response,$header_array,$filename,$type = 0,$array_keys = array()){
         $contents = '';
         $delimiter = ',';
         $enclosure = '"';
         $escape = '\\';
 
-        $header = array(
-            'CUSTOMER ITEM NUMBER',
-            'BENCHMARK ITEM NUMBER',
-            'ITEM DESCRIPTION',
-            'VENDOR NAME',
-            'QUANTITY ON HAND',
-            'QUANTITY PURCHASED(YEAR)',
-        );
+        $header = $header_array;
         $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
             return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
         }, $header)) . "\n";
 
-        foreach ($response as $invoice) {
-            $row = array(
-                $invoice['CUSTOMER_ITEM_NUMBER'],
-                $invoice['BENCHMARK_ITEM_NUMBER'],
-                $invoice['ITEM_DESCRIPTION'],
-                $invoice['VENDOR_NAME'],
-                $invoice['QUANTITY_ON_HAND'],
-                $invoice['QUANTITY_PURCHASED(YEAR)'],
-            );
+        foreach ($response as $res) {
+            $row_array = array();
+            if($type == 0){
+                foreach($header_array as $harr){
+                    $arkey = str_replace(' ','_',$harr);
+                    array_push($row_array,$res[$arkey]);
+                }
+            } else {
+                foreach($array_keys as $arkey1){
+                    array_push($row_array,$res[$arkey1]);
+                }
+            }
+            // return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+            $row = $row_array;
             $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
-                return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+                return $enclosure . str_replace($enclosure, "'", $value) . $enclosure;
             }, $row)) . "\n";
         }
 
-        // Stream CSV contents to HTTP response
         $headers = array(
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="Vmi-detail.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         );
         $response = response()->stream(function() use ($contents) {
             $stream = fopen('php://output', 'w');
@@ -446,7 +392,6 @@ class CustomerExportController extends Controller
 
         return $response;
     }
-    /* test work end */
 }
 
 

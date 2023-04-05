@@ -350,7 +350,6 @@ User Create - Admin Panel
                 $('.userDetails-container').fadeOut();
             },
             success: function (res) {
-                /* check the response error status */
                 let is_error = false;
                 let is_error_message = '';
                 if("status" in res){

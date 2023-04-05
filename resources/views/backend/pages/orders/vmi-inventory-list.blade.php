@@ -108,6 +108,7 @@ VMI Inventory - Admin Panel
 @section('scripts')
 <script>
     const constants = <?php echo json_encode($constants); ?>;
+    const searchWords = <?php echo json_encode($searchWords); ?>;
     var change_items = [];
 </script>
 <script src="{{ asset('assets/js/backend_vmi.js') }}"></script>

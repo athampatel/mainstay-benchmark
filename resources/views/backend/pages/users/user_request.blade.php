@@ -216,8 +216,6 @@ User Create - Admin Panel
                                                 </div>
                                             </div>
                                         </div>
-                                    {{-- </div> --}}
-                            {{-- test working end --}}
 
                                     <input type="hidden" name="vmi_companycode[{{$key}}]" value="{{$user_info['vmi_companycode']}}"> 
                                     @endforeach
@@ -226,18 +224,36 @@ User Create - Admin Panel
                                     @if(isset($user->id))
                                         <input type="hidden" name="" value="{{$user->id}}" id="user_id">
                                     @endif
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            @if(isset($user->id))
-                                                <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
-                                            @else
-                                                <input type="hidden" name="create_user[{{$key}}]" value="1">
-                                                <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
-                                            @endif
-                                        
-                                            <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
+
+                                    @if(empty($user))
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                @if(isset($user->id))
+                                                    <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
+                                                @else
+                                                    <input type="hidden" name="create_user[{{$key}}]" value="1">
+                                                    <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                                @endif
+                                            
+                                                <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
+                                            </div>
                                         </div>
-                                    </div>        
+                                    @else 
+                                        @if(isset($user->active) && $user->active == 0)
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    @if(isset($user->id))
+                                                        <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
+                                                    @else
+                                                        <input type="hidden" name="create_user[{{$key}}]" value="1">
+                                                        <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                                    @endif
+                                                
+                                                    <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
                             </form> 
                         @else
                             <div class="card mb-3">                        
@@ -260,7 +276,8 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script>    
+<script> 
+   const searchWords = <?php echo json_encode($searchWords); ?>;
     $(document).ready(function() {
         $('.select2').select2();
     })

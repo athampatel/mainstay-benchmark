@@ -927,11 +927,14 @@ $(document).on('click','#admin-profile-edit-save-button',function(e){
                 $("#nav-bar-profile-img_admin").prop("src", res1.data.path);
                 $("#nav-bar-profile-img_admin").prop("height", 45);
                 $("#nav-bar-profile-img_admin").prop("width", 45);
-                $('#display_profile_upload_msg').removeClass('d-none');
-                $('#display_profile_upload_msg').addClass('alert-success').removeClass('alert-danger').html(res1.data.message);
-                setTimeout(() => {
-                    $('#display_profile_upload_msg').addClass('d-none');
-                }, 2000);
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: 'Profile Updated successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
+
             } else {
                 // update fail
             }
