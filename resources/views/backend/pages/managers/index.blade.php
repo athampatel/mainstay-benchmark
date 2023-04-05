@@ -62,11 +62,27 @@ Relational Managers - Admin Panel
                                 <table id="backend_managers" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="10%">{{config('constants.label.admin.manager_no')}}</th>
-                                            <th width="10%">Name</th>
-                                            <th width="10%">Email</th>                                   
-                                            <th width="10%">Account</th>
-                                            <th width="10%">Action</th>                                            
+                                            <th width="10%">
+                                                {{config('constants.label.admin.manager_no')}}
+                                                <span data-col='person_number' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='person_number' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                Name
+                                                <span data-col='name' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                Email
+                                                <span data-col='email' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>                                   
+                                            <th width="10%">
+                                                Account
+                                            </th>
+                                            <th width="10%">
+                                                Action
+                                            </th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,5 +151,9 @@ Relational Managers - Admin Panel
 @section('scripts')
 <script>
     const searchWords = <?php echo json_encode($searchWords); ?>;
+    const orderCol = <?php echo json_encode($order); ?>;
+    const orderType = <?php echo json_encode($order_type); ?>;
+    $('th span').css({'opacity':0.3})
+    $(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 </script>
 @endsection

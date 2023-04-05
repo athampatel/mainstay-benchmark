@@ -35,6 +35,8 @@ class RolesController extends Controller
             abort(403, config('constants.403.role.view'));
         }
         $limit = $request->input('limit');
+        $order = $request->input('srorder');
+        $order_type = $request->input('ortype');
         if(!$limit){
             $limit = 10;
         } 
@@ -48,18 +50,30 @@ class RolesController extends Controller
 
         $search = $request->input('search');
         if($search){
-           $roles = Role::where('name','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
-           $roless = Role::where('name','like','%'.$search.'%')->paginate(intval($limit));
+            $roles1 = Role::where('name','like','%'.$search.'%');
+            if($order){
+                $order_column = "roles.$order";
+                $roles1->orderBy($order_column, $order_type);
+            }
+                
+            $roles = $roles1->offset($offset)->limit(intval($limit))->get();
+            $roless = $roles1->paginate(intval($limit));
         } else {
-            $roles = Role::offset($offset)->limit(intval($limit))->get();
-            $roless = Role::paginate(intval($limit));
+            if($order){
+                $order_column = "roles.$order";
+                $roles = Role::orderBy($order_column,$order_type)->offset($offset)->limit(intval($limit))->get();
+                $roless = Role::orderBy($order_column,$order_type)->paginate(intval($limit));
+            } else {
+                $roles = Role::offset($offset)->limit(intval($limit))->get();
+                $roless = Role::paginate(intval($limit));
+            }
         }
         $paginate = $roless->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
 
         // Search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.roles.index', compact('roles','search','paginate','limit','searchWords'));
+        return view('backend.pages.roles.index', compact('roles','search','paginate','limit','searchWords','order','order_type'));
     }
 
     /**

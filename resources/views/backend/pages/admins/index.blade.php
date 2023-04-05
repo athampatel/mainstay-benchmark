@@ -77,12 +77,29 @@ Admins - Admin Panel
                                 <table id="backend_admins" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            
-                                            <th width="5%">{{ config('constants.label.admin.sl') }}</th>
-                                            <th width="10%">Profile picture</th>
-                                            <th width="10%">User Name</th>
-                                            <th width="10%">Name</th>
-                                            <th width="10%">Email</th>
+                                            <th width="5%">
+                                                {{ config('constants.label.admin.sl') }}
+                                                <span data-col='id' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='id' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                Profile picture
+                                            </th>
+                                            <th width="10%">
+                                                User Name
+                                                <span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                Name
+                                                <span data-col='name' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                Email
+                                                <span data-col='email' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
                                             <th width="40%">Roles</th>
                                             <th width="15%">Action</th>
                                         </tr>
@@ -192,6 +209,10 @@ Admins - Admin Panel
 @section('scripts')
 <script>
 const searchWords = <?php echo json_encode($searchWords); ?>;
+const orderCol = <?php echo json_encode($order); ?>;
+const orderType = <?php echo json_encode($order_type); ?>;
+$('th span').css({'opacity':0.3})
+$(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 function deleteAdmin(id){
     Swal.fire({
     title: 'Are you sure?',

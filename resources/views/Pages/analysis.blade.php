@@ -53,7 +53,11 @@
                     @endphp
                     <select name="type" id="analysis_year_select" class="rounded analysis_select">
                         @for($i = $year ; $i >= 2018; $i-- )
-                        <option value="{{$i}}" {{$i == $year ? 'selected' : ''}}>{{$i}}</option>
+                            @if($urlyear != '')
+                                <option value="{{$i}}" {{$i == intval($urlyear) ? 'selected' : ''}}>{{$i}}</option>
+                            @else 
+                                <option value="{{$i}}" {{$i == $year ? 'selected' : ''}}>{{$i}}</option>
+                            @endif
                         @endfor
                     </select>
                     <div class="down-arrow"></div>
@@ -172,10 +176,12 @@
      <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <script>
          let response_ = [];
          const constants = <?php echo json_encode($constants); ?>;
          const searchWords = <?php echo json_encode($searchWords); ?>;
+         const urlyear = <?php echo json_encode($urlyear); ?>;
     </script>
     <script src="/assets/js/analysis-page.js"></script>
 @endsection

@@ -37,6 +37,8 @@ class AdminsController extends Controller
             abort(403,config('constants.admin_error_403'));
         }
         $limit = $request->input('limit');
+        $order = $request->input('srorder');
+        $order_type = $request->input('ortype');
         if(!$limit){
             $limit = 10;
         } 
@@ -50,17 +52,30 @@ class AdminsController extends Controller
         
         $search = $request->input('search');
         if($search){
-            $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
+            // $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
+            // $adminss = Admin::paginate(intval($limit));
+            $admin1 = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%');
+            if($order){
+                $order_column = "admins.$order";
+                $admin1->orderBy($order_column, $order_type);
+            }
+            $admins = $admin1->offset($offset)->limit(intval($limit))->get();
             $adminss = Admin::paginate(intval($limit));
         } else {
-            $admins = Admin::offset($offset)->limit(intval($limit))->get();
-            $adminss = Admin::paginate(intval($limit));
+            if($order){
+                $order_column = "admins.$order";
+                $admins = Admin::orderBy($order_column, $order_type)->offset($offset)->limit(intval($limit))->get();
+                $adminss = Admin::paginate(intval($limit));
+            } else {
+                $admins = Admin::offset($offset)->limit(intval($limit))->get();
+                $adminss = Admin::paginate(intval($limit));
+            }
         }
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // Search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords'));
+        return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords','order','order_type'));
     }
 
     /**

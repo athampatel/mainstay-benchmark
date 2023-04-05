@@ -61,12 +61,32 @@ Customer Change Order Requests - Admin Panel
                                 <table id="backend_change_order_requests" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
-                                            <th width="10%">{{ config('constants.label.admin.customer_name') }}</th>
-                                            <th width="10%">{{ config('constants.label.admin.customer_email') }}</th>
-                                            <th width="10%">{{ config('constants.label.admin.order_date') }}</th>
-                                            <th width="10%">{{ config('constants.label.admin.region_manager') }}</th>
-                                            <th width="10%">&nbsp;</th>
+                                            <th>
+                                                {{ config('constants.label.admin.customer_no') }}
+                                                <span data-col='customerno' data-table='change_orders' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='customerno' data-table='change_orders' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                {{ config('constants.label.admin.customer_name') }}
+                                                <span data-col='name' data-table='change_orders' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='change_orders' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                {{ config('constants.label.admin.customer_email') }}
+                                                <span data-col='email' data-table='change_orders' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='change_orders' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                {{ config('constants.label.admin.order_date') }}
+                                                <span data-col='ordered_date' data-table='change_orders' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='ordered_date' data-table='change_orders' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                {{ config('constants.label.admin.region_manager') }}
+                                                <span data-col='manager' data-table='change_orders' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='manager' data-table='change_orders' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,4 +148,14 @@ Customer Change Order Requests - Admin Panel
     @endforeach
     </tbody>
 </table>
+@endsection
+
+@section('scripts')
+<script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
+const orderCol = <?php echo json_encode($order); ?>;
+const orderType = <?php echo json_encode($order_type); ?>;
+$('th span').css({'opacity':0.3})
+$(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
+</script>
 @endsection

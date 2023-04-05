@@ -61,12 +61,27 @@ Customer Export Requests - Admin Panel
                                 <table id="backend_export_requests" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
-                                            {{-- <th width="10%">AR Division Number</th> --}}
-                                            <th width="10%">Resource</th>
-                                            <th width="10%">Type</th>
-                                            <th width="10%">Requested Date</th>
-                                            <th width="10%">&nbsp;</th>
+                                            <th>
+                                                {{ config('constants.label.admin.customer_no') }}
+                                                <span data-col='customer_no' data-table='export_request' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='customer_no' data-table='export_request' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Resource
+                                                <span data-col='resource' data-table='export_request' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='resource' data-table='export_request' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Type
+                                                <span data-col='type' data-table='export_request' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='type' data-table='export_request' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Requested Date
+                                                <span data-col='created_at' data-table='export_request' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='created_at' data-table='export_request' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,20 +117,9 @@ Customer Export Requests - Admin Panel
 @section('scripts')
 <script>
 const searchWords = <?php echo json_encode($searchWords); ?>;
-// function deleteCustomer(id){
-//     Swal.fire({
-//     title: 'Are you sure?',
-//     text: "You want to delete the customer",
-//     icon: 'warning',
-//     showCancelButton: true,
-//     confirmButtonColor: '#9FCC47',
-//     cancelButtonColor: '#424448',
-//     confirmButtonText: 'Yes, delete it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//         document.getElementById(`delete-form-${id}`).submit();
-//         }
-//     })
-// }
+const orderCol = <?php echo json_encode($order); ?>;
+const orderType = <?php echo json_encode($order_type); ?>;
+$('th span').css({'opacity':0.3})
+$(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 </script>
 @endsection

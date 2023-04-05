@@ -235,7 +235,7 @@ class MenuController extends Controller
     }
 
     // analysis page
-    public function analysisPage(Request $request){
+    public function analysisPage(Request $request,$year = ''){
         $data['title']  = '';
         $data['current_menu']   = 'analysis';
         $data['menus']          = $this->NavMenu('analysis');
@@ -247,6 +247,7 @@ class MenuController extends Controller
         $data['constants'] = config('constants');
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords;
+        $data['urlyear']   = $year;
         return view('Pages.analysis',$data);
     }
     

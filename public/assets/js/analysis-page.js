@@ -35,6 +35,15 @@ $(document).on('change','#tab_input',function(){
     }
 });
 
+
+// tab change by url year
+// if(urlyear != ''){
+//     localStorage.setItem('is_table',1);
+//     $('#analysis_table_container').removeClass('d-none');
+//     $('#analysis_table_chart').addClass('d-none');
+//     $('#analysis_item_select_label').addClass('d-none');
+// }
+
 // ajax
 let analysis_page_table;
 let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
@@ -610,12 +619,20 @@ $(document).on('click','.export-analysis-page-item',function(e){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { 'year' : year,'range':range,'type':type1},
         success: function (res) {  
-            if(res.success){
-                $('#export_message_display').html(res.message).removeClass('d-none');
-            }
-            setTimeout(() => {
-                $('#export_message_display').addClass('d-none');
-            }, 2000);
+            // if(res.success){
+                // $('#export_message_display').html(res.message).removeClass('d-none');
+            // }
+            // setTimeout(() => {
+            //     $('#export_message_display').addClass('d-none');
+            // }, 2000);
+            Swal.fire({
+                position: 'center-center',
+                icon: 'success',
+                title: 'Request Sent',
+                text: res.message,
+                showConfirmButton: false,
+                timer: 2000,
+            })
         }
     });
     $('#export-analysis-page-drop').addClass('d-none');

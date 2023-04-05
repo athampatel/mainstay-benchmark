@@ -9,38 +9,11 @@ if($('#backend_customers').length){
         pageLength:start_filter_count,
         paging: true,
         ordering: false,
-        order: [],
+        // order: [],
         info: false,
         responsive: true,
     });
 
-    /* test function work start */
-
-    $(document).on('click','th span',function(e){
-        e.preventDefault();
-        $('th span').css({'opacity':0.3})
-        $(e.currentTarget).css({'opacity':1})
-        let order = $(e.currentTarget).data('col');
-        console.log(order,'__order');
-        // let search = $('#admin_customer_search').val();
-        // let val = parseInt($("#admin-customer-filter-count option:selected").val());
-        // $('<input>').attr({
-        //     type: 'hidden',
-        //     id: 'limit',
-        //     name: 'limit',
-        //     value: val
-        // }).appendTo('#customer_from');
-        // $('<input>').attr({
-        //     type: 'hidden',
-        //     id: 'search',
-        //     name: 'search',
-        //     value: search
-        // }).appendTo('#customer_from');
-        // $('#customer_from').submit();
-    })
-
-    /* test function work end */
-    
     $(document).on('change','#admin-customer-filter-count',function(){
         let val = parseInt($("#admin-customer-filter-count option:selected").val());
         let search = $('#admin_customer_search').val();
@@ -97,6 +70,41 @@ if($('#backend_customers').length){
     })
 }
 
+// customer sorting
+function customers_submit(order,order_type){
+    let search = $('#admin_customer_search').val();
+    let val = parseInt($("#admin-customer-filter-count option:selected").val());
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#customer_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#customer_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#customer_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#customer_from');
+
+    $('#customer_from').submit();
+}
+
 // All roles
 if($('#backend_roles').length){
 
@@ -107,7 +115,7 @@ if($('#backend_roles').length){
         lengthChange: true,
         pageLength:roles_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -168,6 +176,40 @@ if($('#backend_roles').length){
     })
 }
 
+// roles sorting
+function roles_submit(order,order_type){
+    let search = $('#admin_roles_search').val();
+    let val = parseInt($("#admin-roles-filter-count option:selected").val());
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#roles_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#roles_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#roles_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#roles_from');
+
+    $('#roles_from').submit();
+}
 
 // all Admins
 if($('#backend_admins').length){
@@ -179,7 +221,7 @@ if($('#backend_admins').length){
         lengthChange: true,
         pageLength:admins_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -240,6 +282,42 @@ if($('#backend_admins').length){
     })
 }
 
+// admins sorting
+function admins_submit(order,order_type){
+    let val = parseInt($("#admin-admins-filter-count option:selected").val());
+    let search = $('#admin_admins_search').val();
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#admins_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#admins_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#admins_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#admins_from');
+
+    $('#admins_from').submit(); 
+} 
+
 // All managers
 if($('#backend_managers').length){
 
@@ -250,7 +328,7 @@ if($('#backend_managers').length){
         lengthChange: true,
         pageLength:managers_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -311,6 +389,43 @@ if($('#backend_managers').length){
     })
 }
 
+//managers sorting
+
+function managers_submit(order,order_type){
+    let search = $('#admin_managers_search').val();
+    let val = parseInt($("#admin-managers-filter-count option:selected").val());
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#managers_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#managers_from');
+   
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#managers_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#managers_from');
+
+    $('#managers_from').submit();
+}
+
 // All Change Order Requests
 if($('#backend_change_order_requests').length){
 
@@ -321,7 +436,7 @@ if($('#backend_change_order_requests').length){
         lengthChange: true,
         pageLength:change_order_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -382,6 +497,40 @@ if($('#backend_change_order_requests').length){
     })
 }
 
+// change orders sort
+function change_order_sort(order,order_type){
+    let val = parseInt($("#admin-change-order-filter-count option:selected").val());
+    let search = $('#admin_change_order_search').val();
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#change_order_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#change_order_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#change_order_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#change_order_from');
+    
+    $('#change_order_from').submit();
+}
 // admin exports
 if($('#backend_export_requests').length){
     // All Signup Requests
@@ -392,7 +541,7 @@ if($('#backend_export_requests').length){
         lengthChange: true,
         pageLength:admin_export_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -452,6 +601,39 @@ if($('#backend_export_requests').length){
         }
     })
 }
+
+function exports_sorting(order,order_type){
+    let val = parseInt($("#admin-exports-filter-count option:selected").val());
+    let search = $('#admin_exports_search').val();
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#admins_exports_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#admins_exports_from');
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#admins_exports_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#admins_exports_from');
+    $('#admins_exports_from').submit();
+}
+
+// sign up requests
 if($('#backend_signup_request').length){
     // All Signup Requests
     let signup_request_filter_count =  parseInt($("#admin-signup-filter-count option:selected").val());
@@ -461,7 +643,7 @@ if($('#backend_signup_request').length){
         lengthChange: true,
         pageLength:signup_request_filter_count,
         paging: true,
-        ordering: true,
+        ordering: false,
         info: false,
         responsive: true
     });
@@ -520,6 +702,42 @@ if($('#backend_signup_request').length){
             $('#admin_signup_from').submit();
         }
     })
+}
+
+// sign up sorting
+function signup_sorting(order,order_type){
+    let search = $('#admin_signup_search').val();
+    let val = parseInt($("#admin-signup-filter-count option:selected").val());
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'limit',
+        name: 'limit',
+        value: val
+    }).appendTo('#admin_signup_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'search',
+        name: 'search',
+        value: search
+    }).appendTo('#admin_signup_from');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'ortype',
+        name: 'ortype',
+        value: order_type
+    }).appendTo('#admin_signup_from');
+
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'srorder',
+        name: 'srorder',
+        value: order
+    }).appendTo('#admin_signup_from');
+
+    $('#admin_signup_from').submit();
 }
 
 // export tables
@@ -758,4 +976,44 @@ $(document).on('click','#account_setting_nav',function(e){
 $(document).on('click','#admin_nav_change',function(e){
     e.preventDefault();
     window.location = '/admin/customers/change-orders';
+})
+
+// backend sortings
+$(document).on('click','th span',function(e){
+    e.preventDefault();
+    $('th span').css({'opacity':0.3})
+    $(e.currentTarget).css({'opacity':1})
+    let order = $(e.currentTarget).data('col');
+    let order_type = $(e.currentTarget).data('ordertype');
+    let table = $(e.currentTarget).data('table');
+    console.log(table,'__table');
+    console.log(order,'__order');
+    console.log(order_type,'__order_type');
+    if(table == 'customers') {
+        customers_submit(order,order_type)
+    }
+
+    if(table == 'roles') {
+        roles_submit(order,order_type)
+    }
+
+    if(table == 'admins') {
+        admins_submit(order,order_type)
+    }
+
+    if(table == 'managers') {
+        managers_submit(order,order_type)
+    }
+
+    if(table == 'signups') {
+        signup_sorting(order,order_type)
+    }
+
+    if(table == 'change_orders'){
+        change_order_sort(order,order_type)
+    }
+
+    if(table == 'export_request') {
+        exports_sorting(order,order_type)
+    }
 })
