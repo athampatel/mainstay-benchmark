@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     // Route::get('/change-order',[MenuController::class,'changeOrderPage']);
     Route::get('/vmi-user',[MenuController::class,'vmiUserPage'])->name('auth.customer.vmi');
     Route::get('/analysis',[MenuController::class,'analysisPage'])->name('auth.customer.analysis');
+    // test work
+    Route::get('/analysis/{year}',[MenuController::class,'analysisPage'])->name('auth.customer.analysis');
     Route::get('/account-settings',[MenuController::class,'accountSettingsPage'])->name('auth.customer.account-settings');
     Route::get('/help',[MenuController::class,'helpPage'])->name('auth.customer.help');
 
@@ -135,7 +137,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/open-export/pdf',[CustomerExportController::class,'exportOpenPdf']);
     
     // vmi page
-    Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);
+    // Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);
+    Route::get('/vmi-page-export/csv',[CustomerExportController::class,'test']);
     Route::get('/vmi-page-export/pdf',[CustomerExportController::class,'exportVmiPdf']);
 
     // request

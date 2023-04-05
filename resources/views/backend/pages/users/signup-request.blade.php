@@ -58,12 +58,34 @@ Customers - Admin Panel
                                 <table id="backend_signup_request" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th {{-- width="10%" --}}>Full Name</th>
-                                            <th {{-- width="20%" --}}>Email</th>
-                                            <th {{-- width="20%" --}}>{{ config('constants.label.admin.contact_no') }}</th>
-                                            <th {{-- width="20%" --}}>Company Name</th>
-                                            <th {{-- width="10%" --}}>Request Date</th>
-                                            <th {{-- width="10%" --}}>Action</th>
+                                            <th>
+                                                Full Name
+                                                <span data-col='full_name' data-table='signups' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='full_name' data-table='signups' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Email
+                                                <span data-col='email' data-table='signups' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='signups' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                {{ config('constants.label.admin.contact_no') }}
+                                                <span data-col='phone_no' data-table='signups' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='phone_no' data-table='signups' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Company Name
+                                                <span data-col='company_name' data-table='signups' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='company_name' data-table='signups' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Request Date
+                                                <span data-col='created_at' data-table='signups' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='created_at' data-table='signups' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th>
+                                                Action
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,4 +150,13 @@ Customers - Admin Panel
         @endforeach
     </tbody>
 </table>
+@endsection
+@section('scripts')
+<script>
+const searchWords = <?php echo json_encode($searchWords); ?>;
+const orderCol = <?php echo json_encode($order); ?>;
+const orderType = <?php echo json_encode($order_type); ?>;
+$('th span').css({'opacity':0.3})
+$(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
+</script>
 @endsection

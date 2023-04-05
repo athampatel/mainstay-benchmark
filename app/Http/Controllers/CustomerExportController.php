@@ -394,4 +394,59 @@ class CustomerExportController extends Controller
 
         return $response_array;
     }
+
+    /* test work start */
+    function test(Request $request){
+        // Fetch user detail from session
+        $customer_no = $request->session()->get('customer_no');
+        $user_detail = UserDetails::where('customerno', $customer_no)->first();
+        $response = self::exportVmiData($user_detail);
+        // Generate CSV contents in memory
+        $contents = '';
+        $delimiter = ',';
+        $enclosure = '"';
+        $escape = '\\';
+
+        $header = array(
+            'CUSTOMER ITEM NUMBER',
+            'BENCHMARK ITEM NUMBER',
+            'ITEM DESCRIPTION',
+            'VENDOR NAME',
+            'QUANTITY ON HAND',
+            'QUANTITY PURCHASED(YEAR)',
+        );
+        $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+            return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+        }, $header)) . "\n";
+
+        foreach ($response as $invoice) {
+            $row = array(
+                $invoice['CUSTOMER_ITEM_NUMBER'],
+                $invoice['BENCHMARK_ITEM_NUMBER'],
+                $invoice['ITEM_DESCRIPTION'],
+                $invoice['VENDOR_NAME'],
+                $invoice['QUANTITY_ON_HAND'],
+                $invoice['QUANTITY_PURCHASED(YEAR)'],
+            );
+            $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+                return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+            }, $row)) . "\n";
+        }
+
+        // Stream CSV contents to HTTP response
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="Vmi-detail.csv"',
+        );
+        $response = response()->stream(function() use ($contents) {
+            $stream = fopen('php://output', 'w');
+            fwrite($stream, $contents);
+            fclose($stream);
+        }, 200, $headers);
+
+        return $response;
+    }
+    /* test work end */
 }
+
+

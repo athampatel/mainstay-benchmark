@@ -62,7 +62,7 @@ VMI Inventory - Admin Panel
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="vmi-datatable-export" id="vmi-inventory-datatable-export">
+                            <div class="vmi-datatable-export admin" id="vmi-inventory-datatable-export">
                                 <div class="vmi-datatable-print">
                                     <span>Print</span>
                                     <a href="">

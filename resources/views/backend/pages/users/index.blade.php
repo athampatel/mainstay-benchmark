@@ -64,35 +64,34 @@ Customers - Admin Panel
                                 <table id="backend_customers" class="text-center datatable-dark backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.customer_no') }}
-                                                <span data-col='customerno' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='customerno' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>{{ config('constants.label.admin.customer_no') }}
+                                                <span data-col='customerno' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='customerno' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Profile Picture
-                                                {{-- <span data-col='profile' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='profile' data-table='customers' class="desc" data-col=''>&#x2193;</span> --}}
+                                            <th>
+                                                Profile Picture 
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Name
-                                                <span data-col='name' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='name' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>Name
+                                                <span data-col='name' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Email
-                                                <span data-col='email' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='email' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>Email
+                                                <span data-col='email' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.ar_division_no') }}
-                                                <span data-col='ardivisionno' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='ardivisionno' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>{{ config('constants.label.admin.ar_division_no') }}
+                                                <span data-col='ardivisionno' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='ardivisionno' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>{{ config('constants.label.admin.relational_manager') }}
-                                                <span data-col='sales_person' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='sales_person' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>{{ config('constants.label.admin.relational_manager') }}
+                                                <span data-col='sales_person' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='sales_person' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}} {{-- style="width:100px;" --}}>Status
-                                                <span data-col='customer_status' data-table='customers' class="asc">&#x2191;</span>
-                                                <span data-col='customer_status' data-table='customers' class="desc">&#x2193;</span>
+                                            <th>Status
+                                                <span data-col='active' data-table='customers' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='active' data-table='customers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
-                                            <th {{-- width="10%" --}}>Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -223,6 +222,10 @@ Customers - Admin Panel
 @section('scripts')
 <script>
 const searchWords = <?php echo json_encode($searchWords); ?>;
+const orderCol = <?php echo json_encode($order); ?>;
+const orderType = <?php echo json_encode($order_type); ?>;
+$('th span').css({'opacity':0.3})
+$(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 function deleteCustomer(id){
     Swal.fire({
     title: 'Are you sure?',

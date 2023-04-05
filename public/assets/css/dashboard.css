@@ -1855,6 +1855,17 @@ input.analysis_select {
   margin-left: 0.75rem;
 }
 
+.vmi-datatable-export.admin{
+  width: 17.625rem; 
+  height: 1.875rem;
+  background-color: #7B7C7F;
+  color: #fff;
+  border-radius:0.9375rem;
+  display: flex;
+  align-items: center;
+  margin-left: 0.75rem;
+}
+
 .datatable-print{
   width: 3.4375rem;
   height: 1.875rem;
@@ -1899,6 +1910,13 @@ input.analysis_select {
   width: 3.4375rem;
   display: flex;
   justify-content: center;
+}
+
+.datatable-report.admin a.dropdown-item{
+  /* width: 3.4375rem; */
+  display: flex;
+  margin-left: 0 !important;
+  width: 100%;
 }
 
 .vmi-datatable-report{
@@ -2955,12 +2973,12 @@ tr.child ul{
 
 
 /* datatable testing sorting work start */
-#backend_customers thead tr th.sorting_disabled{
+.backend_datatables thead tr th.sorting_disabled{
   cursor: pointer;
   position: relative;
 }
 
-#backend_customers thead tr th.sorting_disabled span.asc{
+.backend_datatables thead tr th.sorting_disabled span.asc{
   right: 1em;
   content: "\2191";
   position: absolute;
@@ -2969,12 +2987,12 @@ tr.child ul{
   opacity: 0.3;
 }
 
-#backend_customers thead tr th.sorting_disabled {
+.backend_datatables thead tr th.sorting_disabled {
   position: relative;
   cursor: pointer;
 }
 
-#backend_customers thead tr th.sorting_disabled span.desc{
+.backend_datatables thead tr th.sorting_disabled span.desc{
   right: 0.5em;
   content: "\2193";
   position: absolute;
@@ -2983,9 +3001,10 @@ tr.child ul{
   opacity: 0.3;	
 }
 
-#backend_customers{
-  width: 1501px !important;
+td .dtr-title span{
+  display: none;
 }
+
 /* datatable testing sorting work end */
 
 /* print */
@@ -3039,6 +3058,13 @@ tr.child ul{
   
   .home-content{
     display: none !important;
+  }
+}
+
+@media ( max-width : 2000px){
+  #backend_customers{
+    max-width: 1512px !important;
+    /* width: 1512px !important; */
   }
 }
 
@@ -3246,6 +3272,7 @@ tr.child ul{
       margin-left: 25% !important;
     }
   }
+
   @media (max-width: 767px) {
     /* #backend_customers{
       max-width: 42.75rem;
@@ -3260,9 +3287,11 @@ tr.child ul{
       max-width: 42.75rem;
     } */
     .backend_datatables{
-      max-width: 42.75rem;
+      max-width: 42.75rem !important;
+      width: 42.75rem !important;
     }
   }
+
   @media (max-width: 767px) {
     html{
       font-size: 95%;
@@ -3333,7 +3362,8 @@ tr.child ul{
       max-width: 42.75rem;
     } */
     .backend_datatables{
-      max-width: 42.75rem;
+      max-width: 42.75rem !important;
+      width: 42.75rem !important;
     }
     tr.child ul{
       width: 100% !important;
@@ -3532,6 +3562,11 @@ tr.child ul{
       margin-left: 9px !important;
       margin-top: 30px;
     }
+
+    .backend_datatables{
+      max-width: 355px !important;
+      width: 355px !important;
+   }
   }
 
   @media (max-width:768px) {
@@ -3589,6 +3624,7 @@ tr.child ul{
 
     .backend_datatables{
       max-width: 305px !important;
+      width: 305px !important;
     }
 
     #searchmodal .modal-dialog{
@@ -3683,6 +3719,7 @@ tr.child ul{
 
    .backend_datatables{
       max-width: 15rem !important;
+      width: 15rem !important;
    }
    
    #vmi-inventory-page-table{

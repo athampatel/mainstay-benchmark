@@ -85,7 +85,10 @@ function afterChangeOrderAjax(){
 
 $(document).on('click','#invoice-order-export',function(e){
     e.preventDefault();
-    $('#export-invoice-page-drop').toggleClass('d-none');
+    // $('#export-invoice-page-drop').toggleClass('d-none');
+    /* test work start */
+    window.location = '/analysis/2022'
+    /* test work end */
 })
 
 $(document).on('click','.export-invoice-page-item',function(e){
