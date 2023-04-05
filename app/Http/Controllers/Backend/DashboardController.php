@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\AnalaysisExportRequest;
 use App\Models\SalesPersons;
 use App\Models\ChangeOrderRequest;
 use App\Models\SignupRequest;
@@ -58,20 +59,11 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        // $admin_emails = Admin::all()->pluck('email')->toArray();
-        // dd($admin_emails);
-        // $is_local = env('APP_ENV') == 'dev' ? true : false;
-        // if($is_local){
-        //   dd('develop');
-        // } else {
-        //   dd('production');
-        // }
-
+        
         if(is_null($this->user)){
             return redirect()->route('admin.login');
         }
         if (!$this->user->can('dashboard.view')) {
-            // abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
             abort(403, config('constants.dashboard_error_403'));
         }
 
@@ -84,20 +76,22 @@ class DashboardController extends Controller
         $sales_persons      = 0;
         $vmi_customers      = 0;
         $change_request     = 0;
+        $customer_export_count  = 0;
 
         if(self::SuperAdmin($this->user)){
             $user               = $this->user;
             $total_roles        = Role::select('id')->get()->count();
             $total_admins       = Admin::select('id')->get()->count();
             $total_permissions  = Permission::select('id')->get()->count();        
-            // $total_customers    = User::select('id')->where('active','=',1)->get()->count();            //new_customers
-            $total_customers    = User::select('id')->get()->count();            //new_customers
+            $total_customers    = User::select('id')->get()->count();   
             $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::leftjoin('user_details','users.id','=','user_details.user_id')
                                   ->where('user_details.vmi_companycode','!=','')->get()->count();
             $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();            
 
+            // get all the request downloads count
+            $customer_export_count =  AnalaysisExportRequest::where('status',0)->get()->count();
         }else{   
             $manager = $this->user;
             $customers          =   User::leftjoin('user_details','users.id','=','user_details.user_id')
@@ -109,8 +103,6 @@ class DashboardController extends Controller
             $total_customers    = $customers->get(['users.id'])->count();            
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
             $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
-
-            // $change_request     = ChangeOrderRequest::select('id')->where('request_status','=',0)->get()->count();
             $change_request     = ChangeOrderRequest::select('change_order_requests.id')
                                     ->leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
@@ -118,20 +110,15 @@ class DashboardController extends Controller
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->where('request_status','=',0)
                                     ->where('admins.id',$manager->id)
-                                    ->get()->count();     
-
+                                    ->get()->count();
+            //get all the request counts  
+            $customer_export_count =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->where('status',0)->get()->count();
         }
 
-        
-       /* $details = array(   'title'     => '',
-                            'subject'   => '',
-                            'body'      => '', 
-                            'message'   => '',
-                            'footer'    => '',
-                            'link'      => ''); 
-
-        return view('emails.email-body',compact('details')); */
-        // $routes = Route::getRoutes();
 
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
@@ -144,7 +131,9 @@ class DashboardController extends Controller
                                                             'vmi_customers',
                                                             'new_customers',
                                                             'change_request',
-                                                            'searchWords')); 
+                                                            'searchWords',
+                                                            'customer_export_count'
+                                                        )); 
 
     }
     public function getCustomers($userId = 0){

@@ -1,15 +1,8 @@
-if ($('#dataTable').length) {
-    $('#dataTable').DataTable({
-        responsive: true
-    });
-}
 let pagecount = parseInt($("#open-orders-page-filter-count option:selected").val());
 //open orders table filter
 $(document).on('change','#open-orders-page-filter-count',function(){
     let val = parseInt($("#open-orders-page-filter-count option:selected").val());
-    // let current_page = $('#current_page').val();
     getOpenOrderAjax(0,val)
-    // open_order_page_table.page.len(val).draw();
 })
 
 getOpenOrderAjax(0,pagecount)
@@ -39,8 +32,14 @@ function getOpenOrderAjax($page,$count){
         },
         success: function (res) {  
             $('#pagination_disp').html(res.pagination_code);
-            console.log(res,'___response');
             $('#open-orders-page-table-div').html(res.table_code);
+            if(res.total_records > parseInt(env_maximum)){
+                $('#export-open-csv').prop('src','#');
+                $('#export-open-pdf').prop('src','#');
+            } else {
+                $('#export-open-csv').prop('src','/open-export/csv');
+                $('#export-open-pdf').prop('src','/open-export/pdf');
+            }
             open_order_page_table = $('#open-orders-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -77,6 +76,36 @@ $(document).on('click','#open-order-page-export',function(e){
 
 $(document).on('click','.export-open-orders-page-item',function(e){
     e.preventDefault();
-    // $('#export-open-orders-page-drop').toggleClass('d-none');
-    console.log('__open orders item clicked');
+    let src = $(e.currentTarget).prop('src');
+    let type = $(e.currentTarget).data('type');
+    if(src == '#'){
+        downloadExportAjax(type)
+    } else {
+        window.location = src;
+    }
 })
+
+function downloadExportAjax(type){
+    let type1 = 2;
+    if(type == 'csv'){
+        type1 = 1;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/exportOpenOrders',
+        dataType: "JSON",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: { "type" : type1},
+        success: function (res) {  
+            console.log(res,'__export response');
+            Swal.fire({
+                position: 'center-center',
+                icon: 'success',
+                title: 'Request Sent',
+                text: res.message,
+                showConfirmButton: false,
+                timer: 2000,
+            })
+        }
+    });  
+}

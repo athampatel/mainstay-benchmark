@@ -158,7 +158,7 @@ class SDEApi
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = env('ADMIN_EMAILS');
         // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
-        $is_local = env('APP_ENV') == 'dev' ? true : false;
+        $is_local = env('APP_ENV') == 'local' ? true : false;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {

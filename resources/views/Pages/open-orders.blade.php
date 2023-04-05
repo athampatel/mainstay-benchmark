@@ -60,8 +60,8 @@
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="open-orders-report-icon">
                                     </a>
                                     <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="export-admin-customers" id="export-open-orders-page-drop">
-                                        <a class="dropdown-item export-open-orders-page-item" data-type="csv">Export to Excel</a>
-                                        <a class="dropdown-item export-open-orders-page-item" data-type="pdf">Export to PDF</a>
+                                        <a href="" class="dropdown-item export-open-orders-page-item" data-type="csv" id="export-open-csv">Export to Excel</a>
+                                        <a href="" class="dropdown-item export-open-orders-page-item" data-type="pdf" id="export-open-pdf">Export to PDF</a>
                                     </div>
                                 </div>
                             </div>
@@ -91,8 +91,10 @@
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
      <script src="/assets/js/open-orders-page.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const constants = <?php echo json_encode($constants); ?>;
         const searchWords = <?php echo json_encode($searchWords); ?>;
+        const env_maximum = '{{ env('EXPORT_MAXIMUM') }}';
     </script>
 @endsection

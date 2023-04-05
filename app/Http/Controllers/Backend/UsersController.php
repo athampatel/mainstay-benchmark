@@ -38,6 +38,8 @@ use App\Http\Controllers\SchedulerLogController;
 use App\Models\UserDetails;
 use App\Models\VmiInventoryRequest;
 use App\Models\SearchWord;
+use App\Models\AnalaysisExportRequest;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -362,7 +364,7 @@ class UsersController extends Controller
                             //     Mail::to($request->email)->send(new \App\Mail\SendMail($details));
                             // }
                             $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                            $is_local = env('APP_ENV') == 'dev' ? true : false;
+                            $is_local = env('APP_ENV') == 'local' ? true : false;
                             if($is_local){
                                 Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                             } else {
@@ -817,7 +819,7 @@ class UsersController extends Controller
                 // }
                 
                 $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                $is_local = env('APP_ENV') == 'dev' ? true : false;
+                $is_local = env('APP_ENV') == 'local' ? true : false;
                 if($is_local){
                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                 } else {
@@ -893,6 +895,7 @@ class UsersController extends Controller
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('request_status',0)
                                                     ->where(function($change_request) use($search){
                                                         $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
                                                         ->orWhere('sales_persons.name','like','%'.$search.'%') 
@@ -907,6 +910,7 @@ class UsersController extends Controller
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('request_status',0)
                                                     ->where(function($change_request) use($search){
                                                         $change_request->orWhere('user_details.customerno','like','%'.$search.'%') 
                                                         ->orWhere('sales_persons.name','like','%'.$search.'%') 
@@ -921,6 +925,7 @@ class UsersController extends Controller
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('request_status',0)
                                                     ->orderBy('change_order_requests.id','DESC')
                                                     ->offset($offset)
                                                     ->limit($limit)                                                
@@ -929,6 +934,7 @@ class UsersController extends Controller
                                                     ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                                    ->where('request_status',0)
                                                     ->orderBy('change_order_requests.id','DESC')                                                
                                                     ->paginate(intval($limit));
                 $paginate = $change_requests->toArray();
@@ -937,6 +943,7 @@ class UsersController extends Controller
                         ->leftjoin('user_details','users.id','=','user_details.user_id')
                         ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                         ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                        ->where('request_status',0)
                         ->orderBy('change_order_requests.id','DESC')
                         ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email']);
         // }elseif(DashboardController::isManager($user->id,$user)){
@@ -1250,6 +1257,7 @@ class UsersController extends Controller
         $headers = array('Content-Type' => 'text/csv');
         return response()->download($filename, 'sign-up-requests.csv', $headers);
     }
+    
     public function ExportAllSignupToPdf(){
         $users = $this->ExportSignupData();
         $name = 'sign-up-requests.pdf';
@@ -1444,5 +1452,133 @@ class UsersController extends Controller
         fclose($handle);
         $headers = array('Content-Type' => 'text/csv');
         return response()->download($filename, 'vmi_inventory.csv', $headers);
+    }
+
+    // customer exports
+    public function customerExports(Request $request){
+        $user = $this->user;
+        $limit = $request->input('limit');
+        if(!$limit){
+            $limit = 10;
+        }
+        $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($offset > 1){
+            $offset = ($offset - 1) * $limit;
+        }
+        if(isset($_GET['page']) && $_GET['page'] == 1){
+            $offset = $offset - 1;
+        }
+        $search = $request->input('search');                  
+        $paginate = [];
+        if($this->superAdmin) { 
+            if($search){
+                $customer_export_count =  AnalaysisExportRequest::where('status',0)
+                                            ->where(function($customer_export_count) use($search){
+                                                $customer_export_count->orWhere('customer_no','like','%'.$search.'%')
+                                                                        ->orWhere('resource','like','%'.$search.'%');
+                                            })
+                                            ->select('analaysis_export_requests.*')->get()->toArray();      
+                $customer_export_counts = AnalaysisExportRequest::where('status',0)
+                                            ->where(function($customer_export_counts) use($search){
+                                                $customer_export_counts->orWhere('customer_no','like','%'.$search.'%')
+                                                                        ->orWhere('resource','like','%'.$search.'%');
+                                            })
+                                            ->select('analaysis_export_requests.*')->paginate(intval($limit));
+            } else {
+                $customer_export_count =  AnalaysisExportRequest::where('status',0)->select('analaysis_export_requests.*')->get()->toArray();      
+                $customer_export_counts = AnalaysisExportRequest::where('status',0)->select('analaysis_export_requests.*')->paginate(intval($limit));
+            }
+        } else {
+            if($search){
+                $customer_export_count =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                ->where('status',0)->select('analaysis_export_requests.*')
+                ->where(function($customer_export_count) use($search){
+                    $customer_export_count->orWhere('analaysis_export_requests.customer_no','like','%'.$search.'%')
+                                            ->orWhere('analaysis_export_requests.resource','like','%'.$search.'%');
+                })
+                ->get()->toArray();
+                $customer_export_counts = AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                ->where('status',0)
+                ->where(function($customer_export_counts) use($search){
+                    $customer_export_counts->orWhere('analaysis_export_requests.customer_no','like','%'.$search.'%')
+                                            ->orWhere('analaysis_export_requests.resource','like','%'.$search.'%');
+                })
+                ->select('analaysis_export_requests.*')->paginate(intval($limit));
+            } else {
+                $customer_export_count =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                ->where('status',0)
+                ->select('analaysis_export_requests.*')->get()->toArray();
+                $customer_export_counts = AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('admins','sales_persons.email','=','admins.email')
+                ->where('status',0)
+                ->select('analaysis_export_requests.*')->paginate(intval($limit));
+            }
+        }
+
+        $paginate = $customer_export_counts->toArray();
+        $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
+
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.exports.index',compact('customer_export_count','user','paginate','limit','search','searchWords'));
+    }
+
+    // customer export info
+    public function customerExportInfo(Request $request,$id){
+        $customer_export_count =  AnalaysisExportRequest::where('id',$id)->select('analaysis_export_requests.*')->get()->first();
+        $user_detail = UserDetails::where('id',$customer_export_count->user_detail_id)->get()->first();
+        return view('backend.pages.exports.info',compact('customer_export_count','user_detail'));
+    }
+
+    public function ExportAllExports(){
+        $requests = self::ExportAllExportData();
+        $filename = "export_requests.csv";
+        $handle = fopen($filename,'w+');
+        fputcsv($handle, array(
+            'CUSTOMER NUMBER',
+            'RESOURCE',
+            'TYPE',
+            'REQUESTED DATE'
+        ));
+        foreach($requests as $request) {
+        $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+        $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+        fputcsv($handle, array(
+            $request['customer_no'],
+            $request['resource'],
+            $type,
+            $requested_date
+        )); 
+        }
+        fclose($handle);
+        $headers = array('Content-Type' => 'text/csv');
+        return response()->download($filename, 'export_requests.csv', $headers); 
+    }
+
+    public function ExportAllExportsPdf(){
+        $requests = self::ExportAllExportData();
+        $name = 'Exports-list.pdf';
+        PdfController::generatePdf($requests,$name);
+    }
+
+    public static function ExportAllExportData(){
+        $requests =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','analaysis_export_requests.user_detail_id')
+        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+        ->leftjoin('admins','sales_persons.email','=','admins.email')
+        ->where('status',0)
+        ->select('analaysis_export_requests.*')->get()->toArray();
+
+        return $requests;
     }
 }

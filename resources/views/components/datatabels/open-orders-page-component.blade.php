@@ -3,7 +3,8 @@
         <thead>
             <tr>
                 {{-- <th class="border-0">ID</th> --}}
-                <th class="border-0">Order Number</th>
+                {{-- <th class="border-0">Order Number</th> --}}
+                <th class="border-0">Order #</th>
                 <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer Email</th>
                 <th class="border-0">Total Items</th>

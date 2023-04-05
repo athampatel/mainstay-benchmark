@@ -17,6 +17,7 @@ $(function () {
 	$(".search-close").on("click", function () {
 		$(".search-bar").removeClass("full-search-bar");
 		$(".page-wrapper").removeClass("search-overlay");
+		$("#searchmodal").css("display", "none");
 	});
 	$(".mobile-toggle-menu").on("click", function () {
 		$(".wrapper").addClass("toggled");
@@ -240,11 +241,13 @@ if($(document.body).find('#example2').length > 0){
 
 // search key function
 document.onkeyup = function(e){
-	// e.preventDefault();
-	if (e.ctrlKey && e.key === 'k') {
+	if(e.key === 'Escape'){
+		$("#searchmodal").css("display", "none");
+	}
+
+	if(e.ctrlKey && e.key  === 'k'){
 		e.preventDefault();
-		console.log('___crtl+k');
-	  }
+	}
 }
 
 $(document).on('keyup','#full_search_input',function(e){
@@ -255,9 +258,9 @@ $(document).on('keyup','#full_search_input',function(e){
     });
     let modal_body_display = "";
     matches.forEach(match => {
-        let disp = `<div>
-                        <a href="${match.link}">${match.name}</a>
-                    </div>`;
+        let disp = `<a href="${match.link}" class="search_message_div">
+                        ${match.name}
+                    </a>`;
         modal_body_display += disp;
     });
     $('#search_modal_disp_body').html(modal_body_display);
@@ -266,7 +269,7 @@ $(document).on('keyup','#full_search_input',function(e){
         $("#searchmodal").css("display", "none");
     }
     if(matches.length == 0){
-        let no_results_found = '<div>No Results found</div>';
+        let no_results_found = '<div class="search_message_div">No Results found</div>';
         $('#search_modal_disp_body').html(no_results_found);
     }
 })
@@ -278,3 +281,7 @@ $(window).scroll(function (e) {
 $(document).on('click','#change_order_Request_nav',function(){
 	window.location = '/requests/change_orders';
 })
+
+// setTimeout(() => {
+// 	$('.home-content').removeClass('welcome_loader');
+// }, 2000);

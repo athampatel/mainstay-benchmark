@@ -1,4 +1,3 @@
-console.log('vmi page.js')
 if ($('#dataTable').length) {
     $('#dataTable').DataTable({
         responsive: true
@@ -32,15 +31,20 @@ function getVmiDataAjax($page,$count){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { "page" : $page,'count': $count},
         beforeSend:function(){
-            // $('.page-table-loader-div').removeClass('d-none');
-            // $('.open-orders .card.box').addClass('active');
             beforeVmiOrderAjax();
         },
         success: function (res) {  
-            console.log(res,'___Response vmi');
-            // $('#pagination_disp').html(res.pagination_code);
             $('#pagination_disp').html(res.pagination_code);
             $('#vmi_table_disp').html(res.table_code);
+            
+            if(res.total_records > parseInt(env_maximum)){
+                $('#vmi-page-export-csv').prop('src','#');
+                $('#vmi-page-export-pdf').prop('src','#');
+            } else {
+                $('#vmi-page-export-csv').prop('src','/vmi-page-export/csv');
+                $('#vmi-page-export-pdf').prop('src','/vmi-page-export/pdf');
+            }
+
             vmi_page_table = $('#vmi-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -52,8 +56,6 @@ function getVmiDataAjax($page,$count){
             });
         },
         complete:function(){
-            // $('.open-orders .card.box').removeClass('active');
-            // $('.page-table-loader-div').addClass('d-none');
             afterVmiOrderAjax();
         }
     });
@@ -79,5 +81,37 @@ $(document).on('click','.vmi-datatable-export',function(e){
 
 $(document).on('click','.export-vmi-page-item',function(e){
     e.preventDefault();
-    console.log('__vmi export item clicked');
+    let src = $(e.currentTarget).prop('src');
+    let type = $(e.currentTarget).data('type');
+    if(src == '#'){
+        downloadExportAjax(type)
+    } else {
+        window.location = src;
+    }
 })
+
+//export vmi request
+function downloadExportAjax(type){
+    let type1 = 2;
+    if(type == 'csv'){
+        type1 = 1;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '/exportVmiUser',
+        dataType: "JSON",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: { "type" : type1},
+        success: function (res) {  
+            console.log(res,'__export response');
+            Swal.fire({
+                position: 'center-center',
+                icon: 'success',
+                title: 'Request Sent',
+                text: res.message,
+                showConfirmButton: false,
+                timer: 2000,
+            })
+        }
+    });  
+}

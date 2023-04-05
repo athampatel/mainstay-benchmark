@@ -43,7 +43,7 @@ Customer Change Order Requests - Admin Panel
                                                 <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
                                             </a>
                                         </div>
-                                        <div class="datatable-report position-relative">
+                                        <div class="datatable-report admin position-relative">
                                             <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-orders-icon">
                                             </a>

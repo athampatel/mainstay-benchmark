@@ -2,7 +2,8 @@
     <table id="analysis-page-table" class="table bench-datatable border-0" style="width:100%">
         <thead>
             <tr>
-                <th class="border-0">Invoice Number</th>
+                {{-- <th class="border-0">Invoice Number</th> --}}
+                <th class="border-0">Invoice #</th>
                 <th class="border-0 text-center">Invoice Date</th>
                 <th class="border-0">Customer PO Number</th>
                 <th class="border-0">Location</th>

@@ -37,7 +37,7 @@
                 </div>
                 <div class="wm_msg">
                     <div class="name">Hey Admin</div>
-                    <div class="msg">Lorem ipsum dolor sit amet.</div>
+                    <div class="msg">Welcome to the portal !!!</div>
                 </div>
             </div> --}}
             {{-- welcome message work end --}}

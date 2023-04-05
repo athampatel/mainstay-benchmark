@@ -132,7 +132,7 @@ class AdminsController extends Controller
             $details['mail_view']    = "emails.new-account-details";
             
             $details['link']    = env('APP_URL').'/admin/login/';
-            $is_local = env('APP_ENV') == 'dev' ? true : false;
+            $is_local = env('APP_ENV') == 'local' ? true : false;
             $test_emails = env('TEST_CUSTOMER_EMAILS');
             if($is_local){
                 Mail::bcc(explode(',',$test_emails))->send(new \App\Mail\SendMail($details));

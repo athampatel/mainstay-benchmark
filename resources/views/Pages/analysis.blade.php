@@ -162,7 +162,7 @@
             </div>
         </div>	
     </div>
-    <div class="" id="analysis_page_des_chart"></div>
+    {{-- <div id="analysis-page-des-chart"></div> --}}
 </div>
 @endsection
 
