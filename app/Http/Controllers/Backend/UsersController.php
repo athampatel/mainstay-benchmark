@@ -1136,18 +1136,54 @@ class UsersController extends Controller
     }
 
     public function ExportAllCustomers(){
-		$customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
+		// $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+        //             ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+        //             ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
         
         $filename = "customers.csv";
+        // $header_array = array(
+        //     	'CUSTOMER NUMBER',
+        //     	'CUSTOMER NAME',
+        //     	'EMAIL',
+        //     	'AR DIVISION NUMBER',
+        //     	'BENCHMARK REGIONAL MANAGER',
+        //     );
+        // $array_keys = array(
+        //     'customerno',
+        //     'customername',
+        //     'email',
+        //     'ardivisionno',
+        //     'name'
+        // );
+        $data = self::customerExportData();
+        $customers = $data['data'];
+        $header_array = $data['header'];
+        $array_keys = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($customers,$header_array,$filename,1,$array_keys);
+    }
+
+    public function ExportAllCustomerInPdf(){
+        $filename = "customers.pdf";
+        $data = self::customerExportData();
+        $customers = $data['data'];
+        $header_array = $data['header'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($customers,$filename,$header_array,$array_keys);
+    }
+
+
+    //export customer data
+    public static function customerExportData(){
+        $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
         $header_array = array(
-            	'CUSTOMER NUMBER',
-            	'CUSTOMER NAME',
-            	'EMAIL',
-            	'AR DIVISION NUMBER',
-            	'BENCHMARK REGIONAL MANAGER',
-            );
+            'CUSTOMER NUMBER',
+            'CUSTOMER NAME',
+            'EMAIL',
+            'AR DIVISION NUMBER',
+            'BENCHMARK REGIONAL MANAGER',
+        );
         $array_keys = array(
             'customerno',
             'customername',
@@ -1155,21 +1191,31 @@ class UsersController extends Controller
             'ardivisionno',
             'name'
         );
-        return CustomerExportController::ExportExcelFunction($customers,$header_array,$filename,1,$array_keys);
-    }
-
-    public function ExportAllCustomerInPdf(){
-        $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
-        $filename = "customers.pdf";
-        PdfController::generatePdf($customers,$filename);
+        return ['data' => $customers ,'header' => $header_array, 'keys' => $array_keys ];
     }
 
     // managers to export
     public function ExportAllManagersToExcel(){
-        $managers = $this->ExportAllManagersData();
+        $data = $this->ExportAllManagersData();
         $filename = "managers.csv";
+        $managers = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($managers,$array_headers,$filename,1,$array_keys);
+    }
+
+    public function ExportAllManagersToPdf(){
+        $data = $this->ExportAllManagersData();
+        $managers = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        $name = 'usermanagers.pdf';
+        PdfController::generatePdf($managers,$name,$array_headers,$array_keys);
+    }
+
+    public function ExportAllManagersData(){
+        $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
+        ->get(['sales_persons.person_number','sales_persons.name','sales_persons.email'])->toArray();
         $array_headers = array(
             'MANAGER NUMBER',
             'MANAGER NAME',
@@ -1180,49 +1226,26 @@ class UsersController extends Controller
             'name',
             'email'
         );
-
-        return CustomerExportController::ExportExcelFunction($managers,$array_headers,$filename,1,$array_keys);
-    }
-
-    public function ExportAllManagersToPdf(){
-        $managers = $this->ExportAllManagersData();
-        $name = 'usermanagers.pdf';
-        PdfController::generatePdf($managers,$name);
-    }
-
-    public function ExportAllManagersData(){
-        $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-        ->get(['sales_persons.person_number','sales_persons.name','sales_persons.email'])->toArray();
-        return $managers;
+        return[ 'data' => $managers, 'headers' => $array_headers, 'keys' => $array_keys ];
     }
 
     // orders
     public function ExportAllOrdersToExcel(){
-        $change_requests = $this->ExportAllOrdersData();
+        $data = $this->ExportAllOrdersData();
         $filename = "change-orders.csv";
-        $header_array = array(
-            'CUSTOMER NUMBER',
-            'CUSTOMER NAME',
-            'CUSTOMER EMAIL',
-            'ORDER DATE',
-            'REGION MANAGER',
-            'ORDER NUMBER'
-        );
-        $keys_array = array(
-            'customerno',
-            'name',
-            'email',
-            'ordered_date',
-            'manager',
-            'order_no'
-        );
+        $change_requests = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
         return CustomerExportController::ExportExcelFunction($change_requests,$header_array,$filename,1,$keys_array);
     }
 
     public function ExportAllOrdersToPdf(){
-        $change_request = $this->ExportAllOrdersData();
+        $data = $this->ExportAllOrdersData();
         $name = 'change-order-lists.pdf';
-        PdfController::generatePdf($change_request,$name);
+        $change_request = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($change_request,$name,$array_headers,$array_keys);
     }
     
     public function ExportAllOrdersData(){
@@ -1245,13 +1268,52 @@ class UsersController extends Controller
                                                 ->get(['user_details.customerno','users.name','users.email','change_order_requests.ordered_date','sales_persons.name as manager','change_order_requests.order_no'])->toArray();
         }
 
-        return $change_request;
+        $header_array = array(
+            'CUSTOMER NUMBER',
+            'CUSTOMER NAME',
+            'CUSTOMER EMAIL',
+            'ORDER DATE',
+            'REGION MANAGER',
+            'ORDER NUMBER'
+        );
+        $keys_array = array(
+            'customerno',
+            'name',
+            'email',
+            'ordered_date',
+            'manager',
+            'order_no'
+        );
+
+        return ['data' => $change_request,'headers' => $header_array,'keys' => $keys_array];
     }
 
     // signup requests
     public function ExportAllSignupToExcel(){
-        $users = $this->ExportSignupData();
+        $data = $this->ExportSignupData();
         $filename = "sign-up-requests.csv";
+        $users = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($users,$header_array,$filename,1,$keys_array);
+    }
+    
+    public function ExportAllSignupToPdf(){
+        $data = $this->ExportSignupData();
+        $name = 'sign-up-requests.pdf';
+        $users = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($users,$name,$array_headers,$array_keys);
+    }
+
+    public function ExportSignupData(){
+        $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
+                    ->orderBy('signup_requests.id','DESC')
+                    ->where('signup_requests.status',0)
+                    ->select(['signup_requests.full_name','signup_requests.company_name','signup_requests.email','signup_requests.phone_no'])
+                    ->get()->toArray();
+
         $header_array = array(
             'FULL NAME',
             'COMPANY NAME',
@@ -1264,22 +1326,7 @@ class UsersController extends Controller
             'email',
             'phone_no'
         );
-        return CustomerExportController::ExportExcelFunction($users,$header_array,$filename,1,$keys_array);
-    }
-    
-    public function ExportAllSignupToPdf(){
-        $users = $this->ExportSignupData();
-        $name = 'sign-up-requests.pdf';
-        PdfController::generatePdf($users,$name);
-    }
-
-    public function ExportSignupData(){
-        $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                    ->orderBy('signup_requests.id','DESC')
-                    ->where('signup_requests.status',0)
-                    ->select(['signup_requests.full_name','signup_requests.company_name','signup_requests.email','signup_requests.phone_no'])
-                    ->get()->toArray();
-        return $users;
+        return ['data' => $users, 'headers' => $header_array,'keys' => $keys_array];
     }
 
     public function GetInventoryItem(Request $request){
@@ -1572,58 +1619,65 @@ class UsersController extends Controller
     }
 
     public function ExportAllExports(){
-        $requests = self::ExportAllExportData();
+        $data = self::ExportAllExportData();
         $filename = "export_requests.csv";        
-        $contents = '';
-        $delimiter = ',';
-        $enclosure = '"';
-        $escape = '\\';
+        // $contents = '';
+        // $delimiter = ',';
+        // $enclosure = '"';
+        // $escape = '\\';
 
-        $header = array(
-                'CUSTOMER NUMBER',
-                'RESOURCE',
-                'TYPE',
-                'REQUESTED DATE'
-        );
-        $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
-            return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
-        }, $header)) . "\n";
+        // $header = array(
+        //         'CUSTOMER NUMBER',
+        //         'RESOURCE',
+        //         'TYPE',
+        //         'REQUESTED DATE'
+        // );
+        // $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+        //     return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+        // }, $header)) . "\n";
 
-        foreach ($requests as $res) {
-            $row_array = array();
-            foreach($requests as $request) {
-                $type = $request['type'] == 1 ? 'CSV' : 'PDF';
-                $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
-                $row_array =  array(
-                        $request['customer_no'],
-                        $request['resource'],
-                        $type,
-                        $requested_date
-                );
-            }
-            $row = $row_array;
-            $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
-                return $enclosure . str_replace($enclosure, "'", $value) . $enclosure;
-            }, $row)) . "\n";
-        }
+        // foreach ($requests as $res) {
+        //     $row_array = array();
+        //     foreach($requests as $request) {
+        //         $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+        //         $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+        //         $row_array =  array(
+        //                 $request['customer_no'],
+        //                 $request['resource'],
+        //                 $type,
+        //                 $requested_date
+        //         );
+        //     }
+        //     $row = $row_array;
+        //     $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+        //         return $enclosure . str_replace($enclosure, "'", $value) . $enclosure;
+        //     }, $row)) . "\n";
+        // }
 
-        $headers = array(
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
-        );
-        $response = response()->stream(function() use ($contents) {
-            $stream = fopen('php://output', 'w');
-            fwrite($stream, $contents);
-            fclose($stream);
-        }, 200, $headers);
+        // $headers = array(
+        //     'Content-Type' => 'text/csv',
+        //     'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        // );
+        // $response = response()->stream(function() use ($contents) {
+        //     $stream = fopen('php://output', 'w');
+        //     fwrite($stream, $contents);
+        //     fclose($stream);
+        // }, 200, $headers);
 
-        return $response;
+        // return $response;
+        $users = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($users,$header_array,$filename,1,$keys_array);
     }
 
     public function ExportAllExportsPdf(){
-        $requests = self::ExportAllExportData();
+        $data = self::ExportAllExportData();
         $name = 'Exports-list.pdf';
-        PdfController::generatePdf($requests,$name);
+        $requests = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($requests,$name,$array_headers,$array_keys);
     }
 
     public static function ExportAllExportData(){
@@ -1632,8 +1686,37 @@ class UsersController extends Controller
         ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
         ->leftjoin('admins','sales_persons.email','=','admins.email')
         ->where('status',0)
-        ->select('analaysis_export_requests.*')->get()->toArray();
+        ->select('analaysis_export_requests.customer_no','analaysis_export_requests.resource','analaysis_export_requests.type','analaysis_export_requests.created_at')->get()->toArray();
+        $final_array = array();
+        foreach($requests as $request){
+            $test_array = array(); 
+            $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+            $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+            $test_array['customer_no'] = $request['customer_no']; 
+            $test_array['resource'] = $request['resource']; 
+            $test_array['type'] = $type; 
+            $test_array['created_at'] = $requested_date;
+            $final_array[] = $test_array;
+        }
+        $array_headers = array(
+            'CUSTOMER NUMBER',
+            'RESOURCE',
+            'TYPE',
+            'REQUESTED DATE'
+        );
+        $array_keys = array(
+            'customer_no',
+            'resource',
+            'type',
+            'created_at'
+        );
+        return ['data' => $final_array, 'headers' => $array_headers, 'keys' => $array_keys];
+    }
 
-        return $requests;
+    public function removeWelcome(Request $request){
+        // $request->session()->put('welcome',0);
+        $request->session()->forget('welcome');
+        echo json_encode(['test']);
+        die();
     }
 }

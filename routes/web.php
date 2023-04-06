@@ -173,6 +173,10 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
 /**
  * Admin routes
  */
+Route::get('test',function(){
+    return view('layouts.pdf');
+});
+
 Route::redirect('/login', '/sign-in');
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard'); //
@@ -281,6 +285,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
     // download vmi inventory
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
+
+    // welcome message remove
+    Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
 }); 
 
 

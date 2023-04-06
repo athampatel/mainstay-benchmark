@@ -339,6 +339,16 @@ class AdminsController extends Controller
     public function ExportAllAdminsToPdf(){
         $admins = Admin::select('name','email','username')->get()->toArray();
         $name = 'admins.pdf';
-        PdfController::generatePdf($admins,$name);
+        $array_keys = array(
+            'name',
+            'email',
+            'username'
+        );
+        $array_headers = array(
+            'NAME',
+            'EMAIL',
+            'USER NAME'
+        );
+        PdfController::generatePdf($admins,$name,$array_headers,$array_keys);
     }
 }

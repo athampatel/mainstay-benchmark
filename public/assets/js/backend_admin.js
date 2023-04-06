@@ -1,4 +1,34 @@
-// All customers 
+// if(){
+//     $('.wm_card').removeClass('d-none');
+//     removeWelcome() 
+// }
+function removeWelcome(){
+    console.log(is_welcome,'__is_welcome ')
+    if(is_welcome == 1){
+        $('.wm_card').removeClass('d-none');
+        setTimeout(() => {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/welcomemessage',
+                dataType: "JSON",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function (res) {  
+                    console.log(res,'__welcome message response');
+                    $('.wm_card').addClass('d-none');
+                    is_welcome = 0;
+                },
+            });
+
+        }, 3000);
+    }
+}
+removeWelcome() 
+
+// setInterval(() => {
+//     removeWelcome() 
+//     console.log('__set interval function');
+// }, 2000);
+// All customers
 if($('#backend_customers').length){
 
     let start_filter_count =  parseInt($("#admin-customer-filter-count option:selected").val());

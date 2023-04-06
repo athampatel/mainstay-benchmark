@@ -65,6 +65,8 @@ class LoginController extends Controller
             // Search using username
             if (Auth::guard('admin')->attempt(['username' => $request->email, 'password' => $request->password], $request->remember)) {
                 // session()->flash('success', 'Successully Logged in !');
+                // session->put
+                $request->session()->put('welcome',1);
                 session()->flash('success', config('constants.customer_login.success_message'));
                 return redirect()->route('admin.dashboard');
             }

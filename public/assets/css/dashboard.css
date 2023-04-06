@@ -2917,8 +2917,8 @@ tr.child ul{
 /* welcome card */
 .wm_card{
   position: absolute;
-  top: 73px;
-  right: 7px;
+  top: 2px;
+  right: 0;
   z-index: 999;
   background: #4578;
   padding: 10px;

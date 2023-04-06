@@ -31,7 +31,7 @@
             @yield('admin-content')
             @include('backend.layouts.partials.search_modal')
             {{-- welcome message work start --}}
-            {{-- <div class="wm_card">
+            <div class="wm_card d-none">
                 <div class="wm_icon">
                     <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="name">Hey Admin</div>
                     <div class="msg">Welcome to the portal !!!</div>
                 </div>
-            </div> --}}
+            </div>
             {{-- welcome message work end --}}
             {{-- notification work start --}}
             <div id="bottom_notification_disp"></div>  
@@ -54,8 +54,8 @@
     <!-- page container area end -->
 
     @include('backend.layouts.partials.offsets')
-    @include('backend.layouts.partials.scripts')
     @yield('scripts')
+    @include('backend.layouts.partials.scripts')
 </body>
 
 </html>

@@ -7,6 +7,12 @@
 
 @php
     $usr = Auth::guard('admin')->user();
+    $is_welcome = 0;
+    if(session()->has('welcome')){
+        // if(session('welcome') == 1){
+            $is_welcome = 1;
+        // }
+    }
 @endphp
  
 @section('admin-content')
@@ -136,5 +142,26 @@
 @section('scripts')
 <script>
     const searchWords = <?php echo json_encode($searchWords); ?>;
+    let is_welcome = <?php echo json_encode($is_welcome); ?>;
+//     if(is_welcome == 1){
+//         $('.wm_card').removeClass('d-none');
+//         removeWelcome() 
+//     }
+//     function removeWelcome(){
+//        setTimeout(() => {
+//            $.ajax({
+//                type: 'GET',
+//                url: '/admin/welcomemessage',
+//                dataType: "JSON",
+//                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//                success: function (res) {  
+//                    console.log(res,'__welcome message response');
+//                    $('.wm_card').addClass('d-none');
+//                },
+//            });
+
+//        }, 2000);
+//    }
+    // remove session welcome message
 </script>
 @endsection
