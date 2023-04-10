@@ -72,8 +72,11 @@ class AuthenticatedSessionController extends Controller
         }
         $request->session()->put('customers',$customer);
         $request->session()->put('customer_no',$customer[0]['customerno']);
+        
+        // set cookie
+        $cookie = cookie('customer_welcome', 'welcome admin', 0.1);
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME)->withCookie($cookie);
     }
 
     /**

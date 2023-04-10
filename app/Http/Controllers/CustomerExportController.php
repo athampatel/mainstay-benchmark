@@ -172,25 +172,17 @@ class CustomerExportController extends Controller
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $response = self::exportInvoiceData($user_detail);
         $filename = "invoice-details.pdf";
-        PdfController::generatePdf($response,$filename);
+        // PdfController::generatePdf($response,$filename);
     }
 
     // open orders csv
     public function exportOpenCsv(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $response = self::exportOpenData($user_detail);
+        $data = self::exportOpenData($user_detail);
+        $response = $data['data'];
         $filename = "open-orders.csv";
-        $header_array = array(
-            'SALES ORDER NUMBER',
-            'CUSTOMER NAME',
-            'CUSTOMER EMAIL',
-            'TOTAL ITEMS',
-            'PRICE',
-            'DATE',
-            'STATUS',
-            'LOCATION'
-        );
+        $header_array = $data['headers'];
         return self::ExportExcelFunction($response,$header_array,$filename);
     }
 
@@ -198,9 +190,12 @@ class CustomerExportController extends Controller
     public function exportOpenPdf(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $response = self::exportOpenData($user_detail);
+        $data = self::exportOpenData($user_detail);
+        $response = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
         $filename = "open-orders.pdf";
-        PdfController::generatePdf($response,$filename);
+        PdfController::generatePdf($response,$filename,$array_headers,$array_keys);
     }
     
     // vmi csv
@@ -224,9 +219,12 @@ class CustomerExportController extends Controller
     public function exportVmiPdf(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $response = self::exportVmiData($user_detail);
+        $data = self::exportVmiData($user_detail);
+        $response = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
         $filename = "Vmi-details.pdf";
-        PdfController::generatePdf($response,$filename);
+        PdfController::generatePdf($response,$filename,$array_headers,$array_keys);
     }
 
     // datas
@@ -294,8 +292,6 @@ class CustomerExportController extends Controller
                     "operator" => "and"
                 ],
             ],
-            "offset" => 1,
-            "limit" => 10,
         );
         $response   = $SDEApi->Request('post','SalesOrders',$data);
         $response = $response['salesorders'];
@@ -319,7 +315,29 @@ class CustomerExportController extends Controller
             $response_array[]= $data_array;
         }
 
-        return $response_array;
+        $array_headers = array(
+            'SALES ORDER NUMBER',
+            'CUSTOMER NAME',
+            'CUSTOMER EMAIL',
+            'TOTAL ITEMS',
+            'PRICE',
+            'DATE',
+            'STATUS',
+            'LOCATION'
+        );
+        
+        $array_keys = array(
+            'SALES_ORDER_NUMBER',
+            'CUSTOMER_NAME',
+            'CUSTOMER_EMAIL',
+            'TOTAL_ITEMS',
+            'PRICE',
+            'DATE',
+            'STATUS',
+            'LOCATION'
+        );
+
+        return ['data' => $response_array, 'headers' => $array_headers, 'keys' => $array_keys];
     }
     
     // vmi data
@@ -346,7 +364,25 @@ class CustomerExportController extends Controller
             }
         }
 
-        return $response_array;
+        $array_headers = array(
+            'CUSTOMER ITEM NUMBER',
+            'BENCHMARK ITEM NUMBER',
+            'ITEM DESCRIPTION',
+            'VENDOR NAME',
+            'QUANTITY ON HAND',
+            'QUANTITY PURCHASED(YEAR)'
+        );
+        
+        $array_keys = array(
+            'CUSTOMER_ITEM_NUMBER',
+            'BENCHMARK_ITEM_NUMBER',
+            'ITEM_DESCRIPTION',
+            'VENDOR_NAME',
+            'QUANTITY_ON_HAND',
+            'QUANTITY_PURCHASED(YEAR)'
+        );
+
+        return [ 'data' => $response_array, 'headers' => $array_headers, 'keys' => $array_keys];
     }
 
     // common function

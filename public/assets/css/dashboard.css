@@ -1355,14 +1355,22 @@ nav .profile-details i{
 }
 
 .profile_img_disp_admin{
-  height: 182px;
-  width: 182px;
+  height: 11.375rem;
+  width: 11.375rem;
   border-radius: 50%;
 }
 
 #nav-bar-profile-img_admin{
-  height: 45px !important;
-  width: 45px !important;
+  height: 2.8125rem !important;
+  width: 2.8125rem !important;
+}
+
+.height-45 {
+  height: 2.8125rem !important;
+}
+
+.width-45 {
+  width: 2.8125rem !important;
 }
 
 @media screen and (min-width: 1025px){
@@ -2799,8 +2807,8 @@ tr.child ul{
   width: 2.8125rem;
 }
 .regin_manager_profile{
-  height:29.48px;
-  width: 28.5px;
+  height:1.8425rem;
+  width: 1.7813rem;
 }
 .order_item_row .item-number{
   text-decoration: none;
@@ -2820,21 +2828,21 @@ tr.child ul{
 /* customer  */
 .customer_header{
   background-color: #9FCC47;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.625rem;
 }
 
 .customer_header_icon{
   float: right;
-  margin-right: 10px;
-  font-size: 25px !important;
+  margin-right: 0.625rem;
+  font-size: 1.5625rem !important;
 }
 
 .customer_data{
   /* background:#201e1e; */
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: 0.75rem;
 }
 
 .backdark{
@@ -2917,30 +2925,32 @@ tr.child ul{
 /* welcome card */
 .wm_card{
   position: absolute;
-  top: 2px;
+  top: 0.125rem;
   right: 0;
   z-index: 999;
-  background: #4578;
-  padding: 10px;
+  background: #B7D975;
+  padding: 0.625rem;
   /* border-radius: 10px; */
   display: flex;
-  gap: 10px;
+  gap: 0.625rem;
   /* animation: fadeInRight 1s ease-in-out; */
-  border-left: 5px solid #457557;
+  border-left: 0.3125rem solid #457557;
 }
 
 .wm_icon{
-  height: 45px;
-  width: 45px;
+  height: 2.8125rem;
+  width: 2.8125rem;
 }
 
 .wm_msg .name{
-  color: #fff;
+  /* color: #fff; */
+  color: #424448;
   font-weight: 600;
 }
 
 .wm_msg .msg{
-  color: #ffff;
+  /* color: #ffff; */
+  color: #424448;
   opacity: 0.80;
   font-style: italic;
 }
@@ -2955,7 +2965,7 @@ tr.child ul{
 }
 
 .search_message_div{
-  padding: 5px 20px;
+  padding: 0.3125rem 1.25rem;
   width: 100%;
   color: #fff;
   text-decoration: none;
