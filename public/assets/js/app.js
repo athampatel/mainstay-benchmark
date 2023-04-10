@@ -243,10 +243,8 @@ if($(document.body).find('#example2').length > 0){
 document.onkeyup = function(e){
 	if(e.key === 'Escape'){
 		$("#searchmodal").css("display", "none");
-	}
-
-	if(e.ctrlKey && e.key  === 'k'){
-		e.preventDefault();
+		$(".search-bar").removeClass("full-search-bar");
+		$(".page-wrapper").removeClass("search-overlay");
 	}
 }
 
@@ -254,7 +252,7 @@ $(document).on('keyup','#full_search_input',function(e){
     e.preventDefault()
     let searchText = $(e.currentTarget).val();
     let matches = searchWords.filter(search => {
-      return search.name.toLowerCase().includes(searchText)
+      return search.name.toLowerCase().includes(searchText.toLowerCase())
     });
     let modal_body_display = "";
     matches.forEach(match => {
@@ -281,7 +279,3 @@ $(window).scroll(function (e) {
 $(document).on('click','#change_order_Request_nav',function(){
 	window.location = '/requests/change_orders';
 })
-
-// setTimeout(() => {
-// 	$('.home-content').removeClass('welcome_loader');
-// }, 2000);

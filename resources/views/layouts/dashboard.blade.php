@@ -35,6 +35,22 @@
 			{{-- Home content --}}
 			@yield('content')
 			@include('backend.layouts.partials.search_modal')
+			@if (Cookie::get('customer_welcome'))
+                <div class="wm_card customer">
+                    <div class="wm_icon">
+                        {{-- <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/> --}}
+						@if(Auth::user()->profile_image)
+							<img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
+						@else 
+							<img src="/assets/images/svg/user_logo.png" />
+						@endif
+                    </div>
+                    <div class="wm_msg">
+                        <div class="name">Hey {{Auth::user()->name}}</div>
+                        <div class="msg">Welcome to the portal !!!</div>
+                    </div>
+                </div>
+            @endif
 			{{-- Footer --}}
 			{{-- <div id="bottom_notification_disp"></div>   --}}
 			@include('layouts.footer-bar')

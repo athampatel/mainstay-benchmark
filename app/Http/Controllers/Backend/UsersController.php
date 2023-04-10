@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Helpers\SDEApi;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CustomerExportController;
 use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\User as Customer;
@@ -13,16 +14,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\DashboardController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Models\ChangeOrderRequest;
 use App\Models\ChangeOrderItem;
-use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PdfController;
 use App\Models\CustomerMenu;
@@ -30,8 +27,6 @@ use App\Models\CustomerMenuAccess;
 use App\Models\Notification;
 use App\Models\SignupRequest;
 use Illuminate\Support\Facades\View;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\SchedulerLogController;
@@ -45,9 +40,10 @@ class UsersController extends Controller
 {
     public $user;  
     public $superAdmin; 
-    public function __construct(SDEApi $SDEApi)
+    // public function __construct(SDEApi $SDEApi)
+    public function __construct()
     {
-        $this->SDEApi = $SDEApi;
+        // $this->SDEApi = $SDEApi;
         $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user(); // null
             if(!$this->user){
@@ -89,8 +85,7 @@ class UsersController extends Controller
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
         }
-        
-        // if($_GET['page'] == 1){
+
         if(isset($_GET['page']) && $_GET['page'] == 1){ 
             $offset = $offset - 1;
         }
@@ -140,45 +135,30 @@ class UsersController extends Controller
                                 'user_details.ardivisionno',
                                 'user_details.vmi_companycode',
                                 'sales_persons.person_number',
-                                'sales_persons.name as sales_person']); //->groupBy('user_details.user_id');
+                                'sales_persons.name as sales_person']);
 
         $userss = $lblusers->paginate(intval($limit));
         
         if($order){
-            
-            // user table
             if($order == 'name' || $order == 'email' || $order == 'active' ){
                 $order_column = "users.$order";
             }
 
-            // user details table
             if( $order == 'customerno' || $order == 'ardivisionno'){
                 $order_column = "user_details.$order";
             }
-            
-            // sales person
+
             if($order == 'sales_person'){
                 $order_column = "sales_persons.name";
             }
 
             $lblusers->orderBy($order_column, $order_type);
         }
-        // $print_users = $lblusers->orderBy('user_details.customerno', 'asc')->get();
-        // if($order){
-            // $lblusers->orderBy('user_details.customerno', 'asc')->get();
+
         $print_users = $lblusers->get();
-        // }
-        // $users = $lblusers->orderBy('user_details.customerno', 'asc')->offset($offset)->limit($limit)->get();
-        /* test working start */
-        
-        // $users = $lblusers->offset($offset)->limit($limit)->get();
         $users = $lblusers->offset($offset)->limit($limit)->get();
-        // dd($users);
-        /* test working end */
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        // search words
-        // dd($paginate);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
         return view('backend.pages.users.index', compact('users','paginate','limit','search','searchWords','print_users','order_type','order'));
     }
@@ -278,18 +258,6 @@ class UsersController extends Controller
         $search = $request->input('search');
         
         if($search) {   
-            // $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-            //         ->orWhere('sales_persons.person_number','like','%'.$search.'%')
-            //         ->orWhere('sales_persons.name','like','%'.$search.'%')
-            //         ->orWhere('sales_persons.email','like','%'.$search.'%')
-            //         ->offset($offset)
-            //         ->limit(intval($limit))
-            //         ->get(['sales_persons.*','admins.id as user_id']);
-            // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-            //     ->orWhere('sales_persons.person_number','like','%'.$search.'%')
-            //     ->orWhere('sales_persons.name','like','%'.$search.'%')
-            //     ->orWhere('sales_persons.email','like','%'.$search.'%')
-            //     ->paginate(intval($limit));    
             $managers1 = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
                     ->orWhere('sales_persons.person_number','like','%'.$search.'%')
                     ->orWhere('sales_persons.name','like','%'.$search.'%')
@@ -307,12 +275,6 @@ class UsersController extends Controller
                 ->orWhere('sales_persons.email','like','%'.$search.'%')
                 ->paginate(intval($limit));    
         } else {
-            // $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-            //         ->offset($offset)
-            //         ->limit(intval($limit))
-            //         ->get(['sales_persons.*','admins.id as user_id']);
-            // $managerss = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
-            //         ->paginate(intval($limit));
             $managers1 = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email'); 
             if($order){
                 $order_column = "sales_persons.$order";
@@ -332,8 +294,6 @@ class UsersController extends Controller
         $searchWords = SearchWord::where('type',1)->get()->toArray();
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords','print_managers','order','order_type'));
     }
-
-    
 
     /**
      * Show the form for creating a new resource.
@@ -413,16 +373,6 @@ class UsersController extends Controller
                             $details['mail_view']    = "emails.new-account-details";
                             
                             $details['link']    = env('APP_URL').'/';
-                        
-                            // if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
-                            //     $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                            //     $customer_emails = explode(',',$customer_emails);
-                            //     foreach($customer_emails as $customer_email){
-                            //         Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
-                            //     }
-                            // }  else {
-                            //     Mail::to($request->email)->send(new \App\Mail\SendMail($details));
-                            // }
                             $customer_emails = env('TEST_CUSTOMER_EMAILS');
                             $is_local = env('APP_ENV') == 'local' ? true : false;
                             if($is_local){
@@ -517,7 +467,9 @@ class UsersController extends Controller
         } else{
             $menu_access = [];
         }
-        return view('backend.pages.users.edit', compact('user','menus','menu_access'));
+
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.users.edit', compact('user','menus','menu_access','searchWords'));
     }
 
     /**
@@ -529,10 +481,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Create New User
         $user = User::find($id);
 
-        // Validation Data
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:users,email,' . $id,
@@ -590,7 +540,6 @@ class UsersController extends Controller
             $user['is_deleted'] = 1;
             $user['active'] = 0;
             $user->save();
-            //$user->delete();
         }
 
         session()->flash('success', config('constants.customer_delete.confirmation_message'));
@@ -623,8 +572,8 @@ class UsersController extends Controller
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)
                     ->orWhere('user_details.customerno',$search_text)->first();
-
-        $res = $this->SDEApi->Request('post','Customers',$data);         
+        $sdeApi = new SDEApi();         
+        $res = $sdeApi->Request('post','Customers',$data);
         $res['user'] = $customer; 
         echo json_encode($res);
         die();
@@ -652,19 +601,6 @@ class UsersController extends Controller
         
         if($this->superAdmin){
             if($search) {
-                // $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                //             ->orderBy('signup_requests.id','DESC')
-                //             ->where('signup_requests.status',0)
-                //             ->where(function($users) use($search){
-                //                 $users->orWhere('signup_requests.full_name','like','%'.$search.'%') 
-                //                 ->orWhere('signup_requests.company_name','like','%'.$search.'%') 
-                //                 ->orWhere('signup_requests.email','like','%'.$search.'%') 
-                //                 ->orWhere('signup_requests.phone_no','like','%'.$search.'%');
-                //             })
-                //             ->select(['signup_requests.*','users.id as user_id'])
-                //             ->offset($offset)
-                //             ->limit(intval($limit))
-                //             ->get();  
                 $users1 = SignupRequest::leftjoin('users','signup_requests.email','=','users.email');
 
                 if($order){
@@ -695,13 +631,6 @@ class UsersController extends Controller
                             })
                             ->paginate(intval($limit));
             } else {
-                // $users = SignupRequest::leftjoin('users','signup_requests.email','=','users.email')
-                //             ->orderBy('signup_requests.id','DESC')
-                //             ->where('signup_requests.status',0)
-                //             ->offset($offset)
-                //             ->limit(intval($limit))
-                //             ->select(['signup_requests.*','users.id as user_id'])
-                //             ->get();  
                 $users1 = SignupRequest::leftjoin('users','signup_requests.email','=','users.email');
 
                 if($order){
@@ -776,7 +705,6 @@ class UsersController extends Controller
                             if($order){
                                 $order_column = "signup_requests.$order";
                                 $users1->orderBy($order_column,$order_type);
-                                // $users1->orderBy('signup_requests.id','DESC');
                             }
                             $users = $users1->where('signup_requests.status',0)
                             ->offset($offset)
@@ -801,7 +729,6 @@ class UsersController extends Controller
                         ->where('admins.id',$manager->id);
                         if($order){
                             $order_column = "signup_requests.$order";
-                            // $users1->orderBy($order_column,$order_type);
                             $print_users->orderBy($order_column,$order_type);
                         }
                         $print_users->where('signup_requests.status',0)
@@ -862,12 +789,14 @@ class UsersController extends Controller
                     "offset" => 1,
                     "limit" => 100,
                 );
-                $res = $this->SDEApi->Request('post','Customers',$data);
+                $sdeApi = new SDEApi();         
+                $res = $sdeApi->Request('post','Customers',$data);
                 if(!empty($res['customers'])){                   
                     $customers = $res['customers'];
                 }
                 Auth::guard('admin')->login($admin);
-                return view('backend.pages.users.user_request',compact('customers','user','userinfo')); 
+                $searchWords = SearchWord::where('type',1)->get()->toArray();
+                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords')); 
             }
         }
        return abort('403');
@@ -917,16 +846,6 @@ class UsersController extends Controller
                 $details['subject']         = config('constants.email.admin.customer_activate.subject');
                 $body      = config('constants.email.admin.customer_activate.body');
                 $details['body'] = $body;
-                // if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev'){
-                //     $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                //     $customer_emails = explode(',',$customer_emails);
-                //     foreach($customer_emails as $customer_email){
-                //         Mail::to($customer_email)->send(new \App\Mail\SendMail($details));
-                //     }
-                // }  else {
-                //     Mail::to($user->email)->send(new \App\Mail\SendMail($details));
-                // }
-                
                 $customer_emails = env('TEST_CUSTOMER_EMAILS');
                 $is_local = env('APP_ENV') == 'local' ? true : false;
                 if($is_local){
@@ -979,8 +898,8 @@ class UsersController extends Controller
             $user_detail_id = $user_details->id;
         }
         $constants = config('constants');
-        // return view('backend.pages.orders.vmi-inventory',compact('company_code','user_detail_id')); 
-        return view('backend.pages.orders.vmi-inventory-list',compact('company_code','user_detail_id','constants')); 
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.orders.vmi-inventory-list',compact('company_code','user_detail_id','constants','searchWords')); 
     }
 
     public function CustomerChangeOrders(Request $request){
@@ -1202,7 +1121,8 @@ class UsersController extends Controller
             ],
         );
 
-        $order_detail = $this->SDEApi->Request('post','SalesOrders',$data);
+        $sdeApi = new SDEApi();         
+        $order_detail = $sdeApi->Request('post','SalesOrders',$data);
 
         if(!empty($order_detail['salesorders'])){
             $order_detail = $order_detail['salesorders'][0];
@@ -1210,114 +1130,122 @@ class UsersController extends Controller
             $order_detail = [];
         }       
 
-        
-
         $changed_items = ChangeOrderItem::where('order_table_id',$change_id)->get();
-
-        return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request','searchWords'));
     }
 
     public function ExportAllCustomers(){
-		$customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get();
+		// $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+        //             ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+        //             ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
+        
         $filename = "customers.csv";
-        $handle = fopen($filename, 'w+');
-		fputcsv($handle, array(
-			'CUSTOMER NO',
-			'CUSTOMER NAME',
-			'EMAIL',
-			'AR DIVISION NO',
-			'BENCHMARK REGIONAL MANAGER',
-		));
-        foreach($customers as $customer) {
-            fputcsv($handle, array(
-                $customer->customerno,
-                $customer->customername,
-                $customer->email,
-                $customer->ardivisionno,
-                $customer->name,
-            )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'customers.csv', $headers);
+        // $header_array = array(
+        //     	'CUSTOMER NUMBER',
+        //     	'CUSTOMER NAME',
+        //     	'EMAIL',
+        //     	'AR DIVISION NUMBER',
+        //     	'BENCHMARK REGIONAL MANAGER',
+        //     );
+        // $array_keys = array(
+        //     'customerno',
+        //     'customername',
+        //     'email',
+        //     'ardivisionno',
+        //     'name'
+        // );
+        $data = self::customerExportData();
+        $customers = $data['data'];
+        $header_array = $data['header'];
+        $array_keys = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($customers,$header_array,$filename,1,$array_keys);
     }
 
     public function ExportAllCustomerInPdf(){
+        $filename = "customers.pdf";
+        $data = self::customerExportData();
+        $customers = $data['data'];
+        $header_array = $data['header'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($customers,$filename,$header_array,$array_keys);
+    }
+
+
+    //export customer data
+    public static function customerExportData(){
         $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
-        $filename = "customers.pdf";
-        PdfController::generatePdf($customers,$filename);
+        $header_array = array(
+            'CUSTOMER NUMBER',
+            'CUSTOMER NAME',
+            'EMAIL',
+            'AR DIVISION NUMBER',
+            'BENCHMARK REGIONAL MANAGER',
+        );
+        $array_keys = array(
+            'customerno',
+            'customername',
+            'email',
+            'ardivisionno',
+            'name'
+        );
+        return ['data' => $customers ,'header' => $header_array, 'keys' => $array_keys ];
     }
 
     // managers to export
     public function ExportAllManagersToExcel(){
-        $managers = $this->ExportAllManagersData();
+        $data = $this->ExportAllManagersData();
         $filename = "managers.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'MANAGER NUMBER',
-        'MANAGER NAME',
-        'MANAGER EMAIL'
-        ));
-        foreach($managers as $manager) {
-        fputcsv($handle, array(
-            $manager['person_number'],
-            $manager['name'],
-            $manager['email']
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'managers.csv', $headers);
+        $managers = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($managers,$array_headers,$filename,1,$array_keys);
     }
 
     public function ExportAllManagersToPdf(){
-        $managers = $this->ExportAllManagersData();
+        $data = $this->ExportAllManagersData();
+        $managers = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
         $name = 'usermanagers.pdf';
-        PdfController::generatePdf($managers,$name);
+        PdfController::generatePdf($managers,$name,$array_headers,$array_keys);
     }
 
     public function ExportAllManagersData(){
         $managers = SalesPersons::leftjoin('admins','sales_persons.email','=','admins.email')
         ->get(['sales_persons.person_number','sales_persons.name','sales_persons.email'])->toArray();
-        return $managers;
+        $array_headers = array(
+            'MANAGER NUMBER',
+            'MANAGER NAME',
+            'MANAGER EMAIL'
+        );
+        $array_keys = array(
+            'person_number',
+            'name',
+            'email'
+        );
+        return[ 'data' => $managers, 'headers' => $array_headers, 'keys' => $array_keys ];
     }
 
     // orders
     public function ExportAllOrdersToExcel(){
-        $change_requests = $this->ExportAllOrdersData();
+        $data = $this->ExportAllOrdersData();
         $filename = "change-orders.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'CUSTOMER NUMBER',
-        'CUSTOMER NAME',
-        'CUSTOMER EMAIL',
-        'ORDER DATE',
-        'REGION MANAGER',
-        'ORDER NUMBER'
-        ));
-        foreach($change_requests as $change_request) {
-        fputcsv($handle, array(
-            $change_request['customerno'],
-            $change_request['name'],
-            $change_request['email'],
-            $change_request['ordered_date'],
-            $change_request['manager'],
-            $change_request['order_no'],
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'change-orders.csv', $headers);
+        $change_requests = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($change_requests,$header_array,$filename,1,$keys_array);
     }
 
     public function ExportAllOrdersToPdf(){
-        $change_request = $this->ExportAllOrdersData();
+        $data = $this->ExportAllOrdersData();
         $name = 'change-order-lists.pdf';
-        PdfController::generatePdf($change_request,$name);
+        $change_request = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($change_request,$name,$array_headers,$array_keys);
     }
     
     public function ExportAllOrdersData(){
@@ -1340,37 +1268,43 @@ class UsersController extends Controller
                                                 ->get(['user_details.customerno','users.name','users.email','change_order_requests.ordered_date','sales_persons.name as manager','change_order_requests.order_no'])->toArray();
         }
 
-        return $change_request;
+        $header_array = array(
+            'CUSTOMER NUMBER',
+            'CUSTOMER NAME',
+            'CUSTOMER EMAIL',
+            'ORDER DATE',
+            'REGION MANAGER',
+            'ORDER NUMBER'
+        );
+        $keys_array = array(
+            'customerno',
+            'name',
+            'email',
+            'ordered_date',
+            'manager',
+            'order_no'
+        );
+
+        return ['data' => $change_request,'headers' => $header_array,'keys' => $keys_array];
     }
 
     // signup requests
     public function ExportAllSignupToExcel(){
-        $users = $this->ExportSignupData();
+        $data = $this->ExportSignupData();
         $filename = "sign-up-requests.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'FULL NAME',
-        'COMPANY NAME',
-        'EMAIL',
-        'PHONE NUMBER',
-        ));
-        foreach($users as $user) {
-        fputcsv($handle, array(
-            $user['full_name'],
-            $user['company_name'],
-            $user['email'],
-            $user['phone_no'],
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'sign-up-requests.csv', $headers);
+        $users = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($users,$header_array,$filename,1,$keys_array);
     }
     
     public function ExportAllSignupToPdf(){
-        $users = $this->ExportSignupData();
+        $data = $this->ExportSignupData();
         $name = 'sign-up-requests.pdf';
-        PdfController::generatePdf($users,$name);
+        $users = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($users,$name,$array_headers,$array_keys);
     }
 
     public function ExportSignupData(){
@@ -1379,7 +1313,20 @@ class UsersController extends Controller
                     ->where('signup_requests.status',0)
                     ->select(['signup_requests.full_name','signup_requests.company_name','signup_requests.email','signup_requests.phone_no'])
                     ->get()->toArray();
-        return $users;
+
+        $header_array = array(
+            'FULL NAME',
+            'COMPANY NAME',
+            'EMAIL',
+            'PHONE NUMBER',
+        );
+        $keys_array = array(
+            'full_name',
+            'company_name',
+            'email',
+            'phone_no'
+        );
+        return ['data' => $users, 'headers' => $header_array,'keys' => $keys_array];
     }
 
     public function GetInventoryItem(Request $request){
@@ -1540,27 +1487,21 @@ class UsersController extends Controller
         // export csv file
         $products = $response['products'];
         $filename = "vmi_inventory.csv";
-        $handle = fopen($filename, 'w+');
-		fputcsv($handle, array(
-			'ITEM CODE',
-			'ITEM CODE DESCRIPTION',
-			'VENDOR NAME',
-			'QUANTITY ON HAND',
-			'QUANTITY PURCHASED',
-		));
-        foreach($products as $product) {
-            fputcsv($handle, array(
-                $product['itemcode'],
-                $product['itemcodedesc'],
-                $product['vendorname'],
-                $product['quantityonhand'],
-                $product['quantitypurchased'],
-            )); 
-        }
-
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'vmi_inventory.csv', $headers);
+        $header_array = array(
+            	'ITEM CODE',
+            	'ITEM CODE DESCRIPTION',
+            	'VENDOR NAME',
+            	'QUANTITY ON HAND',
+            	'QUANTITY PURCHASED',
+        );
+        $keys_array = array(
+            'itemcode',
+            'itemcodedesc',
+            'vendorname',
+            'quantityonhand',
+            'quantitypurchased'
+        );
+        return CustomerExportController::ExportExcelFunction($products,$header_array,$filename,1,$keys_array);
     }
 
     // customer exports
@@ -1673,38 +1614,70 @@ class UsersController extends Controller
     public function customerExportInfo(Request $request,$id){
         $customer_export_count =  AnalaysisExportRequest::where('id',$id)->select('analaysis_export_requests.*')->get()->first();
         $user_detail = UserDetails::where('id',$customer_export_count->user_detail_id)->get()->first();
-        return view('backend.pages.exports.info',compact('customer_export_count','user_detail'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.exports.info',compact('customer_export_count','user_detail','searchWords'));
     }
 
     public function ExportAllExports(){
-        $requests = self::ExportAllExportData();
-        $filename = "export_requests.csv";
-        $handle = fopen($filename,'w+');
-        fputcsv($handle, array(
-            'CUSTOMER NUMBER',
-            'RESOURCE',
-            'TYPE',
-            'REQUESTED DATE'
-        ));
-        foreach($requests as $request) {
-        $type = $request['type'] == 1 ? 'CSV' : 'PDF';
-        $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
-        fputcsv($handle, array(
-            $request['customer_no'],
-            $request['resource'],
-            $type,
-            $requested_date
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'export_requests.csv', $headers); 
+        $data = self::ExportAllExportData();
+        $filename = "export_requests.csv";        
+        // $contents = '';
+        // $delimiter = ',';
+        // $enclosure = '"';
+        // $escape = '\\';
+
+        // $header = array(
+        //         'CUSTOMER NUMBER',
+        //         'RESOURCE',
+        //         'TYPE',
+        //         'REQUESTED DATE'
+        // );
+        // $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+        //     return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
+        // }, $header)) . "\n";
+
+        // foreach ($requests as $res) {
+        //     $row_array = array();
+        //     foreach($requests as $request) {
+        //         $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+        //         $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+        //         $row_array =  array(
+        //                 $request['customer_no'],
+        //                 $request['resource'],
+        //                 $type,
+        //                 $requested_date
+        //         );
+        //     }
+        //     $row = $row_array;
+        //     $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
+        //         return $enclosure . str_replace($enclosure, "'", $value) . $enclosure;
+        //     }, $row)) . "\n";
+        // }
+
+        // $headers = array(
+        //     'Content-Type' => 'text/csv',
+        //     'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        // );
+        // $response = response()->stream(function() use ($contents) {
+        //     $stream = fopen('php://output', 'w');
+        //     fwrite($stream, $contents);
+        //     fclose($stream);
+        // }, 200, $headers);
+
+        // return $response;
+        $users = $data['data'];
+        $header_array = $data['headers'];
+        $keys_array = $data['keys'];
+        return CustomerExportController::ExportExcelFunction($users,$header_array,$filename,1,$keys_array);
     }
 
     public function ExportAllExportsPdf(){
-        $requests = self::ExportAllExportData();
+        $data = self::ExportAllExportData();
         $name = 'Exports-list.pdf';
-        PdfController::generatePdf($requests,$name);
+        $requests = $data['data'];
+        $array_headers = $data['headers'];
+        $array_keys = $data['keys'];
+        PdfController::generatePdf($requests,$name,$array_headers,$array_keys);
     }
 
     public static function ExportAllExportData(){
@@ -1713,8 +1686,37 @@ class UsersController extends Controller
         ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
         ->leftjoin('admins','sales_persons.email','=','admins.email')
         ->where('status',0)
-        ->select('analaysis_export_requests.*')->get()->toArray();
+        ->select('analaysis_export_requests.customer_no','analaysis_export_requests.resource','analaysis_export_requests.type','analaysis_export_requests.created_at')->get()->toArray();
+        $final_array = array();
+        foreach($requests as $request){
+            $test_array = array(); 
+            $type = $request['type'] == 1 ? 'CSV' : 'PDF';
+            $requested_date = Carbon::parse($request['created_at'])->format('M d,Y');
+            $test_array['customer_no'] = $request['customer_no']; 
+            $test_array['resource'] = $request['resource']; 
+            $test_array['type'] = $type; 
+            $test_array['created_at'] = $requested_date;
+            $final_array[] = $test_array;
+        }
+        $array_headers = array(
+            'CUSTOMER NUMBER',
+            'RESOURCE',
+            'TYPE',
+            'REQUESTED DATE'
+        );
+        $array_keys = array(
+            'customer_no',
+            'resource',
+            'type',
+            'created_at'
+        );
+        return ['data' => $final_array, 'headers' => $array_headers, 'keys' => $array_keys];
+    }
 
-        return $requests;
+    public function removeWelcome(Request $request){
+        // $request->session()->put('welcome',0);
+        $request->session()->forget('welcome');
+        echo json_encode(['test']);
+        die();
     }
 }

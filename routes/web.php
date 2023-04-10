@@ -137,8 +137,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/open-export/pdf',[CustomerExportController::class,'exportOpenPdf']);
     
     // vmi page
-    // Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);
-    Route::get('/vmi-page-export/csv',[CustomerExportController::class,'test']);
+    Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);
+    // Route::get('/vmi-page-export/csv',[CustomerExportController::class,'test']);
     Route::get('/vmi-page-export/pdf',[CustomerExportController::class,'exportVmiPdf']);
 
     // request
@@ -173,9 +173,13 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
 /**
  * Admin routes
  */
+Route::get('test',function(){
+    return view('layouts.pdf');
+});
+
 Route::redirect('/login', '/sign-in');
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
+    Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard'); //
 
     Route::get('/admins/manager', '\App\Http\Controllers\Backend\UsersController@UserManagers')->name('admin.admins.manager');
 
@@ -281,6 +285,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
     // download vmi inventory
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
+
+    // welcome message remove
+    Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
 }); 
 
 

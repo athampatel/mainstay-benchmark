@@ -167,5 +167,6 @@ User Edit - Admin Panel
     $(document).ready(function() {
         $('.select2').select2();
     })
+    const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

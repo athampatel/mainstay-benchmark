@@ -13,6 +13,11 @@
 
 <div class="home-content">
     <span class="page_title">Dashboard</span>
+    {{-- @if (Cookie::get('admin_welcome'))
+        <div class="alert alert-success">
+            {{ Cookie::get('welcome') }}
+        </div>
+    @endif --}}
     <div class="overview-boxes widget_container_cards col-12 mt-3">
         <div class="page-title-area">
             <div class="row align-items-center pb-3">

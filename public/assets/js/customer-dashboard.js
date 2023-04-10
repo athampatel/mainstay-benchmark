@@ -333,7 +333,7 @@ function customerSpendingChart(){
         });
     }
     
-    console.log(labels_desc,'__labels_desc');
+    // console.log(labels_desc,'__labels_desc');
     // var options = {
     //     series: value,
     //     chart: {

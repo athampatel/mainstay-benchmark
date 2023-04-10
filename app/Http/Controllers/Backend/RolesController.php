@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\PdfController;
 use App\Models\SearchWord;
 use App\User;
@@ -31,16 +32,19 @@ class RolesController extends Controller
     public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('role.view')) {
-            // abort(403, 'Sorry !! You are Unauthorized to view any role !');
             abort(403, config('constants.403.role.view'));
         }
+
         $limit = $request->input('limit');
         $order = $request->input('srorder');
         $order_type = $request->input('ortype');
+        
         if(!$limit){
             $limit = 10;
         } 
+        
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
+        
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
         }
@@ -234,27 +238,84 @@ class RolesController extends Controller
     }
 
     public function ExportAllRolesInPdf(){
-        $roles = Role::all()->toArray();
+        $data = self::getRolePermissions();
+        // dd($data);
+        $roles = $data['data'];
         $name = 'user-roles.pdf';
-        PdfController::generatePdf($roles,$name);
+        $array_keys = $data['keys'];
+        $array_headers = $data['headers']; 
+        $html_content = self::rolesTableGenerator($roles,$array_headers,$array_keys);
+        // dd($html_content);
+        PdfController::generatePdf($roles,$name,$array_headers,$array_keys,1,$html_content);
     }
 
     public function ExportAllRolesInExcel(){
         $roles = Role::all()->toArray();
         $filename = "user-roles.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'NAME',
-        'GUARD NAME',
-        ));
-        foreach($roles as $role) {
-        fputcsv($handle, array(
-            $role['name'],
-            $role['guard_name']
-        )); 
+        // $header_array = array(
+        //     'NAME',
+        //     'GUARD NAME',
+        // );
+        // $array_keys = array(
+        //     'name',
+        //     'guard_name'
+        // );
+        return CustomerExportController::ExportExcelFunction($roles,$header_array,$filename,1,$array_keys);
+    }
+
+    public static function getRolePermissions(){
+        $roles = Role::all();
+        $final_array = array();
+        foreach($roles as $role){
+            $row_array = array();
+            $row_array['name'] = $role['name'];
+            $row_array['guard_name'] = $role['guard_name'];
+            $row_array['permissions'] = '';
+            foreach ($role->permissions as $perm){
+                if($row_array['permissions'] == ''){
+                    $row_array['permissions'] = $perm->name;
+                } else {
+                    $row_array['permissions'] = $row_array['permissions'].','.$perm->name;
+                }
+            }
+            $final_array[] = $row_array;
         }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'user-roles.csv', $headers);
+
+        $header_array = array(
+            'NAME',
+            'GUARD NAME',
+            'PERMISSIONS'
+        );
+        $array_keys = array(
+            'name',
+            'guard_name',
+            'permissions'
+        );
+        return ['data' => $final_array,'headers' => $header_array,'keys' => $array_keys];
+    }
+
+    public static function rolesTableGenerator($tableData,$header_array,$keys_array){
+        $html = '';
+        $html .= '<table style="border-spacing: 0px;">';
+        $thead = '<tr style="border:1px solid #e2e2e2">';
+
+        foreach($header_array as $theader){
+            $thead .= '<th style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;word-wrap:break-word;max-width:100px;">'.$theader.'</th>';
+        }
+
+        $thead .= '</tr>';
+        
+        $html .= $thead;
+
+        foreach ($tableData as $row) {
+            $html .= '<tr style="border:1px solid #e2e2e2">';
+            foreach($keys_array as $key){
+                $html .= '<td style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;word-break:break-all;word-wrap:break-word;max-width:100px;">' . $row[$key] . '</td>';
+            }
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        return $html;
     }
 }

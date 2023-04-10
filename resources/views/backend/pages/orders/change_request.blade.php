@@ -183,17 +183,16 @@ User Create - Admin Panel
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+
     $(document).on('click','#cancel_request',function(e){
         e.preventDefault();
         $change_id = $('#change_id').val();
-        console.log($change_id,'__decline');
         AjaxRequest(`/admin/order/request/${$change_id}/change`,'POST',{ "_token": "{{ csrf_token() }}",'change_id':$change_id,'status':'2'},'changeOrderRequestChange')
     });
 
     $(document).on('click','#approve_request',function(e){
         e.preventDefault();
         $change_id = $('#change_id').val();
-        console.log($change_id,'__approve');
         AjaxRequest(`/admin/order/request/${$change_id}/change`,'POST',{ "_token": "{{ csrf_token() }}",'change_id':$change_id,'status':'1'},'changeOrderRequestChange')
     });
 
@@ -214,23 +213,38 @@ User Create - Admin Panel
         if(res.success){
             if(res.data.status == 1){
                 let action_buttons = `<button class="btn btn-success btn-rounded pr-4 pl-4" id="sync_request">Sent to SAGE</button>`
-                $('#order-change-status-display').removeClass('d-none');
-                $('#order-change-status-display').addClass('alert-success').removeClass('alert-danger').text('Order Requested Approved Successfully');
+                // $('#order-change-status-display').removeClass('d-none');
+                // $('#order-change-status-display').addClass('alert-success').removeClass('alert-danger').text('Order Requested Approved Successfully');
                 $('#change-order-request-buttons').addClass('d-none')
                 $('#change-order-request-buttons').html(action_buttons);
-                setTimeout(() => {
-                    $('#order-change-status-display').addClass('d-none');
-                }, 2000);
+                // setTimeout(() => {
+                //     $('#order-change-status-display').addClass('d-none');
+                // }, 2000);
                 setTimeout(() => {
                     $('#change-order-request-buttons').removeClass('d-none')
-                }, 1000);
-            } else {
-                $('#order-change-status-display').removeClass('d-none');
-                $('#order-change-status-display').addClass('alert-danger').removeClass('alert-success').text('Order Requested Cancelled Successfully');
-                $('#change-order-request-buttons').addClass('d-none')
-                setTimeout(() => {
-                    $('#order-change-status-display').addClass('d-none');
                 }, 2000);
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: 'Order Requested Approved Successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                
+            } else {
+                // $('#order-change-status-display').removeClass('d-none');
+                // $('#order-change-status-display').addClass('alert-danger').removeClass('alert-success').text('Order Requested Cancelled Successfully');
+                $('#change-order-request-buttons').addClass('d-none')
+                // setTimeout(() => {
+                //     $('#order-change-status-display').addClass('d-none');
+                // }, 2000);
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: 'Order Requested Cancelled Successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
             }
         }
     }
@@ -244,5 +258,7 @@ User Create - Admin Panel
     function changeOrderRequestSync(res){
         console.log(res,'___change order request sync');
     }
+    
+    const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

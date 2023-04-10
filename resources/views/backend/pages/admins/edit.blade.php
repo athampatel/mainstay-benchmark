@@ -27,22 +27,16 @@ Admin Edit - Admin Panel
                         <div class="card-body">
                             <h4 class="header-title">Edit User - {{ $admin->name }}</h4>
                             @include('backend.layouts.partials.messages')
-                            {{-- {{dd($admin->profile_path)}} --}}
                             <form action="{{ route('admin.admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data" id="admin_edit_form">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
-                                    {{-- <div class="form-group col-md-6 col-sm-12">
-                                        <label for="name">{{ config('constants.label.admin.admin_name') }}</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
-                                    </div> --}}
                                     <div class="form-group col-md-6 col-sm-6">
                                         <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
                                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
                                         <input type="hidden" name="username" value="{{ $admin->username }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="email">Admin Email</label> --}}
                                         <label for="email">{{ config('constants.label.admin.admin_email') }}</label>
                                         <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $admin->email }}">
                                     </div>
@@ -50,19 +44,16 @@ Admin Edit - Admin Panel
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="password">Password</label> --}}
                                         <label for="password">{{ config('constants.label.admin.password') }}</label>
                                         <input type="password" class="form-control password-field" id="password" name="password" placeholder="Enter Password">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary mt-4 pr-4 pl-4">Gernerate Random Password</a> --}}
                                         <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
                                     </div>   
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-6">
-                                        {{-- <label for="password">Assign Roles</label> --}}
                                         <label for="password">{{ config('constants.label.admin.assign_roles') }}</label>
                                         <select name="roles[]" id="roles" class="form-control select2">
                                             @foreach ($roles as $role)
@@ -70,10 +61,6 @@ Admin Edit - Admin Panel
                                             @endforeach
                                         </select>
                                     </div>
-                                    {{-- <div class="form-group col-md-6 col-sm-6">
-                                        <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}">
-                                    </div> --}}
 
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="name">{{ config('constants.label.admin.admin_name') }}</label>
@@ -81,7 +68,6 @@ Admin Edit - Admin Panel
                                     </div>
                                 </div>
                                 
-                                {{-- profile upload --}}
                                 <h6>Profile Picture</h6><br>
                                 <div class="form-row">
                                     <div class="d-flex align-items-center justify-content-center" style="position: relative">
@@ -96,9 +82,6 @@ Admin Edit - Admin Panel
                                         </div>  
                                     </div>
                                 </div>
-
-                                {{-- <button type="submit" class="btn btn-primary btn-rounded mt-4 pr-4 pl-4">Save Admin</button> --}}
-                                {{-- <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.save_admin') }}</button> --}}
                                 <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4" id="admin_user_edit_save">{{ config('constants.label.admin.buttons.save_admin') }}</button>
                             </form>
                         </div>
@@ -116,5 +99,6 @@ Admin Edit - Admin Panel
     $(document).ready(function() {
         $('.select2').select2();
     })
+    const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

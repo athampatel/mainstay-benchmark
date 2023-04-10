@@ -30,29 +30,29 @@
             @include('backend.layouts.partials.header')
             @yield('admin-content')
             @include('backend.layouts.partials.search_modal')
-            {{-- welcome message work start --}}
-            {{-- <div class="wm_card">
-                <div class="wm_icon">
-                    <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/>
+            @if (Cookie::get('admin_welcome'))
+                <div class="wm_card">
+                    <div class="wm_icon">
+                        @if(Auth::guard('admin')->user()->profile_path)
+                            <img src="/{{Auth::guard('admin')->user()->profile_path}}" class="rounded-circle height-45 width-45"/>
+                        @else
+                            <img src="/assets/images/svg/user_logo.png" class="rounded-circle height-45 width-45"/>
+                        @endif  
+                        {{-- <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/> --}}
+                    </div>
+                    <div class="wm_msg">
+                        <div class="name">Hey {{Auth::guard('admin')->user()->name}}</div>
+                        <div class="msg">Welcome to the portal !!!</div>
+                    </div>
                 </div>
-                <div class="wm_msg">
-                    <div class="name">Hey Admin</div>
-                    <div class="msg">Welcome to the portal !!!</div>
-                </div>
-            </div> --}}
-            {{-- welcome message work end --}}
-            {{-- notification work start --}}
-            <div id="bottom_notification_disp"></div>  
-			{{-- <x-bottom-notification-component :notifications="$notifications" /> --}}
-            {{-- notification work end --}}
-            {{-- <input type="hidden" name="admin_user_id" value="{{Auth::guard('admin')->user()->id}}" id="admin_user_id">
-            <input type="hidden" name="admin_type" value="1" id="admin_type"> --}}
+            @endif
+
+            <div id="bottom_notification_disp"></div>
         </section>
         <!-- main content area end -->
         @include('backend.layouts.partials.footer')
     </div>
     <!-- page container area end -->
-
     @include('backend.layouts.partials.offsets')
     @include('backend.layouts.partials.scripts')
     @yield('scripts')

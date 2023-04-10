@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\PdfController;
 use App\Models\Admin;
 use App\Models\SalesPersons;
@@ -185,7 +186,8 @@ class AdminsController extends Controller
 
         $admin = Admin::find($id);
         $roles  = Role::all();
-        return view('backend.pages.admins.edit', compact('admin', 'roles'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.admins.edit', compact('admin', 'roles','searchWords'));
     }
 
     /**
@@ -284,7 +286,8 @@ class AdminsController extends Controller
     // get profile
     public function adminProfile(){ 
         $profile_details = Auth::guard('admin')->user();
-        return view('backend.pages.admins.profile',compact('profile_details'));
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.admins.profile',compact('profile_details','searchWords'));
     }
     // profile save
     public function adminProfileSave(Request $request){
@@ -320,27 +323,32 @@ class AdminsController extends Controller
     public function ExportAllAdminsToExcel(){
         $admins = Admin::all()->toArray();
         $filename = "admins.csv";
-        $handle = fopen($filename, 'w+');
-        fputcsv($handle, array(
-        'USERNAME',
-        'NAME',
-        'EMAIL'
-        ));
-        foreach($admins as $admin) {
-        fputcsv($handle, array(
-            $admin['username'],
-            $admin['name'],
-            $admin['email']
-        )); 
-        }
-        fclose($handle);
-        $headers = array('Content-Type' => 'text/csv');
-        return response()->download($filename, 'admins.csv', $headers);
+        $header_array = array(
+            'USERNAME',
+            'NAME',
+            'EMAIL'
+        );
+        $array_keys = array(
+            'username',
+            'name',
+            'email'
+        );
+        return CustomerExportController::ExportExcelFunction($admins,$header_array,$filename,1,$array_keys);
     }
     // export into pdf
     public function ExportAllAdminsToPdf(){
         $admins = Admin::select('name','email','username')->get()->toArray();
         $name = 'admins.pdf';
-        PdfController::generatePdf($admins,$name);
+        $array_keys = array(
+            'name',
+            'email',
+            'username'
+        );
+        $array_headers = array(
+            'NAME',
+            'EMAIL',
+            'USER NAME'
+        );
+        PdfController::generatePdf($admins,$name,$array_headers,$array_keys);
     }
 }

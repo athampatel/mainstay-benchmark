@@ -1,3 +1,11 @@
+// remove welcome message
+const wm_customer = document.querySelector('.wm_card.customer');
+if(wm_customer){
+    setTimeout(() => {
+        wm_customer.classList.add('d-none')
+    }, 5000);
+}
+
 $(document).on('click','.order-item-detail',function(e){
     e.preventDefault();
     let sales_order_no = $(e.currentTarget).data('sales_no');

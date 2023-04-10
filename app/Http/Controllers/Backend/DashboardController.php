@@ -123,6 +123,14 @@ class DashboardController extends Controller
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
 
+        // get welcome message
+        $is_welcome = 0;
+        if (session()->has('welcome')) {
+            $is_welcome = session('welcome');
+        }
+
+        // dd($is_welcome);
+
         return view('backend.pages.dashboard.index', compact('total_admins',
                                                             'total_roles', 
                                                             'total_permissions', 
@@ -132,7 +140,8 @@ class DashboardController extends Controller
                                                             'new_customers',
                                                             'change_request',
                                                             'searchWords',
-                                                            'customer_export_count'
+                                                            'customer_export_count',
+                                                            'is_welcome'
                                                         )); 
 
     }

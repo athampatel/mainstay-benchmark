@@ -135,13 +135,7 @@ Export Info - Admin Panel
                                 </div>
                             </div>
                         </div>
-                                
-                            
-                    {{-- </form>  --}}
-                        
-                </div>
-                <!-- data table end -->
-                
+                </div>                
             </div>
         </div>
     </div>
@@ -153,16 +147,10 @@ Export Info - Admin Panel
 <script>
     $(document).on('click','#cancel_request',function(e){
         e.preventDefault();
-        // $change_id = $('#change_id').val();
-        // console.log($change_id,'__decline');
-        // AjaxRequest(`/admin/order/request/${$change_id}/change`,'POST',{ "_token": "{{ csrf_token() }}",'change_id':$change_id,'status':'2'},'changeOrderRequestChange')
     });
 
     $(document).on('click','#approve_request',function(e){
         e.preventDefault();
-        // $change_id = $('#change_id').val();
-        // console.log($change_id,'__approve');
-        // AjaxRequest(`/admin/order/request/${$change_id}/change`,'POST',{ "_token": "{{ csrf_token() }}",'change_id':$change_id,'status':'1'},'changeOrderRequestChange')
     });
 
     
@@ -205,12 +193,11 @@ Export Info - Admin Panel
 
     $(document).on('click','#sync_request',function(e){
         e.preventDefault();
-        // $change_id = $('#change_id').val();
-        // AjaxRequest(`/admin/order/request/${$change_id}/sync`,'POST',{ "_token": "{{ csrf_token() }}",'change_id':$change_id},'changeOrderRequestSync')
     })
 
     function changeOrderRequestSync(res){
         console.log(res,'___change order request sync');
     }
+    const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
 @endsection

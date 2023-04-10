@@ -1,7 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('styles')
-    <!-- Start datatable css -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
@@ -94,22 +93,6 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            {{-- <div class="datatable-export">
-                                <div class="datatable-print">
-                                    <a>
-                                        <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="analysis-print-icon">
-                                    </a>
-                                </div>
-                                <div class="datatable-report position-relative">
-                                    <a>
-                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="analysis-report-icon">
-                                    </a>
-                                    <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-analysis-page-drop">
-                                        <a class="dropdown-item export-analysis-page-item" data-type="csv">Export to Excel</a>
-                                        <a class="dropdown-item export-analysis-page-item" data-type="pdf">Export to PDF</a>
-                                    </div>
-                                </div>
-                            </div> --}}
                             <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="analysis-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">
@@ -130,12 +113,8 @@
                     <div class="card-body col-12 padding-y-0">
                         <div class="table-responsive" id="invoice-order-page-table-div">
                         </div>
-                        {{-- <div class="col-12 pb-2">
-                            <div id="pagination_disp"></div>
-                        </div> --}}
                     </div>
                 </div>
-                {{-- pagination code --}}
                 <div class="col-12 pb-2 card box mt-0 box-shadow-none border-top-radius-0">
                     <div id="pagination_disp"></div>
                 </div>
@@ -166,7 +145,6 @@
             </div>
         </div>	
     </div>
-    {{-- <div id="analysis-page-des-chart"></div> --}}
 </div>
 @endsection
 

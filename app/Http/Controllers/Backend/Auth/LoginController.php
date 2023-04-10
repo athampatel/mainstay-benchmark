@@ -58,18 +58,17 @@ class LoginController extends Controller
         // Attempt to login
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             // Redirect to dashboard
-            // session()->flash('success', 'Successully Logged in !');
             session()->flash('success', config('constants.customer_login.success_message'));
             return redirect()->route('admin.dashboard');
         } else {
             // Search using username
             if (Auth::guard('admin')->attempt(['username' => $request->email, 'password' => $request->password], $request->remember)) {
-                // session()->flash('success', 'Successully Logged in !');
+                $cookie = cookie('admin_welcome', 'welcome admin', 0.1);
                 session()->flash('success', config('constants.customer_login.success_message'));
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.dashboard')->withCookie($cookie);
             }
+
             // error
-            // session()->flash('error', 'Invalid email and password');
             session()->flash('error', config('constants.customer_login.error_message'));
             return back();
         }
