@@ -184,6 +184,11 @@ body.user-forms{
      text-decoration: none;
      background: #8833ff;
 }
+
+.font-12{
+    font-size: 12px;
+}
+  
  @media (min-width: 1281px) {
      .topbar-nav .metismenu {
          -webkit-box-orient: horizontal;

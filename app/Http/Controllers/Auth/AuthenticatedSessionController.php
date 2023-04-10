@@ -15,9 +15,9 @@ use Carbon\Carbon;
 class AuthenticatedSessionController extends Controller
 {
 
-    public function __construct(SDEApi $SDEApi){
-        $this->SDEApi = $SDEApi;
-    }
+    // public function __construct(SDEApi $SDEApi){
+    //     $this->SDEApi = $SDEApi;
+    // }
     /**
      * Display the login view.
      *
@@ -58,7 +58,9 @@ class AuthenticatedSessionController extends Controller
                 "offset" => 1,
                 "limit" => 1
             );
-            $response   = $this->SDEApi->Request('post','Customers',$data);
+            $SDEAPi = new SDEApi();
+            // $response   = $this->SDEApi->Request('post','Customers',$data);
+            $response   = $SDEAPi->Request('post','Customers',$data);
             
             // Carbon::createFromFormat('Y-m-d',  '19/02/2019')->format('d-m-Y'); 
             if(!empty($response)){

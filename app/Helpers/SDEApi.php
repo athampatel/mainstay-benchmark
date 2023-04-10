@@ -113,6 +113,7 @@ class SDEApi
             "password" 	  => $this->password,
 			      "resource"	  => $resource,
         );
+        // dd($default_data);
         $post_data = array_merge($default_data,$data);
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
@@ -123,8 +124,13 @@ class SDEApi
         } else {
           $response = $request->post($this->end_point,$post_data);
         }
+
+        // dd($response);
+        $response_code = $response->getStatusCode();
         self::responseErrorCheck($response,$data,$resource);
-        
+        if($resource == 'Products' && $response_code == 500){
+          return [];
+        } 
         return $response->json();
       }
 
@@ -133,12 +139,18 @@ class SDEApi
       $error_codes = explode(',', env('API_ERROR_CODES'));
       if(in_array($response_code,$error_codes)){
         // $error_message = json_decode($response->body(), true)['message'];
-        $error_message = json_decode($response->body(), true);
+        if($resource == 'Products' && $response_code == 500){
+          $error_message = false;
+        } else {
+          $error_message = json_decode($response->body(), true);
+        }
+
         if(!$error_message) {
           $error_message = 'null';
         } else {
           $error_message = $error_message['message'];
         }
+        
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),
@@ -157,6 +169,8 @@ class SDEApi
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = env('ADMIN_EMAILS');
+        return ;
+        // dd(explode(',',$admin_emails));
         // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         $is_local = env('APP_ENV') == 'local' ? true : false;
         if($is_local){

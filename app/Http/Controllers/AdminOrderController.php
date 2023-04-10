@@ -12,9 +12,9 @@ use App\Models\UserDetails;
 
 class AdminOrderController extends Controller
 {
-    public function __construct(SDEApi $SDEApi){
-        $this->SDEApi = new $SDEApi;
-    }
+    // public function __construct(SDEApi $SDEApi){
+    //     $this->SDEApi = new $SDEApi;
+    // }
 
     public function getChangeOrderRequest($order_id,$change_id,$customerno){
 
@@ -48,7 +48,10 @@ class AdminOrderController extends Controller
                 ],
             ],
         );
-        $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
+
+        // $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
+        $SDEAPi = new SDEApi();
+        $order_detail = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data);
         if(!empty($order_detail['salesorderhistoryheader'])){
             $order_detail = $order_detail['salesorderhistoryheader'][0];
         } else {

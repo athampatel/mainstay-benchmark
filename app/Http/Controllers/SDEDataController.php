@@ -27,10 +27,10 @@ ini_set('max_execution_time', 300);
 class SDEDataController extends Controller
 {
 
-    public function __construct(SDEApi $SDEApi)
-    {
-        $this->SDEApi = $SDEApi;
-    }
+    // public function __construct(SDEApi $SDEApi)
+    // {
+    //     $this->SDEApi = $SDEApi;
+    // }
 
     public function getCustomerSalesHistory(Request $request){
         $user_id = Auth::user()->id;
@@ -72,7 +72,10 @@ class SDEDataController extends Controller
             ]
         );
 
-        $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        // $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $SDEAPi = new SDEApi();
+        // $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
         $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data);
@@ -128,7 +131,9 @@ class SDEDataController extends Controller
                 "offset" => 1,
                 "limit" => 5,
             );
-            $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $SDEAPi = new SDEApi();
+            // $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $response_data   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data['salesorderhistoryheader']);
@@ -184,8 +189,9 @@ class SDEDataController extends Controller
                 ],
             ],
         );
-
-        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
+        $SDEAPi = new SDEApi();
+        //$sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
+        $sales_order_history_detail = $SDEAPi->Request('post','SalesOrders',$data);
         $sales_order_detail = $sales_order_history_detail['salesorders'];
         if(!empty($sales_order_detail)){
             foreach ($sales_order_detail as $key => $sales_order) {
@@ -221,8 +227,9 @@ class SDEDataController extends Controller
                 ]
             ]
         );
-
-        $response   = $this->SDEApi->Request('post','CustomerItemHistory',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','CustomerItemHistory',$data);
+        $response   = $SDEAPi->Request('post','CustomerItemHistory',$data);
         echo \json_encode($response);
     }
 
@@ -250,8 +257,9 @@ class SDEDataController extends Controller
                 ],
             ]
         );
-
-        $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
+        $response   = $SDEAPi->Request('post','InvoiceHistoryHeader',$data);
         echo \json_encode($response);
     }
 
@@ -276,8 +284,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','AliasItems',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','AliasItems',$data);
+        $response   = $SDEAPi->Request('post','AliasItems',$data);
         // echo \json_encode($response);
         // dd($response);
     }
@@ -301,8 +310,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 20,
         );
-
-        $response   = $this->SDEApi->Request('post','Customers',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','Customers',$data);
+        $response   = $SDEAPi->Request('post','Customers',$data);
         // echo \json_encode($response);
         // dd($response);
         // Customers
@@ -327,8 +337,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','InvoiceHistoryDetail',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','InvoiceHistoryDetail',$data);
+        $response   = $SDEAPi->Request('post','InvoiceHistoryDetail',$data);
         // echo \json_encode($response);
         // dd($response);
     }
@@ -352,8 +363,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
+        $response   = $SDEAPi->Request('post','InvoiceHistoryHeader',$data);
         // echo \json_encode($response);
         // dd($response);
     }
@@ -377,8 +389,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','ItemWarehouses',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','ItemWarehouses',$data);
+        $response   = $SDEAPi->Request('post','ItemWarehouses',$data);
     }
     
     public function getProducts(){
@@ -400,8 +413,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','Products',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','Products',$data);
+        $response   = $SDEAPi->Request('post','Products',$data);
     }
     
     public function getSalesOrderHistoryDetail(){
@@ -423,8 +437,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
+        $response   = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data);
     }
     
     public function getSalesOrderHistoryHeader(){
@@ -432,8 +447,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
     }
 
     public function getSalespersons(){
@@ -441,8 +457,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('get','Salespersons',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('get','Salespersons',$data);
+        $response   = $SDEAPi->Request('get','Salespersons',$data);
     }
     
     public function getVendors(){
@@ -450,8 +467,9 @@ class SDEDataController extends Controller
             "offset" => 1,
             "limit" => 5
         );
-
-        $response   = $this->SDEApi->Request('post','Vendors',$data);
+        $SDEAPi = new SDEApi();
+        // $response   = $this->SDEApi->Request('post','Vendors',$data);
+        $response   = $SDEAPi->Request('post','Vendors',$data);
     }
 
     public function changeUserStatus($id){
@@ -548,7 +566,7 @@ class SDEDataController extends Controller
         }
     }
 
-    public function getCustomerOpenOrdersDetails(){
+    public function getCustomerOpenOrdersDetails(Request $request){
         $order_no = $request->order_no;
         $item_code = $request->item_code;
         $data = array(            
@@ -561,19 +579,23 @@ class SDEDataController extends Controller
                 ],
             ],
         );
-        $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        $SDEAPi = new SDEApi();
+        // $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+        $sales_order_history_header = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
        if(empty($sales_order_history_header['salesorderhistoryheader'])){
             $response = ['success' => false, 'data' => [],'error' => ['No records found']];
             echo json_encode($response);
             die();
        }
         $sales_order_header = $sales_order_history_header['salesorderhistoryheader'][0];
-
+        $new_filter = [];
         $filter =    array_push($filter,$new_filter);
         $data1 = array(            
             "filter" => $filter
         );
-        $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+        $SDEAPi = new SDEApi();
+        // $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
+        $sales_order_history_detail = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data1);
         $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
 
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;

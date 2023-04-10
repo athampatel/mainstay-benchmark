@@ -8,11 +8,11 @@
 					<div class="card">
 						<div class="card-body no-shadow">
 							@if(Session::has('success'))
-								<h5 class="alert alert-success text-center">{{ Session::get('success')}}</h5>
+								<h5 class="alert alert-success text-center font-12">{{ Session::get('success')}}</h5>
 							@endif
 
 							@if($errors->any())
-								<h5 class="alert alert-danger font-bold text-center">{{$errors->first()}}</h5>
+								<h5 class="alert alert-danger font-bold text-center font-12">{{$errors->first()}}</h5>
 							@endif
 							<div class="p-4 rounded">
 								<div class="mb-4 mt-3 text-center">

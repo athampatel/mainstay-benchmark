@@ -16,7 +16,7 @@
 								</div>
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
-										<div class="alert alert-danger">{{$error}}</div>
+										<div class="alert alert-danger font-12">{{$error}}</div>
 									@endforeach
 								@endif								
 								<div class="form-body">
