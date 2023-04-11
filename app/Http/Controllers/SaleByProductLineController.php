@@ -9,10 +9,10 @@ use App\Helpers\SDEApi;
 class SaleByProductLineController extends Controller
 {
 
-    public function __construct(SDEApi $SDEApi)
-    {
-        $this->SDEApi = $SDEApi;
-    }
+    // public function __construct(SDEApi $SDEApi)
+    // {
+    //     $this->SDEApi = $SDEApi;
+    // }
 
     /**
      * Display a listing of the resource.

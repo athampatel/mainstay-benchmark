@@ -17,8 +17,7 @@ class PdfController extends Controller
             $thead = '<tr style="border:1px solid #e2e2e2">';
 
             foreach($header_array as $theader){
-                // $thead .= '<th style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;word-wrap:break-word;">'.$theader.'</th>';
-                $thead .= '<th style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;word-wrap:break-word;">'.$theader.'</th>';
+                $thead .= '<th style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;word-wrap:break-word;text-transform: capitalize;">'.$theader.'</th>';
             }
 
             $thead .= '</tr>';
@@ -28,7 +27,7 @@ class PdfController extends Controller
             foreach ($tableData as $row) {
                 $html .= '<tr style="border:1px solid #e2e2e2">';
                 foreach($keys_array as $key){
-                    $html .= '<td style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;">' . $row[$key] . '</td>';
+                    $html .= '<td style="padding:10px;border:1px solid #e2e2e2;word-break:break-all;text-transform: capitalize;">' . $row[$key] . '</td>';
                 }
                 $html .= '</tr>';
             }
@@ -59,8 +58,8 @@ class PdfController extends Controller
         $canvas->page_script(function($pageNumber, $pageCount, $canvas, $fontMetrics){
             $pageWidth = $canvas->get_width();
             $pageHeight = $canvas->get_height();
-            $image_height = 200;
-            $image_width =50;
+            $image_height = 200;  // image width typo
+            $image_width = 35; // image height typo
             $px = ($pageWidth - $image_height) / 2;
             $py = ($pageHeight - $image_width) / 2;
             $canvas->set_opacity(.175);

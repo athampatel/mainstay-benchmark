@@ -12,11 +12,11 @@
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
 								@if(Session::has('status'))
-									<div class="alert alert-success">{{ Session::get('status')}}</div>
+									<div class="alert alert-success font-12">{{ Session::get('status')}}</div>
 								@endif
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
-										<div class="alert alert-danger">{{$error}}</div>
+										<div class="alert alert-danger font-12">{{$error}}</div>
 									@endforeach
 								@endif	
 								<div class="text-center">

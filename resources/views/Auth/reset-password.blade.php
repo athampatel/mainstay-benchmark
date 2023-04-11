@@ -15,7 +15,7 @@
 									<h3 class="login-from-title font-open-sans font-bold font-32">Reset account password</h3>									
 								</div>
 								@if(Session::has('status'))
-									<div class="alert alert-success">{{ Session::get('status')}}</div>
+									<div class="alert alert-success font-12">{{ Session::get('status')}}</div>
 									<script>
 										setTimeout(function() {
 											window.location.href = "/"
@@ -24,7 +24,7 @@
 								@endif
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
-										<div class="alert alert-danger">{{$error}}</div>
+										<div class="alert alert-danger font-12">{{$error}}</div>
 									@endforeach
 								@endif								
 								<div class="form-body">

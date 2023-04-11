@@ -31,11 +31,6 @@ use Illuminate\Support\Str;
 class MenuController extends Controller
 {
 
-    public function __construct(SDEApi $SDEApi)
-    {
-        $this->SDEApi = $SDEApi;
-    }
-
     public function NavMenu($current = ''){
 
        $menus = array('dashboard'           =>         array(  'name' => 'Dashboard', 
@@ -322,7 +317,8 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
 
-            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','SalesOrders',$data);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] >= 1){
@@ -379,7 +375,9 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-            $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             if($custom_pagination['last_page'] >= 1){
@@ -399,76 +397,6 @@ class MenuController extends Controller
             echo json_encode($response);
             die();
         }  
-    }
-
-    public function getAnalysisPageData1(Request $request){
-        $arr = [
-            [
-                'no' => '89742',
-                'date' => '2022-04-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 145,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-04-15',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 100,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-03-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 153,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-02-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 165,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-01-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 98,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-08-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 200,
-            ],
-            [
-                'no' => '89742',
-                'date' => '2022-10-08',
-                'custpono' => '123456',
-                'city' => 'london',
-                'total_items' => 10,
-                'total_amount' => 198,
-            ],
-        ];
-        $table_code = View::make("components.datatabels.analysis-page-component")
-            ->with("analysisdata", $arr)
-            ->render();
-
-        $data['response'] = $arr;
-        $data['table_code'] = $table_code;
-        echo json_encode($data);
-        die();
-
     }
 
     public function getCustomerOpenOrdersData(Request $request){
@@ -501,8 +429,8 @@ class MenuController extends Controller
                     ],
                 ],
             );
-            
-            $response   = $this->SDEApi->Request('post','SalesOrders',$data);
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','SalesOrders',$data);
             $is_api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response);
@@ -574,9 +502,10 @@ class MenuController extends Controller
                         ],
                     ], 
                 );
-            $response   = $this->SDEApi->Request('post','Products',$data);
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','Products',$data);
             $path = '/getVmiData';
-            if(!$response) {
+            if(empty($response)) {
                 $response = [];
             }
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
@@ -606,7 +535,6 @@ class MenuController extends Controller
         $last_page = intval(ceil($response['meta']['records'] / $limit));
         $custom_pagination['links'] = UsersController::customPagination(1,$last_page,$response['meta']['records'],intval($limit),intval($page + 1),'');
         $total = $response['meta']['records'];
-        // $custom_pagination['from'] = $offset;
         $custom_pagination['from'] = $offset;
         $custom_pagination['to'] = intval($offset + $limit - 1) > intval($total) ? intval($total) :intval($offset + $limit - 1);
         $custom_pagination['total'] = $total;
@@ -693,7 +621,8 @@ class MenuController extends Controller
                 "offset" => 1,
                 "limit" => 2,
             );
-            $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $res['success'] = false;
             $res['error'] = 'Order Details not found';
             if(!empty($response['salesorderhistoryheader'])){
@@ -763,7 +692,8 @@ class MenuController extends Controller
             );
             // merge the filter data into the data filter
             $data['filter'] = array_merge($date_filter,$data['filter']);
-            $response_table = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
+            $SDEAPi = new SDEApi();
+            $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $response_table_data = $response_table['salesorderhistoryheader'];
         }
         $table_code = View::make("components.datatabels.analysis-page-component")
@@ -805,8 +735,8 @@ class MenuController extends Controller
                 ]
             ]
         );
-
-        $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
+        $SDEAPi = new SDEApi();
+        $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
 
         // product by line chart
         $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);

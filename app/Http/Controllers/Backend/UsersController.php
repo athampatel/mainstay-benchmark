@@ -1135,26 +1135,8 @@ class UsersController extends Controller
         return view('backend.pages.orders.change_request',compact('order_detail','changed_items','change_id','change_request','searchWords'));
     }
 
-    public function ExportAllCustomers(){
-		// $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
-        //             ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-        //             ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
-        
+    public function ExportAllCustomers(){        
         $filename = "customers.csv";
-        // $header_array = array(
-        //     	'CUSTOMER NUMBER',
-        //     	'CUSTOMER NAME',
-        //     	'EMAIL',
-        //     	'AR DIVISION NUMBER',
-        //     	'BENCHMARK REGIONAL MANAGER',
-        //     );
-        // $array_keys = array(
-        //     'customerno',
-        //     'customername',
-        //     'email',
-        //     'ardivisionno',
-        //     'name'
-        // );
         $data = self::customerExportData();
         $customers = $data['data'];
         $header_array = $data['header'];
@@ -1181,14 +1163,12 @@ class UsersController extends Controller
             'CUSTOMER NUMBER',
             'CUSTOMER NAME',
             'EMAIL',
-            'AR DIVISION NUMBER',
             'BENCHMARK REGIONAL MANAGER',
         );
         $array_keys = array(
             'customerno',
             'customername',
             'email',
-            'ardivisionno',
             'name'
         );
         return ['data' => $customers ,'header' => $header_array, 'keys' => $array_keys ];

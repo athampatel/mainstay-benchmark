@@ -23,10 +23,10 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function __construct(SDEApi $SDEApi){
-        $this->SDEApi = $SDEApi;
+    // public function __construct(SDEApi $SDEApi){
+    //     $this->SDEApi = $SDEApi;
         //$this->emailHelper = $emailHelper;
-    }
+    // }
 
     public function autheticate( Request $request ){
 
@@ -139,7 +139,9 @@ class AuthController extends Controller
         $details['body'] = $body;
 
         if(empty($user)){
-            $response   = $this->SDEApi->Request('post','Customers',$data); 
+            // $response   = $this->SDEApi->Request('post','Customers',$data); 
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','Customers',$data); 
             $message    = '';
             $status     = 'error';            
             $_details   = array();
