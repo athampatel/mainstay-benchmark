@@ -170,6 +170,20 @@ function customerSalesChartDisplays(resp,status){
 
             },   
         },
+        toolbar: {
+            // show:false,
+            export: {
+                csv: {
+                  filename: 'gokul',
+                },
+                svg: {
+                  filename: 'gokul',
+                },
+                png: {
+                  filename: 'gokul',
+                }
+            }, 
+        }
     };
 
     customer_sales_chart = new ApexCharts(document.querySelector("#customer_sales_history"), options);
@@ -306,6 +320,20 @@ function customerOpenOrders($array){
                   }
             },   
         },
+        toolbar: {
+            // show:false,
+            export: {
+                csv: {
+                  filename: 'gokul',
+                },
+                svg: {
+                  filename: 'gokul',
+                },
+                png: {
+                  filename: 'gokul',
+                }
+            }, 
+        }
     };
 
     customer_open_orders = new ApexCharts(document.querySelector("#dashboard-open-orders-chart"), options);
@@ -480,6 +508,20 @@ function customerSpendingChart(){
                   }
             },   
         },
+        toolbar: {
+            // show:false,
+            export: {
+                csv: {
+                  filename: 'gokul',
+                },
+                svg: {
+                  filename: 'gokul',
+                },
+                png: {
+                  filename: 'gokul',
+                }
+            }, 
+        }
     };
 
 
@@ -588,6 +630,20 @@ function customerSpendingChart(){
                   }
             },   
         },
+        toolbar: {
+            // show:false,
+            export: {
+                csv: {
+                  filename: 'gokul',
+                },
+                svg: {
+                  filename: 'gokul',
+                },
+                png: {
+                  filename: 'gokul',
+                }
+            }, 
+        }
     };
 
 

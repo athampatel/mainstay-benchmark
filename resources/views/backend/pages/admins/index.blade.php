@@ -79,8 +79,8 @@ Admins - Admin Panel
                                         <tr>
                                             <th width="5%">
                                                 {{ config('constants.label.admin.sl') }}
-                                                <span data-col='id' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
-                                                <span data-col='id' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                                {{-- <span data-col='id' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='id' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span> --}}
                                             </th>
                                             <th width="10%">
                                                 Profile picture
@@ -216,7 +216,7 @@ $(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 function deleteAdmin(id){
     Swal.fire({
     title: 'Are you sure?',
-    text: "You want to delete the admin",
+    text: "You want to delete the user",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#9FCC47',

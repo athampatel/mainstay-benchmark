@@ -292,6 +292,8 @@ class UsersController extends Controller
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
+        // dd($print_managers);
+
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords','print_managers','order','order_type'));
     }
 

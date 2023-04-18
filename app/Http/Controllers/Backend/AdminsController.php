@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
+use App\Helpers\Helper;
 
 class AdminsController extends Controller
 {
@@ -99,6 +100,7 @@ class AdminsController extends Controller
         return view('backend.pages.admins.create', compact('roles','manager','searchWords'));
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -110,7 +112,8 @@ class AdminsController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.create')) {
             abort(403, config('constants.admin_error_403'));
         }
-
+        $file = $request->file('profile_picture1');
+        $max_file_size = (int) Helper::parse_size(ini_get('post_max_size'));
         // Validation Data
         $this->validate(
             $request,
@@ -119,12 +122,17 @@ class AdminsController extends Controller
                 'email' => 'required|max:100|email|unique:admins',
                 'username' => 'required|min:5|max:100|unique:admins',
                 'password' => 'required|min:8',
+                'profile_picture1' => 'sometimes|file|mimes:jpg,jpeg,png|size:'.$max_file_size,
             ],
             [
-                'name.required' => 'The Name field is required',
+                'name.required' => 'The User Name field is required',
                 'email.required' => 'The Email field is required',
                 'username.required' => 'The User Account Name field is required',
                 'password.required' => 'The Password field is required',
+                'password.min' => 'The Password must be at least 8 characters.',
+                'name.min' => 'The User Name must be at least 5 characters.',
+                'email.unique' => 'The Email has already been taken',
+                'username.unique' => 'The User Account Name has already been taken',
             ]
         );
 
@@ -134,6 +142,25 @@ class AdminsController extends Controller
         $admin->username = $request->username;
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
+        // profile picture update 
+       
+        $path = "";
+        if($file){
+            if($admin->profile_path){
+                $image_path =str_replace('/','\\',$admin->profile_path);
+                if(File::exists(public_path().'\\'.$image_path)){
+                    File::delete(public_path().'\\'.$image_path);
+                }
+            }
+            
+            $user_name = str_replace(' ', '', $admin->name);
+            $image_name = $user_name.'_admin_'.date('Ymd_his').'.'. $file->extension();
+            $file->move(public_path('images'), $image_name);
+            $path = 'images/'.$image_name;
+        }
+        if($file){
+            $admin->profile_path = $path;
+        }
         $admin->save();
         if ($request->roles) {
             $admin->assignRole($request->roles);
@@ -291,9 +318,7 @@ class AdminsController extends Controller
     }
     // profile save
     public function adminProfileSave(Request $request){
-        // dd($request);
         $user_id = Auth::guard('admin')->user()->id;
-        // dd($user);
         $admin = Admin::where('id',$user_id)->first();
         $file = $request->file('photo_1');
         $path = "";
