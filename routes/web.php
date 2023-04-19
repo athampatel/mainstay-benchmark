@@ -26,13 +26,9 @@ use App\Http\Controllers\SaleOrdersController;
 
 Auth::routes();
 
-// Route::get('/', function () {
-//     return redirect('/sign-in');
-// });
 Route::redirect('/', '/sign-in');
 Route::get('/delete',[AuthController::class,'delete']);
 
-// menu routes
 Route::middleware('auth')->group(function () {  
     Route::get('/dashboard',[MenuController::class,'dashboard'])->name('auth.customer.dashboard');
     Route::get('/invoice',[MenuController::class,'invoicePage'])->name('auth.customer.invoice');

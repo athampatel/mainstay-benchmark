@@ -12,19 +12,10 @@ use App\Models\UserDetails;
 
 class AdminOrderController extends Controller
 {
-    // public function __construct(SDEApi $SDEApi){
-    //     $this->SDEApi = new $SDEApi;
-    // }
-
     public function getChangeOrderRequest($order_id,$change_id,$customerno){
-
         $change_request = ChangeOrderRequest::find($change_id);
-        // if($change_order_request->request_status != 0){
-        //     abort(403);
-        // }
         $admin = Admin::first();
         Auth::guard('admin')->login($admin);
-
         $user_details = UserDetails::where('customerno',$customerno)->first();
         $data = array(            
             "filter" => [
@@ -49,7 +40,6 @@ class AdminOrderController extends Controller
             ],
         );
 
-        // $order_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
         $SDEAPi = new SDEApi();
         $order_detail = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data);
         if(!empty($order_detail['salesorderhistoryheader'])){
@@ -63,25 +53,20 @@ class AdminOrderController extends Controller
 
     public function changeOrderRequestStatus(Request $request){
         $data = $request->all();
-        // get change order request
         $changeOrderRequest = ChangeOrderRequest::find($data['change_id']);
         if($changeOrderRequest){
             $message ="";
             if($data['status'] == 1){
-                // Approve request 
                 $changeOrderRequest->request_status = 1;
                 $changeOrderRequest->status_detail = 'Approved';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
-                // $message = 'Change Order Request Approved';
                 $message = config('constants.admin.change_order.approve');
             } else {
-                // Decline request
                 $changeOrderRequest->request_status = 2;
                 $changeOrderRequest->status_detail = 'Declined';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
-                // $message = 'Change Order Request Declined';
                 $message = config('constants.admin.change_order.decline');
             }
             $_notification = array( 'type'      => 'Sign Up',
@@ -106,8 +91,5 @@ class AdminOrderController extends Controller
 
     public function changeOrderRequestSync(Request $request){
         $data = $request->all();
-        // dd($data);
-        // update change request api
-        
     }
 }

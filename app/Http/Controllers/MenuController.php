@@ -17,16 +17,12 @@ use App\Http\Controllers\SaleByProductLineController as ProductLine;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
-use App\Http\Controllers\SchedulerLogController;
-use App\Http\Controllers\InvoicedOrdersController;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
 use App\Models\AnalaysisExportRequest;
 use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\SearchWord;
-use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
@@ -349,7 +345,6 @@ class MenuController extends Controller
         $limit = $data['count'];
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
-        // dd($start_date,$end_date);
         if($page == 0){
             $offset = 1;
         } else {
@@ -416,7 +411,6 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-            // dd($data);
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
@@ -693,7 +687,6 @@ class MenuController extends Controller
         $customer_no    = $request->session()->get('customer_no');
         $user_id        = Auth::user()->id;
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        // table data
         $response_table = [];
         $filter_dates = $this->getRangeDates($range,$year);
         $filter_start_date = $filter_dates['start'];
@@ -732,7 +725,6 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-            // merge the filter data into the data filter
             $data['filter'] = array_merge($date_filter,$data['filter']);
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
@@ -751,7 +743,6 @@ class MenuController extends Controller
             ->render();
         }
 
-        // chart data
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
@@ -780,7 +771,6 @@ class MenuController extends Controller
         $SDEAPi = new SDEApi();
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
 
-        // product by line chart
         $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
         $saleby_productline = $saleby_productline1['sales_details']; 
         $saleby_productline_desc = $saleby_productline1['sales_desc_details'];

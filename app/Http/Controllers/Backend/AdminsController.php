@@ -54,8 +54,6 @@ class AdminsController extends Controller
         
         $search = $request->input('search');
         if($search){
-            // $admins = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%')->offset($offset)->limit(intval($limit))->get();
-            // $adminss = Admin::paginate(intval($limit));
             $admin1 = Admin::orWhere('name','like','%'.$search.'%')->orWhere('email','like','%'.$search.'%')->orWhere('username','like','%'.$search.'%');
             if($order){
                 $order_column = "admins.$order";
@@ -75,7 +73,6 @@ class AdminsController extends Controller
         }
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
-        // Search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
         return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords','order','order_type'));
     }
@@ -114,7 +111,6 @@ class AdminsController extends Controller
         }
         $file = $request->file('profile_picture1');
         $max_file_size = (int) Helper::parse_size(ini_get('post_max_size'));
-        // Validation Data
         $this->validate(
             $request,
             [
@@ -136,14 +132,11 @@ class AdminsController extends Controller
             ]
         );
 
-        // Create New Admin
         $admin = new Admin();
         $admin->name = $request->name;
         $admin->username = $request->username;
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
-        // profile picture update 
-       
         $path = "";
         if($file){
             if($admin->profile_path){
@@ -226,10 +219,7 @@ class AdminsController extends Controller
      */
     public function update(Request $request, int $id)
     {
-
-        // dd($request->all());
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            // abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
             abort(403, config('constants.admin_error_403'));
         }
 
@@ -238,17 +228,14 @@ class AdminsController extends Controller
             return back();
         }
 
-        // Create New Admin
         $admin = Admin::find($id);
 
-        // Validation Data
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:admins,email,' . $id,
             'password' => 'nullable|min:8',
         ]);
 
-        // profile picture update 
         $file = $request->file('profile_picture');
         $path = "";
         if($file){
@@ -310,12 +297,14 @@ class AdminsController extends Controller
         session()->flash('success', config('constants.admin_delete.confirmation_message'));
         return back();
     }
+    
     // get profile
     public function adminProfile(){ 
         $profile_details = Auth::guard('admin')->user();
         $searchWords = SearchWord::where('type',1)->get()->toArray();
         return view('backend.pages.admins.profile',compact('profile_details','searchWords'));
     }
+    
     // profile save
     public function adminProfileSave(Request $request){
         $user_id = Auth::guard('admin')->user()->id;
@@ -323,7 +312,6 @@ class AdminsController extends Controller
         $file = $request->file('photo_1');
         $path = "";
         if($file){
-            // file delete 
             if(Auth::guard('admin')->user()->profile_path){
                 $image_path =str_replace('/','\\',Auth::guard('admin')->user()->profile_path);
                 if(File::exists(public_path().'\\'.$image_path)){
@@ -337,7 +325,6 @@ class AdminsController extends Controller
             $path = 'images/'.$image_name;
         }
         if($file){
-            // profile_path
             $admin->profile_path = $path;
         }
         $admin->save();
@@ -360,6 +347,7 @@ class AdminsController extends Controller
         );
         return CustomerExportController::ExportExcelFunction($admins,$header_array,$filename,1,$array_keys);
     }
+    
     // export into pdf
     public function ExportAllAdminsToPdf(){
         $admins = Admin::select('name','email','username')->get()->toArray();

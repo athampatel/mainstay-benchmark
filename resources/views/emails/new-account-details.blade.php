@@ -1,6 +1,5 @@
 @extends("layouts.email")
 @section("emailbody")	
-<!-- big image section -->
     <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="bg_color">
 
         <tr>
@@ -94,5 +93,4 @@
         </tr>
 
     </table>	
-    <!-- end section -->
 @endsection	
