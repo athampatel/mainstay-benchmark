@@ -17,16 +17,12 @@ use App\Http\Controllers\SaleByProductLineController as ProductLine;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
-use App\Http\Controllers\SchedulerLogController;
-use App\Http\Controllers\InvoicedOrdersController;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SaleOrdersController;
 use App\Models\AnalaysisExportRequest;
 use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\SearchWord;
-use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
@@ -189,7 +185,6 @@ class MenuController extends Controller
     }
     
     public function changeOrderPage(Request $request,$orderid){           
-
         $customer_no   = $request->session()->get('customer_no');
         $customers    = $request->session()->get('customers');
         if(Auth::user()){
@@ -348,15 +343,44 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $start_date = $data['start_date'];
+        $end_date = $data['end_date'];
         if($page == 0){
             $offset = 1;
         } else {
             $offset = $page * $limit + 1;
         }
+
         $user_id        = Auth::user()->id;
         $customer_no    = $request->session()->get('customer_no');
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        $companycode = $user_details->vmi_companycode;
         if($user_details){
+            // $data = array(            
+            //     "filter" => [
+            //         [
+            //             "column" =>  "CustomerNo",
+            //             "type" =>  "equals",
+            //             "value" =>  $user_details->customerno,
+            //             "operator" =>  "and"
+            //         ],
+            //         [
+            //             "column" => "ARDivisionNo",
+            //             "type" => "equals",
+            //             "value" => $user_details->ardivisionno,
+            //             "operator" => "and"
+            //         ],
+            //     ],
+            //     "offset" => $offset,
+            //     "limit" => $limit,
+            // );
+
+            /* change the sorting sales order history header */
+            $add_data = array(
+                "companyCode" => $companycode,
+                "index" => "KSDEDESCENDING",
+            );
+
             $data = array(            
                 "filter" => [
                     [
@@ -371,15 +395,27 @@ class MenuController extends Controller
                         "value" => $user_details->ardivisionno,
                         "operator" => "and"
                     ],
+                    [
+                        "column" => "invoiceDate",
+                        "type" => ">=",
+                        "value" => $start_date,
+                        "operator" => "and"
+                    ],
+                    [
+                        "column" => "invoiceDate",
+                        "type" => "=<",
+                        "value" => $end_date,
+                        "operator" => "and"
+                    ]
                 ],
                 "offset" => $offset,
                 "limit" => $limit,
             );
-
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
+            $pagination_code = '';
             if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
@@ -651,7 +687,6 @@ class MenuController extends Controller
         $customer_no    = $request->session()->get('customer_no');
         $user_id        = Auth::user()->id;
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
-        // table data
         $response_table = [];
         $filter_dates = $this->getRangeDates($range,$year);
         $filter_start_date = $filter_dates['start'];
@@ -690,7 +725,6 @@ class MenuController extends Controller
                 "offset" => $offset,
                 "limit" => $limit,
             );
-            // merge the filter data into the data filter
             $data['filter'] = array_merge($date_filter,$data['filter']);
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
@@ -709,7 +743,6 @@ class MenuController extends Controller
             ->render();
         }
 
-        // chart data
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
@@ -738,7 +771,6 @@ class MenuController extends Controller
         $SDEAPi = new SDEApi();
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
 
-        // product by line chart
         $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
         $saleby_productline = $saleby_productline1['sales_details']; 
         $saleby_productline_desc = $saleby_productline1['sales_desc_details'];

@@ -10,7 +10,7 @@ Admins - Admin Panel
     <div class="loader"></div>
 </div>
 <div class="home-content">
-    <span class="page_title">Porfile</span>
+    <span class="page_title">Profile</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">

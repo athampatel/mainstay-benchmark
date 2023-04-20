@@ -172,7 +172,6 @@ class CustomerExportController extends Controller
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $response = self::exportInvoiceData($user_detail);
         $filename = "invoice-details.pdf";
-        // PdfController::generatePdf($response,$filename);
     }
 
     // open orders csv
@@ -226,8 +225,6 @@ class CustomerExportController extends Controller
         $filename = "Vmi-details.pdf";
         PdfController::generatePdf($response,$filename,$array_headers,$array_keys);
     }
-
-    // datas
 
     // invoice data
     public static function exportInvoiceData($user_detail){
@@ -409,7 +406,6 @@ class CustomerExportController extends Controller
                     array_push($row_array,$res[$arkey1]);
                 }
             }
-            // return $enclosure . str_replace($enclosure, $escape . $enclosure, $value) . $enclosure;
             $row = $row_array;
             $contents .= implode($delimiter, array_map(function($value) use ($enclosure, $escape) {
                 return $enclosure . str_replace($enclosure, "'", $value) . $enclosure;

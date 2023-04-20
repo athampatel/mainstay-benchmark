@@ -45,6 +45,7 @@ class AuthenticatedSessionController extends Controller
                     ->select('user_details.*','users.profile_image')
                     ->get();
 
+        
         if($user->is_vmi){
             $data = array(            
                 "filter" => [
@@ -58,20 +59,18 @@ class AuthenticatedSessionController extends Controller
                 "offset" => 1,
                 "limit" => 1
             );
+
             $SDEAPi = new SDEApi();
-            // $response   = $this->SDEApi->Request('post','Customers',$data);
             $response   = $SDEAPi->Request('post','Customers',$data);
-            
-            // Carbon::createFromFormat('Y-m-d',  '19/02/2019')->format('d-m-Y'); 
+
             if(!empty($response)){
-                if(!empty($response['customers'])){
-                    // $request->session()->put('vmi_nextonsitedate',$response['customers'][0]['vmi_nextonsitedate']);            
-                    // $request->session()->put('vmi_physicalcountdate',$response['customers'][0]['vmi_physicalcountdate']);            
+                if(!empty($response['customers'])){           
                     $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$response['customers'][0]['vmi_nextonsitedate'])->format('d-m-Y'));            
                     $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $response['customers'][0]['vmi_physicalcountdate'])->format('d-m-Y'));            
                 }
             } 
         }
+        
         $request->session()->put('customers',$customer);
         $request->session()->put('customer_no',$customer[0]['customerno']);
         

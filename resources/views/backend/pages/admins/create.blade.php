@@ -25,23 +25,36 @@ Admin Create - Admin Panel
                     <div class="card">
                         <div class="card-body">
                             @include('backend.layouts.partials.messages')                    
-                            <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST">
+                            <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="name">{{ config('constants.label.admin.user_name') }}</label>
+                                        @if(old('name'))
+                                        <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @else {{ old('name') }} @endif" autocomplete="off">
+                                        @else
                                         <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @endif" autocomplete="off">
+                                        @endif
                                     </div>
+
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="email">{{ config('constants.label.admin.user_email') }}</label>
+                                        @if(old('email'))
+                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off">
+                                        @else
                                         <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                        @endif
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="password">{{ config('constants.label.admin.password') }}</label>
-                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password">
+                                        @if(old('password'))
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}">
+                                        @else
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="">
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <a  href="javascript:void(0)" class="btn random-password btn-form-control bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
@@ -63,13 +76,29 @@ Admin Create - Admin Panel
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6">
                                         <label for="username">{{ config('constants.label.admin.user_account_name') }}</label>
-                                        <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                        @if(old('username'))
+                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('username')}} @endif" autocomplete="off">
+                                        @else 
+                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-sm-12 custom-checkbox">
                                         <input type="checkbox" class="custom-control-input box-shadow-none" name="send_password" value="1" id="send-password" />
                                         <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
+                                    </div>
+                                </div>
+
+                                <h6>Profile Picture</h6><br>
+
+                                <div class="form-row">
+                                    <div class="d-flex align-items-center justify-content-center" style="position: relative">
+                                        <div class="image-upload position-relative">
+                                            <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                                            <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button_admin" class="position-absolute">
+                                            <input id="file-input-admin" name="profile_picture1" type="file" accept=".jpg, .jpeg, .png"/>
+                                        </div>  
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create') }}</button>

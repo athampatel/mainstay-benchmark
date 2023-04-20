@@ -1,16 +1,26 @@
 let pagecount = parseInt($("#invoice-orders-page-filter-count option:selected").val());
-//open orders table filter
+
 $(document).on('change','#invoice-orders-page-filter-count',function(){
     let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
-    getInvoiceOrderAjax(0,val)
+    let selected_year = $('#invoice_year_select').val();
+    let started_date = selected_year +'-01-01';
+    let ended_date = selected_year + '-12-31';
+    getInvoiceOrderAjax(0,val,started_date,ended_date)
 })
+let selected_year = $('#invoice_year_select').val();
+let started_date = selected_year +'-01-01';
+let ended_date = selected_year + '-12-31';
 
-getInvoiceOrderAjax(0,pagecount)
+getInvoiceOrderAjax(0,pagecount,started_date,ended_date)
+
 $(document).on('click','.pagination_link',function(e){
     e.preventDefault();
     $page = $(this).data('val');
     $val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
-    getInvoiceOrderAjax($page,$val)
+    let selected_year = $('#invoice_year_select').val();
+    let started_date = selected_year +'-01-01';
+    let ended_date = selected_year + '-12-31';
+    getInvoiceOrderAjax($page,$val,started_date,ended_date)
 })
 $('#invoice-orders-page-search').keyup(function(){
     open_order_page_table.search($(this).val()).draw();
@@ -18,13 +28,13 @@ $('#invoice-orders-page-search').keyup(function(){
 
 let open_order_page_table;
 
-function getInvoiceOrderAjax($page,$count){
+function getInvoiceOrderAjax($page,$count,start_date,end_date){
     $.ajax({
         type: 'GET',
         url: '/getInvoiceOrders',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count},
+        data: { "page" : $page,'count': $count,'start_date':start_date,'end_date':end_date},
         beforeSend:function(){
             beforeChangeOrderAjax();
         },
@@ -47,7 +57,6 @@ function getInvoiceOrderAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
-                // responsive: true
             });
         },
         complete:function(){
@@ -55,7 +64,6 @@ function getInvoiceOrderAjax($page,$count){
         }
     });
 }
-
 
 // export details options
 $(document).on('click','#invoice-orders-report-page-icon',function(e){
@@ -85,10 +93,7 @@ function afterChangeOrderAjax(){
 
 $(document).on('click','#invoice-order-export',function(e){
     e.preventDefault();
-    // $('#export-invoice-page-drop').toggleClass('d-none');
-    /* test work start */
     window.location = '/analysis/2022'
-    /* test work end */
 })
 
 $(document).on('click','.export-invoice-page-item',function(e){
@@ -125,3 +130,12 @@ function downloadExportAjax(type){
         }
     });  
 }
+
+$(document).on('change','#invoice_year_select',function(e) {
+    e.preventDefault();
+    let year = $(e.currentTarget).val();
+    let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
+    let started_date = year +'-01-01';
+    let ended_date = year + '-12-31';
+    getInvoiceOrderAjax(0,val,started_date,ended_date)
+})

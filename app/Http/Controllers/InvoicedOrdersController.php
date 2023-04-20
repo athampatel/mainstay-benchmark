@@ -97,7 +97,6 @@ class InvoicedOrdersController extends Controller
         $path =  storage_path('server-data'); 
         $current_time = time();
         foreach($_files as $key => $filename){
-           // print_r($filename);
             if(strpos($filename,'SalesOrderHistoryHeader') !== false){     
                 if(file_exists($path.'/'.$filename)) {         
                   $time = filectime($path.'/'.$filename);                
@@ -113,7 +112,6 @@ class InvoicedOrdersController extends Controller
                             }
                             foreach($salesorderhistoryheader as $_order){
                                 $customerno     = $_order['customerno'];
-                                //$UserDetails    = UserDetails::where('customerno',$customerno)->get()->first();
                                 $UserDetails = User::leftjoin('user_details','users.id','=','user_details.user_id')
                                                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')

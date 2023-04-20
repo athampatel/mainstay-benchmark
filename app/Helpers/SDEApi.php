@@ -124,8 +124,6 @@ class SDEApi
         } else {
           $response = $request->post($this->end_point,$post_data);
         }
-
-        // dd($response);
         $response_code = $response->getStatusCode();
         self::responseErrorCheck($response,$data,$resource);
         if($resource == 'Products' && $response_code == 500){

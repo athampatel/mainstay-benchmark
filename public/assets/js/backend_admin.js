@@ -902,11 +902,15 @@ $(document).on('click','#file_input_button_admin',function(){
 
 $(document).on('change','#file-input-admin',function(e){
     $image = $('#file-input-admin').prop('files')[0];
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        $('.profile_img_disp_admin').attr('src', e.target.result);
+    // var reader = new FileReader();
+
+    // reader.onload = function (e) {
+    //     $('.profile_img_disp_admin').attr('src', e.target.result);
+    // }
+    // reader.readAsDataURL($image);
+    if ($image) {
+        $('.profile_img_disp_admin').attr('src',URL.createObjectURL($image));
     }
-    reader.readAsDataURL($image);
 });
 
 

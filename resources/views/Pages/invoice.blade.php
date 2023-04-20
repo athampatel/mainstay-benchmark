@@ -15,6 +15,20 @@
 @section('content')
 <div class="home-content">
     <span class="page_title">Invoiced Orders</span>
+    <div style="display: inline-block;">
+        <label for="" class="position-relative" id="analysis_year_select_label">
+            <span class="year_filter">By Year</span>
+            @php
+            $year = intval(date('Y'));
+            @endphp
+            <select name="type" id="invoice_year_select" class="rounded analysis_select">
+                @for($i = $year ; $i >= 2018; $i-- )
+                    <option value="{{$i}}" {{$i == $year ? 'selected' : ''}}>{{$i}}</option>
+                @endfor
+            </select>
+            <div class="down-arrow"></div>
+        </label>
+    </div>
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-12">

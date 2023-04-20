@@ -32,7 +32,8 @@ Admin Edit - Admin Panel
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-6">
-                                        <label for="username">{{ config('constants.label.admin.admin_username') }}</label>
+                                        {{-- <label for="username">{{ config('constants.label.admin.admin_username') }}</label> --}}
+                                        <label for="username">{{ config('constants.label.admin.user_name') }}</label>
                                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
                                         <input type="hidden" name="username" value="{{ $admin->username }}">
                                     </div>
@@ -63,7 +64,8 @@ Admin Edit - Admin Panel
                                     </div>
 
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="name">{{ config('constants.label.admin.admin_name') }}</label>
+                                        {{-- <label for="name">{{ config('constants.label.admin.admin_name') }}</label> --}}
+                                        <label for="name">{{ config('constants.label.admin.user_account_name') }}</label>
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
                                     </div>
                                 </div>
