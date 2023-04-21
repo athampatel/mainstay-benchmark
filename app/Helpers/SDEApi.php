@@ -119,6 +119,9 @@ class SDEApi
         self::responseErrorCheck($response,$data,$resource);
         if($resource == 'Products' && $response_code == 500){
           return [];
+        }
+        if($resource == 'SalesOrderHistoryHeader' && $response_code == 500){
+          return [];
         } 
         return $response->json();
       }
@@ -138,7 +141,7 @@ class SDEApi
         } else {
           $error_message = $error_message['message'];
         }
-        
+        return ;
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),
@@ -158,6 +161,7 @@ class SDEApi
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = env('ADMIN_EMAILS');
         $is_local = env('APP_ENV') == 'local' ? true : false;
+        return;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
