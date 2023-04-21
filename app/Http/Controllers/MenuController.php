@@ -671,14 +671,14 @@ class MenuController extends Controller
         $filter_end_date = $filter_dates['end'];
         $date_filter = [
             [
-                "column" => "invoicedate",
-                "type" => "greaterthan",
+                "column" => "invoiceDate",
+                "type" => ">=",
                 "value" => $filter_start_date,
                 "operator" => "and"
             ],
             [
-                "column" => "invoicedate",
-                "type" => "lessthan",
+                "column" => "invoiceDate",
+                "type" => "=<",
                 "value" => $filter_end_date,
                 "operator" => "and"
             ]
@@ -700,13 +700,16 @@ class MenuController extends Controller
                         "operator" => "and"
                     ],
                 ],
+                "index" => "KSDEDESCENDING",
                 "offset" => $offset,
                 "limit" => $limit,
             );
             $data['filter'] = array_merge($date_filter,$data['filter']);
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
-            $response_table_data = $response_table['salesorderhistoryheader'];
+            if(!empty($response_table)){
+                $response_table_data = $response_table['salesorderhistoryheader'];
+            }
         }
         $table_code = View::make("components.datatabels.analysis-page-component")
         ->with("analysisdata", $response_table_data)
