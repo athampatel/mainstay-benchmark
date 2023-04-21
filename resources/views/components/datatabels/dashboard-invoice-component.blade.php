@@ -18,7 +18,7 @@
                         @php
                         $price = 0;  
                         $total = 0;
-                        $date = DateTime::createFromFormat('Y-m-d',$invoice['orderdate']);
+                        $date = DateTime::createFromFormat('Y-m-d',$invoice['invoicedate']);
                         foreach($invoice['details'] as $item){
                             $price += $item['quantityshipped'] *  $item['unitprice'];
                             $total += $item['quantityshipped'];
