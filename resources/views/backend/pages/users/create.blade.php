@@ -18,14 +18,11 @@ User Create - Admin Panel
 
 @section('admin-content')
 
-
-
 <div class="home-content">
     <span class="page_title">Create Customer</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
@@ -55,12 +52,10 @@ User Create - Admin Panel
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_no">Customer No</label> --}}
                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
                                         <input type="text" class="form-control required" id="user_no" name="customerno" placeholder="Enter {{ config('constants.label.admin.customer_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_email">Customer Email</label> --}}
                                         <label for="user_email">{{ config('constants.label.admin.user_email') }}</label>
                                         <input type="email" class="form-control required" id="user_email" name="email" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
                                     </div>
@@ -68,13 +63,10 @@ User Create - Admin Panel
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_name">Customer Name</label> --}}
                                         <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
                                         <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter {{ config('constants.label.admin.customer_name') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="ardivision_no">ardivisionno</label> --}}
-                                        {{-- <label for="ardivision_no">AR Division No</label> --}}
                                         <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
                                         <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
                                     </div>
@@ -83,24 +75,20 @@ User Create - Admin Panel
                                 <h6 class="text-secondary">Address</h6><br>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="address_line_1">Address Line 1</label> --}}
                                         <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
                                         <input type="text" name="addressline1" class="form-control" id="address_line_1" placeholder="Enter {{ config('constants.label.admin.address_line_1') }} ">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="address_line_2">Address Line 2</label> --}}
                                         <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
                                         <input type="text" name="addressline2" class="form-control" id="address_line_2" placeholder="Enter {{ config('constants.label.admin.address_line_2') }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="address_line_3">Address Line 3</label> --}}
                                         <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
                                         <input type="text" name="addressline3" class="form-control" id="address_line_3" placeholder="Enter {{ config('constants.label.admin.address_line_3') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_city">City</label> --}}
                                         <label for="user_city">{{ config('constants.label.admin.city') }}</label>
                                         <input type="text" name="city" class="form-control" id="user_city" placeholder="Enter {{ config('constants.label.admin.city') }}">
                                     </div>
@@ -108,12 +96,10 @@ User Create - Admin Panel
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_state">State</label> --}}
                                         <label for="user_state">{{ config('constants.label.admin.state') }}</label>
                                         <input type="text" name="state" class="form-control" id="user_state" placeholder="Enter {{ config('constants.label.admin.state') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="user_zipcode">Zipcode</label> --}}
                                         <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
                                         <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter {{ config('constants.label.admin.zipcode') }}">
                                     </div>
@@ -121,24 +107,20 @@ User Create - Admin Panel
                                 <h6 class="text-secondary">Sales person</h6><br>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="sales_person_divison_no">Division No </label> --}}
                                         <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }}</label>
                                         <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter {{ config('constants.label.admin.division_no') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="sales_person_no">Benchmark Relational Manager Number</label> --}}
                                         <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
                                         <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Sales Person Number">
                                     </div>
                                 </div>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="sales_person_name">Benchmark Relational Manager Name</label> --}}
                                         <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
                                         <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        {{-- <label for="sales_person_email">Benchmark Relational Manager Email</label> --}}
                                         <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
                                         <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
                                     </div>
@@ -148,12 +130,10 @@ User Create - Admin Panel
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-sm-12 custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" name="send_password" value="1" id="send-password" />
-                                        {{-- <label class="custom-control-label px-3" for="send-password">Send Login Credentials</label> --}}
                                         <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
                                     </div>
                                 </div>
-                                {{-- <button type="submit" class="btn btn-rounded btn-primary mt-4 pr-4 pl-4">Create Customer</button> --}}
-                                <button type="submit" class="btn btn-rounded bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                <button type="submit" id="customer_submit" class="btn btn-rounded bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create_customer') }}</button>
                             </form>
                         </div>                    
                     </div>
@@ -175,6 +155,14 @@ User Create - Admin Panel
         }    
         return false;
     }
+
+    // customer submit start
+    $(document).on('click','#customer_submit',function(){
+        $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
+        $('#create-customer').submit();
+    });
+   
+    // customer submit end
     $(document).ready(function() {
         $('.select2').select2();
         var customer_email = $('#search-customer-no').val();
@@ -192,29 +180,13 @@ User Create - Admin Panel
                 $(this).removeClass('error-field');
             }
         });
-        
-        /*$(document.body).on('click','a.do_customer',function(e){
-            $('a.do_customer').each(function(){
-                $(this).removeClass('active');
-            });
-            var parseData = $(this).data('json');
-          
-            $(this).addClass('active');
-            $('.userDetails-container').fadeIn();
-            rendorUserForm(parseData,0);
-
-        });*/
-
-
-       
-
+    
         $(document.body).on('submit','#multiple-data',function(e){  
             e.preventDefault();
             var form = $(this);       
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
-                //dataType: "JSON",
                 data: form.serialize(),
                 beforeSend:function(){
                     $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
@@ -243,7 +215,6 @@ User Create - Admin Panel
 
         $(document.body).on('change','input.insert-customer',function(e){
             var parseData = $(this).parent().data('json');
-            //console.log(parseData,'__parseData'); 
             var _html = $('#create-customer').html();           
             var customerno  = parseData.customerno;
             if($(this).is(':checked')){
@@ -278,13 +249,6 @@ User Create - Admin Panel
                 $(this).parent().parent().find('.user_information').slideUp(function(){
                         $('#'+customerno+'.user_information').remove();
                 });
-
-               // $('#multiple-data .dynamic-values').find('#'+customerno).remove();  
-                /*if($(document.body).find('input.insert-customer:checked').length > 0){
-                    var checked = $(document.body).find('input.insert-customer:checked').parent();
-                    var parseData = checked.data('json');                    
-                    rendorUserForm(parseData,0);
-                }*/
             }
             if($(document.body).find('input.insert-customer:checked').length > 1){
                 $('#create-customer .btn-primary').hide();
@@ -302,7 +266,6 @@ User Create - Admin Panel
        
 
         $(document.body).on('submit','#create-customer',function(e){
-            //e.preventDefault();
             if($(document.body).find('input.insert-customer:checked').length > 1){
                 return false;
             }
@@ -334,7 +297,6 @@ User Create - Admin Panel
         console.log(constants,'__constants');
         $search_text = $('#search-customer-no').val();
         if($search_text == ''){
-            // $('#customer_response_alert').addClass('alert-danger').removeClass('alert-success').removeClass('d-none').html('Search Customer With Customer Number/Email Field Is Required');     
             $('#customer_response_alert').addClass('alert-danger').addClass('text-white').addClass('bm-alert-danger').removeClass('alert-success').removeClass('bm-btn-primary').removeClass('d-none').html(constants.validation.admin.search_customer_number_email);     
             return false;
         }

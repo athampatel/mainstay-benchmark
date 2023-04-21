@@ -1,4 +1,3 @@
-{{-- new code  --}}
 <div class="search-bar flex-grow-1">
     <div class="position-relative search-bar-box col-12"> 
         <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true" autocomplete="off"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
@@ -8,7 +7,6 @@
 <nav>
     <div class="sidebar-button">
         <a class="menu-icon toggle-icon hamburger" href="javascript:void(0)"><span></span></a>
-        {{-- <div class="search-box"> --}}
         <div class="nav-item mobile-search-icon">
             <a href="javascript:void(0)" class="search-icons">
             <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
@@ -22,7 +20,6 @@
                 </g>
             </svg>
             </a>
-            {{-- <input type="text" placeholder="Search..."> --}}
         </div>
     </div>
     <div class="notification_section">
@@ -61,7 +58,6 @@
             </div>
 
             <div class="notification_count_section dropdown dropdown-large position-relative active">
-                {{-- <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> --}}
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative navbar_notification_icon" href="#" role="button" aria-expanded="false">
                     <div class="notification_icon" data-toggle="tooltip" data-placement="bottom" title="Notifications">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
@@ -81,119 +77,6 @@
                     </div>                
                     <div class="notification_count d-none">2</div>
                 </a>
-
-            {{-- <div class="dropdown-menu dropdown-menu-end">
-                <a href="javascript:;">
-                    <div class="msg-header">
-                        <p class="msg-header-title">Notifications</p>
-                        <p class="msg-header-clear ms-auto">Marks all as read</p>
-                    </div>
-                </a>
-                <div class="header-notifications-list">
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">New Customers<span class="msg-time float-end">14 Sec
-                            ago</span></h6>
-                                <p class="msg-info">5 new user registered</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
-                            ago</span></h6>
-                                <p class="msg-info">You have recived new orders</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-success text-success"><i class="bx bx-file"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">24 PDF File<span class="msg-time float-end">19 min
-                            ago</span></h6>
-                                <p class="msg-info">The pdf files generated</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-warning text-warning"><i class="bx bx-send"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">Time Response <span class="msg-time float-end">28 min
-                            ago</span></h6>
-                                <p class="msg-info">5.1 min avarage time response</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-info text-info"><i class="bx bx-home-circle"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">New Product Approved <span
-                            class="msg-time float-end">2 hrs ago</span></h6>
-                                <p class="msg-info">Your new product has approved</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-danger text-danger"><i class="bx bx-message-detail"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">New Comments <span class="msg-time float-end">4 hrs
-                            ago</span></h6>
-                                <p class="msg-info">New customer comments recived</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
-                            ago</span></h6>
-                                <p class="msg-info">Successfully shipped your item</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-primary text-primary"><i class='bx bx-user-pin'></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
-                            ago</span></h6>
-                                <p class="msg-info">24 new authors joined last week</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="dropdown-item" href="javascript:;">
-                        <div class="d-flex align-items-center">
-                            <div class="notify bg-light-warning text-warning"><i class='bx bx-door-open'></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="msg-name">Defense Alerts <span class="msg-time float-end">2 weeks
-                            ago</span></h6>
-                                <p class="msg-info">45% less alerts last 4 weeks</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <a href="javascript:;">
-                    <div class="text-center msg-footer">View All Notifications</div>
-                </a>
-            </div> --}}
             </div>
         </div>
         <div class="profile-details" id="admin-nav-profile-detail">
@@ -206,10 +89,8 @@
             </div>
             <div>
                 <div class="profile_position">Admin</div>
-                {{-- <div class="profile_name">John Deo</div> --}}
                 <div class="profile_name" id="nav-bar-profile-name">{{ Auth::guard('admin')->user()->name }}</div>
             </div>
         </div>
     </div>
 </nav>
-<!-- header area end -->

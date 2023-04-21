@@ -11,11 +11,6 @@ VMI Inventory - Admin Panel
 </div>
 
 <div class="home-content">
-    {{-- <div class="row">
-        <div class="col-12"> --}}
-            {{-- <span class="page_title">Inventory Item Lists</span> --}}
-        {{-- </div>
-    </div> --}}
     <div class="padding-y-40 open-orders">
         <div class="row">
             <div class="col-sm-12 mt-2">
@@ -32,8 +27,6 @@ VMI Inventory - Admin Panel
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="card-body d-flex justify-content-between"> --}}
-                    {{-- </div> --}}
                 </div>
             </div>
         </div>
@@ -90,12 +83,8 @@ VMI Inventory - Admin Panel
                             <div class="chart-loader1"></div>
                         </div>
                         <div class="table-responsive" id="vmi_inventory_table_disp"></div>
-                        {{-- <div class="col-12 pb-2 position-absolute bottom-0">
-                            <div id="pagination_disp"></div>
-                        </div> --}}
                     </div>
                 </div>
-                {{-- change to this place --}}
                 <div class="col-12 pb-2 card box mb-0 mt-0 border-top-radius-0 box-shadow-none">
                     <div id="pagination_disp"></div>
                 </div>

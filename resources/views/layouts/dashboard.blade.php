@@ -38,7 +38,6 @@
 			@if (Cookie::get('customer_welcome'))
                 <div class="wm_card customer">
                     <div class="wm_icon">
-                        {{-- <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/> --}}
 						@if(Auth::user()->profile_image)
 							<img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
 						@else 
@@ -52,7 +51,7 @@
                 </div>
             @endif
 			{{-- Footer --}}
-			{{-- <div id="bottom_notification_disp"></div>   --}}
+			<div id="bottom_notification_disp"></div>  
 			@include('layouts.footer-bar')
 		</section>
 	</div>	
@@ -73,12 +72,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js" integrity="sha512-/bOVV1DV1AQXcypckRwsR9ThoCj7FqTV2/0Bm79bL3YSyLkVideFLE3MIZkq1u5t28ke1c0n31WYCOrO01dsUg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="/assets/js/app.js"></script>
 	<script src="/assets/js/menu.js"></script>
-	{{-- <script src="/assets/js/testCharts.js"></script> --}}
-	{{-- <script src="/assets/js/customer-charts.js"></script>
-	<script src="/assets/js/common-functions.js"></script>
-	<script src="/assets/js/notification.js"></script> --}}
-	{{-- iconic icons --}}
-	{{-- test purpose only --}}
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	@yield('scripts')

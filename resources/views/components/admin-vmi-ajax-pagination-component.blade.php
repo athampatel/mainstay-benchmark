@@ -1,7 +1,3 @@
-{{-- <div>
-    <!-- Simplicity is the essence of happiness. - Cedric Bledsoe -->
-</div> --}}
-
 <div class="d-flex align-items-center justify-content-between">
     @if(!empty($pagination))
     <div class="pagination_text">{{$pagination['from']}}-{{$pagination['to']}} of {{$pagination['total']}} items</div>

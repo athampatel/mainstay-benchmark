@@ -8,12 +8,6 @@ use App\Helpers\SDEApi;
 
 class SaleByProductLineController extends Controller
 {
-
-    // public function __construct(SDEApi $SDEApi)
-    // {
-    //     $this->SDEApi = $SDEApi;
-    // }
-
     /**
      * Display a listing of the resource.
      *
@@ -100,7 +94,6 @@ class SaleByProductLineController extends Controller
 
         if($year == '')
             $year = date('Y');
-            // $year = '2022';
         $saledetails    = array(); 
         $saledetailDesc = array();
         $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get()->toArray();
@@ -122,13 +115,9 @@ class SaleByProductLineController extends Controller
                         $ProductLine = $line_data['productline'];
                     elseif(isset($line_data['ProductLine']))
                         $ProductLine = $line_data['ProductLine'];
-                    // product line description
                     if(isset($line_data['productlinedesc']))
-                        // $ProductLineDesc = $line_data['productlinedesc'];
                         $ProductLineDesc =  str_replace(',', ' ', $line_data['ProductLineDesc']);
                     elseif(isset($line_data['ProductLineDesc']))
-                        //  str_replace(',', ' ', $string);
-                        // $ProductLineDesc =  $line_data['ProductLineDesc'];
                         $ProductLineDesc =  str_replace(',', ' ', $line_data['ProductLineDesc']);
                     for($i = 1;$i<=12;$i++){                        
                         if(isset($line_data['DollarsSoldPeriod'.$i]) && $line_data['DollarsSoldPeriod'.$i] > 0){
@@ -167,10 +156,7 @@ class SaleByProductLineController extends Controller
                 $saledetails[$ProductLine][$year][$month] = $line_data['value'];    
                 $saledetailDesc[$ProductLineDesc][$year][$month] = $line_data['value'];    
             }
-        }   
-
-       
-        // return $saledetails;
+        }          
         return ['sales_details' => $saledetails,'sales_desc_details' => $saledetailDesc ];
     }
 

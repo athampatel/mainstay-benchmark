@@ -9,7 +9,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="content-area col-md-12 mx-auto font-18 text-white">                                                                       
-                            <!-- .entry-header -->
                             <div class="entry-content">
                                 <p>Below are our Terms of Service, which outline a lot of legal goodies, but the bottom line is it’s our aim to always take care of both you, as a customer, or as a seller on our platform. We’ve included many of these terms to legally protect ourselves, but if you have an issue, always feel free to email us at themes@getbootstrap.com and we’ll do our best to resolve it in a fair and timely fashion.</p>
                                 <ol>
@@ -82,10 +81,6 @@
                     </div>
                 </div>  
             </div>
-           <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-dark">Save changes</button>
-            </div> --->
         </div>
     </div>
 </div>

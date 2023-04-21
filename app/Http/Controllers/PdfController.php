@@ -58,13 +58,12 @@ class PdfController extends Controller
         $canvas->page_script(function($pageNumber, $pageCount, $canvas, $fontMetrics){
             $pageWidth = $canvas->get_width();
             $pageHeight = $canvas->get_height();
-            $image_height = 200;  // image width typo
-            $image_width = 35; // image height typo
-            $px = ($pageWidth - $image_height) / 2;
-            $py = ($pageHeight - $image_width) / 2;
+            $image_width = 200;
+            $image_height = 35;
+            $px = ($pageWidth - $image_width) / 2;
+            $py = ($pageHeight - $image_height) / 2;
             $canvas->set_opacity(.175);
-            // $canvas->image("assets/images/wartermark.png", $px, $py, $image_height, $image_width);
-            $canvas->image("assets/images/black-logo.png", $px, $py, $image_height, $image_width);
+            $canvas->image("assets/images/black-logo.png", $px, $py, $image_width, $image_height);
         });
 
         return $dompdf->stream($name);

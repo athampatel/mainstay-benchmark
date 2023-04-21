@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\SalesPersons;
 use App\Models\UserSalesPersons;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -20,7 +19,6 @@ class UserController extends Controller
                             'email'             => $data['emailaddress'],
                             'password'          => Hash::make('sde@123'),
                             'activation_token'  => '',
-                            // 'activation_token' => Str::random(30),
         );
         $user = User::where('email',$data['emailaddress'])->first();
         if(!$user){
@@ -32,7 +30,6 @@ class UserController extends Controller
             $user->save();
         }
         if($user){
-            // if(array_key_exists('vmi_companycode', $data) || (array_key_exists('is_vmi', $data) && $data['is_vmi'] == 1 )){
             if($data['vmi_companycode'] != ""){
                 $user->is_vmi = 1;
                 $user->save();

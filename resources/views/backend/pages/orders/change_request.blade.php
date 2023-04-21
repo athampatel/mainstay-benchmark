@@ -12,7 +12,6 @@ User Create - Admin Panel
     .form-check-label {
         text-transform: capitalize;
     }
-    /* admin table design */
     .admin-table .table{
         color: #fff;
     }
@@ -42,12 +41,9 @@ User Create - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
-                
                     @include('backend.layouts.partials.messages')            
-                    {{-- <form action="{{ route('admin.users.store') }}" method="POST">                         --}}
                         @csrf
                         <input type="hidden" name="change_id" id="change_id" value="{{$change_id}}">
                         <div class="alert alert-success text-center d-none" id="order-change-status-display"></div>
@@ -148,8 +144,6 @@ User Create - Admin Panel
                                                 </div> 
                                             </div>
                                         </div>
-                                        {{-- Actions Buttons --}}
-
                                         <div class="mb-3">
                                             <div class="card-body px-0" id="change-order-request-buttons">
                                             @if($change_request['request_status'] == 2)
@@ -167,13 +161,7 @@ User Create - Admin Panel
                                 </div>
                             </div>
                         </div>
-                                
-                            
-                    {{-- </form>  --}}
-                        
                 </div>
-                <!-- data table end -->
-                
             </div>
         </div>
     </div>
@@ -213,13 +201,8 @@ User Create - Admin Panel
         if(res.success){
             if(res.data.status == 1){
                 let action_buttons = `<button class="btn btn-success btn-rounded pr-4 pl-4" id="sync_request">Sent to SAGE</button>`
-                // $('#order-change-status-display').removeClass('d-none');
-                // $('#order-change-status-display').addClass('alert-success').removeClass('alert-danger').text('Order Requested Approved Successfully');
                 $('#change-order-request-buttons').addClass('d-none')
                 $('#change-order-request-buttons').html(action_buttons);
-                // setTimeout(() => {
-                //     $('#order-change-status-display').addClass('d-none');
-                // }, 2000);
                 setTimeout(() => {
                     $('#change-order-request-buttons').removeClass('d-none')
                 }, 2000);
@@ -232,12 +215,7 @@ User Create - Admin Panel
                 })
                 
             } else {
-                // $('#order-change-status-display').removeClass('d-none');
-                // $('#order-change-status-display').addClass('alert-danger').removeClass('alert-success').text('Order Requested Cancelled Successfully');
                 $('#change-order-request-buttons').addClass('d-none')
-                // setTimeout(() => {
-                //     $('#order-change-status-display').addClass('d-none');
-                // }, 2000);
                 Swal.fire({
                     position: 'center-center',
                     icon: 'success',

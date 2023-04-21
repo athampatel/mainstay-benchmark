@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\SaleOrders;
 use Illuminate\Http\Request;
-use App\Models\Products;
 use App\Models\OrderDetails;
-use App\Models\Users;
-use App\Models\UserDetails;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SaleOrdersController extends Controller
 {
@@ -129,22 +126,6 @@ class SaleOrdersController extends Controller
         return array('total' => $total_count,'orders' => $sale_order,'current_page' => $page);
     }
 
-    /*
-    
-    $results = DB::table('sale_orders')
-                ->select(DB::raw('SUM(order_details.unitprice) as total'), DB::raw('SUM(order_details.quantityshipped) as total_qty'), 'sale_orders.salesorderno', 'sale_orders.id', DB::raw('DATE_FORMAT(sale_orders.orderdate,"%b %d,%y") as date'), 'sale_orders.*')
-                ->leftJoin('order_details', 'sale_orders.id', '=', 'order_details.sale_orders_id')
-                ->leftJoin('user_details', 'sale_orders.user_details_id', '=', 'user_details.id')
-                ->leftJoin('users', 'user_details.user_id', '=', 'users.id')
-                ->where('order_details.quantityshipped', '>', 0)
-                ->where('order_details.unitprice', '>', 0)
-                ->where('users.active', 1)
-                ->where('user_details.customerno', 'GEMWI00')
-                ->groupBy('sale_orders.salesorderno')
-                ->orderBy('sale_orders.orderdate', 'desc')
-                ->get();
-    */
-
     public function getSaleByYear($customer_no = '',$args = null){
 
        if($customer_no == '')
@@ -163,7 +144,6 @@ class SaleOrdersController extends Controller
                              ->whereBetween('sale_orders.orderdate', [$from, $to])
                              ->select(   
                                 DB::raw('ROUND(sum(order_details.unitprice)) as total'), 
-                                //DB::raw('sale_orders.orderdate'), 
                                 DB::raw("DATE_FORMAT(sale_orders.orderdate,'%b') as month"),
                                 DB::raw("DATE_FORMAT(sale_orders.orderdate,'%m') as monthKey")
           
@@ -201,14 +181,11 @@ class SaleOrdersController extends Controller
                                 ->orderBy('product_lines.product_line', 'ASC');
        
         return $sale_order  =   $orders->get()->toArray();       
-
-       // return array('total' => $total_count,'orders' => $sale_order,'current_page' => $page);
     }
 
     public function getOrderDetails($customerNo = 0,$sale_order = 0){
         if(!$customerNo || $sale_order)
            return false;
-        dd($sale_order);
         $order     =    SaleOrders::leftjoin('invoiced_orders','sale_orders.id','invoiced_orders.sale_orders_id')
                                     ->leftjoin('user_details','sale_orders.user_details_id','user_details.id')                               
                                     ->leftjoin('users','user_details.user_id','users.id')                     

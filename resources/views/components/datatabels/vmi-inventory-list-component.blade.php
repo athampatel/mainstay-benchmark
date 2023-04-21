@@ -19,7 +19,6 @@
                 </td>
                 <td>
                     <a href="javascript:void(0)" class="customer-name">{{$product['itemcode']}}</a>
-                    {{-- <div>{{$product['itemcodedesc']}}</div>  --}}
                 </td>
                 <td>{{$product['itemcodedesc']}}</td>
                 <td>{{$product['vendorname']}}</td>

@@ -1,6 +1,5 @@
 var analysis_page_chart;
 var analysis_page_chart_desc;
-// table and chart toggle show
 let is_table = localStorage.getItem('is_table');
 let tab_input = document.getElementById('tab_input');
 if(is_table){
@@ -34,16 +33,6 @@ $(document).on('change','#tab_input',function(){
         $('#analysis_item_select_label').addClass('d-none');
     }
 });
-
-
-// tab change by url year
-// if(urlyear != ''){
-//     localStorage.setItem('is_table',1);
-//     $('#analysis_table_container').removeClass('d-none');
-//     $('#analysis_table_chart').addClass('d-none');
-//     $('#analysis_item_select_label').addClass('d-none');
-// }
-
 // ajax
 let analysis_page_table;
 let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
@@ -74,12 +63,10 @@ function getAnalysispageData($page,$count,range,year){
                 lengthChange: true,
                 pageLength:$count,
                 paging: true,
-                // ordering: false,
                 ordering: true,
                 info: false,
             });
 
-            // analysis chart 
             let months = [];
             let chart_count = [];
             let months_desc = [];
@@ -95,14 +82,10 @@ function getAnalysispageData($page,$count,range,year){
                 chart_count = $analaysis_count['counts'];
                 months_desc = $analaysis_count_desc['products'];
             }
-            console.log(months_desc,'__monthly desc');
-            // return false;
            renderAnalysisChart(chart_count,months,months_desc);
-        //    renderAnalysisDescChart(chart_count,months_desc);
         },
         complete:function(){
             AfterAjax()
-            // document.querySelector('#analysis-page-des-chart').style.display = 'none'; 
         }
     });
 }
@@ -219,6 +202,12 @@ function getAnalaysisDataCount(data,range,range_months){
 
 // datatable search
 $('#analysis-page-search').keyup(function(){
+    let search_word = $(this).val();
+    if(search_word != ''){
+        $('#pagination_disp').addClass('d-none');
+    } else {
+        $('#pagination_disp').removeClass('d-none');
+    }
     analysis_page_table.search($(this).val()).draw() ;
 })
 

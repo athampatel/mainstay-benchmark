@@ -20,7 +20,6 @@
 </head>
 
 <body>
-	<!-- wrapper -->
 	<div class="wrapper">
 		<div class="authentication-header"></div>
 		<div class="authentication-forgot d-flex align-items-center justify-content-center">
@@ -44,7 +43,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- end wrapper -->
 </body>
 
 </html>

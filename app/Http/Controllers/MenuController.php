@@ -161,7 +161,6 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['constants'] = config('constants');        
-        // $data['recent_orders'] = $recent_orders;
         $data['recent_orders'] = [];
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords;
@@ -178,7 +177,6 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $final_data['customer_menus'] = $response;
         $final_data['constants'] = config('constants');
-        // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $final_data['searchWords']   = $searchWords;
         return view('Pages.open-orders',$final_data);
@@ -356,29 +354,8 @@ class MenuController extends Controller
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $companycode = $user_details->vmi_companycode;
         if($user_details){
-            // $data = array(            
-            //     "filter" => [
-            //         [
-            //             "column" =>  "CustomerNo",
-            //             "type" =>  "equals",
-            //             "value" =>  $user_details->customerno,
-            //             "operator" =>  "and"
-            //         ],
-            //         [
-            //             "column" => "ARDivisionNo",
-            //             "type" => "equals",
-            //             "value" => $user_details->ardivisionno,
-            //             "operator" => "and"
-            //         ],
-            //     ],
-            //     "offset" => $offset,
-            //     "limit" => $limit,
-            // );
-
-            /* change the sorting sales order history header */
             $add_data = array(
                 "companyCode" => $companycode,
-                "index" => "KSDEDESCENDING",
             );
 
             $data = array(            
@@ -410,6 +387,7 @@ class MenuController extends Controller
                 ],
                 "offset" => $offset,
                 "limit" => $limit,
+                "index" => "KSDEDESCENDING",
             );
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
@@ -871,7 +849,6 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $final_data['customer_menus'] = $response;
         $final_data['constants'] = config('constants');
-        // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $final_data['searchWords']   = $searchWords;
         return view('Pages.change-order-request',$final_data);
@@ -898,7 +875,6 @@ class MenuController extends Controller
                                 ->where('request_status',0)
                                 ->offset($offset)->limit($limit)
                                 ->get()->toArray();
-        // generate table code
         $table_code = View::make("components.change-order-request-component")
             ->with("change_orders", $change_order_requests)
             ->render(); 
@@ -949,9 +925,7 @@ class MenuController extends Controller
         $year = $data['year'];
         $type = $data['type'];
         $customer_no    = $request->session()->get('customer_no');
-        $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        
-        // generate a data
+        $user_detail = UserDetails::where('customerno',$customer_no)->first();        
         $filter_dates = $this->getRangeDates($range,$year);
         $start_date = $filter_dates['start'];
         $end_date = $filter_dates['end'];
@@ -963,13 +937,9 @@ class MenuController extends Controller
         }
         
         $start_date = Carbon::parse($start_date)->addDay()->format('Y-m-d');
-        $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');
-        
-        // generate a unique requested id
+        $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');        
         $time_stamp = Carbon::now()->format('Ymd_his');
         $time_stamp = $time_stamp.'_'.$user_detail->id;
-
-        // create a analysis page request
         $analysisRequest = AnalaysisExportRequest::create([
             'customer_no' =>  $customer_no,
             'user_detail_id' => $user_detail->id,
@@ -1021,16 +991,12 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $final_data['customer_menus'] = $response;
         $final_data['constants'] = config('constants');
-        // search words
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $final_data['searchWords']   = $searchWords;
-
         $order_request = ChangeOrderRequest::where('order_no',$order_id)->where('request_status',0)->get()->first();
         $order_information = ChangeOrderItem::where('order_table_id',$order_request->id)->get();
         $final_data['order_request']   = $order_request;
         $final_data['order_information']   = $order_information;
-        // dd($order_request);
-        // dd($order_information);
         return view('Pages.change_order_info',$final_data);
     }
 
@@ -1039,14 +1005,13 @@ class MenuController extends Controller
         $data = $request->all();
         $order_no = $data['order_no'];
         $request_id = $data['request_id'];
-        // cancel work
         $change_order_request = ChangeOrderRequest::where('order_no',$order_no)->where('id',$request_id)->get()->first();
         if($change_order_request){
             $change_order_request->request_status = 2;
             $change_order_request->save();
-            $response = [ 'success' => true, 'message' => 'Change order request cancelled successfully'];
+            $response = [ 'success' => true, 'message' => config('constants.change_order_cancel.success')];
         } else {
-            $response = [ 'success' => false, 'message' => 'Unable to find the change order request'];
+            $response = [ 'success' => false, 'message' => config('constants.change_order_cancel.not_found')];
         }
         echo json_encode($response);
         die();

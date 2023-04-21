@@ -95,7 +95,6 @@ Customers - Admin Panel
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->phone_no}}</td>
                                             <td>{{$user->company_name}}</td>
-                                            {{-- <td>{!!$user->created_at->format('Y-m-d H:i:s')!!}</td> --}}
                                             <td>{!!$user->created_at->format('M d, Y')!!}</td>
                                             <td>
                                                 @if($user['user_id'] != null)

@@ -241,9 +241,15 @@
         'analysis_message' => [
             'message' => 'Your export request has been sent successfully.'
         ],
+
         'help_message' => [
             'message' => 'Your message has been sent successfully.'
         ],
+
+        'change_order_cancel' => [
+            'success' => 'Change order request cancelled successfully',
+            'not_found' => 'Unable to find the change order request'
+        ]
     ];
     // {{ config('constants.label.admin.role_name') }}
 ?>

@@ -5,7 +5,6 @@
 @endsection
 
 @section('auth-content')
-     <!-- login area start -->
      <div class="login-area">
         <div class="container">
             <div class="login-box">
@@ -49,9 +48,6 @@
                                     <label class="custom-control-label" for="customControlAutosizing">Remember Me</label>
                                 </div>
                             </div>
-                            {{-- <div class="col-6 text-right">
-                                <a href="#">Forgot Password?</a>
-                            </div> --}}
                         </div>
                         <div class="submit-btn-area">
                             <button id="form_submit" type="submit">Sign In <i class="ti-arrow-right"></i></button>
@@ -61,5 +57,4 @@
             </div>
         </div>
     </div>
-    <!-- login area end -->
 @endsection

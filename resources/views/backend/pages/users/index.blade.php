@@ -46,7 +46,6 @@ Customers - Admin Panel
                                             </a>
                                         </div>
                                         <div class="datatable-report admin position-relative">
-                                            {{-- <a href="/admin/exportAllCustomers"> --}}
                                             <a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
                                             </a>
@@ -118,7 +117,6 @@ Customers - Admin Panel
                                             <td>
                                                 <div class="status-btns">
                                                     @if( $user->active == 1)
-                                                        {{-- <span class="btn btn-success btn-rounded text-white" style="padding:5px;pointer-events:none;">Active</span>            --}}
                                                         <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
                                                     @elseif( $user->active == 0 && $user->is_deleted == 0)
                                                         <a href="{{env('APP_URL')}}admin/user/{{$user->id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
@@ -136,10 +134,6 @@ Customers - Admin Panel
                                                     onclick="event.preventDefault();deleteCustomer({{$user->id}})">
                                                         Delete
                                                     </a>
-                                                    {{-- <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
-                                                        Delete
-                                                    </a> --}}
                                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
                                                         @csrf
@@ -166,7 +160,6 @@ Customers - Admin Panel
     </div>    
 </div>
 
-{{-- customers print table --}}
 <table id="print_table" class="text-center datatable-dark backend_datatables">
     <thead class="text-capitalize">
         <tr>

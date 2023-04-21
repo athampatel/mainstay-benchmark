@@ -26,12 +26,6 @@ ini_set('max_execution_time', 300);
 
 class SDEDataController extends Controller
 {
-
-    // public function __construct(SDEApi $SDEApi)
-    // {
-    //     $this->SDEApi = $SDEApi;
-    // }
-
     public function getCustomerSalesHistory(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
@@ -72,9 +66,7 @@ class SDEDataController extends Controller
             ]
         );
 
-        // $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
         $SDEAPi = new SDEApi();
-        // $response_data   = $this->SDEApi->Request('post','CustomerSalesHistory',$data);
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
         $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
@@ -132,7 +124,6 @@ class SDEDataController extends Controller
                 "limit" => 5,
             );
             $SDEAPi = new SDEApi();
-            // $response_data   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
             $response_data   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
@@ -149,20 +140,6 @@ class SDEDataController extends Controller
         } else {
             $response_data['salesorderhistoryheader'] = json_decode($is_api_data->data,true);
         }
-        // foreach($response_data['salesorderhistoryheader'] as $key => $res){
-        //     $data1 = array(            
-        //         "filter" => [
-        //             [
-        //                 "column" => "SalesOrderNo",
-        //                 "type" => "equals",
-        //                 "value" => $res['salesorderno'],
-        //                 "operator" => "and"
-        //             ],
-        //         ]
-        //     );  
-        //     $response_data1   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
-        //     $response_data['salesorderhistoryheader'][$key]['salesorderhistorydetail'] = $response_data1['salesorderhistorydetail'];
-        // };
         $table_code = View::make("components.datatabels.dashboard-invoice-component")
         ->with("invoices", $response_data['salesorderhistoryheader'])
         ->render();
@@ -190,7 +167,6 @@ class SDEDataController extends Controller
             ],
         );
         $SDEAPi = new SDEApi();
-        //$sales_order_history_detail = $this->SDEApi->Request('post','SalesOrders',$data);
         $sales_order_history_detail = $SDEAPi->Request('post','SalesOrders',$data);
         $sales_order_detail = $sales_order_history_detail['salesorders'];
         if(!empty($sales_order_detail)){
@@ -228,7 +204,6 @@ class SDEDataController extends Controller
             ]
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','CustomerItemHistory',$data);
         $response   = $SDEAPi->Request('post','CustomerItemHistory',$data);
         echo \json_encode($response);
     }
@@ -258,187 +233,70 @@ class SDEDataController extends Controller
             ]
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
         $response   = $SDEAPi->Request('post','InvoiceHistoryHeader',$data);
         echo \json_encode($response);
     }
 
-    // Api responses checking
-
     public function getAliasItems(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','AliasItems',$data);
         $response   = $SDEAPi->Request('post','AliasItems',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
 
     public function getCustomers(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 20,
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','Customers',$data);
         $response   = $SDEAPi->Request('post','Customers',$data);
-        // echo \json_encode($response);
-        // dd($response);
-        // Customers
     }
 
     public function getInvoiceHistoryDetail(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','InvoiceHistoryDetail',$data);
         $response   = $SDEAPi->Request('post','InvoiceHistoryDetail',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
 
     public function getInvoiceHistoryHeader(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','InvoiceHistoryHeader',$data);
         $response   = $SDEAPi->Request('post','InvoiceHistoryHeader',$data);
-        // echo \json_encode($response);
-        // dd($response);
     }
     
     public function getItemWarehouses(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','ItemWarehouses',$data);
         $response   = $SDEAPi->Request('post','ItemWarehouses',$data);
     }
     
     public function getProducts(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and"
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','Products',$data);
         $response   = $SDEAPi->Request('post','Products',$data);
     }
     
     public function getSalesOrderHistoryDetail(){
         $data = array(            
-            // "filter" => [
-            //     [
-            //         "column" => "ARDivisionNo",
-            //         "type" => "equals",
-            //         "value" => "00",
-            //         "operator" => "and"
-            //     ],
-            //     [
-            //         "column" => "CustomerNo",
-            //         "type" => "equals",
-            //         "value" => "GEMWI00",
-            //         "operator" => "and" 
-            //     ],
-            // ]
             "offset" => 1,
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data);
         $response   = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data);
     }
     
@@ -448,7 +306,6 @@ class SDEDataController extends Controller
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
     }
 
@@ -458,7 +315,6 @@ class SDEDataController extends Controller
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('get','Salespersons',$data);
         $response   = $SDEAPi->Request('get','Salespersons',$data);
     }
     
@@ -468,7 +324,6 @@ class SDEDataController extends Controller
             "limit" => 5
         );
         $SDEAPi = new SDEApi();
-        // $response   = $this->SDEApi->Request('post','Vendors',$data);
         $response   = $SDEAPi->Request('post','Vendors',$data);
     }
 
@@ -488,18 +343,6 @@ class SDEDataController extends Controller
         $user = User::find($id);
     }
 
-    // public function profilePicUpload(Request $request){
-    //     $user_id = Auth::user()->id;
-    //     $user = User::find($user_id);
-    //     $file = $request->file('photo_1');
-    //     $image_name = 'test.'. $file->extension();
-    //     $file->move(public_path('images'), $image_name);
-    //     $path = 'images/'.$image_name;
-    //     if($user){
-    //         $user->profile_image = $path;
-    //         $user->save(); 
-    //     }
-    // }
     public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
@@ -519,11 +362,9 @@ class SDEDataController extends Controller
             die();
         } else {
             if($user){
-                // image upload
                 $file = $request->file('photo_1');
                 $path = "";
                 if($file){
-                    // file delete 
                     if(Auth::user()->profile_image){
                         $image_path =str_replace('/','\\',Auth::user()->profile_image);
                         if(File::exists(public_path().'\\'.$image_path)){
@@ -580,7 +421,6 @@ class SDEDataController extends Controller
             ],
         );
         $SDEAPi = new SDEApi();
-        // $sales_order_history_header = $this->SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         $sales_order_history_header = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
        if(empty($sales_order_history_header['salesorderhistoryheader'])){
             $response = ['success' => false, 'data' => [],'error' => ['No records found']];
@@ -594,12 +434,9 @@ class SDEDataController extends Controller
             "filter" => $filter
         );
         $SDEAPi = new SDEApi();
-        // $sales_order_history_detail = $this->SDEApi->Request('post','SalesOrderHistoryDetail',$data1);
         $sales_order_history_detail = $SDEAPi->Request('post','SalesOrderHistoryDetail',$data1);
         $sales_order_detail = $sales_order_history_detail['salesorderhistorydetail'];
-
         $sales_order_header['sales_order_history_detail'] = $sales_order_detail;
-
         $user = User::find(Auth::user()->id);
         $response = ['success' => true, 'data' => [ 'data' => $sales_order_header,'user' => $user ],'error' => []];
         echo json_encode($response);
@@ -662,18 +499,11 @@ class SDEDataController extends Controller
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
                 $admin_emails = env('ADMIN_EMAILS');
-                
-                // if($admin_emails != ''){                   
-                //     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
-                // }else{
-                //     Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
-                // }
                 $is_local = env('APP_ENV') == 'local' ? true : false;
                 if($is_local){
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                 } else {
-                //   $admin_emails = Admin::all()->pluck('email')->toArray();
-                  Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
+                    Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
                 }
                 
             $_notification = array( 'type'      => 'Change Order',

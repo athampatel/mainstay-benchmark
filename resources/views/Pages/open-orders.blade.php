@@ -41,18 +41,6 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            {{-- <div class="datatable-export">
-                                <div class="datatable-print">
-                                    <a href="">
-                                        <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="dashboard-open-orders-print-icon">
-                                    </a>
-                                </div>
-                                <div class="datatable-report">
-                                    <a href="">
-                                        <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-open-orders-report-icon">
-                                    </a>
-                                </div>
-                            </div> --}}
                             <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="open-order-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">

@@ -19,7 +19,6 @@
                     @php
                       $customer_session =  session('customers');
                     @endphp 
-                  {{-- @if($customer_session[0]->profile_image) --}}
                   @if($user->profile_image)
                     <img src="/{{$user->profile_image}}" class="rounded-circle regin_manager_profile"/>
                   @else
@@ -75,7 +74,6 @@
                   @if($region_manager->profile)
                       <img src="/{{$region_manager->profile}}" class="rounded-circle regin_manager_profile"/>
                   @else
-                      {{-- <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/> --}}
                       <img src="assets/images/svg/region_manager_info_icon.svg" />
                   @endif  
                 </div>  
@@ -109,7 +107,6 @@
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
                 <div class="box-details col-12 px-5">                 
-                {{-- <div class="date" id="open-orders-total-amount">$ {{number_format("0",2,".",",")}}</div> --}}
                 <div class="date" id="open-orders-total-amount">$ 0</div>
                 <a class="btn btn-primary btn-small btn-rounded font-12 dashboard-button" href="/open-orders">View Open Orders</a>
               </div>
@@ -158,7 +155,6 @@
                   <h4 class="mb-0 title-4">Open Orders</h4>
                 </div>
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
-                  {{-- <a class="btn btn-rounded btn-medium btn-bordered mr-2">EXPORT REPORT</a> --}}
                   <div class="position-relative">
                     <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-open-oders-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
                     <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-open-orders" id="export-open-orders-drop">
@@ -179,7 +175,6 @@
         </div>	
       </div>
 
-    <!---ROW 3-->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
     @if($saleby_productline)     
      <div class="col-sm-12 col-md-12 col-lg-5 no-right-pad">
@@ -200,7 +195,6 @@
                   <a class="dropdown-item export-total-spending-item" data-type="csv">CSV</a>
                 </div>
               </div>
-              {{-- <a class="btn btn-rounded btn-medium btn-primary" href="/open-orders">MORE DETAILS</a> --}}
             </div> 
           </div>
 					<div id="customer-spending-chart" class="col-12 p-2">
@@ -218,18 +212,6 @@
               <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
             </div>
             <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            
-              {{-- <div class="position-relative item-search">
-                <input type="text" class="datatable-search-input" placeholder="Search in All Columns" id="open-orders-chart-search" aria-controls="help-page-table">
-                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-chart-search-img">
-              </div> 
-              <div class="position-relative datatable-filter-div">
-                <select name="" class="datatable-filter-count" id="dashboard-open-orders-filter-count">
-                  <option value="5" selected>05 Items</option>
-                  <option value="10">10 Items</option>
-                  <option value="20">20 Items</option>
-                </select>
-                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-              </div> --}}
             </div>
           </div>
           <div class="card-body col-12 p-3">
@@ -240,33 +222,14 @@
                   <thead>
                       <tr>
                           <th class="border-0">ID</th>
-                        <!-- <th class="border-0">Customer name</th> -->
                           <th class="border-0">Customer email</th>
                           <th class="border-0">Total items</th>
                           <th class="border-0">Price</th>
                           <th class="border-0">Date</th>
                           <th class="border-0">Location</th>
-                          {{-- <th class="border-0">Status</th> 
-                          <th class="border-0">Action</th>--}}
                       </tr>
                       </thead>
-                      <tbody id="invoice-orders-table-body">
-                        
-                          {{-- @foreach ($recent_orders['orders'] as $invoice)                              
-                              <tr>
-                                  <td><a href="{{url('/invoice-detail')}}/{{$invoice['salesorderno']}}" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td>
-                                  <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td> 
-                                  <td>{{$invoice['total_qty']}}</td>
-                                  <td>${{number_format($invoice['total'],0,".",",")}}</td>
-                                  <td>{{$invoice['date']}}</td>
-                                  <td class="location">
-                                    <span class="svg-icon location-icon">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="8.542" height="11.46" viewBox="0 0 8.542 11.46"><path class="location-svg" d="M260.411,154a4.266,4.266,0,0,0-4.266,4.266c0,2.494,2.336,5.48,3.551,6.872a.952.952,0,0,0,1.428,0c1.217-1.385,3.563-4.37,3.563-6.872A4.266,4.266,0,0,0,260.411,154Zm0,6.7a2.439,2.439,0,1,1,1.724-.714A2.438,2.438,0,0,1,260.411,160.7Z" transform="translate(-256.145 -154)" fill="#9fcc47"/></svg>
-                                    </span> {{ucwords($invoice['shiptocity'])}}
-                                  </td>
-                              </tr>
-                          @endforeach --}}
-                      </tbody>
+                      <tbody id="invoice-orders-table-body"></tbody>
               </table>   
              @else
               <div class="chart-loader-div">
@@ -283,8 +246,7 @@
         </div>
      </div>	
     </div>
-
-    {{-- customer total spending in description --}}
+    
     <div id="customer-spending-desc-chart"></div>
     @if(Auth::user()->is_vmi == 1)
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
@@ -331,13 +293,6 @@
 <script type="text/javascript">
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;
-    // @if(!empty($sales_orders))     
-    //   var sales_orders = <?php echo json_encode($sales_orders); ?>;   
-    //   customerSalesChartDisplays(sales_orders,1);
-    // @endif
-    // @if(!empty($recent_orders['orders']))     
-    //   var recent_orders = <?php echo json_encode($recent_orders); ?>;       
-    // @endif
     @if($saleby_productline)     
        var sell_bycat = <?php echo json_encode($saleby_productline); ?>;
        var data_bycat = <?php echo json_encode($data_productline); ?>;            
