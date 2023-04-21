@@ -1,5 +1,4 @@
 let pagecount = parseInt($("#open-orders-page-filter-count option:selected").val());
-//open orders table filter
 $(document).on('change','#open-orders-page-filter-count',function(){
     let val = parseInt($("#open-orders-page-filter-count option:selected").val());
     getOpenOrderAjax(0,val)
@@ -15,6 +14,13 @@ $(document).on('click','.pagination_link',function(e){
 })
 
 $('#open-orders-page-search').keyup(function(){
+    let search_word = $(this).val();
+    if(search_word != ''){
+        $('#pagination_disp').addClass('d-none');
+    } else {
+        $('#pagination_disp').removeClass('d-none');
+    }
+    console.log(search_word,'___search word');
     open_order_page_table.search($(this).val()).draw();
 })
 

@@ -16,9 +16,7 @@ Customer Export Requests - Admin Panel
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
-                                    <p class="float-right mb-2">
-                                        {{-- <a class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-white" href="{{ route('admin.users.create') }}">{{ config('constants.label.admin.buttons.create_request') }}</a> --}}
-                                    </p>            
+                                    <p class="float-right mb-2"></p>            
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
@@ -88,7 +86,6 @@ Customer Export Requests - Admin Panel
                                     @foreach ($customer_export_count as $_request)
                                         <tr>
                                             <td> <a>{{ $_request['customer_no'] }}</a></td>
-                                            {{-- <td>{{ $_request['ardivisiono'] }}</td> --}}
                                             <td>{{ $_request['resource'] }}</td>                                                                
                                             <td>{{$_request['type'] == 1 ? 'CSV' : 'PDF'}}</td>
                                             <td>{{ \Carbon\Carbon::parse($_request['created_at'])->format('M d, Y') }}</td>

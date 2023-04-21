@@ -13,7 +13,6 @@ VMI Inventory - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
@@ -23,11 +22,9 @@ VMI Inventory - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
             </div>
         
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -76,13 +73,6 @@ VMI Inventory - Admin Panel
                                         <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemProductLine" id="itemProductLine" required autocomplete="off">
                                     </div>                            
                                 </div>
-                                {{-- <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
-                                    <label for="formFile" class="form-label col-12 col-md-4">Product Line Description</label>
-                                    <div class="col-12 col-md-8">
-                                        <input class="form-control col-12 disabled" type="text" placeholder="" value="" name="ItemProductLineDesc" id="itemProductLineDesc" required autocomplete="off">
-                                    </div>                            
-                                </div> --}}
-
                                 <div class="form-row col-12 d-flex justify-content-center align-items-center mb-2">
                                     <label for="formFile" class="form-label col-12 col-md-4">Primary Vendor No</label>
                                     <div class="col-12 col-md-8">
@@ -123,7 +113,6 @@ VMI Inventory - Admin Panel
                         </div>
                     </div>
                 </div>
-                <!-- data table end -->
             </div>
         </div>
     </div>

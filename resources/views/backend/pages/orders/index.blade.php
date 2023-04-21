@@ -16,9 +16,7 @@ Customer Change Order Requests - Admin Panel
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
-                                    <p class="float-right mb-2">
-                                        {{-- <a class="btn btn-primary btn-rounded text-capitalize bm-btn-primary text-white" href="{{ route('admin.users.create') }}">{{ config('constants.label.admin.buttons.create_request') }}</a> --}}
-                                    </p>            
+                                    <p class="float-right mb-2"></p>            
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
@@ -102,8 +100,6 @@ Customer Change Order Requests - Admin Panel
                                                     <span class="badge bm-btn-delete btn-rounded text-capitalize text-white ">Declined</span>
                                                 @elseif($_request['request_status'] == 1)
                                                     <span class="badge bm-btn-primary btn-success btn-rounded text-capitalize text-white">Approved</span>  
-                                                {{-- @else                                             
-                                                    <span class="badge btn btn-primary bm-btn-primary btn-rounded badge-warning text-capitalize text-white">New</span> --}}
                                                 @endif
                                                 <a class="btn btn-info btn-rounded text-white" href="{{ route('admin.users.change-order-view', $_request->id) }}">View Info</a>
                                             </td>                                    

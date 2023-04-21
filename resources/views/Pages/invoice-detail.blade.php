@@ -9,10 +9,6 @@
     <div class="loader"></div>
 </div>
 <div class="home-content">
-    {{-- @php 
-    $order_date = DateTime::createFromFormat('Y-m-d',$details['orderdate']);
-    $invoice_date = DateTime::createFromFormat('Y-m-d',$details['invoicedate']);
-    @endphp --}}
     @if($is_change_order)
     <h1 class="page_title px-5 pt-3">Change order</h1>
     @else 
@@ -28,8 +24,6 @@
             <div class="col-12">
                 <div class="card box mb-1 mt-1">						
                     <div class="card-body col-12">
-                        {{-- <h3 class="title-4 m-0">Invoice Number <span id="disp-order-id">#{{$details['invoiceno']}} - {{$invoice_date->format('M d, Y')}}</span></h3> --}}
-                        {{-- <h3 class="title-4 m-0">Invoice Number <span id="disp-order-id">#</span></h3> --}}
                         <h3 class="title-4 m-0">Invoice # <span id="disp-order-id">#</span></h3>
                         <input type="hidden" name="orderid_val" value="{{$order_id}}" id="orderid_val">
                         <input type="hidden" name="InvoicePurchaseOrderNumber" value="" id="InvoicePurchaseOrderNumber">
@@ -134,7 +128,6 @@
                     <div class="card-body col-12">
                         <div class="row flex-wrap">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
-                                {{-- <label class="form-label">Order Number</label> --}}
                                 <label class="form-label">Order #</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
@@ -162,9 +155,6 @@
                                 <label class="form-label">Quantity Shipped</label>
                                 @php 
                                 $total_quantity_shipped = 0;
-                                // foreach($details['items'] as $item){
-                                //     $total_quantity_shipped = $total_quantity_shipped + $item['quantityshipped'];
-                                // }
                                 @endphp
                                 <input class="form-control  col-12" type="text" value="{{$total_quantity_shipped}}" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
@@ -172,14 +162,10 @@
                         <div class="row">
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Promise Date</label>
-                                {{-- <input class="form-control col-12" type="text" placeholder="Promise Date" value="{{$details['invoicedate']}}" name="PromiseDate" id="promiseDate" {{ $is_change_order ? '': 'disabled'}}> --}}
                                 <input class="form-control col-12" type="text" placeholder="Promise Date" value="" name="PromiseDate" id="promiseDate" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Status</label>
-                                {{-- <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}}>
-                                    <option value="{{$details['invoiceno']}}" selected>Success</option>
-                                </select> --}}
                                 <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}}>
                                     <option value="" selected>Success</option>
                                 </select>
@@ -206,19 +192,7 @@
                                     <th>Total Order Amount</th>
                                 </tr>
                             </thead>
-                            <tbody id="disp-items-body">
-                               {{-- @foreach($details['items'] as $items) --}}
-                                    {{-- <tr class="order_item_row" data-val="${item.itemcode}">
-                                        <td>{{$items['itemcodedesc']}}<br/>
-                                        Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">{{$items['itemcode']}}</a></td> 
-                                        <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
-                                            {{$items['quantityshipped']}}
-                                        </td>
-                                        <td class="order_unit_price" data-val="${item.unitprice}">${{number_format($items['unitprice'],2,".",",")}}</td>
-                                        <td class="order_unit_total_price" data-val="${item.unitprice}">$ {{number_format($total_price,2,".",",")}}</td>
-                                    </tr> --}}
-                                {{-- @endforeach --}}
-                            </tbody>                           
+                            <tbody id="disp-items-body"></tbody>                           
                         </table>
                     </div>
                    

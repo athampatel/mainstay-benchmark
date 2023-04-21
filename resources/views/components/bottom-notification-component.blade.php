@@ -18,11 +18,10 @@
                 <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" :icon="$notification->icon_path" :time="$notification->created_at" :link="$link" :id="$notification->id" />
             @endforeach
         </div>
-        {{-- <x-bottom-notification-message :title="'New Customers'" :desc="'5 new user registered'" icon="" :time="'5 Sec ago'"/> --}}
     </div>
     <div class="notification">
-        <div class="icon-container"> {{-- notification_bottom_icon_div --}}
-            <div class="icon">{{-- notification_bottom_icon --}}
+        <div class="icon-container">
+            <div class="icon">
                 <svg id="Group_15" data-name="Group 15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.871" height="20.316" viewBox="0 0 18.871 20.316">
                     <defs>
                         <clipPath id="clip-path">
@@ -49,11 +48,6 @@
             </svg>          
         </div>
     </div>
-    {{-- <div class="notification_bottomn_cancel">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11.681" height="11.681" viewBox="0 0 11.681 11.681">
-            <path id="Path_1058" data-name="Path 1058" d="M83.951,8.574a5.841,5.841,0,1,0,5.841,5.841A5.841,5.841,0,0,0,83.951,8.574Zm2.5,7.588a.535.535,0,1,1-.757.757l-1.748-1.748L82.2,16.92a.535.535,0,1,1-.757-.757l1.747-1.748-1.747-1.747a.535.535,0,1,1,.757-.757l1.748,1.748L85.7,11.91a.535.535,0,0,1,.757.757l-1.748,1.747Z" transform="translate(-78.11 -8.574)" fill="#424448"/>
-        </svg>      
-    </div> --}}
     <div class="notification_bottomn_cancel  animate_fade_right">
         <svg xmlns="http://www.w3.org/2000/svg" width="11.681" height="11.681" viewBox="0 0 11.681 11.681"><g transform="translate(-1561.159 -1107.159)"><path d="M4,0A4,4,0,0,1,4,8,4.173,4.173,0,0,1,1.172,6.828,3.816,3.816,0,0,1,0,4,4,4,0,0,1,4,0Z" transform="translate(1563 1109)" fill="#fff"/><path d="M83.951,8.574a5.841,5.841,0,1,0,5.841,5.841A5.841,5.841,0,0,0,83.951,8.574Zm2.5,7.588a.535.535,0,1,1-.757.757l-1.748-1.748L82.2,16.92a.535.535,0,1,1-.757-.757l1.747-1.748-1.747-1.747a.535.535,0,1,1,.757-.757l1.748,1.748L85.7,11.91a.535.535,0,0,1,.757.757l-1.748,1.747Z" transform="translate(1483.049 1098.585)" fill="#424448"/></g></svg>                          
     </div>

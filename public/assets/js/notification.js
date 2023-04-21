@@ -13,6 +13,7 @@ jQuery(document).ready(function(){
         success: function (res) {
             res = JSON.parse(res);
             if(res.success){
+                console.log(res.notifications_all,'___res.notifications_all');
                 $('#bottom_notification_disp').html(res.notification_code);
                 $('.navbar_notification_icon .notification_count').removeClass('d-none');
                 $('.navbar_notification_icon .notification_count').text(res.notifications_all.length);
@@ -56,6 +57,7 @@ setInterval(() => {
             const notification_bottom = document.querySelector('.notfication_bottom');
             if(res.success){ 
                 if(notification_bottom){
+                    console.log(res.new_notifications,'___res.new_notifications');
                     let count = res.new_notifications.length;
                     $('#message_count').text(count);
                     $('.notification .count').text(count);

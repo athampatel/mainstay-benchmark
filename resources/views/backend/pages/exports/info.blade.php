@@ -12,7 +12,6 @@ Export Info - Admin Panel
     .form-check-label {
         text-transform: capitalize;
     }
-    /* admin table design */
     .admin-table .table{
         color: #fff;
     }
@@ -42,12 +41,9 @@ Export Info - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
-                
                     @include('backend.layouts.partials.messages')            
-                    {{-- <form action="{{ route('admin.users.store') }}" method="POST">                         --}}
                         @csrf
                         <input type="hidden" name="change_id" id="change_id" value="">
                         <div class="alert alert-success text-center d-none" id="order-change-status-display"></div>
@@ -128,7 +124,6 @@ Export Info - Admin Panel
                                     </div>
                                     <div class="mb-3">
                                         <div class="card-body px-0" id="change-order-request-buttons">
-                                            {{-- <button class="btn btn-danger btn-rounded pr-4 pl-4" id="cancel_request">Download</button> --}}
                                             <button class="btn btn-success btn-rounded pr-4 pl-4" id="approve_request">Download</button>
                                         </div>
                                     </div> 

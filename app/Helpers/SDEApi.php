@@ -15,10 +15,7 @@ class SDEApi
    protected $username = '';
    protected $password = '';
    protected $is_ssl_verify = false;
-  //  protected $is_ssl_verify = true;
-
    public function __construct(){
-       // $this->end_point = env('API_URL');\
         $this->end_point =  env('API_URL');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
@@ -50,11 +47,6 @@ class SDEApi
   public function getInvoiceHistoryHeader( $data = null ) {
     return true;
   }
-
-  // public function getInvoiceHistoryHeader( $data = null ) {
-
-  //   return true;
-  // }
   public function getProducts( $data = null ) {
     return true;
   }
@@ -113,7 +105,6 @@ class SDEApi
             "password" 	  => $this->password,
 			      "resource"	  => $resource,
         );
-        // dd($default_data);
         $post_data = array_merge($default_data,$data);
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
@@ -136,7 +127,6 @@ class SDEApi
       $response_code = $response->getStatusCode();
       $error_codes = explode(',', env('API_ERROR_CODES'));
       if(in_array($response_code,$error_codes)){
-        // $error_message = json_decode($response->body(), true)['message'];
         if($resource == 'Products' && $response_code == 500){
           $error_message = false;
         } else {
@@ -167,9 +157,6 @@ class SDEApi
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = env('ADMIN_EMAILS');
-        return ;
-        // dd(explode(',',$admin_emails));
-        // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         $is_local = env('APP_ENV') == 'local' ? true : false;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));

@@ -2,8 +2,6 @@
     <table id="open-orders-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                {{-- <th class="border-0">ID</th> --}}
-                {{-- <th class="border-0">Order Number</th> --}}
                 <th class="border-0">Order #</th>
                 <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer Email</th>
@@ -12,16 +10,13 @@
                 <th class="border-0">Date</th>
                 <th class="border-0">Location</th>
                 <th class="border-0">Status</th>
-                {{-- @if($is_change_order) --}}
                 <th class="border-0">Action</th>
-                {{-- @endif --}}
             </tr>
         </thead>
         <tbody id="open-orders-page-table-body">
             @foreach($saleorders as $saleorder)
             <tr>
                 <td><a href="/change-order/{{$saleorder['salesorderno']}}" class="item-number font-12 btn btn-rounded">#{{$saleorder['salesorderno']}}</a></td>
-                {{-- <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$saleorder['salesorderno']}}</a></td> --}}
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td>
                 @php
@@ -34,7 +29,6 @@
                 }
                 @endphp
                 <td>{{$total}}</td>
-                {{-- <td>${{$price}}</td> --}}
                 <td>${{number_format($price,2,".",",")}}</td>
                 <td>{{$date->format('M d, Y')}}</td>
                 <td class="location">

@@ -20,15 +20,6 @@
                 </div>   
              </div>
         </div>
-        {{-- <div class="row row-cols-1 col-12 result-response d-none">
-            <div class="col-12">
-                <div class="card box">						
-                    <div class="card-body col-12">
-                        <h3 class="title-4 m-0 text-primary text-center" id="result-response-message"></h3>
-                    </div>      
-                </div>   
-             </div>
-        </div> --}}
         <div class="row row-cols-1 col-12 result-response d-none">
             <div class="alert alert-success text-center" id="result-response-message"></div>
         </div>
@@ -78,13 +69,10 @@
                 </div>  
                 <button type="submit" class="btn btn-primary btn-rounded" id="profile-edit-save-button">Update Changes</button> 
             </div>
-
-            {{-- customer detail section --}}
             <div class="col-12 col-md-9  co-lg-9">
                 <div class="card box">	
                     <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
-                            {{-- <div class="box-icon small-icon rounder-border"> --}}
                             <div class="box-icon small-icon rounder-border">
                                 @if(Auth::user()->profile_image)
                                     <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
@@ -92,7 +80,6 @@
                                     <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
                                 @endif
                             </div>  
-                            {{-- <h4 class="mb-0 title-5">Order Details</h4> --}}
                         </div>                    
                     </div>    					
                     <div class="card-body col-12">
@@ -162,15 +149,8 @@
                                 <input class="form-control col-12" type="text" placeholder="Benchmark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">BenchMark Relational Manager Phone Number</label>
-                                <input class="form-control col-12" type="text" placeholder="BenchMark Relational Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
-                            </div>
-                        </div> --}}
                     </div>                     
                 </div>
-                {{-- <button type="submit" class="btn btn-primary" id="order-save-button">Save Changes</button> --}}
             </div>
         </div>
     </div>

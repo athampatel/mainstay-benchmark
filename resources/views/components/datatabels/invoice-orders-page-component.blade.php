@@ -2,8 +2,6 @@
     <table id="invoice-orders-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                {{-- <th class="border-0">ID</th> --}}
-                {{-- <th class="border-0">Invoice Number</th> --}}
                 <th class="border-0">Invoice #</th>
                 <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer email</th>
@@ -18,7 +16,7 @@
         <tbody id="invoice-orders-page-table-body">
             @foreach($invoices as $invoice)
             <tr>
-                <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
+                <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{$invoice['customerpono']}}</a></td>
@@ -31,9 +29,7 @@
                 }
                 @endphp
                 <td>{{$total}}</td>
-                {{-- <td>${{$price}}</td> --}}
                 <td>${{number_format($price,2,".",",")}}</td>
-                {{-- <td>{{date('m-d-Y',strtotime($invoice['invoicedate']))}}</td> --}}
                 <td>{{ \Carbon\Carbon::parse($invoice['invoicedate'])->format('M d, Y') }}</td>
                 <td class="status">Shipped</td>
                 <td class="action">

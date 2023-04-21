@@ -22,7 +22,6 @@
 									<h3 class="login-from-title font-32 font-open-sans font-bold pb-3">Sign Up</h3>									
 								</div>								
 								<div class="form-body">
-									{{-- <form class="row g-3" method="POST" action="{{route('register')}}"> --}}
 									<form class="row g-3" method="POST" action="/sign-up">
 										@csrf
 										<div class="col-12"> 
@@ -41,7 +40,6 @@
 											<label for="CompanyName" class="form-label">Company Name</label>
 											<input type="text" class="form-control" id="CompanyName" name="company_name" value="" placeholder="Company Name *" required>
 										</div>
-                                        
                                         <div class="col-12 pt-1">
                                             <div class="sign-up-checbox d-flex align-items-center position-relative">
                                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" required>
@@ -50,15 +48,11 @@
                                                 </label>
                                             </div>
                                         </div>
-
-										                  
-
 										<div class="col-12">
 											<div class="d-grid">
 												<button type="submit" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20">Sign Up</button>
 											</div>
 										</div>
-
 										<div class="col-12 pb-3 font-open-sans font-18">Already have an Account? <a href="{{ url('sign-in') }}" class="font-bold sign-in-hover">Sign in</a>
 									</form>
 								</div>
@@ -67,7 +61,6 @@
 					</div>
 				</div>
 			</div>
-			<!--end row-->
 		</div>
 	</div>
 

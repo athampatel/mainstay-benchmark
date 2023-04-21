@@ -1,28 +1,3 @@
-{{-- @extends('layouts.dashboard')
-
-@section('title')
-{{config('constants.page_title.customers.help')}} - Benchmark
-@endsection
-
-@section('content')
-<div class="home-content">
-    <span class="page_title">Help</span>
-</div>
-@endsection
-
-@section('scripts')
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-<script>
-  const constants = <?php echo json_encode($constants); ?>;
-  const searchWords = <?php echo json_encode($searchWords); ?>;
-</script>
-@endsection --}}
-
-
 @extends('layouts.dashboard')
 
 @section('title')
@@ -35,7 +10,6 @@
 </div>
 <div class="home-content">
     <h1 class="page_title px-5 pt-3">Change Order Info</h1>
-    {{-- <div class="alert alert-success text-center d-none" id="help-message-alert"></div> --}}
     <div class="overview-boxes widget_container_cards col-12">
         <div class="row row-cols-1 col-12 result-data flex-wrap sm-rverse-flex">
             <div class="col-12 col-md-12  co-lg-12">

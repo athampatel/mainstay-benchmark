@@ -6,12 +6,8 @@ use Illuminate\Http\Request;
 use Response;
 
 use App\Models\Notification;
-use App\Models\Admin;
 use App\Http\Controllers\Controller;
-use App\Models\SalesPersons;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -59,9 +55,6 @@ class NotificationController extends Controller
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->leftjoin('notifications','users.id','=','notifications.from_user')->get();
-
-                                //->where('users.id',$user->id)->orWhere('');
-            
         }
         $content = '';
         if(!empty($notification)){
@@ -72,30 +65,21 @@ class NotificationController extends Controller
                 switch($_type):
                     case 'signup':
                         $icon = '<i class="bx bx-group"></i>';
-                        // $text   = 'New Sign Up Request from Customer';
                         $text   = config('constants.notification.signup');
                         break;
                     case 'change-order':
                         $icon = '<i class="bx bx-cart-alt"></i>';
-                        // $text   = 'New Change Order Request from Customer';
                         $text   = config('constants.notification.change_order');
                         break;
                     case 'contact-details':
                         $icon = '<i class="bx bx-file"></i>';
-                        // $text   = 'New Contact details update request from Customer';
                         $text   = config('constants.notification.contact_details');
                         break;
                     case 'inventory-update':
                         $icon = '<i class="bx bx-user-pin"></i>';
-                        // $text   = 'New Inventory update request from Customer';
                         $text   = config('constants.notification.inventory_update');
                         break;    
                 endswitch;   
-              /*  $content .= '<a href="'.$_notification->action.'?notify='.$_notification->id.'" class="notify-item" target="_blank">
-                                <div class="notify-thumb">'.$icon.'</div>
-                                <div class="notify-text"><p>'.$text.'</p></div>
-                            </a>'; */
-
                 $content .= '<a class="dropdown-item" href="'.$_notification->action.'?notify='.$_notification->id.'" target="_blank">
                                 <div class="d-flex align-items-center">
                                     <div class="notify bg-light-primary text-primary">'. $icon .'</div>
@@ -108,8 +92,6 @@ class NotificationController extends Controller
             }
         }
         $data  = array('type' => $type,'html' => $content,'count' => count($notification));
-        //print_r($notification);
-        //die;
         return Response::json($data);
     }
 
@@ -165,21 +147,16 @@ class NotificationController extends Controller
         if (!is_null($user)) {            
             $user->delete();
         }
-        // session()->flash('success', 'User has been deleted !!');
         session()->flash('success', config('constants.customer_delete.confirmation_message'));
         return back();
     }
 
-
-    /* bottom notifications */
     public function getBottomNotifications(){
         if(auth('admin')->check()) {
             if($this->superAdmin){
-                // Super admin
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
             } else {
                 $manager = $this->user;
-                // Manager
                 $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
@@ -210,11 +187,9 @@ class NotificationController extends Controller
     public function getNewBottomNotifications(){
         if(auth('admin')->check()) {
             if($this->superAdmin){
-                // super admin
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
                 $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
             } else {
-                // manager 
                 $manager = $this->user;
                 $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')

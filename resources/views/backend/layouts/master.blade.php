@@ -14,18 +14,8 @@
 </head>
 
 <body class="admin-portal">
-    <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-    <!-- preloader area start -->
-    <!--<div id="preloader">
-        <div class="loader"></div>
-    </div> -->
-    <!-- preloader area end -->
-    <!-- page container area start -->
     <div class="page-container wrapper">
        @include('backend.layouts.partials.sidebar')
-        <!-- main content area start -->
         <section class="home-section position-relative main-content">
             @include('backend.layouts.partials.header')
             @yield('admin-content')
@@ -38,7 +28,6 @@
                         @else
                             <img src="/assets/images/svg/user_logo.png" class="rounded-circle height-45 width-45"/>
                         @endif  
-                        {{-- <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/> --}}
                     </div>
                     <div class="wm_msg">
                         <div class="name">Hey {{Auth::guard('admin')->user()->name}}</div>
@@ -49,13 +38,10 @@
 
             <div id="bottom_notification_disp"></div>
         </section>
-        <!-- main content area end -->
         @include('backend.layouts.partials.footer')
     </div>
-    <!-- page container area end -->
     @include('backend.layouts.partials.offsets')
     @include('backend.layouts.partials.scripts')
     @yield('scripts')
 </body>
-
 </html>

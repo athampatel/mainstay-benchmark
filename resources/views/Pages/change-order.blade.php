@@ -31,11 +31,7 @@
                                 </select>
                             </div>
                             
-                            <div class="form-button mt-2 col-12 col-md-3 col-lg-4">
-                            {{-- @if($is_change_order)     --}}
-                             {{-- <button type="submit" class="font-12 btn btn-primary btn-rounded text-capitalize" id="get_order_details">Get Order Details</button> --}}
-                            {{-- @endif --}}
-                            </div>
+                            <div class="form-button mt-2 col-12 col-md-3 col-lg-4"></div>
                         </form>
                     </div>
                 </div>   
@@ -144,7 +140,6 @@
                     <div class="card-body col-12">
                         <div class="row flex-wrap">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
-                                {{-- <label class="form-label">Order Number</label> --}}
                                 <label class="form-label">Order #</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}}>
                             </div>

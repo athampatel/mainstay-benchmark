@@ -4,10 +4,7 @@
 @section('title')
 Relational Managers - Admin Panel
 @endsection
-
-
 @section('admin-content')   
-<!-- page title area start -->
 <div class="home-content">
     <span class="page_title">Relational Managers</span>
     <div class="overview-boxes widget_container_cards col-12">
@@ -105,10 +102,6 @@ Relational Managers - Admin Panel
                                                     @if($user->user_id != '')  
                                                         <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.index') }}/{{$user->user_id}}/edit">View</a>
                                                     @endif
-                                                  <!--  <a class="btn btn-rounded btn-medium btn-bordered" href="{{ route('admin.users.destroy', $user->id) }}"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
-                                                        Delete
-                                                    </a> -->                              
                                                 </div>
                                             </td>
                                         </tr>
@@ -128,7 +121,6 @@ Relational Managers - Admin Panel
         </div>
     </div>
 </div> 
-{{-- print tables --}}
 <table id="print_table" class="text-center datatable-dark dataTable backend_datatables">
     <thead class="text-capitalize">
         <tr>

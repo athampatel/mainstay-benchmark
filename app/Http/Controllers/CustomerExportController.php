@@ -201,16 +201,10 @@ class CustomerExportController extends Controller
     public function exportVmiCsv(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $response = self::exportVmiData($user_detail);
+        $data = self::exportVmiData($user_detail);
         $filename = "Vmi-detail.csv";
-        $header_array = array(
-                'CUSTOMER ITEM NUMBER',
-                'BENCHMARK ITEM NUMBER',
-                'ITEM DESCRIPTION',
-                'VENDOR NAME',
-                'QUANTITY ON HAND',
-                'QUANTITY PURCHASED(YEAR)',
-        );
+        $response = $data['data'];
+        $header_array = $data['headers'];
         return self::ExportExcelFunction($response,$header_array,$filename);
     }
 

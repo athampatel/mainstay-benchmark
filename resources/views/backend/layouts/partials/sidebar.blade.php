@@ -1,8 +1,6 @@
- <!-- sidebar menu area start -->
  @php
      $usr = Auth::guard('admin')->user();
  @endphp
-
  <div class="sidebar sidebar-wrapper sidebar-menu" id="sidebar">
     <div class="logo-details">
         <a href="{{ route('admin.dashboard') }}"><img src="/assets/images/logo.svg" alt="company logo" /></a>
@@ -11,7 +9,6 @@
         <div class="menu-inner"> 
             <nav>
                 <ul class="metismenu nav-links" id="menu">
-                    {{-- @if($usr !== null) --}}
                         @if ($usr->can('dashboard.view'))
                             <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}">
                                 <a href="{{ route('admin.dashboard') }}">
@@ -156,4 +153,3 @@
         </div>
     </div>
 </div>
-<!-- sidebar menu area end -->

@@ -23,6 +23,12 @@ $(document).on('click','.pagination_link',function(e){
     getInvoiceOrderAjax($page,$val,started_date,ended_date)
 })
 $('#invoice-orders-page-search').keyup(function(){
+    let search_word = $(this).val();
+    if(search_word != ''){
+        $('#pagination_disp').addClass('d-none');
+    } else {
+        $('#pagination_disp').removeClass('d-none');
+    }
     open_order_page_table.search($(this).val()).draw();
 })
 
