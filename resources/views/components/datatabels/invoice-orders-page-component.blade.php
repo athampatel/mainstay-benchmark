@@ -14,6 +14,7 @@
             </tr>
         </thead>
         <tbody id="invoice-orders-page-table-body">
+            {{-- {{dd($invoices)}} --}}
             @foreach($invoices as $invoice)
             <tr>
                 <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
@@ -23,6 +24,7 @@
                 @php
                 $total = 0;
                 $price = 0;
+                $date = DateTime::createFromFormat('Y-m-d',$invoice['invoicedate']);
                 foreach ($invoice['details'] as $item){
                     $total += $item['quantityshipped'];
                     $price += $item['quantityshipped'] * $item['unitprice'];
@@ -30,7 +32,8 @@
                 @endphp
                 <td>{{$total}}</td>
                 <td>${{number_format($price,2,".",",")}}</td>
-                <td>{{ \Carbon\Carbon::parse($invoice['invoicedate'])->format('M d, Y') }}</td>
+                {{-- <td>{{ \Carbon\Carbon::parse($invoice['invoicedate'])->format('M d, Y') }}</td> --}}
+                <td>{{$date->format('M d, Y')}}</td>
                 <td class="status">Shipped</td>
                 <td class="action">
                     <a href="/invoice-detail/{{$invoice['salesorderno']}}" class="btn btn-primary btn-rounded text-capitalize text-dark open-view-details" target="_blank">

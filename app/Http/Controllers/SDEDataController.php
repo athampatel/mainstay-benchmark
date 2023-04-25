@@ -119,18 +119,18 @@ class SDEDataController extends Controller
                         "value" => $user_details->ardivisionno,
                         "operator" => "and"
                     ],
-                    [
-                        "column" => "invoiceDate",
-                        "type" => ">=",
-                        "value" => '2023-01-01',
-                        "operator" => "and"
-                    ],
-                    [
-                        "column" => "invoiceDate",
-                        "type" => "=<",
-                        "value" => '2023-12-31',
-                        "operator" => "and"
-                    ]
+                    // [
+                    //     "column" => "invoiceDate",
+                    //     "type" => ">=",
+                    //     "value" => '2023-01-01',
+                    //     "operator" => "and"
+                    // ],
+                    // [
+                    //     "column" => "invoiceDate",
+                    //     "type" => "<=",
+                    //     "value" => '2023-12-31',
+                    //     "operator" => "and"
+                    // ]
                 ],
                 "index" => "KSDEDESCENDING",
                 "offset" => 1,

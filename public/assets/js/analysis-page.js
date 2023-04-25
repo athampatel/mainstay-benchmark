@@ -65,6 +65,7 @@ function getAnalysispageData($page,$count,range,year){
                 paging: true,
                 ordering: true,
                 info: false,
+                order: []
             });
 
             let months = [];
