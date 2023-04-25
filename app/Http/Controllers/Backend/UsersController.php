@@ -1384,9 +1384,10 @@ class UsersController extends Controller
             "offset"        => $offset,
             "limit"         => $limit,
         );
+        // dd($data);
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post','Products',$data);
-        
+        // dd($response);
         // Remove unwanted products
         $count = 0;
         foreach($response['products'] as $key => $product){
@@ -1451,6 +1452,17 @@ class UsersController extends Controller
                 'new_qty_hand'=> $value_change['new_qty'],
                 'change_user' => $user->id 
             ]);
+
+            $data1 = array(                             
+                "companyCode"   => $company_code,
+                "method" =>  "post",
+                "warehouseCode" => "000", // ??
+                "itemcode" => $key,
+                "quantityCounted" => $value_change['new_qty']
+            );
+            $sdeApi = new SDEApi();
+            $response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
+            // dd
         }
         $res = ['success' => true,'message' => config('constants.admin.inventory_update.success')];
         echo json_encode($res);
