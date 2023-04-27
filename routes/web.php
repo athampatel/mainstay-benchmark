@@ -148,6 +148,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
     Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
+    // customer login
+    Route::get('/customers/{id}/login',[UsersController::class,'customerLogin'])->name('admin.users.login');
+    // back to admin
+    Route::get('/back_to_admin',[UsersController::class,'adminLogin']);
 }); 
 
 Route::resource('/salesOrderExportResponse',ExportController::class);

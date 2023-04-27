@@ -35,6 +35,7 @@ use App\Models\VmiInventoryRequest;
 use App\Models\SearchWord;
 use App\Models\AnalaysisExportRequest;
 use Carbon\Carbon;
+use Illuminate\Contracts\Session\Session;
 
 class UsersController extends Controller
 {
@@ -1712,5 +1713,71 @@ class UsersController extends Controller
         $request->session()->forget('welcome');
         echo json_encode(['test']);
         die();
+    }
+
+    public function customerLogin(Request $request,$id){    
+        if(!auth('admin')->check()){
+            return redirect()->route('admin.login');  
+        }
+        $email = Auth::guard('admin')->user()->email;
+        Auth::guard('admin')->logout();
+        if(Auth::guard('web')->loginUsingId($id)){
+            self::customerSessions($request,$email);
+            return redirect()->route('auth.customer.dashboard'); 
+        } else {
+            dd('user not login');
+        }
+    }
+
+
+    public function adminLogin(Request $request){
+        $by_admin = $request->session()->get('by_admin');
+        if(!$by_admin){
+            return redirect()->route('login');   
+        }
+        $admin = Admin::where('email',$by_admin)->get("id")->first();
+        Auth::guard('web')->logout();
+        Session()->flush();
+        if(Auth::guard('admin')->loginUsingId($admin->id)) {
+            return redirect()->route('admin.dashboard');  
+        }
+    }
+
+
+    private static function customerSessions(Request $request,$admin_email = null){
+        $user = Auth::user();
+        $customer = UserDetails::where('user_id',$user->id)
+                    ->leftjoin('users','users.id','=','user_details.user_id')
+                    ->select('user_details.*','users.profile_image')
+                    ->get();
+        if($user->is_vmi){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=>"customerno",
+                        "type"=>"equals",
+                        "value"=>$customer[0]['customerno'],
+                        "operator"=>"and"
+                    ]
+                ],
+                "offset" => 1,
+                "limit" => 1
+            );
+
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','Customers',$data);
+
+            if(!empty($response)){
+                if(!empty($response['customers'])){           
+                    $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$response['customers'][0]['vmi_nextonsitedate'])->format('d-m-Y'));            
+                    $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $response['customers'][0]['vmi_physicalcountdate'])->format('d-m-Y'));            
+                }
+            } 
+        }
+        $request->session()->put('customers',$customer);
+        $request->session()->put('customer_no',$customer[0]['customerno']);
+        if($admin_email) {
+            $request->session()->put('by_admin',$admin_email);
+        }
     }
 }
