@@ -264,7 +264,17 @@ function getVmiInventoryAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
-                responsive: true
+                responsive: true,
+                autoWidth: false,
+                columns: [
+                    { "width": "14%" },
+                    { "width": "14%" },
+                    { "width": "14%" },
+                    { "width": "14%" },
+                    { "width": "14%" },
+                    { "width": "14%" },
+                    { "width": "14%" },
+                  ]
             });
         },
         complete:function(){
