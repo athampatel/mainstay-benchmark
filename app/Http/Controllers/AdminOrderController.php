@@ -54,6 +54,7 @@ class AdminOrderController extends Controller
     public function changeOrderRequestStatus(Request $request){
         $data = $request->all();
         $changeOrderRequest = ChangeOrderRequest::find($data['change_id']);
+        // dd()
         if($changeOrderRequest){
             $message ="";
             if($data['status'] == 1){
@@ -69,11 +70,13 @@ class AdminOrderController extends Controller
                 $changeOrderRequest->save();
                 $message = config('constants.admin.change_order.decline');
             }
+            $order_no = $changeOrderRequest->order_no;
+            $url = "/change-order/info/$order_no";
             $_notification = array( 'type'      => 'Approved Change Request',
                                     'from_user'  => Auth::guard('admin')->user()->id,
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
-                                    'action'    => '', // will be add the url
+                                    'action'    => $url, // will be add the url
                                     'status'    => 1,
                                     'is_read'   => 0,
                                     'icon_path' => '/assets/images/svg/change_request_success_notification.svg'

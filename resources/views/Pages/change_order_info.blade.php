@@ -40,7 +40,7 @@
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Requested Status</label>
                                 @php
-                                $status = $order_request->request_status == 0 ? 'In Progress' : 'Completed';
+                                $status = $order_request->request_status == 0 ? 'In Progress' : ( $order_request->request_status == 1 ? 'Approved' : 'Declined') ;
                                 @endphp
                                 <input class="form-control col-12 box-shadow-none" type="text" value="{{$status}}" placeholder="Phone Number" name="phone_no" id="phone_no" autocomplete="off">
                             </div>
@@ -74,8 +74,9 @@
                     </div>                     
                 </div>
             </div>
-
+            @if($order_request->request_status == 0)
             <button type="submit" class="btn mt-3 btn-danger bm-btn-danger text-capitalize btn-rounded" id="cancel-request-button">Cancel Request</button>
+            @endif
         </div>
     </div>
 </div>            

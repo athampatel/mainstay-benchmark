@@ -890,7 +890,7 @@ class MenuController extends Controller
         $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
-                                ->where('request_status',0)
+                                // ->where('request_status',0)
                                 ->offset($offset)->limit($limit)
                                 ->get()->toArray();
         $table_code = View::make("components.change-order-request-component")
@@ -899,7 +899,7 @@ class MenuController extends Controller
 
         $page_data = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
-                                ->where('request_status',0)
+                                // ->where('request_status',0)
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
                                 ->paginate(intval($limit));
         
@@ -1011,7 +1011,7 @@ class MenuController extends Controller
         $final_data['constants'] = config('constants');
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $final_data['searchWords']   = $searchWords;
-        $order_request = ChangeOrderRequest::where('order_no',$order_id)->where('request_status',0)->get()->first();
+        $order_request = ChangeOrderRequest::where('order_no',$order_id)->get()->first();
         $order_information = ChangeOrderItem::where('order_table_id',$order_request->id)->get();
         $final_data['order_request']   = $order_request;
         $final_data['order_information']   = $order_information;
