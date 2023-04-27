@@ -153,6 +153,7 @@ class NotificationController extends Controller
 
     public function getBottomNotifications(){
         if(auth('admin')->check()) {
+            // dd('comes in 1');
             if($this->superAdmin){
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
             } else {
@@ -166,7 +167,9 @@ class NotificationController extends Controller
                                     ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
             }
         } else {
+            // dd('comes in 2');
             $user_id = Auth::user()->id;
+            // dd($user_id);
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
         }
 
@@ -221,7 +224,7 @@ class NotificationController extends Controller
             $notification_message_code .= View::make("components.bottom-notification-message")
                 ->with("title", $notification->type)
                 ->with("desc", $notification->text)
-                ->with("icon", '')
+                ->with("icon", $notification->icon_path)
                 ->with("time", $notification->created_at)
                 ->with("link", $notification->action)
                 ->with("id", $notification->id)
