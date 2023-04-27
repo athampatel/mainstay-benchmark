@@ -144,11 +144,11 @@ User Edit - Admin Panel
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
-                                        <input type="text" name="salespersonname" class="form-control readonly" readonly id="sales_person_name" placeholder="Enter Sales Person Name" value="{{ $user->salespersonname }}">
+                                        <input type="text" name="salespersonname" class="form-control readonly" readonly id="sales_person_name" placeholder="Enter Regional Manager Name" value="{{ $user->salespersonname }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
-                                        <input type="text" name="salespersonemail"class="form-control readonly" readonly id="sales_person_email" placeholder="Enter Sales Person Email" value="{{ $user->salespersonemail }}">
+                                        <input type="text" name="salespersonemail"class="form-control readonly" readonly id="sales_person_email" placeholder="Enter Regional Manager Email" value="{{ $user->salespersonemail }}">
                                     </div>
                                 </div>
                             </div>    

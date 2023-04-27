@@ -178,12 +178,11 @@
                 'admin_email' => 'Email',
                 'admin_username' => 'Username',
                 'contact_no' => 'Contact Number',
-                // relational manager
-                'relational_manager_no' => 'Benchmark Relational Manager Number',
-                'relational_manager_name' => 'Benchmark Relational Manager Name',
-                'relational_manager_email' => 'Benchmark Relational Manager Email',
+                'relational_manager_no' => 'Benchmark Regional Manager Number',
+                'relational_manager_name' => 'Benchmark Regional Manager Name',
+                'relational_manager_email' => 'Benchmark Regional Manager Email',
                 'generate_random_password' => 'Generate Radmon Password',
-                'relational_manager' => 'Benchmark Relational Manager',
+                'relational_manager' => 'Benchmark Regional Manager',
                 'region_manager' => 'Region Manager',
                 'order_date' => 'Order Date',
                 'buttons' => [

@@ -134,7 +134,7 @@ Customers - Admin Panel
                                                         onclick="event.preventDefault();deleteCustomer({{$user->id}})">
                                                         Delete
                                                     </a>
-                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize" href="{{ route('admin.users.login', $user->id) }}">Login</a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize" href="{{ route('admin.users.login', $user->id) }}">Login As</a>
                                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
                                                         @csrf

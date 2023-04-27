@@ -73,7 +73,7 @@ class AdminOrderController extends Controller
                                     'from_user'  => Auth::guard('admin')->user()->id,
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
-                                    'action'    => '',
+                                    'action'    => '', // will be add the url
                                     'status'    => 1,
                                     'is_read'   => 0,
                                     'icon_path' => '/assets/images/svg/change_request_success_notification.svg'
