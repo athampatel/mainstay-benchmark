@@ -4,17 +4,17 @@
             <tr>
                 <th class="border-0">Invoice #</th>
                 <th class="border-0">Customer Name</th>
-                <th class="border-0">Customer email</th>
+                <th class="border-0">Customer Email</th>
                 <th class="border-0">Customer Po Number</th>
-                <th class="border-0">Total items</th>
-                <th class="border-0">Price</th>
+                <th class="border-0">Total Items</th>
+                {{-- <th class="border-0">Price</th> --}}
+                <th class="border-0">Invoice Total</th>
                 <th class="border-0">Date</th>
                 <th class="border-0">Status</th>
                 <th class="border-0">Action</th>
             </tr>
         </thead>
         <tbody id="invoice-orders-page-table-body">
-            {{-- {{dd($invoices)}} --}}
             @foreach($invoices as $invoice)
             <tr>
                 <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>

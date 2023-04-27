@@ -44,6 +44,7 @@ function displayInvoiceOrderDetail(res){
     let item_details_html = '';
     let quantity_count = 0;
 
+    console.log(order_detail,'___order_detail');
     // invoice details
     let order_id_disp = `#${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MMM DD,YYYY')}`;
     $('#disp-order-id').text(order_id_disp);
@@ -65,10 +66,14 @@ function displayInvoiceOrderDetail(res){
     let aliasnumber = order_detail.details.length > 0 ? order_detail.details[0].aliasitemno : '';
     $('#AliasItemNumber').val(aliasnumber);
     $('#OrderDate').val(moment(order_detail.orderdate,'YYYY-MM-DD').format('MMM DD,YYYY'));
-    let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Shipped' : 'Not Shipped' : 'Not Shipped';
+    // let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Shipped' : 'Not Shipped' : 'Not Shipped';
+    let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Yes' : 'No' : 'No';
     $('#DropShip option:selected').val(drop_ship);
     $('#DropShip option:selected').text(drop_ship);
-    
+
+    let drop_ship_status = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Complete' : 'Shipped' : 'Shipped';
+    $('#orderStatus option:selected').val(drop_ship_status);
+    $('#orderStatus option:selected').text(drop_ship_status);
     // Item Details
     order_detail.details.forEach(item => {
         if(item.quantityshipped > 0){
@@ -79,7 +84,7 @@ function displayInvoiceOrderDetail(res){
                 <td class="order_item_quantity"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
                 <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled></td>
                 <td class="order_unit_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>
-                <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.quantityshipped * item.unitprice)}</td>
+                <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityshipped * item.unitprice))}</td>
             </tr>`;
         }
     }); 

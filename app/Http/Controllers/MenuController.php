@@ -23,6 +23,7 @@ use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\SearchWord;
+use Illuminate\Contracts\Session\Session;
 
 class MenuController extends Controller
 {
@@ -66,6 +67,15 @@ class MenuController extends Controller
                                                                 'active' => 0,
                                                                 'link'=> '/logout','code' => 'auth.customer.logout')
         );
+        // $by_admin = $request->session()->get('by_admin');
+        $by_admin = Session()->get('by_admin');
+        if($by_admin){
+            // dd($by_admin);
+            $menus['by_admin'] =  array( 'name' => 'Back To Admin', 
+                                        'icon_name' => file_get_contents(public_path('/assets/images/svg/back_to_admin.svg')),
+                                        'active' => 0,
+                                        'link'=> '/admin/back_to_admin','code' => 'auth.admin.back');
+        }
 
         if(isset($menus[$current])){
             $menus[$current]['active'] = 1;
@@ -85,6 +95,10 @@ class MenuController extends Controller
             if(!in_array($menus[$current_menu]['code'],$customer_menus)){
                 return false;
             }
+        }
+        $by_admin = Session()->get('by_admin');
+        if($by_admin){
+            $customer_menus[] = 'auth.admin.back';
         }
         return $customer_menus;
     }

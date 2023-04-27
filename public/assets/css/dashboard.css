@@ -2793,6 +2793,12 @@ tr.child ul{
   /* color: #fff; */
   color: #424448;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.no-wrap {
+  flex-wrap: nowrap !important;
 }
 
 .wm_msg .msg{

@@ -128,12 +128,13 @@ Customers - Admin Panel
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="btn-wrapper btns-2">
+                                                <div class="btn-wrapper btns-2 no-wrap">
                                                     <a class="btn btn-rounded btn-medium btn-primary text-capitalize" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
                                                     <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.users.destroy', $user->id) }}"
-                                                    onclick="event.preventDefault();deleteCustomer({{$user->id}})">
+                                                        onclick="event.preventDefault();deleteCustomer({{$user->id}})">
                                                         Delete
                                                     </a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize" href="{{ route('admin.users.login', $user->id) }}">Login</a>
                                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
                                                         @csrf

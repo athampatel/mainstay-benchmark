@@ -16,9 +16,19 @@ if($('#backend_customers').length){
         pageLength:start_filter_count,
         paging: true,
         ordering: false,
-        // order: [],
         info: false,
         responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "12%",}
+        ]
     });
 
     $(document).on('change','#admin-customer-filter-count',function(){

@@ -69,14 +69,14 @@ class AdminOrderController extends Controller
                 $changeOrderRequest->save();
                 $message = config('constants.admin.change_order.decline');
             }
-            $_notification = array( 'type'      => 'Sign Up',
+            $_notification = array( 'type'      => 'Approved Change Request',
                                     'from_user'  => Auth::guard('admin')->user()->id,
                                     'to_user'  => $changeOrderRequest->user_id,
                                     'text'      => $message,
                                     'action'    => '',
                                     'status'    => 1,
                                     'is_read'   => 0,
-                                    'icon_path' => 'assets/images/svg/sign_up_notification.svg'
+                                    'icon_path' => '/assets/images/svg/change_request_success_notification.svg'
                                 );                
 
             $notification = new NotificationController();
