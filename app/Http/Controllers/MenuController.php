@@ -380,7 +380,7 @@ class MenuController extends Controller
                     ],
                     [
                         "column" => "invoiceDate",
-                        "type" => "=<",
+                        "type" => "<=",
                         "value" => $end_date,
                         "operator" => "and"
                     ]
@@ -669,6 +669,7 @@ class MenuController extends Controller
         $filter_dates = $this->getRangeDates($range,$year);
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
+        // dd($filter_start_date,$filter_end_date);
         $date_filter = [
             [
                 "column" => "invoiceDate",
@@ -678,7 +679,7 @@ class MenuController extends Controller
             ],
             [
                 "column" => "invoiceDate",
-                "type" => "=<",
+                "type" => "<=",
                 "value" => $filter_end_date,
                 "operator" => "and"
             ]
@@ -809,12 +810,12 @@ class MenuController extends Controller
                 $range_months = [$last_month];
             }
             if($range == 2){
-                $start_date = ($year - 1).'-12-31';
+                $start_date = ($year - 1).'-01-01';
                 $end_date = $year. '-04-01';
                 $range_months = ['01','02','03'];
             }
             if($range == 3){
-                $start_date = ($year - 1).'-12-31';
+                $start_date = ($year - 1).'-01-01';
                 $end_date = $year."-"."07-01";
                 $range_months = ['01','02','03','04','05','06'];
             }
@@ -835,8 +836,8 @@ class MenuController extends Controller
             }
         } else {
             $range_months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-            $start_date = ($year - 1) . "-12-31";
-            $end_date = ($year + 1)."-01-01";
+            $start_date = ($year) . "-01-01";
+            $end_date = ($year)."-12-31";
         }
 
         return ['start' => $start_date, 'end' => $end_date ,'range_months' => $range_months];

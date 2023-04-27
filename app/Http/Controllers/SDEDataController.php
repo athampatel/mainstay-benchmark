@@ -119,25 +119,27 @@ class SDEDataController extends Controller
                         "value" => $user_details->ardivisionno,
                         "operator" => "and"
                     ],
-                    [
-                        "column" => "invoiceDate",
-                        "type" => ">=",
-                        "value" => '2023-01-01',
-                        "operator" => "and"
-                    ],
-                    [
-                        "column" => "invoiceDate",
-                        "type" => "=<",
-                        "value" => '2023-12-31',
-                        "operator" => "and"
-                    ]
+                    // [
+                    //     "column" => "invoiceDate",
+                    //     "type" => ">=",
+                    //     "value" => '2023-01-01',
+                    //     "operator" => "and"
+                    // ],
+                    // [
+                    //     "column" => "invoiceDate",
+                    //     "type" => "<=",
+                    //     "value" => '2023-12-31',
+                    //     "operator" => "and"
+                    // ]
                 ],
                 "index" => "KSDEDESCENDING",
                 "offset" => 1,
                 "limit" => 5,
             );
             $SDEAPi = new SDEApi();
+            // dd($data);
             $response_data   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
+            // dd($response_data);
             $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data['salesorderhistoryheader']);
@@ -153,11 +155,12 @@ class SDEDataController extends Controller
         } else {
             $response_data['salesorderhistoryheader'] = json_decode($is_api_data->data,true);
         }
+        // dd($response_data['salesorderhistoryheader']);
         $table_code = View::make("components.datatabels.dashboard-invoice-component")
         ->with("invoices", $response_data['salesorderhistoryheader'])
         ->render();
-        
         $response['table_code'] = $table_code;
+        // dd($response['table_code']);
         echo json_encode($response);
         die();
     }
