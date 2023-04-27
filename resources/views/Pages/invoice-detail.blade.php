@@ -160,14 +160,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
+                            {{-- <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Promise Date</label>
                                 <input class="form-control col-12" type="text" placeholder="Promise Date" value="" name="PromiseDate" id="promiseDate" {{ $is_change_order ? '': 'disabled'}}>
-                            </div>
+                            </div> --}}
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Status</label>
                                 <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}}>
-                                    <option value="" selected>Success</option>
+                                    <option value="" selected></option>
                                 </select>
                             </div>                            
                         </div>

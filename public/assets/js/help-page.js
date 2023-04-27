@@ -18,19 +18,15 @@ $(document).on('click','#help-save-button',function(e){
     if(email_address == ''){
         validation_error += 'Email field is required <br>';
     }
-    if(ph_no ==''){
-        validation_error += 'Phone Number field is required <br>';
-    }
+    // if(ph_no ==''){
+        // validation_error += 'Phone Number field is required <br>';
+    // }
     console.log(validation_error,'__validation error');
     // return false;
     if(validation_error != ''){
         $('#help-message-alert').removeClass('alert-success').addClass('alert-danger').html(validation_error).removeClass('d-none');
         return false;
     }
-    // validation
-    // if(message == ''){
-    //     $('#help-message-alert').removeClass('alert-success').addClass('alert-danger').html('Message filed').removeClass('d-none');
-    // }
     // ajax message
     $.ajax({
         type: 'POST',
