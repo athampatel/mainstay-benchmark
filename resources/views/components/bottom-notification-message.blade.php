@@ -2,7 +2,7 @@
 $link = str_replace('\\','/',$link);
 $icon = str_replace('\\','/',$icon) 
 @endphp
-<a href="#" data-link="{{$link}}" data-id="{{$id}}" class="bottom_notification_msg">
+<a href="#" data-link="{{$link}}" data-id="{{$id}}" class="bottom_notification_msg" style="text-decoration: none;">
     <div class="message_section">
         <div class="message_icon">
               @if($icon)

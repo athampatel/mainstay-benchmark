@@ -104,7 +104,7 @@ User Create - Admin Panel
                                         <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter {{ config('constants.label.admin.zipcode') }}">
                                     </div>
                                 </div>
-                                <h6 class="text-secondary">Sales person</h6><br>                        
+                                <h6 class="text-secondary">Regional Manager</h6><br>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }}</label>

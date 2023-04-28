@@ -81,6 +81,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/exportInvoiceOrders',[CustomerExportController::class,'invoiceRequest']);
     Route::post('/exportOpenOrders',[CustomerExportController::class,'openOrdersRequest']);
     Route::post('/exportVmiUser',[CustomerExportController::class,'vmiUserRequest']);
+    // change order request success page
+    Route::get('/change_order_status/{id}',[MenuController::class,'changeMessageDisplay']);
 });
 
 Route::get('/get-notifications',[NotificationController::class,'getNotifications']);

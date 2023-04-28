@@ -2310,6 +2310,10 @@ table.dataTable td, table.dataTable th{
   background: #9FCC13;
 }
 
+.notfication_bottom .messages-container a {
+  text-decoration: none;
+}
+
 .bottom_notification_msg:last-child{
   border: none;
 }
@@ -2337,6 +2341,10 @@ table.dataTable td, table.dataTable th{
 .messsage_content .message_title{
   font-size: 0.875rem;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 9.375rem;
 }
 
 .messsage_content .message_desc{
@@ -3613,7 +3621,8 @@ td .dtr-title span{
    .notfication_bottom .messages .header{
      width: 15rem;
    }
-   .messages-container a {
+
+  .messages-container a {
      width: 15rem;
    }
    .message_section{
