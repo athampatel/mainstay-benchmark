@@ -18,16 +18,11 @@ $(document).on('click','#help-save-button',function(e){
     if(email_address == ''){
         validation_error += 'Email field is required <br>';
     }
-    // if(ph_no ==''){
-        // validation_error += 'Phone Number field is required <br>';
-    // }
-    console.log(validation_error,'__validation error');
-    // return false;
     if(validation_error != ''){
         $('#help-message-alert').removeClass('alert-success').addClass('alert-danger').html(validation_error).removeClass('d-none');
         return false;
     }
-    // ajax message
+    
     $.ajax({
         type: 'POST',
         url: '/sendHelp',
@@ -40,7 +35,7 @@ $(document).on('click','#help-save-button',function(e){
         success: function (res) {  
             if(res.success){
                 $('#help-message-alert').addClass('alert-success').removeClass('alert-danger').html(res.message).removeClass('d-none');
-
+                $('#help_textarea').val('');
                 setTimeout(() => {
                     $('#help-message-alert').addClass('d-none')
                 }, 2000);

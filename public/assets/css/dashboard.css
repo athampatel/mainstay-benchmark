@@ -2331,6 +2331,23 @@ table.dataTable td, table.dataTable th{
   align-items: center;
 }
 
+/* notification clear */
+.clear_notifications{
+  height: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+  font-size: 13px;
+}
+
+.notification_clear_msg{
+  cursor: pointer;
+}
+.notification_clear_msg:hover{
+  opacity: 0.75;
+}
+
 .message_icon img{
   height: 1.5625rem;
 }

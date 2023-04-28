@@ -18,6 +18,9 @@
                 <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" :icon="$notification->icon_path" :time="$notification->created_at" :link="$link" :id="$notification->id" />
             @endforeach
         </div>
+        <div class="clear_notifications">
+            <div class="notification_clear_msg" id="clearAllNofications">Clear All Notifications</div>
+        </div>
     </div>
     <div class="notification">
         <div class="icon-container">

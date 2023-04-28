@@ -235,5 +235,7 @@ function deleteCustomer(id){
         }
     })
 }
+// Your Export Request Has been sent to Admin. Once it gets completed you will be notified
+// Your Export Request Has been received. Once it gets completed you will be notified
 </script>
 @endsection

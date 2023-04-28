@@ -18,12 +18,15 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\SaleOrdersController;
+use App\Models\Admin;
 use App\Models\AnalaysisExportRequest;
 use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
+use App\Models\Notification;
 use App\Models\SearchWord;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Mail;
 
 class MenuController extends Controller
 {
@@ -992,7 +995,22 @@ class MenuController extends Controller
             'phone_no' => $data['phone_no'],
             'message' => $data['message'],
         ]);
-
+        $details['title']   = config('constants.email.help.title');   
+        $details['subject'] = config('constants.email.help.subject');
+        $details['status']    = 'success';
+        $details['name'] = $data['name'];
+        $details['email'] = $data['email'];
+        $details['body']   = $data['message'];
+        $details['link']            =  '';      
+        $details['mail_view']       =  'emails.email-body';
+        $admin_emails = env('ADMIN_EMAILS');
+        $is_local = env('APP_ENV') == 'local' ? true : false;
+        if($is_local){
+            Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+        } else {
+            $admin_emails = Admin::all()->pluck('email')->toArray();
+            Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+        }
         if($helpRequest){
             echo json_encode(['success' => true, 'message' => config('constants.help_message.message')]);
             die();
@@ -1005,6 +1023,8 @@ class MenuController extends Controller
         $final_data['menus']          = $this->NavMenu('open-orders');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
+        $request_url = Request()->url();
+        self::CustomerNotificationRemove($request_url,$user_id);
         $response = self::CustomerPageRestriction($user_id,$final_data['menus'],$final_data['current_menu']);
         if(!$response) return redirect()->back();
         $final_data['customer_menus'] = $response;
@@ -1033,5 +1053,18 @@ class MenuController extends Controller
         }
         echo json_encode($response);
         die();
+    }
+
+
+    public static function CustomerNotificationRemove($url,$user_id){    
+        // dd($url);
+        $is_notification = Notification::where('to_user',$user_id)->where('action',$url)->where('status',1)->where('is_read',0)->first();
+        if($is_notification){
+            $is_notification->status = 0;
+            $is_notification->is_read = 1;
+            $is_notification->save();
+        }
+
+        return true;
     }
 }

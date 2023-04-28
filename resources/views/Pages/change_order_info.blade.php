@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-{{config('constants.page_title.customers.help')}} - Benchmark
+{{config('constants.page_title.customers.change_order')}} - Benchmark
 @endsection
 
 @section('content')

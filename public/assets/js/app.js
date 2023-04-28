@@ -279,3 +279,23 @@ $(window).scroll(function (e) {
 $(document).on('click','#change_order_Request_nav',function(){
 	window.location = '/requests/change_orders';
 })
+
+$(document).on('click','#clearAllNofications',function(e){
+	e.preventDefault();
+	$.ajax({
+		type: 'GET',
+		url: '/clearNotifications',
+		dataType: "JSON",
+		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		success: function (res) { 
+			if(res.success){
+				setTimeout(() => {
+					$('.notfication_bottom').removeClass('active')
+				}, 200);
+				setTimeout(() => {
+					$('.notfication_bottom').addClass('d-none');
+				}, 400);
+			}
+		},
+	});
+})

@@ -137,17 +137,14 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                {{-- <label class="form-label">Benchmark Relational Manager Name</label> --}}
                                 <label class="form-label">Benchmark Regional Manager Name</label>
                                 <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
                             </div>
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                {{-- <label class="form-label">Benchmark Relational Manager Email</label> --}}
                                 <label class="form-label">Benchmark Regional Manager Email</label>
                                 <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
                             </div>
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                {{-- <label class="form-label">Benchmark Relational Manager Phone Number</label> --}}
                                 <label class="form-label">Benchmark Regional Manager Phone Number</label>
                                 <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
                             </div>

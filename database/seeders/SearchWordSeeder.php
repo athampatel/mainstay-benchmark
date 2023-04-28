@@ -57,7 +57,7 @@ class SearchWordSeeder extends Seeder
                 'type' => 1
             ]);
             SearchWord::create([
-                'name' => 'Relational Managers',
+                'name' => 'Regional Managers',
                 'link' => '/admin/admins/manager',
                 'type' => 1
             ]);

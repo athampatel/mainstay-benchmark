@@ -1093,6 +1093,14 @@ class UsersController extends Controller
     }
 
     public function CustomerChangeOrderDetails($change_id){
+        $request_url = Request()->url();
+        $is_notification = Notification::where('to_user',0)->where('action',$request_url)->where('status',1)->where('is_read',0)->first();
+        if($is_notification){
+            $is_notification->status = 0;
+            $is_notification->is_read = 1;
+            $is_notification->save();
+        }
+
         $change_request = ChangeOrderRequest::leftjoin('users','change_order_requests.user_id','=','users.id')
                                                 ->leftjoin('user_details','users.id','=','user_details.user_id')
                                                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')

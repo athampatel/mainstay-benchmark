@@ -51,7 +51,8 @@ function getAnalysispageData($page,$count,range,year){
         beforeSend:function(){
             beforeAjax()
         },
-        success: function (res) {  
+        success: function (res) {
+            console.log(res,'___Response');  
             $('#invoice-order-page-table-div').html(res.table_code);
             $('#pagination_disp').html(res.pagination_code)
             let analysis_data = res.analysis_data;
@@ -72,6 +73,7 @@ function getAnalysispageData($page,$count,range,year){
             let chart_count = [];
             let months_desc = [];
             if(chart_type == 0){
+                console.log(analysis_data,'___analysis_data');
                 $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
                 months = $analaysis_count['months'];
                 months_desc = $analaysis_count['months'];
@@ -83,6 +85,12 @@ function getAnalysispageData($page,$count,range,year){
                 chart_count = $analaysis_count['counts'];
                 months_desc = $analaysis_count_desc['products'];
             }
+            console.log(chart_type,'___chart type');
+            console.log($analaysis_count,'__analysis count');
+            console.log(range,'___range');
+            console.log(range_months,'__range months');
+            console.log(chart_count,'__chart count');
+            console.log(months,'__months');
            renderAnalysisChart(chart_count,months,months_desc);
         },
         complete:function(){

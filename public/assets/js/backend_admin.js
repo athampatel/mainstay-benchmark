@@ -134,7 +134,14 @@ if($('#backend_roles').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "7%" },
+            { "width": "25%" },
+            { "width": "42%" },
+            { "width": "25%" },
+        ]
     });
     
     $(document).on('change','#admin-roles-filter-count',function(){
@@ -240,7 +247,17 @@ if($('#backend_admins').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "7%" },
+            { "width": "14%" },
+            { "width": "14%" },
+            { "width": "14%" },
+            { "width": "14%" },
+            { "width": "21%" },
+            { "width": "14%" }
+        ]
     });
     
     $(document).on('change','#admin-admins-filter-count',function(){
@@ -347,7 +364,15 @@ if($('#backend_managers').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+        ]
     });
     
     $(document).on('change','#admin-managers-filter-count',function(){
@@ -455,7 +480,16 @@ if($('#backend_change_order_requests').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+        ]
     });
     
     $(document).on('change','#admin-change-order-filter-count',function(){
@@ -560,7 +594,15 @@ if($('#backend_export_requests').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "20%" },
+        ]
     });
     
     $(document).on('change','#admin-exports-filter-count',function(){
@@ -662,7 +704,16 @@ if($('#backend_signup_request').length){
         paging: true,
         ordering: false,
         info: false,
-        responsive: true
+        responsive: true,
+        autoWidth: false,
+        columns: [
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+            { "width": "16%" },
+        ]
     });
     
     $(document).on('change','#admin-signup-filter-count',function(){

@@ -2,11 +2,11 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Relational Managers - Admin Panel
+Regional Managers - Admin Panel
 @endsection
 @section('admin-content')   
 <div class="home-content">
-    <span class="page_title">Relational Managers</span>
+    <span class="page_title">Regional Managers</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">

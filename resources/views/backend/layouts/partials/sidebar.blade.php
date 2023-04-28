@@ -107,7 +107,7 @@
                                 </g>
                                 </svg>
                             </span>
-                            <span class="links_name">Relational Managers</span>
+                            <span class="links_name">Regional Managers</span>
                         </a>
                     </li>
                     @endif
