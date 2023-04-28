@@ -745,7 +745,10 @@ class UsersController extends Controller
     }
 
     public function getUserRequest($user_id,$admin_token = ''){
-        $is_notification = Notification::where('to_user',0)->where('action',URL::full())->where('status',1)->where('is_read',0)->first();
+        // sathya
+        // http://localhost:8081/admin/user/usinvoices@zoetis.com/change-status/iJr2DalahehCP2mheIzSfVeOXVb1dO?code=1&request=1&duplicate=1
+        // ->orWhere('users.email','like','%'.$search.'%')
+        $is_notification = Notification::where('to_user',0)->where('action','like','%'.URL::full().'%')->where('status',1)->where('is_read',0)->first();
         if($is_notification){
             $is_notification->status = 0;
             $is_notification->is_read = 1;
