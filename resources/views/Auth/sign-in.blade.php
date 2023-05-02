@@ -21,7 +21,7 @@
 								@endif								
 								<div class="form-body">
 									<form class="row g-3" method="POST" action="{{route('login')}}">
-										@csrf
+										{{-- @csrf --}}
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
 											<input type="email" class="form-control" id="inputEmailAddress" name="email" placeholder="Email Address" required>

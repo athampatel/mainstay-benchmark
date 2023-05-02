@@ -686,7 +686,6 @@ class MenuController extends Controller
         $filter_dates = $this->getRangeDates($range,$year);
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
-        // dd($filter_start_date,$filter_end_date);
         $date_filter = [
             [
                 "column" => "invoiceDate",
