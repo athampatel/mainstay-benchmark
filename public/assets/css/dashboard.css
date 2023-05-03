@@ -1962,17 +1962,44 @@ table.dataTable thead .sorting{
 #change-order-request-page-table_wrapper .row:last-child{
   display: none;
 }
-/* admin tables */
-/* #dataTable_wrapper
-#open-orders-page-table_filter{
-  display: none;
-} */
+
 #backend_customers_wrapper .row:first-child{
   display: none;
 }
 #backend_customers_wrapper .row:last-child{
   display: none;
 }
+
+.dataTables_wrapper .row:first-child {
+  display: none;
+}
+
+.dataTables_wrapper .row:last-child {
+  display: none;
+}
+
+.custom_info {
+  height: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  visibility: hidden;
+}
+
+.do_customer.active + .custom_info,.do_customer.active + .custom_info .customer_table {
+  height: unset;
+  padding: unset;
+  visibility: unset;
+  margin: unset;
+}
+
+.do_customer.active {
+  background: #A2D45E !important;
+}
+
+.do_customer.active span i {
+  transform: rotate(180deg);
+}
+
 #backend_roles_wrapper .row:first-child{
   display: none;
 }
@@ -1997,22 +2024,22 @@ table.dataTable thead .sorting{
 #backend_change_order_requests_wrapper .row:last-child{
   display: none;
 }
-/* signup requests */
+
 #backend_signup_request_wrapper .row:first-child{
   display: none;
 }
+
 #backend_signup_request_wrapper .row:last-child{
   display: none;
 }
 
-/* vmi inventory page */
 #vmi-inventory-page-table_wrapper .row:first-child{
   display: none;
 }
 #vmi-inventory-page-table_wrapper .row:last-child{
   display: none;
 }
-/* admin exports */
+
 #backend_export_requests_wrapper .row:first-child{
   display: none;
 }
@@ -2028,7 +2055,7 @@ table.dataTable thead .sorting{
 .export-admin-customer-item{
   cursor: pointer;
 }
-/*open orders page */
+
 .padding-y-40{
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -2039,24 +2066,23 @@ table.dataTable thead .sorting{
   border-radius: 0.9375rem;
   margin-top: 1.5rem;
 }
-/* .open-orders .card.box.active{
-  min-height: 37.5rem;
-} */
-/* analysis page filter */
+
 .analysis-filter{
   padding-left: 0.3125rem;
 }
+
 .analysis-filter label{
   color: #424448;
   font-weight:500;
-  /* width: 226px; */
   margin-left: 2.5rem;
 }
+
 .analysis-filter label span{
   padding-right:1.125rem;
   font-size: 0.75rem;
   font-weight:700;
 }
+
 .analysis-filter label select{
   width: 10.125rem;
   padding-left: 1.5rem;
@@ -2652,7 +2678,7 @@ tr.child ul{
 }
 
 #searchmodal{
-  top: 47px;
+  top: 2.9375rem;
 }
 
 #searchmodal .modal-dialog{
@@ -2893,6 +2919,11 @@ td .dtr-title span{
   display: none;
 }
 
+.user_information > .dataTables_wrapper {
+  margin-top: 0.3125rem;
+  padding: 0.4375rem;
+}
+
 /* datatable testing sorting work end */
 
 /* print */
@@ -2907,7 +2938,7 @@ td .dtr-title span{
   } 
   
   #print_table td{
-    max-width: 75px !important;
+    max-width: 4.6875rem !important;
     word-break: break-all !important;
     color: #000 !important;
   }
@@ -2917,7 +2948,7 @@ td .dtr-title span{
   }
 
   .page_title{
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
   }
 
   #backend_admins{
@@ -2951,7 +2982,7 @@ td .dtr-title span{
 
 @media ( max-width : 2000px){
   #backend_customers{
-    max-width: 1512px !important;
+    max-width: 94.5rem !important;
     /* width: 1512px !important; */
   }
 }
@@ -3447,20 +3478,23 @@ td .dtr-title span{
 
     #searchmodal .modal-dialog{
       min-width: calc(100vw - 15px) !important;
-      margin-left: 9px !important;
-      margin-top: 30px;
+      margin-left: 0.5625rem !important;
+      margin-top: 1.875rem;
     }
 
     .backend_datatables{
-      max-width: 355px !important;
-      width: 355px !important;
+      max-width: 22.1875rem !important;
+      width: 22.1875rem !important;
    }
   }
 
   @media (max-width:768px) {
     #searchmodal .modal-dialog{
       min-width: calc(100vw - 15px) !important;
-      margin-left: 9px !important;
+      margin-left: 0.5625rem !important;
+    }
+    .customer_container {
+      margin-top: 0.625rem;
     }
   }
 
@@ -3489,15 +3523,15 @@ td .dtr-title span{
       width: 100% !important;
     }
     tr.child{
-      max-width: 305px !important;
+      max-width: 19.0625rem !important;
     }
     td.child li {
-      max-width: 305px !important;
+      max-width: 19.0625rem !important;
     }
    td.child li span.dtr-title{
       text-align: left !important;
       max-width: 50% !important;
-      padding-right: 5px;
+      padding-right: 0.3125rem;
       min-width: 0 !important;
       word-break: break-all !important;
       display: block !important;
@@ -3511,22 +3545,27 @@ td .dtr-title span{
    }
 
     .backend_datatables{
-      max-width: 305px !important;
-      width: 305px !important;
+      max-width: 19.0625rem !important;
+      width: 19.0625rem !important;
     }
 
     #searchmodal .modal-dialog{
       min-width: calc(100vw - 15px) !important;
-      margin-top: 30px !important;
-      margin-left: 8px !important;
+      margin-top: 1.875rem !important;
+      margin-left: 0.5rem !important;
     }
     
     .search_message_div{
-      padding: 3px 5px;
+      padding: 0.1875rem 0.3125rem;
     }
   }
  
   @media (max-width: 320px) {
+
+    .customer_container{
+      margin-top: 0.625rem !important;
+    }
+
    .analysis_table_options{
       display: flex;
       justify-content: center;
@@ -3582,17 +3621,17 @@ td .dtr-title span{
     }
 
     tr.child{
-      max-width: 250px !important;
+      max-width: 15.625rem !important;
     }
    
     td.child li {
-      max-width: 250px !important;
+      max-width: 15.625rem !important;
     }
    
     td.child li span.dtr-title{
       text-align: left !important;
       max-width: 50% !important;
-      padding-right: 5px;
+      padding-right: 0.3125rem;
       min-width: 0 !important;
       word-break: break-all !important;
       display: block !important;
@@ -3684,11 +3723,11 @@ td .dtr-title span{
 
    #searchmodal .modal-dialog{
       min-width: calc(100vw - 15px) !important;
-      margin-left:8px !important;
-      margin-top:26px !important;
+      margin-left:0.5rem !important;
+      margin-top:1.625rem !important;
    }
    .search_message_div{
-      padding: 3px 5px;
+      padding: 0.1875rem 0.3125rem;
    }
 
   }

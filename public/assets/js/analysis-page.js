@@ -468,8 +468,8 @@ $(document).on('click','.export-analysis-page-item',function(e){
                 icon: 'success',
                 title: 'Request Sent',
                 text: res.message,
-                showConfirmButton: false,
-                timer: 2000,
+                showConfirmButton: true,
+                // timer: 2000,
             })
         }
     });

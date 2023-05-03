@@ -6,30 +6,30 @@ if(wm_card){
     }, 5000);
 }
 
-if($('#backend_customers').length){
+// if($('#backend_customers').length){
 
     let start_filter_count =  parseInt($("#admin-customer-filter-count option:selected").val());
     let backend_customers;
-    backend_customers = $('#backend_customers').DataTable( {
-        searching: true,
-        lengthChange: true,
-        pageLength:start_filter_count,
-        paging: true,
-        ordering: false,
-        info: false,
-        responsive: true,
-        autoWidth: false,
-        columns: [
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%" },
-            { "width": "12%",}
-        ]
-    });
+    // backend_customers = $('#backend_customers').DataTable( {
+    //     searching: true,
+    //     lengthChange: true,
+    //     pageLength:start_filter_count,
+    //     paging: true,
+    //     ordering: false,
+    //     info: false,
+    //     responsive: true,
+    //     autoWidth: false,
+    //     columns: [
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%" },
+    //         { "width": "12%",}
+    //     ]
+    // });
 
     $(document).on('change','#admin-customer-filter-count',function(){
         let val = parseInt($("#admin-customer-filter-count option:selected").val());
@@ -46,6 +46,8 @@ if($('#backend_customers').length){
             name: 'search',
             value: search
         }).appendTo('#customer_from');
+
+        console.log('__Count changed');
         $('#customer_from').submit();
     })
     $('#admin-customer-search-img').click(function(){
@@ -85,7 +87,7 @@ if($('#backend_customers').length){
             $('#customer_from').submit();
         }
     })
-}
+// }
 
 // customer sorting
 function customers_submit(order,order_type){

@@ -94,34 +94,21 @@ class UsersController extends Controller
         $search = $request->input('search');
         $user =  $this->user;    
 
-        $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
-                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
-       
-        if(!$this->superAdmin && !empty($user)){
-            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
-            $lblusers->where('admins.id',$user->id);
-        }elseif($this->superAdmin && $request->input('manager')){
-            $lblusers->leftjoin('admins','sales_persons.email','=','admins.email'); 
-            $lblusers->where('admins.id',$request->input('manager'));
+        $lblusers = User::where('is_deleted',0);
+        if($request->input('type') && $request->input('type') == 'vmi') {
+            $lblusers->leftjoin('user_details','user_details.user_id','=','users.id')
+            ->where('user_details.vmi_companycode','!=','');
         }
-
-        $lblusers->where('users.is_deleted','=',0);
-
-        if($request->input('type')){
-            $type = $request->input('type');
-            switch($type){
-                case 'new':
-                    $lblusers->where('users.active','=',0)->where('users.is_deleted','=',0);
-                    break;
-                case 'vmi':
-                    $lblusers->where('user_details.vmi_companycode','!=','');
-                    break;    
-                default:
-                    break;
-            }
+        if($request->input('type') && $request->input('type') == 'new'){
+            $lblusers->where('active','=',0);
         }
         if($search){
+            if($request->input('type') && $request->input('type') != 'vmi') {
+                $lblusers->leftjoin('user_details','user_details.user_id','=','users.id');
+            }
+            $lblusers->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+
             $lblusers->where(function($lblusers) use($search){
                 $lblusers->orWhere('users.name','like','%'.$search.'%')
                         ->orWhere('users.email','like','%'.$search.'%')
@@ -130,34 +117,36 @@ class UsersController extends Controller
                         ->orWhere('sales_persons.name','like','%'.$search.'%');
             });
         }
-        $lblusers->select(['users.*','user_details.user_id as customer',
-                                'user_details.customerno',
-                                'user_details.customername',
-                                'user_details.ardivisionno',
-                                'user_details.vmi_companycode',
-                                'sales_persons.person_number',
-                                'sales_persons.name as sales_person']);
-
-        $userss = $lblusers->paginate(intval($limit));
         
-        if($order){
-            if($order == 'name' || $order == 'email' || $order == 'active' ){
-                $order_column = "users.$order";
+        $userss = $lblusers->paginate(intval($limit));
+        $users = $lblusers->offset($offset)->limit($limit)->get()->toArray();
+        if(!empty($users)){
+            foreach($users as $key => $ur) {
+                $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+                if (!$this->superAdmin && !empty($user)){
+                    $lbUserdetails->leftjoin('admins','sales_persons.email','=','admins.email'); 
+                    $lbUserdetails->where('admins.id',$user->id);
+                } elseif ($this->superAdmin && $request->input('manager')){
+                    $lbUserdetails->leftjoin('admins','sales_persons.email','=','admins.email'); 
+                    $lbUserdetails->where('admins.id',$request->input('manager'));
+                }
+                if($search){
+                    $lbUserdetails->where(function($lbUserdetails) use($search){
+                        $lbUserdetails->orWhere('user_details.customerno','like','%'.$search.'%')
+                                ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
+                                ->orWhere('sales_persons.name','like','%'.$search.'%');
+                    });
+                }
+                if($request->input('type') && $request->input('type') == 'vmi') {
+                    $lbUserdetails->where('user_details.vmi_companycode','!=','');
+                }
+                $lbUserdetails->where('user_id',$ur['id']);
+                $users[$key]['users'] = $lbUserdetails->get()->toArray();
             }
-
-            if( $order == 'customerno' || $order == 'ardivisionno'){
-                $order_column = "user_details.$order";
-            }
-
-            if($order == 'sales_person'){
-                $order_column = "sales_persons.name";
-            }
-
-            $lblusers->orderBy($order_column, $order_type);
         }
-
-        $print_users = $lblusers->get();
-        $users = $lblusers->offset($offset)->limit($limit)->get();
+        $print_users = $users;
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
@@ -745,9 +734,6 @@ class UsersController extends Controller
     }
 
     public function getUserRequest($user_id,$admin_token = ''){
-        // sathya
-        // http://localhost:8081/admin/user/usinvoices@zoetis.com/change-status/iJr2DalahehCP2mheIzSfVeOXVb1dO?code=1&request=1&duplicate=1
-        // ->orWhere('users.email','like','%'.$search.'%')
         $is_notification = Notification::where('to_user',0)->where('action','like','%'.URL::full().'%')->where('status',1)->where('is_read',0)->first();
         if($is_notification){
             $is_notification->status = 0;
