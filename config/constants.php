@@ -102,8 +102,12 @@
                     'title' => 'New customer request for portal access',
                     'subject' => 'New customer request for member portal access'
                 ]
-            ]
+                ],
 
+            'help' => [
+                'title' => 'Help Request',
+                'subject' => 'Help Request'
+            ]
         ],
         '403' => [
             'role' => [
@@ -235,10 +239,10 @@
         ],
 
         'export_message' => [
-            'message' => 'Your export request has been sent successfully.'
+            'message' => 'Your Export Request Has been received. Once it gets completed you will be notified.'
         ],
         'analysis_message' => [
-            'message' => 'Your export request has been sent successfully.'
+            'message' => 'Your Export Request Has been received. Once it gets completed you will be notified.'
         ],
 
         'help_message' => [

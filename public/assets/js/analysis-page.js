@@ -51,7 +51,7 @@ function getAnalysispageData($page,$count,range,year){
         beforeSend:function(){
             beforeAjax()
         },
-        success: function (res) {  
+        success: function (res) {
             $('#invoice-order-page-table-div').html(res.table_code);
             $('#pagination_disp').html(res.pagination_code)
             let analysis_data = res.analysis_data;
@@ -89,14 +89,13 @@ function getAnalysispageData($page,$count,range,year){
             AfterAjax()
         }
     });
-}
+} 
 // before ajax start
 function beforeAjax(){
     $('.table_loader').removeClass('d-none');
     $('#invoice-order-page-table-div').addClass('d-none');
     $('#pagination_disp').addClass('d-none');
     $('#analysis_page_chart').addClass('d-none');
-    //select box disabled work start
     $('#analysis_item_select').prop('disabled', true);
     $('#analysis_range_select').prop('disabled', true);
     $('#analysis_year_select').prop('disabled', true);
@@ -108,7 +107,6 @@ function AfterAjax(){
     $('#invoice-order-page-table-div').removeClass('d-none');
     $('#pagination_disp').removeClass('d-none');
     $('#analysis_page_chart').removeClass('d-none');
-    // select box enable work start
     $('#analysis_item_select').prop('disabled', false);
     $('#analysis_range_select').prop('disabled', false);
     $('#analysis_year_select').prop('disabled', false);
@@ -174,9 +172,18 @@ function getAnalaysisDataCount(data,range,range_months){
     if(range == 4) last_number = range_months.length;
 
     months = [];
+    if(range == 0) {
+        for(let num = 01; num <= last_number; num++){
+            let num1 = num <= 9 ? `0${num}`: num;
+            if(!test_array.includes(`${num1}`)){
+                test_array.push(`${num1}`);
+            } 
+        }
+    }
     test_array.forEach(mon => {
         months.push(getMonthNameShort(mon))
     })
+
     
     let final = [];
     if(range == 4){
@@ -197,7 +204,6 @@ function getAnalaysisDataCount(data,range,range_months){
             }
         }
     }
-
     return {'months': months,'final' : final};
 }
 
@@ -248,6 +254,7 @@ $(document).on('change','#analysis_item_select',function(){
     let current_year = parseInt($('#analysis_year_select option:selected').val());
     getAnalysispageData(0,pageCount,select_by_range,current_year)
 })
+
 // range select
 $(document).on('change','#analysis_range_select',function(){
     $(this).closest('.down-arrow').css("transform", "rotate(-180deg)");
@@ -263,14 +270,13 @@ $(document).on('change','select#analysis_range_select',function(){
         $('.date-range-field').addClass('d-none');
     }
 });
+
 // year change
 $(document).on('change','select#analysis_year_select',function(){
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     if(range == 4){
-        // $('.date-range-field').removeClass('d-none');
-        // $("#analysis_range_select").val(0).change();
     }else{
         getAnalysispageData(0,pageCount,range,year)
         $('.date-range-field').addClass('d-none');
@@ -294,38 +300,10 @@ $('input[name="daterange"]').daterangepicker({
 }
 );
 
-// getChartData(response_)
-// function getChartData(res){
-//     let arr1 = [];
-//     res.forEach(da => {
-//         let month  =moment(da.date,'yyyy-mm-dd').format('mm')
-//         if(arr1[month]){
-//             arr1[month] += da.total_amount;
-//         } else {
-//             arr1[month] = da.total_amount;
-//         }
-//     });
-    
-//     let final = [];
-    
-//     for(let num = 01; num<=12;num++){
-//         let num1 = num < 9 ? `0${num}`: num;
-//         if(arr1[num1]){
-//             final.push(arr1[num1]);
-//         } else {
-//             final.push(0);
-//         }
-//     }
-
-//     return final;
-// }
-    
 function renderAnalysisChart(ct_counts,ct_months,ct_desc){
-    console.log(ct_months,'ct months');
     let percent = `${ct_months.length * 3}%`;
     const chart_div = document.querySelector("#analysis_page_chart");
     chart_div.innerHTML = '';
-    // document.querySelector("#analysis-page-des-chart").innerHTML = '';
     var options = {
         series: [{
                 name: 'Sales',
@@ -361,7 +339,7 @@ function renderAnalysisChart(ct_counts,ct_months,ct_desc){
             },
         },
         dataLabels: {
-             enabled: false //changeable
+             enabled: false
         },
         xaxis: {
             // type:'month',
@@ -412,102 +390,8 @@ function renderAnalysisChart(ct_counts,ct_months,ct_desc){
             }
         },
     };
-    // var desc_options = {
-    //     series: [{
-    //             name: 'Sales',
-    //             data: ct_counts
-    //         },
-    //     ],
-    //     chart: {
-    //         foreColor: '#9ba7b2',
-    //         type: 'bar',
-    //         height: 650,
-    //         zoom:{
-    //             enabled:false
-    //         },
-    //         toolbar : {
-    //             show:false
-    //         },
-    //         dropShadow:{
-    //             enabled:true,
-    //             top:3,
-    //             left:14,
-    //             blur:4,
-    //             opacity:0.10,
-    //         }
-    //     },
-    //     stroke: {
-    //         width: 2,
-    //         curve:'straight'
-    //     },
-    //     plotOptions: {
-    //         bar: {
-    //             horizontal: false,
-    //             columnWidth:percent
-    //         },
-    //     },
-    //     dataLabels: {
-    //          enabled: false //changeable
-    //     },
-    //     xaxis: {
-    //         // type:'month',
-    //         type:'category',
-    //         categories: ct_desc
-    //     },
-    //     fill: {
-    //         type: 'gradient',
-    //         gradient: {
-    //             shade: 'light',
-    //             gradientToColors: ['#A4CD3C'],
-    //             shadeIntensity: 1,
-    //             type: 'horizontal',
-    //             opacityFrom: 1,
-    //             opacityTo: 1,
-    //             stops: [0, 100, 100, 100]
-    //         },
-    //     },
-    //     tooltip: {
-    //         x: {
-    //             show: false
-    //         },
-    //         y: {
-    //             formatter: function($ct_counts, series) {
-    //             return '$'+ numberWithCommas($ct_counts);
-    //             }
-    //         }
-    //     },
-    //     markers: {
-    //         size: 4,
-    //         colors: ["#A4CD3C"],
-    //         strokeColors: "#fff",
-    //         strokeWidth: 2,
-    //         hover: {
-    //             size: 7,
-    //         }
-    //     },
-    //     colors: ["#A4CD3C"],
-        
-    //     yaxis: {
-    //         title: {
-    //             text: ''
-    //         },
-    //         labels: {
-    //             formatter:function($ct_counts, series) {
-    //                 return '$'+ numberWithCommas($ct_counts);
-    //             }
-    //         }
-    //     },
-    // };
-
     analysis_page_chart = new ApexCharts(document.querySelector("#analysis_page_chart"), options);
     analysis_page_chart.render();
-    
-    // analysis_page_chart_desc = new ApexCharts(document.querySelector("#analysis-page-des-chart"), desc_options);
-    // analysis_page_chart_desc.render();
-
-    // setTimeout(() => {
-    //     document.querySelector('#analysis-page-des-chart').style.display = 'none';
-    // }, 2000);
 }
 
 function numberWithCommas(x) {
@@ -523,36 +407,7 @@ $(document).on('click','#export-analysis-chart',function(e){
 $(document).on('click','.export-analysis-chart-item',function(e){
     e.preventDefault();
     let type = $(e.currentTarget).data('type');
-    // analysis_page_chart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-    // exportChart(analysis_page_chart,type);
-    console.log(analysis_page_chart_desc,'__analysis_page_chart_desc');
-    // if(type == 'csv'){
-    //     exportChart(analysis_page_chart_desc,type);
-    // } else {
-        exportChart(analysis_page_chart,type);
-    // }
-    // document.querySelector('#analysis-page-des-chart').style.display = 'block';
-    // if(type == 'svg'){
-    //     let cts = analysis_page_chart.ctx;
-    //     let w = analysis_page_chart.w;
-    //     analysis_page_chart.exports.exportToSVG(cts)
-    // } 
-    // if(type == 'png'){
-    //     let cts = analysis_page_chart.ctx;
-    //     let w = analysis_page_chart.w;
-    //     analysis_page_chart.exports.exportToPng(cts);
-    // }
-    // if(type == 'csv'){
-    //     let cts = analysis_page_chart_desc.ctx;
-    //     let w = analysis_page_chart_desc.w;
-    //     console.log(w,'___w');
-    //     analysis_page_chart_desc.exports.exportToCSV({
-    //         series: w.config.series,
-    //         columnDelimiter:','
-    //     });
-    // }
-    // document.querySelector('#analysis-page-des-chart').style.display = 'none';
-
+    exportChart(analysis_page_chart,type);
     $('#export-analysis-drop-down').toggleClass('d-none')
 })
 
@@ -566,7 +421,6 @@ function exportChart(chartname,type){
         chartname.exports.exportToPng(cts);
     }
     if(type == 'csv'){
-        console.log(w,'___w');
         chartname.exports.exportToCSV({
             series: w.config.series,
             columnDelimiter:','
@@ -609,19 +463,13 @@ $(document).on('click','.export-analysis-page-item',function(e){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { 'year' : year,'range':range,'type':type1},
         success: function (res) {  
-            // if(res.success){
-                // $('#export_message_display').html(res.message).removeClass('d-none');
-            // }
-            // setTimeout(() => {
-            //     $('#export_message_display').addClass('d-none');
-            // }, 2000);
             Swal.fire({
                 position: 'center-center',
                 icon: 'success',
                 title: 'Request Sent',
                 text: res.message,
-                showConfirmButton: false,
-                timer: 2000,
+                showConfirmButton: true,
+                // timer: 2000,
             })
         }
     });
@@ -634,8 +482,3 @@ $(document).on('click','#analysis-page-export',function(e){
     e.preventDefault();
     $('#export-analysis-page-drop').toggleClass('d-none');
 })
-
-// $(document).on('click','.export-analysis-page-item',function(e){
-//     e.preventDefault();
-//     console.log()
-// })

@@ -109,8 +109,8 @@ function downloadExportAjax(type){
                 icon: 'success',
                 title: 'Request Sent',
                 text: res.message,
-                showConfirmButton: false,
-                timer: 2000,
+                showConfirmButton: true,
+                // timer: 2000,
             })
         }
     });  

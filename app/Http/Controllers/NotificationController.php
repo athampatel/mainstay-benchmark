@@ -153,7 +153,6 @@ class NotificationController extends Controller
 
     public function getBottomNotifications(){
         if(auth('admin')->check()) {
-            // dd('comes in 1');
             if($this->superAdmin){
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
             } else {
@@ -167,9 +166,7 @@ class NotificationController extends Controller
                                     ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
             }
         } else {
-            // dd('comes in 2');
             $user_id = Auth::user()->id;
-            // dd($user_id);
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
         }
 
@@ -250,5 +247,32 @@ class NotificationController extends Controller
             echo json_encode($response);
             die();
         }
+    }
+
+    public function ClearAdminNotifications(Request $request){
+        if(auth('admin')->check()) {
+            if($this->superAdmin){
+                $notifications =  Notification::where('to_user',0)->where('status',1)->where('is_read',0)->get();
+            } else {
+                $manager = $this->user;
+                $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
+                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                    ->leftjoin('notifications','users.id','=','notifications.from_user')
+                                    ->where('admins.id',$manager->id)
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+            }
+        } else {
+            $user_id = Auth::user()->id;
+            $notifications =  Notification::where('to_user',$user_id)->where('status',1)->where('is_read',0)->get();
+        }
+        foreach($notifications as $notification){
+            $notification->status = 0;
+            $notification->is_read = 1;
+            $notification->save();
+        }
+        echo json_encode(['success' => true]);
+        die();
     }
 }

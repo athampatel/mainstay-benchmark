@@ -58,6 +58,12 @@
                                             @else
                                                 <p style="padding:10px 0px">Hi Support,</p>
                                             @endif
+                                            @if(isset($details['name']))
+                                                <p style="padding:10px 0px">Customer Name : {{$details['name']}}</p>
+                                            @endif
+                                            @if(isset($details['email']))
+                                                <p style="padding:10px 0px">Customer Email : {{$details['email']}}</p>
+                                            @endif
                                             <p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
                                     </td>

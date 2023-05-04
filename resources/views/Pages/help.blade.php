@@ -30,11 +30,11 @@
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label" for="acc_name">Name</label>
-                                <input class="form-control col-12 box-shadow-none" type="text" value="" placeholder="Name" name="user_name" id="user_name" autocomplete="off">
+                                <input class="form-control col-12 box-shadow-none" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="user_name" id="user_name" autocomplete="off">
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Email Address</label>
-                                <input class="form-control col-12 box-shadow-none" type="text" value="" placeholder="Email Address" name="email_address" id="email_address" autocomplete="off">
+                                <input class="form-control col-12 box-shadow-none" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="email_address" id="email_address" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">

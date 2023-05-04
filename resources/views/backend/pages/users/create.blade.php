@@ -112,17 +112,17 @@ User Create - Admin Panel
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
-                                        <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Sales Person Number">
+                                        <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Regional Manager Number">
                                     </div>
                                 </div>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
-                                        <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Sales Person Name">
+                                        <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Regional Manager Name">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
-                                        <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Sales Person Email">
+                                        <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Regional Manager Email">
                                     </div>
                                     <input type="hidden" name="is_vmi" id="is_vmi" value="0">
                                     <input type="hidden" name="vmi_companycode" id="vmi_companycode" value="">
