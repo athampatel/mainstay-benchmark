@@ -62,13 +62,21 @@ Customers - Admin Panel
                                 @include('backend.layouts.partials.messages')
                                 @if(!empty($users))
                                 @foreach($users as $user)
-                                <div class="form-row duplicate-date col-12 flex-wrap">
+                                <div class="form-row duplicate-date col-12 flex-wrap customer">
                                     <div class="form-group col-12 col-md-12 col-sm-12 dynamic-values">
                                         <div href="" class="do_customer">
-                                            <label for="PFINE00"><strong>Company Name: </strong>{{$user['name']}}   <strong>Customers : </strong>{{count($user['users'])}}</label>
-                                            <span class="angle"><i class="fa fa-angle-down"></i></span>
+                                            {{-- <label for="PFINE00">Company Name: <strong>{{$user['name']}}</strong>   Customers : <strong>{{count($user['users'])}}</strong></label> --}}
+                                            {{-- <div class="row"> --}}
+                                                <div class="customer_toggle_container">
+                                                    <div>Company Name: {{$user['name']}}</div>
+                                                    <div class="pe-5">Accounts : {{count($user['users'])}}</div>
+                                                </div>
+                                                {{-- <div class="col-2"> --}}
+                                                <span class="angle"><i class="fa fa-angle-down"></i></span>
+                                                {{-- </div> --}}
+                                            {{-- </div> --}}
                                         </div>
-                                        <div class="user_information custom_info p-3 mt-2">
+                                        <div class="user_information p-3 mt-2">
                                             <table id="backend_customers_{{$user['id']}}" class="text-center customer_table datatable-dark backend_datatables dt-responsive">
                                                 <thead class="text-capitalize">
                                                    <tr>
@@ -257,12 +265,13 @@ function deleteCustomer(id){
 // accordiation work start
 $(document).on('click','.do_customer',function(e) {
     e.preventDefault();
-    $(e.currentTarget).toggleClass('active');
-    if($(e.currentTarget).hasClass('active')){
-        $(e.currentTarget).closest('.dynamic-values').find('.user_information').removeClass('d-none')   
-    } else {
-        $(e.currentTarget).closest('.dynamic-values').find('.user_information').addClass('d-none')   
-    }
+    // $(e.currentTarget).toggleClass('active');
+    $(e.currentTarget).closest('.dynamic-values').find('.user_information').slideToggle("fast");
+    // if($(e.currentTarget).hasClass('active')){
+    //     $(e.currentTarget).closest('.dynamic-values').find('.user_information').removeClass('d-none')   
+    // } else {
+    //     $(e.currentTarget).closest('.dynamic-values').find('.user_information').addClass('d-none')   
+    // }
 })
 $(document).ready(function(){
     $('.customer_table').DataTable({
@@ -274,16 +283,19 @@ $(document).ready(function(){
             responsive: true,
             autoWidth: false,
             columns: [
+                { "width": "8%" },
                 { "width": "12%" },
                 { "width": "12%" },
                 { "width": "12%" },
                 { "width": "12%" },
                 { "width": "12%" },
                 { "width": "12%" },
-                { "width": "12%" },
-                { "width": "12%",}
+                { "width": "16%",}
             ]
     });
+
+    $('.dynamic-values').find('.user_information').slideUp("fast");
+
 })
 // accordiation work end
 </script>

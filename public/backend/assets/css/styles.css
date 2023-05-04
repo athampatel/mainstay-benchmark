@@ -842,6 +842,10 @@ ul.breadcrumbs {
     justify-content: space-between;
     margin-bottom: 1rem;
 }
+.admin-portal  .form-row.customer{
+    margin-bottom: 0.5rem;
+}
+
 .admin-portal  .form-row > div.col-md-6{
     width:calc(50% - 0.935rem);
 }
@@ -3106,7 +3110,7 @@ div.dataTables_wrapper div.dataTables_info{
     margin-bottom: 0px;
 }
 
-.multiple-container div.do_customer label{
+.multiple-container div.do_customer>div{
     margin-bottom: 0px;
     word-wrap: break-word;
     white-space: break-spaces;

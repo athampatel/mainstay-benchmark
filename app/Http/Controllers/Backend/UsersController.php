@@ -36,6 +36,8 @@ use App\Models\SearchWord;
 use App\Models\AnalaysisExportRequest;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
@@ -311,16 +313,30 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $postdata       = $request->input();
+        $postdata       = $request->all();
+        // dd($postdata);
         $is_duplicate   = 0;
         $email_address  = '';
         $user_id = 0;
         if(!isset($postdata['create_user'])){
             $request->validate([
                 'customername' => 'required|max:50',
+                'customerno' => 'unique:user_details',
                 'email' => 'required|max:100|email|unique:users',
                 'salespersonno' => 'required|min:1',
             ]);
+            // $validator = Validator::make($request->all(), [
+            //     'customername' => 'required|max:50',
+            //     'customerno' => 'unique:user_details',
+            //     'email' => 'required|max:100|email|unique:users',
+            //     'salespersonno' => 'required|min:1',
+            // ]);
+            
+            // if ($validator->fails()) {
+                // dd('comes in 1');
+                // return Redirect::back()->withErrors(['errors' => 'Eroorr']);
+                // return redirectback()->withErrors(['validation_error' => 'validation error']);
+            // } 
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];

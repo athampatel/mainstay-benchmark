@@ -257,6 +257,9 @@ function getVmiInventoryAjax($page,$count){
             $('#pagination_disp').html(res.pagination_code);
             $('#vmi_inventory_table_disp').html(res.table_code);
             $('#ignore_counts').val(res.count);
+            $('#vmi_inventory_edit').removeClass('d-none');
+            $('#vmi_inventory_save').addClass('d-none');
+            $('#vmi_inventory_cancel').addClass('d-none');
             vmi_inventory_page_table = $('#vmi-inventory-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,

@@ -1,5 +1,3 @@
-console.log('help page.js');
-
 $(document).on('click','#help-save-button',function(e){
     e.preventDefault();
 
@@ -36,6 +34,7 @@ $(document).on('click','#help-save-button',function(e){
             if(res.success){
                 $('#help-message-alert').addClass('alert-success').removeClass('alert-danger').html(res.message).removeClass('d-none');
                 $('#help_textarea').val('');
+                $('#phone_no').val('');
                 setTimeout(() => {
                     $('#help-message-alert').addClass('d-none')
                 }, 2000);
