@@ -16,6 +16,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\SignupRequest;
+use App\Models\UserDetails;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -30,9 +31,48 @@ class AuthController extends Controller
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
+        // first we check if the customer no is unique or not if unique add the customer with the user id
+        // else return the response
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
-            return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
+            $customer_no = $response['customerno'];
+            $is_user_detail = UserDetails::where('customerno',$customer_no)->first();
+            if(!$is_user_detail){   
+                /* test working start */
+                // create a user_details with the particular user id
+                $user_details = UserDetails::create([
+                    'user_id'           => $_user->id,
+                    'ardivisionno'      => $response['ardivisionno'],
+                    'customerno'        => $response['customerno'],
+                    'customername'      => $response['customername'],
+                    'addressline1'      => $response['addressline1'],
+                    'addressline2'      => $response['addressline2'],
+                    'addressline3'      => $response['addressline3'],
+                    'vmi_companycode'   => $response['vmi_companycode'],
+                    'city'              => $response['city'],
+                    'state'             => $response['state'],
+                    'zipcode'           => $response['zipcode'],
+                    'email'             => $email
+                ]);
+                // 
+                $sales_person1 = array();
+                if($response['salespersonemail'] != '')
+                    $sales_person1 = SalesPersons::where('email',$response['salespersonemail'])->first();
+                if(empty($sales_person1)) 
+                    $sales_person1 = SalesPersonController::createSalesPerson($response);
+                if($sales_person1){
+                    $user_sales_persons = UserSalesPersons::where('user_details_id',$user_details->id)->where('sales_person_id',$user_details->id)->first();
+                    if(empty($user_sales_persons)){
+                        UserSalesPersons::create([
+                            'user_details_id' => $user_details->id,
+                            'sales_person_id' => $sales_person1['id']
+                        ]);
+                    }
+                }
+                /* test working end */            
+            } else {
+                return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
+            }
         }  
         $user   =  UserController::createUser($response,$action,$postdata);
         $sales_person = array();

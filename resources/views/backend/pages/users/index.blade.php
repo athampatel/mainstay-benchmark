@@ -62,6 +62,7 @@ Customers - Admin Panel
                                 @include('backend.layouts.partials.messages')
                                 @if(!empty($users))
                                 @foreach($users as $user)
+                                {{-- {{dd($user)}} --}}
                                 <div class="form-row duplicate-date col-12 flex-wrap customer">
                                     <div class="form-group col-12 col-md-12 col-sm-12 dynamic-values">
                                         <div href="" class="do_customer">
@@ -101,7 +102,7 @@ Customers - Admin Panel
                                                                 <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                             @endif  
                                                         </td>
-                                                        <td>{{ $user['name'] }}</td>
+                                                        <td>{{ $usr['customername'] }}</td>
                                                         <td>{{ $user['email'] }}</td>
                                                         <td>{{ $usr['ardivisionno'] }}</td>
                                                         <td>
@@ -127,12 +128,12 @@ Customers - Admin Panel
                                                         <td>
                                                             <div class="btn-wrapper btns-2 no-wrap">
                                                                 <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.edit', $user['id']) }}">Edit</a>
-                                                                <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.users.destroy', $user['id']) }}"
-                                                                    onclick="event.preventDefault();deleteCustomer({{$user['id']}})">
+                                                                <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.users.destroy', $usr['user_detail_id']) }}"
+                                                                    onclick="event.preventDefault();deleteCustomer({{$usr['user_detail_id']}})">
                                                                     Delete
                                                                 </a>
                                                                 <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', $user['id']) }}">Login As</a>
-                                                                <form id="delete-form-{{ $user['id'] }}" action="{{ route('admin.users.destroy', $user['id']) }}" method="POST" style="display: none;">
+                                                                <form class="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $user['id']) }}" method="POST" style="display: none;">
                                                                     @method('DELETE')
                                                                     @csrf
                                                                 </form>
@@ -257,21 +258,15 @@ function deleteCustomer(id){
     confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-        document.getElementById(`delete-form-${id}`).submit();
+        // document.q(`delete-form-${id}`).submit();
+        document.querySelector(`.delete-form-${id}`)
         }
     })
 }
 
-// accordiation work start
 $(document).on('click','.do_customer',function(e) {
     e.preventDefault();
-    // $(e.currentTarget).toggleClass('active');
     $(e.currentTarget).closest('.dynamic-values').find('.user_information').slideToggle("fast");
-    // if($(e.currentTarget).hasClass('active')){
-    //     $(e.currentTarget).closest('.dynamic-values').find('.user_information').removeClass('d-none')   
-    // } else {
-    //     $(e.currentTarget).closest('.dynamic-values').find('.user_information').addClass('d-none')   
-    // }
 })
 $(document).ready(function(){
     $('.customer_table').DataTable({
@@ -297,6 +292,5 @@ $(document).ready(function(){
     $('.dynamic-values').find('.user_information').slideUp("fast");
 
 })
-// accordiation work end
 </script>
 @endsection

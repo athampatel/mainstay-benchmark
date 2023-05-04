@@ -124,7 +124,7 @@ class UsersController extends Controller
         $users = $lblusers->offset($offset)->limit($limit)->get()->toArray();
         if(!empty($users)){
             foreach($users as $key => $ur) {
-                $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
+                $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.id as user_detail_id','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
                 if (!$this->superAdmin && !empty($user)){
@@ -284,7 +284,6 @@ class UsersController extends Controller
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        // dd($print_managers);
 
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords','print_managers','order','order_type'));
     }
@@ -314,7 +313,6 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $postdata       = $request->all();
-        // dd($postdata);
         $is_duplicate   = 0;
         $email_address  = '';
         $user_id = 0;
@@ -322,21 +320,9 @@ class UsersController extends Controller
             $request->validate([
                 'customername' => 'required|max:50',
                 'customerno' => 'unique:user_details',
-                'email' => 'required|max:100|email|unique:users',
+                // 'email' => 'required|max:100|email|unique:users',
                 'salespersonno' => 'required|min:1',
             ]);
-            // $validator = Validator::make($request->all(), [
-            //     'customername' => 'required|max:50',
-            //     'customerno' => 'unique:user_details',
-            //     'email' => 'required|max:100|email|unique:users',
-            //     'salespersonno' => 'required|min:1',
-            // ]);
-            
-            // if ($validator->fails()) {
-                // dd('comes in 1');
-                // return Redirect::back()->withErrors(['errors' => 'Eroorr']);
-                // return redirectback()->withErrors(['validation_error' => 'validation error']);
-            // } 
             $postdata['emailaddress'] = $postdata['email'];
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
@@ -543,6 +529,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        dd($id);
         $user = User::find($id);
         if (!is_null($user)) {            
             $user['is_deleted'] = 1;
@@ -1398,10 +1385,8 @@ class UsersController extends Controller
             "offset"        => $offset,
             "limit"         => $limit,
         );
-        // dd($data);
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post','Products',$data);
-        // dd($response);
         // Remove unwanted products
         $count = 0;
         foreach($response['products'] as $key => $product){
