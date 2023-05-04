@@ -23,8 +23,9 @@ User Create - Admin Panel
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
-                <div class="col-12 mt-5">
-                    <div class="card">
+                <div class="col-12 mt-4">
+                    @include('backend.layouts.partials.messages')
+                    <div class="card mt-3">
                         <div class="card-body">
                             <div class="form-row align-items-center form-row align-items-center col-12 col-md-8 col-lg-8 mx-auto d-flex align-items-center flex-wrap">
                                 <div class="form-group col-12 col-md-9 col-lg-9">
@@ -47,7 +48,12 @@ User Create - Admin Panel
                     <div class="card-body">
                         <div class="userDetails-container" >        
                             <h4 class="header-title">Create New Customer</h4>
-                            @include('backend.layouts.partials.messages')
+                            {{-- @include('backend.layouts.partials.messages') --}}
+                            {{-- test working start --}}
+                            {{-- @if($errors->any())
+                                <h4>{{$errors->first()}}</h4>
+                            @endif --}}
+                            {{-- test working end --}}
                             <form action="{{ route('admin.users.store') }}" method="POST" id="create-customer">
                                 @csrf
                                 <div class="form-row">

@@ -2516,6 +2516,13 @@ table.dataTable td, table.dataTable th{
 .daterangepicker .calendar th, .daterangepicker .calendar td{
   font-size: 10px;
 }
+
+.customer_toggle_container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 @keyframes fadeInRight {
   from {
     opacity: 0;
@@ -2602,6 +2609,10 @@ table.dataTable td, table.dataTable th{
 .bm-btn-light-gray{
   background-color: #BBBBBB;
 } 
+
+.pt_25{
+  padding-top: 1.6rem;
+}
 
 .open-view-details{
   font-size: 0.75rem;
@@ -2885,6 +2896,10 @@ tr.child ul{
   flex-direction: column;
 }
 
+.wm_msg {
+  display: flex;
+  align-items: center;
+}
 
 /* datatable testing sorting work start */
 .backend_datatables thead tr th.sorting_disabled{
@@ -2922,6 +2937,10 @@ td .dtr-title span{
 .user_information > .dataTables_wrapper {
   margin-top: 0.3125rem;
   padding: 0.4375rem;
+}
+
+.customer_container {
+  padding-top: 1.6rem;
 }
 
 /* datatable testing sorting work end */
