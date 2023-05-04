@@ -93,7 +93,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="analysis-page-export">
+                            {{-- <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="analysis-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">
                                     <a href="" class="d-flex justify-content-center align-items-center">
@@ -104,7 +104,7 @@
                                         <a class="dropdown-item export-analysis-page-item" data-type="pdf">Export to PDF</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="table_loader d-none">
