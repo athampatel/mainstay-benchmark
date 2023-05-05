@@ -43,12 +43,10 @@ class UsersController extends Controller
 {
     public $user;  
     public $superAdmin; 
-    // public function __construct(SDEApi $SDEApi)
     public function __construct()
     {
-        // $this->SDEApi = $SDEApi;
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('admin')->user(); // null
+            $this->user = Auth::guard('admin')->user();
             if(!$this->user){
                 $unique_token = $request->segment(5); 
                 $this->user = Admin::where('unique_token',$unique_token)->first();
@@ -118,6 +116,7 @@ class UsersController extends Controller
                         ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
                         ->orWhere('sales_persons.name','like','%'.$search.'%');
             });
+            $lblusers->where('user_details.is_active',0);
         }
         
         $userss = $lblusers->paginate(intval($limit));
@@ -145,6 +144,7 @@ class UsersController extends Controller
                     $lbUserdetails->where('user_details.vmi_companycode','!=','');
                 }
                 $lbUserdetails->where('user_id',$ur['id']);
+                $lbUserdetails->where('is_active',0);
                 $users[$key]['users'] = $lbUserdetails->get()->toArray();
             }
         }
@@ -320,7 +320,7 @@ class UsersController extends Controller
             $request->validate([
                 'customername' => 'required|max:50',
                 'customerno' => 'unique:user_details',
-                // 'email' => 'required|max:100|email|unique:users',
+                'email' => 'required|max:100|email',
                 'salespersonno' => 'required|min:1',
             ]);
             $postdata['emailaddress'] = $postdata['email'];
@@ -529,14 +529,33 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
-        $user = User::find($id);
-        if (!is_null($user)) {            
-            $user['is_deleted'] = 1;
-            $user['active'] = 0;
-            $user->save();
-        }
+        // $user = User::find($id);
+        // if (!is_null($user)) {            
+        //     $user['is_deleted'] = 1;
+        //     $user['active'] = 0;
+        //     $user->save();
+        // }
 
+        $user_detail = UserDetails::find($id);
+        if($user_detail){
+            $user_detail->is_active = 1;
+            $user_detail->save();
+            $customers = UserDetails::where('user_id',$user_detail->user_id)->get();
+            $is_delete = true;
+            foreach($customers as $customer) {
+                if($customer->is_active == 0){
+                    $is_delete = false;
+                }
+            }
+            if($is_delete) {
+                $user= User::find($user_detail->user_id);
+                if($user) {
+                    $user->is_deleted = 1;
+                    $user->active = 0;
+                    $user->save();
+                }
+            }
+        }
         session()->flash('success', config('constants.customer_delete.confirmation_message'));
         return back();
     }

@@ -406,6 +406,7 @@ class MenuController extends Controller
                 "limit" => $limit,
                 "index" => "KSDEDESCENDING",
             );
+            // dd($data);
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';

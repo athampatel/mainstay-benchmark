@@ -104,6 +104,13 @@ Route::get('/autheticate',[AuthController::class,'autheticate']);
  */
 Route::redirect('/login', '/sign-in');
 Route::group(['prefix' => 'admin'], function () {
+    Route::get('/login', '\App\Http\Controllers\Backend\Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/login/submit', '\App\Http\Controllers\Backend\Auth\LoginController@login')->name('admin.login.submit');
+    Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
+});
+
+Route::group(['prefix' => 'admin','middleware' => 'auth:admin'], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard'); //
     Route::get('/admins/manager', '\App\Http\Controllers\Backend\UsersController@UserManagers')->name('admin.admins.manager');
     Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);
@@ -115,11 +122,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('customers', '\App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
     Route::get('/getAllCustomers',[UsersController::class,'getAllCustomers']);
     Route::resource('admins', '\App\Http\Controllers\Backend\AdminsController', ['names' => 'admin.admins']);
-    Route::get('/login', '\App\Http\Controllers\Backend\Auth\LoginController@showLoginForm')->name('admin.login');
-    Route::post('/login/submit', '\App\Http\Controllers\Backend\Auth\LoginController@login')->name('admin.login.submit');
     Route::post('/logout/submit', '\App\Http\Controllers\Backend\Auth\LoginController@logout')->name('admin.logout.submit');
-    Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
-    Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
     Route::post('/get_customer_info',[UsersController::class,'getCustomerInfo']);
     Route::get('/user/{user_id}/change-status/{admin_token}',[UsersController::class,'getUserRequest']);
     Route::get('/user/{user_id}/change-status/',[UsersController::class,'getUserRequest']);

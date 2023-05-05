@@ -133,7 +133,7 @@ Customers - Admin Panel
                                                                     Delete
                                                                 </a>
                                                                 <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', $user['id']) }}">Login As</a>
-                                                                <form class="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $user['id']) }}" method="POST" style="display: none;">
+                                                                <form id="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $usr['user_detail_id']) }}" method="POST" style="display: none;">
                                                                     @method('DELETE')
                                                                     @csrf
                                                                 </form>
@@ -258,8 +258,9 @@ function deleteCustomer(id){
     confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-        // document.q(`delete-form-${id}`).submit();
-        document.querySelector(`.delete-form-${id}`)
+        // document.quer(`delete-form-${id}`).submit();
+        console.log(id,'___delete from id');
+        document.querySelector(`#delete-form-${id}`).submit();
         }
     })
 }

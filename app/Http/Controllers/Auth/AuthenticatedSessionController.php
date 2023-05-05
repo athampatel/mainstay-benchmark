@@ -43,6 +43,7 @@ class AuthenticatedSessionController extends Controller
         $customer = UserDetails::where('user_id',$user->id)
                     ->leftjoin('users','users.id','=','user_details.user_id')
                     ->select('user_details.*','users.profile_image')
+                    ->where('user_details.is_active',0)
                     ->get();
 
         
@@ -70,7 +71,6 @@ class AuthenticatedSessionController extends Controller
                 }
             } 
         }
-        
         $request->session()->put('customers',$customer);
         $request->session()->put('customer_no',$customer[0]['customerno']);
         
