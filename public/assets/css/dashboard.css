@@ -1996,7 +1996,11 @@ table.dataTable thead .sorting{
   background: #A2D45E !important;
 }
 
-.do_customer.active span i {
+.do_customer.active1 {
+  background: #A2D45E !important;
+}
+
+.do_customer.active1 span i {
   transform: rotate(180deg);
 }
 

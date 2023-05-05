@@ -32,7 +32,6 @@
                 </g>
             </svg>
             </a>
-            {{-- <input type="text" placeholder="Search..."> --}}
         </div>
     </div>
     <div class="notification_section">
@@ -98,17 +97,11 @@
                 @else 
                     <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img" />
                 @endif
-
-           
-
             <div>
-
                  <div class="profile_position">{{Auth::user()->name}}</div>
                 @if ($customerno = Session::get('customer_no'))                   
                     <div class="profile_name" id="nav-bar-profile-name">{{$customerno}}</div>
-                @endif    
-                {{-- <div class="profile_name">John Deo</div> --}}
-                
+                @endif                    
             </div>
             </a>
 
@@ -124,6 +117,5 @@
                 @endforeach
                 </ul>    
             @endif
-              
     </div>
   </nav>

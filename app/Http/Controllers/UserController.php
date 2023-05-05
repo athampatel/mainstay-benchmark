@@ -15,12 +15,14 @@ class UserController extends Controller
 {
     public static function createUser($data,$action = 0){        
 
+        $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
+
         $userData = array(  'name'              =>$data['customername'],
-                            'email'             => $data['emailaddress'],
+                            'email'             => $useremail,
                             'password'          => Hash::make('sde@123'),
                             'activation_token'  => '',
         );
-        $user = User::where('email',$data['emailaddress'])->first();
+        $user = User::where('email',$useremail)->first();
         if(!$user){
             $user = User::create($userData);
         }
@@ -67,7 +69,7 @@ class UserController extends Controller
                             'city'              => $data['city'],
                             'state'             => $data['state'],
                             'zipcode'           => $data['zipcode'],
-                            'email'             => $data['emailaddress']);
+                            'email'             => $useremail);
        
         if(empty($user_details))
             $user_details = UserDetails::create($user_data);

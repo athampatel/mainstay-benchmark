@@ -49,27 +49,32 @@ User Create - Admin Panel
                         <div class="userDetails-container" >        
                             <h4 class="header-title">Create New Customer</h4>
                             {{-- @include('backend.layouts.partials.messages') --}}
+                            {{-- test working start --}}
+                            {{-- @if($errors->any())
+                                <h4>{{$errors->first()}}</h4>
+                            @endif --}}
+                            {{-- test working end --}}
                             <form action="{{ route('admin.users.store') }}" method="POST" id="create-customer">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
-                                        <input type="text" class="form-control required" id="user_no" name="customerno[]" placeholder="Enter {{ config('constants.label.admin.customer_no') }}" required>
+                                        <input type="text" class="form-control required" id="user_no" name="customerno" placeholder="Enter {{ config('constants.label.admin.customer_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_email">{{ config('constants.label.admin.user_email') }}</label>
-                                        <input type="email" class="form-control required" id="user_email" name="email[]" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
+                                        <input type="email" class="form-control required" id="user_email" name="email" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
-                                        <input type="text" class="form-control required" id="user_name" name="customername[]" placeholder="Enter {{ config('constants.label.admin.customer_name') }}">
+                                        <input type="text" class="form-control required" id="user_name" name="customername" placeholder="Enter {{ config('constants.label.admin.customer_name') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
-                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno[]" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
+                                        <input type="text" class="form-control" id="ardivision_no" name="ardivisionno" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
                                     </div>
                                 </div>
 
@@ -77,56 +82,56 @@ User Create - Admin Panel
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="address_line_1">{{ config('constants.label.admin.address_line_1') }}</label>
-                                        <input type="text" name="addressline1[]" class="form-control" id="address_line_1" placeholder="Enter {{ config('constants.label.admin.address_line_1') }} ">
+                                        <input type="text" name="addressline1" class="form-control" id="address_line_1" placeholder="Enter {{ config('constants.label.admin.address_line_1') }} ">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="address_line_2">{{ config('constants.label.admin.address_line_2') }}</label>
-                                        <input type="text" name="addressline2[]" class="form-control" id="address_line_2" placeholder="Enter {{ config('constants.label.admin.address_line_2') }}">
+                                        <input type="text" name="addressline2" class="form-control" id="address_line_2" placeholder="Enter {{ config('constants.label.admin.address_line_2') }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="address_line_3">{{ config('constants.label.admin.address_line_3') }}</label>
-                                        <input type="text" name="addressline3[]" class="form-control" id="address_line_3" placeholder="Enter {{ config('constants.label.admin.address_line_3') }}">
+                                        <input type="text" name="addressline3" class="form-control" id="address_line_3" placeholder="Enter {{ config('constants.label.admin.address_line_3') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_city">{{ config('constants.label.admin.city') }}</label>
-                                        <input type="text" name="city[]" class="form-control" id="user_city" placeholder="Enter {{ config('constants.label.admin.city') }}">
+                                        <input type="text" name="city" class="form-control" id="user_city" placeholder="Enter {{ config('constants.label.admin.city') }}">
                                     </div>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_state">{{ config('constants.label.admin.state') }}</label>
-                                        <input type="text" name="state[]" class="form-control" id="user_state" placeholder="Enter {{ config('constants.label.admin.state') }}">
+                                        <input type="text" name="state" class="form-control" id="user_state" placeholder="Enter {{ config('constants.label.admin.state') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_zipcode">{{ config('constants.label.admin.zipcode') }}</label>
-                                        <input type="text" name="zipcode[]" class="form-control" id="user_zipcode" placeholder="Enter {{ config('constants.label.admin.zipcode') }}">
+                                        <input type="text" name="zipcode" class="form-control" id="user_zipcode" placeholder="Enter {{ config('constants.label.admin.zipcode') }}">
                                     </div>
                                 </div>
                                 <h6 class="text-secondary">Regional Manager</h6><br>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_divison_no">{{ config('constants.label.admin.division_no') }}</label>
-                                        <input type="text" name="salespersondivisionno[]" class="form-control" id="sales_person_divison_no" placeholder="Enter {{ config('constants.label.admin.division_no') }}">
+                                        <input type="text" name="salespersondivisionno" class="form-control" id="sales_person_divison_no" placeholder="Enter {{ config('constants.label.admin.division_no') }}">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_no">{{ config('constants.label.admin.relational_manager_no') }}</label>
-                                        <input type="text" name="salespersonno[]" class="form-control required" id="sales_person_no" placeholder="Enter Regional Manager Number">
+                                        <input type="text" name="salespersonno" class="form-control required" id="sales_person_no" placeholder="Enter Regional Manager Number">
                                     </div>
                                 </div>                        
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_name">{{ config('constants.label.admin.relational_manager_name') }}</label>
-                                        <input type="text" name="salespersonname[]" class="form-control" id="sales_person_name" placeholder="Enter Regional Manager Name">
+                                        <input type="text" name="salespersonname" class="form-control" id="sales_person_name" placeholder="Enter Regional Manager Name">
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="sales_person_email">{{ config('constants.label.admin.relational_manager_email') }}</label>
-                                        <input type="email" name="salespersonemail[]" class="form-control required" id="sales_person_email" placeholder="Enter Regional Manager Email">
+                                        <input type="email" name="salespersonemail" class="form-control required" id="sales_person_email" placeholder="Enter Regional Manager Email">
                                     </div>
                                     <input type="hidden" name="is_vmi" id="is_vmi" value="0">
-                                    <input type="hidden" name="vmi_companycode[]" id="vmi_companycode" value="">
+                                    <input type="hidden" name="vmi_companycode" id="vmi_companycode" value="">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12 col-sm-12 custom-checkbox">
@@ -134,8 +139,6 @@ User Create - Admin Panel
                                         <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
                                     </div>
                                 </div>
-                                {{-- is mulitple checking --}}
-                                <input type="hidden" name="is_multiple" id="is_multiple" value="0">
                                 <button type="submit" id="customer_submit" class="btn btn-rounded bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create_customer') }}</button>
                             </form>
                         </div>                    
@@ -186,30 +189,8 @@ User Create - Admin Panel
     
         $(document.body).on('submit','#multiple-data',function(e){  
             e.preventDefault();
-            var form = $(this);
-            /* test work start */
-            // let checkboxes = Array.from($('.insert-customer:checked'));
-            // let send_information = [];
-            // if(checkboxes.length > 0){
-            //     checkboxes.forEach(check => {
-            //         let customer_info =  $(check).parents('.cmer').find('.user_information');
-            //         let customer_no = $(customer_info).find('input[name="customerno"]').val();
-            //         // fields start
-            //         let customer_email = $(customer_info).find('input[name="email"]').val();
-            //         let customer_name = $(customer_info).find('input[name="customername"]').val();
-            //         let customer_name = $(customer_info).find('input[name="customername"]').val();
-            //         // fields end
-            //         console.log(customer_no,'___customer_no')
-            //         //    send_information[customer_no]=
-            //         // let single_customer = {
-            //         //     'customerno' :  customer_no,
-            //         //     'email' : customer_email,
-            //             'customername' : 
-            //         // };
-            //         console.log(customer_info,'___info');
-            //     });
-            // }
-            /* test work end */
+
+            var form = $(this);       
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
@@ -218,8 +199,7 @@ User Create - Admin Panel
                     $(document.body).append('<div id="preloader" style="opacity:0.5"><div class="loader"></div></div>');
                 },
                 success : function(resp) {     
-                    console.log(resp,'___Ajax response');
-                    var result = JSON.parse(resp);
+                    var result = JSON.stringify(resp);
                     console.log(result);              
                    if(result.status == 'success'){
                     $('#customer_response_alert').addClass('alert-success').addClass('text-dark').removeClass('alert-danger').removeClass('d-none').html(result.message);    
@@ -247,14 +227,11 @@ User Create - Admin Panel
             if($(this).is(':checked')){
                 $(this).parent().addClass('active');                
                 $(this).addClass('active');
-                if($('#is_multiple').val() == 0 ) {
-                    $('.userDetails-container').fadeIn();
-                }
+                $('.userDetails-container').fadeIn();
                 var _html = '<div class="user_information p-3 mt-2" id="'+customerno+'" style="display:none;"><input type="hidden" name="create_user['+customerno+']" value="'+customerno+'" />'+_html;                
                 _html += '</div>';                
                 $(this).parent().parent().append(_html);
                 var container = $('#'+customerno+'.user_information');
-                console.log(parseData,'____parseData');
                 rendorUserForm(parseData,0,container);
 
                 container.find('input').each(function(){
@@ -289,7 +266,8 @@ User Create - Admin Panel
             }
 
             $('#multiple-data').show();
-            // $('#create-customer').hide();
+            $('#create-customer').hide();
+
         });
 
        
@@ -323,7 +301,7 @@ User Create - Admin Panel
     })
     
     $(document).on('click','#user-search',function(){
-        // console.log(constants,'__constants');
+        console.log(constants,'__constants');
         $search_text = $('#search-customer-no').val();
         if($search_text == ''){
             $('#customer_response_alert').addClass('alert-danger').addClass('text-white').addClass('bm-alert-danger').removeClass('alert-success').removeClass('bm-btn-primary').removeClass('d-none').html(constants.validation.admin.search_customer_number_email);     
@@ -341,7 +319,6 @@ User Create - Admin Panel
                 $('.userDetails-container').fadeOut();
             },
             success: function (res) {
-                console.log(res,'___get customer response');
                 let is_error = false;
                 let is_error_message = '';
                 if("status" in res){
@@ -353,12 +330,11 @@ User Create - Admin Panel
                 if(!is_error){
                     var total_records = parseInt(res.customers.length);
                     if(total_records > 1){
-                        $('#is_multiple').val(1);
                         $('#customer_response_alert').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary').removeClass('text-white').removeClass('bm-alert-danger').removeClass('alert-danger').removeClass('d-none').html(constants.multiple_customer);     
                         var customers = res.customers;  
                         var row_html = ''; 
                         $.each(customers,function(index,value){
-                            row_html +='<div class="form-row duplicate-date col-12 flex-wrap cmer">'+
+                            row_html +='<div class="form-row duplicate-date col-12 flex-wrap">'+
                                         '<div class="form-group col-12 col-md-12 col-sm-12">'+
                                             '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer">'+
                                             '<input type="checkbox" class="insert-customer" name="customer[]" value="'+value.customerno+'" id="'+value.customerno+'" />'+
@@ -374,7 +350,6 @@ User Create - Admin Panel
                         return false; 
                     } else if(res.customers.length > 0){
                         $customer = res.customers[0];
-                        $('#is_multiple').val(0);
                         rendorUserForm($customer,1);
                         $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
                         $('#customer_response_alert').addClass('alert-success');
@@ -382,9 +357,7 @@ User Create - Admin Panel
                         $('#customer_response_alert').removeClass('alert-danger');
                         $('.userDetails-container').fadeIn();
                         $('#create-customer .btn-primary').show();
-                        $('#create-customer .btn-primary').fadeIn();
                     } else {
-                        $('#is_multiple').val(0);
                         $('#customer_response_alert').removeClass('alert-success').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(constants.validation.admin.customer_search_unable);
                     }
                 } else {
@@ -403,57 +376,21 @@ function rendorUserForm($customer,show,container){
     if("vmi_companycode" in $customer){
        container.find('#is_vmi').val(1);
     }
-    let is_multiple = $('#is_multiple').val();
-    console.log(is_multiple,'__is is_multiple')
-    if(is_multiple == 0){
-        container.find('#user_no').attr('name', 'customerno');
-        container.find('#user_email').attr('name', 'email');
-        container.find('#user_name').attr('name', 'customername');
-        container.find('#ardivision_no').attr('name', 'ardivisionno');
-        container.find('#address_line_1').attr('name', 'addressline1');
-        container.find('#address_line_2').attr('name', 'addressline2');
-        container.find('#address_line_3').attr('name', 'addressline3');
-        container.find('#user_city').attr('name', 'city');
-        container.find('#user_state').attr('name', 'state');
-        container.find('#user_zipcode').attr('name', 'zipcode');
-        container.find('#sales_person_divison_no').attr('name', 'salespersondivisionno');
-        container.find('#sales_person_no').attr('name', 'salespersonno');
-        container.find('#sales_person_name').attr('name', 'salespersonname');
-        container.find('#sales_person_email').attr('name', 'salespersonemail');
-        container.find('#vmi_companycode').attr('name', 'vmi_companycode');
-    } else {
-        container.find('#user_no').attr('name', 'customerno[]');;
-        container.find('#user_email').attr('name', 'email[]');
-        container.find('#user_name').attr('name', 'customername[]');
-        container.find('#ardivision_no').attr('name', 'ardivisionno[]');
-        container.find('#address_line_1').attr('name', 'addressline1[]');
-        container.find('#address_line_2').attr('name', 'addressline2[]');
-        container.find('#address_line_3').attr('name', 'addressline3[]');
-        container.find('#user_city').attr('name', 'city[]');
-        container.find('#user_state').attr('name', 'state[]');
-        container.find('#user_zipcode').attr('name', 'zipcode[]');
-        container.find('#sales_person_divison_no').attr('name', 'salespersondivisionno[]');
-        container.find('#sales_person_no').attr('name', 'salespersonno[]');
-        container.find('#sales_person_name').attr('name', 'salespersonname[]');
-        container.find('#sales_person_email').attr('name', 'salespersonemail[]');
-        container.find('#vmi_companycode').attr('name', 'vmi_companycode[]');
-    }
-
-    container.find('#user_no').val($customer.customerno);
-    container.find('#user_email').val($customer.emailaddress);
-    container.find('#user_name').val($customer.customername);
-    container.find('#ardivision_no').val($customer.ardivisionno);
-    container.find('#address_line_1').val($customer.addressline1);
-    container.find('#address_line_2').val($customer.addressline2);
-    container.find('#address_line_3').val($customer.addressline3);
-    container.find('#user_city').val($customer.city);
-    container.find('#user_state').val($customer.state);
-    container.find('#user_zipcode').val($customer.zipcode);
-    container.find('#sales_person_divison_no').val($customer.salespersondivisionno);
-    container.find('#sales_person_no').val($customer.salespersonno);
-    container.find('#sales_person_name').val($customer.salespersonname);
-    container.find('#sales_person_email').val($customer.salespersonemail);
-    container.find('#vmi_companycode').val($customer.vmi_companycode);
+   container.find('#user_no').val($customer.customerno);
+   container.find('#user_email').val($customer.emailaddress);
+   container.find('#user_name').val($customer.customername);
+   container.find('#ardivision_no').val($customer.ardivisionno);
+   container.find('#address_line_1').val($customer.addressline1);
+   container.find('#address_line_2').val($customer.addressline2);
+   container.find('#address_line_3').val($customer.addressline3);
+   container.find('#user_city').val($customer.city);
+   container.find('#user_state').val($customer.state);
+   container.find('#user_zipcode').val($customer.zipcode);
+   container.find('#sales_person_divison_no').val($customer.salespersondivisionno);
+   container.find('#sales_person_no').val($customer.salespersonno);
+   container.find('#sales_person_name').val($customer.salespersonname);
+   container.find('#sales_person_email').val($customer.salespersonemail);
+   container.find('#vmi_companycode').val($customer.vmi_companycode);
     if(show == 1)
         $('#customer_response_alert').removeClass('alert-danger').removeClass('text-white').removeClass('bm-alert-danger').removeClass('d-none').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary');
     setTimeout(() => {

@@ -69,7 +69,8 @@ Customers - Admin Panel
                                             {{-- <label for="PFINE00">Company Name: <strong>{{$user['name']}}</strong>   Customers : <strong>{{count($user['users'])}}</strong></label> --}}
                                             {{-- <div class="row"> --}}
                                                 <div class="customer_toggle_container">
-                                                    <div>Company Name: {{$user['name']}}</div>
+                                                    {{-- <div>Company Name: {{$user['name']}}</div> --}}
+                                                    <div>Email: {{$user['email']}}</div>
                                                     <div class="pe-5">Accounts : {{count($user['users'])}}</div>
                                                 </div>
                                                 {{-- <div class="col-2"> --}}
@@ -84,7 +85,7 @@ Customers - Admin Panel
                                                         <th>{{ config('constants.label.admin.customer_no') }} </th>
                                                         <th>Profile Picture</th>
                                                         <th>Name</th>
-                                                        <th>Email</th>
+                                                        {{-- <th>Email</th> --}}
                                                         <th>{{ config('constants.label.admin.ar_division_no') }}</th>
                                                         <th>{{ config('constants.label.admin.relational_manager') }}</th>
                                                         <th>Status</th>
@@ -103,7 +104,7 @@ Customers - Admin Panel
                                                             @endif  
                                                         </td>
                                                         <td>{{ $usr['customername'] }}</td>
-                                                        <td>{{ $user['email'] }}</td>
+                                                        {{-- <td>{{ $user['email'] }}</td> --}}
                                                         <td>{{ $usr['ardivisionno'] }}</td>
                                                         <td>
                                                             @if($usr['sales_person'] != '')
@@ -132,8 +133,8 @@ Customers - Admin Panel
                                                                     onclick="event.preventDefault();deleteCustomer({{$usr['user_detail_id']}})">
                                                                     Delete
                                                                 </a>
-                                                                <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', $user['id']) }}">Login As</a>
-                                                                <form class="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $user['id']) }}" method="POST" style="display: none;">
+                                                                <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', ['id' => $user['id'],'user_detail_id' =>$usr['user_detail_id']]) }}">Login As</a>
+                                                                <form id="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $usr['user_detail_id']) }}" method="POST" style="display: none;">
                                                                     @method('DELETE')
                                                                     @csrf
                                                                 </form>
@@ -258,8 +259,9 @@ function deleteCustomer(id){
     confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-        // document.q(`delete-form-${id}`).submit();
-        document.querySelector(`.delete-form-${id}`)
+        // document.quer(`delete-form-${id}`).submit();
+        console.log(id,'___delete from id');
+        document.querySelector(`#delete-form-${id}`).submit();
         }
     })
 }
@@ -267,6 +269,7 @@ function deleteCustomer(id){
 $(document).on('click','.do_customer',function(e) {
     e.preventDefault();
     $(e.currentTarget).closest('.dynamic-values').find('.user_information').slideToggle("fast");
+    $(e.currentTarget).toggleClass('active1');
 })
 $(document).ready(function(){
     $('.customer_table').DataTable({
@@ -284,7 +287,7 @@ $(document).ready(function(){
                 { "width": "12%" },
                 { "width": "12%" },
                 { "width": "12%" },
-                { "width": "12%" },
+                // { "width": "12%" },
                 { "width": "16%",}
             ]
     });
