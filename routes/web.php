@@ -108,6 +108,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/login/submit', '\App\Http\Controllers\Backend\Auth\LoginController@login')->name('admin.login.submit');
     Route::get('/password/reset', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', '\App\Http\Controllers\Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
+    Route::get('/customers/{id}/login/{user_detail_id}',[UsersController::class,'customerLogin'])->name('admin.users.login');
+    Route::get('/back_to_admin',[UsersController::class,'adminLogin']);
 });
 
 Route::group(['prefix' => 'admin','middleware' => 'auth:admin'], function () {
@@ -153,8 +155,6 @@ Route::group(['prefix' => 'admin','middleware' => 'auth:admin'], function () {
     Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
     Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
-    Route::get('/customers/{id}/login',[UsersController::class,'customerLogin'])->name('admin.users.login');
-    Route::get('/back_to_admin',[UsersController::class,'adminLogin']);
 }); 
 
 Route::get('/clearNotifications',[NotificationController::class,'ClearAdminNotifications']);

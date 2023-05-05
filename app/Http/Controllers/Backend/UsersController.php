@@ -313,6 +313,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $postdata       = $request->all();
+        // dd($postdata);
         $is_duplicate   = 0;
         $email_address  = '';
         $user_id = 0;
@@ -331,10 +332,10 @@ class UsersController extends Controller
             $duplicate      = array();
             $customer       = array();
             $create_user    =  $postdata['create_user'];
+            $emails         = isset($postdata['emailaddress']) ? $postdata['emailaddress'] : $postdata['email'];
             foreach($create_user as $key => $value){
                 $is_duplicate = 0;
-                $email        = isset($postdata['emailaddress'][$key]) ? $postdata['emailaddress'][$key] : '';
-
+                $email        = isset($emails[$key]) ? $emails[$key] : '';
                 if(!in_array($email,$duplicate)){
                     $duplicate[]    = $email;
                     $email_address  = $email;
@@ -350,33 +351,38 @@ class UsersController extends Controller
                         foreach($_val as $_ind => $value){
                             $customer[$_ind][$data_key] = $value;
                         }
+                    } else {
+                        $customer[$key][$data_key] = $_val;
                     }
                 }
-            }                     
+            }
+           
             if(!empty($customer)){
                 foreach($customer as $insert_key => $_customer){
-                    if(!$user_id){
-                        $response = $this->CreateCustomer($_customer,$insert_key);
-                        if($response['status'] != 0){
-                            $user_id  = $response['id'];
-                        }
-                        if($request->input('send_password')){
-                            $details['subject'] = config('constants.email.admin.customer_create.subject');
-                            $details['title']   = config('constants.email.admin.customer_create.title');    
-                            $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
-                            $details['mail_view']    = "emails.new-account-details";
-                            
-                            $details['link']    = env('APP_URL').'/';
-                            $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                            $is_local = env('APP_ENV') == 'local' ? true : false;
-                            if($is_local){
-                                Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
-                            } else {
-                                Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                    if(isset($_customer['customerno'])){
+                        if(!$user_id){
+                            $response = $this->CreateCustomer($_customer,$insert_key);
+                            if($response['status'] != 0){
+                                $user_id  = $response['id'];
                             }
+                            if($request->input('send_password')){
+                                $details['subject'] = config('constants.email.admin.customer_create.subject');
+                                $details['title']   = config('constants.email.admin.customer_create.title');    
+                                $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
+                                $details['mail_view']    = "emails.new-account-details";
+                                
+                                $details['link']    = env('APP_URL').'/';
+                                $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                                $is_local = env('APP_ENV') == 'local' ? true : false;
+                                if($is_local){
+                                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                                } else {
+                                    Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                                }
+                            }
+                        }else{
+                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
                         }
-                    }else{
-                       $res = UserController::CreateCucstomerDetails($_customer,$user_id);
                     }
                 }
             }
@@ -1726,20 +1732,19 @@ class UsersController extends Controller
     }
 
     public function removeWelcome(Request $request){
-        // $request->session()->put('welcome',0);
         $request->session()->forget('welcome');
         echo json_encode(['test']);
         die();
     }
 
-    public function customerLogin(Request $request,$id){    
+    public function customerLogin(Request $request,$id,$user_detail_id){    
         if(!auth('admin')->check()){
             return redirect()->route('admin.login');  
         }
         $email = Auth::guard('admin')->user()->email;
         Auth::guard('admin')->logout();
         if(Auth::guard('web')->loginUsingId($id)){
-            self::customerSessions($request,$email);
+            self::customerSessions($request,$email,$user_detail_id);
             return redirect()->route('auth.customer.dashboard'); 
         } else {
             dd('user not login');
@@ -1761,12 +1766,14 @@ class UsersController extends Controller
     }
 
 
-    private static function customerSessions(Request $request,$admin_email = null){
+    private static function customerSessions(Request $request,$admin_email = null,$user_detail_id = 0){
         $user = Auth::user();
         $customer = UserDetails::where('user_id',$user->id)
                     ->leftjoin('users','users.id','=','user_details.user_id')
                     ->select('user_details.*','users.profile_image')
                     ->get();
+        $current_user_no = UserDetails::where('id',$user_detail_id)->pluck('customerno')->first();
+        $current_user_no = $current_user_no ? $current_user_no : $customer[0]['customerno'];
         if($user->is_vmi){
             $data = array(            
                 "filter" => [
@@ -1792,7 +1799,7 @@ class UsersController extends Controller
             } 
         }
         $request->session()->put('customers',$customer);
-        $request->session()->put('customer_no',$customer[0]['customerno']);
+        $request->session()->put('customer_no',$current_user_no);
         if($admin_email) {
             $request->session()->put('by_admin',$admin_email);
         }

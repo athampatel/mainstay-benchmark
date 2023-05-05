@@ -46,7 +46,6 @@
                     </div>
                     <div class="wm_msg">
                         <div class="name">Welcome {{Auth::user()->name}}</div>
-                        {{-- <div class="msg">Welcome to the portal !!!</div> --}}
                     </div>
                 </div>
             @endif

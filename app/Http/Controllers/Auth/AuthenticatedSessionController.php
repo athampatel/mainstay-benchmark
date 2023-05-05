@@ -8,16 +8,11 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserDetails;
-use Session;
 use App\Helpers\SDEApi;
 use Carbon\Carbon;
 
 class AuthenticatedSessionController extends Controller
 {
-
-    // public function __construct(SDEApi $SDEApi){
-    //     $this->SDEApi = $SDEApi;
-    // }
     /**
      * Display the login view.
      *
@@ -25,7 +20,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        // return view('auth.login');
         return view('Auth.sign-in');
     }
 
@@ -88,8 +82,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        // dd($request);
-
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

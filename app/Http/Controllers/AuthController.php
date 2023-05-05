@@ -31,15 +31,11 @@ class AuthController extends Controller
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
-        // first we check if the customer no is unique or not if unique add the customer with the user id
-        // else return the response
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
             $customer_no = $response['customerno'];
             $is_user_detail = UserDetails::where('customerno',$customer_no)->first();
             if(!$is_user_detail){   
-                /* test working start */
-                // create a user_details with the particular user id
                 $user_details = UserDetails::create([
                     'user_id'           => $_user->id,
                     'ardivisionno'      => $response['ardivisionno'],
@@ -54,7 +50,6 @@ class AuthController extends Controller
                     'zipcode'           => $response['zipcode'],
                     'email'             => $email
                 ]);
-                // 
                 $sales_person1 = array();
                 if($response['salespersonemail'] != '')
                     $sales_person1 = SalesPersons::where('email',$response['salespersonemail'])->first();
@@ -69,7 +64,6 @@ class AuthController extends Controller
                         ]);
                     }
                 }
-                /* test working end */            
             } else {
                 return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
             }
