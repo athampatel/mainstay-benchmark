@@ -2947,6 +2947,10 @@ td .dtr-title span{
   padding-top: 1.6rem;
 }
 
+.customer_toggle_container {
+  flex-direction: row;
+}
+
 /* datatable testing sorting work end */
 
 /* print */
@@ -3356,10 +3360,10 @@ td .dtr-title span{
     #vmi-inventory-datatable-export .vmi-datatable-print{
       width: 50%;
     }
-  #vmi-inventory-datatable-export .vmi-datatable-print span{
+    #vmi-inventory-datatable-export .vmi-datatable-print span{
       display: none;
     }
-  #vmi-inventory-datatable-export .vmi-inventory-report {
+    #vmi-inventory-datatable-export .vmi-inventory-report {
       width: 50%;
     }
     #vmi-inventory-datatable-export .vmi-inventory-report span{
@@ -3508,6 +3512,10 @@ td .dtr-title span{
     .backend_datatables{
       max-width: 22.1875rem !important;
       width: 22.1875rem !important;
+   }
+
+   .customer_toggle_container {
+      flex-direction: column;
    }
   }
 
@@ -3751,6 +3759,10 @@ td .dtr-title span{
    }
    .search_message_div{
       padding: 0.1875rem 0.3125rem;
+   }
+
+   .customer_toggle_container{
+      flex-direction: column;
    }
 
   }
