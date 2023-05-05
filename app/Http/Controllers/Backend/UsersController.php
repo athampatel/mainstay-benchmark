@@ -1742,7 +1742,7 @@ class UsersController extends Controller
             return redirect()->route('admin.login');  
         }
         $email = Auth::guard('admin')->user()->email;
-        Auth::guard('admin')->logout();
+        // Auth::guard('admin')->logout();
         if(Auth::guard('web')->loginUsingId($id)){
             self::customerSessions($request,$email,$user_detail_id);
             return redirect()->route('auth.customer.dashboard'); 
