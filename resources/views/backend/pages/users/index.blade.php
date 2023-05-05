@@ -269,6 +269,7 @@ function deleteCustomer(id){
 $(document).on('click','.do_customer',function(e) {
     e.preventDefault();
     $(e.currentTarget).closest('.dynamic-values').find('.user_information').slideToggle("fast");
+    $(e.currentTarget).toggleClass('active1');
 })
 $(document).ready(function(){
     $('.customer_table').DataTable({
