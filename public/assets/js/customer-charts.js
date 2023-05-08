@@ -222,8 +222,8 @@ function displayChangeOrderPage(res,itemcode){
                             Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">${item.itemcode}</a></td> 
                             <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
                             <input type="number" name="order_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled></td>
-                            <td class="order_unit_price" data-val="${item.unitprice}">$ ${item.unitprice}</td>
-                            <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${item.quantityordered * item.unitprice}</td>
+                            <td class="order_unit_price" data-val="${item.unitprice}">$ ${ numberWithCommas(item.unitprice)}</td>
+                            <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityordered * item.unitprice))}</td>
                             ${is_action}
                         </tr>`;
 
@@ -449,3 +449,8 @@ function change_order_save_response(res){
 $(document).on('click','#account_setting_nav',function(e){
     window.location = '/account-settings';
 })
+
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

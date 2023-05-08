@@ -71,7 +71,8 @@ class AdminOrderController extends Controller
                 $message = config('constants.admin.change_order.decline');
             }
             $order_no = $changeOrderRequest->order_no;
-            $url = env('APP_URL') ."change-order/info/$order_no";
+            // $url = env('APP_URL') ."change-order/info/$order_no";
+            $url = config('app.url') ."change-order/info/$order_no";
             $_notification = array( 'type'      => 'Approved Change Request',
                                     'from_user'  => Auth::guard('admin')->user()->id,
                                     'to_user'  => $changeOrderRequest->user_id,

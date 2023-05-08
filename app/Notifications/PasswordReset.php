@@ -51,7 +51,8 @@ class PasswordReset extends Notification
                     ->line('Please click the below button to change the password')
                     ->action('Reset-password', url('/reset-password/'.$this->token.'?email='.$email))
                     // ->action('Reset-password', url($url))
-                    ->line('Thank you for using our '.env('APP_NAME'));
+                    // ->line('Thank you for using our '.env('APP_NAME'));
+                    ->line('Thank you for using our '.config('app.name'));
     }
 
     /**

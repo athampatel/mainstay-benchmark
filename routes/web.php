@@ -29,7 +29,7 @@ Auth::routes();
 Route::redirect('/', '/sign-in');
 Route::get('/delete',[AuthController::class,'delete']);
 
-Route::middleware('auth')->group(function () {  
+Route::middleware(['auth','checkAdminPrefix'])->group(function () {  
     Route::get('/dashboard',[MenuController::class,'dashboard'])->name('auth.customer.dashboard');
     Route::get('/invoice',[MenuController::class,'invoicePage'])->name('auth.customer.invoice');
     Route::get('/open-orders',[MenuController::class,'openOrdersPage'])->name('auth.customer.open-orders');
@@ -111,7 +111,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/back_to_admin',[UsersController::class,'adminLogin']);
 });
 
-Route::group(['prefix' => 'admin','middleware' => 'auth:admin'], function () {
+Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefix']], function () {
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard'); //
     Route::get('/admins/manager', '\App\Http\Controllers\Backend\UsersController@UserManagers')->name('admin.admins.manager');
     Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);

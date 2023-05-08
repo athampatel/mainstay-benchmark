@@ -151,20 +151,25 @@ class NotificationController extends Controller
         return back();
     }
 
-    public function getBottomNotifications(){
-        if(auth('admin')->check()) {
-            if($this->superAdmin){
-                $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
-            } else {
-                $manager = $this->user;
-                $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
-                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->leftjoin('notifications','users.id','=','notifications.from_user')
-                                    ->where('admins.id',$manager->id)
-                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
-            }
+    public function getBottomNotifications(Request $request){
+        // dd($request->is_notify);
+        // $is_admin = Session()->get('is_admin');
+        // if(auth('admin')->check() && $is_admin == 1) {
+        if(auth('admin')->check() && $request->is_notify == '1') {
+        //    if($request->is_notify == '1'){ 
+                if($this->superAdmin){
+                    $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+                } else {
+                    $manager = $this->user;
+                    $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
+                                        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                        ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                        ->leftjoin('notifications','users.id','=','notifications.from_user')
+                                        ->where('admins.id',$manager->id)
+                                        ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+                }
+        //    }
         } else {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
@@ -184,8 +189,10 @@ class NotificationController extends Controller
         }
     }
 
-    public function getNewBottomNotifications(){
-        if(auth('admin')->check()) {
+    public function getNewBottomNotifications(Request $request){
+        // $is_admin = Session()->get('is_admin');
+        // if(auth('admin')->check() && $is_admin == 1) {
+        if(auth('admin')->check() && $request->is_notify == '1') {
             if($this->superAdmin){
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
                 $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    

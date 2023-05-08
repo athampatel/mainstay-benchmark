@@ -69,87 +69,118 @@
                 </div>  
                 <button type="submit" class="btn btn-primary btn-rounded" id="profile-edit-save-button">Update Changes</button> 
             </div>
-            <div class="col-12 col-md-9  co-lg-9">
-                <div class="card box">	
-                    <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
-                        <div class="col-12 d-flex align-items-center">
-                            <div class="box-icon small-icon rounder-border">
-                                @if(Auth::user()->profile_image)
-                                    <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
-                                @else
-                                    <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
-                                @endif
-                            </div>  
-                        </div>                    
-                    </div>    					
-                    <div class="card-body col-12">
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label" for="acc_name">Name</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name">
+            <div class="col-12 col-md-9 co-lg-9">
+                <div class="">
+                    <div class="card box">	
+                        <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
+                            <div class="col-12 d-flex align-items-center">
+                                <div class="box-icon small-icon rounder-border">
+                                    @if(Auth::user()->profile_image)
+                                        <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
+                                    @else
+                                        <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
+                                    @endif
+                                </div>  
+                            </div>                    
+                        </div>    					
+                        <div class="card-body col-12">
+                            <div class="row">
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label" for="acc_name">Name</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name">
+                                </div>
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">Customer Number</label>
+                                    <input class="form-control  col-12" type="text" value="{{$user_detail->customerno}}" placeholder="Customer Number" name="acc_customer_number" id="acc_customer_number" disabled>
+                                </div>
                             </div>
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Customer Number</label>
-                                <input class="form-control  col-12" type="text" value="{{$user_detail->customerno}}" placeholder="Customer Number" name="acc_customer_number" id="acc_customer_number" disabled>
+                            <div class="row">
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">Email Address</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address" disabled>
+                                </div>
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">Phone Number</label>
+                                    <input class="form-control col-12" type="text" value="" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address" disabled>
+                            <div class="row">
+                                <div class="mb-3 col-12">    
+                                    <label class="form-label">Address Line 1</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline1}}" placeholder="Address Line 1" name="acc_address_line_1" id="acc_address_line_1">
+                                </div>          
                             </div>
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Phone Number</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no">
+                            <div class="row">
+                                <div class="mb-3 col-12">    
+                                    <label class="form-label">Address Line 2</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline2}}" placeholder="Address Line 2" name="acc_address_line_2" id="acc_address_line_2">
+                                </div>          
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12">    
-                                <label class="form-label">Address Line 1</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->addressline1}}" placeholder="Address Line 1" name="acc_address_line_1" id="acc_address_line_1">
-                            </div>          
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12">    
-                                <label class="form-label">Address Line 2</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->addressline2}}" placeholder="Address Line 2" name="acc_address_line_2" id="acc_address_line_2">
-                            </div>          
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">State</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->state}}" placeholder="State" name="acc_state" id="acc_state">
+                            <div class="row">
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">State</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->state}}" placeholder="State" name="acc_state" id="acc_state">
+                                </div>
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">City</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->city}}" placeholder="City" name="acc_city" id="acc_city">
+                                </div>
                             </div>
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">City</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->city}}" placeholder="City" name="acc_city" id="acc_city">
+                            <div class="row">
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">Zip code</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->zipcode}}" placeholder="Zip Code" name="acc_zipcode" id="acc_zipcode">
+                                </div>
+                                <div class="mb-3 col-6">    
+                                    <label class="form-label">Division Number</label>
+                                    <input class="form-control col-12" type="text" placeholder="Division Number" name="acc_division_no" id="acc_division_no" disabled>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Zip code</label>
-                                <input class="form-control col-12" type="text" value="{{$user_detail->zipcode}}" placeholder="Zip Code" name="acc_zipcode" id="acc_zipcode">
+                            <div class="row">
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Name</label>
+                                    <input class="form-control col-12" value="{{$sales_person['name']}}" type="text" placeholder="Benchmark Regional Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
+                                </div>
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Email</label>
+                                    <input class="form-control col-12" value="{{$sales_person['email']}}" type="text" placeholder="Benchmark Regional Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
+                                </div>
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Phone Number</label>
+                                    <input class="form-control col-12" value="{{$sales_person['person_number']}}" type="text" placeholder="Benchmark Regional Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
+                                </div>
                             </div>
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Division Number</label>
-                                <input class="form-control col-12" type="text" placeholder="Division Number" name="acc_division_no" id="acc_division_no" disabled>
+                        </div>                     
+                    </div>
+                    <div class="card box">	
+                        <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
+                            <div class="col-12 d-flex align-items-center">
+                                <div class="box-icon small-icon rounder-border">
+                                    @if($sales_person['profile_path'])
+                                        <img id="account-detail-profile-img" src="/{{$sales_person['profile_path']}}" class="rounded-circle" style="max-width:100%;height:100%;" />
+                                    @else
+                                        <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
+                                    @endif
+                                </div>  
+                            </div>                    
+                        </div>    					
+                        <div class="card-body col-12">
+                            <div class="row">
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Name</label>
+                                    <input class="form-control col-12" value="{{$sales_person['name']}}" type="text" placeholder="Benchmark Regional Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
+                                </div>
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Email</label>
+                                    <input class="form-control col-12" value="{{$sales_person['email']}}" type="text" placeholder="Benchmark Regional Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
+                                </div>
+                                <div class="mb-3 col-12 col-md-6 col-lg-4">    
+                                    <label class="form-label">Benchmark Regional Manager Phone Number</label>
+                                    <input class="form-control col-12" value="{{$sales_person['person_number']}}" type="text" placeholder="Benchmark Regional Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">Benchmark Regional Manager Name</label>
-                                <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Name" name="acc_manager_name" id="acc_manager_name" disabled>
-                            </div>
-                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">Benchmark Regional Manager Email</label>
-                                <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Email" name="acc_manager_email" id="acc_manager_email" disabled>
-                            </div>
-                            <div class="mb-3 col-12 col-md-6 col-lg-4">    
-                                <label class="form-label">Benchmark Regional Manager Phone Number</label>
-                                <input class="form-control col-12" type="text" placeholder="Benchmark Regional Manager Phone Number" name="acc_manager_phone_number" id="acc_manager_phone_number" disabled>
-                            </div>
-                        </div>
-                    </div>                     
+                        </div>                     
+                    </div>
                 </div>
             </div>
         </div>

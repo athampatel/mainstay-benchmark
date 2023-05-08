@@ -362,167 +362,167 @@ function customerSpendingChart(){
     }
     
     // console.log(labels_desc,'__labels_desc');
-    // var options = {
-    //     series: value,
-    //     chart: {
-    //     // type: 'donut',
-    //     type: 'line',
-    //     width: '70%', 
-    //     // foreColor: '#373d3f'       
-    //     foreColor: '#9ba7b2'       
-    //   },
-    //   labels: labels,    
-    //   dataLabels: {
-    //     formatter(val, opts) {
-    //       const name = opts.w.globals.labels[opts.seriesIndex]
-    //       return [name, val.toFixed(1) + '%']
-    //     },
-    //   },      
-    //   tooltip: {
-    //     x: {
-    //       show: false
-    //     },
-    //     y: {
-    //       formatter: function(value, series) {
-    //         return '$'+ numberWithCommas(value);
-    //       }
-    //     }
-    //   },
-    //   xaxis: {
-    //     type:'products',
-    //     categories:labels ,
-    // },
-    //   total: {
-    //     show: false,
-    //     showAlways: false,
-    //     label: 'Total',
-    //     fontSize: '22px',
-    //     fontFamily: 'Helvetica, Arial, sans-serif',
-    //     fontWeight: 600,
-    //     color: '#373d3f',
-    //     formatter: function (w) {
-    //       return w.globals.seriesTotals.reduce((a, b) => {
-    //         return a + b
-    //       }, 0)
-    //     }
-    //   }         
-    // };
-
     var options = {
-        series: [{
-                name: 'Sales',
-                data: value
-            },
-        ],
+        series: value,
         chart: {
-            foreColor: '#9ba7b2',
-            type: 'line',
-            height: 360,
-            zoom:{
-                enabled:false
-            },
-            toolbar : {
-                show:false
-            },
-            dropShadow:{
-                enabled:true,
-                top:3,
-                left:14,
-                blur:4,
-                opacity:0.10,
-            }
+        type: 'donut',
+        // type: 'line',
+        width: '70%', 
+        // foreColor: '#373d3f'       
+        foreColor: '#9ba7b2'       
+      },
+      labels: labels,    
+      dataLabels: {
+        formatter(val, opts) {
+          const name = opts.w.globals.labels[opts.seriesIndex]
+          return [name, val.toFixed(1) + '%']
         },
-        stroke: {
-            width: 3,
-            curve:'straight'
+      },      
+      tooltip: {
+        x: {
+          show: false
         },
-
-        xaxis: {
-            type:'month',
-            categories: labels,
-        },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                gradientToColors: ['#A4CD3C'],
-                shadeIntensity: 1,
-                type: 'horizontal',
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [0, 100, 100, 100]
-            },
-        },
-        markers: {
-        	size: 4,
-        	colors: ["#A4CD3C"],
-        	strokeColors: "#A4CD3C",
-        	strokeWidth: 2,
-        	hover: {
-        		size: 7,
-        	}
-        },
-        colors: ["#A4CD3C"],
-        
-        yaxis: {
-            title: {
-                text: ''
-            },
-            labels: {
-                formatter: function(value, index) {
-                    return '$'+ numberWithCommas(value);
-                 }
-              }
-        },
-        tooltip: {
-            x: {
-                show: true
-            },
-            y: {
-                formatter: function(value, series) {
-                return '$'+ numberWithCommas(value);
-                }
-            }
-        },
-        grid: {
-            borderColor: '#797B7D',
-            show: true,
-            xaxis: {
-                lines: {
-                    show: true 
-                },
-                labels: {
-                    formatter: function(val, index) {
-                        return '$'+ numberWithCommas(val);
-                     }
-                  }
-            },  
-            yaxis: {
-                lines: { 
-                    show: true 
-                },
-                labels: {
-                    formatter: function(val, index) {
-                        return '$'+ numberWithCommas(val);
-                     }
-                  }
-            },   
-        },
-        toolbar: {
-            // show:false,
-            export: {
-                csv: {
-                  filename: 'gokul',
-                },
-                svg: {
-                  filename: 'gokul',
-                },
-                png: {
-                  filename: 'gokul',
-                }
-            }, 
+        y: {
+          formatter: function(value, series) {
+            return '$'+ numberWithCommas(value);
+          }
         }
+      },
+      xaxis: {
+        type:'products',
+        categories:labels_desc ,
+    },
+      total: {
+        show: false,
+        showAlways: false,
+        label: 'Total',
+        fontSize: '22px',
+        fontFamily: 'Helvetica, Arial, sans-serif',
+        fontWeight: 600,
+        color: '#373d3f',
+        formatter: function (w) {
+          return w.globals.seriesTotals.reduce((a, b) => {
+            return a + b
+          }, 0)
+        }
+      }         
     };
+
+    // var options = {
+    //     series: [{
+    //             name: 'Sales',
+    //             data: value
+    //         },
+    //     ],
+    //     chart: {
+    //         foreColor: '#9ba7b2',
+    //         type: 'line',
+    //         height: 360,
+    //         zoom:{
+    //             enabled:false
+    //         },
+    //         toolbar : {
+    //             show:false
+    //         },
+    //         dropShadow:{
+    //             enabled:true,
+    //             top:3,
+    //             left:14,
+    //             blur:4,
+    //             opacity:0.10,
+    //         }
+    //     },
+    //     stroke: {
+    //         width: 3,
+    //         curve:'straight'
+    //     },
+
+    //     xaxis: {
+    //         type:'month',
+    //         categories: labels,
+    //     },
+    //     fill: {
+    //         type: 'gradient',
+    //         gradient: {
+    //             shade: 'light',
+    //             gradientToColors: ['#A4CD3C'],
+    //             shadeIntensity: 1,
+    //             type: 'horizontal',
+    //             opacityFrom: 1,
+    //             opacityTo: 1,
+    //             stops: [0, 100, 100, 100]
+    //         },
+    //     },
+    //     markers: {
+    //     	size: 4,
+    //     	colors: ["#A4CD3C"],
+    //     	strokeColors: "#A4CD3C",
+    //     	strokeWidth: 2,
+    //     	hover: {
+    //     		size: 7,
+    //     	}
+    //     },
+    //     colors: ["#A4CD3C"],
+        
+    //     yaxis: {
+    //         title: {
+    //             text: ''
+    //         },
+    //         labels: {
+    //             formatter: function(value, index) {
+    //                 return '$'+ numberWithCommas(value);
+    //              }
+    //           }
+    //     },
+    //     tooltip: {
+    //         x: {
+    //             show: true
+    //         },
+    //         y: {
+    //             formatter: function(value, series) {
+    //             return '$'+ numberWithCommas(value);
+    //             }
+    //         }
+    //     },
+    //     grid: {
+    //         borderColor: '#797B7D',
+    //         show: true,
+    //         xaxis: {
+    //             lines: {
+    //                 show: true 
+    //             },
+    //             labels: {
+    //                 formatter: function(val, index) {
+    //                     return '$'+ numberWithCommas(val);
+    //                  }
+    //               }
+    //         },  
+    //         yaxis: {
+    //             lines: { 
+    //                 show: true 
+    //             },
+    //             labels: {
+    //                 formatter: function(val, index) {
+    //                     return '$'+ numberWithCommas(val);
+    //                  }
+    //               }
+    //         },   
+    //     },
+    //     toolbar: {
+    //         // show:false,
+    //         export: {
+    //             csv: {
+    //               filename: 'gokul',
+    //             },
+    //             svg: {
+    //               filename: 'gokul',
+    //             },
+    //             png: {
+    //               filename: 'gokul',
+    //             }
+    //         }, 
+    //     }
+    // };
 
 
     customer_total_spedning_chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);

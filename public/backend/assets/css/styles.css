@@ -3114,6 +3114,7 @@ div.dataTables_wrapper div.dataTables_info{
     margin-bottom: 0px;
     word-wrap: break-word;
     white-space: break-spaces;
+    word-break: break-all;
 }
 
 .multiple-container a.do_customer.active,

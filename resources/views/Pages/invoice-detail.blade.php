@@ -209,7 +209,7 @@
 
 @section('scripts')
 <script>
-    let app_url = '{{ env('APP_URL') }}';
+    let app_url = '{{ config("app.url") }}';
     let invoice_order_details = "";
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;

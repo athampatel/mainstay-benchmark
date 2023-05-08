@@ -61,6 +61,10 @@
                   @endphp
                   <div class="col-8 card-item-body">{{$session_address}}</span></div>
                 </div>
+                <div class="row py-1">
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>
+                    <div class="col-8 card-item-body">{{$customer_session[0]->phone_no}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -89,6 +93,10 @@
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Email</div><div>:</div></div>                  
                   <div class="col-8 card-item-body">{{$region_manager->email}}</div>
+                </div>
+                <div class="row py-1">
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>                  
+                  <div class="col-8 card-item-body">{{$region_manager->phone_no}}</div>
                 </div>
               </div>
             </div>
@@ -176,79 +184,80 @@
       </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-    @if($saleby_productline)     
-     <div class="col-sm-12 col-md-12 col-lg-5 no-right-pad">
-        <div class="card box item-card-block equal-height">
-          <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
-            <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
-              <div class="box-icon small-icon rounder-border">
-                <img src="assets/images/svg/open-orders.svg" />
-              </div>  
-              <h4 class="mb-0 title-4">Total Customer Spending</h4>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
-              <div class="position-relative">
-                <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-total-spending-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
-                <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-total-spending" id="export-total-spending-drop">
-                  <a class="dropdown-item export-total-spending-item" data-type="png">PNG</a>
-                  <a class="dropdown-item export-total-spending-item" data-type="svg">SVG</a>
-                  <a class="dropdown-item export-total-spending-item" data-type="csv">CSV</a>
+      @if($saleby_productline)     
+        <div class="col-sm-12 col-md-12 col-lg-5 no-right-pad">
+            <div class="card box item-card-block equal-height">
+              <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
+                <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
+                  <div class="box-icon small-icon rounder-border">
+                    <img src="assets/images/svg/open-orders.svg" />
+                  </div>  
+                  <h4 class="mb-0 title-4">Total Customer Spending</h4>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end col-btn">
+                  <div class="position-relative">
+                    <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-total-spending-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                    <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-total-spending" id="export-total-spending-drop">
+                      <a class="dropdown-item export-total-spending-item" data-type="png">PNG</a>
+                      <a class="dropdown-item export-total-spending-item" data-type="svg">SVG</a>
+                      <a class="dropdown-item export-total-spending-item" data-type="csv">CSV</a>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+              <div id="customer-spending-chart" class="col-12 p-2">
+                <div class="chart-loader-div d-none">
+                  <div class="chart-loader"></div>
                 </div>
               </div>
-            </div> 
-          </div>
-					<div id="customer-spending-chart" class="col-12 p-2">
-            <div class="chart-loader-div d-none">
-              <div class="chart-loader"></div>
             </div>
-          </div>
-        </div>
-     </div>	
+        </div>	
      @endif             
-     <div class="col-sm-12 col-md-12  @if($saleby_productline) col-lg-7 @else col-lg-12 @endif">
-        <div class="card box item-card-block equal-height">
-          <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
-            <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
-              <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
-            </div>
-            <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            
-            </div>
-          </div>
-          <div class="card-body col-12 p-3">
-          <div class="table-responsive" id="dashboard-recent-invoice-order-table-div">
-
-             @if(!empty($recent_orders['orders']))    
-             <table id="dashboard-recent-invoice-order-table" class="table bench-datatable">
-                  <thead>
-                      <tr>
-                          <th class="border-0">ID</th>
-                          <th class="border-0">Customer email</th>
-                          <th class="border-0">Total items</th>
-                          <th class="border-0">Price</th>
-                          <th class="border-0">Date</th>
-                          <th class="border-0">Location</th>
-                      </tr>
-                      </thead>
-                      <tbody id="invoice-orders-table-body"></tbody>
-              </table>   
-             @else
-              <div class="chart-loader-div">
-                <div class="chart-loader"></div>
-              </div>	
-             @endif
-                  
-           	
-          </div>
-            <div class="d-flex col-12 justify-content-end pb-2">
-                <a href="/invoice" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
+        <div class="col-sm-12 col-md-12  @if($saleby_productline) col-lg-7 @else col-lg-12 @endif">
+            <div class="card box item-card-block equal-height">
+              <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
+                <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
+                  <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
+                </div>
+                <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            
+                </div>
               </div>
-          </div>
-        </div>
-     </div>	
+              <div class="card-body col-12 p-3">
+              <div class="table-responsive" id="dashboard-recent-invoice-order-table-div">
+
+                @if(!empty($recent_orders['orders']))    
+                <table id="dashboard-recent-invoice-order-table" class="table bench-datatable">
+                      <thead>
+                          <tr>
+                              <th class="border-0">ID</th>
+                              <th class="border-0">Customer email</th>
+                              <th class="border-0">Total items</th>
+                              <th class="border-0">Price</th>
+                              <th class="border-0">Date</th>
+                              <th class="border-0">Location</th>
+                          </tr>
+                          </thead>
+                          <tbody id="invoice-orders-table-body"></tbody>
+                  </table>   
+                @else
+                  <div class="chart-loader-div">
+                    <div class="chart-loader"></div>
+                  </div>	
+                @endif
+                      
+                
+              </div>
+                <div class="d-flex col-12 justify-content-end pb-2">
+                    <a href="/invoice" class="item-number font-12 btn btn-primary btn-rounded">View more</a>
+                  </div>
+              </div>
+            </div>
+        </div>	
     </div>
     
     <div id="customer-spending-desc-chart"></div>
     @if(Auth::user()->is_vmi == 1)
+    {{-- {{dd(Auth::user()->is_vmi)}} --}}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
       <div class="col small-right-pad">
         <div class="card box">						

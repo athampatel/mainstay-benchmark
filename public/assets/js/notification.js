@@ -1,17 +1,14 @@
 jQuery(document).ready(function(){
-    // var _userId = $('#user_id').val();
-    // var usertype = $('#user_type').val();
-    // var formData = {userId:_userId,usertype:usertype};
     $.ajax({ 
         type: 'POST',
         url: '/get-bottom-notifications',
-        contentType: 'multipart/form-data',
-        cache: false,
-        contentType: false,
-        processData: false,
+        dataType: "JSON",
+        data : {'is_notify':is_notify_admin},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (res) {
-            res = JSON.parse(res);
+            console.log(res,'__get bottom notification response');
+            console.log(is_notify_admin,'___is_notify_admin');
+            // res = JSON.parse(res);
             if(res.success){
                 console.log(res.notifications_all,'___res.notifications_all');
                 $('#bottom_notification_disp').html(res.notification_code);
@@ -45,15 +42,21 @@ jQuery(document).ready(function(){
 
 setInterval(() => {
     $.ajax({ 
+        // type: 'POST',
+        // url: '/get-new-bottom-notifications',
+        // contentType: 'multipart/form-data',
+        // cache: false,
+        // contentType: false,
+        // processData: false,
+        // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         type: 'POST',
         url: '/get-new-bottom-notifications',
-        contentType: 'multipart/form-data',
-        cache: false,
-        contentType: false,
-        processData: false,
+        dataType: "JSON",
+        data : {'is_notify':is_notify_admin},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (res) {
-            res = JSON.parse(res);
+            console.log(res,'__get new bottom notification response');
+            // res = JSON.parse(res);
             const notification_bottom = document.querySelector('.notfication_bottom');
             if(res.success){ 
                 if(notification_bottom){

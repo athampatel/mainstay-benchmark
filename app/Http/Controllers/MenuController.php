@@ -117,13 +117,13 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
 
-        $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
+        $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile','.admins.phone_no')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                 ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
                                                 ->leftjoin('admins','admins.email','=','sales_persons.email')
                                                 ->first();
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
-        $year                       = 2022;   
+        $year                       = 2022;
         $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
         if($saleby_productline1){
             $saleby_productline = $saleby_productline1['sales_details']; 
@@ -272,6 +272,12 @@ class MenuController extends Controller
         if(!$response) return redirect()->back();
         $data['customer_menus'] = $response;
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        $data['sales_person'] = UserDetails::leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
+                                ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
+                                ->leftjoin('admins','admins.email','=','sales_persons.email')
+                                ->select('sales_persons.person_number','sales_persons.name','sales_persons.email','admins.profile_path')
+                                ->where('user_id',$user_id)->where('customerno',$customer_no)->first()->toArray();
+        // dd($data['sales_person']);
         $data['constants'] = config('constants');
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords; 
@@ -485,9 +491,11 @@ class MenuController extends Controller
             $response = $response['salesorders'];
         }
         $open_orders = [];
+        $year = date('Y');
         foreach($response as $res){
             $date = explode("-",$res['orderdate']);
-            if($date[0] == '2022'){
+            // if($date[0] == '2022'){
+            if($date[0] == $year){
                 foreach($res['details'] as $detail){
                     if(isset($open_orders['0-'.$date[1]])){
                         $open_orders['0-'.$date[1]] = $open_orders['0-'.$date[1]] + ($detail['quantityordered'] *$detail['unitprice']);
@@ -1007,8 +1015,10 @@ class MenuController extends Controller
         $details['body']   = $data['message'];
         $details['link']            =  '';      
         $details['mail_view']       =  'emails.email-body';
-        $admin_emails = env('ADMIN_EMAILS');
-        $is_local = env('APP_ENV') == 'local' ? true : false;
+        // $admin_emails = env('ADMIN_EMAILS');
+        $admin_emails = config('app.admin_emails');
+        // $is_local = env('APP_ENV') == 'local' ? true : false;
+        $is_local = config('app.env') == 'local' ? true : false;
         if($is_local){
             Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {

@@ -90,6 +90,17 @@ Admin Create - Admin Panel
                                     </div>
                                 </div>
 
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="password">{{ config('constants.label.admin.phone_no') }}</label>
+                                        @if(old('phone_no'))
+                                        <input type="text" class="form-control password-field box-shadow-none" id="phone_no" name="phone_no" placeholder="Enter Phone Number" autocomplete="new-password" value="{{ old('phone_no') }}">
+                                        @else
+                                        <input type="text" class="form-control password-field box-shadow-none" id="phone_no" name="phone_no" placeholder="Enter Phone Number" autocomplete="new-password" value="">
+                                        @endif
+                                    </div>
+                                </div>
+
                                 <h6>Profile Picture</h6><br>
 
                                 <div class="form-row">

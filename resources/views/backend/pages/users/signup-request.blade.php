@@ -98,9 +98,10 @@ Customers - Admin Panel
                                             <td>{!!$user->created_at->format('M d, Y')!!}</td>
                                             <td>
                                                 @if($user['user_id'] != null)
-                                                <a href="{{env('APP_URL')}}admin/user/{{$user->user_id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded text-capitalize btn-primary bm-btn-primary">View Details</a>
+                                                {{-- <a href="{{env('APP_URL')}}admin/user/{{$user->user_id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded text-capitalize btn-primary bm-btn-primary">View Details</a> --}}
+                                                <a href="{{config('app.url')}}admin/user/{{$user->user_id}}/change-status/{{$user->activation_token}}" target="_blank" class="btn btn-rounded text-capitalize btn-primary bm-btn-primary">View Details</a>
                                                 @else
-                                                <a href="{{env('APP_URL')}}admin/user/{{$user->email}}/change-status" target="_blank" class="btn btn-rounded btn-primary text-capitalize bm-btn-primary">View Details</a>
+                                                <a href="{{config('app.url')}}admin/user/{{$user->email}}/change-status" target="_blank" class="btn btn-rounded btn-primary text-capitalize bm-btn-primary">View Details</a>
                                                 @endif
                                             </td>
                                         </tr>

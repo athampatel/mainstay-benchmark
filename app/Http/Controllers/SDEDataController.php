@@ -503,7 +503,8 @@ class SDEDataController extends Controller
                 }
             }
                 $admin      = Admin::first();
-                $url    = env('APP_URL').'admin/customers/change-orders/'.$change_order_request->id;
+                // $url    = env('APP_URL').'admin/customers/change-orders/'.$change_order_request->id;
+                $url    = config('app.url').'admin/customers/change-orders/'.$change_order_request->id;
                 $email = Auth::user()->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
@@ -514,8 +515,10 @@ class SDEDataController extends Controller
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
-                $admin_emails = env('ADMIN_EMAILS');
-                $is_local = env('APP_ENV') == 'local' ? true : false;
+                // $admin_emails = env('ADMIN_EMAILS');
+                $admin_emails = config('app.admin_emails');
+                // $is_local = env('APP_ENV') == 'local' ? true : false;
+                $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                 } else {
