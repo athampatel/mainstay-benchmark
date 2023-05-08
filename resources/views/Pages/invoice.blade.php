@@ -91,7 +91,8 @@
     <script>
         const constants = <?php echo json_encode($constants); ?>;
         const searchWords = <?php echo json_encode($searchWords); ?>;
-        const env_maximum = '{{ env('EXPORT_MAXIMUM') }}';
+        // const env_maximum = '{{ env('EXPORT_MAXIMUM') }}';
+        const env_maximum = '{{ config('app.export_max')}}';
     </script>
      <script src="/assets/js/invoice-orders-page.js"></script>
 @endsection

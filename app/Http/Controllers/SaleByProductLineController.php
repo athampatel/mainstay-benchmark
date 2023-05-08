@@ -84,6 +84,7 @@ class SaleByProductLineController extends Controller
         //
     }
     public static function getSaleDetails($customer,$year = '', $month = '', $product_line = ''){
+        // dd($customer,$year);
         if(empty($customer))
             return false;
         $customer_no = isset($customer['customerno']) ? $customer['customerno'] : '';

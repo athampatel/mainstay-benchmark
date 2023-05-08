@@ -16,7 +16,7 @@ class SDEApi
    protected $password = '';
    protected $is_ssl_verify = false;
    public function __construct(){
-        $this->end_point =  env('API_URL');
+        $this->end_point = config('app.api_url');
         $this->username = 'MainStay';
         $this->password = 'M@1nSt@y';
    }
@@ -108,7 +108,8 @@ class SDEApi
         $post_data = array_merge($default_data,$data);
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
-            'timeout' => env('API_MAX_TIME')
+            // 'timeout' => env('API_MAX_TIME')
+            'timeout' => config('app.app_max_time')
         ]);
         if($method === 'get') {
           $response = $request->get($this->end_point,$post_data);
@@ -128,7 +129,8 @@ class SDEApi
 
     public static function responseErrorCheck($response,$data,$resource){
       $response_code = $response->getStatusCode();
-      $error_codes = explode(',', env('API_ERROR_CODES'));
+      // $error_codes = explode(',', env('API_ERROR_CODES'));
+      $error_codes = explode(',', config('app.api_error_codes'));
       if(in_array($response_code,$error_codes)){
         if($resource == 'Products' && $response_code == 500){
           $error_message = false;
@@ -159,8 +161,10 @@ class SDEApi
         $url = '';
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
-        $admin_emails = env('ADMIN_EMAILS');
-        $is_local = env('APP_ENV') == 'local' ? true : false;
+        // $admin_emails = env('ADMIN_EMAILS');
+        $admin_emails = config('app.admin_emails');
+        // $is_local = env('APP_ENV') == 'local' ? true : false;
+        $is_local = config('app.env') == 'local' ? true : false;
         return;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));

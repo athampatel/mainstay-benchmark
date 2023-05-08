@@ -74,6 +74,9 @@
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	@yield('scripts')
+	<script>
+		let is_notify_admin = 0;
+	</script>
 	<script src="/assets/js/customer-charts.js"></script>
 	<script src="/assets/js/common-functions.js"></script>
 	<script src="/assets/js/notification.js"></script>

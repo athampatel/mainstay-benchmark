@@ -67,6 +67,13 @@ Admin Edit - Admin Panel
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
                                     </div>
                                 </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="phone_no">{{ config('constants.label.admin.phone_no') }}</label>
+                                        <input type="text" class="form-control password-field" id="phone_no" name="phone_no" placeholder="Enter Phone Number" value="{{$admin->phone_no}}">
+                                    </div>
+                                </div>
                                 
                                 <h6>Profile Picture</h6><br>
                                 <div class="form-row">

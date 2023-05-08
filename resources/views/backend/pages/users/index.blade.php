@@ -118,7 +118,8 @@ Customers - Admin Panel
                                                                 @if( $user['active'] == 1)
                                                                     <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
                                                                 @elseif( $user['active'] == 0 && $user['is_deleted'] == 0)
-                                                                    <a href="{{env('APP_URL')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
+                                                                    {{-- <a href="{{env('APP_URL')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a> --}}
+                                                                    <a href="{{config('app.url')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
                                                                 @endif
             
                                                                 @if($user['is_vmi'] == 1 && $usr['vmi_companycode'] != '' )

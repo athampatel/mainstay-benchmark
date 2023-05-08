@@ -118,7 +118,7 @@ class AdminsController extends Controller
                 'email' => 'required|max:100|email|unique:admins',
                 'username' => 'required|min:5|max:100|unique:admins',
                 'password' => 'required|min:8',
-                'profile_picture1' => 'sometimes|file|mimes:jpg,jpeg,png|size:'.$max_file_size,
+                'profile_picture1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
             ],
             [
                 'name.required' => 'The User Name field is required',
@@ -129,6 +129,7 @@ class AdminsController extends Controller
                 'name.min' => 'The User Name must be at least 5 characters.',
                 'email.unique' => 'The Email has already been taken',
                 'username.unique' => 'The User Account Name has already been taken',
+                'profile_picture1.max' => 'The Profile Picture must not be greater than :max kilobytes. '
             ]
         );
 
@@ -136,6 +137,7 @@ class AdminsController extends Controller
         $admin->name = $request->name;
         $admin->username = $request->username;
         $admin->email = $request->email;
+        $admin->phone_no = $request->phone_no;
         $admin->password = Hash::make($request->password);
         $path = "";
         if($file){
@@ -167,9 +169,10 @@ class AdminsController extends Controller
             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
             $details['mail_view']    = "emails.new-account-details";
             
-            $details['link']    = env('APP_URL').'/admin/login/';
-            $is_local = env('APP_ENV') == 'local' ? true : false;
-            $test_emails = env('TEST_CUSTOMER_EMAILS');
+            // $details['link']    = env('APP_URL').'/admin/login/';
+            $details['link']    = config('app.url').'/admin/login/';
+            $is_local = config('app.env') == 'local' ? true : false;
+            $test_emails = config('app.test_customer_email');
             if($is_local){
                 Mail::bcc(explode(',',$test_emails))->send(new \App\Mail\SendMail($details));
             } else {
@@ -258,6 +261,7 @@ class AdminsController extends Controller
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->username = $request->username;
+        $admin->phone_no = $request->phone_no;
         if ($request->password) {
             $admin->password = Hash::make($request->password);
         }

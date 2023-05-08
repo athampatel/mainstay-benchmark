@@ -54,7 +54,19 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'api_url' => env('API_URL',''),
+
     'asset_url' => env('ASSET_URL', null),
+
+    'test_customer_email' => env('TEST_CUSTOMER_EMAILS',''),
+
+    'api_error_codes' => env('API_ERROR_CODES',''),
+
+    'admin_emails' => env('ADMIN_EMAILS',''),
+
+    'app_max_time' => env('API_MAX_TIME',''),
+
+    'export_max' => env('EXPORT_MAXIMUM',''),
 
     /*
     |--------------------------------------------------------------------------

@@ -10,7 +10,7 @@ class EmailHelper
    protected $subject = '';
 
    public function __construct() {
-        $this->from = env('MAIL_FROM_ADDRESS');
+        $this->from = config('mail.from.address');
    }
 
     public function Request($to,$subject, $content = null) {

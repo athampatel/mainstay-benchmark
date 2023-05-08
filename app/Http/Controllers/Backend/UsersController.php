@@ -103,7 +103,7 @@ class UsersController extends Controller
             $lblusers->where('active','=',0);
         }
         if($search){
-            if($request->input('type') && $request->input('type') != 'vmi') {
+            if(($request->input('type') && $request->input('type') != 'vmi') || !$request->input('type')) {
                 $lblusers->leftjoin('user_details','user_details.user_id','=','users.id');
             }
             $lblusers->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
@@ -371,9 +371,12 @@ class UsersController extends Controller
                                 $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
                                 $details['mail_view']    = "emails.new-account-details";
                                 
-                                $details['link']    = env('APP_URL').'/';
-                                $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                                $is_local = env('APP_ENV') == 'local' ? true : false;
+                                // $details['link']    = env('APP_URL').'/';
+                                $details['link']    = config('app.url').'/';
+                                // $customer_emails = env('TEST_CUSTOMER_EMAILS');
+                                $customer_emails = config('app.test_customer_email');
+                                // $is_local = env('APP_ENV') == 'local' ? true : false;
+                                $is_local = config('app.env') == 'local' ? true : false;
                                 if($is_local){
                                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                                 } else {
@@ -858,7 +861,8 @@ class UsersController extends Controller
                     $notification->save(); 
                 }
 
-                $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
+                // $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
+                $url = config('app.url').'reset-password/'.$token.'?email='.$user->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
                 $details['namealias'] = 'Hi '.$user->name;
@@ -866,8 +870,9 @@ class UsersController extends Controller
                 $details['subject']         = config('constants.email.admin.customer_activate.subject');
                 $body      = config('constants.email.admin.customer_activate.body');
                 $details['body'] = $body;
-                $customer_emails = env('TEST_CUSTOMER_EMAILS');
-                $is_local = env('APP_ENV') == 'local' ? true : false;
+                $customer_emails = config('app.test_customer_email');
+                // $is_local = env('APP_ENV') == 'local' ? true : false;
+                $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                 } else {
