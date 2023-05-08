@@ -110,7 +110,10 @@ class AdminsController extends Controller
             abort(403, config('constants.admin_error_403'));
         }
         $file = $request->file('profile_picture1');
-        $max_file_size = (int) Helper::parse_size(ini_get('post_max_size'));
+        // $max_file_size = (int) Helper::parse_size(ini_get('post_max_size'));
+        $max_file_size = (int) self::parse_size(ini_get('post_max_size'));
+        // ini_get('post_max_size')
+
         $this->validate(
             $request,
             [
@@ -367,5 +370,17 @@ class AdminsController extends Controller
             'USER NAME'
         );
         PdfController::generatePdf($admins,$name,$array_headers,$array_keys);
+    }
+
+
+    public static function parse_size($size) {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+        $size = preg_replace('/[^0-9\.]/', '', $size);
+        if ($unit) {
+        return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        }
+        else {
+        return round($size);
+        }
     }
 }
