@@ -366,11 +366,11 @@ class SDEDataController extends Controller
         $user_details = UserDetails::where('user_id',$user_id)->first();
         $data = $request->all();
         $validation_array = [];
-        $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
+        // $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
         if($request->password){
             $validation_array = [
                 'password' => 'required|confirmed',
-                'photo_1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
+                // 'photo_1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
             ];
         }
         $validator = Validator::make($data, $validation_array);
@@ -391,7 +391,11 @@ class SDEDataController extends Controller
                         }
                     }
                     
+                    // $user_name = str_replace(' ', '', Auth::user()->name);
                     $user_name = str_replace(' ', '', Auth::user()->name);
+                    $user_name = str_replace(',', '', $user_name);
+                    $user_name = str_replace(':', '', $user_name);
+                    
                     $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
                     $file->move(public_path('images'), $image_name);
                     $path = 'images/'.$image_name;
@@ -506,7 +510,6 @@ class SDEDataController extends Controller
                 }
             }
                 $admin      = Admin::first();
-                // $url    = env('APP_URL').'admin/customers/change-orders/'.$change_order_request->id;
                 $url    = config('app.url').'admin/customers/change-orders/'.$change_order_request->id;
                 $email = Auth::user()->email;
                 $details['mail_view']       =  'emails.email-body';
@@ -518,9 +521,7 @@ class SDEDataController extends Controller
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Sales Person-No: </span><span>'.$sales_order_no.'</span></p>';
                 $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Ordered Date: </span><span>'.Carbon::createFromFormat('Y-m-d', $ordered_date)->format('m d, Y').'</span></p><br/>';
                 $details['body'] = $body;  
-                // $admin_emails = env('ADMIN_EMAILS');
                 $admin_emails = config('app.admin_emails');
-                // $is_local = env('APP_ENV') == 'local' ? true : false;
                 $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));

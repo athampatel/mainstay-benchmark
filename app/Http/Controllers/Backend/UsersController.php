@@ -373,12 +373,8 @@ class UsersController extends Controller
                                 $details['title']   = config('constants.email.admin.customer_create.title');    
                                 $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
                                 $details['mail_view']    = "emails.new-account-details";
-                                
-                                // $details['link']    = env('APP_URL').'/';
                                 $details['link']    = config('app.url').'/';
-                                // $customer_emails = env('TEST_CUSTOMER_EMAILS');
                                 $customer_emails = config('app.test_customer_email');
-                                // $is_local = env('APP_ENV') == 'local' ? true : false;
                                 $is_local = config('app.env') == 'local' ? true : false;
                                 if($is_local){
                                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
@@ -506,7 +502,6 @@ class UsersController extends Controller
                 }
             }
             
-            // $user_name = str_replace(' ', '', $user->name);
             $user_name = self::removeUnwantedString($user->name);
             $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
             $file->move(public_path('images'), $image_name);
@@ -892,7 +887,6 @@ class UsersController extends Controller
                     $notification->save(); 
                 }
 
-                // $url = env('APP_URL').'reset-password/'.$token.'?email='.$user->email;
                 $url = config('app.url').'reset-password/'.$token.'?email='.$user->email;
                 $details['mail_view']       =  'emails.email-body';
                 $details['link']            =  $url;
@@ -902,7 +896,6 @@ class UsersController extends Controller
                 $body      = config('constants.email.admin.customer_activate.body');
                 $details['body'] = $body;
                 $customer_emails = config('app.test_customer_email');
-                // $is_local = env('APP_ENV') == 'local' ? true : false;
                 $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
                     Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));

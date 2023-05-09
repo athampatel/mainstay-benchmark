@@ -109,10 +109,7 @@ class AdminsController extends Controller
             abort(403, config('constants.admin_error_403'));
         }
         $file = $request->file('profile_picture1');
-        // $max_file_size = (int) Helper::parse_size(ini_get('post_max_size'));
         $max_file_size = (int) self::parse_size(ini_get('post_max_size'));
-        // ini_get('post_max_size')
-
         $this->validate(
             $request,
             [
@@ -169,9 +166,7 @@ class AdminsController extends Controller
             $details['subject'] = config('constants.email.admin.admin_create.subject');    
             $details['title']   = config('constants.email.admin.admin_create.title');
             $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
-            $details['mail_view']    = "emails.new-account-details";
-            
-            // $details['link']    = env('APP_URL').'/admin/login/';
+            $details['mail_view']    = "emails.new-account-details";            
             $details['link']    = config('app.url').'/admin/login/';
             $is_local = config('app.env') == 'local' ? true : false;
             $test_emails = config('app.test_customer_email');

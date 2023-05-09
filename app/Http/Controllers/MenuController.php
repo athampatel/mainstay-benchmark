@@ -167,6 +167,7 @@ class MenuController extends Controller
         }
         return redirect()->route('auth.customer.dashboard');
     }
+    
     public function invoicePage(Request $request){
         $data['title']  = '';
         $data['current_menu']   = 'invoice';
@@ -276,12 +277,12 @@ class MenuController extends Controller
                                 ->leftjoin('admins','admins.email','=','sales_persons.email')
                                 ->select('sales_persons.person_number','sales_persons.name','sales_persons.email','admins.profile_path')
                                 ->where('user_id',$user_id)->where('customerno',$customer_no)->first()->toArray();
-        // dd($data['sales_person']);
         $data['constants'] = config('constants');
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords; 
         return view('Pages.account-settings',$data);
     }
+
     public function helpPage(Request $request){
         $data['title']  = '';
         $data['current_menu']  = 'help';
@@ -299,7 +300,6 @@ class MenuController extends Controller
         $data['searchWords']   = $searchWords;
         return view('Pages.help',$data);
     }
-
 
     // get open orders
     public function getOpenOrders(Request $request){
@@ -415,7 +415,6 @@ class MenuController extends Controller
                 "limit" => $limit,
                 "index" => "KSDEDESCENDING",
             );
-            // dd($data);
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $path = '/getInvoiceOrders';
@@ -493,7 +492,6 @@ class MenuController extends Controller
         $year = date('Y');
         foreach($response as $res){
             $date = explode("-",$res['orderdate']);
-            // if($date[0] == '2022'){
             if($date[0] == $year){
                 foreach($res['details'] as $detail){
                     if(isset($open_orders['0-'.$date[1]])){
@@ -904,7 +902,6 @@ class MenuController extends Controller
         $change_order_requests = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
-                                // ->where('request_status',0)
                                 ->offset($offset)->limit($limit)
                                 ->get()->toArray();
         $table_code = View::make("components.change-order-request-component")
@@ -913,7 +910,6 @@ class MenuController extends Controller
 
         $page_data = ChangeOrderRequest::where('user_id',$user_id)
                                 ->leftjoin('change_order_items','change_order_items.order_table_id','=','change_order_requests.id')
-                                // ->where('request_status',0)
                                 ->select('change_order_requests.order_no','change_order_requests.ordered_date','change_order_requests.created_at','change_order_items.item_code','change_order_items.existing_quantity','change_order_items.modified_quantity','change_order_requests.request_status','change_order_items.order_item_price')
                                 ->paginate(intval($limit));
         
@@ -1014,9 +1010,7 @@ class MenuController extends Controller
         $details['body']   = $data['message'];
         $details['link']            =  '';      
         $details['mail_view']       =  'emails.email-body';
-        // $admin_emails = env('ADMIN_EMAILS');
         $admin_emails = config('app.admin_emails');
-        // $is_local = env('APP_ENV') == 'local' ? true : false;
         $is_local = config('app.env') == 'local' ? true : false;
         if($is_local){
             Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
@@ -1068,9 +1062,7 @@ class MenuController extends Controller
         die();
     }
 
-
     public static function CustomerNotificationRemove($url,$user_id){    
-        // dd($url);
         $is_notification = Notification::where('to_user',$user_id)->where('action',$url)->where('status',1)->where('is_read',0)->first();
         if($is_notification){
             $is_notification->status = 0;
