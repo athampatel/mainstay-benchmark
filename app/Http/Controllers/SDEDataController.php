@@ -366,11 +366,11 @@ class SDEDataController extends Controller
         $user_details = UserDetails::where('user_id',$user_id)->first();
         $data = $request->all();
         $validation_array = [];
-        $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
+        // $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
         if($request->password){
             $validation_array = [
                 'password' => 'required|confirmed',
-                'photo_1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
+                // 'photo_1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
             ];
         }
         $validator = Validator::make($data, $validation_array);
@@ -391,7 +391,11 @@ class SDEDataController extends Controller
                         }
                     }
                     
+                    // $user_name = str_replace(' ', '', Auth::user()->name);
                     $user_name = str_replace(' ', '', Auth::user()->name);
+                    $user_name = str_replace(',', '', $user_name);
+                    $user_name = str_replace(':', '', $user_name);
+                    
                     $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
                     $file->move(public_path('images'), $image_name);
                     $path = 'images/'.$image_name;
