@@ -73,7 +73,6 @@ class MenuController extends Controller
         // $by_admin = $request->session()->get('by_admin');
         $by_admin = Session()->get('by_admin');
         if($by_admin){
-            // dd($by_admin);
             $menus['by_admin'] =  array( 'name' => 'Back To Admin', 
                                         'icon_name' => file_get_contents(public_path('/assets/images/svg/back_to_admin.svg')),
                                         'active' => 0,

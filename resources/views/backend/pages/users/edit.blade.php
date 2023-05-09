@@ -29,7 +29,7 @@ User Edit - Admin Panel
                             <h4 class="header-title">Edit User - {{ $user->name }}</h4>
                             @include('backend.layouts.partials.messages')
                             
-                            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                            <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row mb-4">
@@ -70,6 +70,21 @@ User Edit - Admin Panel
                                         </div>
                                     @endif
                                 @endforeach
+
+                                <h6 class="text-secondary">Profile Picture</h6><br>
+                                <div class="form-row">
+                                    <div class="d-flex align-items-center justify-content-center" style="position: relative">
+                                        <div class="image-upload position-relative">
+                                            @if($user->profile_image)
+                                            <img src="/{{$user->profile_image}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
+                                            @else 
+                                            <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                                            @endif
+                                            <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button_admin" class="position-absolute">
+                                            <input id="file-input-admin" name="profile_picture" type="file" accept=".jpg, .jpeg, .png"/>
+                                        </div>  
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-rounded text-capitalize btn-primary mt-4 pr-4 pl-4">Update</button>
                             </form>
                         </div>

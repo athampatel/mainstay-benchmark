@@ -21,6 +21,7 @@ use App\Models\ApiType;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\Backend\AdminsController;
 
 ini_set('max_execution_time', 300);
 
@@ -365,9 +366,11 @@ class SDEDataController extends Controller
         $user_details = UserDetails::where('user_id',$user_id)->first();
         $data = $request->all();
         $validation_array = [];
+        $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
         if($request->password){
             $validation_array = [
                 'password' => 'required|confirmed',
+                'photo_1' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
             ];
         }
         $validator = Validator::make($data, $validation_array);
