@@ -62,21 +62,14 @@ Customers - Admin Panel
                                 @include('backend.layouts.partials.messages')
                                 @if(!empty($users))
                                 @foreach($users as $user)
-                                {{-- {{dd($user)}} --}}
                                 <div class="form-row duplicate-date col-12 flex-wrap customer">
                                     <div class="form-group col-12 col-md-12 col-sm-12 dynamic-values">
                                         <div href="" class="do_customer">
-                                            {{-- <label for="PFINE00">Company Name: <strong>{{$user['name']}}</strong>   Customers : <strong>{{count($user['users'])}}</strong></label> --}}
-                                            {{-- <div class="row"> --}}
                                                 <div class="customer_toggle_container">
-                                                    {{-- <div>Company Name: {{$user['name']}}</div> --}}
                                                     <div>Email: {{$user['email']}}</div>
                                                     <div class="pe-5">Accounts : {{count($user['users'])}}</div>
                                                 </div>
-                                                {{-- <div class="col-2"> --}}
                                                 <span class="angle"><i class="fa fa-angle-down"></i></span>
-                                                {{-- </div> --}}
-                                            {{-- </div> --}}
                                         </div>
                                         <div class="user_information p-3 mt-2">
                                             <table id="backend_customers_{{$user['id']}}" class="text-center customer_table datatable-dark backend_datatables dt-responsive">
@@ -85,7 +78,6 @@ Customers - Admin Panel
                                                         <th>{{ config('constants.label.admin.customer_no') }} </th>
                                                         <th>Profile Picture</th>
                                                         <th>Name</th>
-                                                        {{-- <th>Email</th> --}}
                                                         <th>{{ config('constants.label.admin.ar_division_no') }}</th>
                                                         <th>{{ config('constants.label.admin.relational_manager') }}</th>
                                                         <th>Status</th>
@@ -95,7 +87,7 @@ Customers - Admin Panel
                                                 <tbody>
                                                     @foreach($user['users'] as $usr)
                                                     <tr>
-                                                        <td> <a class="" href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
+                                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
                                                         <td>
                                                             @if($user['profile_image'])
                                                                 <img src="/{{$user['profile_image']}}" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
@@ -104,7 +96,6 @@ Customers - Admin Panel
                                                             @endif  
                                                         </td>
                                                         <td>{{ $usr['customername'] }}</td>
-                                                        {{-- <td>{{ $user['email'] }}</td> --}}
                                                         <td>{{ $usr['ardivisionno'] }}</td>
                                                         <td>
                                                             @if($usr['sales_person'] != '')
@@ -118,7 +109,6 @@ Customers - Admin Panel
                                                                 @if( $user['active'] == 1)
                                                                     <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
                                                                 @elseif( $user['active'] == 0 && $user['is_deleted'] == 0)
-                                                                    {{-- <a href="{{env('APP_URL')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a> --}}
                                                                     <a href="{{config('app.url')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
                                                                 @endif
             

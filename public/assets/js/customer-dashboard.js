@@ -371,10 +371,12 @@ function customerSpendingChart(){
         // foreColor: '#373d3f'       
         foreColor: '#9ba7b2'       
       },
-      labels: labels,    
+      //   labels: labels,    
+      labels: labels_desc,    
       dataLabels: {
         formatter(val, opts) {
           const name = opts.w.globals.labels[opts.seriesIndex]
+          console.log(val,'_____val');
           return [name, val.toFixed(1) + '%']
         },
       },      

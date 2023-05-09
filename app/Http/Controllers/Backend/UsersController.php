@@ -35,9 +35,8 @@ use App\Models\VmiInventoryRequest;
 use App\Models\SearchWord;
 use App\Models\AnalaysisExportRequest;
 use Carbon\Carbon;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Backend\AdminsController;
+use Illuminate\Support\Facades\File;
 
 class UsersController extends Controller
 {
@@ -115,7 +114,8 @@ class UsersController extends Controller
                         ->orWhere('user_details.customerno','like','%'.$search.'%')
                         ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
                         ->orWhere('sales_persons.name','like','%'.$search.'%');
-            });
+                })
+            ->select('users.email','users.name','users.id','users.profile_image','users.active','users.is_deleted','users.is_vmi','users.activation_token','user_details.customerno','user_details.ardivisionno','sales_persons.name as sales_person','sales_persons.person_number','user_details.vmi_companycode','user_details.id as user_detail_id');
             $lblusers->where('user_details.is_active',0);
         }
         
@@ -125,7 +125,8 @@ class UsersController extends Controller
             foreach($users as $key => $ur) {
                 $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.id as user_detail_id','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('users','users.id','=','user_details.user_id');
                 if (!$this->superAdmin && !empty($user)){
                     $lbUserdetails->leftjoin('admins','sales_persons.email','=','admins.email'); 
                     $lbUserdetails->where('admins.id',$user->id);
@@ -137,7 +138,9 @@ class UsersController extends Controller
                     $lbUserdetails->where(function($lbUserdetails) use($search){
                         $lbUserdetails->orWhere('user_details.customerno','like','%'.$search.'%')
                                 ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
-                                ->orWhere('sales_persons.name','like','%'.$search.'%');
+                                ->orWhere('sales_persons.name','like','%'.$search.'%')
+                                ->orWhere('users.name','like','%'.$search.'%')
+                                ->orWhere('users.email','like','%'.$search.'%');
                     });
                 }
                 if($request->input('type') && $request->input('type') == 'vmi') {
@@ -485,12 +488,33 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-
+        $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed',
+            'profile_picture' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
         ]);
+
+        $file = $request->file('profile_picture');
+        $path = "";
+        if($file){
+            if($user->profile_image){
+                $image_path =str_replace('/','\\',$user->profile_image);
+                if(File::exists(public_path().'\\'.$image_path)){
+                    File::delete(public_path().'\\'.$image_path);
+                }
+            }
+            
+            // $user_name = str_replace(' ', '', $user->name);
+            $user_name = self::removeUnwantedString($user->name);
+            $image_name = $user_name.'_'.date('Ymd_his').'.'. $file->extension();
+            $file->move(public_path('images'), $image_name);
+            $path = 'images/'.$image_name;
+        }
+        if($file){
+            $user->profile_image = $path;
+        }
 
         $customerAccess = CustomerMenuAccess::where('user_id',$id)->first();
         $access_menus  = "";
@@ -528,6 +552,13 @@ class UsersController extends Controller
 
         session()->flash('success', config('constants.customer_update.confirmation_message'));
         return back();
+    }
+
+    public static function removeUnwantedString($name){
+        $change_name = str_replace(' ', '', $name);
+        $change_name = str_replace(',', '', $change_name);
+        $change_name = str_replace(':', '', $change_name);
+        return $change_name;
     }
 
     /**

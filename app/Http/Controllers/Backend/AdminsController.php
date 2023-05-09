@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
-use App\Helpers\Helper;
 
 class AdminsController extends Controller
 {
@@ -236,10 +235,13 @@ class AdminsController extends Controller
 
         $admin = Admin::find($id);
 
+        $max_file_size = (int) self::parse_size(ini_get('post_max_size'));
+
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:admins,email,' . $id,
             'password' => 'nullable|min:8',
+            'profile_picture' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
         ]);
 
         $file = $request->file('profile_picture');
