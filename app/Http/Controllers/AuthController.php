@@ -191,7 +191,6 @@ class AuthController extends Controller
         }
         $admin      = Admin::first(); 
         if($admin){    
-            // $url    = env('APP_URL').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
             $url    = config('app.url').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
 
             if($request_id)
@@ -214,9 +213,7 @@ class AuthController extends Controller
 
             $notification = new NotificationController();                        
             $notification->create($_notification);
-            // $admin_emails = env('ADMIN_EMAILS');
             $admin_emails = config('app.admin_emails');
-            // $is_local = env('APP_ENV') == 'local' ? true : false;
             $is_local = config('app.env') == 'local' ? true : false;
             if($is_local){
               Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));

@@ -225,7 +225,6 @@
 
 @section('scripts')
 <script>
-    // let app_url = '{{ env('APP_URL') }}';
     let app_url = '{{ config('app.url') }}';
     let order_details = [];
     let changed_order_items = [];

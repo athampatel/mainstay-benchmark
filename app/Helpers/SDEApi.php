@@ -108,7 +108,6 @@ class SDEApi
         $post_data = array_merge($default_data,$data);
         $request = Http::withOptions([
             'verify' => $this->is_ssl_verify,
-            // 'timeout' => env('API_MAX_TIME')
             'timeout' => config('app.app_max_time')
         ]);
         if($method === 'get') {
@@ -161,9 +160,7 @@ class SDEApi
         $url = '';
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
-        // $admin_emails = env('ADMIN_EMAILS');
         $admin_emails = config('app.admin_emails');
-        // $is_local = env('APP_ENV') == 'local' ? true : false;
         $is_local = config('app.env') == 'local' ? true : false;
         return;
         if($is_local){
