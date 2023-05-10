@@ -148,6 +148,11 @@
             'subject' => 'SDE Api Error Occur',
             'message' => 'the error api message',
         ],
+        'api_connection_error_email' => [
+            'title' => 'SDE Api Error',
+            'subject' => 'SDE Api Connection Error Occur',
+            'message' => 'the api conection error message',
+        ],
         '404_page_message' => 'This page does not exist. Sorry about that.',      
         'label' => [
             'admin' => [
@@ -255,4 +260,5 @@
         ]
     ];
     // {{ config('constants.label.admin.role_name') }}
+    // we lost the connection in SDE Api so the portal doesn't work
 ?>

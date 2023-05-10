@@ -123,7 +123,9 @@ class MenuController extends Controller
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;
-        $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
+        // comment for api issue
+        // $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
+        $saleby_productline1         = false;
         if($saleby_productline1){
             $saleby_productline = $saleby_productline1['sales_details']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 
