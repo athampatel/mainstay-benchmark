@@ -69,7 +69,10 @@ class UsersController extends Controller
      */
     
     public function index(Request $request)
-    {   
+    {   /* get user details */
+        // $users = User::with(['userDetails'])->get()->toArray();
+        // dd($users);
+        /* get user details */
         if(!Auth::guard('admin')->user()){
             return redirect()->route('admin.login');
         }
@@ -114,15 +117,16 @@ class UsersController extends Controller
                         ->orWhere('user_details.customerno','like','%'.$search.'%')
                         ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
                         ->orWhere('sales_persons.name','like','%'.$search.'%');
-                })
-            ->select('users.email','users.name','users.id','users.profile_image','users.active','users.is_deleted','users.is_vmi','users.activation_token','user_details.customerno','user_details.ardivisionno','sales_persons.name as sales_person','sales_persons.person_number','user_details.vmi_companycode','user_details.id as user_detail_id');
-            $lblusers->where('user_details.is_active',0);
+                })->select('users.email','users.name','users.id','users.profile_image','users.active','users.is_deleted','users.is_vmi','users.activation_token','user_details.customerno','user_details.ardivisionno','sales_persons.name as sales_person','sales_persons.person_number','user_details.vmi_companycode','user_details.id as user_detail_id');
+                $lblusers->where('user_details.is_active',0);
         }
         
         $userss = $lblusers->paginate(intval($limit));
-        $users = $lblusers->offset($offset)->limit($limit)->get()->toArray();
+        $users = $lblusers->offset($offset)->limit($limit)->select('users.id','users.email','users.profile_image','users.active','users.is_deleted','users.activation_token','users.is_vmi','users.name')->get()->toArray();
+
         if(!empty($users)){
             foreach($users as $key => $ur) {
+                // dd($ur);
                 $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.id as user_detail_id','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
                 ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                 ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
@@ -148,9 +152,11 @@ class UsersController extends Controller
                 }
                 $lbUserdetails->where('user_id',$ur['id']);
                 $lbUserdetails->where('is_active',0);
+                // dd($lbUserdetails->get()->toArray());
                 $users[$key]['users'] = $lbUserdetails->get()->toArray();
             }
         }
+        // dd($users);
         $print_users = $users;
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
@@ -1441,6 +1447,17 @@ class UsersController extends Controller
         );
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post','Products',$data);
+
+        if(empty($response)){
+            $table_code = View::make("components.datatabels.vmi-inventory-list-component")
+            ->with("vmiProducts", [])
+            ->render();
+            $res = ['success' => true, 'table_code' => $table_code,'pagination_code' => '', 'count' => 0];
+            echo json_encode($res);
+            die(); 
+            return;
+        }
+        
         // Remove unwanted products
         $count = 0;
         foreach($response['products'] as $key => $product){

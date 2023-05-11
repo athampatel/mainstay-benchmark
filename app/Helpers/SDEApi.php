@@ -176,10 +176,9 @@ class SDEApi
 
     public static function responseErrorCheck($response,$data,$resource){
       $response_code = $response->getStatusCode();
-      // $error_codes = explode(',', env('API_ERROR_CODES'));
       $error_codes = explode(',', config('app.api_error_codes'));
       if(in_array($response_code,$error_codes)){
-        if($resource == 'Products' && $response_code == 500){
+        if($response->serverError()) {
           $error_message = false;
         } else {
           $error_message = json_decode($response->body(), true);
@@ -190,7 +189,7 @@ class SDEApi
         } else {
           $error_message = $error_message['message'];
         }
-        return ;
+
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),
@@ -208,9 +207,10 @@ class SDEApi
         $url = '';
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
+        $details['is_button']       =  false;
         $admin_emails = config('app.admin_emails');
         $is_local = config('app.env') == 'local' ? true : false;
-        return;
+        // return;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
