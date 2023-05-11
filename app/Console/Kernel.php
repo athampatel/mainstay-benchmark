@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('command:ProductFetch')->hourly();
         //$schedule->command('command:ProductUpdate')->everyTenMinutes();
         //$schedule->command('twice:ImportInvoiceOrders')->everyThirtyMinutes();
+        $schedule->command('check:sdeApi')->hourly();
     }
 
     /**

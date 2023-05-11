@@ -3,10 +3,11 @@
 namespace App\Helpers;
 
 use App\Models\Admin;
+use App\Models\ApiConnectionError;
 use App\Models\ApiLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Http\Client\RequestException;
 // sde : Simple data exchange
 
 class SDEApi
@@ -98,40 +99,86 @@ class SDEApi
     return true;
   }
 
-  
-  public function Request($method = 'post',$resource = 'Customers', $data = null){
-        $default_data = array(
-            "user" 		    => $this->username,
-            "password" 	  => $this->password,
-			      "resource"	  => $resource,
-        );
-        $post_data = array_merge($default_data,$data);
-        $request = Http::withOptions([
+
+  public function CheckConnection(){
+    try {
+        $data = [
+          "user" 		    => $this->username,
+          "password" 	  => $this->password,
+          "resource"	  => 'Customers',
+          "limit"       => 1,
+          "offset"      => 1
+        ];
+      
+        $response = Http::withOptions([
             'verify' => $this->is_ssl_verify,
-            'timeout' => config('app.app_max_time')
+            'timeout' => config('app.app_max_time'),
+        ])
+        ->post($this->end_point, $data);
+        return 0;
+      } catch (\Exception $e) {
+        $message = $e->getMessage();
+        // store the error message
+        $apiConnectionError = ApiConnectionError::create([
+          'message' => $message
         ]);
-        if($method === 'get') {
-          $response = $request->get($this->end_point,$post_data);
+        $message = 'We lost the connection in the SDE API, so the portal is not functioning.';
+        // send the error message to email
+        $details['title']   = config('constants.api_connection_error_email.title');   
+        $details['subject'] = config('constants.api_connection_error_email.subject');
+        $details['status']    = 'success';
+        $details['message']   = config('constants.api_connection_error_email.message');
+        $body      = "<p style='max-width:590px;font-weight:bold;font-size:14px;'>{$message}</p>";
+        $details['body'] = $body;
+        $url = '';
+        $details['link']            =  $url;      
+        $details['mail_view']       =  'emails.email-body';
+        $details['is_button'] = false;
+        $details['api_connection_error'] = 'We Get Connection Error on SDE API';
+        $admin_emails = config('app.admin_emails');
+        $is_local = config('app.env') == 'local' ? true : false;
+        if($is_local){
+          Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
-          $response = $request->post($this->end_point,$post_data);
+          $admin_emails = Admin::all()->pluck('email')->toArray();
+          Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
-        $response_code = $response->getStatusCode();
-        self::responseErrorCheck($response,$data,$resource);
-        if($resource == 'Products' && $response_code == 500){
-          return [];
-        }
-        if($resource == 'SalesOrderHistoryHeader' && $response_code == 500){
-          return [];
-        } 
-        return $response->json();
+        return 1;
       }
+  }
+  
+    public function Request($method = 'post',$resource = 'Customers', $data = null){
+      $default_data = array(
+          "user" 		    => $this->username,
+          "password" 	  => $this->password,
+          "resource"	  => $resource,
+      );
+      $post_data = array_merge($default_data,$data);
+      $request = Http::withOptions([
+          'verify' => $this->is_ssl_verify,
+          'timeout' => config('app.app_max_time')
+      ]);
+      if($method === 'get') {
+        $response = $request->get($this->end_point,$post_data);
+      } else {
+        $response = $request->post($this->end_point,$post_data);
+      }
+      $response_code = $response->getStatusCode();
+      self::responseErrorCheck($response,$data,$resource);
+      if($resource == 'Products' && $response_code == 500){
+        return [];
+      }
+      if($resource == 'SalesOrderHistoryHeader' && $response_code == 500){
+        return [];
+      } 
+      return $response->json();
+    }
 
     public static function responseErrorCheck($response,$data,$resource){
       $response_code = $response->getStatusCode();
-      // $error_codes = explode(',', env('API_ERROR_CODES'));
       $error_codes = explode(',', config('app.api_error_codes'));
       if(in_array($response_code,$error_codes)){
-        if($resource == 'Products' && $response_code == 500){
+        if($response->serverError()) {
           $error_message = false;
         } else {
           $error_message = json_decode($response->body(), true);
@@ -142,7 +189,7 @@ class SDEApi
         } else {
           $error_message = $error_message['message'];
         }
-        return ;
+
         ApiLog::create([
           'resource' => $resource,
           'data' =>  json_encode($data),
@@ -160,9 +207,10 @@ class SDEApi
         $url = '';
         $details['link']            =  $url;      
         $details['mail_view']       =  'emails.email-body';
+        $details['is_button']       =  false;
         $admin_emails = config('app.admin_emails');
         $is_local = config('app.env') == 'local' ? true : false;
-        return;
+        // return;
         if($is_local){
           Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {

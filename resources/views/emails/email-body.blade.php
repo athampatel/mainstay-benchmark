@@ -64,6 +64,10 @@
                                             @if(isset($details['email']))
                                                 <p style="padding:10px 0px">Customer Email : {{$details['email']}}</p>
                                             @endif
+
+                                            @if(isset($details['api_connection_error']))
+                                                <p style="padding:10px 0px">{{$details['api_connection_error']}}</p>
+                                            @endif
                                             <p style="padding:10px 32px">{!!$details['body']!!}</p>
                                         </div>
                                     </td>
@@ -76,6 +80,7 @@
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
 
+                    @if(!isset($details['is_button']))
                     <tr>
                         <td align="center" style="padding:0px 60px;">
                             <table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448" style="border-radius:30px;">
@@ -95,6 +100,7 @@
                             </table>
                         </td>
                     </tr>
+                    @endif
 
 
                 </table>
