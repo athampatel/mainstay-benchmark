@@ -367,7 +367,7 @@ function customerSpendingChart(){
         chart: {
         type: 'donut',
         // type: 'line',
-        width: '70%', 
+        width: '100%', 
         // foreColor: '#373d3f'       
         foreColor: '#9ba7b2'       
       },
