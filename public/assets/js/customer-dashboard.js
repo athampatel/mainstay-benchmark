@@ -396,7 +396,11 @@ function customerSpendingChart(){
           formatter: function(value, series) {
             return '$'+ numberWithCommas(value);
           }
-        }
+        },
+        style: {
+            fontSize: '10px',
+            // fontFamily: undefined
+        },
       },
       xaxis: {
         type:'products',
