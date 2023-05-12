@@ -124,8 +124,7 @@ class MenuController extends Controller
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
         $year                       = 2022;
         // comment for api issue
-        //$saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
-        $saleby_productline1         = false;
+        $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
         if($saleby_productline1){
             $saleby_productline = $saleby_productline1['sales_details']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 
@@ -780,13 +779,9 @@ class MenuController extends Controller
         );
         $SDEAPi = new SDEApi();
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
-
-        // $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
-        // $saleby_productline = $saleby_productline1['sales_details']; 
-        // $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
-        $saleby_productline = []; 
-        $saleby_productline_desc = [];
-
+        $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
+        $saleby_productline = $saleby_productline1['sales_details']; 
+        $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
         $sale_map                   = array();
         $sale_map_desc                   = array();
 

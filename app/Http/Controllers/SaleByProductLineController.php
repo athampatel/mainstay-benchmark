@@ -99,7 +99,26 @@ class SaleByProductLineController extends Controller
         $saledetailDesc = array();
         $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get()->toArray();
         if(empty($sale_details)){
-            $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
+            // $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
+            $_data = array(
+                'db_fiscalYear' => $year,
+                'method' => 'export', 
+                'reportSetting' =>  'SDE_VMI',
+                'filter' =>  [
+                    [
+                        'column' => "ARDivisionNo",
+                        'type' => "equals",
+                        'value' => $ardivisionno,
+                        'operator'=> "and"
+                    ],
+                    [
+                        'column' => "CustomerNo",
+                        'type' => "equals",
+                        'value' => $customer_no,
+                        'operator' => "and"
+                    ]
+                ]
+            );
             $SDEApi = new SDEApi();
             $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
             $responsedata    = $prroductLine;
