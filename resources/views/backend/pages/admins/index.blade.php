@@ -93,7 +93,7 @@ Admins - Admin Panel
                                     <tbody>
                                     @foreach ($admins as $admin)
                                     <tr>
-                                            <td>{{ $loop->index+1 }}</td>
+                                            <td>{{ $loop->index + 1 + $old_counts }}</td>
                                             <td>
                                                 @if($admin->profile_path)
                                                     <img src="/{{$admin->profile_path}}" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
