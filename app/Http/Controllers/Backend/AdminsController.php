@@ -70,10 +70,18 @@ class AdminsController extends Controller
                 $adminss = Admin::paginate(intval($limit));
             }
         }
+
+        $count_page = isset($_GET['page']) ? $_GET['page'] : 0;
+        if($count_page == 0 || $count_page == 1){
+            $old_counts = 0;
+        } else {
+            $old_counts = ($count_page - 1) * $limit;
+        }
+        
         $paginate = $adminss->toArray();
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords','order','order_type'));
+        return view('backend.pages.admins.index', compact('admins','search','paginate','limit','searchWords','order','order_type','old_counts'));
     }
 
     /**
