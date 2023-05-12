@@ -125,6 +125,7 @@ class MenuController extends Controller
         $year                       = 2022;
         // comment for api issue
         $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
+        // dd($saleby_productline1);
         if($saleby_productline1){
             $saleby_productline = $saleby_productline1['sales_details']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 

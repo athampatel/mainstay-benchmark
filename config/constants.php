@@ -190,7 +190,7 @@
                 'relational_manager_no' => 'Benchmark Regional Manager Number',
                 'relational_manager_name' => 'Benchmark Regional Manager Name',
                 'relational_manager_email' => 'Benchmark Regional Manager Email',
-                'generate_random_password' => 'Generate Radmon Password',
+                'generate_random_password' => 'Generate Random Password',
                 'relational_manager' => 'Benchmark Regional Manager',
                 'region_manager' => 'Region Manager',
                 'order_date' => 'Order Date',

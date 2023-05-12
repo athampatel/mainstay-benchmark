@@ -119,14 +119,19 @@ class SaleByProductLineController extends Controller
                     ]
                 ]
             );
+            // dd($_data);
             $SDEApi = new SDEApi();
             $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
+            // dd($prroductLine);
             $responsedata    = $prroductLine;
-            if(isset($responsedata['salesbyproductline']) || isset($responsedata['SalesByCustProdLine'])){
-
+            // dd($responsedata,isset($responsedata['SalesByCustProdLine']),'SalesByCustProdLine');
+            // if(isset($responsedata['salesbyproductline']) || isset($responsedata['SalesByCustProdLine'])){
+            if(isset($responsedata['salesbyproductline']) || isset($responsedata['salesbycustprodline'])){
                 $salesbyproductline     = array();
-                if(isset($responsedata['salesbyproductline']))
-                    $salesbyproductline = $responsedata['salesbyproductline'];
+                // if(isset($responsedata['salesbyproductline']))
+                if(isset($responsedata['salesbycustprodline']))
+                    // $salesbyproductline = $responsedata['salesbyproductline'];
+                    $salesbyproductline = $responsedata['salesbycustprodline'];
                 elseif(isset($responsedata['SalesByCustProdLine']))
                     $salesbyproductline = $responsedata['SalesByCustProdLine'];                
 
