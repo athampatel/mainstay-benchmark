@@ -371,7 +371,10 @@ function customerSpendingChart(){
         // foreColor: '#373d3f'       
         foreColor: '#9ba7b2'       
       },
-      //   labels: labels,    
+      //   labels: labels,
+      legend: {
+        fontSize: "10px"
+      },    
       labels: labels_desc,    
       dataLabels: {
         formatter(val, opts) {
@@ -379,6 +382,11 @@ function customerSpendingChart(){
           console.log(val,'_____val');
           return [name, val.toFixed(1) + '%']
         },
+        style: {
+            fontSize: "10px",
+            // fontFamily: "Helvetica, Arial, sans-serif",
+            // fontWeight: "bold"
+        }
       },      
       tooltip: {
         x: {
@@ -398,7 +406,7 @@ function customerSpendingChart(){
         show: false,
         showAlways: false,
         label: 'Total',
-        fontSize: '22px',
+        fontSize: '10px',
         fontFamily: 'Helvetica, Arial, sans-serif',
         fontWeight: 600,
         color: '#373d3f',
