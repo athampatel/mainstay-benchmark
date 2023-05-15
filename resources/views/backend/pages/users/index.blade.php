@@ -90,9 +90,9 @@ Customers - Admin Panel
                                                         <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
                                                         <td>
                                                             @if($user['profile_image'])
-                                                                <img src="/{{$user['profile_image']}}" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                                <img src="/{{$user['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                             @else
-                                                                <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                                <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                             @endif  
                                                         </td>
                                                         <td>{{ $usr['customername'] }}</td>
@@ -197,9 +197,9 @@ Customers - Admin Panel
                 <td> <a class="" href="{{ route('admin.users.edit', $print_user['id']) }}">{{ $printusr['customerno'] }}</a></td>
                 <td>
                     @if($print_user['profile_image'])
-                        <img src="/{{$print_user['profile_image']}}" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                        <img src="/{{$print_user['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                     @else
-                        <img src="/assets/images/svg/user_logo.png" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                        <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                     @endif  
                 </td>
                 <td>{{ $print_user['name'] }}</td>

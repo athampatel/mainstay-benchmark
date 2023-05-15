@@ -83,8 +83,8 @@ class SaleByProductLineController extends Controller
     {
         //
     }
+    
     public static function getSaleDetails($customer,$year = '', $month = '', $product_line = ''){
-        // dd($customer,$year);
         if(empty($customer))
             return false;
         $customer_no = isset($customer['customerno']) ? $customer['customerno'] : '';
@@ -97,9 +97,20 @@ class SaleByProductLineController extends Controller
             $year = date('Y');
         $saledetails    = array(); 
         $saledetailDesc = array();
+        $sale_details_single = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->first();
+        $is_do_empty = true;
+        if(!empty($sale_details_single)) {
+            $time_now = date('Y-m-d h:i:s');
+            $update_time = $sale_details_single->updated_at->diffInMinutes($time_now);
+            if($update_time <= 60){
+                $is_do_empty = false;
+            }
+        }
+        if(!empty($sale_details_single) && $is_do_empty) {
+            SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->delete();
+        }
         $sale_details = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->get()->toArray();
         if(empty($sale_details)){
-            // $_data = array('year' => $year,'ARDivisionNo' => $ardivisionno,'CustomerNo' => $customer_no);
             $_data = array(
                 'db_fiscalYear' => $year,
                 'method' => 'export', 
@@ -119,18 +130,12 @@ class SaleByProductLineController extends Controller
                     ]
                 ]
             );
-            // dd($_data);
             $SDEApi = new SDEApi();
             $prroductLine = $SDEApi->Request('post','SalesByCustProdLine',$_data); 
-            // dd($prroductLine);
             $responsedata    = $prroductLine;
-            // dd($responsedata,isset($responsedata['SalesByCustProdLine']),'SalesByCustProdLine');
-            // if(isset($responsedata['salesbyproductline']) || isset($responsedata['SalesByCustProdLine'])){
             if(isset($responsedata['salesbyproductline']) || isset($responsedata['salesbycustprodline'])){
                 $salesbyproductline     = array();
-                // if(isset($responsedata['salesbyproductline']))
                 if(isset($responsedata['salesbycustprodline']))
-                    // $salesbyproductline = $responsedata['salesbyproductline'];
                     $salesbyproductline = $responsedata['salesbycustprodline'];
                 elseif(isset($responsedata['SalesByCustProdLine']))
                     $salesbyproductline = $responsedata['SalesByCustProdLine'];                

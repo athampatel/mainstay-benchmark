@@ -41,7 +41,7 @@
 						@if(Auth::user()->profile_image)
 							<img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
 						@else 
-							<img src="/assets/images/svg/user_logo.png" />
+							<img src="/assets/images/svg/user_logo.png" height="45" width="45" class="rounded-circle" />
 						@endif
                     </div>
                     <div class="wm_msg">
