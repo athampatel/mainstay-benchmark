@@ -82,9 +82,9 @@
         <div class="profile-details" id="admin-nav-profile-detail">
             <div class="profile-image"> 
                 @if(Auth::guard('admin')->user()->profile_path)
-                    <img src="/{{Auth::guard('admin')->user()->profile_path}}" id="nav-bar-profile-img_admin" class="rounded-circle"/>
+                    <img src="/{{Auth::guard('admin')->user()->profile_path}}" id="nav-bar-profile-img_admin" class="rounded-circle" height="45" width="45"/>
                 @else
-                    <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img_admin" class="rounded-circle"/>
+                    <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="nav-bar-profile-img_admin" class="rounded-circle"/>
                 @endif  
             </div>
             <div>

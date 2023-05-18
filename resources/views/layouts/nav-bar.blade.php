@@ -95,7 +95,7 @@
                 @if(Auth::user()->profile_image)
                     <img src="/{{Auth::user()->profile_image}}" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @else 
-                    <img src="/assets/images/svg/user_logo.png" id="nav-bar-profile-img" />
+                    <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @endif
             <div>
                  <div class="profile_position">{{Auth::user()->name}}</div>
