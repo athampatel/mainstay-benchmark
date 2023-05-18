@@ -74,6 +74,7 @@
             ]
         ],
         'customer_not_found' => 'The customer was not found.',
+        /* gokul changes */
         'email' => [
             'admin' => [
                 'customer_activate' => [
