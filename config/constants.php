@@ -157,6 +157,14 @@
         'label' => [
             'admin' => [
                 // user requests
+                'users'                   => 'Benchmark Staff Users',
+                'manager'                 => 'Regional Managers',
+                'total_customer'          => 'Total Customer',
+                'vmi_customer'            => ' VMI Customers',
+                'signup_request'          => 'Customer Signup Requests',
+                'change_order_request'    => 'Change Order Requests',
+                'export_request'          => 'Export Request',
+
                 'full_name' => 'Full Name',
                 'email_address' => 'Email Address',
                 'company_name' => 'Company Name',

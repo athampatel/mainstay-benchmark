@@ -17,7 +17,7 @@ Admin Create - Admin Panel
 
 @section('admin-content')
 <div class="home-content">
-    <span class="page_title">Create Staff / Admin User</span>
+    <span class="page_title">Create Benchmark User</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
