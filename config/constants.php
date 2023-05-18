@@ -1,8 +1,8 @@
 <?php 
     return [
         'customer-signup' => [
-            'confirmation_message' => 'A request for access has been submitted. You will receive confirmation via email.',
-            'validation_email' => 'Thank you for validating your email address. You will receive confirmation via email.',
+            'confirmation_message' => 'A request for access has been submitted. You will receive a confirmation via email.',
+            'validation_email' => 'Thank you for validating your email address. You will receive a confirmation via email.',
             'mail' => [
                 'title' => 'Customer Portal Access',
                 'subject' => 'Your request for access to the Benchmark member portal has been received.'
@@ -43,19 +43,19 @@
         'admin_error_403' => 'Sorry, you are not an authorized administrator.',
         'dashboard_error_403' => 'Sorry, access to the dashboard is not authorized.',
         'admin_create' => [
-            'confirmation_message' => 'The admin has been created successfully.',
+            'confirmation_message' => 'The Admin has been created successfully.',
         ],
         'superadmin_update' => [
             'error' => 'Sorry, you cannot update the Super Admin. Please create a new user if you need to test.',
         ],
         'admin_update' => [
-            'confirmation_message' => 'The admin has been updated successfully.'
+            'confirmation_message' => 'The Admin has been updated successfully.'
         ],
         'superadmin_delete' => [
             'error' => 'Sorry, you cannot delete the Super Admin. Please create a new user if you need to test.'
         ],
         'admin_delete' => [
-            'confirmation_message' => 'The admin has been deleted.'
+            'confirmation_message' => 'The Admin has been deleted.'
         ],
         'customer_account_page' => [
             'update_message' => 'The account details have been updated successfully.'
@@ -64,8 +64,8 @@
         'customer_found' => 'Customer details have been found for the specified account.',
         'api_error' => 'We are unable to locate any customer details for this email address.',
         'customer_not_found' => 'We are unable to locate any customer details for this email address.',
-        // 'missing_manager' => 'Customer No ({$customerNo}) is missing regional manager details',
-        'missing_manager' => 'The regional manager details are missing for Customer No ({$customerNo}).',
+        // 'missing_manager' => 'Customer Number ({$customerNo}) is missing the regional manager details',
+        'missing_manager' => 'The regional manager details are missing for Customer Number ({$customerNo}).',
         'admin_customer_create' => [
             'success' => 'A new customer has been created successfully.',
             'mail' => [
@@ -119,9 +119,9 @@
             ],
         'admin' => [
             'role' => [
-                'create' => 'Role has been created !!',
-                'update' => 'Role has been updated !!',
-                'delete' => 'Role has been deleted !!'
+                'create' => 'Role has been created.',
+                'update' => 'Role has been updated.',
+                'delete' => 'Role has been deleted.'
             ],
             'change_order' => [
                 'approve' => 'The request for a change order has been approved.',
@@ -131,29 +131,29 @@
                 'error' => 'It is not possible to update the quantity of the item.',
                 'success' => 'The quantity has been updated successfully.',
                 'validation' => [
-                    'new_quanity' => 'Please provide a value for the new quantity field. It is required.'
+                    'new_quanity' => 'Please provide a value for the new quantity. It is required.'
                 ]
             ]
         ],
         'notification' => [
-            'signup' => 'A new sign-up request has been received from a customer.',
+            'signup' => 'A new signup request has been received from a customer.',
             'change_order' => 'A new change order request has been received from a customer.',
             'contact_details' => 'A customer has requested an update to their contact details.',
             'inventory_update' => 'A customer has submitted a request to update the inventory.'
         ],
-        'user_request_not_found' => 'We were unable to find a customer with the requested details.',
+        'user_request_not_found' => 'We were unable to find a customer with the specified details.',
         'api_error_message' => 'An error has occurred.',
         'api_error_email' => [
-            'title' => 'SDE Api Error',
-            'subject' => 'SDE Api Error Occur',
+            'title' => 'SDE API Error',
+            'subject' => 'SDE API Error Occurred',
             'message' => 'the error api message',
         ],
         'api_connection_error_email' => [
-            'title' => 'SDE Api Error',
-            'subject' => 'SDE Api Connection Error Occur',
+            'title' => 'SDE API Error',
+            'subject' => 'SDE APO Connection Error Occurred',
             'message' => 'the api conection error message',
         ],
-        '404_page_message' => 'This page does not exist. Sorry about that.',      
+        '404_page_message' => 'Sorry, this page does not exist.',      
         'label' => [
             'admin' => [
                 // user requests
@@ -237,17 +237,17 @@
                 'vmi' => 'VMI',
                 'account_setting' => 'Account Settings',
                 'help' => 'Help',
-                'invoice_detail' => 'Invoice Detail',
-                'change_order' => 'Open Order',
+                'invoice_detail' => 'Invoice Details',
+                'change_order' => 'Open Orders',
                 'change_request' => 'Change Orders'
             ]
         ],
 
         'export_message' => [
-            'message' => 'Your Export Request Has been received. Once it gets completed you will be notified.'
+            'message' => 'Your Export Request Has been received. You will be notified when it is complete.'
         ],
         'analysis_message' => [
-            'message' => 'Your Export Request Has been received. Once it gets completed you will be notified.'
+            'message' => 'Your Export Request Has been received. You will be notified when it is complete.'
         ],
 
         'help_message' => [
@@ -255,10 +255,10 @@
         ],
 
         'change_order_cancel' => [
-            'success' => 'Change order request cancelled successfully',
-            'not_found' => 'Unable to find the change order request'
+            'success' => 'Change order request cancelled successfully.',
+            'not_found' => 'Unable to find the change order request.'
         ]
     ];
     // {{ config('constants.label.admin.role_name') }}
-    // we lost the connection in SDE Api so the portal doesn't work
+    // we lost the connection in SDE API so the portal doesn't work
 ?>
