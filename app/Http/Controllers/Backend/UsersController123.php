@@ -9,7 +9,6 @@ use App\Models\Admin;
 use App\Models\SalesPersons;
 use App\Models\User as Customer;
 use App\User;
-use App\Models\Customer as CustomerUnqiue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -93,46 +92,77 @@ class UsersController extends Controller
 
         $search = $request->input('search');
         $user =  $this->user;    
-        $manager = $request->input('manager');
-        $type  = $request->input('type');
-        $request_data = ['search' => $search,'type' => $type,'manager' => $manager];
-        $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
-            if($request_data['search'] != ""){
-                $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
-                    ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
-                $query->where(function($query) use($request_data){
-                        $query->orWhere('customerno','like','%'.$request_data['search'].'%')
-                                ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
-                                ->orWhere('customerno','like','%'.$request_data['search'].'%')
-                                ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
-                                ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
-                });
-                $query->select('user_details.*','sales_persons.name');
-            }
-            // $query->leftjoin('users','user_details.user_id','=','users.id')
-                $query->where('users.is_deleted',0);
-            if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
-                $query->where('user_details.vmi_companycode','!=','');
-            }
-            if($request_data['type'] != "" && $request_data['type'] == 'new'){
-                $query->where('users.active','=',0);
-            }
-            if($request_data['manager'] != "") {
-                $query->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+
+        $lblusers = User::where('is_deleted',0);
+        if($request->input('type') && $request->input('type') == 'vmi') {
+            $lblusers->leftjoin('user_details','user_details.user_id','=','users.id')
+            ->where('user_details.vmi_companycode','!=','');
+        }
+        if($request->input('type') && $request->input('type') == 'new'){
+            $lblusers->where('active','=',0);
+        }
+
+        if($request->input('manager')){
+            $lblusers->leftjoin('user_details','user_details.user_id','=','users.id')
+                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                     ->leftjoin('admins','sales_persons.email','=','admins.email');
-                $query->where('admins.id',$request_data['manager']);
+            $lblusers->where('admins.id',$request->input('manager'));
+        }
+        
+        if($search){
+            if(($request->input('type') && $request->input('type') != 'vmi') || !$request->input('type')) {
+                $lblusers->leftjoin('user_details','user_details.user_id','=','users.id');
             }
-            if (!$this->superAdmin && !empty($user)){
-                $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
-                $query->where('admins.id',$user->id);
+            $lblusers->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id');
+
+            $lblusers->where(function($lblusers) use($search){
+                $lblusers->orWhere('users.name','like','%'.$search.'%')
+                        ->orWhere('users.email','like','%'.$search.'%')
+                        ->orWhere('user_details.customerno','like','%'.$search.'%')
+                        ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
+                        ->orWhere('sales_persons.name','like','%'.$search.'%');
+                })->select('users.email','users.name','users.id','users.profile_image','users.active','users.is_deleted','users.is_vmi','users.activation_token','user_details.customerno','user_details.ardivisionno','sales_persons.name as sales_person','sales_persons.person_number','user_details.vmi_companycode','user_details.id as user_detail_id');
+                $lblusers->where('user_details.is_active',0);
+        }
+        
+        $userss = $lblusers->paginate(intval($limit));
+        $users = $lblusers->offset($offset)->limit($limit)->select('users.id','users.email','users.profile_image','users.active','users.is_deleted','users.activation_token','users.is_vmi','users.name')->get()->toArray();
+
+        if(!empty($users)){
+            foreach($users as $key => $ur) {
+                $lbUserdetails = UserDetails::select(['user_details.user_id as customer','user_details.id as user_detail_id','user_details.customerno','user_details.customername','user_details.ardivisionno','user_details.vmi_companycode','sales_persons.person_number','sales_persons.name as sales_person'])
+                ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                ->leftjoin('users','users.id','=','user_details.user_id');
+                if (!$this->superAdmin && !empty($user)){
+                    $lbUserdetails->leftjoin('admins','sales_persons.email','=','admins.email'); 
+                    $lbUserdetails->where('admins.id',$user->id);
+                } elseif ($this->superAdmin && $request->input('manager')){
+                    $lbUserdetails->leftjoin('admins','sales_persons.email','=','admins.email'); 
+                    $lbUserdetails->where('admins.id',$request->input('manager'));
+                }
+                if($search){
+                    $lbUserdetails->where(function($lbUserdetails) use($search){
+                        $lbUserdetails->orWhere('user_details.customerno','like','%'.$search.'%')
+                                ->orWhere('user_details.ardivisionno','like','%'.$search.'%')
+                                ->orWhere('sales_persons.name','like','%'.$search.'%')
+                                ->orWhere('users.name','like','%'.$search.'%')
+                                ->orWhere('users.email','like','%'.$search.'%');
+                    });
+                }
+                if($request->input('type') && $request->input('type') == 'vmi') {
+                    $lbUserdetails->where('user_details.vmi_companycode','!=','');
+                }
+                $lbUserdetails->where('user_id',$ur['id']);
+                $lbUserdetails->where('is_active',0);
+                // dd($lbUserdetails->get()->toArray());
+                $users[$key]['users'] = $lbUserdetails->get()->toArray();
             }
-        })->with('UserDetails.User')->offset($offset)->limit($limit);
-        $userss = $customers->paginate(intval($limit));
-        $users =  $customers->get()->toJson();
+        }
+        // dd($users);
         $print_users = $users;
-        // dd($users);        
-        //select('users.id','users.email','users.profile_image','users.active','users.is_deleted','users.activation_token','users.is_vmi','users.name');
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
@@ -1825,38 +1855,5 @@ class UsersController extends Controller
         if($admin_email) {
             $request->session()->put('by_admin',$admin_email);
         }
-    }
-
-
-    public function insertCustomerNumbers(Request $request) {
-        $customer_numbers = UserDetails::select('customerno')->groupBy('customerno')->get()->toArray();
-        $is_empty = CustomerUnqiue::find(1);
-        if(!$is_empty) {
-            $is_insert = CustomerUnqiue::insert($customer_numbers);
-            dd($is_insert);
-        }
-
-
-        // get user details:
-        // $customers = CustomerUnqiue::with('getUserdetails')->get()->toArray();
-        // dd($customers);
-        // $search_word = "Abbvi";
-        // $search_function = function(query) use ($search_word) {
-        //     dd($search_word)
-        // }
-        // $customers = CustomerUnqiue::with(['getUserdetails' => function ($query) use ($search_word) {
-        //     $query->where('email', 'like', "%{$search_word}%");
-        // }])->get()->toArray();
-        // $request = ['search' => $search_word,'type' => '','manager' => ''];
-        // $customers = CustomerUnqiue::whereHas('getUserdetails', function ($query) use ($request) {
-        //     if($request['search'] != ""){
-        //         $query->where('email', 'like', "%{$request['search']}%");
-        //     }
-        // })->with('getUserdetails');
-        // // ->get();
-        // dd($customers->paginate(intval(10))->toArray());
-        // $userss = $lblusers->paginate(intval($limit))
-        // getUserdetails
-        
     }
 }
