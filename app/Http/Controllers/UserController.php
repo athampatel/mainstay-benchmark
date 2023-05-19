@@ -10,6 +10,7 @@ use App\Models\SalesPersons;
 use App\Models\UserSalesPersons;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Customer as CustomerUnqiue;
 
 class UserController extends Controller
 {
@@ -71,6 +72,16 @@ class UserController extends Controller
                             'zipcode'           => $data['zipcode'],
                             'email'             => $useremail);
        
+        /* checks in the customer table */
+        // $data['customerno']
+        $is_found = CustomerUnqiue::where('customerno',$data['customerno'])->first();
+        if(!$is_found) {
+            CustomerUnqiue::create([
+                'customerno' => $data['customerno']
+            ]);
+        }
+        /* checks and add the customer table */
+
         if(empty($user_details))
             $user_details = UserDetails::create($user_data);
         else

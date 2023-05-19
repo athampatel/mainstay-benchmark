@@ -58,7 +58,7 @@ Customers - Admin Panel
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            <div class="data-tables table-responsive admin-portal multiple-container customer_container">
+                            {{-- <div class="data-tables table-responsive admin-portal multiple-container customer_container">
                                 @include('backend.layouts.partials.messages')
                                 @if(!empty($users))
                                 @foreach($users as $user)
@@ -162,7 +162,164 @@ Customers - Admin Panel
                                         </table>
                                     </div>
                                 @endif
+                            </div> --}}
+
+                            {{-- users table work start --}}
+                            {{-- <div class="data-tables table-responsive">
+                                @include('backend.layouts.partials.messages')
+                                <table id="backend_customers" class="text-center datatable-dark dataTable backend_datatables">
+                                    <thead class="text-capitalize">
+                                        <tr>
+                                            <th>{{ config('constants.label.admin.customer_no') }} </th>
+
+                                            <th width="10%">
+                                                Profile picture
+                                            </th>
+                                            <th width="10%">
+                                                Name
+                                                <span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                {{ config('constants.label.admin.ar_division_no') }}
+                                                <span data-col='name' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='name' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="10%">
+                                                {{ config('constants.label.admin.relational_manager') }}
+                                                <span data-col='email' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
+                                                <span data-col='email' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>
+                                            </th>
+                                            <th width="40%">Roles</th>
+                                            <th width="15%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach($users as $user)
+                                    @foreach($user['users'] as $usr)
+                                    <tr>
+                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
+                                            <td>
+                                                @if($user['profile_image'])
+                                                    <img src="/{{$user['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @else
+                                                    <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @endif  
+                                            </td>
+                                            <td>{{ $usr['customername'] }}</td>
+                                            <td>{{ $usr['ardivisionno'] }}</td>
+                                            <td>
+                                                @if($usr['sales_person'] != '')
+                                                    {{$usr['sales_person']}} ({{$usr['person_number']}})
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>  
+                                            <td>
+                                                <div class="status-btns">
+                                                    @if( $user['active'] == 1)
+                                                        <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
+                                                    @elseif( $user['active'] == 0 && $user['is_deleted'] == 0)
+                                                        <a href="{{config('app.url')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
+                                                    @endif
+
+                                                    @if($user['is_vmi'] == 1 && $usr['vmi_companycode'] != '' )
+                                                        <a data-customer="{{$user['id']}}" class="btn btn-rounded btn-info text-capitalize text-white bm-btn-info"  href="{{ route('admin.users.inventory',$user['id']) }}" title="Add / Update Inventory">Inventory</a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-wrapper btns-2 no-wrap">
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.edit', $user['id']) }}">Edit</a>
+                                                    <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.users.destroy', $usr['user_detail_id']) }}"
+                                                        onclick="event.preventDefault();deleteCustomer({{$usr['user_detail_id']}})">
+                                                        Delete
+                                                    </a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', ['id' => $user['id'],'user_detail_id' =>$usr['user_detail_id']]) }}">Login As</a>
+                                                    <form id="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $usr['user_detail_id']) }}" method="POST" style="display: none;">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                                    </tbody>
+                                </table>
+                            </div> --}}
+                            {{-- new design work start --}}
+                            <div class="data-tables table-responsive">
+                                @include('backend.layouts.partials.messages')
+                                <table id="backend_customers" class="text-center datatable-dark dataTable backend_datatables">
+                                    <thead class="text-capitalize">
+                                        <tr>
+                                            <th></th>
+                                            <th>{{ config('constants.label.admin.customer_no') }} </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach($users as $user)
+                                    {{-- {{dd($user)}} --}}
+                                    <tr>
+                                        <td></td>
+                                        <td>{{$user['customerno']}}</td>
+                                    </tr>
+                                    {{-- customerno --}}
+                                @endforeach
+                                    {{-- @foreach($user['users'] as $usr)
+                                    <tr>
+                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
+                                            <td>
+                                                @if($user['profile_image'])
+                                                    <img src="/{{$user['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @else
+                                                    <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
+                                                @endif  
+                                            </td>
+                                            <td>{{ $usr['customername'] }}</td>
+                                            <td>{{ $usr['ardivisionno'] }}</td>
+                                            <td>
+                                                @if($usr['sales_person'] != '')
+                                                    {{$usr['sales_person']}} ({{$usr['person_number']}})
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>  
+                                            <td>
+                                                <div class="status-btns">
+                                                    @if( $user['active'] == 1)
+                                                        <span class="btn bm-btn-light-blue btn-rounded text-white text-capitalize" style="padding:5px;pointer-events:none;">Active</span>           
+                                                    @elseif( $user['active'] == 0 && $user['is_deleted'] == 0)
+                                                        <a href="{{config('app.url')}}admin/user/{{$user['id']}}/change-status/{{$user['activation_token']}}" target="_blank" class="btn btn-rounded btn-light text-dark bm-btn-secondary text-capitalize" style="padding:5px;">New</a>
+                                                    @endif
+
+                                                    @if($user['is_vmi'] == 1 && $usr['vmi_companycode'] != '' )
+                                                        <a data-customer="{{$user['id']}}" class="btn btn-rounded btn-info text-capitalize text-white bm-btn-info"  href="{{ route('admin.users.inventory',$user['id']) }}" title="Add / Update Inventory">Inventory</a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-wrapper btns-2 no-wrap">
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.edit', $user['id']) }}">Edit</a>
+                                                    <a class="btn btn-rounded btn-medium btn-bordered bm-btn-delete text-capitalize" href="{{ route('admin.users.destroy', $usr['user_detail_id']) }}"
+                                                        onclick="event.preventDefault();deleteCustomer({{$usr['user_detail_id']}})">
+                                                        Delete
+                                                    </a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', ['id' => $user['id'],'user_detail_id' =>$usr['user_detail_id']]) }}">Login As</a>
+                                                    <form id="delete-form-{{ $usr['user_detail_id'] }}" action="{{ route('admin.users.destroy', $usr['user_detail_id']) }}" method="POST" style="display: none;">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach --}}
+                                {{-- @endforeach --}}
+                                    </tbody>
+                                </table>
                             </div>
+                            {{-- new design work end --}}
                             @if(!empty($users))
                                 @if($paginate['last_page'] > 1)
                                     <div class="mt-3">
@@ -178,7 +335,7 @@ Customers - Admin Panel
     </div>    
 </div>
 
-<table id="print_table" class="text-center datatable-dark backend_datatables">
+{{-- <table id="print_table" class="text-center datatable-dark backend_datatables">
     <thead class="text-capitalize">
         <tr>
             <th width="10%">{{ config('constants.label.admin.customer_no') }}</th>
@@ -229,7 +386,7 @@ Customers - Admin Panel
             @endforeach
         @endforeach
     </tbody>
-</table>
+</table> --}}
 @endsection
 
 @section('scripts')
@@ -263,7 +420,7 @@ $(document).on('click','.do_customer',function(e) {
     $(e.currentTarget).toggleClass('active1');
 })
 $(document).ready(function(){
-    $('.customer_table').DataTable({
+    $('.backend_customers').DataTable({
             searching: true,
             lengthChange: true,
             paging: true,
@@ -272,6 +429,12 @@ $(document).ready(function(){
             responsive: true,
             autoWidth: false,
             columns: [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
+                },
                 { "width": "8%" },
                 { "width": "12%" },
                 { "width": "12%" },
@@ -281,6 +444,9 @@ $(document).ready(function(){
                 // { "width": "12%" },
                 { "width": "16%",}
             ]
+    //         createdRow: function(row, data, dataIndex) {
+    //   $(row).addClass('clickable-row');
+    // }
     });
 
     $('.dynamic-values').find('.user_information').slideUp("fast");

@@ -23,4 +23,8 @@ class UserDetails extends Model
         'user_id',
         'vmi_companycode'
     ];
+
+    public function User(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }

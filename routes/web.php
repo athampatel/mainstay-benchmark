@@ -160,4 +160,7 @@ Route::get('/clearNotifications',[NotificationController::class,'ClearAdminNotif
 
 Route::resource('/salesOrderExportResponse',ExportController::class);
 
+
+Route::get('/insertCustomerno',[UsersController::class,'insertCustomerNumbers']);
+
 require __DIR__.'/auth.php';
