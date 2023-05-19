@@ -139,14 +139,14 @@ class UsersController extends Controller
                 $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
                 $query->where('admins.id',$user->id);
             }
-        })->with('UserDetails.User')->offset($offset)->limit($limit);
+        })->with(['UserDetails.User','UserDetails.salesPerson'])->offset($offset)->limit($limit);
 
         $userss = $customers->paginate(intval($limit));
         //$users =  $customers->get()->toJson();
         $users =  $customers->get()->toArray();
         $print_users = $users;
         //echo $customers->toSql();
-        dd($users);        
+        // dd($users);        
        // die; 
         ///
         
