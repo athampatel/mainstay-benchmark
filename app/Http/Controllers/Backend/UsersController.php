@@ -97,9 +97,11 @@ class UsersController extends Controller
         $type  = $request->input('type');
         $request_data = ['search' => $search,'type' => $type,'manager' => $manager];
         $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
-            if($request_data['search'] != ""){
-                $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
+
+            $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
+
+            if($request_data['search'] != ""){                
                 $query->where(function($query) use($request_data){
                         $query->orWhere('customerno','like','%'.$request_data['search'].'%')
                                 ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
@@ -107,20 +109,30 @@ class UsersController extends Controller
                                 ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
                                 ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
                 });
-                $query->select('user_details.*','sales_persons.name');
+              
             }
+
+            $query->select('user_details.*','sales_persons.name');
+            
             // $query->leftjoin('users','user_details.user_id','=','users.id')
-                $query->where('users.is_deleted',0);
+            $query->where('users.is_deleted',0);
+            
             if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
                 $query->where('user_details.vmi_companycode','!=','');
             }
+            
             if($request_data['type'] != "" && $request_data['type'] == 'new'){
                 $query->where('users.active','=',0);
             }
+
+           
+
             if($request_data['manager'] != "") {
-                $query->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                    ->leftjoin('admins','sales_persons.email','=','admins.email');
+
+              //  $query->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+               // ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                $query->leftjoin('admins','sales_persons.email','=','admins.email');
+                
                 $query->where('admins.id',$request_data['manager']);
             }
             if (!$this->superAdmin && !empty($user)){
@@ -128,10 +140,16 @@ class UsersController extends Controller
                 $query->where('admins.id',$user->id);
             }
         })->with('UserDetails.User')->offset($offset)->limit($limit);
+
         $userss = $customers->paginate(intval($limit));
-        $users =  $customers->get()->toJson();
+        //$users =  $customers->get()->toJson();
+        $users =  $customers->get()->toArray();
         $print_users = $users;
-        // dd($users);        
+        //echo $customers->toSql();
+        dd($users);        
+       // die; 
+        ///
+        
         //select('users.id','users.email','users.profile_image','users.active','users.is_deleted','users.activation_token','users.is_vmi','users.name');
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);

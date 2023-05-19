@@ -2,6 +2,26 @@
     "use strict";
 
 
+    $('.show-clients').on('click', function() {
+        var _target = $(this).data('target');
+        var _action  = 0;
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else{
+            $(this).addClass('active');
+            _action = 1;
+        }
+
+        $('.company-row.'+_target).each(function(){
+            if(_action == 1){
+                $(this).slideDown();
+            }else{
+                $(this).slideUp();
+            }
+
+        });
+    });
+
     if ($('#dataTable').length) {
         $('#dataTable').DataTable({
             /*processing: true,

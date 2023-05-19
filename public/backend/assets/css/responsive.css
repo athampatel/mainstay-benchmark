@@ -1,5 +1,68 @@
 /* (1366x768) WXGA Display */
+.show-clients{
+    position: relative;
+    display: flex;    
+    color: #A2D45E;    
+    text-decoration: none;    
+}
 
+.animate {
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out; 
+}
+.show-clients .arrow {
+    position: relative;
+    top: 9px;
+    opacity: 1 !important;
+    left:0px;
+  }
+  .customerno{
+    padding-left: 1.5rem;
+    opacity: 0.3;
+  }
+  .show-clients:hover > .customerno,
+  .show-clients:focus > .customerno,
+  .show-clients.active > .customerno{
+    opacity: 1 !important;
+    color: #A2D45E; 
+  }
+  .company-row.row-header > th{
+    background: #A2D45E !important;
+    color: #fff;
+  }
+
+  .show-clients .arrow::before,
+  .show-clients .arrow::after {
+    position: relative;
+    content: '';
+    display: block;
+    width: 10px;
+    height: 1px;
+    background:#A2D45E;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .show-clients .arrow::before {
+    transform: rotate(45deg);
+  }
+  
+  .show-clients .arrow::after {
+    left: 6px;
+    top: -1px;
+    transform: rotate(-45deg);
+  }
+  
+  
+  
+  .show-clients.active .arrow::before {
+    transform: rotate(-45deg);
+  }
+  
+  .show-clients.active .arrow::after {
+    transform: rotate(45deg);
+  }
 @media screen and (min-width: 1441px) and (max-width: 1920px) {
     .error-content {
         margin-top: 100px;
