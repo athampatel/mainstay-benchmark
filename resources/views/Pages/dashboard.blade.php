@@ -59,16 +59,47 @@
                   //   $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ', ';
                   //   $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
                   // }
+                  /* test work start */
+                 
+
+                  /* test work end */
                   if($customer_session){
                     $session_address .= relpace_email_phone($customer_session[0]->addressline1,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline1,$customer_session) . ', ';
                     $session_address .= relpace_email_phone($customer_session[0]->addressline2,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline2,$customer_session) . ', ';
                     $session_address .= relpace_email_phone($customer_session[0]->addressline3,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline3,$customer_session) . ', ';
-                    $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ', ';
-                    $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ', ';
-                    $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                    $session_address .= relpace_email_phone($customer_session[0]->state,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->state,$customer_session). ', ';
+                    $session_address .= relpace_email_phone($customer_session[0]->city,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->city,$customer_session) . ', ';
+                    $session_address .= relpace_email_phone($customer_session[0]->zipcode,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->zipcode,$customer_session);
                   }
 
+                  $session_address = rtrim(trim($session_address),',');
+
                   function relpace_email_phone($string,$customer_session){
+                    // $string = "94070-3312 94070-331 94070-3312";
+                    // phone number check
+                    $phone_number_pattern = "/\d{5}-\d{4}/";
+                    $matched_text = preg_match_all($phone_number_pattern,$string,$matches);
+                    if($matched_text) {
+                      foreach($matches[0] as $match) {
+                        $string = str_replace($match,'',$string);
+                      }
+                    }
+
+                    // email check
+                    $email_pattern = '/^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,3})$/'; 
+                    $matched_text1 = preg_match_all($email_pattern,$string,$matches1);
+                    if($matched_text1){
+                      foreach($matches1[0] as $match1) {
+                        $string = str_replace($match1,'',$string);
+                      }
+                    }
+
+                    // *getting regex
+                    // $star_pattern = "/\/[*]+[a-zA-z0-9-]+\/[*]+/";
+                    // $matched_text2 = preg_match_all($star_pattern,$string,$matches2);
+                    // if($matched_text2) {
+                    //   dd($matches2);
+                    // }
                     return str_replace($customer_session[0]->email,'',$string);
                   }
                   @endphp
