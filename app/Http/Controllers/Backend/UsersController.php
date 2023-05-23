@@ -602,25 +602,29 @@ class UsersController extends Controller
     // get customer information
     public function getCustomerInfo(Request $request){
         $search_text = $request->search_text;
+        $filter_data = [];
+        if (filter_var($search_text, FILTER_VALIDATE_EMAIL)) {
+            $filter_data =  [
+                "column"=>"emailaddress",
+                "type"=>"equals",
+                "value"=>$search_text,
+                "operator"=>"and"
+            ];
+          } else {
+            $filter_data = [
+                "column"=>"customerno",
+                "type"=>"equals",
+                "value"=>$search_text,
+                "operator"=>"and"
+            ];
+          }
         $data = array(            
             "filter" => [
-                [
-                    "column"=>"emailaddress",
-                    "type"=>"equals",
-                    "value"=>$search_text,
-                    "operator"=>"or"
-                ],
-                [
-                    "column"=>"customerno",
-                    "type"=>"equals",
-                    "value"=>$search_text,
-                    "operator"=>"or"
-                ]
+                $filter_data
             ],
             "offset" => 1,
             "limit" => 100,
         );
-        
         $customer = Customer::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)
