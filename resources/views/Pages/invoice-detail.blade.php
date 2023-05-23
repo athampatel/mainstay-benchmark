@@ -24,7 +24,7 @@
             <div class="col-12">
                 <div class="card box mb-1 mt-1">						
                     <div class="card-body col-12">
-                        <h3 class="title-4 m-0">Invoice # <span id="disp-order-id">#</span></h3>
+                        <h3 class="title-4 m-0">Invoice <span id="disp-order-id">#</span></h3>
                         <input type="hidden" name="orderid_val" value="{{$order_id}}" id="orderid_val">
                         <input type="hidden" name="InvoicePurchaseOrderNumber" value="" id="InvoicePurchaseOrderNumber">
                     </div>      
@@ -55,7 +55,7 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label">Customer Po Number</label>
+                                <label class="form-label">Customer P.O. Number</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Customer Po Number" name="customer_po_number" id="customer_po_number" {{ $is_change_order ? '': 'disabled'}}>
                             </div>
                             <div class="mb-3 col-6">    
@@ -178,7 +178,7 @@
                             <div class="box-icon small-icon rounder-border">
                                 <img src="/assets/images/svg/order-details.svg" />
                             </div>  
-                            <h4 class="mb-0 title-5">item Details</h4>
+                            <h4 class="mb-0 title-5">Item Details</h4>
                         </div>                    
                     </div>   
 

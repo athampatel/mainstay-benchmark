@@ -48,22 +48,36 @@
                 </div>
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
+                  {{-- {{dd($customer_session[0])}} --}}
                   @php 
                   $session_address = "";
+                  // if($customer_session){
+                  //   $session_address .= $customer_session[0]->addressline1 == "" ? '' : $customer_session[0]->addressline1 . ', ';
+                  //   $session_address .= $customer_session[0]->addressline2 == "" ? '' : $customer_session[0]->addressline2 . ', ';
+                  //   $session_address .= $customer_session[0]->addressline3 == "" ? '' : $customer_session[0]->addressline3 . ', ';
+                  //   $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ', ';
+                  //   $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ', ';
+                  //   $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                  // }
                   if($customer_session){
-                    $session_address .= $customer_session[0]->addressline1 == "" ? '' : $customer_session[0]->addressline1 . ', ';
-                    $session_address .= $customer_session[0]->addressline2 == "" ? '' : $customer_session[0]->addressline2 . ', ';
-                    $session_address .= $customer_session[0]->addressline3 == "" ? '' : $customer_session[0]->addressline3 . ', ';
+                    $session_address .= relpace_email_phone($customer_session[0]->addressline1,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline1,$customer_session) . ', ';
+                    $session_address .= relpace_email_phone($customer_session[0]->addressline2,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline2,$customer_session) . ', ';
+                    $session_address .= relpace_email_phone($customer_session[0]->addressline3,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline3,$customer_session) . ', ';
                     $session_address .= $customer_session[0]->state == "" ? '' : $customer_session[0]->state. ', ';
                     $session_address .= $customer_session[0]->city == "" ? '' : $customer_session[0]->city . ', ';
                     $session_address .= $customer_session[0]->zipcode == "" ? '' : $customer_session[0]->zipcode;
+                  }
+
+                  function relpace_email_phone($string,$customer_session){
+                    return str_replace($customer_session[0]->email,'',$string);
                   }
                   @endphp
                   <div class="col-8 card-item-body">{{$session_address}}</span></div>
                 </div>
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>
-                    <div class="col-8 card-item-body">{{$customer_session[0]->phone_no}}</div>
+                    {{-- {{dd($customer_session[0])}} --}}
+                    <div class="col-8 card-item-body">{{$customer_session[0]->phone_no ? $customer_session[0]->phone_no :  'N/A' }}</div>
                 </div>
               </div>
             </div>
@@ -95,8 +109,9 @@
                   <div class="col-8 card-item-body">{{$region_manager->email}}</div>
                 </div>
                 <div class="row py-1">
-                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>                  
-                  <div class="col-8 card-item-body">{{$region_manager->phone_no}}</div>
+                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div> 
+                  {{-- {{dd($region_manager)}}                  --}}
+                  <div class="col-8 card-item-body">{{$region_manager->phone_no ? $region_manager->phone_no : 'N/A'}}</div>
                 </div>
               </div>
             </div>
@@ -142,7 +157,7 @@
                       <a class="dropdown-item export-sales-invoice-item" data-type="csv">CSV</a>
                     </div>
                 </div>
-                <a class="btn btn-rounded btn-medium btn-primary" href="/invoice">MORE DETAILS</a>
+                <a class="btn btn-rounded btn-medium btn-primary" href="/invoice">MORE DETAIL</a>
               </div>
             </div>
             <div id="customer_sales_history" class="col-12 p-2">
@@ -171,7 +186,7 @@
                       <a class="dropdown-item export-open-orders-item" data-type="csv">CSV</a>
                     </div>
                   </div>
-                  <a class="btn btn-rounded btn-medium btn-primary" href="/open-orders">MORE DETAILS</a>
+                  <a class="btn btn-rounded btn-medium btn-primary" href="/open-orders">MORE DETAIL</a>
                 </div> 
               </div>
             <div id="dashboard-open-orders-chart" class="col-12 p-2">

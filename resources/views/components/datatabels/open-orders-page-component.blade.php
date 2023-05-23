@@ -5,8 +5,9 @@
                 <th class="border-0">Order #</th>
                 <th class="border-0">Customer Name</th>
                 <th class="border-0">Customer Email</th>
-                <th class="border-0">Total Items</th>
-                <th class="border-0">Price</th>
+                <th class="border-0">Total Item(s)</th>
+                {{-- <th class="border-0">Price</th> --}}
+                <th class="border-0">Price per Unit</th>
                 <th class="border-0">Date</th>
                 <th class="border-0">Location</th>
                 <th class="border-0">Status</th>

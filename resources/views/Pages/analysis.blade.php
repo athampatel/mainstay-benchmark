@@ -32,12 +32,14 @@
                 $lastMonth = new DateTime('last month');
                 @endphp
                 <label class="position-relative" id="analysis_range_select_label">
-                    <span>By Range</span>
+                    {{-- <span>By Range</span> --}}
+                    <span>Select Date Range</span>
                     <select name="range"id="analysis_range_select"class="rounded analysis_select">
                         <option value="0" selected>Select Range</option>
                         <option value="1">Last Month</option>
                         <option value="2">Quarterly</option>
-                        <option value="3">Half Yearly</option>
+                        {{-- <option value="3">Half Yearly</option> --}}
+                        <option value="3">Semiannual</option>
                         <option value="4">By Range</option>
                     </select>
                     <div class="down-arrow"></div>
@@ -80,7 +82,7 @@
                         </div>
                         <div class="col-12 col-lg-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search"">
-                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="analysis-page-search" aria-controls="">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search All Columns" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

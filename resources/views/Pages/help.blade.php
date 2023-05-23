@@ -9,7 +9,8 @@
     <div class="loader"></div>
 </div>
 <div class="home-content">
-    <h1 class="page_title px-5 pt-3">Help</h1>
+    {{-- <h1 class="page_title px-5 pt-3">Help</h1> --}}
+    <h1 class="page_title px-5 pt-3">Submit Help Request</h1>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="row row-cols-1 col-12 result-data flex-wrap sm-rverse-flex">
             <div class="col-12 col-md-12  co-lg-12">
@@ -29,17 +30,17 @@
                     <div class="card-body col-12">
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label" for="acc_name">Name</label>
+                                <label class="form-label" for="acc_name">Your Name</label>
                                 <input class="form-control col-12 box-shadow-none" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="user_name" id="user_name" autocomplete="off">
                             </div>
                             <div class="mb-3 col-6">    
-                                <label class="form-label">Email Address</label>
+                                <label class="form-label">Your Email Address</label>
                                 <input class="form-control col-12 box-shadow-none" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="email_address" id="email_address" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label">Phone Number</label>
+                                <label class="form-label">Your Phone Number</label>
                                 <input class="form-control col-12 box-shadow-none" type="text" value="" placeholder="Phone Number" name="phone_no" id="phone_no" autocomplete="off">
                             </div>
                         </div>

@@ -24,7 +24,7 @@ Customers - Admin Panel
                                 </div>                  
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">   
-                                        <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_customer_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
+                                        <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search All Columns" id="admin_customer_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
                                         <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-customer-search-img">
                                     </div>     
                                     @php 
@@ -156,7 +156,7 @@ Customers - Admin Panel
                                                         onclick="event.preventDefault();deleteCustomer({{$account['id']}})">
                                                         Delete
                                                     </a>
-                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" href="{{ route('admin.users.login', ['id' => $account['id'],'user_detail_id' =>$usr['id']]) }}">Login As</a>
+                                                    <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" target="_blank" href="{{ route('admin.users.login', ['id' => $account['id'],'user_detail_id' =>$usr['id']]) }}">Login As</a>
                                                     <form id="delete-form-{{ $account['id'] }}" action="{{ route('admin.users.destroy', $account['id']) }}" method="POST" style="display: none;">
                                                         @method('DELETE')
                                                         @csrf
