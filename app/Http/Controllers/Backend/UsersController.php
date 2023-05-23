@@ -96,8 +96,11 @@ class UsersController extends Controller
         $manager = $request->input('manager');
         $type  = $request->input('type');
         $request_data = ['search' => $search,'type' => $type,'manager' => $manager];
-        $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
+        // dd($request_data);
+        // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
+        $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
 
+            $query->leftjoin('users','users.id','=','user_details.user_id');
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
 
@@ -139,7 +142,8 @@ class UsersController extends Controller
                 $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
                 $query->where('admins.id',$user->id);
             }
-        })->with(['UserDetails.User','UserDetails.salesPerson'])->offset($offset)->limit($limit);
+        })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
+    // })->with(['UserDetails.User'])->offset($offset)->limit($limit);
 
         $userss = $customers->paginate(intval($limit));
         //$users =  $customers->get()->toJson();

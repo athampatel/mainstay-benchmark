@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-6 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search">
-                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="invoice-orders-page-search" aria-controls="help-page-table">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search All Columns" id="invoice-orders-page-search" aria-controls="help-page-table">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="invoice-orders-page-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

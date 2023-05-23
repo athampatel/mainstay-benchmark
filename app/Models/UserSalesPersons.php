@@ -10,4 +10,8 @@ class UserSalesPersons extends Model
     use HasFactory;
 
     protected $fillable = ['user_details_id','sales_person_id'];
+
+    public function salesPerson(){
+        return $this->hasOne(SalesPersons::class,'id','sales_person_id');
+    }
 }

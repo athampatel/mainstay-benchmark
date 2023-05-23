@@ -24,7 +24,7 @@
                     <div class="card-header col-12 p-3 d-flex border-0">
                         <div class="col-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search">
-                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search in All Columns" id="vmi-page-search" aria-controls="">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search All Columns" id="vmi-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="vmi-page-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

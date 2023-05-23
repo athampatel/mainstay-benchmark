@@ -56,6 +56,6 @@ class User extends Authenticatable
     }
 
     public function userDetails(){
-        return $this->hasMany(UserDetails::class);//->where('is_active',0);
+        return $this->hasMany(UserDetails::class,'id','user_id');//->where('is_active',0);
     }
 }

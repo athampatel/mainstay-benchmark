@@ -33,8 +33,12 @@ class UserDetails extends Model
     //         ->join('user_sales_persons', 'sales_persons.id', '=', 'user_sales_persons.sales_person_id');
     // }
     // User
+    // user_sales_person
+    public function userSalesPerson(){
+        return $this->hasOne(UserSalesPersons::class,'user_details_id','id');
+    }
     public function salesPerson(){
-        return $this->hasOne(UserSalesPersons::class, 'user_details_id', 'id')
-            ->join('sales_persons', 'sales_persons.id', '=', 'user_sales_persons.sales_person_id');
+        return $this->hasOne(UserSalesPersons::class, 'user_details_id', 'id');
+            // ->join('sales_persons', 'sales_persons.id', '=', 'user_sales_persons.sales_person_id');
     }
 }
