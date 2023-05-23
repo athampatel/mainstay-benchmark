@@ -179,6 +179,8 @@
                 'customer_no'               => 'Customer Number',
                 'customer_email'            => 'Customer Email',
                 'customer_name'             => 'Customer Name',
+                'contact_name'              => 'Contact Name',
+                'contact_email'             => 'Contact Email',
                 'ar_division_no'            => 'AR Division Number',
                 'phone_no'                  => 'Phone Number',
                 'address_line_1'            => 'Address Line 1',
@@ -224,7 +226,7 @@
         'validation' => [
             'admin' => [
                 'search_customer_number_email' => 'The search for a customer requires either the customer number or email to be provided in the search field. This field is mandatory.',
-                'customer_search_unable' => 'We were unable to locate any customer details with the email address provided.',
+                'customer_search_unable' => 'We were unable to locate any customer details with the information provided.',
                 'customer_detail_found' => 'Customer details have been found for the specified account.',
             ]
             ],
