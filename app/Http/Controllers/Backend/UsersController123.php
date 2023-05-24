@@ -339,7 +339,7 @@ class UsersController extends Controller
                 'salespersonno' => 'required|min:1',
             ]);
             $postdata['emailaddress'] = $postdata['email'];
-            dd($postdata);
+            // dd($postdata);
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
             $user_id = $response['id'];

@@ -150,7 +150,7 @@
         ],
         'api_connection_error_email' => [
             'title' => 'SDE API Error',
-            'subject' => 'SDE APO Connection Error Occurred',
+            'subject' => 'SDE API Connection Error Occurred',
             'message' => 'the api conection error message',
         ],
         '404_page_message' => 'Sorry, this page does not exist.',      
