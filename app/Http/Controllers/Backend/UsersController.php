@@ -331,7 +331,7 @@ class UsersController extends Controller
                 'salespersonno' => 'required|min:1',
             ]);
             $postdata['emailaddress'] = $postdata['email'];
-            dd($postdata);
+            // dd($postdata);
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['email'];
             $user_id = $response['id'];
@@ -1860,6 +1860,8 @@ class UsersController extends Controller
         if(!$is_empty) {
             $is_insert = CustomerUnqiue::insert($customer_numbers);
             dd($is_insert);
+        } else {
+            dd('Already inserted');
         }
 
 
