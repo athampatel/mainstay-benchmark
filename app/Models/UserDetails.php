@@ -21,7 +21,9 @@ class UserDetails extends Model
         'zipcode',
         'email',
         'user_id',
-        'vmi_companycode'
+        'vmi_companycode',
+        'contactcode',
+        'contactname'
     ];
 
     public function User(){

@@ -835,22 +835,47 @@ class UsersController extends Controller
             
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
+                    // "filter" => [
+                    //     [
+                    //         "column"=>"emailaddress",
+                    //         "type"=>"equals",
+                    //         "value"=>$email_address,
+                    //         "operator"=>"and"
+                    //     ],
+                    // ],
+                    "index" => "kEmailAddress",
                     "filter" => [
-                        [
-                            "column"=>"emailaddress",
-                            "type"=>"equals",
-                            "value"=>$email_address,
-                            "operator"=>"and"
+                        [   
+                            "column" =>  "EmailAddress",
+                            "type" => "equals",
+                            "value" => $email_address,
+                            "operator" => "and"
                         ],
                     ],
                     "offset" => 1,
                     "limit" => 100,
                 );
                 $sdeApi = new SDEApi();         
-                $res = $sdeApi->Request('post','Customers',$data);
-                if(!empty($res['customers'])){                   
-                    $customers = $res['customers'];
+                // $res = $sdeApi->Request('post','Customers',$data);
+                $res = $sdeApi->Request('post','Contacts',$data);
+                /* contact getting work start */
+                if(!empty($res) && isset($res['contacts']) && !empty($res['contacts'])){
+                    $data1 = array(            
+                        "filter" => [
+                            [
+                                "column"=>"customerno",
+                                "type"=>"equals",
+                                "value"=>$res['contacts'][0]['customerno'],
+                                "operator"=>"and"
+                            ],
+                        ],
+                    );
+                    $res1 = $sdeApi->Request('post','Customers',$data1);
+                    if(!empty($res1['customers'])){                   
+                        $customers = $res1['customers'];
+                    }
                 }
+                /* contact getting work end */
                 Auth::guard('admin')->login($admin);
                 $searchWords = SearchWord::where('type',1)->get()->toArray();
                 return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords')); 

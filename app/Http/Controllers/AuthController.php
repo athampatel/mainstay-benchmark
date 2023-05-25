@@ -30,6 +30,7 @@ class AuthController extends Controller
     }
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
+        // dd($response);
         $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
@@ -48,7 +49,10 @@ class AuthController extends Controller
                     'city'              => $response['city'],
                     'state'             => $response['state'],
                     'zipcode'           => $response['zipcode'],
-                    'email'             => $email
+                    'email'             => $email,
+                    'phone_no'          => isset($response['phone_no']) ? $response['phone_no'] : '',
+                    'contactname'       => isset($response['contactname']) ? $response['contactname'] : '',
+                    'contactcode'       => isset($response['contactcode']) ? $response['contactcode'] : '',
                 ]);
                 $sales_person1 = array();
                 if($response['salespersonemail'] != '')
@@ -113,12 +117,43 @@ class AuthController extends Controller
             }
         }
 
+        /* get contact information for the email address */
+        $sdeApi = new SDEApi();
+        $contact_data = [
+            "index" => "kEmailAddress",
+            "filter" => [
+                [   
+                    "column" =>  "EmailAddress",
+                    "type" => "equals",
+                    "value" => $request->email,
+                    "operator" => "and"
+                ],
+            ],
+            
+        ];
+        $contact_information = [];
+        $contact_response = $sdeApi->Request('post','Contacts',$contact_data);
+        if(!empty($contact_response) && isset($contact_response['contacts']) &&  !empty($contact_response['contacts'])) {
+            $contact_information = $contact_response['contacts'][0];
+        } 
+        $contact_customer_no = "";
+        if(!empty($contact_information)) {
+            $contact_customer_no = $contact_information['customerno'];
+        }
+        
+        /* get contact information for the email address */
         $data = array(            
             "filter" => [
+                // [
+                //     "column"=>"emailaddress",
+                //     "type"=>"equals",
+                //     "value"=>$request->email,
+                //     "operator"=>"and"
+                // ]
                 [
-                    "column"=>"emailaddress",
+                    "column"=>"customerno",
                     "type"=>"equals",
-                    "value"=>$request->email,
+                    "value"=> $contact_customer_no,
                     "operator"=>"and"
                 ]
             ],
@@ -144,6 +179,7 @@ class AuthController extends Controller
         if(empty($user)){
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Customers',$data); 
+            // dd($response);
             $message    = '';
             $status     = 'error';            
             $_details   = array();
@@ -152,6 +188,15 @@ class AuthController extends Controller
             if (!empty($response['customers'])){
                 if (count($response['customers']) === 1 ) {
                     $response   = $response['customers'][0];
+                    // dd($response);
+                    /* my work start*/
+                    $response['vmi_password'] = $contact_information['vmi_password'];
+                    $response['phone_no'] = $contact_information['telephoneno1']. ''. $contact_information['telephoneext1'];
+                    $response['emailaddress'] = $response['emailaddress'] ? $response['emailaddress'] : $contact_information['emailaddress'];
+                    $response['contactcode'] = $contact_information['contactcode'] ? $contact_information['contactcode'] : '';
+                    $response['contactname'] = $contact_information['contactname'] ? $contact_information['contactname'] : '';
+
+                    /* my work end */
                     $_details   = self::CreateCustomer($response,0,$postdata);  
                     if(is_array($_details))
                         $details    = array_merge($details,$_details);
@@ -189,6 +234,8 @@ class AuthController extends Controller
             $user->save();
             $uniqueId  = $user->id;
         }
+
+        // email send
         $admin      = Admin::first(); 
         if($admin){    
             $url    = config('app.url').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
