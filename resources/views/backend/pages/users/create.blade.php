@@ -30,7 +30,7 @@ User Create - Admin Panel
                             <div class="form-row align-items-center form-row align-items-center col-12 col-md-8 col-lg-8 mx-auto d-flex align-items-center flex-wrap">
                                 <div class="form-group col-12 col-md-9 col-lg-9">
                                     <label for="name">{{ config('constants.label.admin.search_customer_number_email') }}</label>
-                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer Number Or Customer Email" value="{{$email}}" required>
+                                    <input type="text" class="form-control" id="search-customer-no" name="customer_search" placeholder="Enter Customer Email" value="{{$email}}" required>
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <button class="position-relative bm-btn-primary text-capitalize btn btn-rounded px-4 btn-primary col-12" id='user-search'>{{ config('constants.label.admin.buttons.customer_search') }}</button>
@@ -341,6 +341,10 @@ User Create - Admin Panel
                 $('.userDetails-container').fadeOut();
             },
             success: function (res) {
+                if(!res.success) {
+                    $('#customer_response_alert').removeClass('alert-success').removeClass('text-dark').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').addClass('d-none').html(res.message);     
+                    return false;
+                }
                 console.log(res,'___get customer response');
                 let is_error = false;
                 let is_error_message = '';

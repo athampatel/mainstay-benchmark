@@ -58,6 +58,7 @@ User Create - Admin Panel
                         </div>
                     </div>    
                     @endif
+                    {{-- {{dd($contact_info)}} --}}
                     @if(!empty($customers))
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
@@ -115,6 +116,17 @@ User Create - Admin Panel
                                                         @else
                                                             <input type="text" class="form-control required" required  name="ardivisionno[{{$key}}]" placeholder="Enter AR division no" value="{{$user_info['ardivisionno']}}">
                                                         @endif 
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact code</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$contact_info['contactcode']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactcode[{{$key}}]" placeholder="Enter Name" value="{{$contact_info['contactcode']}}"> 
+                                                        @endif    
                                                     </div>
                                                 </div>
     

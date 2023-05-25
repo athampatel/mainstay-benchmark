@@ -175,7 +175,7 @@
                 'user_account_name'         => 'User Account Name',
                 'send_login_credentials'    => 'Send Login Credentials',
                 'role_name'                 => 'Role Name',
-                'search_customer_number_email' => 'Search Customer With Customer Number/Email',
+                'search_customer_number_email' => 'Search Customer With Customer Email',
                 'customer_no'               => 'Customer Number',
                 'customer_email'            => 'Customer Email',
                 'customer_name'             => 'Customer Name',

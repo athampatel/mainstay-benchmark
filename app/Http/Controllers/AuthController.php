@@ -192,7 +192,8 @@ class AuthController extends Controller
                     /* my work start*/
                     $response['vmi_password'] = $contact_information['vmi_password'];
                     $response['phone_no'] = $contact_information['telephoneno1']. ''. $contact_information['telephoneext1'];
-                    $response['emailaddress'] = $response['emailaddress'] ? $response['emailaddress'] : $contact_information['emailaddress'];
+                    // $response['emailaddress'] = $response['emailaddress'] ? $response['emailaddress'] : $contact_information['emailaddress'];
+                    $response['emailaddress'] = $contact_information['emailaddress'];
                     $response['contactcode'] = $contact_information['contactcode'] ? $contact_information['contactcode'] : '';
                     $response['contactname'] = $contact_information['contactname'] ? $contact_information['contactname'] : '';
 

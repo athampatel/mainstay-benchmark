@@ -54,32 +54,34 @@ class AdminOrderController extends Controller
     public function changeOrderRequestStatus(Request $request){
         $data = $request->all();
         $changeOrderRequest = ChangeOrderRequest::find($data['change_id']);
-        // dd()
         if($changeOrderRequest){
             $message ="";
+            $message_type = "";
             if($data['status'] == 1){
                 $changeOrderRequest->request_status = 1;
                 $changeOrderRequest->status_detail = 'Approved';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
                 $message = config('constants.admin.change_order.approve');
+                $message_type = 'Approved Change Request';
             } else {
                 $changeOrderRequest->request_status = 2;
                 $changeOrderRequest->status_detail = 'Declined';
                 $changeOrderRequest->updated_by = Auth::guard('admin')->user()->id;
                 $changeOrderRequest->save();
                 $message = config('constants.admin.change_order.decline');
+                $message_type = 'Canceled Change Request';
             }
             $order_no = $changeOrderRequest->order_no;
             $url = config('app.url') ."change-order/info/$order_no";
-            $_notification = array( 'type'      => 'Approved Change Request',
-                                    'from_user'  => Auth::guard('admin')->user()->id,
-                                    'to_user'  => $changeOrderRequest->user_id,
-                                    'text'      => $message,
-                                    'action'    => $url, // will be add the url
-                                    'status'    => 1,
-                                    'is_read'   => 0,
-                                    'icon_path' => '/assets/images/svg/change_request_success_notification.svg'
+            $_notification = array( 'type'          => $message_type,
+                                    'from_user'     => Auth::guard('admin')->user()->id,
+                                    'to_user'       => $changeOrderRequest->user_id,
+                                    'text'          => $message,
+                                    'action'        => $url,
+                                    'status'        => 1,
+                                    'is_read'       => 0,
+                                    'icon_path'     => '/assets/images/svg/change_request_success_notification.svg'
                                 );                
 
             $notification = new NotificationController();
