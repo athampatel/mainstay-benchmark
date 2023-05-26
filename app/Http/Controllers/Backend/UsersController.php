@@ -339,7 +339,7 @@ class UsersController extends Controller
             $duplicate      = array();
             $customer       = array();
             $create_user    =  $postdata['create_user'];
-            $emails         = isset($postdata['emailaddress']) ? $postdata['emailaddress'] : $postdata['email'];
+            $emails         = isset($postdata['contactemail']) ? $postdata['contactemail'] : $postdata['email'];
             foreach($create_user as $key => $value){
                 $is_duplicate = 0;
                 $email        = isset($emails[$key]) ? $emails[$key] : '';
@@ -363,7 +363,7 @@ class UsersController extends Controller
                     }
                 }
             }
-           
+        //    dd($customer);
             if(!empty($customer)){
                 foreach($customer as $insert_key => $_customer){
                     if(isset($_customer['customerno'])){
