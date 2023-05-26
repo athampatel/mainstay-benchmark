@@ -917,26 +917,48 @@ class UsersController extends Controller
                 $contact_info =  array();
                 /* contact getting work start */
                 if(!empty($res) && isset($res['contacts']) && !empty($res['contacts'])){
-                    $contact_info = $res['contacts'][0];
-                    $data1 = array(            
-                        "filter" => [
-                            [
-                                "column"=>"customerno",
-                                "type"=>"equals",
-                                "value"=>$res['contacts'][0]['customerno'],
-                                "operator"=>"and"
+                    if(count($res['contacts']) == 1){
+                        // $contact_info[] = $res['contacts'][0];
+                        $data1 = array(            
+                            "filter" => [
+                                [
+                                    "column"=>"customerno",
+                                    "type"=>"equals",
+                                    "value"=>$res['contacts'][0]['customerno'],
+                                    "operator"=>"and"
+                                ],
                             ],
-                        ],
-                    );
-                    $res1 = $sdeApi->Request('post','Customers',$data1);
-                    if(!empty($res1['customers'])){                   
-                        $customers = $res1['customers'];
+                        );
+                        $res1 = $sdeApi->Request('post','Customers',$data1);
+                        if(!empty($res1['customers'])){                   
+                            $customers[0] = $res1['customers'][0];
+                            $customers[0]['contact_info'] = $res['contacts'][0];
+                        }
+                    } else {
+                        foreach($res['contacts'] as $ky => $con) {
+                            // $contact_info[] = $con;
+                            $data1 = array(            
+                                "filter" => [
+                                    [
+                                        "column"=>"customerno",
+                                        "type"=>"equals",
+                                        "value"=>$con['customerno'],
+                                        "operator"=>"and"
+                                    ],
+                                ],
+                            );
+                            $res1 = $sdeApi->Request('post','Customers',$data1);
+                            if(!empty($res1['customers'])){                   
+                                $customers[$ky] = $res1['customers'][0];
+                                $customers[$ky]['contact_info'] = $con;
+                            }
+                        }
                     }
                 }
                 /* contact getting work end */
                 Auth::guard('admin')->login($admin);
                 $searchWords = SearchWord::where('type',1)->get()->toArray();
-                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords','contact_info')); 
+                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords')); 
             }
         }
        return abort('403');

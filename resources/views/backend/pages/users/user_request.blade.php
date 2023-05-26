@@ -78,6 +78,35 @@ User Create - Admin Panel
                                             </div>
                                             @endif
                                             <div class="customer_data {{isset($user->id) ? '' : 'backdark'}}" id="create_user_body_{{$key}}">
+                                                <h6 class="text-secondary">Contact Information</h6><br>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact code</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['contact_info']['contactcode']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactcode[{{$key}}]" placeholder="Enter Contact Code" value="{{$user_info['contact_info']['contactcode']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact Name</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['contact_info']['contactname']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactname[{{$key}}]" placeholder="Enter Contact Name" value="{{$user_info['contact_info']['contactcode']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact Email</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$user_info['contact_info']['emailaddress']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactemail[{{$key}}]" placeholder="Enter Contact Email" value="{{$user_info['contact_info']['emailaddress']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
                                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
@@ -119,25 +148,7 @@ User Create - Admin Panel
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6 col-sm-12">
-                                                        <label for="user_name">Contact code</label>
-                                                        @if(isset($user->id))
-                                                            <div class="text-secondary">{{$contact_info['contactcode']}}</div>
-                                                        @else
-                                                            <input type="text" class="form-control required"  required name="contactcode[{{$key}}]" placeholder="Enter Contact Code" value="{{$contact_info['contactcode']}}"> 
-                                                        @endif    
-                                                    </div>
-                                                    <div class="form-group col-md-6 col-sm-12">
-                                                        <label for="user_name">Contact Name</label>
-                                                        @if(isset($user->id))
-                                                            <div class="text-secondary">{{$contact_info['contactname']}}</div>
-                                                        @else
-                                                            <input type="text" class="form-control required"  required name="contactname[{{$key}}]" placeholder="Enter Contact Name" value="{{$contact_info['contactcode']}}"> 
-                                                        @endif    
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" name="vmi_password" id="contact_vmi_password" value="{{$contact_info['vmi_password']}}">
+                                                <input type="hidden" name="vmi_password" id="contact_vmi_password" value="{{$user_info['contact_info']['vmi_password']}}">
                                                 <h6 class="text-secondary">Address</h6><br>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
