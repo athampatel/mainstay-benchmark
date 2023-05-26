@@ -72,7 +72,24 @@ User Create - Admin Panel
                                         <input type="text" class="form-control" id="ardivision_no" name="ardivisionno[]" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
                                     </div>
                                 </div>
-
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="user_name">{{ config('constants.label.admin.contact_code') }}</label>
+                                        <input type="text" class="form-control required" id="contact_code" name="contactcode[]" placeholder="Enter {{ config('constants.label.admin.contact_code') }}">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="ardivision_no">{{config('constants.label.admin.contact_name')}}</label>
+                                        <input type="text" class="form-control" id="contact_name" name="contactname[]" placeholder="Enter {{config('constants.label.admin.contact_name')}}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="user_name">{{ config('constants.label.admin.phone_no') }}</label>
+                                        <input type="text" class="form-control" id="contact_phone_no" name="phone_no[]" placeholder="Enter {{ config('constants.label.admin.phone_no') }}">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="vmi_password[]" id="contact_vmi_password" value="">
                                 <h6 class="text-secondary">Address</h6><br>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
@@ -152,6 +169,7 @@ User Create - Admin Panel
 <script>
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;
+    let contact_information = "";
     function ValidateEmail(emailaddress){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
             return true;
@@ -255,7 +273,7 @@ User Create - Admin Panel
                 $(this).parent().parent().append(_html);
                 var container = $('#'+customerno+'.user_information');
                 console.log(parseData,'____parseData');
-                rendorUserForm(parseData,0,container);
+                rendorUserForm(parseData,0,container,contact_information);
 
                 container.find('input').each(function(){
                     $(this).removeClass('error-field');
@@ -341,13 +359,14 @@ User Create - Admin Panel
                 $('.userDetails-container').fadeOut();
             },
             success: function (res) {
+                console.log(res,'___get customer response');
                 if(!res.success) {
-                    $('#customer_response_alert').removeClass('alert-success').removeClass('text-dark').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').addClass('d-none').html(res.message);     
+                    $('#customer_response_alert').removeClass('alert-success').removeClass('text-dark').removeClass('bm-btn-primary').addClass('text-white').addClass('bm-alert-danger').addClass('alert-danger').removeClass('d-none').html(res.message);     
                     return false;
                 }
-                console.log(res,'___get customer response');
                 let is_error = false;
                 let is_error_message = '';
+                contact_information = res.contact_info;
                 if("status" in res){
                     if(res.status == 'error'){
                         is_error = true;
@@ -379,7 +398,8 @@ User Create - Admin Panel
                     } else if(res.customers.length > 0){
                         $customer = res.customers[0];
                         $('#is_multiple').val(0);
-                        rendorUserForm($customer,1);
+                        console.log(res.contact_info,'__Contact information');
+                        rendorUserForm($customer,1,"",contact_information);
                         $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
                         $('#customer_response_alert').addClass('alert-success');
                         $('#customer_response_alert').addClass('text-dark');
@@ -399,8 +419,8 @@ User Create - Admin Panel
                 $(document.body).find('#preloader').remove();            }
         });
     })
-function rendorUserForm($customer,show,container){
-
+function rendorUserForm($customer,show,container,contact_information){
+    console.log(contact_information,'___contact_information');
     if(!container)
     container = $('#create-customer');
    
@@ -425,6 +445,10 @@ function rendorUserForm($customer,show,container){
         container.find('#sales_person_name').attr('name', 'salespersonname');
         container.find('#sales_person_email').attr('name', 'salespersonemail');
         container.find('#vmi_companycode').attr('name', 'vmi_companycode');
+        container.find('#contact_code').attr('name', 'contactcode');
+        container.find('#contact_name').attr('name', 'contactname');
+        container.find('#contact_phone_no').attr('name', 'phone_no');
+        container.find('#contact_vmi_password').attr('name', 'vmi_password');
     } else {
         container.find('#user_no').attr('name', 'customerno[]');;
         container.find('#user_email').attr('name', 'email[]');
@@ -441,6 +465,10 @@ function rendorUserForm($customer,show,container){
         container.find('#sales_person_name').attr('name', 'salespersonname[]');
         container.find('#sales_person_email').attr('name', 'salespersonemail[]');
         container.find('#vmi_companycode').attr('name', 'vmi_companycode[]');
+        container.find('#contact_code').attr('name', 'contactcode[]');
+        container.find('#contact_name').attr('name', 'contactname[]');
+        container.find('#contact_phone_no').attr('name', 'phone_no[]');
+        container.find('#contact_vmi_password').attr('name', 'vmi_password[]');
     }
 
     container.find('#user_no').val($customer.customerno);
@@ -458,6 +486,13 @@ function rendorUserForm($customer,show,container){
     container.find('#sales_person_name').val($customer.salespersonname);
     container.find('#sales_person_email').val($customer.salespersonemail);
     container.find('#vmi_companycode').val($customer.vmi_companycode);
+    container.find('#contact_code').val(contact_information.contactcode);
+    container.find('#contact_name').val(contact_information.contactname);
+    let phone_no = "";
+    if(contact_information.telephoneext1 ||contact_information.telephoneno1 )
+        phone_no = contact_information.telephoneext1 + ' ' + contact_information.telephoneno1;
+    container.find('#contact_phone_no').val(phone_no);
+    container.find('#contact_vmi_password').val(contact_information.vmi_password);
     if(show == 1)
         $('#customer_response_alert').removeClass('alert-danger').removeClass('text-white').removeClass('bm-alert-danger').removeClass('d-none').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary');
     setTimeout(() => {

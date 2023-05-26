@@ -203,6 +203,8 @@
                 'relational_manager'        => 'Benchmark Regional Manager',
                 'region_manager'            => 'Region Manager',
                 'order_date'                => 'Order Date',
+                'contact_code'              => 'Contact Code',
+                // 'contact_name'              => 'Contact Name',
                 'buttons' => [
                     'create' => 'Create',
                     'save_role' => 'Save Role',

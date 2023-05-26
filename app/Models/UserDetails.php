@@ -23,7 +23,8 @@ class UserDetails extends Model
         'user_id',
         'vmi_companycode',
         'contactcode',
-        'contactname'
+        'contactname',
+        'phone_no'
     ];
 
     public function User(){

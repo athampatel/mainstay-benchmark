@@ -50,7 +50,7 @@ class AuthController extends Controller
                     'state'             => $response['state'],
                     'zipcode'           => $response['zipcode'],
                     'email'             => $email,
-                    'phone_no'          => isset($response['phone_no']) ? $response['phone_no'] : '',
+                    'phone_no'          => isset($response['phone_no']) && $response['phone_no'] !='' ? $response['phone_no'] : '',
                     'contactname'       => isset($response['contactname']) ? $response['contactname'] : '',
                     'contactcode'       => isset($response['contactcode']) ? $response['contactcode'] : '',
                 ]);

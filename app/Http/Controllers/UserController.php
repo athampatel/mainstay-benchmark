@@ -72,7 +72,7 @@ class UserController extends Controller
                             'state'             => $data['state'],
                             'zipcode'           => $data['zipcode'],
                             'email'             => $useremail,
-                            'phone_no'          => isset($data['phone_no']) ? $data['phone_no'] : '',
+                            'phone_no'          => isset($data['phone_no']) && $data['phone_no']!='' ? $data['phone_no'] : '',
                             'contactcode'          => isset($data['contactcode']) ? $data['contactcode'] : '',
                             'contactname'          => isset($data['contactname']) ? $data['contactname'] : '',
                         );

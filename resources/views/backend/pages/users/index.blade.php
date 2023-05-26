@@ -97,11 +97,11 @@ Customers - Admin Panel
                                            {{-- <span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span> --}}
                                         </th>
-                                        <th width="10%">
-                                            {{ config('constants.label.admin.contact_name') }}                                            
+                                        {{-- <th width="10%"> --}}
+                                            {{-- {{ config('constants.label.admin.contact_name') }}                                             --}}
                                             {{--<span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>--}}
-                                        </th>
+                                        {{-- </th> --}}
                                         <th width="10%">
                                             {{ config('constants.label.admin.contact_email') }}
                                            
@@ -136,7 +136,7 @@ Customers - Admin Panel
                                                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                 @endif  
                                             </td>
-                                            <td>&nbsp;</td>
+                                            {{-- <td>&nbsp;</td> --}}
                                             <td>{{ $account['name'] }}</td>
                                             <td>{{ $account['email'] }}</td>
                                             <td>{{ $usr['ardivisionno'] }}</td>

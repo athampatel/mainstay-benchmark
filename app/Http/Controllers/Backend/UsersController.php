@@ -632,6 +632,7 @@ class UsersController extends Controller
             ];
         } else {
             echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            die();
         }
         // } else {
         //     $filter_data = [
@@ -656,7 +657,8 @@ class UsersController extends Controller
                 
         $res = $sdeApi->Request('post','Customers',$data);
         $res['user'] = $customer;
-        $res['success'] = true; 
+        $res['success'] = true;
+        $res['contact_info'] = $contact_info;
         echo json_encode($res);
         die();
     }
