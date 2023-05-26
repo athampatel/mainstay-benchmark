@@ -18,13 +18,18 @@ class UserController extends Controller
         // dd($data);
         $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
 
+        $contact_email = isset($data['contactemail']) ? $data['contactemail'] : ''; 
+
         $userData = array(  'name'              =>$data['customername'],
-                            'email'             => $useremail,
+                            // 'email'             => $useremail,
+                            // 'email'             => $contact_email ? $contact_email : $useremail, // line to be changed
+                            'email'             => $contact_email, // line to be changed
                             // 'password'          => Hash::make('sde@123'),
                             'password'          => Hash::make($data['vmi_password']),
                             'activation_token'  => '',
         );
-        $user = User::where('email',$useremail)->first();
+        // $user = User::where('email',$useremail)->first();
+        $user = User::where('email',$contact_email)->first();
         if(!$user){
             $user = User::create($userData);
         }

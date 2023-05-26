@@ -137,6 +137,7 @@ User Create - Admin Panel
                                                         @endif    
                                                     </div>
                                                 </div>
+                                                <input type="hidden" name="vmi_password" id="contact_vmi_password" value="{{$contact_info['vmi_password']}}">
                                                 <h6 class="text-secondary">Address</h6><br>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
