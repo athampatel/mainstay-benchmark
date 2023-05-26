@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Helpers\SDEApi;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,37 @@ class LoginRequest extends FormRequest
     public function authenticate()
     {
         $this->ensureIsNotRateLimited();
-
+        
+        // changed code
+        $sdeApi = new SDEApi();
+        $data = [
+            "index" => "kEmailAddress",
+            "filter" => [
+                [
+                    "column" => "EmailAddress",
+                    "type" => "equals",
+                    "value" => $this->only('email')['email'],
+                    "operator" => "and"
+                ]
+            ],
+        ];
+        $is_error = false;
+        $response =$sdeApi->Request('post','Contacts',$data);
+        if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
+            if($response['contacts'][0]['vmi_password'] != $this->only('password')['password']) {
+                $is_error = true;
+            }
+        } else {
+            $is_error = true;
+        }
+        if($is_error) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+                // 'active' => trans('auth.active'),
+            ]);
+        }
+        
+        // already exist code
         if (!Auth::attempt(array_merge($this->only('email', 'password'),['active' => 1 ]), $this->boolean('remember'))) {
             // RateLimiter::hit($this->throttleKey());
             // if (Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {

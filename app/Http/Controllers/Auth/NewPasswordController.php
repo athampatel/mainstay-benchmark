@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\SDEApi;
 use App\Http\Controllers\Controller;
+use App\Models\UserDetails;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -45,10 +47,30 @@ class NewPasswordController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+                $sdeApi = new SDEApi();
+                $is_update = false;
+                $user_detail = UserDetails::where('user_id',$user->id)->first();
+                if($user_detail) {
+                    $data = [
+                        "method" => "POST",
+                        "ARDivisionNo" => $user_detail->ardivisionno,
+                        "CustomerNo"=> $user_detail->customerno,
+                        "ContactCode" => $user_detail->contactcode,
+                        "UDF_VMI_Password" => $request->password
+                    ];
+                    $response = $sdeApi->Request('post','Contacts',$data);
+                    if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
+                        if($response['contacts'][0]['action'] == 'updated' &&  $response['contacts'][0]['vmi_password'] == $request->password) {
+                            $is_update = true;
+                        }
+                    }
+                }
+                if($is_update) {
+                    $user->forceFill([
+                        'password' => Hash::make($request->password),
+                        'remember_token' => Str::random(60),
+                    ])->save();
+                }
 
                 event(new PasswordReset($user));
             }
@@ -67,3 +89,9 @@ class NewPasswordController extends Controller
                             ->withErrors(['email' => __($status)]);
     }
 }
+
+
+// http://localhost:8081/reset-password/ZEtLfBFhmefKQwDs952FncUBGOkcg9?email=Jones_Joshua_David@Lilly.com
+// UPDATE `password_resets` SET `token`= '$2y$10$.JXaXySXIh/UeUmAQ9YN2.XwQtNWc9RL13nm613oUbMNVEmJpzp1y' WHERE `email` = 'GEPays_BID330010@ge.com';
+// http://localhost:8081/reset-password/gokul?email=GEPays_BID330010@ge.com
+// developer

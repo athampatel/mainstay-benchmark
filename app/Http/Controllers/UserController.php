@@ -15,12 +15,13 @@ use App\Models\Customer as CustomerUnqiue;
 class UserController extends Controller
 {
     public static function createUser($data,$action = 0){        
-
+        // dd($data);
         $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
 
         $userData = array(  'name'              =>$data['customername'],
                             'email'             => $useremail,
-                            'password'          => Hash::make('sde@123'),
+                            // 'password'          => Hash::make('sde@123'),
+                            'password'          => Hash::make($data['vmi_password']),
                             'activation_token'  => '',
         );
         $user = User::where('email',$useremail)->first();
@@ -70,8 +71,11 @@ class UserController extends Controller
                             'city'              => $data['city'],
                             'state'             => $data['state'],
                             'zipcode'           => $data['zipcode'],
-                            'email'             => $useremail);
-       
+                            'email'             => $useremail,
+                            'phone_no'          => isset($data['phone_no']) && $data['phone_no']!='' ? $data['phone_no'] : '',
+                            'contactcode'          => isset($data['contactcode']) ? $data['contactcode'] : '',
+                            'contactname'          => isset($data['contactname']) ? $data['contactname'] : '',
+                        );
         /* checks in the customer table */
         // $data['customerno']
         $is_found = CustomerUnqiue::where('customerno',$data['customerno'])->first();

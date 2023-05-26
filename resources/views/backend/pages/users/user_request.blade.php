@@ -58,6 +58,7 @@ User Create - Admin Panel
                         </div>
                     </div>    
                     @endif
+                    {{-- {{dd($contact_info)}} --}}
                     @if(!empty($customers))
                         @include('backend.layouts.partials.messages')            
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
@@ -117,7 +118,25 @@ User Create - Admin Panel
                                                         @endif 
                                                     </div>
                                                 </div>
-    
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact code</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$contact_info['contactcode']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactcode[{{$key}}]" placeholder="Enter Contact Code" value="{{$contact_info['contactcode']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-sm-12">
+                                                        <label for="user_name">Contact Name</label>
+                                                        @if(isset($user->id))
+                                                            <div class="text-secondary">{{$contact_info['contactname']}}</div>
+                                                        @else
+                                                            <input type="text" class="form-control required"  required name="contactname[{{$key}}]" placeholder="Enter Contact Name" value="{{$contact_info['contactcode']}}"> 
+                                                        @endif    
+                                                    </div>
+                                                </div>
                                                 <h6 class="text-secondary">Address</h6><br>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">

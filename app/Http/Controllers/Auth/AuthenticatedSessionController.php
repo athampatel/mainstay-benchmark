@@ -39,8 +39,7 @@ class AuthenticatedSessionController extends Controller
                     ->select('user_details.*','users.profile_image')
                     ->where('user_details.is_active',0)
                     ->get();
-
-        
+                            
         if($user->is_vmi){
             $data = array(            
                 "filter" => [

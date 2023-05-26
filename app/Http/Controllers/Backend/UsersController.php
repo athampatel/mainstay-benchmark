@@ -603,21 +603,46 @@ class UsersController extends Controller
     public function getCustomerInfo(Request $request){
         $search_text = $request->search_text;
         $filter_data = [];
+        $sdeApi = new SDEApi();
+        $contact_info = array(); 
         if (filter_var($search_text, FILTER_VALIDATE_EMAIL)) {
-            $filter_data =  [
-                "column"=>"emailaddress",
-                "type"=>"equals",
-                "value"=>$search_text,
-                "operator"=>"and"
+            $contact_data = [
+                "index" => "kEmailAddress",
+                "filter" => [
+                    [   
+                        "column" =>  "EmailAddress",
+                        "type" => "equals",
+                        "value" => $search_text,
+                        "operator" => "and"
+                    ],
+                ],
             ];
-          } else {
-            $filter_data = [
+            $contact_information = $sdeApi->Request('post','Contacts',$contact_data);
+            $customer_no = "";
+            if(!empty($contact_information) && $contact_information['contacts'] && !empty($contact_information['contacts'])) {
+                $customer_no = $contact_information['contacts'][0]['customerno']; 
+                $contact_info = $contact_information['contacts'][0];
+            }
+
+            $filter_data =  [
                 "column"=>"customerno",
                 "type"=>"equals",
-                "value"=>$search_text,
+                "value"=>$customer_no,
                 "operator"=>"and"
             ];
-          }
+        } else {
+            echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            die();
+        }
+        // } else {
+        //     $filter_data = [
+        //         "column"=>"customerno",
+        //         "type"=>"equals",
+        //         "value"=>$search_text,
+        //         "operator"=>"and"
+        //     ];
+        //     // $contact_info
+        // }
         $data = array(            
             "filter" => [
                 $filter_data
@@ -629,9 +654,11 @@ class UsersController extends Controller
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)
                     ->orWhere('user_details.customerno',$search_text)->first();
-        $sdeApi = new SDEApi();         
+                
         $res = $sdeApi->Request('post','Customers',$data);
-        $res['user'] = $customer; 
+        $res['user'] = $customer;
+        $res['success'] = true;
+        $res['contact_info'] = $contact_info;
         echo json_encode($res);
         die();
     }
@@ -835,25 +862,52 @@ class UsersController extends Controller
             
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
+                    // "filter" => [
+                    //     [
+                    //         "column"=>"emailaddress",
+                    //         "type"=>"equals",
+                    //         "value"=>$email_address,
+                    //         "operator"=>"and"
+                    //     ],
+                    // ],
+                    "index" => "kEmailAddress",
                     "filter" => [
-                        [
-                            "column"=>"emailaddress",
-                            "type"=>"equals",
-                            "value"=>$email_address,
-                            "operator"=>"and"
+                        [   
+                            "column" =>  "EmailAddress",
+                            "type" => "equals",
+                            "value" => $email_address,
+                            "operator" => "and"
                         ],
                     ],
                     "offset" => 1,
                     "limit" => 100,
                 );
                 $sdeApi = new SDEApi();         
-                $res = $sdeApi->Request('post','Customers',$data);
-                if(!empty($res['customers'])){                   
-                    $customers = $res['customers'];
+                // $res = $sdeApi->Request('post','Customers',$data);
+                $res = $sdeApi->Request('post','Contacts',$data);
+                $contact_info =  array();
+                /* contact getting work start */
+                if(!empty($res) && isset($res['contacts']) && !empty($res['contacts'])){
+                    $contact_info = $res['contacts'][0];
+                    $data1 = array(            
+                        "filter" => [
+                            [
+                                "column"=>"customerno",
+                                "type"=>"equals",
+                                "value"=>$res['contacts'][0]['customerno'],
+                                "operator"=>"and"
+                            ],
+                        ],
+                    );
+                    $res1 = $sdeApi->Request('post','Customers',$data1);
+                    if(!empty($res1['customers'])){                   
+                        $customers = $res1['customers'];
+                    }
                 }
+                /* contact getting work end */
                 Auth::guard('admin')->login($admin);
                 $searchWords = SearchWord::where('type',1)->get()->toArray();
-                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords')); 
+                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords','contact_info')); 
             }
         }
        return abort('403');
