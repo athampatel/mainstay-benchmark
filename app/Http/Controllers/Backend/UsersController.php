@@ -327,7 +327,7 @@ class UsersController extends Controller
             $request->validate([
                 'customername' => 'required|max:50',
                 // 'customerno' => 'unique:user_details',
-                'email' => 'required|max:100|email|unique:users',
+                'email' => 'required|max:100|email',
                 'salespersonno' => 'required|min:1',
             ]);
             $postdata['emailaddress'] = $postdata['email'];
@@ -605,6 +605,9 @@ class UsersController extends Controller
         $filter_data = [];
         $sdeApi = new SDEApi();
         $contact_info = array(); 
+        $customer_no = [];
+        $res = [];
+        $is_duplicate = false;
         if (filter_var($search_text, FILTER_VALIDATE_EMAIL)) {
             $contact_data = [
                 "index" => "kEmailAddress",
@@ -618,47 +621,73 @@ class UsersController extends Controller
                 ],
             ];
             $contact_information = $sdeApi->Request('post','Contacts',$contact_data);
-            $customer_no = "";
             if(!empty($contact_information) && $contact_information['contacts'] && !empty($contact_information['contacts'])) {
-                $customer_no = $contact_information['contacts'][0]['customerno']; 
-                $contact_info = $contact_information['contacts'][0];
+                if(count($contact_information['contacts']) == 1){
+                    // $customer_no = $contact_information['contacts'][0]['customerno']; 
+                    $contact_info = $contact_information['contacts'][0];
+                } else {
+                    $is_duplicate = true;
+                    foreach($contact_information['contacts'] as $contacts) {
+                        // $customer_no[] = $contacts['customerno'];
+                        $contact_info[] = $contacts;
+                    }
+                }
             }
-
-            $filter_data =  [
-                "column"=>"customerno",
-                "type"=>"equals",
-                "value"=>$customer_no,
-                "operator"=>"and"
-            ];
         } else {
             echo json_encode(['success' => false,'message' => 'Email Address not valid']);
             die();
         }
-        // } else {
-        //     $filter_data = [
-        //         "column"=>"customerno",
-        //         "type"=>"equals",
-        //         "value"=>$search_text,
-        //         "operator"=>"and"
-        //     ];
-        //     // $contact_info
-        // }
-        $data = array(            
-            "filter" => [
-                $filter_data
-            ],
-            "offset" => 1,
-            "limit" => 100,
-        );
+
+        if(!$is_duplicate){         
+            $filter_data =  [
+                "column"=>"customerno",
+                "type"=>"equals",
+                "value"=>$contact_info[0]['customerno'],
+                "operator"=>"and"
+            ];
+            $data = array(            
+                "filter" => [
+                    $filter_data
+                ],
+                "offset" => 1,
+                "limit" => 100,
+            );
+            $response = $sdeApi->Request('post','Customers',$data);
+            if(!empty($response) && isset($response['customers']) && !empty($response['customers'])){
+                $res['customers'][0] = $response['customers'][0];
+                $res['customers'][0]['contact_info'] = $contact_info[0]['customerno'];
+            }
+        } else {
+            foreach($contact_info as $k => $cno) {
+                $filter_data =  [
+                    "column"=>"customerno",
+                    "type"=>"equals",
+                    "value"=>$cno['customerno'],
+                    "operator"=>"and"
+                ];
+                $req_data = array(            
+                    "filter" => [
+                        $filter_data
+                    ],
+                    "offset" => 1,
+                    "limit" => 100,
+                );
+                $response = $sdeApi->Request('post','Customers',$req_data);
+                if(!empty($response) && isset($response['customers']) && !empty($response['customers'])){
+                    $res['customers'][$k] = $response['customers'][0];
+                    $res['customers'][$k]['contact_info'] = $cno;
+                }
+            }
+        } 
         $customer = Customer::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->where('users.email',$search_text)
                     ->orWhere('user_details.email',$search_text)
                     ->orWhere('user_details.customerno',$search_text)->first();
                 
-        $res = $sdeApi->Request('post','Customers',$data);
         $res['user'] = $customer;
         $res['success'] = true;
-        $res['contact_info'] = $contact_info;
+        // $res['contact_info'] = $contact_info;
+        // dd($res);
         echo json_encode($res);
         die();
     }

@@ -51,6 +51,23 @@ User Create - Admin Panel
                             {{-- @include('backend.layouts.partials.messages') --}}
                             <form action="{{ route('admin.users.store') }}" method="POST" id="create-customer">
                                 @csrf
+                                <h6 class="text-secondary">Contact Information</h6><br>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="user_name">{{ config('constants.label.admin.contact_code') }}</label>
+                                        <input type="text" class="form-control required" id="contact_code" name="contactcode[]" placeholder="Enter {{ config('constants.label.admin.contact_code') }}">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="ardivision_no">{{config('constants.label.admin.contact_name')}}</label>
+                                        <input type="text" class="form-control" id="contact_name" name="contactname[]" placeholder="Enter {{config('constants.label.admin.contact_name')}}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="user_name">Contact Email</label>
+                                        <input type="text" class="form-control required" id="contact_email" name="contactemail[]" placeholder="Enter Contact Email">
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
@@ -61,7 +78,6 @@ User Create - Admin Panel
                                         <input type="email" class="form-control required" id="user_email" name="email[]" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
@@ -70,17 +86,6 @@ User Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
                                         <input type="text" class="form-control" id="ardivision_no" name="ardivisionno[]" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="user_name">{{ config('constants.label.admin.contact_code') }}</label>
-                                        <input type="text" class="form-control required" id="contact_code" name="contactcode[]" placeholder="Enter {{ config('constants.label.admin.contact_code') }}">
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="ardivision_no">{{config('constants.label.admin.contact_name')}}</label>
-                                        <input type="text" class="form-control" id="contact_name" name="contactname[]" placeholder="Enter {{config('constants.label.admin.contact_name')}}">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -169,7 +174,6 @@ User Create - Admin Panel
 <script>
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;
-    let contact_information = "";
     function ValidateEmail(emailaddress){
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailaddress)){
             return true;
@@ -273,7 +277,7 @@ User Create - Admin Panel
                 $(this).parent().parent().append(_html);
                 var container = $('#'+customerno+'.user_information');
                 console.log(parseData,'____parseData');
-                rendorUserForm(parseData,0,container,contact_information);
+                rendorUserForm(parseData,0,container);
 
                 container.find('input').each(function(){
                     $(this).removeClass('error-field');
@@ -366,7 +370,6 @@ User Create - Admin Panel
                 }
                 let is_error = false;
                 let is_error_message = '';
-                contact_information = res.contact_info;
                 if("status" in res){
                     if(res.status == 'error'){
                         is_error = true;
@@ -399,7 +402,7 @@ User Create - Admin Panel
                         $customer = res.customers[0];
                         $('#is_multiple').val(0);
                         console.log(res.contact_info,'__Contact information');
-                        rendorUserForm($customer,1,"",contact_information);
+                        rendorUserForm($customer,1);
                         $('#customer_response_alert').removeClass('d-none').html(constants.validation.admin.customer_detail_found);
                         $('#customer_response_alert').addClass('alert-success');
                         $('#customer_response_alert').addClass('text-dark');
@@ -419,8 +422,7 @@ User Create - Admin Panel
                 $(document.body).find('#preloader').remove();            }
         });
     })
-function rendorUserForm($customer,show,container,contact_information){
-    console.log(contact_information,'___contact_information');
+function rendorUserForm($customer,show,container){
     if(!container)
     container = $('#create-customer');
    
@@ -449,6 +451,7 @@ function rendorUserForm($customer,show,container,contact_information){
         container.find('#contact_name').attr('name', 'contactname');
         container.find('#contact_phone_no').attr('name', 'phone_no');
         container.find('#contact_vmi_password').attr('name', 'vmi_password');
+        container.find('#contact_email').attr('name', 'contactemail');
     } else {
         container.find('#user_no').attr('name', 'customerno[]');;
         container.find('#user_email').attr('name', 'email[]');
@@ -469,6 +472,7 @@ function rendorUserForm($customer,show,container,contact_information){
         container.find('#contact_name').attr('name', 'contactname[]');
         container.find('#contact_phone_no').attr('name', 'phone_no[]');
         container.find('#contact_vmi_password').attr('name', 'vmi_password[]');
+        container.find('#contact_email').attr('name', 'contactemail[]');
     }
 
     container.find('#user_no').val($customer.customerno);
@@ -486,13 +490,14 @@ function rendorUserForm($customer,show,container,contact_information){
     container.find('#sales_person_name').val($customer.salespersonname);
     container.find('#sales_person_email').val($customer.salespersonemail);
     container.find('#vmi_companycode').val($customer.vmi_companycode);
-    container.find('#contact_code').val(contact_information.contactcode);
-    container.find('#contact_name').val(contact_information.contactname);
+    container.find('#contact_code').val($customer.contact_info.contactcode);
+    container.find('#contact_name').val($customer.contact_info.contactname);
+    container.find('#contact_email').val($customer.contact_info.emailaddress);
     let phone_no = "";
-    if(contact_information.telephoneext1 ||contact_information.telephoneno1 )
-        phone_no = contact_information.telephoneext1 + ' ' + contact_information.telephoneno1;
+    if($customer.contact_info.telephoneext1 ||$customer.contact_info.telephoneno1 )
+        phone_no = $customer.contact_info.telephoneext1 + ' ' + $customer.contact_info.telephoneno1;
     container.find('#contact_phone_no').val(phone_no);
-    container.find('#contact_vmi_password').val(contact_information.vmi_password);
+    container.find('#contact_vmi_password').val($customer.contact_info.vmi_password);
     if(show == 1)
         $('#customer_response_alert').removeClass('alert-danger').removeClass('text-white').removeClass('bm-alert-danger').removeClass('d-none').addClass('alert-success').addClass('text-dark').addClass('bm-btn-primary');
     setTimeout(() => {
