@@ -621,6 +621,7 @@ class UsersController extends Controller
                 ],
             ];
             $contact_information = $sdeApi->Request('post','Contacts',$contact_data);
+            // dd($contact_information);
             if(!empty($contact_information) && $contact_information['contacts'] && !empty($contact_information['contacts'])) {
                 if(count($contact_information['contacts']) == 1){
                     // $customer_no = $contact_information['contacts'][0]['customerno']; 
@@ -632,6 +633,9 @@ class UsersController extends Controller
                         $contact_info[] = $contacts;
                     }
                 }
+            } else {
+                echo json_encode(['success' => false,'message' => 'No records found']);
+                die();    
             }
         } else {
             echo json_encode(['success' => false,'message' => 'Email Address not valid']);
