@@ -18,7 +18,7 @@ class UserController extends Controller
         // dd($data);
         $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
 
-        $contact_email = isset($data['contactemail']) ? $data['contactemail'] : ''; 
+        $contact_email = isset($data['contactemail']) ? $data['contactemail'] : $data['emailaddress']; 
 
         $userData = array(  'name'              =>$data['customername'],
                             // 'email'             => $useremail,
