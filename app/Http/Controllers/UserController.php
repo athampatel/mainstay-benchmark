@@ -84,11 +84,6 @@ class UserController extends Controller
         /* checks in the customer table */
         // $data['customerno']
         $is_found = CustomerUnqiue::where('customerno',$data['customerno'])->first();
-        if(!$is_found) {
-            CustomerUnqiue::create([
-                'customerno' => $data['customerno']
-            ]);
-        }
         /* checks and add the customer table */
 
         if(empty($user_details))
@@ -97,7 +92,13 @@ class UserController extends Controller
             $user_details->save($user_data);
 
         $user['details_id'] = $user_details->id;
-    
+        
+        if(!$is_found) {
+            CustomerUnqiue::create([
+                'customerno' => $data['customerno']
+            ]);
+        }
+        
         if(!$user_details) return false;
         
         return $user;
@@ -116,7 +117,11 @@ class UserController extends Controller
                             'city'              => $data['city'],
                             'state'             => $data['state'],
                             'zipcode'           => $data['zipcode'],
-                            'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : '');
+                            'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : '',
+                            'phone_no'          => isset($data['phone_no']) && $data['phone_no'] !='' ? $data['phone_no'] : '',
+                            'contactname'       => isset($data['contactname']) ? $data['contactname'] : '',
+                            'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
+                        );
 
         $user_details = UserDetails::where('customerno',$data['customerno'])->first();
         if(!empty($user_details)){
@@ -124,6 +129,12 @@ class UserController extends Controller
             $user_details->save($user_data);
         }else{
             $user_details = UserDetails::create($user_data);
+            $is_found = CustomerUnqiue::where('customerno',$data['customerno'])->first();
+                if(!$is_found) {
+                    CustomerUnqiue::create([
+                        'customerno' => $data['customerno']
+                    ]);
+                }
         }
         $sales_person = array();
         if($data['salespersonemail'] != '')
