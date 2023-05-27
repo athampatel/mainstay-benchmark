@@ -389,7 +389,7 @@ User Create - Admin Panel
                                             '<a href="javascript:void(0)" data-json=\''+JSON.stringify(value)+'\' class="do_customer">'+
                                             '<input type="checkbox" class="insert-customer" name="customer[]" value="'+value.customerno+'" id="'+value.customerno+'" />'+
                                             '<label for="'+value.customerno+'">'+
-                                            '<strong></strong>'+value.customername+' ('+value.customerno+')'+
+                                            '<strong></strong>'+value.customername+' - '+value.customerno+''+
                                             '</label><span class="angle"><i class="fa fa-angle-down"></i></span></a>'+
                                         '</div>'+
                                     '</div>';
