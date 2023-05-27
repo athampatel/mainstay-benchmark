@@ -3197,7 +3197,21 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     html{
         font-size:80%;
     }
+   
+    .sidebar-menu{
+        max-width: 224px;
+    }
+
 }
+@media (max-width: 1300px){
+    .wrapper.toggled .sidebar, 
+    .sidebar.active{
+        left:0px !important;
+    }
+
+}
+
+
 @media (max-width: 767px){
     html{
         font-size:100%;

@@ -69,6 +69,7 @@
     }
 }
 
+
 @media screen and (min-width: 1025px){
     .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper {
         width: 5.375rem;
