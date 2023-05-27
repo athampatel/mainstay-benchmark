@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use App\Models\SignupRequest;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Customer as CustomerUnqiue;
 
 class AuthController extends Controller
 {
@@ -54,6 +55,12 @@ class AuthController extends Controller
                     'contactname'       => isset($response['contactname']) ? $response['contactname'] : '',
                     'contactcode'       => isset($response['contactcode']) ? $response['contactcode'] : '',
                 ]);
+                $is_found = CustomerUnqiue::where('customerno',$response['customerno'])->first();
+                if(!$is_found) {
+                    CustomerUnqiue::create([
+                        'customerno' => $response['customerno']
+                    ]);
+                }
                 $sales_person1 = array();
                 if($response['salespersonemail'] != '')
                     $sales_person1 = SalesPersons::where('email',$response['salespersonemail'])->first();

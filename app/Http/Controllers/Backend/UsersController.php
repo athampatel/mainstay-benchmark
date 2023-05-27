@@ -345,6 +345,7 @@ class UsersController extends Controller
         $is_duplicate   = 0;
         $email_address  = '';
         $user_id = 0;
+        // dd()
         if(!isset($postdata['create_user'])){
             $request->validate([
                 'customername' => 'required|max:50',
@@ -438,6 +439,7 @@ class UsersController extends Controller
     }
 
     public function CreateCustomer($postdata = null,$key = 0){
+        // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
         $user       = isset($response['user']) ? $response['user'] : null;
         $message    = config('constants.admin_customer_create.mail.error');

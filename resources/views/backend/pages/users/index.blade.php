@@ -88,7 +88,8 @@ Customers - Admin Panel
                                     </tr>
 
                                     <tr class="company-row row-header animate row-{{$user['customerno']}}" style="display:none">
-                                        <th>{{ config('constants.label.admin.customer_no') }} </th>            
+                                        {{-- <th>{{ config('constants.label.admin.customer_no') }} </th>             --}}
+                                        <th>Contact Code </th>            
                                         <th width="10%">
                                             Profile picture
                                         </th>
@@ -128,7 +129,8 @@ Customers - Admin Panel
                                         $sales_person_account = isset($usr['user_sales_person']) ? $usr['user_sales_person']['sales_person'] : [];
                                     @endphp
                                     <tr class="company-row animate row-{{$user['customerno']}}" style="display:none">
-                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
+                                        {{-- <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td> --}}
+                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['contactcode'] }}</a></td>
                                             <td>
                                                 @if($usr['user']['profile_image'] != '')
                                                     <img src="/{{$account['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
@@ -137,7 +139,8 @@ Customers - Admin Panel
                                                 @endif  
                                             </td>
                                             {{-- <td>&nbsp;</td> --}}
-                                            <td>{{ $account['name'] }}</td>
+                                            {{-- <td>{{ $account['name'] }}</td> --}}
+                                            <td>{{ $usr['customername'] }}</td>
                                             <td>{{ $account['email'] }}</td>
                                             <td>{{ $usr['ardivisionno'] }}</td>
                                             <td>
