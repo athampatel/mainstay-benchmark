@@ -115,164 +115,166 @@ class AuthController extends Controller
             if($is_user->is_deleted == 1){
                 return back()->withErrors(config('constants.email.customer.customer_create.deleted_by_admin'));
             }
-        }
-
-        /* get contact information for the email address */
-        $sdeApi = new SDEApi();
-        $contact_data = [
-            "index" => "kEmailAddress",
-            "filter" => [
-                [   
-                    "column" =>  "EmailAddress",
-                    "type" => "equals",
-                    "value" => $request->email,
-                    "operator" => "and"
-                ],
-            ],
-            
-        ];
-        $contact_information = [];
-        $contact_response = $sdeApi->Request('post','Contacts',$contact_data);
-        if(!empty($contact_response) && isset($contact_response['contacts']) &&  !empty($contact_response['contacts'])) {
-            $contact_information = $contact_response['contacts'][0];
-        } 
-        $contact_customer_no = "";
-        if(!empty($contact_information)) {
-            $contact_customer_no = $contact_information['customerno'];
-        }
-        
-        /* get contact information for the email address */
-        $data = array(            
-            "filter" => [
-                // [
-                //     "column"=>"emailaddress",
-                //     "type"=>"equals",
-                //     "value"=>$request->email,
-                //     "operator"=>"and"
-                // ]
-                [
-                    "column"=>"customerno",
-                    "type"=>"equals",
-                    "value"=> $contact_customer_no,
-                    "operator"=>"and"
-                ]
-            ],
-            "offset" => 1,
-            "limit" => 5
-        );
-        $postdata = $request->input();
-        $user       = User::where('email',$request->email)->where('active',0)->first();
-        $message    = config('constants.customer-signup.validation_email');;
-        $status     = 'success';
-        $_multiple  = 0;
-        $details    = array('subject'   => config('constants.customer-signup.mail.subject'),
-                            'title'     => config('constants.customer-signup.mail.title'));
-        $uniqueId   = $request->email;
-        $request_id = 0;
-        $body      = "<p>The customer with email address {$request->email} has requested access to the member portal.</p>";
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span>&nbsp;<span>'.$request->full_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span>&nbsp;<span>'.$request->company_name.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span>&nbsp;<span>'.$request->phone_no.'</span></p>';
-        $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span>&nbsp;<span>'.$request->email.'</span></p><br>'; 
-        $details['body'] = $body;
-
-        if(empty($user)){
-            $SDEAPi = new SDEApi();
-            $response   = $SDEAPi->Request('post','Customers',$data); 
-            // dd($response);
-            $message    = '';
-            $status     = 'error';            
-            $_details   = array();
-            $error      = 1;
-            $_multiple  = 0;            
-            if (!empty($response['customers'])){
-                if (count($response['customers']) === 1 ) {
-                    $response   = $response['customers'][0];
-                    // dd($response);
-                    /* my work start*/
-                    $response['vmi_password'] = $contact_information['vmi_password'];
-                    $response['phone_no'] = $contact_information['telephoneno1']. ''. $contact_information['telephoneext1'];
-                    // $response['emailaddress'] = $response['emailaddress'] ? $response['emailaddress'] : $contact_information['emailaddress'];
-                    $response['emailaddress'] = $contact_information['emailaddress'];
-                    $response['contactcode'] = $contact_information['contactcode'] ? $contact_information['contactcode'] : '';
-                    $response['contactname'] = $contact_information['contactname'] ? $contact_information['contactname'] : '';
-
-                    /* my work end */
-                    $_details   = self::CreateCustomer($response,0,$postdata);  
-                    if(is_array($_details))
-                        $details    = array_merge($details,$_details);
-                    else
-                        return $_details;
-
-                    $error   = 0;
-                } elseif(count($response['customers']) > 1){
-                    $_multiple  = 1;
-                }
-            }
+        } else {
+            $message    = config('constants.customer-signup.validation_email');;
+            $status     = 'success';
+            $_multiple  = 0;
+            $details    = array('subject'   => config('constants.customer-signup.mail.subject'),
+                                'title'     => config('constants.customer-signup.mail.title'));
+            $uniqueId   = $request->email;
+            $request_id = 0;
+            $body      = "<p>The customer with email address {$request->email} has requested access to the member portal.</p>";
+            $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span>&nbsp;<span>'.$request->full_name.'</span></p>';
+            $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span>&nbsp;<span>'.$request->company_name.'</span></p>';
+            $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span>&nbsp;<span>'.$request->phone_no.'</span></p>';
+            $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Email Address: </span>&nbsp;<span>'.$request->email.'</span></p><br>'; 
+            $details['body'] = $body;
             $signupdata     =   array(  'full_name'     => $request->full_name,
                                         'company_name'  => $request->company_name,
                                         'email'         => $request->email,
                                         'phone_no'      => $request->phone_no);
             $data_request   = SignupRequest::create($signupdata);   
             $request_id     = $data_request->id;  
-            if($error){              
-                $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
-            } 
+            $link           = "/fetch-customer/{$request->email}?req=".$data_request->id;
             $details['title']   = config('constants.email.customer.customer_create.title');   
             $details['subject'] = config('constants.email.customer.customer_create.subject');
-            if($_multiple){
-                $link .= "&duplicate=".$_multiple;
-            }
             $details['status']    = 'success';
             $details['message']   = config('constants.customer-signup.confirmation_message');
             $message    = isset($details['message']) ? $details['message'] : '';
             $status     = isset($details['status']) ? $details['status'] : '';
+            $admin      = Admin::first(); 
+            if($admin){    
+                $url    = config('app.url').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
+
+                if($request_id)
+                    $url .= '&request='.$request_id;
+                if($_multiple)
+                    $url .= '&duplicate=1';
+                
+                $details['link']            =  $url;      
+                $details['mail_view']       =  'emails.email-body'; 
+                $_notification = array( 'type'      => 'Sign Up',
+                                        'from_user'  => $uniqueId,
+                                        'to_user'  => 0,
+                                        'text'      => $message,
+                                        'action'    => $url,
+                                        'status'    => 1,
+                                        'is_read'   => 0,
+                                        'request_id' => $request_id,
+                                        'icon_path' => '/assets/images/svg/sign_up_notification.svg'
+                                    );                
+
+                $notification = new NotificationController();                        
+                $notification->create($_notification);
+                $admin_emails = config('app.admin_emails');
+                $is_local = config('app.env') == 'local' ? true : false;
+                if($is_local){
+                    Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+                } else {
+                    $admin_emails = Admin::all()->pluck('email')->toArray();
+                    Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+                }
+
+            }
+            return redirect()->back()->with($status, $message);
         }
+
+        /* get contact information for the email address */
+        // $sdeApi = new SDEApi();
+        // $contact_data = [
+        //     "index" => "kEmailAddress",
+        //     "filter" => [
+        //         [   
+        //             "column" =>  "EmailAddress",
+        //             "type" => "equals",
+        //             "value" => $request->email,
+        //             "operator" => "and"
+        //         ],
+        //     ],
+            
+        // ];
+
+        // $contact_information = [];
+
+        // $contact_response = $sdeApi->Request('post','Contacts',$contact_data);
+        // if(!empty($contact_response) && isset($contact_response['contacts']) &&  !empty($contact_response['contacts'])) {
+        //     $contact_information = $contact_response['contacts'][0];
+        // } 
+        // $contact_customer_no = "";
+        // if(!empty($contact_information)) {
+        //     $contact_customer_no = $contact_information['customerno'];
+        // }
         
-        $user = User::where('email',$request->email)->where('active',0)->first();
-        if($user){
-            $user->activation_token = Str::random(30);
-            $user->save();
-            $uniqueId  = $user->id;
-        }
+        /* get contact information for the email address */
+        // $data = array(            
+        //     "filter" => [
+                // [
+                //     "column"=>"emailaddress",
+                //     "type"=>"equals",
+                //     "value"=>$request->email,
+                //     "operator"=>"and"
+                // ]
+        //         [
+        //             "column"=>"customerno",
+        //             "type"=>"equals",
+        //             "value"=> $contact_customer_no,
+        //             "operator"=>"and"
+        //         ]
+        //     ],
+        //     "offset" => 1,
+        //     "limit" => 5
+        // );
+        // $postdata = $request->input();
+        // $user       = User::where('email',$request->email)->where('active',0)->first();
+        
+
+        // if(empty($user)){
+            // $SDEAPi = new SDEApi();
+            // $response   = $SDEAPi->Request('post','Customers',$data); 
+            // // dd($response);
+            // $message    = '';
+            // $status     = 'error';            
+            // $_details   = array();
+            // $error      = 1;
+            // $_multiple  = 0;            
+            // if (!empty($response['customers'])){
+            //     if (count($response['customers']) === 1 ) {
+            //         $response   = $response['customers'][0];
+            //         // dd($response);
+            //         /* my work start*/
+            //         $response['vmi_password'] = $contact_information['vmi_password'];
+            //         $response['phone_no'] = $contact_information['telephoneno1']. ''. $contact_information['telephoneext1'];
+            //         // $response['emailaddress'] = $response['emailaddress'] ? $response['emailaddress'] : $contact_information['emailaddress'];
+            //         $response['emailaddress'] = $contact_information['emailaddress'];
+            //         $response['contactcode'] = $contact_information['contactcode'] ? $contact_information['contactcode'] : '';
+            //         $response['contactname'] = $contact_information['contactname'] ? $contact_information['contactname'] : '';
+
+            //         /* my work end */
+            //         $_details   = self::CreateCustomer($response,0,$postdata);  
+            //         if(is_array($_details))
+            //             $details    = array_merge($details,$_details);
+            //         else
+            //             return $_details;
+
+            //         $error   = 0;
+            //     } elseif(count($response['customers']) > 1){
+            //         $_multiple  = 1;
+            //     }
+            // }
+            
+        // }
+        
+        // $user = User::where('email',$request->email)->where('active',0)->first();
+        // if($user){
+        //     $user->activation_token = Str::random(30);
+        //     $user->save();
+        //     $uniqueId  = $user->id;
+        // }
 
         // email send
-        $admin      = Admin::first(); 
-        if($admin){    
-            $url    = config('app.url').'admin/user/'.$uniqueId.'/change-status/'.$admin->unique_token.'?code=1';
+        
 
-            if($request_id)
-                $url .= '&request='.$request_id;
-            if($_multiple)
-                $url .= '&duplicate=1';
-            
-            $details['link']            =  $url;      
-            $details['mail_view']       =  'emails.email-body'; 
-            $_notification = array( 'type'      => 'Sign Up',
-                                    'from_user'  => $uniqueId,
-                                    'to_user'  => 0,
-                                    'text'      => $message,
-                                    'action'    => $url,
-                                    'status'    => 1,
-                                    'is_read'   => 0,
-                                    'request_id' => $request_id,
-                                    'icon_path' => '/assets/images/svg/sign_up_notification.svg'
-                                );                
-
-            $notification = new NotificationController();                        
-            $notification->create($_notification);
-            $admin_emails = config('app.admin_emails');
-            $is_local = config('app.env') == 'local' ? true : false;
-            if($is_local){
-              Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
-            } else {
-              $admin_emails = Admin::all()->pluck('email')->toArray();
-              Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
-            }
-
-        }
-
-        return redirect()->back()->with($status, $message);
+        // return redirect()->back()->with($status, $message);
     }
 
 

@@ -55,7 +55,7 @@ class User extends Authenticatable
         $this->notify(new PasswordReset($token));
     }
 
-    public function userDetails(){
-        return $this->hasMany(UserDetails::class,'id','user_id');//->where('is_active',0);
+    public function UserDetails(){
+        return $this->hasMany(UserDetails::class,'user_id','id');//->where('is_active',0);
     }
 }

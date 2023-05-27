@@ -29,9 +29,16 @@ User Create - Admin Panel
                             <h4 class="header-title mb-0">Customer Information</h4>       
                         </div>
                     </div> 
-                    @if(empty($customers))
+                    
+                    @if($is_error)
+                         <div class="alert alert-danger text-center">{{ $is_error_message }}</div>
+                    @endif
+                    @if(empty($customers) && !$is_error)
+                    {{-- @if(empty($customers)) --}}
                          <div class="alert alert-danger text-center">{{ config('constants.user_request_not_found') }}</div>
                     @endif
+                    
+                    
                     <div class="alert alert-success d-none text-center" id="user_activate_message"></div>
 
                     @if(!empty($userinfo))
@@ -117,7 +124,7 @@ User Create - Admin Panel
                                                         @endif
                                                     </div>
     
-                                                    @if($key == 0)
+                                                    {{-- @if($key == 0) --}}
                                                     <div class="form-group col-md-6 col-sm-12">
                                                         <label for="user_email">{{ config('constants.label.admin.customer_email') }}</label>
                                                         @if(isset($user->id))
@@ -126,7 +133,7 @@ User Create - Admin Panel
                                                             <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
                                                         @endif
                                                     </div>
-                                                    @endif 
+                                                    {{-- @endif  --}}
                                                 </div>
     
                                                 <div class="form-row">

@@ -66,10 +66,11 @@ Customers - Admin Panel
                                 <table id="backend_customers" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">
                                         <tr>
-                                            <th  style="text-align:left;padding:20px 10px;font-size:0.9rem">{{ config('constants.label.admin.customer_no') }}</th>
-                                            <th colspan="7" style="text-align:left;padding:20px 10px;font-size:0.9rem">
+                                            {{-- <th  style="text-align:left;padding:20px 10px;font-size:0.9rem">{{ config('constants.label.admin.customer_no') }}</th> --}}
+                                            <th  style="text-align:left;padding:20px 10px;font-size:0.9rem">Contact Email</th>
+                                            {{-- <th colspan="7" style="text-align:left;padding:20px 10px;font-size:0.9rem">
                                                 Company Name
-                                            </th>                                            
+                                            </th>                                             --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,15 +80,18 @@ Customers - Admin Panel
                                     @endphp
                                     <tr>
                                         <th style="text-align:left;padding:20px 10px;font-size:0.75rem">
-                                            <a href="javascript:void(0)" data-target="row-{{$user['customerno']}}" class="show-clients" title="View Contacts">
+                                            {{-- <a href="javascript:void(0)" data-target="row-{{$user['customerno']}}" class="show-clients" title="View Contacts"> --}}
+                                            <a href="javascript:void(0)" data-target="row-{{$user['id']}}" class="show-clients" title="View Contacts">
                                                 <span class="arrow"></span>
-                                                <span class="customerno">{{$user['customerno']}}</span>
+                                                {{-- <span class="customerno">{{$user['customerno']}}</span> --}}
+                                                <span class="customerno">{{$user['email']}}</span>
                                         </a>
                                         </th>
-                                        <th colspan="7 text-left" style="text-align:left;padding:20px 10px;font-size:0.75rem">{{$user_details[0]['customername']}}<span style="color:#A2D45E"></span></th>
+                                        {{-- <th colspan="7 text-left" style="text-align:left;padding:20px 10px;font-size:0.75rem">{{$user_details[0]['customername']}}<span style="color:#A2D45E"></span></th> --}}
                                     </tr>
 
-                                    <tr class="company-row row-header animate row-{{$user['customerno']}}" style="display:none">
+                                    {{-- <tr class="company-row row-header animate row-{{$user['customerno']}}" style="display:none"> --}}
+                                    <tr class="company-row row-header animate row-{{$user['id']}}" style="display:none">
                                         <th>{{ config('constants.label.admin.customer_no') }} </th>            
                                         <th width="10%">
                                             Profile picture
@@ -124,20 +128,24 @@ Customers - Admin Panel
 
                                     @foreach($user_details as $usr)
                                     @php
-                                        $account = $usr['user'];
+                                        // $account = $usr['user'];
+                                        $account = $user;
                                         $sales_person_account = isset($usr['user_sales_person']) ? $usr['user_sales_person']['sales_person'] : [];
                                     @endphp
-                                    <tr class="company-row animate row-{{$user['customerno']}}" style="display:none">
+                                    {{-- <tr class="company-row animate row-{{$user['customerno']}}" style="display:none"> --}}
+                                    <tr class="company-row animate row-{{$user['id']}}" style="display:none">
                                         <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td>
                                             <td>
-                                                @if($usr['user']['profile_image'] != '')
+                                                {{-- @if($usr['user']['profile_image'] != '') --}}
+                                                @if($account['profile_image'] != '')
                                                     <img src="/{{$account['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                 @else
                                                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                 @endif  
                                             </td>
                                             {{-- <td>&nbsp;</td> --}}
-                                            <td>{{ $account['name'] }}</td>
+                                            {{-- <td>{{ $account['name'] }}</td> --}}
+                                            <td>{{ $usr['customername'] }}</td>
                                             <td>{{ $account['email'] }}</td>
                                             <td>{{ $usr['ardivisionno'] }}</td>
                                             <td>

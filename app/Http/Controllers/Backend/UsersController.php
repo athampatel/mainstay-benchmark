@@ -98,12 +98,43 @@ class UsersController extends Controller
         $request_data = ['search' => $search,'type' => $type,'manager' => $manager];
         // dd($request_data);
         // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
-        $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
 
-            $query->leftjoin('users','users.id','=','user_details.user_id');
+        // $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
+        //     $query->leftjoin('users','users.id','=','user_details.user_id');
+        //     $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
+        //             ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
+        //     if($request_data['search'] != ""){                
+        //         $query->where(function($query) use($request_data){
+        //                 $query->orWhere('customerno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('customerno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
+        //         });
+        //     }
+        //     $query->select('user_details.*','sales_persons.name');
+        //     $query->where('users.is_deleted',0);
+        //     if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
+        //         $query->where('user_details.vmi_companycode','!=','');
+        //     }
+        //     if($request_data['type'] != "" && $request_data['type'] == 'new'){
+        //         $query->where('users.active','=',0);
+        //     }
+        //     if($request_data['manager'] != "") {
+        //         $query->leftjoin('admins','sales_persons.email','=','admins.email');
+        //         $query->where('admins.id',$request_data['manager']);
+        //     }
+        //     if (!$this->superAdmin && !empty($user)){
+        //         $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
+        //         $query->where('admins.id',$user->id);
+        //     }
+        // })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit)->toSql();
+        // dd($customers);
+
+        /* test working start */
+        $customers = Customer::whereHas('UserDetails', function ($query) use ($request_data) {
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
-
             if($request_data['search'] != ""){                
                 $query->where(function($query) use($request_data){
                         $query->orWhere('customerno','like','%'.$request_data['search'].'%')
@@ -112,42 +143,35 @@ class UsersController extends Controller
                                 ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
                                 ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
                 });
-              
             }
-
             $query->select('user_details.*','sales_persons.name');
-            
-            // $query->leftjoin('users','user_details.user_id','=','users.id')
             $query->where('users.is_deleted',0);
-            
             if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
                 $query->where('user_details.vmi_companycode','!=','');
             }
-            
             if($request_data['type'] != "" && $request_data['type'] == 'new'){
                 $query->where('users.active','=',0);
             }
-
-           
-
             if($request_data['manager'] != "") {
-
-              //  $query->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-               // ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                 $query->leftjoin('admins','sales_persons.email','=','admins.email');
-                
                 $query->where('admins.id',$request_data['manager']);
             }
             if (!$this->superAdmin && !empty($user)){
                 $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
                 $query->where('admins.id',$user->id);
             }
-        })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
+            // $query->where('users.is_deleted', 0);
+        })->with(['UserDetails','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);//->get()->toArray();
+        // $customers = User::with('UserDetails')->get();
+        
+        // dd($customers);
+        /* test working end */
     // })->with(['UserDetails.User'])->offset($offset)->limit($limit);
 
         $userss = $customers->paginate(intval($limit));
         //$users =  $customers->get()->toJson();
         $users =  $customers->get()->toArray();
+        // dd($users);
         $print_users = $users;
         //echo $customers->toSql();
         // dd($users);        
@@ -625,7 +649,7 @@ class UsersController extends Controller
             if(!empty($contact_information) && $contact_information['contacts'] && !empty($contact_information['contacts'])) {
                 if(count($contact_information['contacts']) == 1){
                     // $customer_no = $contact_information['contacts'][0]['customerno']; 
-                    $contact_info = $contact_information['contacts'][0];
+                    $contact_info[] = $contact_information['contacts'][0];
                 } else {
                     $is_duplicate = true;
                     foreach($contact_information['contacts'] as $contacts) {
@@ -634,7 +658,7 @@ class UsersController extends Controller
                     }
                 }
             } else {
-                echo json_encode(['success' => false,'message' => 'No records found']);
+                echo json_encode(['success' => false,'message' => 'No Conacts found in this email address']);
                 die();    
             }
         } else {
@@ -659,7 +683,10 @@ class UsersController extends Controller
             $response = $sdeApi->Request('post','Customers',$data);
             if(!empty($response) && isset($response['customers']) && !empty($response['customers'])){
                 $res['customers'][0] = $response['customers'][0];
-                $res['customers'][0]['contact_info'] = $contact_info[0]['customerno'];
+                $res['customers'][0]['contact_info'] = $contact_info[0];
+            } else {
+                echo json_encode(['success' => false,'message' => 'No customers found on this email']);
+                die();
             }
         } else {
             foreach($contact_info as $k => $cno) {
@@ -892,17 +919,10 @@ class UsersController extends Controller
             else
                 $userinfo       = SignupRequest::where('email',$email_address)->first();
             
-            
+            $is_error = false;
+            $is_error_message = "";
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
                 $data = array(            
-                    // "filter" => [
-                    //     [
-                    //         "column"=>"emailaddress",
-                    //         "type"=>"equals",
-                    //         "value"=>$email_address,
-                    //         "operator"=>"and"
-                    //     ],
-                    // ],
                     "index" => "kEmailAddress",
                     "filter" => [
                         [   
@@ -937,7 +957,7 @@ class UsersController extends Controller
                         if(!empty($res1['customers'])){                   
                             $customers[0] = $res1['customers'][0];
                             $customers[0]['contact_info'] = $res['contacts'][0];
-                        }
+                        } //else return  'No customer found this Email';
                     } else {
                         foreach($res['contacts'] as $ky => $con) {
                             // $contact_info[] = $con;
@@ -958,12 +978,17 @@ class UsersController extends Controller
                             }
                         }
                     }
+                } else {
+                    $is_error = true;
+                    $is_error_message = 'No contacts found in this email';
+                    // return 'NO user contact emails found';
                 }
                 /* contact getting work end */
                 Auth::guard('admin')->login($admin);
                 $searchWords = SearchWord::where('type',1)->get()->toArray();
-                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords')); 
-            }
+                // dd($customers);
+                return view('backend.pages.users.user_request',compact('customers','user','userinfo','searchWords','is_error','is_error_message')); 
+            } //else return back()
         }
        return abort('403');
      
