@@ -99,40 +99,8 @@ class UsersController extends Controller
         // dd($request_data);
         // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
 
-        // $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
-        //     $query->leftjoin('users','users.id','=','user_details.user_id');
-        //     $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
-        //             ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
-        //     if($request_data['search'] != ""){                
-        //         $query->where(function($query) use($request_data){
-        //                 $query->orWhere('customerno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('customerno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
-        //         });
-        //     }
-        //     $query->select('user_details.*','sales_persons.name');
-        //     $query->where('users.is_deleted',0);
-        //     if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
-        //         $query->where('user_details.vmi_companycode','!=','');
-        //     }
-        //     if($request_data['type'] != "" && $request_data['type'] == 'new'){
-        //         $query->where('users.active','=',0);
-        //     }
-        //     if($request_data['manager'] != "") {
-        //         $query->leftjoin('admins','sales_persons.email','=','admins.email');
-        //         $query->where('admins.id',$request_data['manager']);
-        //     }
-        //     if (!$this->superAdmin && !empty($user)){
-        //         $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
-        //         $query->where('admins.id',$user->id);
-        //     }
-        // })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit)->toSql();
-        // dd($customers);
-
-        /* test working start */
-        $customers = Customer::whereHas('UserDetails', function ($query) use ($request_data) {
+        $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
+            $query->leftjoin('users','users.id','=','user_details.user_id');
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
             if($request_data['search'] != ""){                
@@ -160,9 +128,39 @@ class UsersController extends Controller
                 $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
                 $query->where('admins.id',$user->id);
             }
-            // $query->where('users.is_deleted', 0);
-        })->with(['UserDetails','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);//->get()->toArray();
-        // $customers = User::with('UserDetails')->get();
+        })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
+        // dd($customers);
+
+        /* test working start */
+        // $customers = Customer::whereHas('UserDetails', function ($query) use ($request_data) {
+        //     $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
+        //             ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
+        //     if($request_data['search'] != ""){                
+        //         $query->where(function($query) use($request_data){
+        //                 $query->orWhere('customerno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('customerno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
+        //                         ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
+        //         });
+        //     }
+        //     $query->select('user_details.*','sales_persons.name');
+        //     $query->where('users.is_deleted',0);
+        //     if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
+        //         $query->where('user_details.vmi_companycode','!=','');
+        //     }
+        //     if($request_data['type'] != "" && $request_data['type'] == 'new'){
+        //         $query->where('users.active','=',0);
+        //     }
+        //     if($request_data['manager'] != "") {
+        //         $query->leftjoin('admins','sales_persons.email','=','admins.email');
+        //         $query->where('admins.id',$request_data['manager']);
+        //     }
+        //     if (!$this->superAdmin && !empty($user)){
+        //         $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
+        //         $query->where('admins.id',$user->id);
+        //     }
+        // })->with(['UserDetails','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
         
         // dd($customers);
         /* test working end */
