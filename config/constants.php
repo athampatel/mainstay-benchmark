@@ -170,7 +170,7 @@
                 'sl'                        => 'sl',
                 'user_name'                 => 'User Name',
                 'password'                  => 'Password',
-                'user_email'                => 'User Email',
+                'user_email'                => 'Customer Email',
                 'assign_roles'              => 'Assign Roles',
                 'user_account_name'         => 'User Account Name',
                 'send_login_credentials'    => 'Send Login Credentials',
