@@ -76,6 +76,9 @@ User Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_email">{{ config('constants.label.admin.user_email') }}</label>
                                         <input type="email" class="form-control required" id="user_email" name="email[]" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid city.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -196,8 +199,8 @@ User Create - Admin Panel
         }    
         $('.userDetails-container .form-control').blur(function(){
             var val = $(this).val();
-            
             if($(this).attr('type') == 'email' && !ValidateEmail(val) == ''){
+                // $(this).find('')
                 $(this).addClass('error-field');
             }else if(val.trim() == '' && $(this).hasClass('required')){
                 $(this).addClass('error-field');
@@ -347,6 +350,8 @@ User Create - Admin Panel
      
 
         $(document.body).on('submit','#create-customer',function(e){
+            console.log('__submitted');
+            let display_error = "";
             if($(document.body).find('input.insert-customer:checked').length > 1){
                 return false;
             }
@@ -354,10 +359,19 @@ User Create - Admin Panel
                     if($(this).hasClass('required')){
                         $(this).prop('required',true);
                         var val = $(this).val();
+                        let type = $(this).attr('type');
+                        console.log(type,'__type');
+                        // var type = 
+                        console.log(this,'__this');
                         if(type == 'email' && !ValidateEmail(val)){
+                            if(val == '') {
+                                display_error += `<div> ${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
+                            } else {
+                                display_error += `<div> ${$(this).closest('.form-group').find('label').html()} is not valid</div><br>`;
+                            }
                             $(this).addClass('error-field');
                         }else if(val.trim() == ''){
-                        
+                            display_error += `<div>${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
                             $(this).addClass('error-field');
                         }else{
                             $(this).removeClass('error-field');
@@ -365,6 +379,8 @@ User Create - Admin Panel
                     }     
                 });
                 if($('.userDetails-container').find('.error-field').length > 0){
+                    $('#customer_response_alert').removeClass('text-dark').removeClass('bm-btn-primary').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html(display_error.replace(/<br>$/, ""));                     
+                    $(document.body).find('#preloader').remove();
                     return false;        
                 }           
         });

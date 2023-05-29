@@ -38,6 +38,7 @@ use App\Models\AnalaysisExportRequest;
 use Carbon\Carbon;
 use App\Http\Controllers\Backend\AdminsController;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -405,9 +406,15 @@ class UsersController extends Controller
                                 $customer_emails = config('app.test_customer_email');
                                 $is_local = config('app.env') == 'local' ? true : false;
                                 if($is_local){
-                                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                                    self::commonEmailSend($customer_emails,$details);
+                                    // Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                                 } else {
-                                    Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                                    try {
+                                        Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                                    } catch (\Exception $e) {
+                                        Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                                        // echo "An error occurred while sending the mail: " . $e->getMessage();
+                                    }
                                 }
                             }
                         }else{
@@ -659,11 +666,13 @@ class UsersController extends Controller
                     }
                 }
             } else {
-                echo json_encode(['success' => false,'message' => 'No Conacts found in this email address']);
+                // echo json_encode(['success' => false,'message' => 'No Conacts found in this email address']);
+                echo json_encode(['success' => false,'message' => config('constants.customer_not_found')]);
                 die();    
             }
         } else {
-            echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            // echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            echo json_encode(['success' => false,'message' => config('constants.error_email')]);
             die();
         }
 
@@ -1041,9 +1050,14 @@ class UsersController extends Controller
                 $customer_emails = config('app.test_customer_email');
                 $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
-                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                    self::commonEmailSend($customer_emails,$details);
+                    // Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                 } else {
-                    Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+                    try {
+                        Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+                    } catch (\Exception $e) {
+                        Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                    } 
                 }
 
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
@@ -2022,4 +2036,16 @@ class UsersController extends Controller
         // getUserdetails
         
     }
+
+    public static function commonEmailSend($send_emails,$send_details){        
+        if(!is_array($send_emails)) {
+            $send_emails = explode(',',$send_emails);
+        } 
+        try {
+            Mail::bcc($send_emails)->send(new \App\Mail\SendMail($send_details));
+        } catch (\Exception $e) {
+            Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+        }   
+    }
+
 }

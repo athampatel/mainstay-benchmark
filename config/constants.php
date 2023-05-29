@@ -73,7 +73,7 @@
                 'error' => 'Oops! Something went wrong.',
             ]
         ],
-        'customer_not_found' => 'The customer was not found.',
+        // 'customer_not_found' => 'The customer was not found.',
         'email' => [
             'admin' => [
                 'customer_activate' => [
@@ -268,7 +268,8 @@
         'change_order_cancel' => [
             'success' => 'Change order request cancelled successfully.',
             'not_found' => 'Unable to find the change order request.'
-        ]
+        ],
+        'error_email' => 'Email address is not valid.',
     ];
     // {{ config('constants.label.admin.role_name') }}
     // we lost the connection in SDE API so the portal doesn't work

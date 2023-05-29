@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SDEApi;
+use App\Http\Controllers\Backend\UsersController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Admin;
 use App\Models\SalesPersons;
@@ -19,6 +20,7 @@ use App\Models\SignupRequest;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Customer as CustomerUnqiue;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -175,11 +177,28 @@ class AuthController extends Controller
                 $notification->create($_notification);
                 $admin_emails = config('app.admin_emails');
                 $is_local = config('app.env') == 'local' ? true : false;
+                // dd($is_local);
                 if($is_local){
-                    Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+
+                    // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+                    // dd($admin_emails);
+                    UsersController::commonEmailSend($admin_emails,$details);
+                    // try {
+                        // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+                    // } catch (\Exception $e) {
+                    //     Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                    //     // echo "An error occurred while sending the mail: " . $e->getMessage();
+                    // }
                 } else {
+                    // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
                     $admin_emails = Admin::all()->pluck('email')->toArray();
-                    Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+                    UsersController::commonEmailSend($admin_emails,$details);
+                    // try {
+                        // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+                    // } catch (\Exception $e) {
+                    //     Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                    //     // echo "An error occurred while sending the mail: " . $e->getMessage();
+                    // }
                 }
 
             }

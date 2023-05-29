@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 
 class AdminsController extends Controller
 {
@@ -179,9 +180,15 @@ class AdminsController extends Controller
             $is_local = config('app.env') == 'local' ? true : false;
             $test_emails = config('app.test_customer_email');
             if($is_local){
-                Mail::bcc(explode(',',$test_emails))->send(new \App\Mail\SendMail($details));
+                UsersController::commonEmailSend($test_emails,$details);
+                // Mail::bcc(explode(',',$test_emails))->send(new \App\Mail\SendMail($details));
             } else {
-                Mail::to($to)->send(new \App\Mail\SendMail($details));
+                try {
+                    Mail::to($to)->send(new \App\Mail\SendMail($details));
+                } catch (\Exception $e) {
+                        Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                        // echo "An error occurred while sending the mail: " . $e->getMessage();
+                }
             }            
         }
 
