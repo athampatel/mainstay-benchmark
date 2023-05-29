@@ -39,8 +39,7 @@ class PasswordResetLinkController extends Controller
         // need to show to the user. Finally, we'll send out a proper response.
 
        
-        $send_to = $request->only('email');
-        $send_to['email'] = 'atham@tendersoftware.in';
+        $send_to = $request->only('email');       
         $status = Password::sendResetLink($send_to);
 
         return $status == Password::RESET_LINK_SENT
