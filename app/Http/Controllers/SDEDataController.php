@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\SDEApi;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Models\Admin;
 use App\Models\ChangeOrderItem;
 use App\Models\ChangeOrderRequest;
@@ -404,7 +405,13 @@ class SDEDataController extends Controller
                     $user->profile_image = $path;
                 }
                 if($request->password != ""){
-                    $user->password = Hash::make($request->password);
+                    $is_update = NewPasswordController::change_vmi_password($user->id,$request->password);
+                    if($is_update) {
+                        $user->password = Hash::make($request->password);
+                    } else {
+                        echo json_encode(['success' => false, 'data' => [] , 'error' => [config('constants.vmi_password_not_update')]]);
+                        die();        
+                    }
                 }
                 $user_details->customername = $request->acc_name;
                 $user_details->addressline1 = $request->acc_address_line_1;

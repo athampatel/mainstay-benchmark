@@ -270,6 +270,7 @@
             'not_found' => 'Unable to find the change order request.'
         ],
         'error_email' => 'Email address is not valid.',
+        'vmi_password_not_update' => 'Unable to change the password',
     ];
     // {{ config('constants.label.admin.role_name') }}
     // we lost the connection in SDE API so the portal doesn't work
