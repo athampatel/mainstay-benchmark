@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Support\Facades\Log;
+use Swift_TransportException;
 
 class Handler extends ExceptionHandler
 {
@@ -37,8 +38,10 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             // typeOf($e);
-            // dd(get_class($e));
-            Log::error('Cache error: ' . $e->getMessage());
+            // Swift_TransportException
+            if($e instanceof  Swift_TransportException) {
+                Log::error('Cache error: ' . $e->getMessage());
+            }
         });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Http\Controllers\Backend\UsersController;
 use App\Models\Admin;
 use App\Models\ApiConnectionError;
 use App\Models\ApiLog;
@@ -138,10 +139,12 @@ class SDEApi
         $admin_emails = config('app.admin_emails');
         $is_local = config('app.env') == 'local' ? true : false;
         if($is_local){
-          Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+          UsersController::commonEmailSend($admin_emails,$details);
+          // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
           $admin_emails = Admin::all()->pluck('email')->toArray();
-          Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+          UsersController::commonEmailSend($admin_emails,$details);
+          // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         return 1;
       }
@@ -212,10 +215,12 @@ class SDEApi
         $is_local = config('app.env') == 'local' ? true : false;
         // return;
         if($is_local){
-          Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+          UsersController::commonEmailSend($admin_emails,$details);
+          // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
           $admin_emails = Admin::all()->pluck('email')->toArray();
-          Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+          UsersController::commonEmailSend($admin_emails,$details);
+          // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         return;
       }

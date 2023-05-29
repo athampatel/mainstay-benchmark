@@ -179,9 +179,10 @@ class AuthController extends Controller
                 $is_local = config('app.env') == 'local' ? true : false;
                 // dd($is_local);
                 if($is_local){
-                    Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+
+                    // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                     // dd($admin_emails);
-                    // UsersController::commonEmailSend($admin_emails,$details);
+                    UsersController::commonEmailSend($admin_emails,$details);
                     // try {
                         // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                     // } catch (\Exception $e) {
@@ -189,9 +190,9 @@ class AuthController extends Controller
                     //     // echo "An error occurred while sending the mail: " . $e->getMessage();
                     // }
                 } else {
-                    Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
-                    // $admin_emails = Admin::all()->pluck('email')->toArray();
-                    // UsersController::commonEmailSend($admin_emails,$details);
+                    // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
+                    $admin_emails = Admin::all()->pluck('email')->toArray();
+                    UsersController::commonEmailSend($admin_emails,$details);
                     // try {
                         // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
                     // } catch (\Exception $e) {

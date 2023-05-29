@@ -406,9 +406,15 @@ class UsersController extends Controller
                                 $customer_emails = config('app.test_customer_email');
                                 $is_local = config('app.env') == 'local' ? true : false;
                                 if($is_local){
-                                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                                    self::commonEmailSend($customer_emails,$details);
+                                    // Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                                 } else {
-                                    Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                                    try {
+                                        Mail::to($request->email)->send(new \App\Mail\SendMail($details));
+                                    } catch (\Exception $e) {
+                                        Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                                        // echo "An error occurred while sending the mail: " . $e->getMessage();
+                                    }
                                 }
                             }
                         }else{
@@ -1044,9 +1050,14 @@ class UsersController extends Controller
                 $customer_emails = config('app.test_customer_email');
                 $is_local = config('app.env') == 'local' ? true : false;
                 if($is_local){
-                    Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
+                    self::commonEmailSend($customer_emails,$details);
+                    // Mail::bcc(explode(',',$customer_emails))->send(new \App\Mail\SendMail($details));
                 } else {
-                    Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+                    try {
+                        Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+                    } catch (\Exception $e) {
+                        Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+                    } 
                 }
 
                 $res = ['success' => true, 'message' =>config('constants.customer_activate.confirmation_message')];
@@ -2026,14 +2037,15 @@ class UsersController extends Controller
         
     }
 
-    public static function commonEmailSend($send_emails,$send_details){
-        dd(is_array($send_emails));
-        // dd($send_emails,$send_details);
-        // try {
-        //     Mail::bcc(explode(',',$send_emails))->send(new \App\Mail\SendMail($send_details));
-        // } catch (\Exception $e) {
-        //     Log::error('An error occurred while sending the mail: ' . $e->getMessage());
-        // }   
+    public static function commonEmailSend($send_emails,$send_details){        
+        if(!is_array($send_emails)) {
+            $send_emails = explode(',',$send_emails);
+        } 
+        try {
+            Mail::bcc($send_emails)->send(new \App\Mail\SendMail($send_details));
+        } catch (\Exception $e) {
+            Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+        }   
     }
 
 }
