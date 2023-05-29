@@ -149,7 +149,7 @@ Customers - Admin Panel
                                             </td>
                                             {{-- <td>&nbsp;</td> --}}
                                             {{-- <td>{{ $account['name'] }}</td> --}}
-                                            <td>{{ $usr['customername'] }}</td>
+                                            <td>{{ $account['name'] }}</td>
                                             <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['contactcode'] }}</a></td>
                                             <td>{{ $account['email'] }}</td>
                                             <!--<td>{{ $usr['ardivisionno'] }}</td> -->

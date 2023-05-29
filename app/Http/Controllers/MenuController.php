@@ -124,19 +124,22 @@ class MenuController extends Controller
                                                 ->first();
         $data['constants']          = config('constants');
         $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
+
         $year                       = 2022;
         // comment for api issue
         $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
-        // dd($saleby_productline1);
+        
+       
+
         if($saleby_productline1){
-            $saleby_productline = $saleby_productline1['sales_details']; 
+            $saleby_productline     = $saleby_productline1['sales_line']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 
         } else {
             $saleby_productline = [];
             $saleby_productline_desc = [];
         }
         $sale_map                   = array();
-        $sale_map_desc                   = array();
+        $sale_map_desc              = array();
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){         
                 $sale_map[] = array('label' => $key,'value' => array_sum($value[$year]));
@@ -148,6 +151,8 @@ class MenuController extends Controller
                 $sale_map_desc[] = array('label' => $key,'value' => array_sum($value[$year]));
             }
         }
+
+       
 
         $data['saleby_productline'] = $sale_map; 
         $data['data_productline']   = $sale_map;

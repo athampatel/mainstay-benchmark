@@ -69,7 +69,7 @@
         'admin_customer_create' => [
             'success' => 'A new customer has been created successfully.',
             'mail' => [
-                'success' => 'A user has been created.',
+                'success' => 'An user has been created.',
                 'error' => 'Oops! Something went wrong.',
             ]
         ],

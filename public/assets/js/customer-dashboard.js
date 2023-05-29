@@ -174,13 +174,13 @@ function customerSalesChartDisplays(resp,status){
             // show:false,
             export: {
                 csv: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 svg: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 png: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 }
             }, 
         }
@@ -324,13 +324,13 @@ function customerOpenOrders($array){
             // show:false,
             export: {
                 csv: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 svg: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 png: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 }
             }, 
         }
@@ -360,8 +360,10 @@ function customerSpendingChart(){
             labels_desc.push(__label);            
         });
     }
+
+
     
-    // console.log(labels_desc,'__labels_desc');
+    // console.log(data_bycat_desc);
     var options = {
         series: value,
         chart: {
@@ -373,17 +375,16 @@ function customerSpendingChart(){
       },
       //   labels: labels,
       legend: {
-        fontSize: "10px"
+        fontSize: "9px"
       },    
       labels: labels_desc,    
       dataLabels: {
         formatter(val, opts) {
-          const name = opts.w.globals.labels[opts.seriesIndex]
-          console.log(val,'_____val');
+          const name = opts.w.globals.labels[opts.seriesIndex]         
           return [name, val.toFixed(1) + '%']
         },
         style: {
-            fontSize: "10px",
+            fontSize: "9px",
             // fontFamily: "Helvetica, Arial, sans-serif",
             // fontWeight: "bold"
         }
@@ -398,7 +399,7 @@ function customerSpendingChart(){
           }
         },
         style: {
-            fontSize: '10px',
+            fontSize: '9px',
             // fontFamily: undefined
         },
       },
@@ -422,123 +423,28 @@ function customerSpendingChart(){
       }         
     };
 
-    // var options = {
-    //     series: [{
-    //             name: 'Sales',
-    //             data: value
-    //         },
-    //     ],
-    //     chart: {
-    //         foreColor: '#9ba7b2',
-    //         type: 'line',
-    //         height: 360,
-    //         zoom:{
-    //             enabled:false
-    //         },
-    //         toolbar : {
-    //             show:false
-    //         },
-    //         dropShadow:{
-    //             enabled:true,
-    //             top:3,
-    //             left:14,
-    //             blur:4,
-    //             opacity:0.10,
-    //         }
-    //     },
-    //     stroke: {
-    //         width: 3,
-    //         curve:'straight'
-    //     },
+    /*console.log(value);
 
-    //     xaxis: {
-    //         type:'month',
-    //         categories: labels,
-    //     },
-    //     fill: {
-    //         type: 'gradient',
-    //         gradient: {
-    //             shade: 'light',
-    //             gradientToColors: ['#A4CD3C'],
-    //             shadeIntensity: 1,
-    //             type: 'horizontal',
-    //             opacityFrom: 1,
-    //             opacityTo: 1,
-    //             stops: [0, 100, 100, 100]
-    //         },
-    //     },
-    //     markers: {
-    //     	size: 4,
-    //     	colors: ["#A4CD3C"],
-    //     	strokeColors: "#A4CD3C",
-    //     	strokeWidth: 2,
-    //     	hover: {
-    //     		size: 7,
-    //     	}
-    //     },
-    //     colors: ["#A4CD3C"],
-        
-    //     yaxis: {
-    //         title: {
-    //             text: ''
-    //         },
-    //         labels: {
-    //             formatter: function(value, index) {
-    //                 return '$'+ numberWithCommas(value);
-    //              }
-    //           }
-    //     },
-    //     tooltip: {
-    //         x: {
-    //             show: true
-    //         },
-    //         y: {
-    //             formatter: function(value, series) {
-    //             return '$'+ numberWithCommas(value);
-    //             }
-    //         }
-    //     },
-    //     grid: {
-    //         borderColor: '#797B7D',
-    //         show: true,
-    //         xaxis: {
-    //             lines: {
-    //                 show: true 
-    //             },
-    //             labels: {
-    //                 formatter: function(val, index) {
-    //                     return '$'+ numberWithCommas(val);
-    //                  }
-    //               }
-    //         },  
-    //         yaxis: {
-    //             lines: { 
-    //                 show: true 
-    //             },
-    //             labels: {
-    //                 formatter: function(val, index) {
-    //                     return '$'+ numberWithCommas(val);
-    //                  }
-    //               }
-    //         },   
-    //     },
-    //     toolbar: {
-    //         // show:false,
-    //         export: {
-    //             csv: {
-    //               filename: 'gokul',
-    //             },
-    //             svg: {
-    //               filename: 'gokul',
-    //             },
-    //             png: {
-    //               filename: 'gokul',
-    //             }
-    //         }, 
-    //     }
-    // };
+    var options = {
+        series: [44, 55, 41, 60],
+        labels: ["Transport", "Shopping", "Energy use", "Food"],
+        chart: {
+            type: 'donut',
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };*/
 
-
+    
     customer_total_spedning_chart = new ApexCharts(document.querySelector("#customer-spending-chart"), options);
     customer_total_spedning_chart.render();
 
@@ -648,13 +554,13 @@ function customerSpendingChart(){
             // show:false,
             export: {
                 csv: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 svg: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 },
                 png: {
-                  filename: 'gokul',
+                  filename: 'sales',
                 }
             }, 
         }

@@ -97,6 +97,7 @@ class SaleByProductLineController extends Controller
             $year = date('Y');
         $saledetails    = array(); 
         $saledetailDesc = array();
+        $_saledetails   = array();
         $sale_details_single = SaleByProductLine::where('user_details_id',$customer_id)->where('year',$year)->first();
         $is_do_empty = true;
         if(!empty($sale_details_single)) {
@@ -173,6 +174,7 @@ class SaleByProductLineController extends Controller
                             }                            
                             $saledetails[$ProductLine][$year][$i] = $array;
                             $saledetailDesc[$ProductLineDesc][$year][$i] = $array;
+                            $_saledetails[$ProductLine][$year][] = $line_data['DollarsSoldPeriod'.$i];   
                         }
                     }
                 }
@@ -185,9 +187,10 @@ class SaleByProductLineController extends Controller
                 $month          = $line_data['month'];                
                 $saledetails[$ProductLine][$year][$month] = $line_data['value'];    
                 $saledetailDesc[$ProductLineDesc][$year][$month] = $line_data['value'];    
+                $_saledetails[$ProductLine][$year][] = $line_data['value'];    
             }
         }          
-        return ['sales_details' => $saledetails,'sales_desc_details' => $saledetailDesc ];
+        return ['sales_details' => $saledetails,'sales_desc_details' => $saledetailDesc,'sales_line' =>  $_saledetails];
     }
 
 }

@@ -108,6 +108,8 @@ class UsersController extends Controller
                 $query->where(function($query) use($request_data){
                         $query->orWhere('customerno','like','%'.$request_data['search'].'%')
                                 ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
+                                ->orWhere('users.email','like','%'.$request_data['search'].'%')
+                                ->orWhere('users.name','like','%'.$request_data['search'].'%')
                                 ->orWhere('customerno','like','%'.$request_data['search'].'%')
                                 ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
                                 ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');

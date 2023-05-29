@@ -33,21 +33,22 @@
                 @endphp
                 <label class="position-relative" id="analysis_range_select_label">
                     {{-- <span>By Range</span> --}}
-                    <span>Select Date Range</span>
+                    <span>Filter By</span>
                     <select name="range"id="analysis_range_select"class="rounded analysis_select">
-                        <option value="0" selected>Select Range</option>
+                        <option value="" selected>Select Range</option>
+                        <option value="0">By Year</option>
                         <option value="1">Last Month</option>
                         <option value="2">Last 3 Months</option>                        
                         <option value="3">Last 6 Months</option>
                         <option value="5">Last 12 Months</option>
-                        <option value="4">By Range</option>
+                        <option value="4">Specific Date</option>
                     </select>
                     <div class="down-arrow"></div>
                 </label>
                 <label class="position-relative date-range-field d-none">                   
                     <input type="text" name="daterange" value="" placeholder="select range" class="analysis_select" />
                 </label>
-                <label for="" class="position-relative" id="analysis_year_select_label">
+                <label for="" class="position-relative d-none" id="analysis_year_select_label">
                     <span>By Year</span>
                     @php
                     $year = intval(date('Y'));
