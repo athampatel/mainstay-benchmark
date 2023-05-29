@@ -916,10 +916,10 @@ class UsersController extends Controller
             }
             $userinfo           = array();
             if($request_id)
-                $userinfo       = SignupRequest::find($request_id)->first();
+                $userinfo       = SignupRequest::where('id',$request_id)->first();
             else
                 $userinfo       = SignupRequest::where('email',$email_address)->first();
-            
+                
             $is_error = false;
             $is_error_message = "";
             if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {               
