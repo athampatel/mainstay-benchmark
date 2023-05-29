@@ -144,13 +144,15 @@ function getAnalaysisDataCount(data,range,range_months){
                 }
             }
             if(range == 2){
-                test_array = ['01','02','03'];
+                // test_array = ['01','02','03'];
+                test_array = range_months;
                 if(test_array.includes(da.fiscalperiod)){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
             }
             if(range == 3){
-                test_array = ['01','02','03','04','05','06'];
+                // test_array = ['01','02','03','04','05','06'];
+                test_array = range_months;
                 if(test_array.includes(da.fiscalperiod)){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
@@ -183,8 +185,6 @@ function getAnalaysisDataCount(data,range,range_months){
     test_array.forEach(mon => {
         months.push(getMonthNameShort(mon))
     })
-
-    
     let final = [];
     if(range == 4){
         range_months.forEach(rd => {
@@ -195,14 +195,23 @@ function getAnalaysisDataCount(data,range,range_months){
             }
         })
     } else {
-        for(let num = 01; num <= last_number; num++){
-            let num1 = num <= 9 ? `0${num}`: num;
-            if(arr1[num1]){
-                final.push(Math.round(arr1[num1]));
+        // for(let num = 01; num <= last_number; num++){
+        //     let num1 = num <= 9 ? `0${num}`: num;
+        //     console.log(arr1,'___Arrr ');
+        //     console.log(num1)
+        //     if(arr1[num1]){
+        //         final.push(Math.round(arr1[num1]));
+        //     } else {
+        //         final.push(0);
+        //     }
+        // }
+        test_array.forEach(mo => {
+            if(arr1[mo]) {
+                final.push(Math.round(arr1[mo]));
             } else {
                 final.push(0);
             }
-        }
+        })
     }
     return {'months': months,'final' : final};
 }
