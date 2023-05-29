@@ -350,7 +350,7 @@ class CustomerExportController extends Controller
                 $data_array['ITEM_DESCRIPTION'] = $product['itemcodedesc'];
                 $data_array['VENDOR_NAME'] = $product['vendorname'];
                 $data_array['QUANTITY_ON_HAND'] = $product['quantityonhand'];
-                $data_array['QUANTITY_PURCHASED(YEAR)'] = $product['quantitypurchased'];
+                $data_array['QUANTITY_PURCHASED (YEAR)'] = $product['quantitypurchased'];
                 $response_array[]= $data_array;
             }
         }
@@ -361,7 +361,7 @@ class CustomerExportController extends Controller
             'ITEM DESCRIPTION',
             'VENDOR NAME',
             'QUANTITY ON HAND',
-            'QUANTITY PURCHASED(YEAR)'
+            'QUANTITY PURCHASED (YEAR)'
         );
         
         $array_keys = array(
@@ -370,7 +370,7 @@ class CustomerExportController extends Controller
             'ITEM_DESCRIPTION',
             'VENDOR_NAME',
             'QUANTITY_ON_HAND',
-            'QUANTITY_PURCHASED(YEAR)'
+            'QUANTITY_PURCHASED (YEAR)'
         );
 
         return [ 'data' => $response_array, 'headers' => $array_headers, 'keys' => $array_keys];
