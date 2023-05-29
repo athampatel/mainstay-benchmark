@@ -31,12 +31,12 @@ class DashboardController extends Controller
     public static function isManager($customer_id,$user){
         if(empty($user))
             return false;
-            
         $lblusers = User::leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                     ->where('admins.id',$user->id)->where('users.id',$customer_id)->get(['users.id'])->count();
+
         return $lblusers;
 
     }
@@ -112,11 +112,12 @@ class DashboardController extends Controller
                                     ->where('admins.id',$manager->id)
                                     ->get()->count();
             //get all the request counts  
-            $customer_export_count =  AnalaysisExportRequest::leftjoin('user_details','user_details.user_id','=','change_order_requests.user_details_id')
-                                    ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
-                                    ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->where('status',0)->get()->count();
+            $customer_export_count =  AnalaysisExportRequest::select('analaysis_export_requests.id')
+                                        ->leftjoin('user_details','user_details.user_id','=','analaysis_export_requests.user_detail_id')
+                                        ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
+                                        ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                                        ->leftjoin('admins','sales_persons.email','=','admins.email')
+                                        ->where('status',0)->get()->count(); 
         }
 
 

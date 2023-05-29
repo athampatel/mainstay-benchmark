@@ -100,7 +100,7 @@ class UsersController extends Controller
         // dd($request_data);
         // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
 
-        $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data) {
+        $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data,$user) {
             $query->leftjoin('users','users.id','=','user_details.user_id');
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
