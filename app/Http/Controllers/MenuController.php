@@ -734,6 +734,7 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
             $data['filter'] = array_merge($date_filter,$data['filter']);
+          
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             if(!empty($response_table)){
@@ -829,13 +830,47 @@ class MenuController extends Controller
         $current_month = Carbon::now()->format('m');
         if($range != 0){
             if($range ==  1){
-                $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(2)->endOfMonth()->format('Y-m-d');            
-                $end_date = $year."-"."$current_month"."-01";
+                $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(1)->endOfMonth()->format('Y-m-d');            
+                $end_date = date('Y-m-d');
                 $last_month = Carbon::now()->subMonth()->month;
                 $last_month = $last_month > 9 ? $last_month : "0$last_month"; 
-                $range_months = [$last_month];
+                
+
+                $_month = Carbon::parse($start_date)->startOfMonth()->format('m');                    
+                $e_month = Carbon::parse($end_date)->startOfMonth()->format('m');                    
+                if($_month != $e_month){
+                    $range_months = [$_month,$last_month];
+                }else{
+                    $range_months = [$_month];
+                }
             }
-            if($range == 2){
+
+            if($range == 2 || $range == 3 || $range == 5){
+                $num = 2;
+                if($range == 3)
+                    $num = 5;
+                elseif($range == 5)    
+                    $num = 11; 
+                $data = array();
+                for ($i = $num; $i >= 0; $i--) {
+                    //$month = Carbon::today()->subMonth($i);    
+                    $current_month = date('m-Y'); //Carbon::now()->format('m');                
+                    $month = Carbon::parse('01-'.$current_month)->subMonth($i)->startOfMonth()->format('m');                    
+                    $year = Carbon::parse('01-'.$current_month)->subMonth($i)->format('Y');
+                    array_push($data, array(
+                        'month' => $month,
+                        'year' => $year,
+                        'index' => $i,
+                    ));
+                    array_push($range_months,$month);
+                }
+                $_st = $data[0];
+                $w_st = $data[$num];
+                $start_date = $_st['year']."-".$_st['month']."-01";
+                $end_date   = date('Y-m-d');
+            }
+           
+            /*if($range == 2){
                 $start_date = ($year - 1).'-01-01';
                 $end_date = $year. '-04-01';
                 $range_months = ['01','02','03'];
@@ -845,6 +880,11 @@ class MenuController extends Controller
                 $end_date = $year."-"."07-01";
                 $range_months = ['01','02','03','04','05','06'];
             }
+            if($range == 5){
+                $start_date = ($year - 1).'-01-01';
+                $end_date = $year."-"."07-01";
+                $range_months = ['01','02','03','04','05','06'];
+            }?*/
             if($range == 4){
                 $dates = explode('&',$year);
                 $start_date = $dates[0];
@@ -866,7 +906,8 @@ class MenuController extends Controller
             $end_date = ($year)."-12-31";
         }
 
-        return ['start' => $start_date, 'end' => $end_date ,'range_months' => $range_months];
+        $return = array('start' => $start_date, 'end' => $end_date ,'range_months' => $range_months);
+        return $return;
     }
 
     public function getChangeOrderRequests(Request $request){
@@ -968,20 +1009,20 @@ class MenuController extends Controller
         $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');        
         $time_stamp = Carbon::now()->format('Ymd_his');
         $time_stamp = $time_stamp.'_'.$user_detail->id;
-        $analysisRequest = AnalaysisExportRequest::create([
-            'customer_no' =>  $customer_no,
-            'user_detail_id' => $user_detail->id,
-            'ardivisiono' => $user_detail->ardivisionno,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'year' => $year1,
-            'unique_id' => $time_stamp,
-            'type' => intval($type),
-            'status' => 0,
-            'request_body' => '',
-            'resource' => 'SalesOrderHistoryHeader',
-            'is_analysis' => 1 
-        ]);
+        $request_data = array('customer_no' =>  $customer_no,
+                                'user_detail_id' => $user_detail->id,
+                                'ardivisiono' => $user_detail->ardivisionno,
+                                'start_date' => $start_date,
+                                'end_date' => $end_date,
+                                'year' => $year1,
+                                'unique_id' => $time_stamp,
+                                'type' => intval($type),
+                                'status' => 0,
+                                'request_body' => '',
+                                'resource' => 'SalesOrderHistoryHeader',
+                                'is_analysis' => 1);
+                             
+        $analysisRequest = AnalaysisExportRequest::create($request_data);
 
         if($analysisRequest){
             return json_encode(['success' => true,'message' => config('constants.analysis_message.message')]);
