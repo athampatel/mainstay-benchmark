@@ -25,6 +25,8 @@ use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\Notification;
 use App\Models\SearchWord;
+use DateInterval;
+use DateTime;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Mail;
 
@@ -696,6 +698,12 @@ class MenuController extends Controller
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $response_table = [];
         $filter_dates = $this->getRangeDates($range,$year);
+        /* test working start */
+        // if(!empty($filter_dates)) {
+        //     $c_m = date()
+        //     if()
+        // }
+        /* test working end */
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
         $date_filter = [
@@ -734,13 +742,14 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
             $data['filter'] = array_merge($date_filter,$data['filter']);
-          
+            // dd($data['filter']);
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             if(!empty($response_table)){
                 $response_table_data = $response_table['salesorderhistoryheader'];
             }
         }
+        // dd($response_table_data);
         $table_code = View::make("components.datatabels.analysis-page-component")
         ->with("analysisdata", $response_table_data)
         ->render();
@@ -757,6 +766,16 @@ class MenuController extends Controller
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
+        /* change work start */
+        // if($range == 2) {
+        //     $c_mon = date('m');
+        //     $last_three_months = [];
+        //     for($i = 0 ; $i <= 2 ;$i++){
+        //         $last_three_months[] =  $c_mon > 0 ? $c_mon - $i : 12 - $i; 
+        //     }    
+        //     dd(intval($last_three_months));
+        // }
+        /* change work end */
         $data = array(            
             "filter" => [
                 [
@@ -782,6 +801,7 @@ class MenuController extends Controller
         $SDEAPi = new SDEApi();
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
         $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
+        // dd($saleby_productline1);
         $saleby_productline = $saleby_productline1['sales_details']; 
         $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
         $sale_map                   = array();
@@ -812,13 +832,14 @@ class MenuController extends Controller
                 $sale_map_desc[] = array('label' => $key,'value' => $total_val);
             }
         }
-
+        // dd($sale_map);
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
         $res['analysis_data'] = $response_data['customersaleshistory'];
         $res['range_months'] =  $filter_dates['range_months'];
         $res['product_data'] = $sale_map;
         $res['product_data_desc'] = $sale_map_desc;
+        // dd($res);
         echo json_encode($res);
         die();
     }
