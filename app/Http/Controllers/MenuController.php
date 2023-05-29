@@ -698,12 +698,6 @@ class MenuController extends Controller
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $response_table = [];
         $filter_dates = $this->getRangeDates($range,$year);
-        /* test working start */
-        // if(!empty($filter_dates)) {
-        //     $c_m = date()
-        //     if()
-        // }
-        /* test working end */
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
         $date_filter = [
@@ -720,7 +714,16 @@ class MenuController extends Controller
                 "operator" => "and"
             ]
         ];
-
+        $start_dates_array = explode('-',$filter_start_date);
+        $end_dates_array = explode('-',$filter_end_date);
+        $is_another_get = false;
+        if($start_dates_array[0] != $end_dates_array[0]) {
+            $is_another_get = true;
+        } 
+        $year_1 = "";
+        if($is_another_get) {
+            $year_1 = $start_dates_array[0];
+        }
         if($user_details){
             $data = array(            
                 "filter" => [
@@ -742,14 +745,12 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
             $data['filter'] = array_merge($date_filter,$data['filter']);
-            // dd($data['filter']);
             $SDEAPi = new SDEApi();
             $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             if(!empty($response_table)){
                 $response_table_data = $response_table['salesorderhistoryheader'];
             }
         }
-        // dd($response_table_data);
         $table_code = View::make("components.datatabels.analysis-page-component")
         ->with("analysisdata", $response_table_data)
         ->render();
@@ -766,16 +767,6 @@ class MenuController extends Controller
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
-        /* change work start */
-        // if($range == 2) {
-        //     $c_mon = date('m');
-        //     $last_three_months = [];
-        //     for($i = 0 ; $i <= 2 ;$i++){
-        //         $last_three_months[] =  $c_mon > 0 ? $c_mon - $i : 12 - $i; 
-        //     }    
-        //     dd(intval($last_three_months));
-        // }
-        /* change work end */
         $data = array(            
             "filter" => [
                 [
@@ -800,20 +791,81 @@ class MenuController extends Controller
         );
         $SDEAPi = new SDEApi();
         $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
+        $response_data1 = [];
+        if($is_another_get){
+            $data1 = array(            
+                "filter" => [
+                    [
+                        "column" => "ARDivisionNo",
+                        "type" => "equals",
+                        "value" => $user_details->ardivisionno,
+                        "operator" => "and"
+                    ],
+                    [
+                        "column" =>  "CustomerNo",
+                        "type" =>  "equals",
+                        "value" =>  $user_details->customerno,
+                        "operator" =>  "and"
+                    ],
+                    [
+                        "column" =>  "FiscalYear",
+                        "type" =>  "equals",
+                        "value" =>  $year_1,
+                        "operator" =>  "and"
+                    ]
+                ]
+            );
+            $SDEAPi = new SDEApi();
+            $response_data1   = $SDEAPi->Request('post','CustomerSalesHistory',$data1);
+        }
+        $new_data = array();
+        $month_year = array();
+        $is_change = false;
+        foreach($filter_dates['range_months'] as $range_m){
+            if($is_another_get){
+                if($is_another_get && !$is_change) {
+                    $mo = intval($range_m);
+                    if($mo <= 12){
+                        if($mo == 12) {
+                            $is_change = true;
+                        }
+                        foreach($response_data1['customersaleshistory'] as $resp1){
+                            if($resp1['fiscalperiod'] == $range_m){
+                                $new_data[] = $resp1;
+                                $month_year[] = self::convertMonthName($range_m).'-'.$resp1['fiscalyear'];
+                            }
+                        }
+                    }
+                } else {
+                    foreach($response_data['customersaleshistory'] as $resp2){
+                        if($resp2['fiscalperiod'] == $range_m){
+                            $new_data[] = $resp2;
+                            $month_year[] = self::convertMonthName($range_m).'-'.$resp2['fiscalyear'];
+                        }
+                    }
+                }
+            } else {
+                foreach($response_data['customersaleshistory'] as $resp2){
+                    if($resp2['fiscalperiod'] == $range_m){
+                        $new_data[] = $resp2;
+                        $month_year[] = self::convertMonthName($range_m).'-'.$resp2['fiscalyear'];
+                    }
+                }
+            }
+        }
         $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
-        // dd($saleby_productline1);
         $saleby_productline = $saleby_productline1['sales_details']; 
         $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
         $sale_map                   = array();
         $sale_map_desc                   = array();
-
         if(!empty($saleby_productline)){
             foreach($saleby_productline as $key => $value){   
                 $total_val = 0;
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        $total_val = $total_val + $v;
+                        // $total_val = $total_val + $v;
+                        $total_val = $total_val + $v['value'];
                     }
                 }                  
                 $sale_map[] = array('label' => $key,'value' => $total_val);
@@ -826,20 +878,21 @@ class MenuController extends Controller
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        $total_val = $total_val + $v;
+                        // $total_val = $total_val + $v;
+                        $total_val = $total_val + $v['value'];
                     }
                 }                  
                 $sale_map_desc[] = array('label' => $key,'value' => $total_val);
             }
         }
-        // dd($sale_map);
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
-        $res['analysis_data'] = $response_data['customersaleshistory'];
+        $res['analysis_data'] = $new_data;
         $res['range_months'] =  $filter_dates['range_months'];
+        $res['range_months_year'] =  $month_year;
         $res['product_data'] = $sale_map;
         $res['product_data_desc'] = $sale_map_desc;
-        // dd($res);
+        $res['is_year_change'] = $is_another_get;
         echo json_encode($res);
         die();
     }
@@ -1135,5 +1188,11 @@ class MenuController extends Controller
         }
 
         return true;
+    }
+
+    public static function convertMonthName($monthNumber){
+        $dateTime = DateTime::createFromFormat('m', $monthNumber);
+        $monthName = $dateTime->format('M');
+        return $monthName;
     }
 }

@@ -7,16 +7,19 @@ if(is_table){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
         $('#analysis_item_select_label').addClass('d-none');
+        $('#analysis_range_select option[value="4"]').show();
     } else {
         tab_input.checked = true;
         $('#analysis_table_container').addClass('d-none');
         $('#analysis_table_chart').removeClass('d-none');
         $('#analysis_item_select_label').removeClass('d-none');
+        $('#analysis_range_select option[value="4"]').hide();
     }
 } else {
     $('#analysis_table_container').removeClass('d-none');
     $('#analysis_table_chart').addClass('d-none');
     $('#analysis_item_select_label').addClass('d-none');
+    $('#analysis_range_select option[value="4"]').show();
     localStorage.setItem('is_table',1);
 }
 
@@ -26,11 +29,13 @@ $(document).on('change','#tab_input',function(){
         $('#analysis_table_container').addClass('d-none');
         $('#analysis_table_chart').removeClass('d-none');
         $('#analysis_item_select_label').removeClass('d-none');
+        $('#analysis_range_select option[value="4"]').hide()
     } else {
         localStorage.setItem('is_table',1);
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
         $('#analysis_item_select_label').addClass('d-none');
+        $('#analysis_range_select option[value="4"]').show()
     }
 });
 // ajax
@@ -56,6 +61,8 @@ function getAnalysispageData($page,$count,range,year){
             $('#pagination_disp').html(res.pagination_code)
             let analysis_data = res.analysis_data;
             let range_months = res.range_months;
+            let range_months_year = res.range_months_year;
+            let is_year_multiple = res.is_year_change;
             let product_data = res.product_data;
             let product_data_desc = res.product_data_desc;
             analysis_page_table = $('#analysis-page-table').DataTable( {
@@ -83,7 +90,11 @@ function getAnalysispageData($page,$count,range,year){
                 chart_count = $analaysis_count['counts'];
                 months_desc = $analaysis_count_desc['products'];
             }
-           renderAnalysisChart(chart_count,months,months_desc);
+            if(is_year_multiple) {
+                renderAnalysisChart(chart_count,range_months_year,months_desc);
+            } else {
+                renderAnalysisChart(chart_count,months,months_desc);
+            }
         },
         complete:function(){
             AfterAjax()
@@ -129,6 +140,7 @@ function getAnalaysisDataCount(data,range,range_months){
     let arr1 = [];
     let months = [];
     let test_array = [];
+    console.log(range,'__range');
     data.forEach( (da,k) => {
        if(range == 0){
         arr1[da.fiscalperiod] = da.dollarssold;
@@ -163,6 +175,12 @@ function getAnalaysisDataCount(data,range,range_months){
                     arr1[da.fiscalperiod] = da.dollarssold;
                 }
             }
+            if(range == 5) {
+                test_array = range_months;
+                if(test_array.includes(da.fiscalperiod)){
+                    arr1[da.fiscalperiod] = da.dollarssold;
+                }
+            }
         }
     });
 
@@ -171,6 +189,7 @@ function getAnalaysisDataCount(data,range,range_months){
     if(range == 1) last_number = 1;
     if(range == 2) last_number = 3;
     if(range == 3) last_number = 6;
+    if(range == 5) last_number = 12;
     if(range == 4) last_number = range_months.length;
 
     months = [];
@@ -354,6 +373,7 @@ function renderAnalysisChart(ct_counts,ct_months,ct_desc){
             // type:'month',
             type:'category',
             categories: ct_months
+            // categories: ct_month_year
         },
         fill: {
             type: 'gradient',
