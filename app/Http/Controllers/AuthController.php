@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     public static function CreateCustomer($response = null, $action = 0,$postdata = null){
         // dd($response);
-        $email = isset($response['emailaddress']) ? $response['emailaddress'] : $response['email'];
+        $email = isset($response['contactemail']) ? $response['contactemail'] : $response['email'];
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
             $customer_no = $response['customerno'];
