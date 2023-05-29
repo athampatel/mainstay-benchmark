@@ -37,9 +37,9 @@
                     <select name="range"id="analysis_range_select"class="rounded analysis_select">
                         <option value="0" selected>Select Range</option>
                         <option value="1">Last Month</option>
-                        <option value="2">Quarterly</option>
-                        {{-- <option value="3">Half Yearly</option> --}}
-                        <option value="3">Semiannual</option>
+                        <option value="2">Last 3 Months</option>                        
+                        <option value="3">Last 6 Months</option>
+                        <option value="5">Last 12 Months</option>
                         <option value="4">By Range</option>
                     </select>
                     <div class="down-arrow"></div>
