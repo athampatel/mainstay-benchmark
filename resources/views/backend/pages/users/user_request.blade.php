@@ -71,7 +71,7 @@ User Create - Admin Panel
                         <form action="{{ route('admin.users.store') }}" method="POST" class="form-create-customers">                        
                             @csrf 
                             <div class="card mb-3">
-                            @foreach($customers as $key => $user_info)
+                            @foreach($customers as $key => $user_info) 
                                         <div class="card-body {{$loop->first ? 'customer_header_row_first' : 'customer_header_row'}}" >
                                             @if(count($customers) > 1)
                                             <div class="customer_header" id="customer_header_{{$key}}">
@@ -100,7 +100,7 @@ User Create - Admin Panel
                                                         @if(isset($user->id))
                                                             <div class="text-secondary">{{$user_info['contact_info']['contactname']}}</div>
                                                         @else
-                                                            <input type="text" class="form-control required"  required name="contactname[{{$key}}]" placeholder="Enter Contact Name" value="{{$user_info['contact_info']['contactcode']}}"> 
+                                                            <input type="text" class="form-control required"  required name="contactname[{{$key}}]" placeholder="Enter Contact Name" value="{{$user_info['contact_info']['contactname']}}"> 
                                                         @endif    
                                                     </div>
                                                 </div>
