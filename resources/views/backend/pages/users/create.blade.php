@@ -232,6 +232,29 @@ User Create - Admin Panel
             //     });
             // }
             /* test work end */
+
+
+           /* if($(document.body).find('input.insert-customer:checked').length > 1){
+                return false;
+            }
+            $('#multiple-data .form-control').each(function(){
+                if($(this).hasClass('required')){
+                    $(this).prop('required',true);
+                    var val = $(this).val();
+                    var type = $(this).attr('type');
+                    if(type == 'email' && !ValidateEmail(val)){
+                        $(this).addClass('error-field');
+                    }else if(val.trim() == ''){
+                        $(this).addClass('error-field');
+                    }else{
+                        $(this).removeClass('error-field');
+                    }
+                }     
+            });
+            if($('#multiple-data').find('.error-field').length > 0){
+                return false;        
+            }     */
+                
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
@@ -258,6 +281,11 @@ User Create - Admin Panel
 
 
         
+        /*$(document.body).on('click','a.do_customer',function(e){            
+            if(!$(this).hasClass('active'))
+                $(this).find('input.insert-customer').prop('checked',true).trigger('click');
+        });*/
+
         $(document.body).on('change','.do_customer span.angle',function(e){
             $(this).parent().parent().find('.user_information').slideToggle();
         });
@@ -273,10 +301,12 @@ User Create - Admin Panel
                     $('.userDetails-container').fadeIn();
                 }
                 var _html = '<div class="user_information p-3 mt-2" id="'+customerno+'" style="display:none;"><input type="hidden" name="create_user['+customerno+']" value="'+customerno+'" />'+_html;                
-                _html += '</div>';                
-                $(this).parent().parent().append(_html);
+                _html += '</div>';  
+                if($(this).parent().find('.user_information').length == 0)              
+                    $(this).parent().parent().append(_html);
+
                 var container = $('#'+customerno+'.user_information');
-                console.log(parseData,'____parseData');
+                //console.log(parseData,'____parseData');
                 rendorUserForm(parseData,0,container);
 
                 container.find('input').each(function(){
@@ -314,23 +344,20 @@ User Create - Admin Panel
             // $('#create-customer').hide();
         });
 
-       
+     
 
         $(document.body).on('submit','#create-customer',function(e){
             if($(document.body).find('input.insert-customer:checked').length > 1){
                 return false;
             }
-
-            if($(document.body).find('input.insert-customer:checked').length > 1){
-                return false;
-            }
-
-
             $('.userDetails-container .form-control').each(function(){
                     if($(this).hasClass('required')){
                         $(this).prop('required',true);
                         var val = $(this).val();
-                        if(val.trim() == ''){
+                        if(type == 'email' && !ValidateEmail(val)){
+                            $(this).addClass('error-field');
+                        }else if(val.trim() == ''){
+                        
                             $(this).addClass('error-field');
                         }else{
                             $(this).removeClass('error-field');

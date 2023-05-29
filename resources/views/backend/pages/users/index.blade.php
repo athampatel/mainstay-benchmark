@@ -59,7 +59,16 @@ Customers - Admin Panel
                             </div>
                             <div class="clearfix"></div>
                            
+                            @if(empty($users))
+                            <p>&nbsp;</p>
+                            <div class="alert alert-info bm-alert-info">
+                                
+                                    <div>
+                                        <p class="text-center">No customer contact has been added yet.</p>
+                                    </div>
+                                </div>
 
+                            @else
                             {{-- users table work start --}}
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
@@ -88,8 +97,7 @@ Customers - Admin Panel
                                     </tr>
 
                                     <tr class="company-row row-header animate row-{{$user['customerno']}}" style="display:none">
-                                        {{-- <th>{{ config('constants.label.admin.customer_no') }} </th>             --}}
-                                        <th>Contact Code </th>            
+                                        {{-- <th>{{ config('constants.label.admin.customer_no') }} </th>             --}}                                                 
                                         <th width="10%">
                                             Profile picture
                                         </th>
@@ -103,23 +111,24 @@ Customers - Admin Panel
                                             {{--<span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>--}}
                                         {{-- </th> --}}
+                                        <th>Contact Code </th>   
                                         <th width="10%">
                                             {{ config('constants.label.admin.contact_email') }}
                                            
                                             {{--<span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>--}}
                                         </th>
-                                        <th width="10%">
+                                       <!-- <th width="10%">
                                             {{ config('constants.label.admin.ar_division_no') }}
                                             {{-- <span data-col='name' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='name' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>--}}
-                                        </th>
+                                        </th> --->
                                         <th width="10%">
                                             {{ config('constants.label.admin.relational_manager') }}
                                             {{--<span data-col='email' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='email' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span>--}}
                                         </th>
-                                        <th width="40%">Status</th>
+                                        <th width="25%">Status</th>
                                         <th width="15%">Action</th>
                                     </tr>
 
@@ -130,7 +139,7 @@ Customers - Admin Panel
                                     @endphp
                                     <tr class="company-row animate row-{{$user['customerno']}}" style="display:none">
                                         {{-- <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td> --}}
-                                        <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['contactcode'] }}</a></td>
+                                        
                                             <td>
                                                 @if($usr['user']['profile_image'] != '')
                                                     <img src="/{{$account['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
@@ -140,9 +149,10 @@ Customers - Admin Panel
                                             </td>
                                             {{-- <td>&nbsp;</td> --}}
                                             {{-- <td>{{ $account['name'] }}</td> --}}
+                                            <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['contactcode'] }}</a></td>
                                             <td>{{ $usr['customername'] }}</td>
                                             <td>{{ $account['email'] }}</td>
-                                            <td>{{ $usr['ardivisionno'] }}</td>
+                                            <!--<td>{{ $usr['ardivisionno'] }}</td> -->
                                             <td>
                                                 {{ !empty($sales_person_account) ? $sales_person_account['name'] : ''}}
                                             </td>  
@@ -180,7 +190,7 @@ Customers - Admin Panel
                                     </tbody>
                                 </table>
                             </div> 
-                            
+                            @endif  
                             {{-- new design work end --}}
                             @if(!empty($users))
                                 @if($paginate['last_page'] > 1)
