@@ -63,7 +63,7 @@
         'multiple_customer' => 'More than one customer account was found for the email address.',
         'customer_found' => 'Customer details have been found for the specified account.',
         'api_error' => 'We are unable to locate any customer details for this email address.',
-        'customer_not_found' => 'We are unable to locate any customer details for this email address.',
+        'customer_not_found' => 'We were unable to locate any customer details with the information provided.',
         // 'missing_manager' => 'Customer Number ({$customerNo}) is missing the regional manager details',
         'missing_manager' => 'The regional manager details are missing for Customer Number ({$customerNo}).',
         'admin_customer_create' => [
