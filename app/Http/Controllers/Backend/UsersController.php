@@ -38,6 +38,7 @@ use App\Models\AnalaysisExportRequest;
 use Carbon\Carbon;
 use App\Http\Controllers\Backend\AdminsController;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -659,11 +660,13 @@ class UsersController extends Controller
                     }
                 }
             } else {
-                echo json_encode(['success' => false,'message' => 'No Conacts found in this email address']);
+                // echo json_encode(['success' => false,'message' => 'No Conacts found in this email address']);
+                echo json_encode(['success' => false,'message' => config('constants.customer_not_found')]);
                 die();    
             }
         } else {
-            echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            // echo json_encode(['success' => false,'message' => 'Email Address not valid']);
+            echo json_encode(['success' => false,'message' => config('constants.error_email')]);
             die();
         }
 
@@ -2022,4 +2025,15 @@ class UsersController extends Controller
         // getUserdetails
         
     }
+
+    public static function commonEmailSend($send_emails,$send_details){
+        dd(is_array($send_emails));
+        // dd($send_emails,$send_details);
+        // try {
+        //     Mail::bcc(explode(',',$send_emails))->send(new \App\Mail\SendMail($send_details));
+        // } catch (\Exception $e) {
+        //     Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+        // }   
+    }
+
 }

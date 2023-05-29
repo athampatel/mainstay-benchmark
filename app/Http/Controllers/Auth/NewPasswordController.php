@@ -49,22 +49,40 @@ class NewPasswordController extends Controller
             function ($user) use ($request) {
                 $sdeApi = new SDEApi();
                 $is_update = false;
-                $user_detail = UserDetails::where('user_id',$user->id)->first();
-                if($user_detail) {
-                    $data = [
-                        "method" => "POST",
-                        "ARDivisionNo" => $user_detail->ardivisionno,
-                        "CustomerNo"=> $user_detail->customerno,
-                        "ContactCode" => $user_detail->contactcode,
-                        "UDF_VMI_Password" => $request->password
-                    ];
-                    $response = $sdeApi->Request('post','Contacts',$data);
-                    if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
-                        if($response['contacts'][0]['action'] == 'updated' &&  $response['contacts'][0]['vmi_password'] == $request->password) {
-                            $is_update = true;
-                        }
+                $user_detail = UserDetails::where('user_id',$user->id)->get()->toArray();
+                if(!empty($user_detail)) {
+                    foreach($user_detail as $us_detail) {
+                        $data = [
+                            "method" => "POST",
+                            "ARDivisionNo" => $us_detail['ardivisionno'],
+                            "CustomerNo"=> $us_detail['customerno'],
+                            "ContactCode" => $us_detail['contactcode'],
+                            "UDF_VMI_Password" => $request->password
+                        ];
+                        $response = $sdeApi->Request('post','Contacts',$data);
+                        if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
+                            if($response['contacts'][0]['action'] == 'updated' &&  $response['contacts'][0]['vmi_password'] == $request->password) {
+                                $is_update = true;
+                            }
+                        }    
                     }
                 }
+                // dd($user_detail);
+                // if($user_detail) {
+                //     $data = [
+                //         "method" => "POST",
+                //         "ARDivisionNo" => $user_detail->ardivisionno,
+                //         "CustomerNo"=> $user_detail->customerno,
+                //         "ContactCode" => $user_detail->contactcode,
+                //         "UDF_VMI_Password" => $request->password
+                //     ];
+                //     $response = $sdeApi->Request('post','Contacts',$data);
+                //     if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
+                //         if($response['contacts'][0]['action'] == 'updated' &&  $response['contacts'][0]['vmi_password'] == $request->password) {
+                //             $is_update = true;
+                //         }
+                //     }
+                // }
                 if($is_update) {
                     $user->forceFill([
                         'password' => Hash::make($request->password),

@@ -11,6 +11,9 @@
 								<div class="mb-4 mt-3 text-center">
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
+								<div class="text-center">
+									<h3 class="font-bold font-open-sans font-32">Forgot your password</h3>									
+								</div>
 								@if(Session::has('status'))
 									<div class="alert alert-success font-12">{{ Session::get('status')}}</div>
 								@endif
@@ -18,10 +21,7 @@
 									@foreach ($errors->all() as $error)	
 										<div class="alert alert-danger font-12">{{$error}}</div>
 									@endforeach
-								@endif	
-								<div class="text-center">
-									<h3 class="font-bold font-open-sans font-32">Forgot your password</h3>									
-								</div>								
+								@endif									
 								<div class="form-body mt-5">
 									<form class="row g-3" method="POST" action="/forgot-password">
 										@csrf
