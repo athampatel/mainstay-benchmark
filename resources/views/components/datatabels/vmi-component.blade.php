@@ -8,7 +8,7 @@
                 <th class="border-0">Vendor Name</th>
                 {{-- <th class="border-0">Oty on Hand</th> --}}
                 <th class="border-0">Quantity on Hand</th>
-                <th class="border-0">Quantity purchased(Year)</th>                                                
+                <th class="border-0">Quantity Purchased (Year)</th>                                                
             </tr>
         </thead>
         <tbody>
