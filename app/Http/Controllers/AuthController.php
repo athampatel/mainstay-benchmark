@@ -117,6 +117,7 @@ class AuthController extends Controller
         ]);
 
         $is_user = User::where('email',$request->email)->first();
+       
         if($is_user){
             if($is_user->active == 0 && $is_user->is_deleted == 0){
                 return back()->withErrors(config('constants.email.customer.customer_create.requested_already'));
