@@ -411,7 +411,7 @@ class UsersController extends Controller
                                 }
                             }
                         }else{
-                        $res = UserController::CreateCucstomerDetails($_customer,$user_id);
+                            $res = UserController::CreateCucstomerDetails($_customer,$user_id);
                         }
                     }
                 }

@@ -123,7 +123,7 @@ class UserController extends Controller
                             'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
                         );
 
-        $user_details = UserDetails::where('customerno',$data['customerno'])->first();
+        $user_details = UserDetails::where('customerno',$data['customerno'])->where('user_id',$user_id)->first();
         if(!empty($user_details)){
             unset($user_data['customerno']);
             $user_details->save($user_data);

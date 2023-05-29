@@ -36,7 +36,7 @@ class AuthController extends Controller
         $_user    = User::where('email',$email)->where('active',1)->first();
         if(!empty($_user)){
             $customer_no = $response['customerno'];
-            $is_user_detail = UserDetails::where('customerno',$customer_no)->first();
+            $is_user_detail = UserDetails::where('customerno',$customer_no)->where('user_id',$_user->id)->first();
             if(!$is_user_detail){   
                 $user_details = UserDetails::create([
                     'user_id'           => $_user->id,
