@@ -1239,7 +1239,7 @@ class MenuController extends Controller
     }
 
     public static function convertMonthName($monthNumber){
-        $dateTime = DateTime::createFromFormat('m', $monthNumber);
+        $dateTime = DateTime::createFromFormat('d-m', '01-'.$monthNumber);
         $monthName = $dateTime->format('M');
         return $monthName;
     }
