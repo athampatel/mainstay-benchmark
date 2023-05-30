@@ -102,7 +102,8 @@ Customers - Admin Panel
                                             Profile picture
                                         </th>
                                         <th width="10%">
-                                        {{ config('constants.label.admin.customer_name') }}
+                                        {{-- {{ config('constants.label.admin.customer_name') }} --}}
+                                        {{ config('constants.label.admin.contact_name') }}
                                            {{-- <span data-col='username' data-table='admins' data-ordertype='asc' class="asc">&#x2191;</span>
                                             <span data-col='username' data-table='admins' data-ordertype='desc' class="desc">&#x2193;</span> --}}
                                         </th>

@@ -9,6 +9,7 @@
             ],
             'password-reset' => 'Your password has been updated successfully. Please use your new credentials to log in.'
         ],
+        'save_before_update' => 'Please save the changes before updating.',
         'customer_already_exists' => 'This customer already exists.',
         'customer_activate' => [
             'confirmation_message' => 'The customer has been activated successfully, and an email has been sent.',
@@ -107,6 +108,12 @@
             'help' => [
                 'title' => 'Help Request',
                 'subject' => 'Help Request'
+            ],
+            'reset_password' =>[
+                'line_1' => 'We received a forgot password request.',
+                'line_2' => 'Please click the button below to change your password.',
+                'button' => 'Reset Password',
+                'thank_message' => 'Thank you for using our '
             ]
         ],
         '403' => [

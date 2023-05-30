@@ -122,8 +122,6 @@
                                 @php
                                 $selected_customer = session('selected_customer');
                                 $phone_numbers = explode(' ',$selected_customer['phone_no']);
-                                // dd($selected_customer,$phone_numbers);
-                                // dd($phone_numbers);
                                 $phone_extension = "";
                                 $phone_number = "";
                                 if(!empty($phone_numbers) && count($phone_numbers) == 2) {

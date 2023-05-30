@@ -47,12 +47,16 @@ class PasswordReset extends Notification
         $email = request()->email;
         // $url = 'https://example.com/reset-password?token='.$token;
         return (new MailMessage)
-                    ->line('We got a forgot password request')
-                    ->line('Please click the below button to change the password')
-                    ->action('Reset Password', url('/reset-password/'.$this->token.'?email='.$email))
+                    // ->line('We got a forgot password request')
+                    ->line(config('constants.email.reset_password.line_1'))
+                    // ->line('Please click the below button to change the password')
+                    ->line(config('constants.email.reset_password.line_2'))
+                    // ->action('Reset Password', url('/reset-password/'.$this->token.'?email='.$email))
+                    ->action(config('constants.email.reset_password.button'), url('/reset-password/'.$this->token.'?email='.$email))
                     // ->action('Reset-password', url($url))
                     // ->line('Thank you for using our '.env('APP_NAME'));
-                    ->line('Thank you for using our '.config('app.name'));
+                    // ->line('Thank you for using our '.config('app.name'));
+                    ->line(config('constants.email.reset_password.thank_message').config('app.name'));
     }
 
     /**

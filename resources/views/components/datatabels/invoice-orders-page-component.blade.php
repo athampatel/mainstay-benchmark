@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th class="border-0">Invoice #</th>
-                {{-- <th class="border-0">Customer Name</th>
-                <th class="border-0">Customer Email</th> --}}
-                <th class="border-0">Company Name</th>
-                <th class="border-0">Company Email</th>
+                <th class="border-0">Customer Name</th>
+                <th class="border-0">Customer Email</th>
+                {{-- <th class="border-0">Company Name</th>
+                <th class="border-0">Company Email</th> --}}
                 <th class="border-0">Customer P.O. Number</th>
                 <th class="border-0">Total Item(s)</th>
                 {{-- <th class="border-0">Price</th> --}}
