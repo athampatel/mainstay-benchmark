@@ -906,11 +906,11 @@ class MenuController extends Controller
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        // if(is_array($v)) {
-                        //     $total_val = $total_val + $v['value'];
-                        // } else {
+                        if(is_array($v)) {
+                             $total_val = $total_val + $v['value'];
+                         } else {
                             $total_val = $total_val + $v;
-                        // }
+                         }
                     }
                 }                  
                 $sale_map[] = array('label' => $key,'value' => $total_val);
@@ -923,11 +923,11 @@ class MenuController extends Controller
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        // if(is_array($v)){
-                        //     $total_val = $total_val + $v['value'];
-                        // } else {
+                         if(is_array($v)){
+                             $total_val = $total_val + $v['value'];
+                         } else {
                             $total_val = $total_val + $v;
-                        // }
+                         }
                     }
                 }                  
                 $sale_map_desc[] = array('label' => $key,'value' => $total_val);
