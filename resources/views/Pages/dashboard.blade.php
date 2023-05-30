@@ -39,8 +39,8 @@
                   </svg>
                   @endif
                   </div>  
-                  {{-- <h4 class="mb-0 title-4">Customer Info</h4> --}}
-                  <h4 class="mb-0 title-4">Contact Info</h4>
+                  <h4 class="mb-0 title-4">Customer Info</h4>
+                 {{-- <h4 class="mb-0 title-4">Contact Info</h4> --}}
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
@@ -77,9 +77,9 @@
                     // $session_address .= relpace_email_phone($customer_session[0]->zipcode,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->zipcode,$customer_session);
                     $session_address .= relpace_email_phone($selected_customer->addressline1,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline1,$selected_customer) . ', ';
                     $session_address .= relpace_email_phone($selected_customer->addressline2,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline2,$selected_customer) . ', ';
-                    $session_address .= relpace_email_phone($selected_customer->addressline3,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline3,$selected_customer) . ', ';
-                    $session_address .= relpace_email_phone($selected_customer->state,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->state,$selected_customer). ', ';
+                    $session_address .= relpace_email_phone($selected_customer->addressline3,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline3,$selected_customer) . ', ';                    
                     $session_address .= relpace_email_phone($selected_customer->city,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->city,$selected_customer) . ', ';
+                    $session_address .= relpace_email_phone($selected_customer->state,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->state,$selected_customer). ', ';
                     $session_address .= relpace_email_phone($selected_customer->zipcode,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->zipcode,$selected_customer);
                   }
 
