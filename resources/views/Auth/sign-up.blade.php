@@ -44,7 +44,7 @@
                                             <div class="sign-up-checbox d-flex align-items-center position-relative">
                                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" required>
                                                 <label class="font-16 font-regular font-open-sans d-block" for="flexCheckIndeterminate">
-                                                    I agree to <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TermsModel"><span class="text-primary-green font-bold">Terms</span> and <span class="text-primary-green font-bold">Conditions</span></a>
+                                                    I agree to <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#TermsModel"><span class="text-primary-green font-bold">Terms and Conditions</span></a>
                                                 </label>
                                             </div>
                                         </div>

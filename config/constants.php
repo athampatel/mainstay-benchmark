@@ -127,6 +127,10 @@
                 'approve' => 'The request for a change order has been approved.',
                 'decline' => 'The request for a change order has been declined.'   
             ],
+            'customer' => [
+                'no_conatct_found' => 'No existing contact found with this email.',
+                'decline'          => 'The request for a change order has been declined.'   
+            ],
             'inventory_update' => [
                 'error' => 'It is not possible to update the quantity of the item.',
                 'success' => 'The quantity has been updated successfully.',

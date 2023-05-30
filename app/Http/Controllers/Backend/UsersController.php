@@ -992,7 +992,7 @@ class UsersController extends Controller
                     }
                 } else {
                     $is_error = true;
-                    $is_error_message = 'No contacts found in this email';
+                    $is_error_message = config('constants.admin.customer.no_conatct_found');
                     // return 'NO user contact emails found';
                 }
                 /* contact getting work end */
