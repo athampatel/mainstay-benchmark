@@ -1372,19 +1372,21 @@ class UsersController extends Controller
 
     //export customer data
     public static function customerExportData(){
-        $customers = User::select('user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
+        $customers = User::select('user_details.contactname','user_details.contactcode','users.email as contact_email','user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
         $header_array = array(
+            'CONTACT CODE',
+            'CONTACT NAME',
+            'CONTACT EMAIL',
             'CUSTOMER NUMBER',
-            'CUSTOMER NAME',
-            'EMAIL',
             'BENCHMARK REGIONAL MANAGER',
         );
         $array_keys = array(
+            'contactcode',
+            'contactname',
+            'contact_email',
             'customerno',
-            'customername',
-            'email',
             'name'
         );
         return ['data' => $customers ,'header' => $header_array, 'keys' => $array_keys ];
