@@ -23,6 +23,9 @@ if(is_table){
     localStorage.setItem('is_table',1);
 }
 
+$('#analysis_year_select_label').removeClass('d-none')
+$('#analysis_range_select').val(0).trigger('change');
+
 $(document).on('change','#tab_input',function(){
     if($('#tab_input').is(':checked')){
         localStorage.setItem('is_table',0);
@@ -289,6 +292,11 @@ $(document).on('change','#analysis_range_select',function(){
 })
 
 $(document).on('change','select#analysis_range_select',function(){
+    if($(this).val() == 0) {
+        $('#analysis_year_select_label').removeClass('d-none')
+    } else {
+        $('#analysis_year_select_label').addClass('d-none')
+    }
     let year = parseInt($('#analysis_year_select option:selected').val());
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     if($(this).val() == 4){

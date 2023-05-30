@@ -18,6 +18,9 @@
                   <div class="box-icon small-icon rounder-border">
                     @php
                       $customer_session =  session('customers');
+                      $selected_customer = session('selected_customer');
+                      // dd($selected_customer)
+                      // dd($selected_customer);
                     @endphp 
                   @if($user->profile_image)
                     <img src="/{{$user->profile_image}}" class="rounded-circle regin_manager_profile"/>
@@ -36,7 +39,8 @@
                   </svg>
                   @endif
                   </div>  
-                  <h4 class="mb-0 title-4">Customer Info</h4>
+                  {{-- <h4 class="mb-0 title-4">Customer Info</h4> --}}
+                  <h4 class="mb-0 title-4">Contact Info</h4>
                 </div>             
               </div>	
               <div class="card-body col-12 d-flex align-items-center pt-0">
@@ -44,7 +48,8 @@
                 
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                    <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div>
+                    {{-- <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div> --}}
+                    <div class="col-8 card-item-body">{{$selected_customer->customername}}</div>
                 </div>
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
@@ -63,18 +68,24 @@
                  
 
                   /* test work end */
-                  if($customer_session){
-                    $session_address .= relpace_email_phone($customer_session[0]->addressline1,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline1,$customer_session) . ', ';
-                    $session_address .= relpace_email_phone($customer_session[0]->addressline2,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline2,$customer_session) . ', ';
-                    $session_address .= relpace_email_phone($customer_session[0]->addressline3,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline3,$customer_session) . ', ';
-                    $session_address .= relpace_email_phone($customer_session[0]->state,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->state,$customer_session). ', ';
-                    $session_address .= relpace_email_phone($customer_session[0]->city,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->city,$customer_session) . ', ';
-                    $session_address .= relpace_email_phone($customer_session[0]->zipcode,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->zipcode,$customer_session);
+                  if($selected_customer){
+                    // $session_address .= relpace_email_phone($customer_session[0]->addressline1,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline1,$customer_session) . ', ';
+                    // $session_address .= relpace_email_phone($customer_session[0]->addressline2,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline2,$customer_session) . ', ';
+                    // $session_address .= relpace_email_phone($customer_session[0]->addressline3,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->addressline3,$customer_session) . ', ';
+                    // $session_address .= relpace_email_phone($customer_session[0]->state,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->state,$customer_session). ', ';
+                    // $session_address .= relpace_email_phone($customer_session[0]->city,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->city,$customer_session) . ', ';
+                    // $session_address .= relpace_email_phone($customer_session[0]->zipcode,$customer_session) == "" ? '' : relpace_email_phone($customer_session[0]->zipcode,$customer_session);
+                    $session_address .= relpace_email_phone($selected_customer->addressline1,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline1,$selected_customer) . ', ';
+                    $session_address .= relpace_email_phone($selected_customer->addressline2,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline2,$selected_customer) . ', ';
+                    $session_address .= relpace_email_phone($selected_customer->addressline3,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline3,$selected_customer) . ', ';
+                    $session_address .= relpace_email_phone($selected_customer->state,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->state,$selected_customer). ', ';
+                    $session_address .= relpace_email_phone($selected_customer->city,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->city,$selected_customer) . ', ';
+                    $session_address .= relpace_email_phone($selected_customer->zipcode,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->zipcode,$selected_customer);
                   }
 
                   $session_address = rtrim(trim($session_address),',');
 
-                  function relpace_email_phone($string,$customer_session){
+                  function relpace_email_phone($string,$selected_customer){
                     // $string = "94070-3312 94070-331 94070-3312";
                     // phone number check
                     $phone_number_pattern = "/\d{5}-\d{4}/";
@@ -100,7 +111,8 @@
                     // if($matched_text2) {
                     //   dd($matches2);
                     // }
-                    return str_replace($customer_session[0]->email,'',$string);
+                    // return str_replace($customer_session[0]->email,'',$string);
+                    return str_replace($selected_customer->email,'',$string);
                   }
                   @endphp
                   <div class="col-8 card-item-body">{{$session_address}}</span></div>
@@ -108,7 +120,9 @@
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>
                     {{-- {{dd($customer_session[0])}} --}}
-                    <div class="col-8 card-item-body">{{$customer_session[0]->phone_no ? $customer_session[0]->phone_no :  'N/A' }}</div>
+                    {{-- {{dd($customer_session[0])}} --}}
+                    {{-- <div class="col-8 card-item-body">{{$customer_session[0]->phone_no ? $customer_session[0]->phone_no :  'N/A' }}</div> --}}
+                    <div class="col-8 card-item-body">{{$selected_customer->phone_no ? $selected_customer->phone_no :  'N/A' }}</div>
                 </div>
               </div>
             </div>

@@ -66,7 +66,14 @@ class AuthenticatedSessionController extends Controller
         }
         $request->session()->put('customers',$customer);
         $request->session()->put('customer_no',$customer[0]['customerno']);
-        
+        // Add selected customers
+        $selected_customer = array();
+        foreach($customer as $cs) {
+            if($cs['customerno'] == $customer[0]['customerno']){
+                $selected_customer = $cs;
+            }
+        }
+        $request->session()->put('selected_customer',$selected_customer);
         // set cookie
         $cookie = cookie('customer_welcome', 'welcome admin', 0.1);
 

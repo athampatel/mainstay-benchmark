@@ -49,7 +49,7 @@ class PasswordReset extends Notification
         return (new MailMessage)
                     ->line('We got a forgot password request')
                     ->line('Please click the below button to change the password')
-                    ->action('Reset-password', url('/reset-password/'.$this->token.'?email='.$email))
+                    ->action('Reset Password', url('/reset-password/'.$this->token.'?email='.$email))
                     // ->action('Reset-password', url($url))
                     // ->line('Thank you for using our '.env('APP_NAME'));
                     ->line('Thank you for using our '.config('app.name'));
