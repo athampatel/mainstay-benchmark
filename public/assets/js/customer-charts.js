@@ -1,5 +1,6 @@
 // remove welcome message
 const wm_customer = document.querySelector('.wm_card.customer');
+let is_change_edited  = false;
 if(wm_customer){
     setTimeout(() => {
         wm_customer.classList.add('d-none')
@@ -335,6 +336,7 @@ $(document).on('click','#profile-edit-save-button',function(e){
 
 $(document).on('click','.edit_order_item',function(e){
     e.preventDefault();
+    is_change_edited = true;
     $(this).closest('.order_item_row').find('.order_item_quantity_input').removeClass('notactive');
     $(this).closest('.order_item_row').find('.order_item_quantity_input').prop('disabled',false);
     $(this).closest('.order_item_row').find('.edit_order_item').addClass('d-none');
@@ -358,6 +360,7 @@ $(document).on('click','.order-item-cancel',function(e){
     $(this).closest('.order_item_row').find('.edit_order_item').removeClass('d-none');
     $(this).closest('.order_item_row').find('.order-item-save-link').addClass('d-none');
     $(this).closest('.order_item_row').find('.order-item-cancel-link').addClass('d-none');
+    is_change_edited = false;
 });
 
 $(document).on('click','.order-item-save',function(e){
@@ -386,10 +389,16 @@ $(document).on('click','.order-item-save',function(e){
     $(this).closest('.order_item_row').find('.edit_order_item').removeClass('d-none');
     $(this).closest('.order_item_row').find('.order-item-save-link').addClass('d-none');
     $(this).closest('.order_item_row').find('.order-item-cancel-link').addClass('d-none');
+    is_change_edited = false;
 });
 
 $(document).on('click','#order-save-button',function(e){
     e.preventDefault();
+    if(is_change_edited) {
+        $('#change-order-request-response-alert').text(constants.save_before_update);
+        $('#change-order-request-response-alert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+        return false;
+    }
     if(changed_order_items.length > 0){
         let data = changed_order_items;
         let customerno = $('#customerno_val').val();

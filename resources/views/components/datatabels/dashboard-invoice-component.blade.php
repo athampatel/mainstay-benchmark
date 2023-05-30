@@ -3,8 +3,8 @@
         <thead>
             <tr>
                 <th class="border-0">ID</th>
-                {{-- <th class="border-0">Customer email</th> --}}
-                <th class="border-0">Contact email</th>
+                <th class="border-0">Customer email</th>
+                {{-- <th class="border-0">Contact email</th> --}}
                 <th class="border-0">Total items</th>
                 <th class="border-0">Price</th>
                 <th class="border-0">Date</th>
