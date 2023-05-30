@@ -25,7 +25,7 @@
         }
         @endphp
             <tr>
-                <td class="item-number font-12 btn btn-rounded">#{{$record['invoiceno']}}</td>
+                <td class="font-12">#{{$record['invoiceno']}}</td>
                 <td class="text-center pointer_events_none">{{$date->format('M d, Y')}}</td>
                 {{-- {{dd($record,$record['customerpono'])}} --}}
                 <td class="pointer_events_none">{{$record['customerpono'] != "" ? $record['customerpono'] : "N/A"}}</td>
