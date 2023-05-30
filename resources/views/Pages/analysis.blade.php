@@ -41,7 +41,7 @@
                         <option value="2">Last 3 Months</option>                        
                         <option value="3">Last 6 Months</option>
                         <option value="5">Last 12 Months</option>
-                        <option value="4">Specific Date</option>
+                        <option value="4">Specific Dates</option>
                     </select>
                     <div class="down-arrow"></div>
                 </label>

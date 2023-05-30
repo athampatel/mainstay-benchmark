@@ -287,6 +287,7 @@ class CustomerExportController extends Controller
         $response   = $SDEApi->Request('post','SalesOrders',$data);
         $response = $response['salesorders'];
         $response_array = [];
+        $selected_customer = session('selected_customer');
         foreach($response as $openorders){
             $total = 0;
             $price = 0;
@@ -296,8 +297,8 @@ class CustomerExportController extends Controller
             }
             $data_array = [];
             $data_array['SALES_ORDER_NUMBER'] = $openorders['salesorderno'];
-            $data_array['CUSTOMER_NAME'] = Auth::user()->name;
-            $data_array['CUSTOMER_EMAIL'] = Auth::user()->email;
+            $data_array['CUSTOMER_NAME'] = $selected_customer['customername'];
+            $data_array['CUSTOMER_EMAIL'] = $selected_customer['email'];
             $data_array['TOTAL_ITEMS'] = $total;
             $data_array['PRICE'] = $price;
             $data_array['DATE'] = Carbon::parse($openorders['orderdate'])->format('M d, Y');
@@ -327,7 +328,6 @@ class CustomerExportController extends Controller
             'STATUS',
             'LOCATION'
         );
-
         return ['data' => $response_array, 'headers' => $array_headers, 'keys' => $array_keys];
     }
     
