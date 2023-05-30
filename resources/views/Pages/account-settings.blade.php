@@ -31,7 +31,8 @@
                             <div class="box-icon small-icon rounder-border">
                                 <img src="assets/images/svg/pen.svg" />
                             </div>  
-                            <h4 class="mb-0 title-5">Edit Customer Details</h4>
+                            {{-- <h4 class="mb-0 title-5">Edit Customer Details</h4> --}}
+                            <h4 class="mb-0 title-5">Edit Contact Details</h4>
                         </div>                    
                     </div>
                     <div class="card-body col-12">
@@ -48,8 +49,26 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                <label class="form-label">Name</label>
+                                {{-- <label class="form-label">Name</label> --}}
+                                <label class="form-label">Contact Name</label>
+                                @php 
+                                $selected_customer = session('selected_customer');
+                                @endphp
                                 <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                {{-- <label class="form-label">Name</label> --}}
+                                <label class="form-label">Contact Email</label>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                {{-- <label class="form-label">Name</label> --}}
+                                <label class="form-label">Contact Code</label>
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['contactcode']}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
                             </div>                            
                         </div>
                         <div class="title-5 text-white">Change Password</div>
@@ -87,7 +106,7 @@
                             <div class="row">
                                 <div class="mb-3 col-6">    
                                     <label class="form-label" for="acc_name">Name</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name" disabled>
                                 </div>
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">Customer Number</label>
@@ -99,37 +118,63 @@
                                     <label class="form-label">Email Address</label>
                                     <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address" disabled>
                                 </div>
-                                <div class="mb-3 col-6">    
+                                {{-- test work start --}}
+                                @php
+                                $selected_customer = session('selected_customer');
+                                $phone_numbers = explode(' ',$selected_customer['phone_no']);
+                                // dd($selected_customer,$phone_numbers);
+                                // dd($phone_numbers);
+                                $phone_extension = "";
+                                $phone_number = "";
+                                if(!empty($phone_numbers) && count($phone_numbers) == 2) {
+                                    $phone_extension = $phone_numbers[0];
+                                    $phone_number = $phone_numbers[1];
+                                }
+                                @endphp
+                                <div class="mb-3 col-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label class="form-label">Phone Extension</label>
+                                            <input class="form-control col-12" type="text" value="{{$phone_extension}}" placeholder="Phone Extension" name="acc_phone_no" id="acc_phone_no" disabled>       
+                                        </div>
+                                        <div class="col-9">
+                                            <label class="form-label">Phone Number</label>
+                                            <input class="form-control col-12" type="text" value="{{$phone_number}}" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- test work end --}}
+                                {{-- <div class="mb-3 col-6">    
                                     <label class="form-label">Phone Number</label>
                                     <input class="form-control col-12" type="text" value="" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no">
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-12">    
                                     <label class="form-label">Address Line 1</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline1}}" placeholder="Address Line 1" name="acc_address_line_1" id="acc_address_line_1">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline1}}" placeholder="Address Line 1" name="acc_address_line_1" id="acc_address_line_1" disabled>
                                 </div>          
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-12">    
                                     <label class="form-label">Address Line 2</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline2}}" placeholder="Address Line 2" name="acc_address_line_2" id="acc_address_line_2">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->addressline2}}" placeholder="Address Line 2" name="acc_address_line_2" id="acc_address_line_2" disabled>
                                 </div>          
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">State</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->state}}" placeholder="State" name="acc_state" id="acc_state">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->state}}" placeholder="State" name="acc_state" id="acc_state" disabled>
                                 </div>
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">City</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->city}}" placeholder="City" name="acc_city" id="acc_city">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->city}}" placeholder="City" name="acc_city" id="acc_city" disabled>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">Zip code</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->zipcode}}" placeholder="Zip Code" name="acc_zipcode" id="acc_zipcode">
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->zipcode}}" placeholder="Zip Code" name="acc_zipcode" id="acc_zipcode" disabled>
                                 </div>
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">Division Number</label>

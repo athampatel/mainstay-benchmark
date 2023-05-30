@@ -68,9 +68,13 @@ if(wm_card){
         $('#customer_from').submit();
     })
     
-    $('#admin_customer_search').keyup(function(){
+    $('#admin_customer_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == '' || is_pressed){
             let val = parseInt($("#admin-customer-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -181,9 +185,13 @@ if($('#backend_roles').length){
         $('#roles_from').submit();
     })
     
-    $('#admin_roles_search').keyup(function(){
+    $('#admin_roles_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == '' || is_pressed){
             let val = parseInt($("#admin-roles-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -297,9 +305,13 @@ if($('#backend_admins').length){
         $('#admins_from').submit();
     })
     
-    $('#admin_admins_search').keyup(function(){
+    $('#admin_admins_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        } 
         let search = $(this).val();
-        if(search == ''){
+        if(search == ''|| is_pressed){
             let val = parseInt($("#admin-admins-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -412,9 +424,13 @@ if($('#backend_managers').length){
         $('#managers_from').submit();
     })
     
-    $('#admin_managers_search').keyup(function(){
+    $('#admin_managers_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == '' || is_pressed){
             let val = parseInt($("#admin-managers-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -529,9 +545,13 @@ if($('#backend_change_order_requests').length){
         $('#change_order_from').submit();
     })
     
-    $('#admin_change_order_search').keyup(function(){
+    $('#admin_change_order_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == ''|| is_pressed){
             let val = parseInt($("#admin-change-order-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -642,9 +662,13 @@ if($('#backend_export_requests').length){
         $('#admins_exports_from').submit();
     })
     
-    $('#admin_exports_search').keyup(function(){
+    $('#admin_exports_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == ''|| is_pressed){
             let val = parseInt($("#admin-exports-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',
@@ -753,9 +777,13 @@ if($('#backend_signup_request').length){
         $('#admin_signup_from').submit();
     })
     
-    $('#admin_signup_search').keyup(function(){
+    $('#admin_signup_search').keyup(function(e){
+        let is_pressed = false;
+        if(e.key == 'Enter' && e.keyCode == 13) {
+            is_pressed = true;
+        }
         let search = $(this).val();
-        if(search == ''){
+        if(search == '' || is_pressed){
             let val = parseInt($("#admin-signup-filter-count option:selected").val());
             $('<input>').attr({
                 type: 'hidden',

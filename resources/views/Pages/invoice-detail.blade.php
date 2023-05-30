@@ -46,57 +46,57 @@
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Name</label>
-                                <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Phone Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Customer P.O. Number</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Customer Po Number" name="customer_po_number" id="customer_po_number" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Customer Po Number" name="customer_po_number" id="customer_po_number" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Invoice Date</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Invoice Date" name="invoice_date" id="details_invoice_date" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Invoice Date" name="invoice_date" id="details_invoice_date" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Address Line 1 </label>
-                                <input class="form-control col-12" value="" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" value="" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Address Line 2</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Address Line 2" name="AddressLine2" id="ship-to-address2" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Address Line 2" name="AddressLine2" id="ship-to-address2" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Address Line 3</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Address Line 3" name="AddressLine3" id="ship-to-address3" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Address Line 3" name="AddressLine3" id="ship-to-address3" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">State</label>
-                                <select class="form-control" name="State" id="ship-to-state" {{ $is_change_order ? '': 'disabled'}}>
+                                <select class="form-control" name="State" id="ship-to-state" {{ $is_change_order ? '': 'disabled'}} disabled>
                                     <option value="" selected></option>
                                 </select>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">City</label>
-                                <select class="form-control" name="City" id="ship-to-city" {{ $is_change_order ? '': 'disabled'}}>
+                                <select class="form-control" name="City" id="ship-to-city" {{ $is_change_order ? '': 'disabled'}} disabled>
                                     <option value="" selected></option>
                                 </select>
                             </div>
@@ -104,11 +104,11 @@
                         <div class="row">
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Zip Code</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Zip Code" name="zipcode" id="ship-to-zipcode" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Zip Code" name="zipcode" id="ship-to-zipcode" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Ship Via</label>
-                                <input class="form-control  col-12" type="text" value="" placeholder="Ship Via" name="ShipVia" id="shipvia" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" value="" placeholder="Ship Via" name="ShipVia" id="shipvia" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                     </div>      
@@ -129,25 +129,25 @@
                         <div class="row flex-wrap">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
                                 <label class="form-label">Order #</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Location</label>
-                                <input class="form-control  col-12" type="text" value="" placeholder="Location" name="Location" id="order-location" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" value="" placeholder="Location" name="Location" id="order-location" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Alias Item Number</label>
-                                <input class="form-control  col-12" type="text" value="" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" value="" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
                                 <label class="form-label">Order Date</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="OrderDate" name="OrderDate" id="OrderDate" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control col-12" type="text" value="" placeholder="OrderDate" name="OrderDate" id="OrderDate" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Drop Ship</label>
-                                <select class="form-control" name="DropShip" id="DropShip" {{ $is_change_order ? '': 'disabled'}}>
+                                <select class="form-control" name="DropShip" id="DropShip" {{ $is_change_order ? '': 'disabled'}} disabled>
                                     <option value="" selected></option>
                                 </select>
                             </div>
@@ -156,7 +156,7 @@
                                 @php 
                                 $total_quantity_shipped = 0;
                                 @endphp
-                                <input class="form-control  col-12" type="text" value="{{$total_quantity_shipped}}" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped" {{ $is_change_order ? '': 'disabled'}}>
+                                <input class="form-control  col-12" type="text" value="{{$total_quantity_shipped}}" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                         <div class="row">
@@ -166,7 +166,7 @@
                             </div> --}}
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Status</label>
-                                <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}}>
+                                <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}} disabled>
                                     <option value="" selected></option>
                                 </select>
                             </div>                            

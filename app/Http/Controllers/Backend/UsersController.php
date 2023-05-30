@@ -1979,7 +1979,8 @@ class UsersController extends Controller
                     [
                         "column"=>"customerno",
                         "type"=>"equals",
-                        "value"=>$customer[0]['customerno'],
+                        // "value"=>$customer[0]['customerno'],
+                        "value"=>$current_user_no,
                         "operator"=>"and"
                     ]
                 ],
@@ -1989,7 +1990,6 @@ class UsersController extends Controller
 
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Customers',$data);
-
             if(!empty($response)){
                 if(!empty($response['customers'])){           
                     $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$response['customers'][0]['vmi_nextonsitedate'])->format('d-m-Y'));            
@@ -1998,6 +1998,16 @@ class UsersController extends Controller
             } 
         }
         $request->session()->put('customers',$customer);
+        
+        // Add selected customers
+        $selected_customer = array();
+        foreach($customer as $cs) {
+            if($cs['customerno'] == $current_user_no){
+                $selected_customer = $cs;
+            }
+        }
+        $request->session()->put('selected_customer',$selected_customer);
+        
         $request->session()->put('customer_no',$current_user_no);
         if($admin_email) {
             $request->session()->put('by_admin',$admin_email);

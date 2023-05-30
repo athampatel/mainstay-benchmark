@@ -174,6 +174,43 @@ class MenuController extends Controller
                     $request->session()->put('customer_no',$customer_no);
             }
         }
+        
+        // change the customer details
+        $selected_customer = array();
+        foreach($customer as $cs) {
+            if($cs['customerno'] == $customer_no){
+                $selected_customer = $cs;
+                
+            }
+        }
+        /* vmi on site date change work start */
+        $user = User::where('id',$selected_customer['user_id'])->first();
+        if($user->is_vmi){
+            $data = array(            
+                "filter" => [
+                    [
+                        "column"=>"customerno",
+                        "type"=>"equals",
+                        // "value"=>$customer[0]['customerno'],
+                        "value"=>$customer_no,
+                        "operator"=>"and"
+                    ]
+                ],
+                "offset" => 1,
+                "limit" => 1
+            );
+
+            $SDEAPi = new SDEApi();
+            $response   = $SDEAPi->Request('post','Customers',$data);
+            if(!empty($response)){
+                if(!empty($response['customers'])){           
+                    $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$response['customers'][0]['vmi_nextonsitedate'])->format('d-m-Y'));            
+                    $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $response['customers'][0]['vmi_physicalcountdate'])->format('d-m-Y'));            
+                }
+            } 
+        }
+        /* vmi on site date change work end */
+        $request->session()->put('selected_customer',$selected_customer);
         return redirect()->route('auth.customer.dashboard');
     }
     
@@ -869,8 +906,11 @@ class MenuController extends Controller
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        // $total_val = $total_val + $v;
-                        $total_val = $total_val + $v['value'];
+                        // if(is_array($v)) {
+                        //     $total_val = $total_val + $v['value'];
+                        // } else {
+                            $total_val = $total_val + $v;
+                        // }
                     }
                 }                  
                 $sale_map[] = array('label' => $key,'value' => $total_val);
@@ -883,8 +923,11 @@ class MenuController extends Controller
                 foreach($value[$year] as $k => $v){
                     $k = $k > 9 ? strval($k) : "0$k";
                     if(in_array($k,$filter_dates['range_months'])){
-                        // $total_val = $total_val + $v;
-                        $total_val = $total_val + $v['value'];
+                        // if(is_array($v)){
+                        //     $total_val = $total_val + $v['value'];
+                        // } else {
+                            $total_val = $total_val + $v;
+                        // }
                     }
                 }                  
                 $sale_map_desc[] = array('label' => $key,'value' => $total_val);

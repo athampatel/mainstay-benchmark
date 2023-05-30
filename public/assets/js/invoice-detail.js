@@ -80,7 +80,7 @@ function displayInvoiceOrderDetail(res){
             quantity_count += item.quantityshipped;
             item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                 <td>${item.itemcodedesc}<br/>
-                Item Code: <a href="javascript:void(0)" class="item-number font-12" data-val="${item.itemcode}">${item.itemcode}</a></td> 
+                Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td> 
                 <td class="order_item_quantity"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
                 <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled></td>
                 <td class="order_unit_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>

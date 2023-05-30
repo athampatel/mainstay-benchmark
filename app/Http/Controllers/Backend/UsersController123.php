@@ -1824,6 +1824,7 @@ class UsersController extends Controller
                     ->leftjoin('users','users.id','=','user_details.user_id')
                     ->select('user_details.*','users.profile_image')
                     ->get();
+        dd($customer);
         $current_user_no = UserDetails::where('id',$user_detail_id)->pluck('customerno')->first();
         $current_user_no = $current_user_no ? $current_user_no : $customer[0]['customerno'];
         if($user->is_vmi){

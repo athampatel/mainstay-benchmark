@@ -196,67 +196,54 @@ User Create - Admin Panel
         var customer_email = $('#search-customer-no').val();
         if(customer_email != ''){
             $('#user-search').trigger('click');
-        }    
+        }
+        let display_error = "";    
         $('.userDetails-container .form-control').blur(function(){
             var val = $(this).val();
             if($(this).attr('type') == 'email' && !ValidateEmail(val) == ''){
-                // $(this).find('')
+                if(val == '') {
+                    display_error += `<div> ${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
+                } else {
+                    display_error += `<div> ${$(this).closest('.form-group').find('label').html()} is not valid</div><br>`;
+                }
                 $(this).addClass('error-field');
             }else if(val.trim() == '' && $(this).hasClass('required')){
+                display_error += `<div>${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
                 $(this).addClass('error-field');
             }else{
                 $(this).removeClass('error-field');
             }
         });
     
-        $(document.body).on('submit','#multiple-data',function(e){  
+        $(document.body).on('submit','#multiple-data',function(e){ 
+            console.log('__comes in '); 
             e.preventDefault();
             var form = $(this);
-            /* test work start */
-            // let checkboxes = Array.from($('.insert-customer:checked'));
-            // let send_information = [];
-            // if(checkboxes.length > 0){
-            //     checkboxes.forEach(check => {
-            //         let customer_info =  $(check).parents('.cmer').find('.user_information');
-            //         let customer_no = $(customer_info).find('input[name="customerno"]').val();
-            //         // fields start
-            //         let customer_email = $(customer_info).find('input[name="email"]').val();
-            //         let customer_name = $(customer_info).find('input[name="customername"]').val();
-            //         let customer_name = $(customer_info).find('input[name="customername"]').val();
-            //         // fields end
-            //         console.log(customer_no,'___customer_no')
-            //         //    send_information[customer_no]=
-            //         // let single_customer = {
-            //         //     'customerno' :  customer_no,
-            //         //     'email' : customer_email,
-            //             'customername' : 
-            //         // };
-            //         console.log(customer_info,'___info');
-            //     });
+           /* test working start */
+            // if($(document.body).find('input.insert-customer:checked').length > 1){
+            //     return false;
             // }
-            /* test work end */
-
-
-           /* if($(document.body).find('input.insert-customer:checked').length > 1){
-                return false;
-            }
-            $('#multiple-data .form-control').each(function(){
-                if($(this).hasClass('required')){
-                    $(this).prop('required',true);
-                    var val = $(this).val();
-                    var type = $(this).attr('type');
-                    if(type == 'email' && !ValidateEmail(val)){
-                        $(this).addClass('error-field');
-                    }else if(val.trim() == ''){
-                        $(this).addClass('error-field');
-                    }else{
-                        $(this).removeClass('error-field');
-                    }
-                }     
-            });
-            if($('#multiple-data').find('.error-field').length > 0){
-                return false;        
-            }     */
+            // $('#multiple-data .form-control').each(function(){
+            //     if($(this).hasClass('required')){
+            //         $(this).prop('required',true);
+            //         var val = $(this).val();
+            //         var type = $(this).attr('type');
+            //         if(type == 'email' && !ValidateEmail(val)){
+            //             console.log('___comes in error');
+            //             $(this).addClass('error-field');
+            //         }else if(val.trim() == ''){
+            //             console.log('___comes in error');
+            //             $(this).addClass('error-field');
+            //         }else{
+            //             console.log('___comes in error');
+            //             $(this).removeClass('error-field');
+            //         }
+            //     }     
+            // });
+            // if($('#multiple-data').find('.error-field').length > 0){
+            //     return false;        
+            // } 
+            /* test working end */
                 
             $.ajax({
                 type: 'POST',
@@ -311,11 +298,40 @@ User Create - Admin Panel
                 var container = $('#'+customerno+'.user_information');
                 //console.log(parseData,'____parseData');
                 rendorUserForm(parseData,0,container);
-
+                
                 container.find('input').each(function(){
                     $(this).removeClass('error-field');
                 });
 
+                // console.log(container,'___container');
+                // console.log($(this),'__this');
+
+                /* test working start */
+                // $(this).find('.form-group').each(function(){
+                //     var val = $(this).val();
+                //     if($(this).attr('type') == 'email' && !ValidateEmail(val) == ''){
+                //         console.log('__Comes in', $(this).val(),'___vale');
+                //         $(this).addClass('error-field');
+                //     }else if(val.trim() == '' && $(this).hasClass('required')){
+                //         display_error += `<div>${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
+                //         $(this).addClass('error-field');
+                //     }else{
+                //         $(this).removeClass('error-field');
+                //     }
+                // });
+                // container.find('input').each(function(){
+                //     var val = $(this).val();
+                //     console.log($(this),'__this');
+                //     if($(this).attr('type') == 'email' && !ValidateEmail(val) == ''){
+                //         $(this).addClass('error-field');
+                //     }else if(val.trim() == '' && $(this).hasClass('required')){
+                //         display_error += `<div>${$(this).closest('.form-group').find('label').html()} is Required</div><br>`;
+                //         $(this).addClass('error-field');
+                //     }else{
+                //         $(this).removeClass('error-field');
+                //     }
+                // });
+                /* test working end */
                 $(this).parent().parent().find('.user_information').slideToggle();
                 if(container.find('input[name="salespersonemail"]').val() == ''){
                     container.find('input[name="salespersonemail"]').addClass('error-field');

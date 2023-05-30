@@ -106,7 +106,6 @@ class UserController extends Controller
     }
 
     public static function CreateCucstomerDetails($data = null,$user_id = 0){
-
         $user_data = array( 'user_id'           => $user_id,
                             'ardivisionno'      => $data['ardivisionno'],
                             'customerno'        => $data['customerno'],
@@ -118,7 +117,8 @@ class UserController extends Controller
                             'city'              => $data['city'],
                             'state'             => $data['state'],
                             'zipcode'           => $data['zipcode'],
-                            'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : '',
+                            // 'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : '',
+                            'email'             => isset($data['emailaddress']) ?  $data['emailaddress'] : $data['email'],
                             'phone_no'          => isset($data['phone_no']) && $data['phone_no'] !='' ? $data['phone_no'] : '',
                             'contactname'       => isset($data['contactname']) ? $data['contactname'] : '',
                             'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
