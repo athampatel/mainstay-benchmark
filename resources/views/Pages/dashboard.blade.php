@@ -294,7 +294,7 @@
                               <th class="border-0">Total items</th>
                               <th class="border-0">Price</th>
                               <th class="border-0">Date</th>
-                              <th class="border-0">Location</th>
+                              <th class="border-0">Location</th> 
                           </tr>
                           </thead>
                           <tbody id="invoice-orders-table-body"></tbody>
