@@ -221,6 +221,7 @@
                     'save_admin' => 'Save User',
                     'lookup_customer' => 'Lookup Customer',
                     'decline_request' => 'Decline Request',
+                    'approve_request' => 'Approve Request',
                     'activate_customer' => 'Activate Customer',
                     'create_request' => 'Create Request',
                 ]

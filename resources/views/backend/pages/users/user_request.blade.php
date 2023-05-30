@@ -270,7 +270,7 @@ User Create - Admin Panel
                                                     <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
                                                 @else
                                                     <input type="hidden" name="create_user[{{$key}}]" value="1">
-                                                    <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                                    <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.approve_request') }}</button>
                                                 @endif
                                             
                                                 <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
@@ -284,7 +284,7 @@ User Create - Admin Panel
                                                         <button class="btn btn-primary text-capitalize bm-btn-primary btn-rounded pr-4 pl-4 text-capitalize" id="activate_user">{{ config('constants.label.admin.buttons.activate_customer') }}</button>
                                                     @else
                                                         <input type="hidden" name="create_user[{{$key}}]" value="1">
-                                                        <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.create_customer') }}</button>
+                                                        <button class="btn btn-primary bm-btn-primary text-capitalize btn-rounded pr-4 pl-4 create_customers" id="create_customers">{{ config('constants.label.admin.buttons.approve_request') }}</button>
                                                     @endif
                                                 
                                                     <button class="btn bm-btn-delete btn-rounded text-white text-capitalize pr-4 pl-4" id="cancel_user">{{ config('constants.label.admin.buttons.decline_request') }}</button>
