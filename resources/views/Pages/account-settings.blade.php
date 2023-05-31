@@ -105,7 +105,7 @@
                         <div class="card-body col-12">
                             <div class="row">
                                 <div class="mb-3 col-6">    
-                                    <label class="form-label" for="acc_name">Name</label>
+                                    <label class="form-label" for="acc_name">Customer Name</label>
                                     <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name" disabled>
                                 </div>
                                 <div class="mb-3 col-6">    
@@ -118,28 +118,19 @@
                                     <label class="form-label">Email Address</label>
                                     <input class="form-control col-12" type="text" value="{{$user_detail->email}}" placeholder="Email Address" name="acc_email_address" id="acc_email_address" disabled>
                                 </div>
-                                {{-- test work start --}}
                                 @php
                                 $selected_customer = session('selected_customer');
-                                $phone_numbers = explode(' ',$selected_customer['phone_no']);
-                                $phone_extension = "";
-                                $phone_number = "";
-                                if(!empty($phone_numbers) && count($phone_numbers) == 2) {
-                                    $phone_extension = $phone_numbers[0];
-                                    $phone_number = $phone_numbers[1];
-                                }
+                                // $phone_numbers = explode(' ',$selected_customer['phone_no']);
+                                // $phone_extension = "";
+                                // $phone_number = "";
+                                // if(!empty($phone_numbers) && count($phone_numbers) == 2) {
+                                //     $phone_extension = $phone_numbers[0];
+                                //     $phone_number = $phone_numbers[1];
+                                // }
                                 @endphp
                                 <div class="mb-3 col-6">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <label class="form-label">Phone Extension</label>
-                                            <input class="form-control col-12" type="text" value="{{$phone_extension}}" placeholder="Phone Extension" name="acc_phone_no" id="acc_phone_no" disabled>       
-                                        </div>
-                                        <div class="col-9">
-                                            <label class="form-label">Phone Number</label>
-                                            <input class="form-control col-12" type="text" value="{{$phone_number}}" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no" disabled>
-                                        </div>
-                                    </div>
+                                    <label class="form-label">Phone Number</label>
+                                    <input class="form-control col-12" type="text" value="{{$selected_customer['phone_no']}}" placeholder="Phone Number" name="acc_phone_no" id="acc_phone_no" disabled>
                                 </div>
                                 {{-- test work end --}}
                                 {{-- <div class="mb-3 col-6">    

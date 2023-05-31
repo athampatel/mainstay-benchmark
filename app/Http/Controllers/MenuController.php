@@ -183,7 +183,6 @@ class MenuController extends Controller
                 
             }
         }
-        /* vmi on site date change work start */
         $user = User::where('id',$selected_customer['user_id'])->first();
         if($user->is_vmi){
             $data = array(            
@@ -209,9 +208,9 @@ class MenuController extends Controller
                 }
             } 
         }
-        /* vmi on site date change work end */
         $request->session()->put('selected_customer',$selected_customer);
-        return redirect()->route('auth.customer.dashboard');
+        // return redirect()->route('auth.customer.dashboard');
+        return back();
     }
     
     public function invoicePage(Request $request){
@@ -711,7 +710,7 @@ class MenuController extends Controller
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
             $res['success'] = false;
-            $res['error'] = 'Order Details not found';
+            $res['error'] = config('constants.invoice_order_detail.not_found');
             if(!empty($response['salesorderhistoryheader'])){
                $res['order_detail'] =  $response['salesorderhistoryheader'][0];
                $res['user_detail'] = $user_details;

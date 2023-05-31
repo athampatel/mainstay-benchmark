@@ -29,7 +29,8 @@ function invoiceOrderDetailsAjax($order_id){
             } else {
                 $('.result-icon').addClass('d-none');
                 $('.backdrop').addClass('d-none');
-                $('.order-validation-error').removeClass('d-none');
+                // $('.order-validation-error').removeClass('d-none');
+                $('.order-validation-error-msg').removeClass('d-none');
                 $('.order-validation-error-msg').text(res.error)
             }
         },

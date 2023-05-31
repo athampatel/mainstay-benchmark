@@ -118,6 +118,11 @@ function orderDetailsAjax($PurchaseOrderNumber,$ItemCode){
                     displayChangeOrderPage(order_details,$ItemCode);
                 //}
             } else {
+                console.log(res,'___Response in open orders');
+                if(res.hasOwnProperty('redirect')){
+                    window.location = res.redirect;
+                    return false;
+                }
                 $('.result-icon').addClass('d-none');
                 $('.backdrop').addClass('d-none');
                 $('.order-validation-error').removeClass('d-none');
