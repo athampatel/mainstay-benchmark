@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th class="border-0">Order #</th>
-                <th class="border-0">Customer Name</th>
+                <th class="border-0">Contact Name</th>
                 <th class="border-0">Customer Email</th>
                 {{-- <th class="border-0">Company Name</th>
                 <th class="border-0">Company Email</th> --}}
@@ -26,8 +26,8 @@
                     $selected_customer = session('selected_customer');
                 @endphp
                 {{-- test working end --}}
-                {{-- <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td> --}}
-                <td class="customer-name pointer_events_none">{{$selected_customer['customername']}}</td>
+                <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td> 
+               {{-- <td class="customer-name pointer_events_none">{{$selected_customer['customername']}}</td>--}}
                 {{-- <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td> --}}
                 <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>
                 @php

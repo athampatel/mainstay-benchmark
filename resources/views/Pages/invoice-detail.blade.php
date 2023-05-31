@@ -45,13 +45,19 @@
                     <div class="card-body col-12">
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label">Name</label>
+                                <label class="form-label">Conact Name</label>
                                 <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Phone Number</label>
                                 <input class="form-control  col-12" type="text" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Company Name</label>
+                                <input class="form-control col-12" type="text" value="" placeholder="Company Name" name="EmailAddress" id="company-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    

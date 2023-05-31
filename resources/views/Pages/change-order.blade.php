@@ -68,7 +68,7 @@
                     <div class="card-body col-12">
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label">Name</label>
+                                <label class="form-label">Contact Name</label>
                                 <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
@@ -78,7 +78,7 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                <label class="form-label">Email Address</label>
+                                <label class="form-label">Contact Email Address</label>
                                 <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>

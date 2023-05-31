@@ -47,12 +47,16 @@
                 <div class="box-details col-12"> 
                 
                 <div class="row py-1">
-                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>
-                    {{-- <div class="col-8 card-item-body">{{$customer_session[0]->customername}}</div> --}}
+                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Contact Name</div><div>:</div></div>
+                    <div class="col-8 card-item-body">{{$user->name}}</div>
+                    
+                </div>
+                <div class="row py-1">
+                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Company Name</div><div>:</div></div>                    
                     <div class="col-8 card-item-body">{{$selected_customer->customername}}</div>
                 </div>
                 <div class="row py-1">
-                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
+                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Billing Address</div><div>:</div></div>
                   {{-- {{dd($customer_session[0])}} --}}
                   @php 
                   $session_address = "";
@@ -80,7 +84,7 @@
                     $session_address .= relpace_email_phone($selected_customer->addressline3,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->addressline3,$selected_customer) . ', ';                    
                     $session_address .= relpace_email_phone($selected_customer->city,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->city,$selected_customer) . ', ';
                     $session_address .= relpace_email_phone($selected_customer->state,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->state,$selected_customer). ', ';
-                    $session_address .= relpace_email_phone($selected_customer->zipcode,$selected_customer) == "" ? '' : relpace_email_phone($selected_customer->zipcode,$selected_customer);
+                    $session_address .= $selected_customer->zipcode;
                   }
 
                   $session_address = rtrim(trim($session_address),',');
@@ -118,7 +122,7 @@
                   <div class="col-8 card-item-body">{{$session_address}}</span></div>
                 </div>
                 <div class="row py-1">
-                  <div class="col-3 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>
+                  <div class="col-4 card-item-header d-flex justify-content-between"><div>Phone #</div><div>:</div></div>
                     {{-- {{dd($customer_session[0])}} --}}
                     {{-- {{dd($customer_session[0])}} --}}
                     {{-- <div class="col-8 card-item-body">{{$customer_session[0]->phone_no ? $customer_session[0]->phone_no :  'N/A' }}</div> --}}
@@ -128,7 +132,6 @@
             </div>
           </div>
         </div>
-
         <div class="col-sm-12 col-md-12 col-lg-4 padd-small">
           <div class="card box equal-height min-height-160">					
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
