@@ -15,10 +15,10 @@ class CreateApiLogsTable extends Migration
     {
         Schema::create('api_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('resource');
-            $table->string('data');
+            $table->longtext('resource');
+            $table->longtext('data');
             $table->integer('error_code');
-            $table->text('message');
+            $table->longtext('message');
             $table->timestamps();
         });
     }

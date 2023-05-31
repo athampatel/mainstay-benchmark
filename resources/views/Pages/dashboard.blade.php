@@ -41,7 +41,7 @@
                  {{-- <h4 class="mb-0 title-4">Contact Info</h4> --}}
                 </div>             
               </div>	
-              <div class="card-body col-12 d-flex align-items-center pt-0">
+              <div class="card-body col-12 d-flex pt-0">
                 <div class="box-details col-12"> 
                 
                 <div class="row py-1">
@@ -144,7 +144,7 @@
                 <h4 class="mb-0 title-4">Regional Manager Info</h4>
               </div>             
             </div>	
-            <div class="card-body col-12 d-flex align-items-center pt-0">
+            <div class="card-body col-12 d-flex pt-0">
               <div class="box-details col-12">                
                 <div class="row py-1">
                   <div class="col-3 card-item-header d-flex justify-content-between"><div>Name</div><div>:</div></div>                  
