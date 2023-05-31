@@ -14,7 +14,7 @@
         <tbody>
             @foreach ($vmiProducts as $product)    
                 <tr>
-                    <td><a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$product['aliasitemno']}}</a></td>
+                    <td class=""><a href="javascript:void(0)" class="font-12 pointer_events_none sorting_1" style="text-decoration:none">#{{$product['aliasitemno']}}</a></td>
                     <td><a href="javascript:void(0)" class="customer-name text-decoration-none">{{$product['itemcode']}}</a></td>
                     <td>{{$product['itemcodedesc']}}</td>
                     <td>{{$product['vendorname']}}</td>
