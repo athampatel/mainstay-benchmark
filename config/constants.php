@@ -17,6 +17,9 @@
                 'subject' => 'Reset Password',
             ]
         ],
+        'invoice_order_detail' => [
+            'not_found' => 'Order Details not found',
+        ],
         'customer_cancel' => [
             'confirmation_message' => 'The customer has been blocked successfully.',
             'confirmation_error' => 'The customer was not found.',

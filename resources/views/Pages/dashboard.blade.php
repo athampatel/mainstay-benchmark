@@ -19,8 +19,6 @@
                     @php
                       $customer_session =  session('customers');
                       $selected_customer = session('selected_customer');
-                      // dd($selected_customer)
-                      // dd($selected_customer);
                     @endphp 
                   @if($user->profile_image)
                     <img src="/{{$user->profile_image}}" class="rounded-circle regin_manager_profile"/>

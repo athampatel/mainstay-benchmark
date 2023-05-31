@@ -19,6 +19,9 @@
             <div class="col-12">
                 <div class="alert alert-success text-center d-none" id="change-order-request-response-alert">{{config('constants.change_order_request.success')}}</div>
              </div>
+            <div class="col-12">
+                <div class="alert alert-danger text-center d-none order-validation-error-msg"></div>
+             </div>
         </div>
         <div class="row row-cols-1 col-12 result-data">
             <div class="col-12">
@@ -48,15 +51,25 @@
                                 <label class="form-label">Conact Name</label>
                                 <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
+                            @php
+                            $selected_customer = session('selected_customer');
+                            @endphp
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Phone Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
+                                <input class="form-control  col-12" type="text" placeholder="Phone Number" value="{{$selected_customer['phone_no']}}" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
+                                <label class="form-label">Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">    
                                 <label class="form-label">Company Name</label>
-                                <input class="form-control col-12" type="text" value="" placeholder="Company Name" name="EmailAddress" id="company-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                                {{-- {{dd($selected_customer)}} --}}
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['customername']}}" placeholder="Company Name" name="EmailAddress" id="company-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
@@ -71,8 +84,8 @@
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
-                                <label class="form-label">Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                                <label class="form-label">Billing Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['email']}}" placeholder="Email Address" name="Billing_email" id="ship-to-billing-email" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">

@@ -169,6 +169,9 @@ class SDEDataController extends Controller
 
     // sales order detail
     public function getSalesOrderDetail(Request $request){
+        // selected customer
+        $selected_customer = session('selected_customer');
+        // dd($selected_customer);
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
         $is_change_order = MenuController::CheckChangeOrderAccess($user_id);
@@ -186,9 +189,16 @@ class SDEDataController extends Controller
         );
         $SDEAPi = new SDEApi();
         $sales_order_history_detail = $SDEAPi->Request('post','SalesOrders',$data);
+        // dd($sales_order_history_detail);
         $sales_order_detail = $sales_order_history_detail['salesorders'];
         if(!empty($sales_order_detail)){
             foreach ($sales_order_detail as $key => $sales_order) {
+                if($sales_order['customerno'] != $selected_customer['customerno']){
+                    // return redirect()->route('auth.customer.open-orders');
+                    echo json_encode(['success' => false,'redirect' => '/open-orders']);
+                    die();
+                    // redirect()->route('auth.customer.dashboard')
+                }
                 $sales_order_detail[$key]['product_details'] = $sales_order['details'];
             }
         }
