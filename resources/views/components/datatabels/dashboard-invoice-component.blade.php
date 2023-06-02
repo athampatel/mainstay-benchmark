@@ -19,7 +19,14 @@
                         @php 
                          $selected_customer = session('selected_customer');
                         @endphp
-                        <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td>
+                        {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td> --}}
+                        <td>
+                            @if($invoice['salesorderno'])
+                            <a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a>
+                            @else 
+                            #{{$invoice['invoiceno']}}
+                            @endif
+                        </td>
                         {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
                         {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
                         <td>{{$invoice['customerpono'] ? $invoice['customerpono'] : 'N/A'}}</td> 

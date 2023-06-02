@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use App\Models\UserDetails;
 use Illuminate\Support\Facades\Route;
 
 class DashboardController extends Controller
@@ -83,7 +84,9 @@ class DashboardController extends Controller
             $total_roles        = Role::select('id')->get()->count();
             $total_admins       = Admin::select('id')->get()->count();
             $total_permissions  = Permission::select('id')->get()->count();        
-            $total_customers    = User::select('id')->get()->count();   
+            // $total_customers    = User::select('id')->get()->count();   
+            $total_customers    = UserDetails::select('customerno')->distinct()->count('customerno');
+            // dd($total_customers);
             $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
             $vmi_customers      = User::leftjoin('user_details','users.id','=','user_details.user_id')
@@ -100,7 +103,8 @@ class DashboardController extends Controller
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->where('admins.id',$this->user->id);
 
-            $total_customers    = $customers->get(['users.id'])->count();            
+            // $total_customers    = $customers->get(['users.id'])->count();            
+            $total_customers    = $customers->get(['user_details.customerno'])->distinct()->count('customerno');            
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
             $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
             $change_request     = ChangeOrderRequest::select('change_order_requests.id')
