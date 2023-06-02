@@ -22,7 +22,7 @@
                         <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td>
                         {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
                         {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
-                        <td>{{$selected_customer['customerpono']}}</td> 
+                        <td>{{$selected_customer['customerpono'] ? $selected_customer['customerpono'] : 'N/A'}}</td> 
                         @php
                         $price = 0;  
                         $total = 0;
