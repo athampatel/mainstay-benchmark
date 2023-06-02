@@ -159,6 +159,7 @@ class NotificationController extends Controller
         //    if($request->is_notify == '1'){ 
                 if($this->superAdmin){
                     $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+                    $notifications = json_decode(json_encode($notifications), true);
                 } else {
                     $manager = $this->user;
                     $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
@@ -174,6 +175,7 @@ class NotificationController extends Controller
         } else {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
+            $notifications = json_decode(json_encode($notifications), true);
         }
         // dd($notifications);
         if(!empty($notifications)){
@@ -196,7 +198,9 @@ class NotificationController extends Controller
         if(auth('admin')->check() && $request->is_notify == '1') {
             if($this->superAdmin){
                 $notifications =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
-                $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");    
+                $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = 0 and status = 1 and is_read = 0");
+                $notifications = json_decode(json_encode($notifications), true);    
+                $notifications_all = json_decode(json_encode($notifications_all), true);    
             } else {
                 $manager = $this->user;
                 $notifications = User::leftjoin('user_details','user_details.user_id','=','users.id')
@@ -219,6 +223,8 @@ class NotificationController extends Controller
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
             $notifications_all =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
+            $notifications = json_decode(json_encode($notifications), true);    
+            $notifications_all = json_decode(json_encode($notifications_all), true);   
         }
         $notification_all_code = View::make("components.bottom-notification-component")
         ->with("notifications", $notifications_all)
