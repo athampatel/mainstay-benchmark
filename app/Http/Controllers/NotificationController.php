@@ -167,14 +167,15 @@ class NotificationController extends Controller
                                         ->leftjoin('admins','sales_persons.email','=','admins.email')
                                         ->leftjoin('notifications','users.id','=','notifications.from_user')
                                         ->where('admins.id',$manager->id)
-                                        ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+                                        ->where('to_user', 0)->where('status',1)->where('is_read',0)->get()->toArray();
+                    // dd($notifications);
                 }
         //    }
         } else {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
         }
-
+        // dd($notifications);
         if(!empty($notifications)){
             $notification_code = View::make("components.bottom-notification-component")
             ->with("notifications", $notifications)
@@ -204,7 +205,7 @@ class NotificationController extends Controller
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->leftjoin('notifications','users.id','=','notifications.from_user')
                                     ->where('admins.id',$manager->id)
-                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get()->toArray();
 
                 $notifications_all = User::leftjoin('user_details','user_details.user_id','=','users.id')
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
@@ -212,7 +213,7 @@ class NotificationController extends Controller
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
                                     ->leftjoin('notifications','users.id','=','notifications.from_user')
                                     ->where('admins.id',$manager->id)
-                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get();             
+                                    ->where('to_user', 0)->where('status',1)->where('is_read',0)->get()->toArray();             
             }
         } else{
             $user_id = Auth::user()->id;

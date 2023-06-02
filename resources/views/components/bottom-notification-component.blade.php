@@ -13,9 +13,11 @@
         <div class="messages-container">
             @foreach ($notifications as $notification)    
                 @php
-                $link = str_replace("/","\\",$notification->action)
+                // $link = str_replace("/","\\",$notification->action)
+                $link = str_replace("/","\\",$notification['action'])
                 @endphp
-                <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" :icon="$notification->icon_path" :time="$notification->created_at" :link="$link" :id="$notification->id" />
+                {{-- <x-bottom-notification-message :title="$notification->type" :desc="$notification->text" :icon="$notification->icon_path" :time="$notification->created_at" :link="$link" :id="$notification->id" /> --}}
+                <x-bottom-notification-message :title="$notification['type']" :desc="$notification['text']" :icon="$notification['icon_path']" :time="$notification['created_at']" :link="$link" :id="$notification['id']" />
             @endforeach
         </div>
         <div class="clear_notifications">
