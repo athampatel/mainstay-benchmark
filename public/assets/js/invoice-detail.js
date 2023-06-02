@@ -49,21 +49,21 @@ function displayInvoiceOrderDetail(res){
     // invoice details
     let order_id_disp = `#${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MMM DD,YYYY')}`;
     $('#disp-order-id').text(order_id_disp);
-    $('#customer_po_number').val(order_detail.customerpono);
+    $('#customer_po_number').val(order_detail.customerpono ? order_detail.customerpono : 'N/A');
     $('#details_invoice_date').val(moment(order_detail.invoicedate,'YYYY-MM-DD').format('MMM DD,YYYY'));
-    $('#ship-to-address1').val(order_detail.shiptoaddress1);
-    $('#ship-to-address2').val(order_detail.shiptoaddress2);
-    $('#ship-to-address3').val(order_detail.shiptoaddress3);
+    $('#ship-to-address1').val(order_detail.shiptoaddress1 ? order_detail.shiptoaddress1 : 'N/A');
+    $('#ship-to-address2').val(order_detail.shiptoaddress2 ? order_detail.shiptoaddress2 : 'N/A');
+    $('#ship-to-address3').val(order_detail.shiptoaddress3 ? order_detail.shiptoaddress3 : 'N/A');
     $('#ship-to-state option:selected').val(order_detail.shiptostate);
-    $('#ship-to-state option:selected').text(order_detail.shiptostate);
+    $('#ship-to-state option:selected').text(order_detail.shiptostate ? order_detail.shiptostate : 'N/A');
     $('#ship-to-city option:selected').val(order_detail.shiptocity).change();
-    $('#ship-to-city option:selected').text(order_detail.shiptocity).change();
-    $('#ship-to-zipcode').val(order_detail.shiptozipcode);
-    $('#shipvia').val(order_detail.shipvia);
+    $('#ship-to-city option:selected').text(order_detail.shiptocity ? order_detail.shiptocity : 'N/A').change();
+    $('#ship-to-zipcode').val(order_detail.shiptozipcode ? order_detail.shiptozipcode : 'N/A');
+    $('#shipvia').val(order_detail.shipvia ? order_detail.shipvia : 'N/A');
     
     // Order Details
-    $('#order-detail-order-no').val(order_detail.salesorderno);
-    $('#order-location').val(order_detail.shiptocity);
+    $('#order-detail-order-no').val(order_detail.salesorderno ? order_detail.salesorderno : 'N/A');
+    $('#order-location').val(order_detail.shiptocity ? order_detail.shiptocity : 'N/A');
     let aliasnumber = order_detail.details.length > 0 ? order_detail.details[0].aliasitemno : '';
     $('#AliasItemNumber').val(aliasnumber);
     $('#OrderDate').val(moment(order_detail.orderdate,'YYYY-MM-DD').format('MMM DD,YYYY'));

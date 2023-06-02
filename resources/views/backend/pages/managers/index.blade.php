@@ -93,7 +93,8 @@ Regional Managers - Admin Panel
                                                     @if($user->user_id != '')                                                         
                                                         <a class="btn btn-rounded btn-medium btn-bordered" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers">Customers</a>
                                                     @else
-                                                        <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
+                                                        {{-- <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a> --}}
+                                                        <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
                                                     @endif
                                                 </div>
                                             </td>

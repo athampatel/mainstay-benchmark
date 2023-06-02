@@ -3,8 +3,8 @@
         <thead>
             <tr>
                 <th class="border-0">Invoice #</th>
-                <th class="border-0">Contact Name</th>
-                <th class="border-0">Customer Email</th>
+                {{-- <th class="border-0">Contact Name</th>
+                <th class="border-0">Customer Email</th> --}}
                 {{-- <th class="border-0">Company Name</th>
                 <th class="border-0">Company Email</th> --}}
                 <th class="border-0">Customer P.O. Number</th>
@@ -18,6 +18,7 @@
         </thead>
         <tbody id="invoice-orders-page-table-body">
             @foreach($invoices as $invoice)
+            {{-- {{dd($invoice)}} --}}
             <tr>
                 {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
@@ -28,8 +29,8 @@
                 @endphp
                 <td class="font-12 pointer_events_none">#{{$invoice['invoiceno']}}</td>
                 {{--<td class="customer-name pointer_events_none">{{$selected_customer['customername']}}</td> --}}
-                <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td>
-                <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>
+                {{-- <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td> --}}
+                {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td> --}}
                 <td class="pointer_events_none">{{$invoice['customerpono'] != "" ? $invoice['customerpono'] : 'N/A' }}</td>
                 @php
                 $total = 0;

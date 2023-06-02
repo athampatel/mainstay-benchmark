@@ -160,31 +160,34 @@ function displayChangeOrderPage(res,itemcode){
             $('#disp-order-id').text(`#${Sale_item.salesorderno}`);
         
             // shipment details
-            $('#ship-to-name').val(Sale_item.shiptoname);
-            $('#ship-to-phonenumber').val();
-            $('#ship-to-email').val(res.data.user.email);
-            $('#ship-to-address1').val(Sale_item.shiptoaddress1);
-            $('#ship-to-address2').val(Sale_item.shiptoaddress2);
-            $('#ship-to-address3').val(Sale_item.shiptoaddress3);
+            // let confirm_to = Sale_item.confirmto ? Sale_item.confirmto : 'N/A';
+            $('#ship-to-confirm-to').val(Sale_item.confirmto ? Sale_item.confirmto : 'N/A');
+            $('#ship-to-customer_po_number').val(Sale_item.customerpono ? Sale_item.customerpono : 'N/A');
+            // $('#ship-to-name').val(Sale_item.shiptoname);
+            // $('#ship-to-phonenumber').val();
+            $('#ship-to-email').val(res.data.user.email ? res.data.user.email : 'N/A');
+            $('#ship-to-address1').val(Sale_item.shiptoaddress1 ? Sale_item.shiptoaddress1 : 'N/A');
+            $('#ship-to-address2').val(Sale_item.shiptoaddress2 ? Sale_item.shiptoaddress2 : 'N/A');
+            $('#ship-to-address3').val(Sale_item.shiptoaddress3 ? Sale_item.shiptoaddress3 : 'N/A');
             // state html
             // let state_html = `<option value="" selected></option>`
             // $('#ship-to-state').val(Sale_item.shiptostate).prop('selected', true);//.change();
             // $('#ship-to-city').text(Sale_item.shiptocity).prop('selected', true).change();
             $('#ship-to-state option:selected').val(Sale_item.shiptostate);//.change();
-            $('#ship-to-state option:selected').text(Sale_item.shiptostate);//.change();
+            $('#ship-to-state option:selected').text(Sale_item.shiptostate ? Sale_item.shiptostate : 'N/A');//.change();
             $('#ship-to-city option:selected').val(Sale_item.shiptocity).change();
             $('#ship-to-city option:selected').text(Sale_item.shiptocity).change();
-            $('#ship-to-zipcode').val(Sale_item.shiptozipcode);
-            $('#shipvia').val(Sale_item.shipvia);
+            $('#ship-to-zipcode').val(Sale_item.shiptozipcode ? Sale_item.shiptozipcode : 'N/A');
+            $('#shipvia').val(Sale_item.shipvia ? Sale_item.shipvia : 'N/A');
             // order details
-            $('#order-detail-order-no').val(Sale_item.salesorderno);
-            $('#order-location').val(Sale_item.shiptocity);
-            $('#AliasItemNumber').val();
-            $('#OrderDate').val(Sale_item.orderdate);
+            $('#order-detail-order-no').val(Sale_item.salesorderno ? Sale_item.salesorderno : 'N/A');
+            $('#order-location').val(Sale_item.shiptocity ? Sale_item.shiptocity : 'N/A');
+            $('#AliasItemNumber').val('N/A');
+            $('#OrderDate').val(Sale_item.orderdate ? Sale_item.orderdate : 'N/A');
 
-            $('#ordereddate_val').val(Sale_item.orderdate);
-            $('#salesorderno_val').val(Sale_item.salesorderno);
-            $('#customerno_val').val(Sale_item.customerno);
+            $('#ordereddate_val').val(Sale_item.orderdate ? Sale_item.orderdate : 'N/A');
+            $('#salesorderno_val').val(Sale_item.salesorderno ? Sale_item.salesorderno : 'N/A');
+            $('#customerno_val').val(Sale_item.customerno ? Sale_item.customerno : 'N/A');
                 
             
             // order status

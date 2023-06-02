@@ -123,20 +123,6 @@ User Create - Admin Panel
                                                             <input type="text" class="form-control required customerno" name="customerno[{{$key}}]" value="{{$user_info['customerno']}}" placeholder="Enter User Number" required>
                                                         @endif
                                                     </div>
-    
-                                                    {{-- @if($key == 0) --}}
-                                                    <div class="form-group col-md-6 col-sm-12">
-                                                        <label for="user_email">{{ config('constants.label.admin.customer_email') }}</label>
-                                                        @if(isset($user->id))
-                                                            <div class="text-secondary">{{$user_info['emailaddress']}}</div>
-                                                        @else
-                                                            <input type="text" class="form-control required emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}" required>
-                                                        @endif
-                                                    </div>
-                                                    {{-- @endif  --}}
-                                                </div>
-    
-                                                <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
                                                         <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
                                                         @if(isset($user->id))
@@ -145,6 +131,10 @@ User Create - Admin Panel
                                                             <input type="text" class="form-control required"  required name="customername[{{$key}}]" placeholder="Enter Name" value="{{$user_info['customername']}}"> 
                                                         @endif    
                                                     </div>
+                                                </div>
+                                                <input type="hidden" class="form-control emailaddress" name="emailaddress[{{$key}}]" placeholder="Enter User Email" value="{{$user_info['emailaddress']}}">
+    
+                                                <div class="form-row">
                                                     <div class="form-group col-md-6 col-sm-12">
                                                         <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
                                                         @if(isset($user->id))

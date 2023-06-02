@@ -9,8 +9,9 @@
                     <tr>
 
                         <td align="center" class="section-img">
-                            <a href="" style=" border-style: none !important; display: block; border: 0 !important;"><img src="/assets/images/gallery/23.png" style="display: block; width: 590px;" width="590" border="0" alt="" /></a>
-
+                            <a href="" style=" border-style: none !important; display: block; border: 0 !important;">
+                                {{-- <img src="/assets/images/gallery/23.png" style="display: block; width: 590px;" width="590" border="0" alt="" /> --}}
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -90,7 +91,8 @@
                                 <tr>
                                     <td align="center" style="color: #ffffff; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px; border-radius:30px">
                                         <div style="display:flex;justify-content:center;align-items:center;height:26px;text-align: center;width: 100%;">
-                                            <a href="{{ $details['link'] }}" style="color: #ffffff; text-decoration: none;text-align: center;width: 100%;">Check Request</a>
+                                            {{-- <a href="{{ $details['link'] }}" style="color: #ffffff; text-decoration: none;text-align: center;width: 100%;">Check Request</a> --}}
+                                            <a href="{{ $details['link'] }}" style="color: #ffffff; text-decoration: none;text-align: center;width: 100%;">{{ isset($details['is_button_name']) ? $details['is_button_name'] : 'Check Request' }}</a>
                                         </div>
                                     </td>
                                 </tr>

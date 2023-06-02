@@ -73,30 +73,31 @@ User Create - Admin Panel
                                         <label for="user_no">{{ config('constants.label.admin.customer_no') }}</label>
                                         <input type="text" class="form-control required" id="user_no" name="customerno[]" placeholder="Enter {{ config('constants.label.admin.customer_no') }}" required>
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-12">
+                                    {{-- <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_email">{{ config('constants.label.admin.user_email') }}</label>
                                         <input type="email" class="form-control required" id="user_email" name="email[]" placeholder="Enter {{ config('constants.label.admin.user_email') }}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid city.
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
+                                    </div> --}}
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_name">{{ config('constants.label.admin.customer_name') }}</label>
                                         <input type="text" class="form-control required" id="user_name" name="customername[]" placeholder="Enter {{ config('constants.label.admin.customer_name') }}">
                                     </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="user_email" name="email[]" placeholder="Enter {{ config('constants.label.admin.user_email') }}">
+                                <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="ardivision_no">{{ config('constants.label.admin.ar_division_no') }}</label>
                                         <input type="text" class="form-control" id="ardivision_no" name="ardivisionno[]" placeholder="Enter {{config('constants.label.admin.ar_division_no')}}">
                                     </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="user_name">{{ config('constants.label.admin.phone_no') }}</label>
                                         <input type="text" class="form-control" id="contact_phone_no" name="phone_no[]" placeholder="Enter {{ config('constants.label.admin.phone_no') }}">
                                     </div>
                                 </div>
+                                {{-- <div class="form-row">
+                                </div> --}}
                                 <input type="hidden" name="vmi_password[]" id="contact_vmi_password" value="">
                                 <h6 class="text-secondary">Address</h6><br>
                                 <div class="form-row">
