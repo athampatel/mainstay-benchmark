@@ -104,7 +104,10 @@ class DashboardController extends Controller
                                     ->where('admins.id',$this->user->id);
 
             // $total_customers    = $customers->get(['users.id'])->count();            
-            $total_customers    = $customers->get(['user_details.customerno'])->distinct()->count('customerno');            
+            // dd($customers->toSql());
+            // $total_customers    = $customers->get(['user_details.customerno'])->distinct()->count('customerno');
+            $total_customers    = $customers->distinct()->count('customerno');
+
             $new_customers      = $customers->where('active','=',0)->where('is_deleted','=',0)->get([ 'users.id'])->count();
             $vmi_customers      = $customers->where('active','=',1)->where('is_vmi','=',1)->get([ 'users.id'])->count();
             $change_request     = ChangeOrderRequest::select('change_order_requests.id')
