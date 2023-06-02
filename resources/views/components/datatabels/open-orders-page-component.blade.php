@@ -3,8 +3,11 @@
         <thead>
             <tr>
                 <th class="border-0">Order #</th>
-                <th class="border-0">Contact Name</th>
-                <th class="border-0">Customer Email</th>
+                {{-- <th class="border-0">Contact Name</th> --}}
+                <th class="border-0">Customer P.O. Number</th>
+                {{-- <th class="border-0">Customer Email</th> --}}
+                {{-- <th class="border-0">Confirm Email</th> --}}
+                <th class="border-0">Confirm To</th>
                 {{-- <th class="border-0">Company Name</th>
                 <th class="border-0">Company Email</th> --}}
                 <th class="border-0">Total Item(s)</th>
@@ -19,17 +22,19 @@
         <tbody id="open-orders-page-table-body">
             @foreach($saleorders as $saleorder)
             <tr>
+                {{-- {{dd($saleorder)}} --}}
                 {{-- <td><a href="/change-order/{{$saleorder['salesorderno']}}" class="item-number font-12 btn btn-rounded">#{{$saleorder['salesorderno']}}</a></td> --}}
                 <td class="font-12 pointer_events_none">#{{$saleorder['salesorderno']}}</td>
-                {{-- test working start --}}
                 @php
                     $selected_customer = session('selected_customer');
                 @endphp
-                {{-- test working end --}}
-                <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td> 
+                {{-- <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td>  --}}
+                <td class="customer-name pointer_events_none">{{$saleorder['customerpono'] ? $saleorder['customerpono'] : 'N/A'}}</td> 
+
+                <td class="customer-name pointer_events_none">{{$saleorder['confirmto'] ? $saleorder['confirmto'] : 'N/A'}}</td> 
                {{-- <td class="customer-name pointer_events_none">{{$selected_customer['customername']}}</td>--}}
                 {{-- <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td> --}}
-                <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>
+                {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td> --}}
                 @php
                 $total = 0;
                 $price = 0;

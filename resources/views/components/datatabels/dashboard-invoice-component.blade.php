@@ -3,7 +3,8 @@
         <thead>
             <tr>
                 <th class="border-0">ID</th>
-                <th class="border-0">Customer email</th>
+                {{-- <th class="border-0">Customer email</th> --}}
+                <th class="border-0">Customer P.O. Number</th>
                 {{-- <th class="border-0">Contact email</th> --}}
                 <th class="border-0">Total items</th>
                 <th class="border-0">Price</th>
@@ -13,12 +14,15 @@
             </thead>
             <tbody id="invoice-orders-table-body">
                 @foreach ($invoices as $invoice)    
+                    {{-- {{dd($invoice)}} --}}
                     <tr>
                         @php 
                          $selected_customer = session('selected_customer');
                         @endphp
                         <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td>
-                        <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td> 
+                        {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
+                        {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}
+                        <td>{{$selected_customer['customerpono']}}</td> 
                         @php
                         $price = 0;  
                         $total = 0;

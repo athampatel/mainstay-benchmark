@@ -45,32 +45,38 @@
                             <h4 class="mb-0 title-5">Invoice Details</h4>
                         </div>                    
                     </div>
+                    @php
+                    $selected_customer = session('selected_customer');
+                    @endphp
                     <div class="card-body col-12">
-                        <div class="row">
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Conact Name</label>
-                                <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
-                            </div>
-                            @php
-                            $selected_customer = session('selected_customer');
-                            @endphp
-                            <div class="mb-3 col-6">    
-                                <label class="form-label">Phone Number</label>
-                                <input class="form-control  col-12" type="text" placeholder="Phone Number" value="{{$selected_customer['phone_no']}}" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12">    
-                                <label class="form-label">Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
-                            </div>                            
-                        </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Company Name</label>
                                 {{-- {{dd($selected_customer)}} --}}
-                                <input class="form-control col-12" type="text" value="{{$selected_customer['customername']}}" placeholder="Company Name" name="EmailAddress" id="company-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['customername'] ? $selected_customer['customername'] : 'N/A'}}" placeholder="Company Name" name="EmailAddress" id="company-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
+                        </div>
+                        {{-- <div class="row">
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>                            
+                        </div> --}}
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Billing Email Address</label>
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['email'] ? $selected_customer['email'] : 'N/A'}}" placeholder="Email Address" name="Billing_email" id="ship-to-billing-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            {{-- <div class="mb-3 col-6">    
+                                <label class="form-label">Conact Name</label>
+                                <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div> --}}
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Phone Number</label>
+                                <input class="form-control  col-12" type="text" placeholder="Phone Number" value="{{$selected_customer['phone_no'] ? $selected_customer['phone_no'] : 'N/A'}}" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">    
@@ -81,12 +87,6 @@
                                 <label class="form-label">Invoice Date</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Invoice Date" name="invoice_date" id="details_invoice_date" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12">    
-                                <label class="form-label">Billing Email Address</label>
-                                <input class="form-control col-12" type="text" value="{{$selected_customer['email']}}" placeholder="Email Address" name="Billing_email" id="ship-to-billing-email" {{ $is_change_order ? '': 'disabled'}} disabled>
-                            </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    

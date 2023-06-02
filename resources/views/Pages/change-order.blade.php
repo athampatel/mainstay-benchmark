@@ -70,19 +70,29 @@
                     @endphp
                     <div class="card-body col-12">
                         <div class="row">
-                            <div class="mb-3 col-6">    
+                            {{-- <div class="mb-3 col-6">    
                                 <label class="form-label">Contact Name</label>
                                 <input class="form-control col-12" type="text" placeholder="Name" value="{{Auth::user()->name}}" name="Name" id="ship-to-name" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div> --}}
+                            <div class="mb-3 col-6">    
+                                <label class="form-label">Confirm To</label>
+                                <input class="form-control col-12" type="text" placeholder="Name" value="" name="Name" id="ship-to-confirm-to" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6">    
                                 <label class="form-label">Phone Number</label>
-                                <input class="form-control  col-12" type="text" value="{{$selected_customer['phone_no']}}" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
+                                <input class="form-control  col-12" type="text" value="{{$selected_customer['phone_no'] ? $selected_customer['phone_no'] : 'N/A'}}" placeholder="Phone Number" name="PhoneNumber" id="ship-to-phonenumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Contact Email Address</label>
                                 <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Email Address" name="EmailAddress" id="ship-to-email" {{ $is_change_order ? '': 'disabled'}} disabled>
+                            </div>                            
+                        </div> --}}
+                        <div class="row">
+                            <div class="mb-3 col-12">    
+                                <label class="form-label">Customer P.O. Number</label>
+                                <input class="form-control col-12" type="text" value="" placeholder="Customer P.O. Number" name="customer_po_number" id="ship-to-customer_po_number" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
                         <div class="row">
@@ -91,12 +101,12 @@
                                 <input class="form-control col-12" value="{{$selected_customer['customername']}}" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Billing Email Address</label>
                                 <input class="form-control col-12" value="{{$selected_customer['email']}}" type="text" placeholder="Address Line 1" name="AddressLine1" id="ship-to-address1" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>                            
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 <label class="form-label">Address Line 1 </label>
