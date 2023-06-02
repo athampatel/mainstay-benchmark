@@ -47,9 +47,11 @@
                 <td class="pointer_events_none">{{$date->format('M d, Y')}}</td>
                 <td class="status pointer_events_none">Shipped</td>
                 <td class="action">
+                    @if($invoice['salesorderno'])
                     <a href="/invoice-detail/{{$invoice['salesorderno']}}" class="btn btn-primary btn-rounded text-capitalize text-dark open-view-details" target="_blank">
                         view details
                     </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
