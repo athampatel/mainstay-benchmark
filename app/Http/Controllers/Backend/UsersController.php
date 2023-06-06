@@ -402,7 +402,7 @@ class UsersController extends Controller
                             if($request->input('send_password')){
                                 $details['subject'] = config('constants.email.admin.customer_create.subject');
                                 $details['title']   = config('constants.email.admin.customer_create.title');    
-                                $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
+                                $details['body']    = "$request->name, <br />Please find your login credentials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
                                 $details['mail_view']    = "emails.new-account-details";
                                 $details['link']    = config('app.url').'/';
                                 $customer_emails = config('app.test_customer_email');

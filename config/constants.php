@@ -83,7 +83,7 @@
                 'customer_activate' => [
                     'title' => 'Your account has been activated.',
                     'subject' => 'Your account has been activated. Please set your password.',
-                    'body' => '<p>Your account has been activated. Please set a password in the Benchmark Member portal.<br/> Please check your account and set a new password. <br/>'
+                    'body' => '<p>Your account has been activated. A password must be set in the Benchmark Member portal.<br/> Please check your account and set a new password. <br/>'
                 ],
                 'customer_create' => [
                     'title' => 'Your Login Credentials',
@@ -113,8 +113,8 @@
                 'subject' => 'Help Request'
             ],
             'reset_password' =>[
-                'line_1' => 'We received a forgot password request.',
-                'line_2' => 'Please click the button below to change your password.',
+                'line_1' => 'We received a password reset request.',
+                'line_2' => 'Please click the link below to change your password.',
                 'button' => 'Reset Password',
                 'thank_message' => 'Thank you for using our '
             ]

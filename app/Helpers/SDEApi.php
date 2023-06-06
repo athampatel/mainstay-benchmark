@@ -205,7 +205,7 @@ class SDEApi
         $details['subject'] = config('constants.api_error_email.subject');
         $details['status']    = 'success';
         $details['message']   = config('constants.api_error_email.message');
-        $body      = "<p style='max-width:590px;font-weight:bold;font-size:14px;'>The Api with resource <span style='color:#000'>{$resource} </span>has get an {$response_code} error.</p>";
+        $body      = "<p style='max-width:590px;font-weight:bold;font-size:14px;'>The API with resource <span style='color:#000'>{$resource} </span>has generated a Server response error (error code $response_code).</p>";
         $details['body'] = $body;
         $url = '';
         $details['link']            =  $url;      

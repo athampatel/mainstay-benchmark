@@ -53,6 +53,7 @@ function getOpenOrderAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
+                order: []
                 // responsive: true
             });
         },

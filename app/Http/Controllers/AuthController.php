@@ -136,7 +136,7 @@ class AuthController extends Controller
                                 'title'     => config('constants.customer-signup.mail.title'));
             $uniqueId   = $request->email;
             $request_id = 0;
-            $body      = "<p>The customer with email address {$request->email} has requested access to the member portal.</p>";
+            $body      = "<p>The customer with the email address {$request->email} has requested access to the member portal.</p>";
             $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Customer Name:</span>&nbsp;<span>'.$request->full_name.'</span></p>';
             $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Company Name: </span>&nbsp;<span>'.$request->company_name.'</span></p>';
             $body   .= '<p><span style="width:100px;font-weight:bold;font-size:14px;">Phone-No: </span>&nbsp;<span>'.$request->phone_no.'</span></p>';
