@@ -362,7 +362,8 @@ class MenuController extends Controller
         $user_id = $customers[0]->user_id;
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
-            $data = array(            
+            $data = array( 
+                "index" => "KSDEDESCENDING",           
                 "filter" => [
                     [
                         "column"=> "ARDivisionNo",
@@ -381,8 +382,10 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
 
+            // dd($data);
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
+            // dd($response);
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] >= 1){

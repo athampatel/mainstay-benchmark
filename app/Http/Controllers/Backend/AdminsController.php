@@ -174,7 +174,8 @@ class AdminsController extends Controller
             $url    =  
             $details['subject'] = config('constants.email.admin.admin_create.subject');    
             $details['title']   = config('constants.email.admin.admin_create.title');
-            $details['body']    = "$request->name, <br />Please find you login credetials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
+            // Please find your login credentials below: 
+            $details['body']    = "$request->name, <br />Please find your login credentials below <br/> <strong>User Name: </strong/>$request->email.</br>Password: </strong/>".$request->password."<br/>";
             $details['mail_view']    = "emails.new-account-details";            
             $details['link']    = config('app.url').'/admin/login/';
             $is_local = config('app.env') == 'local' ? true : false;
