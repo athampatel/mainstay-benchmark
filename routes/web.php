@@ -154,6 +154,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefi
     Route::post('/saveAdminVmiData',[UsersController::class,'SaveUserVmiData']);
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
     Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
+
+    Route::get('/manager/{id}/customers/{is_exits}',[UsersController::class,'ManagerCustomers'])->name('admin.manager.customers');
+    Route::get('/manager/create',[UsersController::class,'ManagerCreate'])->name('admin.manager.create');
+    Route::post('/get_manager_info',[UsersController::class,'ManagerInfo'])->name('admin.manager.info');
 }); 
 
 Route::get('/clearNotifications',[NotificationController::class,'ClearAdminNotifications']);

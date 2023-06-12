@@ -2,11 +2,11 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Regional Managers - Admin Panel
+Regional Manager Customers - Admin Panel
 @endsection
 @section('admin-content')   
 <div class="home-content">
-    <span class="page_title">Regional Managers</span>
+    <span class="page_title">Regional Manager Customers</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
@@ -16,7 +16,6 @@ Regional Managers - Admin Panel
                             <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
-                                        <a class="btn btn-primary btn-rounded text-white text-capitalize" href="{{ route('admin.manager.create') }}">{{ config('constants.label.admin.buttons.search_manager') }}</a>
                                     </p>         
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
@@ -61,7 +60,8 @@ Regional Managers - Admin Panel
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th width="10%">
-                                                {{config('constants.label.admin.manager_no')}}
+                                                {{-- {{config('constants.label.admin.manager_no')}} --}}
+                                                Customer Number
                                                 <span data-col='person_number' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
                                                 <span data-col='person_number' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>
@@ -76,46 +76,36 @@ Regional Managers - Admin Panel
                                                 <span data-col='email' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
                                             </th>                                   
                                             <th width="10%">
-                                                Account
-                                            </th>
-                                            <th width="10%">
                                                 Action
                                             </th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($managers as $user)
+                                    @foreach ($manager_customers as $customer)
+                                    {{-- {{dd($customer)}} --}}
                                     <tr>
-                                            <td> <a class="" href="">{{ $user->person_number }}</a></td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>                                                                
+                                            <td> <a class="" href="">{{ $customer['customerno'] }}</a></td>
+                                            <td>{{ $customer['customername'] }}</td>
+                                            <td>{{ $customer['emailaddress'] }}</td>                                                                
                                             <td>
                                                 <div class="status-btns">
-                                                    @if($user->user_id != '')                                                         
+                                                    {{-- @if($customer->user_id != '')                                                         
                                                         <a class="btn btn-rounded btn-medium btn-bordered" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers">Customers</a>
-                                                    @else
+                                                    @else --}}
                                                         {{-- <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a> --}}
-                                                        <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
-                                                    @endif
-                                                    <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="{{ route('admin.manager.customers',['id' => $user->id,'is_exits' => 1]) }}">All Customers</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-wrapper btns-2">
-                                                    @if($user->user_id != '')  
-                                                        <a class="btn btn-rounded btn-medium btn-primary" href="{{ route('admin.admins.index') }}/{{$user->user_id}}/edit">View</a>
-                                                    @endif
+                                                        @if($customer['is_exits'])
+                                                        <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" target="_blank" href="{{ route('admin.users.login', ['id' => $customer['user_detail']['user_id'],'user_detail_id' =>$customer['user_detail']['id']]) }}" style="padding:0.5rem !important;">Login As</a>
+                                                        @else 
+                                                        <a class="btn btn-rounded text-capitalize btn-danger bm-btn-danger text-white" href="javascript:void(0)" style="padding:0.5rem !important;">Not In</a>
+                                                        @endif
+                                                    {{-- @endif
+                                                    <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" href="{{ route('admin.manager.customers',['id' => $customer->customerno]) }}">All Customers</a> --}}
                                                 </div>
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-                                @if(!empty($managers))
-                                    @if($paginate['last_page'] > 1)
-                                        <x-pagination-component :pagination="$paginate" :search="$search" />
-                                    @endif
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -124,31 +114,9 @@ Regional Managers - Admin Panel
         </div>
     </div>
 </div> 
-<table id="print_table" class="text-center datatable-dark dataTable backend_datatables">
-    <thead class="text-capitalize">
-        <tr>
-            <th width="10%" class="text-dark">{{config('constants.label.admin.manager_no')}}</th>
-            <th width="10%" class="text-dark">Name</th>
-            <th width="10%" class="text-dark">Email</th>                                  
-        </tr>
-    </thead>
-    <tbody>
-    @foreach ($print_managers as $print_manager)
-        <tr>
-            <td class="text-dark">{{ $print_manager->person_number }}</td>
-            <td class="text-dark">{{ $print_manager->name }}</td>
-            <td class="text-dark">{{ $print_manager->email }}</td>                                                               
-        </tr>
-    @endforeach
-    </tbody>
-</table>
 @endsection
 @section('scripts')
 <script>
     const searchWords = <?php echo json_encode($searchWords); ?>;
-    const orderCol = <?php echo json_encode($order); ?>;
-    const orderType = <?php echo json_encode($order_type); ?>;
-    $('th span').css({'opacity':0.3})
-    $(`[data-col='${orderCol}'][data-ordertype='${orderType}']`).css({'opacity':1});
 </script>
 @endsection

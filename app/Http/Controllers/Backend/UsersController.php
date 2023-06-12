@@ -315,7 +315,6 @@ class UsersController extends Controller
         $paginate['links'] = UsersController::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         // search words
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-
         return view('backend.pages.managers.index', compact('managers','search','paginate','limit','searchWords','print_managers','order','order_type'));
     }
 
@@ -2062,4 +2061,73 @@ class UsersController extends Controller
         }   
     }
 
+
+    public function ManagerCustomers($id,$is_exits){
+        $sales_person_number = "";
+        if($is_exits){
+            $salesPerson = SalesPersons::where('id',$id)->first();
+            $sales_person_number = $salesPerson->person_number; 
+        } else {
+            $sales_person_number = $id;
+        }
+        $data = array( 
+            "index" => "kSalesperson",           
+            "filter" => [
+                [
+                    "column"=> "SalespersonNo",
+                    "type"=> "equals",
+                    "value"=> $sales_person_number,
+                    "operator"=> "and"
+                ],
+            ],
+        );
+        $SDEAPi = new SDEApi();
+        $response   = $SDEAPi->Request('post','Customers',$data);
+        $manager_customers  = $response['customers'];
+        foreach($manager_customers as $key => $customer) {
+            $manager_customers[$key]['is_exits'] = false;
+            $is_already_exits = UserDetails::where('customerno',$customer['customerno'])->first();
+            if($is_already_exits){  
+                $manager_customers[$key]['is_exits'] = true;
+                $manager_customers[$key]['user_detail'] = $is_already_exits->toArray();
+            }
+        }
+        $search = '';
+        $paginate['per_page'] = 10;
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.managers.customers',compact('manager_customers','search','paginate','searchWords'));
+    }
+
+
+    public function ManagerCreate(){
+        $constants = config('constants');
+        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        return view('backend.pages.managers.create',compact('constants','searchWords'));
+    }
+
+    public function ManagerInfo(Request $request){
+        $search_text = $request->search_text;
+        $data = array(            
+            "filter" => [
+                [
+                    "column"=>"EmailAddress",
+                    "type"=>"equals",
+                    "value"=>$search_text,
+                    "operator"=>"and"
+                ]
+            ],
+            "offset" => 1,
+            "limit" => 100,
+        );
+        $sdeApi = new SDEApi();         
+        $res = $sdeApi->Request('post','Salespersons',$data);
+        if(empty($res) || (isset($res['salespersons']) && empty($res['salespersons']))){
+            $res['success'] = false;
+            $res['error'] = "There is no manager is available for this email address";
+        } else {
+            $res['success'] = true;
+        }
+        echo json_encode($res);
+        die();
+    }
 }

@@ -190,6 +190,7 @@
                 'send_login_credentials'    => 'Send Login Credentials',
                 'role_name'                 => 'Role Name',
                 'search_customer_number_email' => 'Search Customer With Contact Email',
+                'search_manager_email'      => 'Search Manager With Email',
                 'customer_no'               => 'Customer Number',
                 'customer_email'            => 'Customer Email',
                 'customer_name'             => 'Customer Name',
@@ -234,6 +235,7 @@
                     'approve_request' => 'Approve Request',
                     'activate_customer' => 'Activate Customer',
                     'create_request' => 'Create Request',
+                    'search_manager' => 'Search Managers'
                 ]
             ],
             'customer' => [
@@ -242,7 +244,8 @@
         ],
         'validation' => [
             'admin' => [
-                'search_customer_number_email' => 'The search for a customer requires either the customer number or email to be provided in the search field. This field is mandatory.',
+                'search_customer_number_email' => 'The search for a customer requires the customer email to be provided in the search field. This field is mandatory.',
+                'search_manager_email' => 'The search for a Manager requires the manager email to be provided in the search field. This field is mandatory.',
                 'customer_search_unable' => 'We were unable to locate any customer details with the information provided.',
                 'customer_detail_found' => 'Customer details have been found for the specified account.',
             ]
