@@ -16,6 +16,7 @@ Regional Managers - Admin Panel
                             <div class="row">
                                 <div class="col-12 col-lg-3 col-md-12">
                                     <p class="float-right mb-2">
+                                        <a class="btn btn-primary btn-rounded text-white text-capitalize" href="{{ route('admin.manager.create') }}">{{ config('constants.label.admin.buttons.search_manager') }}</a>
                                     </p>         
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
@@ -96,6 +97,7 @@ Regional Managers - Admin Panel
                                                         {{-- <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a> --}}
                                                         <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a>
                                                     @endif
+                                                    <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="{{ route('admin.manager.customers',['id' => $user->id,'is_exits' => 1]) }}">All Customers</a>
                                                 </div>
                                             </td>
                                             <td>

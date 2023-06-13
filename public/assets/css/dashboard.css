@@ -1839,6 +1839,10 @@ input.analysis_select {
   border: none;
 }
 
+.border-none {
+  border: none !important;
+}
+
 .bench-datatable th{
   font-size: 0.875rem;
   font-weight: 500 !important;
