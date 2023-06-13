@@ -8,12 +8,12 @@
                     <span data-col='person_number' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
                 </th>
                 <th width="10%">
-                    Name
+                    Company Name
                     <span data-col='name' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
                     <span data-col='name' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
                 </th>
                 <th width="10%">
-                    Email
+                    Company Email
                     <span data-col='email' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
                     <span data-col='email' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
                 </th>                                   
