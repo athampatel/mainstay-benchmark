@@ -19,7 +19,7 @@ Manager Create - Admin Panel
 @section('admin-content')
 
 <div class="home-content">
-    <span class="page_title">Search manager</span>
+    <span class="page_title">Search Regional manager</span>
     <div class="overview-boxes widget_container_cards col-12">
         <div class="main-content-inner">
             <div class="row">
@@ -95,9 +95,13 @@ Manager Create - Admin Panel
                     let managers = "";
                     res.salespersons.forEach(manager => {
                         let sales_person_no = manager.salespersonno;
+                        if(manager.is_exist){
+                            sales_person_no = manager.is_exist_id;
+                        } 
+                        let is_exist = manager.is_exist
                         let single_manager = `<tr><td>${manager.salespersonno}</td><td>${manager.salespersonname}</td><td>${manager.ardivisionno}</td>
                         <td>
-                            <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="/admin/manager/${sales_person_no}/customers/0">All Customers</a>
+                            <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="/admin/manager/${sales_person_no}/customers/${is_exist}">All Customers</a>
                             </td>
                             </tr>`;
                             managers += single_manager

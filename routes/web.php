@@ -23,7 +23,6 @@ use App\Http\Controllers\SaleOrdersController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes();
 
 Route::redirect('/', '/sign-in');
