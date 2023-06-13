@@ -190,7 +190,7 @@
                 'send_login_credentials'    => 'Send Login Credentials',
                 'role_name'                 => 'Role Name',
                 'search_customer_number_email' => 'Search Customer With Contact Email',
-                'search_manager_email'      => 'Search Manager With Email',
+                'search_manager_email'      => 'Search Regional Manager With Email',
                 'customer_no'               => 'Customer Number',
                 'customer_email'            => 'Customer Email',
                 'customer_name'             => 'Customer Name',
