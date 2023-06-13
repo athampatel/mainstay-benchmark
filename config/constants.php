@@ -235,7 +235,7 @@
                     'approve_request' => 'Approve Request',
                     'activate_customer' => 'Activate Customer',
                     'create_request' => 'Create Request',
-                    'search_manager' => 'Search Managers'
+                    'search_manager' => 'Search Regional Manager'
                 ]
             ],
             'customer' => [
@@ -248,6 +248,7 @@
                 'search_manager_email' => 'The search for a Manager requires the manager email to be provided in the search field. This field is mandatory.',
                 'customer_search_unable' => 'We were unable to locate any customer details with the information provided.',
                 'customer_detail_found' => 'Customer details have been found for the specified account.',
+                'manager_search_unable' => 'We were unable to locate any manager details with the information provided.',
             ]
             ],
         // vmi inventory

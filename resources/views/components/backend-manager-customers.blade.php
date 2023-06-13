@@ -1,5 +1,5 @@
 <div>
-    <table id="backend_managers" class="text-center datatable-dark dataTable backend_datatables">
+    <table id="backend_manager_customers" class="text-center datatable-dark dataTable backend_datatables">
         <thead class="text-capitalize">
             <tr>
                 <th width="10%">

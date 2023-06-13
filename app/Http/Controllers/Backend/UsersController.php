@@ -2097,10 +2097,8 @@ class UsersController extends Controller
             "offset" => $offset,
             "limit" => $limit,
         );
-        // dd($data);
         $SDEAPi = new SDEApi();
         $response   = $SDEAPi->Request('post','Customers',$data);
-        // dd($response);
         $manager_customers  = $response['customers'];
         foreach($manager_customers as $key => $customer) {
             $manager_customers[$key]['is_exits'] = false;
@@ -2110,21 +2108,20 @@ class UsersController extends Controller
                 $manager_customers[$key]['user_detail'] = $is_already_exits->toArray();
             }
         }
-        // $path = '/getAdminVmiData';
         $path = '/admin/manager/customers';
         $table_code = View::make("components.backend-manager-customers")
         ->with("manager_customers", $manager_customers)
         ->render();
-        $custom_pagination = MenuController::CreatePaginationData($response,$limit,$page,$offset,$path);
-        $pagination_code = View::make("components.admin-vmi-ajax-pagination-component")
-        ->with("pagination", $custom_pagination)
-        ->render();
-        $paginate['per_page'] = 10;
-        $searchWords = SearchWord::where('type',1)->get()->toArray();
+        $pagination_code = "";
+        if(count($manager_customers) > intval($limit)){
+            $custom_pagination = MenuController::CreatePaginationData($response,$limit,$page,$offset,$path);
+            $pagination_code = View::make("components.admin-vmi-ajax-pagination-component")
+            ->with("pagination", $custom_pagination)
+            ->render();
+        }
         $res = ['success' => true, 'table_code' => $table_code,'pagination_code' => $pagination_code];
         echo json_encode($res);
         die(); 
-        die();
     }
 
 
@@ -2152,8 +2149,17 @@ class UsersController extends Controller
         $res = $sdeApi->Request('post','Salespersons',$data);
         if(empty($res) || (isset($res['salespersons']) && empty($res['salespersons']))){
             $res['success'] = false;
-            $res['error'] = "There is no manager is available for this email address";
+            $res['error'] = config('constants.validation.admin.manager_search_unable');
         } else {
+            foreach($res['salespersons'] as $key => $sperson) {
+                $salesPerson = SalesPersons::where('person_number',$sperson['salespersonno'])->where('name',$sperson['salespersonname'])->first();
+                $res['salespersons'][$key]['is_exist'] = 0 ;
+                $res['salespersons'][$key]['is_exist_id'] = 0;
+                if($salesPerson){
+                    $res['salespersons'][$key]['is_exist'] = 1;
+                    $res['salespersons'][$key]['is_exist_id'] = $salesPerson->id;
+                }
+            }
             $res['success'] = true;
         }
         echo json_encode($res);
