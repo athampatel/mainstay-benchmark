@@ -155,7 +155,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefi
     Route::get('/ExportVmiInventory',[UsersController::class,'ExportVmiInventory']);
     Route::get('/welcomemessage',[UsersController::class,'removeWelcome']);
 
-    Route::get('/manager/{id}/customers/{is_exits}',[UsersController::class,'ManagerCustomers'])->name('admin.manager.customers');
+    Route::get('/manager/{id}/customers/{is_exits}',[UsersController::class,'ManagerCustomersView'])->name('admin.manager.customers');
+    Route::get('/manager/customers',[UsersController::class,'ManagerCustomers'])->name('admin.manager.customers_list');
     Route::get('/manager/create',[UsersController::class,'ManagerCreate'])->name('admin.manager.create');
     Route::post('/get_manager_info',[UsersController::class,'ManagerInfo'])->name('admin.manager.info');
 }); 

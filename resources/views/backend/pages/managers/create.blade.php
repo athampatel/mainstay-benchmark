@@ -97,7 +97,7 @@ Manager Create - Admin Panel
                         let sales_person_no = manager.salespersonno;
                         let single_manager = `<tr><td>${manager.salespersonno}</td><td>${manager.salespersonname}</td><td>${manager.ardivisionno}</td>
                         <td>
-                            <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="/admin/manager/${sales_person_no}/customers/0">All Customers</a>
+                            <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" target="_blank" href="/admin/manager/${sales_person_no}/customers/0/12/0">All Customers</a>
                             </td>
                             </tr>`;
                             managers += single_manager

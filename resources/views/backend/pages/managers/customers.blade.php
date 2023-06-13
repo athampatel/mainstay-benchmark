@@ -20,21 +20,25 @@ Regional Manager Customers - Admin Panel
                                 </div>
                                 <div class="col-12 col-lg-9 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter"> 
                                     <div class="position-relative item-search">
-                                            <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_managers_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
+                                            <input type="text" class="form-control1 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="admin_managers_customers_search" value="{{!$search ? '' : $search}}" aria-controls="help-page-table">
                                             <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="admin-managers-search-img">
                                         </div> 
                                         @php 
                                         $select_options = [10,12,20];
                                         @endphp
                                         <div class="position-relative datatable-filter-div">
-                                            <select name="" class="datatable-filter-count" id="admin-managers-filter-count">
+                                            <select name="" class="datatable-filter-count" id="admin-managers-customers-filter-count">
                                                 @foreach($select_options as $select_option)
-                                                    <option value="{{$select_option}}" {{$select_option == $paginate['per_page'] ? 'selected' :'' }}>{{$select_option}} Items</option>
+                                                    <option value="{{$select_option}}" {{$select_option == 12 ? 'selected' :'' }}>{{$select_option}} Items</option>
                                                 @endforeach
                                             </select>
                                             <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                                         </div>
-                                        <form id="managers_from" action="/admin/admins/manager" method="GET"></form>
+                                        {{-- {{dd(app('request')->request->all())}}--}}
+                                        {{-- is_param_id/is_param_exists --}}
+                                        {{-- <form id="managers_customers_from" action="/admin/admins/manager" method="GET"></form> --}}
+                                        <form id="managers_customers_from" action="/admin/manager/customers" method="GET"></form>
+                                        <input type="hidden" name="" id="sales_person_number" value="{{$sales_person_number}}">
                                     <div class="datatable-export">
                                         <div class="datatable-print admin">
                                             <a href="">
@@ -56,56 +60,10 @@ Regional Manager Customers - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_managers" class="text-center datatable-dark dataTable backend_datatables">
-                                    <thead class="text-capitalize">
-                                        <tr>
-                                            <th width="10%">
-                                                {{-- {{config('constants.label.admin.manager_no')}} --}}
-                                                Customer Number
-                                                <span data-col='person_number' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
-                                                <span data-col='person_number' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
-                                            </th>
-                                            <th width="10%">
-                                                Name
-                                                <span data-col='name' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
-                                                <span data-col='name' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
-                                            </th>
-                                            <th width="10%">
-                                                Email
-                                                <span data-col='email' data-table='managers' data-ordertype='asc' class="asc">&#x2191;</span>
-                                                <span data-col='email' data-table='managers' data-ordertype='desc' class="desc">&#x2193;</span>
-                                            </th>                                   
-                                            <th width="10%">
-                                                Action
-                                            </th>                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($manager_customers as $customer)
-                                    {{-- {{dd($customer)}} --}}
-                                    <tr>
-                                            <td> <a class="" href="">{{ $customer['customerno'] }}</a></td>
-                                            <td>{{ $customer['customername'] }}</td>
-                                            <td>{{ $customer['emailaddress'] }}</td>                                                                
-                                            <td>
-                                                <div class="status-btns">
-                                                    {{-- @if($customer->user_id != '')                                                         
-                                                        <a class="btn btn-rounded btn-medium btn-bordered" href="{{  route('admin.users.index') }}?manager={{$user->user_id}}" title="View Customers">Customers</a>
-                                                    @else --}}
-                                                        {{-- <a class="btn btn-rounded text-capitalize btn-light bm-btn-white text-white " href="{{ route('admin.admins.create') }}/?manager={{$user->id}}" title="Create Account">Create</a> --}}
-                                                        @if($customer['is_exits'])
-                                                        <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" target="_blank" href="{{ route('admin.users.login', ['id' => $customer['user_detail']['user_id'],'user_detail_id' =>$customer['user_detail']['id']]) }}" style="padding:0.5rem !important;">Login As</a>
-                                                        @else 
-                                                        <a class="btn btn-rounded text-capitalize btn-danger bm-btn-danger text-white" href="javascript:void(0)" style="padding:0.5rem !important;">Not In</a>
-                                                        @endif
-                                                    {{-- @endif
-                                                    <a class="btn btn-rounded text-capitalize btn-primary bm-btn-primary text-white" href="{{ route('admin.manager.customers',['id' => $customer->customerno]) }}">All Customers</a> --}}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                <div class="backend_manager_customers_display"></div>
+                                <div class="col-12 pb-2 card box mb-0 mt-0 border-top-radius-0 box-shadow-none border-none">
+                                    <div id="pagination_disp" style="width: 100%;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,4 +77,5 @@ Regional Manager Customers - Admin Panel
 <script>
     const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
+<script src="{{ asset('assets/js/backend_manager_customers.js') }}"></script>
 @endsection
