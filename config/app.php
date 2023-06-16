@@ -68,6 +68,8 @@ return [
 
     'export_max' => env('EXPORT_MAXIMUM',''),
 
+    'manager_emails' => env('MANAGER_EMAILS',''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -20,7 +20,7 @@ $(document).on('click','#help-save-button',function(e){
         $('#help-message-alert').removeClass('alert-success').addClass('alert-danger').html(validation_error).removeClass('d-none');
         return false;
     }
-    
+    console.log('__help request');
     $.ajax({
         type: 'POST',
         url: '/sendHelp',

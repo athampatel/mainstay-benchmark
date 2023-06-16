@@ -801,6 +801,8 @@ nav .profile-details i{
 
 .profile_img_disp{
   border-radius: 50%;
+  width: 100%;
+  height: auto;
 }
 
 #file_input_button{
@@ -2960,8 +2962,24 @@ td .dtr-title span{
   pointer-events: none;
 }
 
-/* datatable testing sorting work end */
 
+/* tracking */
+#tracking_container{
+  display: flex;
+  gap: 5px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.list_item {
+    background: #7b7c7f; 
+    padding: 6px 14px;
+    color: #fff;
+    border-radius: 8px;
+}
+
+
+/* datatable testing sorting work end */
 /* print */
 @media print {
   
@@ -3026,9 +3044,16 @@ td .dtr-title span{
   @media screen and (max-width: 1500px){
     html{
       font-size: 80%;
-
     }
   }
+  
+  @media screen and (max-width: 1360px){
+    .analysis-filter label{
+      margin-left: 0.5rem;
+    }
+  }
+
+
 
   @media (max-width: 1240px) {
     html{
@@ -3219,6 +3244,7 @@ td .dtr-title span{
     .analysis-filter label{
       margin-left: 0rem;
       width: 48%;
+      margin-right: 10px;
     }
   }
 
@@ -3272,7 +3298,7 @@ td .dtr-title span{
       margin-top: 0.5rem;
     }
     .analysis-filter label .down-arrow{
-      top:55%;
+      top:65%;
     }
     .slider1{
       top:0rem;

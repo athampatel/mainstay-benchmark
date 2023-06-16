@@ -93,7 +93,6 @@ class PasswordResetLinkController extends Controller
             } 
         }
 
-        return view('emails.email-body',compact('details'));
         $status = 'passwords.sent';
         return back()->with('status', __($status));
     }

@@ -68,9 +68,9 @@ function displayInvoiceOrderDetail(res){
     $('#AliasItemNumber').val(aliasnumber);
     $('#OrderDate').val(moment(order_detail.orderdate,'YYYY-MM-DD').format('MMM DD,YYYY'));
     // let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Shipped' : 'Not Shipped' : 'Not Shipped';
-    let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Yes' : 'No' : 'No';
-    $('#DropShip option:selected').val(drop_ship);
-    $('#DropShip option:selected').text(drop_ship);
+    // let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Yes' : 'No' : 'No';
+    // $('#DropShip option:selected').val(drop_ship);
+    // $('#DropShip option:selected').text(drop_ship);
 
     let drop_ship_status = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Complete' : 'Shipped' : 'Shipped';
     $('#orderStatus option:selected').val(drop_ship_status);
@@ -85,14 +85,37 @@ function displayInvoiceOrderDetail(res){
                 <td class="order_item_quantity"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
                 <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled></td>
                 <td class="order_unit_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>
-                <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityshipped * item.unitprice))}</td>
+                <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( item.quantityshipped * item.unitprice)}</td>
+                <td>${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
             </tr>`;
         }
     }); 
     $('#quantityShiped').val(quantity_count);            
     $('#disp-items-body').html(item_details_html);
+
+    // tracking id's listing
+    console.log(order_detail.trackingid,'___tracking id ___eeee');
+    let tracking_html_content = "";
+    order_detail.trackingid.forEach(trackid => {
+        if(trackid != ''){
+            let tracking_item_content = `<div class="list_item">${trackid}</div>`;
+            tracking_html_content += tracking_item_content;
+        } 
+    });
+    // tracking_id_title
+    $('#tracking_container').html(tracking_html_content);
+    if(tracking_html_content == '') {
+        $('#tracking_id_title').addClass('d-none');
+    } else {
+        $('#tracking_id_title').removeClass('d-none');
+    }
 }
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    console.log(x,'___x');
+    return  x.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }

@@ -200,13 +200,11 @@ function displayChangeOrderPage(res,itemcode){
             } else {
                 $('#order-save-button').removeClass('d-none')
             }
-            console.log(res,'___change order response');
             $.each(Sale_item.product_details,function(index,item){
                
                 if(item.quantityordered > 0){
                     quantity_count += item.quantityordered;
                         promise_date = item.promisedate;
-                        /* is_change_order */
                         let is_action ='';
                         if(res.data.is_change_order){
                             is_action = `<td class="order_item_actions">    
@@ -225,7 +223,6 @@ function displayChangeOrderPage(res,itemcode){
                                             </a>
                                         </td>`;
                         }
-                        /* is_change_order */
                         item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                             <td class="pointer_events_none">${item.itemcodedesc}<br/>
                             Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td> 
@@ -233,6 +230,7 @@ function displayChangeOrderPage(res,itemcode){
                             <input type="number" name="order_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled></td>
                             <td class="order_unit_price pointer_events_none" data-val="${item.unitprice}">$ ${ numberWithCommas(item.unitprice)}</td>
                             <td class="order_unit_total_price pointer_events_none" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityordered * item.unitprice))}</td>
+                            <td class="pointer_events_none">${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
                             ${is_action}
                         </tr>`;
 
@@ -246,8 +244,8 @@ function displayChangeOrderPage(res,itemcode){
         // promise date value
         $('#promiseDate').val(promise_date)
         // drop ship
-        $('#DropShip option:selected').val(dropship);
-        $('#DropShip option:selected').text(dropship);
+        // $('#DropShip option:selected').val(dropship);
+        // $('#DropShip option:selected').text(dropship);
         $('.backdrop').addClass('d-none');
         $('.result-icon').addClass('d-none');
     } else {
@@ -469,5 +467,10 @@ $(document).on('click','#account_setting_nav',function(e){
 
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    console.log(x,'___x');
+    return  x.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
