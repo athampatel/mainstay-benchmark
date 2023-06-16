@@ -173,7 +173,8 @@
                                 <input class="form-control  col-12" type="text" value="" placeholder="Location" name="Location" id="order-location" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
-                                <label class="form-label">Alias Item Number</label>
+                                {{-- <label class="form-label">Alias Item Number</label> --}}
+                                <label class="form-label">Customer Item Number</label>
                                 <input class="form-control  col-12" type="text" value="" placeholder="Alias Item Number" name="AliasItemNumber" id="AliasItemNumber" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                         </div>
@@ -182,22 +183,22 @@
                                 <label class="form-label">Order Date</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="OrderDate" name="OrderDate" id="OrderDate" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
-                            <div class="mb-3 col-6 col-md-6 col-lg-4">    
+                            {{-- <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Drop Ship</label>
                                 <select class="form-control" name="DropShip" id="DropShip" {{ $is_change_order ? '': 'disabled'}} disabled>
                                     <option value="" selected></option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Quantity Shipped</label>
                                 <input class="form-control  col-12" type="text" value="" placeholder="Quantity Shipped" name="QuantityShipped" id="quantityShiped" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Promise Date</label>
                                 <input class="form-control col-12" type="text" placeholder="Promise Date" value="" name="PromiseDate" id="promiseDate" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="mb-3 col-6 col-md-6 col-lg-4">    
                                 <label class="form-label">Status</label>
                                 <select class="form-control" name="Status" id="orderStatus" {{ $is_change_order ? '': 'disabled'}} disabled>
@@ -224,6 +225,7 @@
                                     <th>Quantity</th>
                                     <th>Unit Price</th>                                    
                                     <th>Total Order Amount</th>
+                                    <th>Drop Ship</th>
                                     @if($is_change_order)
                                     <th>&nbsp;</th>
                                     @endif

@@ -2960,6 +2960,23 @@ td .dtr-title span{
   pointer-events: none;
 }
 
+
+/* tracking */
+#tracking_container{
+  display: flex;
+  gap: 5px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.list_item {
+    background: #7b7c7f; 
+    padding: 6px 14px;
+    color: #fff;
+    border-radius: 8px;
+}
+
+
 /* datatable testing sorting work end */
 
 /* print */

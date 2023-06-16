@@ -25,6 +25,7 @@ use App\Models\ChangeOrderRequest;
 use App\Models\HelpRequest;
 use App\Models\Notification;
 use App\Models\SearchWord;
+use App\Models\UserSalesPersons;
 use DateInterval;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
@@ -1159,7 +1160,7 @@ class MenuController extends Controller
         $data = $request->all();
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-
+        // dd($user_detail);
         $helpRequest = HelpRequest::create([
             'user_detail_id' => $user_detail->id,
             'name' => $data['name'],
@@ -1177,12 +1178,26 @@ class MenuController extends Controller
         $details['mail_view']       =  'emails.email-body';
         $admin_emails = config('app.admin_emails');
         $is_local = config('app.env') == 'local' ? true : false;
+
+        $regional_manager_email = "";
+        if($user_detail->salesPerson){
+            if($user_detail->salesPerson->salesPerson) {
+                if($user_detail->salesPerson->salesPerson->email){
+                    $regional_manager_email = $user_detail->salesPerson->salesPerson->email;
+                }
+            }
+        }   
         if($is_local){
+            $regional_manager_email = config('app.manager_emails');
             UsersController::commonEmailSend($admin_emails,$details);
-            Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
+            UsersController::commonEmailSend($regional_manager_email,$details);
+            // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
             $admin_emails = Admin::all()->pluck('email')->toArray();
             UsersController::commonEmailSend($admin_emails,$details);
+            if($regional_manager_email){
+                UsersController::commonEmailSend($regional_manager_email,$details);
+            }
             // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         if($helpRequest){
