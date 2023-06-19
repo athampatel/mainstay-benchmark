@@ -79,12 +79,19 @@ function displayInvoiceOrderDetail(res){
     order_detail.details.forEach(item => {
         if(item.quantityshipped > 0){
             quantity_count += item.quantityshipped;
+            console.log(item);
             item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                 <td>${item.itemcodedesc}<br/>
                 Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td> 
                 <td> ${item.aliasitemno}</td>
+                <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
+                <input type="number" name="ordered_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled>
+                </td>
                 <td class="order_item_quantity"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
-                <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled></td>
+                <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled>
+                </td>
+                <td class="order_item_quantity"  data-val="${item.quantitybackordered}" data-start_val="${item.quantitybackordered}">
+                <input type="number" name="open_item_quantity_input" id="" min="${item.quantitybackordered}" value="${item.quantitybackordered}" data-val=${item.quantitybackordered} class="order_item_quantity_input notactive form-input" disabled></td>
                 <td class="order_unit_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>
                 <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( item.quantityshipped * item.unitprice)}</td>
                 <td>${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
@@ -95,20 +102,22 @@ function displayInvoiceOrderDetail(res){
     $('#disp-items-body').html(item_details_html);
 
     // tracking id's listing
-    console.log(order_detail.trackingid,'___tracking id ___eeee');
-    let tracking_html_content = "";
-    order_detail.trackingid.forEach(trackid => {
-        if(trackid != ''){
-            let tracking_item_content = `<div class="list_item">${trackid}</div>`;
-            tracking_html_content += tracking_item_content;
-        } 
-    });
-    // tracking_id_title
-    $('#tracking_container').html(tracking_html_content);
-    if(tracking_html_content == '') {
-        $('#tracking_id_title').addClass('d-none');
-    } else {
-        $('#tracking_id_title').removeClass('d-none');
+    if(typeof order_detail.trackingid != 'undefined'){
+        console.log(order_detail.trackingid,'___tracking id ___eeee');
+        let tracking_html_content = "";
+        order_detail.trackingid.forEach(trackid => {
+            if(trackid != ''){
+                let tracking_item_content = `<div class="list_item">${trackid}</div>`;
+                tracking_html_content += tracking_item_content;
+            } 
+        });    
+        // tracking_id_title
+        $('#tracking_container').html(tracking_html_content);
+        if(tracking_html_content == '') {
+            $('#tracking_id_title').addClass('d-none');
+        } else {
+            $('#tracking_id_title').removeClass('d-none');
+        }
     }
 }
 

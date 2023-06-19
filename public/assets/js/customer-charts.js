@@ -225,9 +225,12 @@ function displayChangeOrderPage(res,itemcode){
                         }
                         item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
                             <td class="pointer_events_none">${item.itemcodedesc}<br/>
-                            Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td> 
+                            Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td>
+                            <td class="pointer_events_none" data-val="${item.aliasitemno}">${item.aliasitemno}</a></td>
                             <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
                             <input type="number" name="order_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled></td>
+                            <td class="order_item_quantity"  data-val="${item.quantityshipped}">${item.quantityshipped}</a></td>
+                            <td class="order_item_quantity"  data-val="${item.quantitybackordered}">${item.quantitybackordered}</a></td>
                             <td class="order_unit_price pointer_events_none" data-val="${item.unitprice}">$ ${ numberWithCommas(item.unitprice)}</td>
                             <td class="order_unit_total_price pointer_events_none" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityordered * item.unitprice))}</td>
                             <td class="pointer_events_none">${item.dropship == 'Y' ? 'Yes' : 'No'}</td>

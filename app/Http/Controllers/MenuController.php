@@ -732,6 +732,10 @@ class MenuController extends Controller
         $limit = isset($data['count']) ? intval($data['count']) : 12;
         $year = isset($data['year']) ? $data['year'] : intval(date('Y'));
         $range = isset($data['range']) ? intval($data['range']) : 0;
+        $view_type = isset($data['view_type']) ? intval($data['view_type']) : 1;
+        $chart_type = isset($data['chart_type']) ? intval($data['chart_type']) : 0;
+        $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
+        $show_chart   = 0; 
         $response_table_data = [];
         if($page == 0){
             $offset = 1;
@@ -769,44 +773,47 @@ class MenuController extends Controller
         if($is_another_get) {
             $year_1 = $start_dates_array[0];
         }
-        if($user_details){
-            $data = array(            
-                "filter" => [
-                    [
-                        "column" =>  "CustomerNo",
-                        "type" =>  "equals",
-                        "value" =>  $user_details->customerno,
-                        "operator" =>  "and"
+        $SDEAPi = new SDEApi();
+        if($view_type == 1){
+            if($user_details){
+                $data = array(            
+                    "filter" => [
+                        [
+                            "column" =>  "CustomerNo",
+                            "type" =>  "equals",
+                            "value" =>  $user_details->customerno,
+                            "operator" =>  "and"
+                        ],
+                        [
+                            "column" => "ARDivisionNo",
+                            "type" => "equals",
+                            "value" => $user_details->ardivisionno,
+                            "operator" => "and"
+                        ],
                     ],
-                    [
-                        "column" => "ARDivisionNo",
-                        "type" => "equals",
-                        "value" => $user_details->ardivisionno,
-                        "operator" => "and"
-                    ],
-                ],
-                "index" => "KSDEDESCENDING",
-                "offset" => $offset,
-                "limit" => $limit,
-            );
-            $data['filter'] = array_merge($date_filter,$data['filter']);
-            $SDEAPi = new SDEApi();
-            $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
-            if(!empty($response_table)){
-                $response_table_data = $response_table['salesorderhistoryheader'];
+                    "index" => "KSDEDESCENDING",
+                    "offset" => $offset,
+                    "limit" => $limit,
+                );
+                $data['filter'] = array_merge($date_filter,$data['filter']);
+            
+                $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
+                if(!empty($response_table)){
+                    $response_table_data = $response_table['salesorderhistoryheader'];
+                }
             }
-        }
-        $table_code = View::make("components.datatabels.analysis-page-component")
-        ->with("analysisdata", $response_table_data)
-        ->render();
-
-        $path = '/get-analysis-page-data';
-        $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
-        $pagination_code = "";
-        if($custom_pagination['last_page'] >= 1){
-            $pagination_code = View::make("components.ajax-pagination-component")
-            ->with("pagination", $custom_pagination)
+            $table_code = View::make("components.datatabels.analysis-page-component")
+            ->with("analysisdata", $response_table_data)
             ->render();
+
+            $path = '/get-analysis-page-data';
+            $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
+            $pagination_code = "";
+            if($custom_pagination['last_page'] >= 1){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            } 
         }
 
         if($range == 4){
@@ -834,34 +841,37 @@ class MenuController extends Controller
                 ]
             ]
         );
-        $SDEAPi = new SDEApi();
-        $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
-        $response_data1 = [];
-        if($is_another_get){
-            $data1 = array(            
-                "filter" => [
-                    [
-                        "column" => "ARDivisionNo",
-                        "type" => "equals",
-                        "value" => $user_details->ardivisionno,
-                        "operator" => "and"
-                    ],
-                    [
-                        "column" =>  "CustomerNo",
-                        "type" =>  "equals",
-                        "value" =>  $user_details->customerno,
-                        "operator" =>  "and"
-                    ],
-                    [
-                        "column" =>  "FiscalYear",
-                        "type" =>  "equals",
-                        "value" =>  $year_1,
-                        "operator" =>  "and"
+       
+
+        if($view_type == 2 && $chart_type == 0){
+            $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
+            $response_data1 = [];
+            if($is_another_get){
+                $data1 = array(            
+                    "filter" => [
+                        [
+                            "column" => "ARDivisionNo",
+                            "type" => "equals",
+                            "value" => $user_details->ardivisionno,
+                            "operator" => "and"
+                        ],
+                        [
+                            "column" =>  "CustomerNo",
+                            "type" =>  "equals",
+                            "value" =>  $user_details->customerno,
+                            "operator" =>  "and"
+                        ],
+                        [
+                            "column" =>  "FiscalYear",
+                            "type" =>  "equals",
+                            "value" =>  $year_1,
+                            "operator" =>  "and"
+                        ]
                     ]
-                ]
-            );
-            $SDEAPi = new SDEApi();
-            $response_data1   = $SDEAPi->Request('post','CustomerSalesHistory',$data1);
+                );
+                $SDEAPi = new SDEApi();
+                $response_data1   = $SDEAPi->Request('post','CustomerSalesHistory',$data1);
+            }
         }
         $new_data = array();
         $month_year = array();
@@ -881,7 +891,7 @@ class MenuController extends Controller
                             }
                         }
                     }
-                } else {
+                } elseif(isset($response_data)) {
                     foreach($response_data['customersaleshistory'] as $resp2){
                         if($resp2['fiscalperiod'] == $range_m){
                             $new_data[] = $resp2;
@@ -889,7 +899,7 @@ class MenuController extends Controller
                         }
                     }
                 }
-            } else {
+            } elseif(isset($response_data)){
                 foreach($response_data['customersaleshistory'] as $resp2){
                     if($resp2['fiscalperiod'] == $range_m){
                         $new_data[] = $resp2;
@@ -898,42 +908,45 @@ class MenuController extends Controller
                 }
             }
         }
-        $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
-        $saleby_productline = $saleby_productline1['sales_details']; 
-        $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
-        $sale_map                   = array();
-        $sale_map_desc                   = array();
-        if(!empty($saleby_productline)){
-            foreach($saleby_productline as $key => $value){   
-                $total_val = 0;
-                foreach($value[$year] as $k => $v){
-                    $k = $k > 9 ? strval($k) : "0$k";
-                    if(in_array($k,$filter_dates['range_months'])){
-                        if(is_array($v)) {
-                             $total_val = $total_val + $v['value'];
-                         } else {
-                            $total_val = $total_val + $v;
-                         }
-                    }
-                }                  
-                $sale_map[] = array('label' => $key,'value' => $total_val);
+       
+        if($chart_type == 1 ){            
+            $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
+            $saleby_productline = $saleby_productline1['sales_details']; 
+            $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
+            $sale_map                   = array();
+            $sale_map_desc                   = array();
+            if(!empty($saleby_productline)){
+                foreach($saleby_productline as $key => $value){   
+                    $total_val = 0;
+                    foreach($value[$year] as $k => $v){
+                        $k = $k > 9 ? strval($k) : "0$k";
+                        if(in_array($k,$filter_dates['range_months'])){
+                            if(is_array($v)) {
+                                $total_val = $total_val + $v['value'];
+                            } else {
+                                $total_val = $total_val + $v;
+                            }
+                        }
+                    }                  
+                    $sale_map[] = array('label' => $key,'value' => $total_val);
+                }
             }
-        }
-        
-        if(!empty($saleby_productline_desc)){
-            foreach($saleby_productline_desc as $key => $value){   
-                $total_val = 0;
-                foreach($value[$year] as $k => $v){
-                    $k = $k > 9 ? strval($k) : "0$k";
-                    if(in_array($k,$filter_dates['range_months'])){
-                         if(is_array($v)){
-                             $total_val = $total_val + $v['value'];
-                         } else {
-                            $total_val = $total_val + $v;
-                         }
-                    }
-                }                  
-                $sale_map_desc[] = array('label' => $key,'value' => $total_val);
+            
+            if(!empty($saleby_productline_desc)){
+                foreach($saleby_productline_desc as $key => $value){   
+                    $total_val = 0;
+                    foreach($value[$year] as $k => $v){
+                        $k = $k > 9 ? strval($k) : "0$k";
+                        if(in_array($k,$filter_dates['range_months'])){
+                            if(is_array($v)){
+                                $total_val = $total_val + $v['value'];
+                            } else {
+                                $total_val = $total_val + $v;
+                            }
+                        }
+                    }                  
+                    $sale_map_desc[] = array('label' => $key,'value' => $total_val);
+                }
             }
         }
         $res['table_code'] = $table_code;

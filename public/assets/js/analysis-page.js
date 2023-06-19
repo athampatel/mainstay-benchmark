@@ -38,8 +38,14 @@ $(document).on('change','#tab_input',function(){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
         $('#analysis_item_select_label').addClass('d-none');
-        $('#analysis_range_select option[value="4"]').show()
+        $('#analysis_range_select option[value="4"]').show();
     }
+
+    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
+    let select_by_range = parseInt($('#analysis_range_select option:selected').val());
+    let current_year = parseInt($('#analysis_year_select option:selected').val());
+    getAnalysispageData(0,pageCount,select_by_range,current_year)
+
 });
 // ajax
 let analysis_page_table;
@@ -50,14 +56,19 @@ getAnalysispageData(0,pageCount,select_by_range,current_year)
 
 function getAnalysispageData($page,$count,range,year){
     let chart_type = parseInt($('#analysis_item_select option:selected').val());
+    var _view = 2;
+    if($(document.body).find('#analysis_table_chart').hasClass('d-none')){
+        _view = 1;
+    }
     $.ajax({
         type: 'GET',
         url: '/get-analysis-page-data',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type},
+        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
         beforeSend:function(){
-            beforeAjax()
+            beforeAjax();
+           $('#analysis_page_chart').html('');
         },
         success: function (res) {
             $('#invoice-order-page-table-div').html(res.table_code);
@@ -86,18 +97,21 @@ function getAnalysispageData($page,$count,range,year){
                 months = $analaysis_count['months'];
                 months_desc = $analaysis_count['months'];
                 chart_count = $analaysis_count['final'];
-            } else {
+            } else if(chart_type == 1){
                 $analaysis_count =  getProductLineCount(product_data);
                 $analaysis_count_desc =  getProductLineCount(product_data_desc);
                 months = $analaysis_count['products'];
                 chart_count = $analaysis_count['counts'];
                 months_desc = $analaysis_count_desc['products'];
             }
-            if(is_year_multiple) {
-                renderAnalysisChart(chart_count,range_months_year,months_desc);
-            } else {
-                renderAnalysisChart(chart_count,months,months_desc);
+            if(chart_type == 1 || _view == 2){
+                if(is_year_multiple) {
+                    renderAnalysisChart(chart_count,range_months_year,months_desc);
+                } else {
+                    renderAnalysisChart(chart_count,months,months_desc);
+                }
             }
+
         },
         complete:function(){
             AfterAjax()
@@ -143,7 +157,7 @@ function getAnalaysisDataCount(data,range,range_months){
     let arr1 = [];
     let months = [];
     let test_array = [];
-    console.log(range,'__range');
+    console.log(data);
     data.forEach( (da,k) => {
        if(range == 0){
         arr1[da.fiscalperiod] = da.dollarssold;
@@ -287,11 +301,8 @@ $(document).on('change','#analysis_item_select',function(){
 })
 
 // range select
-$(document).on('change','#analysis_range_select',function(){
-    $(this).closest('.down-arrow').css("transform", "rotate(-180deg)");
-})
-
 $(document).on('change','select#analysis_range_select',function(){
+    $(this).closest('.down-arrow').css("transform", "rotate(-180deg)");
     if($(this).val() == 0) {
         $('#analysis_year_select_label').removeClass('d-none')
     } else {

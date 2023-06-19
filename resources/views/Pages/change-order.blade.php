@@ -221,8 +221,11 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
-                                    <th>Quantity Ordered</th>
-                                    <th>Unit Price</th>                                    
+                                    <th>Customer Item Number</th>   
+                                    <th class="max-100">Quantity<br/>Ordered</th>
+                                    <th class="max-100">Quantity<br/>Shipped</th>
+                                    <th class="max-100">Quantity<br/>Open</th>
+                                    <th>Unit Price</th>                                                                        
                                     <th>Total Order Amount</th>
                                     <th>Drop Ship</th>
                                     @if($is_change_order)
