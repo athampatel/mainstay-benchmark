@@ -706,7 +706,7 @@ nav .profile-details i{
     padding: 0.75rem;
 }
 .overview-boxes .table .max-100{
-  max-width:20rem;
+  max-width:15rem;
 }
 .overview-boxes label{
   color: #FFF;
@@ -714,6 +714,7 @@ nav .profile-details i{
 .overview-boxes .table th,
 .overview-boxes .table td{
   vertical-align: middle;
+  min-width: 5rem;
 }
 
 .height_144{
