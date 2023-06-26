@@ -75,7 +75,16 @@ class MenuController extends Controller
         );
         // $by_admin = $request->session()->get('by_admin');
         $by_admin = Session()->get('by_admin');
+        $is_temp = Session()->get('is_temp');
+        if($is_temp){
+            unset($menus['help']);
+            unset($menus['logout']);            
+            unset($menus['account-settings']);
+        }        
         if($by_admin){
+            unset($menus['help']);
+            unset($menus['logout']);            
+            unset($menus['account-settings']);
             $menus['by_admin'] =  array( 'name' => 'Back To Admin', 
                                         'icon_name' => file_get_contents(public_path('/assets/images/svg/back_to_admin.svg')),
                                         'active' => 0,
@@ -114,24 +123,27 @@ class MenuController extends Controller
         $data['menus']          = $this->NavMenu('dashboard');
         $customer_no    = $request->session()->get('customer_no');
         $customers      = $request->session()->get('customers');
-        $user_id        = $customers[0]->user_id;
-        $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
-        if(!$response) return redirect()->back();
-        $data['customer_menus'] = $response;
+        $is_temp        = $request->session()->get('temp_access');
+        $customerDetails= null;
+        $year           = date('Y');
+       // if(empty($is_temp)){
+            $user_id        = $customers[0]->user_id;
+            $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
+            if(!$response) return redirect()->back();
 
-        $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile','.admins.phone_no')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
-                                                ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
-                                                ->leftjoin('admins','admins.email','=','sales_persons.email')
-                                                ->first();
-        $data['constants']          = config('constants');
-        $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();
+            $data['customer_menus'] = $response;
 
-        $year                       = 2022;
-        // comment for api issue
-        $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
-        
+            $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile','.admins.phone_no')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
+                                                    ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
+                                                    ->leftjoin('admins','admins.email','=','sales_persons.email')
+                                                    ->first();
        
+            $customerDetails            = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first();            
+            $data['constants']          = config('constants');
+            // comment for api issue
+       // }
 
+        $saleby_productline1         = ProductLine::getSaleDetails($customerDetails,$year);
         if($saleby_productline1){
             $saleby_productline     = $saleby_productline1['sales_line']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details']; 
@@ -746,7 +758,15 @@ class MenuController extends Controller
         $user_id        = Auth::user()->id;
         $user_details   = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $response_table = [];
-        $filter_dates = $this->getRangeDates($range,$year);
+        $SDEAPi = new SDEApi();
+
+        $filter_dates = $SDEAPi->getRangeDates($range,$year);
+        /*
+        print_r($filter_dates);
+        die;  */
+        $string_months  = isset($filter_dates['string_months']) ? $filter_dates['string_months']: null;
+        $range_months   = isset($filter_dates['range_months']) ? $filter_dates['range_months']: null;
+        $month_name     = isset($filter_dates['month_name']) ? $filter_dates['month_name']: null;
         $filter_start_date = $filter_dates['start'];
         $filter_end_date = $filter_dates['end'];
         $date_filter = [
@@ -773,8 +793,8 @@ class MenuController extends Controller
         if($is_another_get) {
             $year_1 = $start_dates_array[0];
         }
-        $SDEAPi = new SDEApi();
-        if($view_type == 1){
+        
+        if($view_type == 1 && $chart_type == 0){
             if($user_details){
                 $data = array(            
                     "filter" => [
@@ -814,96 +834,71 @@ class MenuController extends Controller
                 ->with("pagination", $custom_pagination)
                 ->render();
             } 
+
+            //print_r($response_table); die; 
         }
 
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
-        $data = array(            
-            "filter" => [
-                [
-                    "column" => "ARDivisionNo",
-                    "type" => "equals",
-                    "value" => $user_details->ardivisionno,
-                    "operator" => "and"
-                ],
-                [
-                    "column" =>  "CustomerNo",
-                    "type" =>  "equals",
-                    "value" =>  $user_details->customerno,
-                    "operator" =>  "and"
-                ],
-                [
-                    "column" =>  "FiscalYear",
-                    "type" =>  "equals",
-                    "value" =>  $year,
-                    "operator" =>  "and"
-                ]
-            ]
-        );
+
+        $dataSalesHistory = array(
+                                    array(  "column" => "ARDivisionNo",
+                                            "type" => "equals",
+                                            "value" => $user_details->ardivisionno,
+                                            "operator" => "and"),
+                                    array(  "column" =>  "CustomerNo",
+                                            "type" =>  "equals",
+                                            "value" =>  $user_details->customerno,
+                                            "operator" =>  "and"));
+        if($year_1 != $year){   
+            
+            $yearinfo =  array(  "column" =>  "FiscalYear",
+                                "type" =>  ">=",
+                                "value" =>  $year_1,
+                                "operator" =>  "and");
+
+            array_push($dataSalesHistory,$yearinfo);
+
+            $year_new   =  array(  "column" =>  "FiscalYear",
+                                    "type" =>  "<=",
+                                    "value" =>  $year,
+                                    "operator" =>  "and");                    
+
+            array_push($dataSalesHistory,$year_new);
+
+        }else{
+            $yearinfo =  array(  "column" =>  "FiscalYear",
+                                "type" =>  "equals",
+                                "value" =>  $year,
+                                "operator" =>  "and");
+
+            array_push($dataSalesHistory,$yearinfo);                    
+        }
+        $data = array("filter" => $dataSalesHistory);
        
+        //print_r($dataSalesHistory);
+
+        $response_data1 = [];
+        
 
         if($view_type == 2 && $chart_type == 0){
-            $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
-            $response_data1 = [];
-            if($is_another_get){
-                $data1 = array(            
-                    "filter" => [
-                        [
-                            "column" => "ARDivisionNo",
-                            "type" => "equals",
-                            "value" => $user_details->ardivisionno,
-                            "operator" => "and"
-                        ],
-                        [
-                            "column" =>  "CustomerNo",
-                            "type" =>  "equals",
-                            "value" =>  $user_details->customerno,
-                            "operator" =>  "and"
-                        ],
-                        [
-                            "column" =>  "FiscalYear",
-                            "type" =>  "equals",
-                            "value" =>  $year_1,
-                            "operator" =>  "and"
-                        ]
-                    ]
-                );
-                $SDEAPi = new SDEApi();
-                $response_data1   = $SDEAPi->Request('post','CustomerSalesHistory',$data1);
-            }
-        }
-        $new_data = array();
-        $month_year = array();
-        $is_change = false;
-        foreach($filter_dates['range_months'] as $range_m){
-            if($is_another_get){
-                if($is_another_get && !$is_change) {
-                    $mo = intval($range_m);
-                    if($mo <= 12){
-                        if($mo == 12) {
-                            $is_change = true;
-                        }
-                        foreach($response_data1['customersaleshistory'] as $resp1){
-                            if($resp1['fiscalperiod'] == $range_m){
-                                $new_data[] = $resp1;
-                                $month_year[] = self::convertMonthName($range_m).'-'.$resp1['fiscalyear'];
-                            }
-                        }
-                    }
-                } elseif(isset($response_data)) {
-                    foreach($response_data['customersaleshistory'] as $resp2){
-                        if($resp2['fiscalperiod'] == $range_m){
-                            $new_data[] = $resp2;
-                            $month_year[] = self::convertMonthName($range_m).'-'.$resp2['fiscalyear'];
-                        }
-                    }
-                }
-            } elseif(isset($response_data)){
+            $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);           
+            $new_data = array();
+            $month_year = array();
+            $is_change = false;
+            if(isset($response_data)){
                 foreach($response_data['customersaleshistory'] as $resp2){
-                    if($resp2['fiscalperiod'] == $range_m){
-                        $new_data[] = $resp2;
-                        $month_year[] = self::convertMonthName($range_m).'-'.$resp2['fiscalyear'];
+                    $_fiscalyear = $resp2['fiscalperiod'].$resp2['fiscalyear'];    
+                    $_index  = '';                    
+                    if(!empty($month_name) && in_array($_fiscalyear,$month_name) !== false){ 
+                        $_index = array_search($_fiscalyear,$month_name);                            
+                    }else if(!empty($range_months) && empty($month_name)){
+                        $_index = array_search($resp2['fiscalperiod'],$range_months);
+                    }
+                    if($_index != ''){
+                        $new_data[$_index] = $resp2;
+                        $month_year[$_index] = self::convertMonthName($resp2['fiscalperiod']).'-'.$resp2['fiscalyear'];
                     }
                 }
             }
@@ -949,6 +944,31 @@ class MenuController extends Controller
                 }
             }
         }
+
+        if(!empty($month_year)){
+            $dateval = '';
+            foreach($range_months as $index => $_val){
+                if(!isset($month_year[$index])){
+                    $int_month = (int) $_val;
+                    if($dateval == ''){
+                        $dateval = date('Y',strtotime('01-'.$month_year[$index + 1]));
+                    }
+                    if(isset($string_months[$index]))
+                        $month_year[$index] = $string_months[$index];
+                    else
+                        $month_year[$index] = date('M-Y',strtotime('01-'.$_val.'-'.$dateval));
+
+                    $new_data[$index]   = array('fiscalyear' => 2023,'fiscalperiod' => $_val,'dollarssold' => 0);
+                }
+                $dateval = date('Y',strtotime('01-'.$_val));
+            }
+            ksort($month_year);
+            ksort($new_data);
+        }
+
+        //print_r($new_data);
+       // print_r($month_year);
+
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
         $res['analysis_data'] = $new_data;
@@ -961,92 +981,7 @@ class MenuController extends Controller
         die();
     }
 
-    public function getRangeDates($range,$year) {
-        $start_date = '';
-        $end_date = '';
-        $range_months = [];
-        $current_month = Carbon::now()->format('m');
-        if($range != 0){
-            if($range ==  1){
-                $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(1)->endOfMonth()->format('Y-m-d');            
-                $end_date = date('Y-m-d');
-                $last_month = Carbon::now()->subMonth()->month;
-                $last_month = $last_month > 9 ? $last_month : "0$last_month"; 
-                
-
-                $_month = Carbon::parse($start_date)->startOfMonth()->format('m');                    
-                $e_month = Carbon::parse($end_date)->startOfMonth()->format('m');                    
-                if($_month != $e_month){
-                    $range_months = [$_month,$last_month];
-                }else{
-                    $range_months = [$_month];
-                }
-            }
-
-            if($range == 2 || $range == 3 || $range == 5){
-                $num = 2;
-                if($range == 3)
-                    $num = 5;
-                elseif($range == 5)    
-                    $num = 11; 
-                $data = array();
-                for ($i = $num; $i >= 0; $i--) {
-                    //$month = Carbon::today()->subMonth($i);    
-                    $current_month = date('m-Y'); //Carbon::now()->format('m');                
-                    $month = Carbon::parse('01-'.$current_month)->subMonth($i)->startOfMonth()->format('m');                    
-                    $year = Carbon::parse('01-'.$current_month)->subMonth($i)->format('Y');
-                    array_push($data, array(
-                        'month' => $month,
-                        'year' => $year,
-                        'index' => $i,
-                    ));
-                    array_push($range_months,$month);
-                }
-                $_st = $data[0];
-                $w_st = $data[$num];
-                $start_date = $_st['year']."-".$_st['month']."-01";
-                $end_date   = date('Y-m-d');
-            }
-           
-            /*if($range == 2){
-                $start_date = ($year - 1).'-01-01';
-                $end_date = $year. '-04-01';
-                $range_months = ['01','02','03'];
-            }
-            if($range == 3){
-                $start_date = ($year - 1).'-01-01';
-                $end_date = $year."-"."07-01";
-                $range_months = ['01','02','03','04','05','06'];
-            }
-            if($range == 5){
-                $start_date = ($year - 1).'-01-01';
-                $end_date = $year."-"."07-01";
-                $range_months = ['01','02','03','04','05','06'];
-            }?*/
-            if($range == 4){
-                $dates = explode('&',$year);
-                $start_date = $dates[0];
-                $end_date = $dates[1];
-
-                $start = Carbon::parse($start_date);
-                $end = Carbon::parse($end_date);
-
-                $interval = \DateInterval::createFromDateString('1 month');
-                $period = new \DatePeriod($start, $interval, $end);
-
-                foreach ($period as $dt) {
-                    $range_months[] = $dt->format("m");
-                }
-            }
-        } else {
-            $range_months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-            $start_date = ($year) . "-01-01";
-            $end_date = ($year)."-12-31";
-        }
-
-        $return = array('start' => $start_date, 'end' => $end_date ,'range_months' => $range_months);
-        return $return;
-    }
+    
 
     public function getChangeOrderRequests(Request $request){
         $final_data['title']  = '';

@@ -470,7 +470,7 @@ $(document).on('click','#account_setting_nav',function(e){
 
 
 function numberWithCommas(x) {
-    console.log(x,'___x');
+    //console.log(x,'___x');
     return  x.toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2

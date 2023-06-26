@@ -24,7 +24,7 @@
                             @if($invoice['salesorderno'])
                             <a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a>
                             @else 
-                            #{{$invoice['invoiceno']}}
+                            <a href="#" target="_blank" disabled class="disabled item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a>
                             @endif
                         </td>
                         {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td>  --}}

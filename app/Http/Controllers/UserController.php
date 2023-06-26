@@ -30,6 +30,8 @@ class UserController extends Controller
                             'activation_token'  => '',
         );
         // $user = User::where('email',$useremail)->first();
+        if(isset($data['temp']))
+            $userData['is_temp'] = 1;
         $user = User::where('email',$contact_email)->first();
         if(!$user){
             $user = User::create($userData);
@@ -79,8 +81,8 @@ class UserController extends Controller
                             'zipcode'           => $data['zipcode'],
                             'email'             => $useremail,
                             'phone_no'          => isset($data['phone_no']) && $data['phone_no']!='' ? $data['phone_no'] : '',
-                            'contactcode'          => isset($data['contactcode']) ? $data['contactcode'] : '',
-                            'contactname'          => isset($data['contactname']) ? $data['contactname'] : '',
+                            'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
+                            'contactname'       => isset($data['contactname']) ? $data['contactname'] : '',
                         );
         /* checks in the customer table */
         // $data['customerno']

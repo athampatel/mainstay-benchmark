@@ -92,18 +92,22 @@ function getAnalysispageData($page,$count,range,year){
             let months = [];
             let chart_count = [];
             let months_desc = [];
-            if(chart_type == 0){
+            
+            //console.log('__logo',chart_type,_view);
+            var checkAnalysis = $('#analysis_item_select').val();
+            if(checkAnalysis == 0 && analysis_data.length > 0){
                 $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
                 months = $analaysis_count['months'];
                 months_desc = $analaysis_count['months'];
                 chart_count = $analaysis_count['final'];
-            } else if(chart_type == 1){
+            } else if(checkAnalysis == 1){
                 $analaysis_count =  getProductLineCount(product_data);
                 $analaysis_count_desc =  getProductLineCount(product_data_desc);
                 months = $analaysis_count['products'];
                 chart_count = $analaysis_count['counts'];
                 months_desc = $analaysis_count_desc['products'];
             }
+
             if(chart_type == 1 || _view == 2){
                 if(is_year_multiple) {
                     renderAnalysisChart(chart_count,range_months_year,months_desc);

@@ -26,7 +26,9 @@ function customerSalesHistory(){
             $('#customer_sales_history .chart-loader-div').removeClass('d-none');
         },
         success: function (res) {  
-            customerSalesChartDisplays(res,2)
+            
+            customerSalesChartDisplays(res,2);
+            
         },
         complete:function(){
             $('#customer_sales_history .chart-loader-div').addClass('d-none');
@@ -40,27 +42,37 @@ function customerSalesChartDisplays(resp,status){
     $counts = [];
     $categories = [];
     if(status == 1){
-        console.log(resp);
+        
         $.each(resp,function(index,vale){
             $counts.push(Math.round(vale.total));
             $categories.push(vale.month)
         });
     }else{
-        $categories = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        $res = JSON.parse(resp);        
-        $customer_data = $res.data.data.customersaleshistory;
-        for(let i = 1; i <= 12 ; i++ ){
+        
+        $res = JSON.parse(resp); 
+        console.log($res);
+        $categories = $res.data.year;
+        $customer_data = $res.data.data;
+        $customer_data.forEach(da => {
+            $counts.push(Math.round(da.dollarssold));
+        });
+
+        /*for(let i = 1; i <= 12 ; i++ ){
             let is_add = true;
+            
+            console.log($customer_data);
+
             $customer_data.forEach(da => {
+
                 if(da.fiscalperiod == i){
                     is_add = false;
-                    $counts.push(Math.round(da.dollarssold))
+                    $counts.push(Math.round(da.dollarssold));
                 }
             })
             if(is_add){
                 $counts.push(0);
             }
-        }
+        }*/
     }
     // console.log($counts,'___counts');
     var options = {

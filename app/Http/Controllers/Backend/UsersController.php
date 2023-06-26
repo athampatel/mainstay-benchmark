@@ -116,7 +116,7 @@ class UsersController extends Controller
                 });
             }
             $query->select('user_details.*','sales_persons.name');
-            $query->where('users.is_deleted',0);
+            $query->where('users.is_deleted',0)->where('users.is_temp',0);
             if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
                 $query->where('user_details.vmi_companycode','!=','');
             }
@@ -447,20 +447,23 @@ class UsersController extends Controller
         }
     }
 
-    public function CreateCustomer($postdata = null,$key = 0){
+    public function CreateCustomer($postdata = null,$key = 0,$notify = 1){
         // dd($postdata);
         $response   = AuthController::CreateCustomer($postdata,1);
         $user       = isset($response['user']) ? $response['user'] : null;
         $message    = config('constants.admin_customer_create.mail.error');
         $status     = 'error';  
         $id         = 0;
-        if(!empty($user) && !$key){            
+        if(!empty($user) && !$key && $notify){            
             $this->sendActivationLink($user->id);
             $message    = config('constants.admin_customer_create.mail.success');
             $status     = 'success';    
             $id         = $user->id;            
+        }elseif(!$notify && !empty($user)){
+            $id         = $user->id;
+            $status     = 'success';            
         }
-        return array('status' => $status,'message' => $message,'id' => $id);
+        return array('status' => $status,'message' => $message,'id' => $id,'details_id' => $user->details_id);
     }
     /**
      * Display the specified resource.
@@ -496,7 +499,10 @@ class UsersController extends Controller
                           'user_details.zipcode',
                           'sales_persons.person_number',
                           'sales_persons.email as salespersonemail',
-                          'sales_persons.name as salespersonname'])->where('users.id',$id)->first();
+                          'sales_persons.name as salespersonname'])->where('users.id',$id)->where('users.is_temp',0)->first();
+
+        if(empty($user))
+            return abort('403');
 
         $roles  = Role::all();
         $menus = CustomerMenu::all();
@@ -1373,7 +1379,8 @@ class UsersController extends Controller
     public static function customerExportData(){
         $customers = User::select('user_details.contactname','user_details.contactcode','users.email as contact_email','user_details.email','user_details.customerno','user_details.customername','user_details.ardivisionno','sales_persons.name')->leftjoin('user_details','users.id','=','user_details.user_id')
                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
-                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')->get()->toArray();
+                    ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
+                    ->where('users.is_temp',0)->get()->toArray();
         $header_array = array(
             'CONTACT CODE',
             'CONTACT NAME',
@@ -1937,18 +1944,122 @@ class UsersController extends Controller
         die();
     }
 
+    /* TEMP ACCESS FUNCTION INTEGRATION */
+    public function CheckTempCustomerAccess($customerNo = ''){    
+        $SDEAPi     = new SDEApi();
+        $data = array(            
+            "filter" => [
+                [
+                    "column"=>"customerno",
+                    "type"=>"equals",
+                    // "value"=>$customer[0]['customerno'],
+                    "value"=>$customerNo,
+                    "operator"=>"and"
+                ]
+            ],
+            "offset" => 1,
+            "limit" => 1
+        );
+        $response   = $SDEAPi->Request('post','Customers',$data);
+        $customer   = array();  
+        if(!empty($response)){
+            $customers = $response['customers'];
+            $customer = $customers[0];
+            $customer['email']          =  $customer['emailaddress'];
+            $customer['contactcode']    = 'temp_'.$customerNo;
+            $customer['contactname']    = $customer['customername'];
+            $customer['contactemail']   = 'temp_'.$customerNo.'@benchmarkproducts.com';
+            $customer['is_temp']        = 1;
+            $customer['vmi_password']   = 'temp_'.$customerNo;
+            
+        }
+        $_res = $this->CreateCustomer($customer,0,0);       
+        return $_res;
+    }
+
     public function customerLogin(Request $request,$id,$user_detail_id){    
         if(!auth('admin')->check()){
             return redirect()->route('admin.login');  
         }
+        $is_temp =  0;
+        if(!is_numeric($id)){
+            $customerNo = $id;
+            $_temp = UserDetails::where('customerno',$id)
+                        ->where('users.is_temp',1)
+                        ->leftjoin('users','users.id','=','user_details.user_id')
+                        ->select('user_details.*')
+                        ->first();
+            if(!empty($_temp)){
+                $id                 = $_temp['user_id'];
+                $user_detail_id      = $_temp['id'];
+                $is_temp =  1;      
+            }else{
+                $_temp   = $this->CheckTempCustomerAccess($id);
+                $id      = $_temp['id'];
+                $user_detail_id = $_temp['details_id'];
+                $is_temp =  1;                
+            }
+            if($is_temp)
+                $request->session()->put('temp_access',$customerNo);
+        }
+
         $email = Auth::guard('admin')->user()->email;
         // Auth::guard('admin')->logout();
         if(Auth::guard('web')->loginUsingId($id)){
             self::customerSessions($request,$email,$user_detail_id);
             return redirect()->route('auth.customer.dashboard'); 
-        } else {
-            dd('user not login');
+        }else{
+            //Auth::guard('web')->loginUsingId($temp_id);
+            //self::SetTempSessions($request,$email,$id);
+            //return redirect()->route('auth.customer.dashboard');
+            return abort('403'); 
         }
+    }
+
+    private static function SetTempSessions(Request $request,$admin_email = null,$current_user_no = null){
+        $user = Auth::user();     
+        $data = array(            
+                "filter" => [
+                    [
+                        "column"=>"customerno",
+                        "type"=>"equals",
+                        // "value"=>$customer[0]['customerno'],
+                        "value"=>$current_user_no,
+                        "operator"=>"and"
+                    ]
+                ],
+                "offset" => 1,
+                "limit" => 1
+            );
+
+         
+        $SDEAPi     = new SDEApi();
+        $response   = $SDEAPi->Request('post','Customers',$data);
+        $customers   = null;
+        if(!empty($response)){
+            $customers = $response['customers'];
+            $customer = $customers[0];
+            if(!empty($customer) && $customer['vmi_companycode'] != ''){           
+                $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$customer['vmi_nextonsitedate'])->format('d-m-Y'));            
+                $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $customer['vmi_physicalcountdate'])->format('d-m-Y'));            
+            }
+        }
+       
+        $request->session()->put('customers',$customers);        
+        $selected_customer = array();
+        foreach($customers as $cs) {
+            if($cs['customerno'] == $current_user_no){
+                $selected_customer = $cs;
+            }
+        }
+        $request->session()->put('selected_customer',$selected_customer);
+        
+        $request->session()->put('customer_no',$current_user_no);
+        
+        if($admin_email) {
+            $request->session()->put('by_admin',$admin_email);
+        }
+        return true;
     }
 
 
@@ -1964,6 +2075,8 @@ class UsersController extends Controller
             return redirect()->route('admin.dashboard');  
         }
     }
+
+    
 
 
     private static function customerSessions(Request $request,$admin_email = null,$user_detail_id = 0){
@@ -1997,7 +2110,7 @@ class UsersController extends Controller
                     $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $response['customers'][0]['vmi_physicalcountdate'])->format('d-m-Y'));            
                 }
             } 
-        }
+        }      
         $request->session()->put('customers',$customer);
         
         // Add selected customers
@@ -2102,7 +2215,14 @@ class UsersController extends Controller
         $manager_customers  = $response['customers'];
         foreach($manager_customers as $key => $customer) {
             $manager_customers[$key]['is_exits'] = false;
-            $is_already_exits = UserDetails::where('customerno',$customer['customerno'])->first();
+           // $is_already_exits = UserDetails::where('customerno',$customer['customerno'])->first();
+
+            $is_already_exits = UserDetails::where('customerno',$customer['customerno'])
+                        ->where('users.is_temp',0)
+                        ->leftjoin('users','users.id','=','user_details.user_id')
+                        ->select('user_details.*','users.profile_image')
+                        ->first();
+
             if($is_already_exits){  
                 $manager_customers[$key]['is_exits'] = true;
                 $manager_customers[$key]['user_detail'] = $is_already_exits->toArray();

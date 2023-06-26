@@ -142,7 +142,7 @@ Customers - Admin Panel
                                         {{-- <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td> --}}
                                         
                                             <td>
-                                                @if($usr['user']['profile_image'] != '')
+                                                @if(isset($usr['user']['profile_image']) && $usr['user']['profile_image'] != '')
                                                     <img src="/{{$account['profile_image']}}" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>
                                                 @else
                                                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_customers_profile" class="rounded-circle datatable_profile"/>

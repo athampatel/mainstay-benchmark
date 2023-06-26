@@ -9,6 +9,7 @@ use App\Models\ApiLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Client\RequestException;
+use Carbon\Carbon;
 // sde : Simple data exchange
 
 class SDEApi
@@ -224,5 +225,109 @@ class SDEApi
         }
         return;
       }
+    }
+	
+	public function getRangeDates($range,$year) {
+        $start_date = '';
+        $end_date = '';
+        $range_months   = [];
+        $string_months  = [];
+        $month_name     = [];
+        $current_month  = Carbon::now()->format('m');
+        if($range != 0){
+            if($range ==  1){
+                $start_date =  Carbon::parse($year . '-' . $current_month . '-01')->subMonths(1)->endOfMonth()->format('Y-m-d');            
+                $end_date = date('Y-m-d');
+                $last_month = Carbon::now()->subMonth()->month;
+                $last_month = $last_month > 9 ? $last_month : "0$last_month"; 
+                
+
+                $_month = Carbon::parse($start_date)->startOfMonth()->format('m');                    
+                $e_month = Carbon::parse($end_date)->startOfMonth()->format('m');                    
+                $s_year = Carbon::parse($start_date)->startOfMonth()->format('y');                    
+                $e_year = Carbon::parse($end_date)->startOfMonth()->format('y');                    
+                //array_push($month_name,$_month.$s_year);
+                if($_month != $e_month){
+                    $range_months = [$_month,$last_month];                    
+                    //array_push($month_name,$e_month.$e_year);                    
+                }else{
+                    $range_months = [$_month];
+                }
+            }
+
+            if($range == 2 || $range == 3 || $range == 5){
+                $num = 2;
+                if($range == 3)
+                    $num = 5;
+                elseif($range == 5)    
+                    $num = 11; 
+                $data = array();
+                for ($i = $num; $i >= 0; $i--) {
+                    //$month = Carbon::today()->subMonth($i);    
+                    $current_month = date('m-Y'); //Carbon::now()->format('m');                
+                    $month = Carbon::parse('01-'.$current_month)->subMonth($i)->startOfMonth()->format('m');                    
+                    $monthName = Carbon::parse('01-'.$current_month)->subMonth($i)->startOfMonth()->format('M');                    
+                    $year = Carbon::parse('01-'.$current_month)->subMonth($i)->format('Y');
+                    array_push($data, array(
+                        'month' => $month,
+                        'year' => $year,
+                        'index' => $i,
+                    ));
+                    $month_strnig = $monthName.'-'.$year;
+
+                    array_push($range_months,$month);
+                    array_push($string_months,$month_strnig);
+                    array_push($month_name,$month.$year);
+                    
+                    
+                }
+                $_st = $data[0];
+                $w_st = $data[$num];
+                $start_date = $_st['year']."-".$_st['month']."-01";
+                $end_date   = date('Y-m-d');
+            }
+           
+            /*if($range == 2){
+                $start_date = ($year - 1).'-01-01';
+                $end_date = $year. '-04-01';
+                $range_months = ['01','02','03'];
+            }
+            if($range == 3){
+                $start_date = ($year - 1).'-01-01';
+                $end_date = $year."-"."07-01";
+                $range_months = ['01','02','03','04','05','06'];
+            }
+            if($range == 5){
+                $start_date = ($year - 1).'-01-01';
+                $end_date = $year."-"."07-01";
+                $range_months = ['01','02','03','04','05','06'];
+            }?*/
+            if($range == 4){
+                $dates = explode('&',$year);
+                $start_date = $dates[0];
+                $end_date = $dates[1];
+
+                $start = Carbon::parse($start_date);
+                $end = Carbon::parse($end_date);
+
+                $interval = \DateInterval::createFromDateString('1 month');
+                $period = new \DatePeriod($start, $interval, $end);
+
+                foreach ($period as $dt) {
+                    $range_months[] = $dt->format("m");
+                }
+            }
+        } else {
+            $range_months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+            $start_date = ($year) . "-01-01";
+            $end_date = ($year)."-12-31";
+        }
+
+        $return = array('start'         => $start_date, 
+                        'end'           => $end_date ,
+                        'range_months'  => $range_months,
+                        'string_months' => $string_months,
+                        'month_name'    => $month_name);
+        return $return;
     }
 }

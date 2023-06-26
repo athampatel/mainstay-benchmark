@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Backend\AdminsController;
+use DateInterval;
+use DateTime;
 
 ini_set('max_execution_time', 300);
 
@@ -35,42 +37,67 @@ class SDEDataController extends Controller
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         $type = ApiType::where('name','CustomerSalesHistory')->first();
         $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
-        $is_fetch_data = true;
-        if($is_api_data){
+        $SDEAPi = new SDEApi();
+        $range = 5;
+        $year = date('Y');
+        $filter_dates = $SDEAPi->getRangeDates($range,$year);
+
+        $string_months  = isset($filter_dates['string_months']) ? $filter_dates['string_months']: null;
+        $range_months   = isset($filter_dates['range_months']) ? $filter_dates['range_months']: null;
+        $month_name     = isset($filter_dates['month_name']) ? $filter_dates['month_name']: null;
+
+        $start_year  = date('Y',strtotime($filter_dates['start']));
+        $end_year    = date('Y',strtotime($filter_dates['end'])); 
+        
+       
+
+        $is_fetch_data = 1;
+        /*if($is_api_data){
             $time_now = date('Y-m-d h:i:s');
             $update_time = $is_api_data->updated_at->diffInMinutes($time_now);
             if($update_time <= 30){
-                $is_fetch_data = false;
+                $is_fetch_data = true;
             }
-        }
-        $year = date('Y');
-        if($is_fetch_data){
-        $data = array(            
-            "filter" => [
-                [
-                    "column" => "ARDivisionNo",
-                    "type" => "equals",
-                    "value" => $user_details->ardivisionno,
-                    "operator" => "and"
-                ],
-                [
-                    "column" =>  "CustomerNo",
-                    "type" =>  "equals",
-                    "value" =>  $user_details->customerno,
-                    "operator" =>  "and"
-                ],
-                [
-                    "column" =>  "FiscalYear",
-                    "type" =>  "equals",
-                    "value" =>  "2022",
-                    "operator" =>  "and"
-                ]
-            ]
-        );
+        }*/
 
-        $SDEAPi = new SDEApi();
-        $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
-        $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
+        if($is_fetch_data){
+            $dataSalesHistory = array(
+                            array(  "column" => "ARDivisionNo",
+                                    "type" => "equals",
+                                    "value" => $user_details->ardivisionno,
+                                    "operator" => "and"),
+                            array(  "column" =>  "CustomerNo",
+                                    "type" =>  "equals",
+                                    "value" =>  $user_details->customerno,
+                                    "operator" =>  "and")
+                        );
+            if($start_year !== $end_year){
+                $yearinfo =  array(  "column" =>  "FiscalYear",
+                                    "type" =>  ">=",
+                                    "value" =>  $start_year,
+                                    "operator" =>  "and");
+
+                array_push($dataSalesHistory,$yearinfo);
+                $year_new   =  array(  "column" =>  "FiscalYear",
+                                        "type" =>  "<=",
+                                        "value" =>  $end_year,
+                                        "operator" =>  "and");
+                array_push($dataSalesHistory,$year_new);
+            }else{
+                $yearinfo =  array(  "column" =>  "FiscalYear",
+                                    "type" =>  "equals",
+                                    "value" =>  $start_year,
+                                    "operator" =>  "and");
+                array_push($dataSalesHistory,$yearinfo);
+            }
+            
+            $data = array("filter" => $dataSalesHistory);
+
+
+           // print_r($dataSalesHistory);
+
+            $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
+            $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response_data);
                 $is_api_data->updated_at = date('Y-m-d h:i:s'); 
@@ -85,11 +112,63 @@ class SDEDataController extends Controller
         } else {
             $response_data = json_decode($is_api_data->data,true);
         }
-        $response = ['success' => true , 'data' => [ 'data' => $response_data, 'year' => $year]];
+
+        $new_data = $month_year = array();
+
+       //print_r($response_data['customersaleshistory']);
+        
+        if(isset($response_data)){
+            foreach($response_data['customersaleshistory'] as $resp2){
+                $_fiscalyear = $resp2['fiscalperiod'].$resp2['fiscalyear'];    
+                $_index  = '';                                    
+                if(!empty($month_name) && in_array($_fiscalyear,$month_name) !== false){ 
+                    $_index = array_search($_fiscalyear,$month_name);  
+                }else if(!empty($range_months) && empty($month_name)){
+                    $_index = array_search($resp2['fiscalperiod'],$range_months);
+                }
+
+                if($_index != ''){
+                    $new_data[$_index] = $resp2;
+                    $month_year[$_index] = self::convertMonthName($resp2['fiscalperiod']).'-'.$resp2['fiscalyear'];
+                }
+            }
+        }
+
+
+        if(!empty($month_year)){
+            $dateval = '';
+            foreach($range_months as $index => $_val){
+                if(!isset($month_year[$index])){
+                    $int_month = (int) $_val;
+                    if($dateval == ''){
+                        $dateval = date('Y',strtotime('01-'.$month_year[$index + 1]));
+                    }
+                    if(isset($string_months[$index]))
+                        $month_year[$index] = $string_months[$index];
+                    else
+                        $month_year[$index] = date('M-Y',strtotime('01-'.$_val.'-'.$dateval));
+
+                    $new_data[$index]   = array('fiscalyear' => 2023,'fiscalperiod' => $_val,'dollarssold' => 0);
+                }
+                $dateval = date('Y',strtotime('01-'.$_val));
+            }           
+        }
+
+        ksort($new_data);
+        ksort($month_year);
+
+        //print_r($new_data);
+
+        $response = ['success' => true , 'data' => [ 'data' => $new_data, 'year' => $month_year]];
         echo json_encode($response);
         die();
     }
 
+    public static function convertMonthName($monthNumber){
+        $dateTime = DateTime::createFromFormat('d-m', '01-'.$monthNumber);
+        $monthName = $dateTime->format('M');
+        return $monthName;
+    }
     // invoice orders
     public function getCustomerInvoiceOrders(Request $request){
         $user_id = Auth::user()->id;

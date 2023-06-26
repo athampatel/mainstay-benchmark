@@ -85,7 +85,10 @@ class DashboardController extends Controller
             $total_admins       = Admin::select('id')->get()->count();
             $total_permissions  = Permission::select('id')->get()->count();        
             // $total_customers    = User::select('id')->get()->count();   
-            $total_customers    = UserDetails::select('customerno')->distinct()->count('customerno');
+            $total_customers    = UserDetails::select('customerno')
+                                  ->leftjoin('users','user_details.user_id','=','users.id')
+                                  ->where('users.is_temp',0)
+                                  ->distinct()->count('customerno');
             // dd($total_customers);
             $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
             $sales_persons      = SalesPersons::select('id')->get()->count();
@@ -101,7 +104,7 @@ class DashboardController extends Controller
                                     ->leftjoin('user_sales_persons','user_details.id','=','user_sales_persons.user_details_id')
                                     ->leftjoin('sales_persons','user_sales_persons.sales_person_id','=','sales_persons.id')
                                     ->leftjoin('admins','sales_persons.email','=','admins.email')
-                                    ->where('admins.id',$this->user->id);
+                                    ->where('admins.id',$this->user->id)->where('users.is_temp',0);
 
             // $total_customers    = $customers->get(['users.id'])->count();            
             // dd($customers->toSql());

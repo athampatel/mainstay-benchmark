@@ -1050,7 +1050,17 @@ $(document).on('click','#admin-profile-edit-save-button',function(e){
 // common print function
 $(document).on('click','.datatable-print.admin a',function(e){
     e.preventDefault();
+    //alert("PRINT USERS");
     window.print();
+    /*
+    var divContents = document.getElementById("backend_customers").innerHTML;
+    var a = window.open('', '', 'height=500, width=500');
+    a.document.write('<html>');
+    a.document.write('<body>');
+    a.document.write(divContents);
+    a.document.write('</body></html>');
+    a.document.close();
+    a.print(); */
 })
 
 
