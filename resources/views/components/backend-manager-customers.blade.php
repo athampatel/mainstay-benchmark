@@ -33,7 +33,7 @@
                         @if($customer['is_exits'])
                         <a class="btn btn-rounded btn-medium btn-primary text-capitalize d-block" target="_blank" href="{{ route('admin.users.login', ['id' => $customer['user_detail']['user_id'],'user_detail_id' =>$customer['user_detail']['id']]) }}" style="padding:0.5rem !important;">Login As</a>
                         @else 
-                        <a class="btn btn-rounded text-capitalize btn-danger bm-btn-danger text-white" href="{{ route('admin.users.login', ['id' => $customer['customerno'],'user_detail_id' => $customer['customerno']]) }}" style="padding:0.5rem !important;">View As</a>
+                        <a class="btn btn-rounded text-capitalize btn-danger bm-btn-danger text-white" target="_blank" href="{{ route('admin.users.login', ['id' => $customer['customerno'],'user_detail_id' => $customer['customerno']]) }}" style="padding:0.5rem !important;">View As</a>
                         @endif
                     </div>
                 </td>

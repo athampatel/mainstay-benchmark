@@ -1984,7 +1984,8 @@ class UsersController extends Controller
         $is_temp =  0;
         if(!is_numeric($id)){
             $customerNo = $id;
-            $_temp = UserDetails::where('customerno',$id)
+            $contactemail   = 'temp_'.$id.'@benchmarkproducts.com';
+            $_temp = UserDetails::where('customerno',$id)->where('users.email',$contactemail)
                         ->where('users.is_temp',1)
                         ->leftjoin('users','users.id','=','user_details.user_id')
                         ->select('user_details.*')
