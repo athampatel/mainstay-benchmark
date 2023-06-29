@@ -352,13 +352,13 @@ class UsersController extends Controller
             $request->validate([
                 'customername' => 'required|max:50',
                 // 'customerno' => 'unique:user_details',
-                'email' => 'required|max:100|email',
+                'contactemail' => 'required|max:100|email',
                 'salespersonno' => 'required|min:1',
             ]);
-            $postdata['emailaddress'] = $postdata['email'];
-            // dd($postdata);
+            $postdata['emailaddress'] = $postdata['contactemail'];
+            
             $response = $this->CreateCustomer($postdata);
-            $email_address = $postdata['email'];
+            $email_address = $postdata['contactemail'];
             $user_id = $response['id'];
         } else {
             $duplicate      = array();
