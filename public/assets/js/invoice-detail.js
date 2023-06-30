@@ -47,10 +47,10 @@ function displayInvoiceOrderDetail(res){
 
     console.log(order_detail,'___order_detail');
     // invoice details
-    let order_id_disp = `#${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MMM DD,YYYY')}`;
+    let order_id_disp = `#${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MM-DD-YYYY')}`;
     $('#disp-order-id').text(order_id_disp);
     $('#customer_po_number').val(order_detail.customerpono ? order_detail.customerpono : 'N/A');
-    $('#details_invoice_date').val(moment(order_detail.invoicedate,'YYYY-MM-DD').format('MMM DD,YYYY'));
+    $('#details_invoice_date').val(moment(order_detail.invoicedate,'YYYY-MM-DD').format('MM-DD-YYYY'));
     $('#ship-to-address1').val(order_detail.shiptoaddress1 ? order_detail.shiptoaddress1 : 'N/A');
     $('#ship-to-address2').val(order_detail.shiptoaddress2 ? order_detail.shiptoaddress2 : 'N/A');
     $('#ship-to-address3').val(order_detail.shiptoaddress3 ? order_detail.shiptoaddress3 : 'N/A');
@@ -66,7 +66,7 @@ function displayInvoiceOrderDetail(res){
     $('#order-location').val(order_detail.shiptocity ? order_detail.shiptocity : 'N/A');
     let aliasnumber = order_detail.details.length > 0 ? order_detail.details[0].aliasitemno : '';
     $('#AliasItemNumber').val(aliasnumber);
-    $('#OrderDate').val(moment(order_detail.orderdate,'YYYY-MM-DD').format('MMM DD,YYYY'));
+    $('#OrderDate').val(moment(order_detail.orderdate,'YYYY-MM-DD').format('MM-DD-YYYY'));
     // let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Shipped' : 'Not Shipped' : 'Not Shipped';
     // let drop_ship = order_detail.details.length > 0 ? order_detail.details[0].dropship == 'Y' ? 'Yes' : 'No' : 'No';
     // $('#DropShip option:selected').val(drop_ship);
