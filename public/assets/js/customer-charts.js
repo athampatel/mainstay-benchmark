@@ -174,6 +174,12 @@ function displayChangeOrderPage(res,itemcode){
             // $('#ship-to-state').val(Sale_item.shiptostate).prop('selected', true);//.change();
             // $('#ship-to-city').text(Sale_item.shiptocity).prop('selected', true).change();
             $('#ship-to-state option:selected').val(Sale_item.shiptostate);//.change();
+            var orderdate = 'N/A';
+            if(Sale_item.orderdate != '')
+                 orderdate = moment(Sale_item.orderdate).format('MM-DD-YYYY'); 
+            
+            
+
             $('#ship-to-state option:selected').text(Sale_item.shiptostate ? Sale_item.shiptostate : 'N/A');//.change();
             $('#ship-to-city option:selected').val(Sale_item.shiptocity).change();
             $('#ship-to-city option:selected').text(Sale_item.shiptocity).change();
@@ -183,7 +189,7 @@ function displayChangeOrderPage(res,itemcode){
             $('#order-detail-order-no').val(Sale_item.salesorderno ? Sale_item.salesorderno : 'N/A');
             $('#order-location').val(Sale_item.shiptocity ? Sale_item.shiptocity : 'N/A');
             $('#AliasItemNumber').val('N/A');
-            $('#OrderDate').val(Sale_item.orderdate ? Sale_item.orderdate : 'N/A');
+            $('#OrderDate').val(orderdate);
 
             $('#ordereddate_val').val(Sale_item.orderdate ? Sale_item.orderdate : 'N/A');
             $('#salesorderno_val').val(Sale_item.salesorderno ? Sale_item.salesorderno : 'N/A');
@@ -204,7 +210,10 @@ function displayChangeOrderPage(res,itemcode){
                
                 if(item.quantityordered > 0){
                     quantity_count += item.quantityordered;
-                        promise_date = item.promisedate;
+                        promise_date = 'N/A';
+                        if(item.promisedate != '')
+                            promise_date = moment(item.promisedate).format('MM-DD-YYYY'); 
+
                         let is_action ='';
                         if(res.data.is_change_order){
                             is_action = `<td class="order_item_actions">    
