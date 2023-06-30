@@ -40,19 +40,27 @@ Customers - Admin Panel
                                     </div>
                                     <form id="customer_from" action="/admin/customers" method="GET"></form>                                    
                                     <div class="datatable-export">
-                                        <div class="datatable-print admin">
-                                            <a href="">
-                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
-                                            </a>
+                                       <div class="datatable-link admin">
+                                       <a href="/admin/exportAllCustomers" class="export-admin-customer-item" data-type="csv" title="Export to Excel">
+                                        <img src="/assets/images/svg/export-report-icon.svg"  alt="" class="position-absolute" id="admin-customer-pdf-icon">
+                                        </a>
+                                        <!---    <a href="">
+                                                <img src="/assets/images/svg/print-pdf.svg.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
+                                            </a> --->
                                         </div>
+                                        
+                                       
                                         <div class="datatable-report admin position-relative">
-                                            <a href="">
+                                        <a href='/admin/exportAllCustomerInPdf' class="export-admin-customer-item" data-type="pdf" title="Export to PDF">
+                                        <img src="/assets/images/svg/pdf.svg" style="width:15px;filter:invert()" alt="" class="position-absolute" >
+                                        </a>   
+                                            <!--<a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">
                                             </a>
                                             <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-customers-drop">
                                                 <a href="/admin/exportAllCustomers" class="dropdown-item export-admin-customer-item" data-type="csv">Export to Excel</a>
                                                 <a href='/admin/exportAllCustomerInPdf' class="dropdown-item export-admin-customer-item" data-type="pdf">Export to PDF</a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>

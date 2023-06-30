@@ -705,8 +705,8 @@ nav .profile-details i{
 .overview-boxes .table th{
     padding: 0.75rem;
 }
-.overview-boxes .table .max-100{
-  max-width:15rem;
+3.overview-boxes .table .max-100{
+  width:100px;
 }
 .overview-boxes label{
   color: #FFF;
@@ -716,7 +716,15 @@ nav .profile-details i{
   vertical-align: middle;
   min-width: 5rem;
 }
-
+.overview-boxes .table th.order_item_quantity,
+.overview-boxes .table td.order_item_quantity{
+  text-align: center;
+  max-width: 10rem;
+}
+.overview-boxes .table th.itemcode,
+.overview-boxes .table td.itemcode{
+  min-width: 130px;
+}
 .height_144{
   height: 12rem;
 }
@@ -1399,6 +1407,12 @@ nav .profile-details i{
   appearance: none;
   background:none;
   border: none;
+  text-align: center;
+  width: 90px;
+}
+ .max-100 .order_item_quantity_input{
+  text-align: center;
+    width: 90px;
 }
 
 /* select box customization */
@@ -1723,7 +1737,7 @@ input.analysis_select {
   margin-left: 0.75rem;
 }
 
-.datatable-print{
+.datatable-print,.datatable-link{
   width: 3.4375rem;
   height: 1.875rem;
   border-right: 0.0625rem solid #fff;
@@ -1749,7 +1763,8 @@ input.analysis_select {
   padding-right: 0.4375rem;
 }
 
-.datatable-print a{
+.datatable-print a,
+.datatable-link a{
   display: flex;
   justify-content: center;
   align-items: center;

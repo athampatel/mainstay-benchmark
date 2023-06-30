@@ -78,12 +78,20 @@ function displayInvoiceOrderDetail(res){
     // Item Details
     order_detail.details.forEach(item => {
         if(item.quantityshipped > 0){
-            quantity_count += item.quantityshipped;
-            console.log(item);
+            quantity_count += item.quantityshipped;    
+            itemcode = 'N/A';
+            if(item.itemcode != '')
+            itemcode = item.itemcode;
+
+            aliasitemno = 'N/A';
+            if(item.aliasitemno != '')
+            aliasitemno = item.aliasitemno;
+            /*<br/>
+                Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a> */
             item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
-                <td>${item.itemcodedesc}<br/>
-                Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a></td> 
-                <td> ${item.aliasitemno}</td>
+                <td>${item.itemcodedesc}</td> 
+                <td class="bench-no itemcode">${itemcode}</td>
+                <td class="alias-no itemcode">${aliasitemno}</td>
                 <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
                 <input type="number" name="ordered_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled>
                 </td>

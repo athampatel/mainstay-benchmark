@@ -221,12 +221,13 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
-                                    <th>Customer Item Number</th>   
+                                    <th>Benchmark <br/>Item Number</th>   
+                                    <th>Customer <br/>Item Number</th>   
                                     <th class="max-100">Quantity<br/>Ordered</th>
                                     <th class="max-100">Quantity<br/>Shipped</th>
                                     <th class="max-100">Quantity<br/>Open</th>
-                                    <th>Unit Price</th>                                                                        
-                                    <th>Total Order Amount</th>
+                                    <th>Unit<br/>Price</th>
+                                    <th>Total Order<br/> Amount</th>
                                     <th>Drop Ship</th>
                                     @if($is_change_order)
                                     <th>&nbsp;</th>
