@@ -133,7 +133,7 @@ class MenuController extends Controller
 
             $data['customer_menus'] = $response;
 
-            $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile','.admins.phone_no')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
+            $data['region_manager'] =  SalesPersons::select('sales_persons.*','admins.profile_path as profile','admins.phone_no')->leftjoin('user_sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                                     ->leftjoin('user_details','user_sales_persons.user_details_id','=','user_details.id')->where('user_details.customerno',$customer_no)
                                                     ->leftjoin('admins','admins.email','=','sales_persons.email')
                                                     ->first();
