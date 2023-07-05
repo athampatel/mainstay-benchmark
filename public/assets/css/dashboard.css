@@ -2552,9 +2552,17 @@ table.dataTable td, table.dataTable th{
   margin:3px 0px !important;
 }
 
-.table-responsive { overflow-x: auto; }
+.table-responsive { overflow-x: initial; }
+.table-responsive.orderItems-table{ overflow-x: auto; }
 .daterangepicker .calendar th, .daterangepicker .calendar td{
   font-size: 10px;
+}
+
+.table-responsive.orderItems-table th,
+.table-responsive.orderItems-table td{ 
+  max-width: calc(100% / 9) !important;
+  width: auto !important;
+  min-width: 10px !important;
 }
 
 .customer_toggle_container {
