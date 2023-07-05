@@ -109,6 +109,9 @@ function displayInvoiceOrderDetail(res){
     $('#quantityShiped').val(quantity_count);            
     $('#disp-items-body').html(item_details_html);
 
+
+    //$('#orderItems').fixedHeaderTable({ footer: false, cloneHeadToFoot: false, fixedColumn: true });
+
     // tracking id's listing
     if(typeof order_detail.trackingid != 'undefined'){
         console.log(order_detail.trackingid,'___tracking id ___eeee');

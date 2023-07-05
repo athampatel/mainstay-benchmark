@@ -213,7 +213,8 @@ function GetCustomerOpenOrders(){
         success: function (res) {  
             res = JSON.parse(res);
             if(res.success){
-                customerOpenOrders(res.data.data)
+                console.log(res);
+                customerOpenOrders(res.data.data,res.data.month)
                 $('#open-orders-total-amount').text(`$ ${numberWithCommas(Math.round(res.data.count))}`)               
             }
         },
@@ -226,8 +227,10 @@ function GetCustomerOpenOrders(){
 }
 
 // customer open orders chart display
-function customerOpenOrders($array){
+function customerOpenOrders($array,labels){
     let arr = [];
+    console.log($array);
+
     $array.forEach(ar => {
         // arr.push(ar.toFixed(2));
         arr.push(Math.round(ar));
@@ -263,7 +266,7 @@ function customerOpenOrders($array){
 
         xaxis: {
             type:'month',
-            categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            categories: labels,
         },
         fill: {
             type: 'gradient',

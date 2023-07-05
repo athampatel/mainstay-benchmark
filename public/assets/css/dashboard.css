@@ -716,6 +716,12 @@ nav .profile-details i{
   vertical-align: middle;
   min-width: 5rem;
 }
+
+#orderItems tr > td:first-child,
+#orderItems tr > th:first-child{
+
+}
+
 .overview-boxes .table th.order_item_quantity,
 .overview-boxes .table td.order_item_quantity{
   text-align: center;
@@ -723,7 +729,7 @@ nav .profile-details i{
 }
 .overview-boxes .table th.itemcode,
 .overview-boxes .table td.itemcode{
-  min-width: 130px;
+  min-width: 100px;
 }
 .height_144{
   height: 12rem;
@@ -2546,7 +2552,7 @@ table.dataTable td, table.dataTable th{
   margin:3px 0px !important;
 }
 
-.table-responsive { overflow-x: initial; }
+.table-responsive { overflow-x: auto; }
 .daterangepicker .calendar th, .daterangepicker .calendar td{
   font-size: 10px;
 }

@@ -506,6 +506,7 @@ class MenuController extends Controller
         $type = ApiType::where('name','salesorders')->first();
         $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
         $is_data_fetch = true;
+        $SDEAPi = new SDEApi();
         if($api_data){
             $time_now = date('Y-m-d h:i:s');
             $update_time = $api_data->updated_at->diffInMinutes($time_now);
@@ -513,6 +514,7 @@ class MenuController extends Controller
                 $is_data_fetch = false;
             }
         }
+
         if($is_data_fetch){
             $data = array(            
                 "filter" => [
@@ -530,8 +532,10 @@ class MenuController extends Controller
                     ],
                 ],
             );
-            $SDEAPi = new SDEApi();
+           
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
+
+           
             $is_api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
             if($is_api_data){
                 $is_api_data->data = json_encode($response);
@@ -551,8 +555,33 @@ class MenuController extends Controller
         }
         $open_orders = [];
         $year = date('Y');
+        $order_sum  = array();
+        $range      = 6;
+        $filter_dates = $SDEAPi->getRangeDates($range,$year);
+
+        $string_months  = isset($filter_dates['string_months']) ? $filter_dates['string_months']: null;
+        $range_months   = isset($filter_dates['range_months']) ? $filter_dates['range_months']: null;
+        $month_name     = isset($filter_dates['month_name']) ? $filter_dates['month_name']: null;
+        $filter_start_date = $filter_dates['start'];
+        $filter_end_date = $filter_dates['end'];
+
+
         foreach($response as $res){
-            $date = explode("-",$res['orderdate']);
+           $orders_info = $res['details'];
+            if(!empty($orders_info)){
+                foreach($orders_info as $order){
+                  if($order['quantityordered'] > 0){
+                    $promisedate    = date('mY',strtotime($order['promisedate']));
+                    if(isset($open_orders[$promisedate])){
+                        $open_orders[$promisedate] += $order['extensionamt'];
+                    }else{
+                        $open_orders[$promisedate] = $order['extensionamt'];
+                    }
+                  }
+                }
+            }
+
+            /*$date = explode("-",$res['orderdate']);
             if($date[0] == $year){
                 foreach($res['details'] as $detail){
                     if(isset($open_orders['0-'.$date[1]])){
@@ -561,17 +590,19 @@ class MenuController extends Controller
                         $open_orders['0-'.$date[1]] = ($detail['quantityordered'] * $detail['unitprice']);
                     }
                 }   
-            }
+            }*/
         }
+        
+       
+    
         $total = 0;
         $new_open_orders = [];
-        for($i = 1; $i <= 12 ; $i++){
-            $num = $i < 10 ? '0'.$i : $i;
-            $open_orders['0-'.$num] = isset($open_orders['0-'.$num]) ?  $open_orders['0-'.$num] : 0;
-            $total = isset($open_orders['0-'.$num]) ? ($total + $open_orders['0-'.$num]) : $total;
-            $new_open_orders[] = $open_orders['0-'.$num];
+        foreach($month_name as $key => $_name){           
+            $open_orders[$_name]    = isset($open_orders[$_name]) ? $open_orders[$_name] : 0;
+            $total                  = $total + $open_orders[$_name];
+            $new_open_orders[$key]  =  $open_orders[$_name];
         }
-        echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total],'error' => []]);
+        echo json_encode(['success' => true, 'data' => ['data' => $new_open_orders,'count' => $total,'month' => $string_months],'error' => []]);
         die();
     }
 
