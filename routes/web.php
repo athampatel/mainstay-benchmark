@@ -110,7 +110,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/back_to_admin',[UsersController::class,'adminLogin']);
 });
 
-Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefix']], function () {
+Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefix']], function () {    
     Route::get('/', '\App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard'); //
     Route::get('/admins/manager', '\App\Http\Controllers\Backend\UsersController@UserManagers')->name('admin.admins.manager');
     Route::resource('roles', '\App\Http\Controllers\Backend\RolesController', ['names' => 'admin.roles']);

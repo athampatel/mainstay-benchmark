@@ -44,15 +44,13 @@
                 </tr>
 
                 <tr>
-                    <td align="center">
+                    <td align="center" style="padding:0px 32px">
                         <table border="0" width="100%" align="center" cellpadding="0" cellspacing="0" class="container590">
                             <tr>
                                 <td align="left" style="color: #888888; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
-
-
                                     <div style="line-height: 24px; padding:0px 32px">
-                                        <p style="padding:10px 32px">Hi Support,</p><br/>
-                                        <p style="padding:10px 32px">{!!$details['body_header']!!}</p>
+                                        <p style="padding:10px 0px">Hi Support,</p><br/>
+                                        <p style="padding:10px 0px">{!!$details['body_header']!!}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -66,7 +64,69 @@
 
                 <tr>
                     <td align="center" style="padding:0px 32px">
-                    {!!$details['body']!!}
+                        <table border="10" bordercolor="white" width="100%" align="center" cellpadding="10" cellspacing="0" class="container590">
+                            <thead>
+                                <tr>
+                                    <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px; padding:0px 32px; color:#888888;">
+                                            Customer<br>Item Number
+                                        </div>
+                                    </td>
+                                    <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                            Benchmark<br>Item Number
+                                        </div>
+                                    </td>
+                                    <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                            Item <br>Description
+                                        </div>
+                                    </td>
+                                    <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                            Qty<br>on Hand
+                                        </div>
+                                    </td>
+                                    <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                            Quantity<br>Counted
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($details['data_array'] as $data_arr)    
+                                    <tr>
+                                        <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                            <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                               {{$data_arr['item_key']}}
+                                            </div>
+                                        </td>
+                                        <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                            <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                                {{$data_arr['itemcode']}}
+                                            </div>
+                                        </td>
+                                        <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                            <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                                {{$data_arr['description']}}
+                                            </div>
+                                        </td>
+                                        <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                            <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                                {{$data_arr['old_qty']}}
+                                            </div>
+                                        </td>
+                                        <td align="left" style="color: #101010; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                            <div style="line-height: 24px; padding:0px 32px;color:#888888">
+                                                {{$data_arr['new_qty']}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    {{-- {!!$details['body']!!} --}}
                     </td>
                 </tr>
 
