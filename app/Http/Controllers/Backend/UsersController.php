@@ -1677,59 +1677,61 @@ class UsersController extends Controller
         $company_code = $data['company_code'];
         $user_detail_id = $data['user_detail_id'];
 
-        $bodycontent = '<table>
-                            <thead>
-                                <tr>
-                                    <th>Customer<br/>Item Number</th>
-                                    <th>Benchmark<br/>Item Number</th>
-                                    <th>Item<br/>Description</th>
-                                    <th>Qty<br/> on Hand</th>
-                                    <thQuantity<br/>Counted</th>
-                                </tr>
-                            </thead>
-                            <tbody>';
+        // $bodycontent = '<table>
+        //                     <thead>
+        //                         <tr>
+        //                             <th>Customer<br/>Item Number</th>
+        //                             <th>Benchmark<br/>Item Number</th>
+        //                             <th>Item<br/>Description</th>
+        //                             <th>Qty<br/> on Hand</th>
+        //                             <th>Quantity<br/>Counted</th>
+        //                         </tr>
+        //                     </thead>
+        //                     <tbody>';
+        $data_array_collection = array();
         foreach($value_changes as $key => $value_change){
+            $data_array = array();
+            $data_array['item_key'] = $key;
+            $data_array['itemcode']       = isset($value_change['itemcode']) ? str_replace('#','',$value_change['itemcode']) : 'N/A';
+            $data_array['description']    = isset($value_change['description']) ? $value_change['description'] : 'N/A';
+            $data_array['old_qty']        = isset($value_change['old_qty']) ? $value_change['old_qty'] : 'N/A';
+            $data_array['new_qty']        = isset($value_change['new_qty']) ? $value_change['new_qty'] : 0;
+            $data_array_collection[] = $data_array;
 
-            $itemcode       = isset($value_change['itemcode']) ? str_replace('#','',$value_change['itemcode']) : 'N/A';
-            $description    = isset($value_change['description']) ? $value_change['description'] : 'N/A';
-            $old_qty        = isset($value_change['old_qty']) ? $value_change['old_qty'] : 'N/A';
-            $new_qty        = isset($value_change['new_qty']) ? $value_change['new_qty'] : 0;
+            // $VmiInventoryRequest = VmiInventoryRequest::create([
+            //     'company_code' => $company_code,
+            //     'item_code' => $key,
+            //     'user_detail_id' => $user_detail_id,
+            //     'old_qty_hand' => $value_change['old_qty'],
+            //     'new_qty_hand'=> $value_change['new_qty'],
+            //     'change_user' => $user->id 
+            // ]);
+            // $bodycontent .= '<tr>
+            //                 <td><strong>'.$key.'</strong></td>
+            //                 <td>'.$itemcode.'</td>
+            //                 <td>'.$description.'</td>
+            //                 <td>'.$old_qty.'</td>
+            //                 <td>'.$new_qty.'</td>
+            //                 </tr>';
 
-
-            $VmiInventoryRequest = VmiInventoryRequest::create([
-                'company_code' => $company_code,
-                'item_code' => $key,
-                'user_detail_id' => $user_detail_id,
-                'old_qty_hand' => $value_change['old_qty'],
-                'new_qty_hand'=> $value_change['new_qty'],
-                'change_user' => $user->id 
-            ]);
-            $bodycontent .= '<tr>
-                            <td><strong>'.$key.'</strong></td>
-                            <td>'.$itemcode.'</td>
-                            <td>'.$description.'</td>
-                            <td>'.$old_qty.'</td>
-                            <td>'.$new_qty.'</td>
-                            </tr>';
-
-            $data1 = array(                             
-                "companyCode"   => $company_code,
-                "method" =>  "post",
-                "warehouseCode" => "000", // ??
-                "itemcode" => $key,
-                "quantityCounted" => $value_change['new_qty']
-            );
-            $sdeApi = new SDEApi();
+            // $data1 = array(                             
+            //     "companyCode"   => $company_code,
+            //     "method" =>  "post",
+            //     "warehouseCode" => "000", // ??
+            //     "itemcode" => $key,
+            //     "quantityCounted" => $value_change['new_qty']
+            // );
+            // $sdeApi = new SDEApi();
             //$response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
             // dd
         }
-        $bodycontent .= '</tbody></table>';
+        // $bodycontent .= '</tbody></table>';
         $details['body_header']           = "<p>Staff User: {$user->name}({$user->email})</p><p>Company Code:{$company_code}</p>
-        <br/><p>Please note that Staff User {Name} has submitted a request to update the inventory post count for the specified items of VMI company {$company_code}.";   
+        <br/><p>Please note that Staff User {$user->name} has submitted a request to update the inventory post count for the specified items of VMI company {$company_code}.";   
         $details['subject']               = config('constants.vmi_inventory.subject');
         $body      = config('constants.vmi_inventory.body');
-        $details['body'] = $bodycontent;
-        $support_emails = 'atham@tendersoftware.in';
+        $details['data_array'] = $data_array_collection;
+        $support_emails = 'gokulnr@tendersoftware.in';
         $details['mail_view']    = "emails.inventory-update";
         $is_local = config('app.env') == 'local' ? true : false;
         //echo $support_emails;
@@ -1737,6 +1739,7 @@ class UsersController extends Controller
         try {
             Mail::to($support_emails)->send(new \App\Mail\SendMail($details));
         } catch (\Exception $e) {                            
+            dd($e->getMessage());
             Log::error('An error occurred while sending the mail: ' . $e->getMessage());
         } 
        
