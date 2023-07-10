@@ -200,7 +200,13 @@ $(document).on('click','td.sorting_1',function(e){
 $(document).on('keyup','.quantity_counted',function(e){
     e.preventDefault();
     let itemcode = $(e.currentTarget).data('itemcode');
-    let change_value = $(e.currentTarget).val();
+    let change_value = parseInt($(e.currentTarget).val());
+    if(change_value <= 0)
+        return false;
+
+    var _row = $(this).parent().parent();
+    var _description = _row.find('td:nth-child(3)').text().trim();
+    var _itemcode = _row.find('td:nth-child(1)').text().trim();
     let old_quantity = 0;
     let current_row = $(e.currentTarget).closest('tr');
     if(current_row.hasClass('child')){
@@ -208,14 +214,15 @@ $(document).on('keyup','.quantity_counted',function(e){
     } else {
         old_quantity = $(e.currentTarget).closest('.vmi_row').find('.qty_hand').data('val');
     }
-    console.log(old_quantity,'__old quantity');
-    let change = { 'old_qty' : old_quantity,'new_qty' : change_value};
+    //console.log(old_quantity,'__old quantity');
+    
+    let change = { 'old_qty' : old_quantity,'new_qty' : change_value,'itemcode':_itemcode,'description':_description};
     if(change_value == ''){
         delete change_items[itemcode];
     } else {
         change_items[itemcode] = change;
     }
-    console.log(change_items,'__new change items');
+   // console.log(change);
 })
 
 
@@ -267,16 +274,16 @@ function getVmiInventoryAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
-                responsive: true,
-                autoWidth: false,
+                responsive: false,
+                autoWidth: true,
                 columns: [
-                    { "width": "14%" },
-                    { "width": "14%" },
-                    { "width": "14%" },
-                    { "width": "14%" },
-                    { "width": "14%" },
-                    { "width": "14%" },
-                    { "width": "14%" },
+                    { "width": "100px" },
+                    { "width": "100px" },
+                    { "width": "120px" },
+                    { "width": "100px" },
+                    { "width": "80px" },
+                    { "width": "80px" },
+                    { "width": "150px" },
                   ]
             });
         },

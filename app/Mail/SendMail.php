@@ -27,6 +27,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
+
+        //dd($this->details);
         // dd($this->view($this->details['mail_view'])->with('mail_data', $this->details));
       return $this
         ->subject($this->details['subject'])

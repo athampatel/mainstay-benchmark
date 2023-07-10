@@ -254,6 +254,9 @@
         // vmi inventory
         'vmi_inventory' => [
             'no_change' => 'No changes have been added.',
+            'post_count_title' => 'Inventory Post Quantity Update',
+            'post_count_subject' => 'Inventory Post Quantity Update',
+            'post_count_body' => 'No changes have been added.',
         ],
 
 

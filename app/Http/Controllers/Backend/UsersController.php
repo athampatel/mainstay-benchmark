@@ -1670,11 +1670,32 @@ class UsersController extends Controller
 
     public function SaveUserVmiData(Request $request){
         $user = $this->user;
+
+        
         $data = $request->all();
         $value_changes = json_decode($data['vmi_changes'],true);
         $company_code = $data['company_code'];
         $user_detail_id = $data['user_detail_id'];
+
+        $bodycontent = '<table>
+                            <thead>
+                                <tr>
+                                    <th>Customer<br/>Item Number</th>
+                                    <th>Benchmark<br/>Item Number</th>
+                                    <th>Item<br/>Description</th>
+                                    <th>Qty<br/> on Hand</th>
+                                    <thQuantity<br/>Counted</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
         foreach($value_changes as $key => $value_change){
+
+            $itemcode       = isset($value_change['itemcode']) ? str_replace('#','',$value_change['itemcode']) : 'N/A';
+            $description    = isset($value_change['description']) ? $value_change['description'] : 'N/A';
+            $old_qty        = isset($value_change['old_qty']) ? $value_change['old_qty'] : 'N/A';
+            $new_qty        = isset($value_change['new_qty']) ? $value_change['new_qty'] : 0;
+
+
             $VmiInventoryRequest = VmiInventoryRequest::create([
                 'company_code' => $company_code,
                 'item_code' => $key,
@@ -1683,6 +1704,13 @@ class UsersController extends Controller
                 'new_qty_hand'=> $value_change['new_qty'],
                 'change_user' => $user->id 
             ]);
+            $bodycontent .= '<tr>
+                            <td><strong>'.$key.'</strong></td>
+                            <td>'.$itemcode.'</td>
+                            <td>'.$description.'</td>
+                            <td>'.$old_qty.'</td>
+                            <td>'.$new_qty.'</td>
+                            </tr>';
 
             $data1 = array(                             
                 "companyCode"   => $company_code,
@@ -1692,9 +1720,27 @@ class UsersController extends Controller
                 "quantityCounted" => $value_change['new_qty']
             );
             $sdeApi = new SDEApi();
-            $response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
+            //$response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
             // dd
         }
+        $bodycontent .= '</tbody></table>';
+        $details['body_header']           = "<p>Staff User: {$user->name}({$user->email})</p><p>Company Code:{$company_code}</p>
+        <br/><p>Please note that Staff User {Name} has submitted a request to update the inventory post count for the specified items of VMI company {$company_code}.";   
+        $details['subject']               = config('constants.vmi_inventory.subject');
+        $body      = config('constants.vmi_inventory.body');
+        $details['body'] = $bodycontent;
+        $support_emails = 'atham@tendersoftware.in';
+        $details['mail_view']    = "emails.inventory-update";
+        $is_local = config('app.env') == 'local' ? true : false;
+        //echo $support_emails;
+       
+        try {
+            Mail::to($support_emails)->send(new \App\Mail\SendMail($details));
+        } catch (\Exception $e) {                            
+            Log::error('An error occurred while sending the mail: ' . $e->getMessage());
+        } 
+       
+        
         $res = ['success' => true,'message' => config('constants.admin.inventory_update.success')];
         echo json_encode($res);
         die();
