@@ -170,8 +170,40 @@ class CustomerExportController extends Controller
     public function exportInvoicePdf(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $response = self::exportInvoiceData($user_detail);
-        $filename = "invoice-details.pdf";
+        $email = $user_detail->email;
+        $year = $request->year;
+        $email = "gokulnr@tendersoftware.in";
+        // api request 
+        $SDEApi = new SDEApi();
+        $data = array(            
+            "JobName" => "INVOICEHISTORY",
+            "detail" => [
+                [
+                    "lineKey" => "000001",
+                    "ReportSetting" =>  "SDE_VMI",
+                    "EmailAddress" =>  $email,
+                    "year" =>  $year,
+                    "filter" =>  [
+                        [
+                            "column" => "CustomerNo",
+                            "type" => "equals",
+                            "value" => $user_detail->customerno,
+                            "operator" => "and"
+                        ]
+                    ]
+                ]
+            ],
+        );
+        $response   = $SDEApi->Request('post','ScheduledTask',$data);
+        if(!empty($response)){
+            if(isset($response['action']) && $response['action'] == 'executed') {
+                return ['success' => true,'icon' => 'success','title' => 'Request Sent','message' => 'The sales report for invoiced orders has been sent. You will receive a notification once it has been generated.'];
+            }
+        }
+
+        return ['success' => false, 'icon' => 'error', 'title' => 'Something Went Wrong','message' => 'Please try again in a few minutes.'];
+        // $response = self::exportInvoiceData($user_detail);
+        // $filename = "invoice-details.pdf";
     }
 
     // open orders csv
@@ -421,3 +453,4 @@ class CustomerExportController extends Controller
 }
 
 
+ 

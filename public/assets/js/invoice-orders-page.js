@@ -98,45 +98,61 @@ function afterChangeOrderAjax(){
     $('#pagination_disp').removeClass('d-none');
 }
 
+// $(document).on('click','#invoice-order-export',function(e){
+//     e.preventDefault();
+//     window.location = '/analysis/2022'
+// })
+
 $(document).on('click','#invoice-order-export',function(e){
     e.preventDefault();
-    window.location = '/analysis/2022'
+    $('#export-invoice-page-drop').toggleClass('d-none');
 })
 
 $(document).on('click','.export-invoice-page-item',function(e){
     e.preventDefault();
-    let src = $(e.currentTarget).prop('src');
-    let type = $(e.currentTarget).data('type');
-    if(src == '#'){
-        downloadExportAjax(type)
-    } else {
-        window.location = src;
-    }
-})
-
-function downloadExportAjax(type){
-    let type1 = 2;
-    if(type == 'csv'){
-        type1 = 1;
-    }
+    let year = $('#invoice_year_select').val();
     $.ajax({
         type: 'POST',
-        url: '/exportInvoiceOrders',
+        url: '/invoice-export/pdf',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "type" : type1},
-        success: function (res) {  
+        data: { year },
+        success: function (res) {
             Swal.fire({
                 position: 'center-center',
-                icon: 'success',
-                title: 'Request Sent',
+                icon: res.icon,
+                title: res.title,
                 text: res.message,
-                showConfirmButton: false,
-                timer: 2000,
+                showConfirmButton: !res.success,
+                timer: res.success ? 2000 : 0,
             })
         }
-    });  
-}
+    });
+})
+
+// function downloadExportAjax(type){
+//     let type1 = 2;
+//     if(type == 'csv'){
+//         type1 = 1;
+//     }
+//     $.ajax({
+//         type: 'POST',
+//         url: '/exportInvoiceOrders',
+//         dataType: "JSON",
+//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//         data: { "type" : type1},
+//         success: function (res) {  
+//             Swal.fire({
+//                 position: 'center-center',
+//                 icon: 'success',
+//                 title: 'Request Sent',
+//                 text: res.message,
+//                 showConfirmButton: false,
+//                 timer: 2000,
+//             })
+//         }
+//     });  
+// }
 
 $(document).on('change','#invoice_year_select',function(e) {
     e.preventDefault();
@@ -146,3 +162,27 @@ $(document).on('change','#invoice_year_select',function(e) {
     let ended_date = year + '-12-31';
     getInvoiceOrderAjax(0,val,started_date,ended_date)
 })
+
+
+// export request for invoice pdf
+
+// $(document).on('click','#invoice-pdf-export',function(e){
+//     e.preventDefault();
+//     $.ajax({
+//         type: 'POST',
+//         url: '/invoice-export/pdf',
+//         dataType: "JSON",
+//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//         data: { "type" : type1},
+//         success: function (res) {  
+//             Swal.fire({
+//                 position: 'center-center',
+//                 icon: 'success',
+//                 title: 'Request Sent',
+//                 text: res.message,
+//                 showConfirmButton: false,
+//                 timer: 2000,
+//             })
+//         }
+//     });
+// })
