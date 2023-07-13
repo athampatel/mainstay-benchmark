@@ -72,7 +72,7 @@ Route::middleware(['auth','checkAdminPrefix'])->group(function () {
     Route::post('/exportAnalysis',[MenuController::class,'analysisExport']);
     Route::post('/sendHelp',[MenuController::class,'sendHelp']);
     Route::get('/invoice-export/csv',[CustomerExportController::class,'exportInvoiceCsv']);
-    Route::get('/invoice-export/pdf',[CustomerExportController::class,'exportInvoicePdf']);
+    Route::post('/invoice-export/pdf',[CustomerExportController::class,'exportInvoicePdf']);
     Route::get('/open-export/csv',[CustomerExportController::class,'exportOpenCsv']);
     Route::get('/open-export/pdf',[CustomerExportController::class,'exportOpenPdf']);
     Route::get('/vmi-page-export/csv',[CustomerExportController::class,'exportVmiCsv']);

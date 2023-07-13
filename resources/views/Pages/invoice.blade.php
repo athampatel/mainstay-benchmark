@@ -50,18 +50,18 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            {{-- <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="invoice-order-export">
+                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="invoice-order-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">
                                     <a href="" class="d-flex justify-content-center align-items-center">
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-invoice-orders-report-icon">
                                     </a>
                                     <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="" id="export-invoice-page-drop">
-                                        <a href="/invoice-export/csv" class="dropdown-item export-invoice-page-item" data-type="csv" id="invoice-csv-export">Export to Excel</a>
-                                        <a href="/invoice-export/pdf" class="dropdown-item export-invoice-page-item" data-type="pdf" id="invoice-pdf-export">Export to PDF</a>
+                                        {{-- <a href="/invoice-export/csv" class="dropdown-item export-invoice-page-item" data-type="csv" id="invoice-csv-export">Export to Excel</a> --}}
+                                        <a href="javascript:void(0)" class="dropdown-item export-invoice-page-item" data-type="pdf" id="invoice-pdf-export">Export to PDF</a>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                     <div class="table_loader d-none">
