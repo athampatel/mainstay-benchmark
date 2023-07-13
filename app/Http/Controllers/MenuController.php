@@ -77,14 +77,15 @@ class MenuController extends Controller
         $by_admin = Session()->get('by_admin');
         $is_temp = Session()->get('is_temp');
         if($is_temp){
-            unset($menus['help']);
+           // unset($menus['help']);
             unset($menus['logout']);            
-            unset($menus['account-settings']);
-        }        
+          //  unset($menus['account-settings']);
+        } 
         if($by_admin){
-            unset($menus['help']);
+           /* unset($menus['help']);
             unset($menus['logout']);            
-            unset($menus['account-settings']);
+            unset($menus['account-settings']); */
+            unset($menus['logout']);
             $menus['by_admin'] =  array( 'name' => 'Back To Admin', 
                                         'icon_name' => file_get_contents(public_path('/assets/images/svg/back_to_admin.svg')),
                                         'active' => 0,

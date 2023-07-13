@@ -672,7 +672,7 @@ nav .profile-details i{
 }
 
 .overview-boxes .dashboard-button{
-  height: 1.56rem;
+  height: 1.85rem;
   min-width: 10.43rem ;
 }
 
@@ -1478,7 +1478,7 @@ input.analysis_select {
   height: 1.25rem;
   top: 0.75rem;
   right: 0;
-  z-index: 999;
+  z-index: 100;
   background-repeat: no-repeat;
   /* transition: 0.2s; */
 }
@@ -3284,6 +3284,9 @@ td .dtr-title span{
       width: 48%;
       margin-right: 10px;
     }
+    .dataTables_wrapper .col-sm-12{
+      overflow: auto;
+    }
   }
 
   @media (max-width: 1024px) {
@@ -3474,7 +3477,8 @@ td .dtr-title span{
       font-size: 0.625rem;
       font-weight: 400;
       margin: 0rem;
-      width: 48%;
+      width: auto;
+      min-width:7.5rem;
       text-align: center;
       display: flex;
       align-items: center;
@@ -3516,6 +3520,10 @@ td .dtr-title span{
     .nav-item.mobile-search-icon{
       position: relative;
       left: -1rem;
+    }
+    #analysis_year_select_label{
+      left: 10px;
+      margin: 10px 0px 0px;
     }
   }
 
