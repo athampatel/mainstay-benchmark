@@ -170,9 +170,14 @@ class CustomerExportController extends Controller
     public function exportInvoicePdf(Request $request){
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
-        $email = $user_detail->email;
+        $email = $user_detail->email; 
         $year = $request->year;
-        $email = "gokulnr@tendersoftware.in";
+        $is_local = config('app.env') == 'local' ? true : false;
+       
+        if($is_local){
+            $email = config('app.support_email');
+        }
+        
         // api request 
         $SDEApi = new SDEApi();
         $data = array(            

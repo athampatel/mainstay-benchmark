@@ -118,8 +118,17 @@ function vmiPostCountSave(){
         },
         success: function (res) {  
             change_items = [];
-            $('.quantity_counted').val('');
+            
+            //$('.quantity_counted').val('');
+
+
             if(res.success){
+                $('.quantity_counted').each(function(){
+                    var qval = $(this).val();
+                    if(qval != '')
+                        $(this).parent().parent().find('.qty_hand').text(qval);
+                });
+
                 $('#vmi_inventory_message').html(res.message).addClass('alert-success').removeClass('alert-danger').removeClass('d-none');
             }
         },
@@ -134,7 +143,7 @@ function vmiPostCountSave(){
                 }
             })
             change_items = [];
-            $('.quantity_counted').val('');
+            //$('.quantity_counted').val('');
         }
     });
 }

@@ -65,6 +65,8 @@ return [
     'admin_emails' => env('ADMIN_EMAILS',''),
 
     'app_max_time' => env('API_MAX_TIME',''),
+	
+	'support_email' => env('SUPPORT_EMAIL',''),
 
     'export_max' => env('EXPORT_MAXIMUM',''),
 

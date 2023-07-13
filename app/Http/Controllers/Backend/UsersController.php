@@ -1657,7 +1657,9 @@ class UsersController extends Controller
                                     ->get()->pluck('new_qty_hand','item_code');
                                     
            
-           $itemcodes = array();                                    
+            //print_r($inventory_updates);
+
+            $itemcodes = array();                                    
             if(!empty($inventory_updates)){              
                 foreach($_products as $key => $_product){
                    $itemcode = $_product['itemcode'];
@@ -1763,7 +1765,7 @@ class UsersController extends Controller
         $details['subject']               = config('constants.vmi_inventory.subject');
         $body      = config('constants.vmi_inventory.body');
         $details['data_array'] = $data_array_collection;
-        $support_emails = 'gokulnr@tendersoftware.in';
+        $support_emails =  config('app.support_email');
         $details['mail_view']    = "emails.inventory-update";
         $is_local = config('app.env') == 'local' ? true : false;
         //echo $support_emails;
