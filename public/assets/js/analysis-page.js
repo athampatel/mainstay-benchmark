@@ -524,7 +524,7 @@ $(document).on('click','.export-analysis-page-item',function(e){
                 title: res.title,
                 text: res.message,
                 showConfirmButton: !res.success,
-                timer: res.success ? 2000 : 0,
+                timer: res.success ? 4000 : 0,
             })
         },
         complete:function(){
