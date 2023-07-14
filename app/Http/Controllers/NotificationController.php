@@ -172,7 +172,7 @@ class NotificationController extends Controller
                     // dd($notifications);
                 }
         //    }
-        } else {
+        } else if(Auth::user()) {
             $user_id = Auth::user()->id;
             $notifications =  DB::select("SELECT * FROM `notifications` where to_user = $user_id and status = 1 and is_read = 0");
             $notifications = json_decode(json_encode($notifications), true);
