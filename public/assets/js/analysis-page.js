@@ -71,6 +71,13 @@ function getAnalysispageData($page,$count,range,year){
            $('#analysis_page_chart').html('');
         },
         success: function (res) {
+            console.log(res,'__response');
+            console.log(res.is_export,'__is export');
+            if(res.is_export){
+                $('#analysis-page-export').removeClass('d-none');
+            } else {
+                $('#analysis-page-export').addClass('d-none');
+            }
             $('#invoice-order-page-table-div').html(res.table_code);
             $('#pagination_disp').html(res.pagination_code)
             let analysis_data = res.analysis_data;

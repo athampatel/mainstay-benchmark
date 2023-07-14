@@ -96,7 +96,7 @@
                                 </select>
                                 <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
                             </div>
-                            <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="analysis-page-export">
+                            <div class="datatable-export justify-content-center gap-15 cursor-pointer d-none" id="analysis-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">
                                     <a href="" class="d-flex justify-content-center align-items-center">
