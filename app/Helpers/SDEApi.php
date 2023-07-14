@@ -312,8 +312,8 @@ class SDEApi
                 $end_date   = date('Y-m-d');
             }elseif($range == 4){
                 $dates = explode('&',$year);
-                $start_date = $dates[0];
-                $end_date = $dates[1];
+                $start_date = isset($dates[0]) ? $dates[0] : date('Y-d-01');
+                $end_date   = isset($dates[1]) ? $dates[1] : date('Y-d-30');
 
                 $start = Carbon::parse($start_date);
                 $end = Carbon::parse($end_date);

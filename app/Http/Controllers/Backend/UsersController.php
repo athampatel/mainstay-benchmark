@@ -1628,7 +1628,7 @@ class UsersController extends Controller
                 unset($response['products'][$key]);
             }
         }
-        
+        //dd($response['products']); 
         // Again get a response
         if($count > 0){
             $offset1 = $offset + $limit;
@@ -1642,6 +1642,33 @@ class UsersController extends Controller
             $response['products'] = array_merge($response1['products'],$response['products']);    
         }
         
+
+        if(!empty($response['products'])){
+            $_products = $response['products'];
+            $itemCode = array_column($_products,'itemcode');
+            $inventory_updates = VmiInventoryRequest::select('*')
+                                    ->whereIn('item_code',$itemCode)
+                                    ->where('company_code',$company_code)
+                                    ->whereIn('id', function ($query) {
+                                        $query->select(DB::raw('MAX(id)'))
+                                            ->from('vmi_inventory_requests')
+                                            ->groupBy('item_code');
+                                    })
+                                    ->get()->pluck('new_qty_hand','item_code');
+                                    
+           
+            //print_r($inventory_updates);
+
+            $itemcodes = array();                                    
+            if(!empty($inventory_updates)){              
+                foreach($_products as $key => $_product){
+                   $itemcode = $_product['itemcode'];
+                   if(isset($inventory_updates[$itemcode])){
+                    $response['products'][$key]['quantityonhand'] = $inventory_updates[$itemcode];
+                   }
+                }
+            }
+        }
         // total 
         $response['meta']['records'] = $response['meta']['records'] - $count;
         $response['meta']['records'] = $response['meta']['records'] - $ignores;
@@ -1691,38 +1718,45 @@ class UsersController extends Controller
         $data_array_collection = array();
         foreach($value_changes as $key => $value_change){
             $data_array = array();
-            $data_array['item_key'] = $key;
-            $data_array['itemcode']       = isset($value_change['itemcode']) ? str_replace('#','',$value_change['itemcode']) : 'N/A';
-            $data_array['description']    = isset($value_change['description']) ? $value_change['description'] : 'N/A';
-            $data_array['old_qty']        = isset($value_change['old_qty']) ? $value_change['old_qty'] : 'N/A';
-            $data_array['new_qty']        = isset($value_change['new_qty']) ? $value_change['new_qty'] : 0;
-            $data_array_collection[] = $data_array;
 
-            // $VmiInventoryRequest = VmiInventoryRequest::create([
-            //     'company_code' => $company_code,
-            //     'item_code' => $key,
-            //     'user_detail_id' => $user_detail_id,
-            //     'old_qty_hand' => $value_change['old_qty'],
-            //     'new_qty_hand'=> $value_change['new_qty'],
-            //     'change_user' => $user->id 
-            // ]);
-            // $bodycontent .= '<tr>
-            //                 <td><strong>'.$key.'</strong></td>
-            //                 <td>'.$itemcode.'</td>
-            //                 <td>'.$description.'</td>
-            //                 <td>'.$old_qty.'</td>
-            //                 <td>'.$new_qty.'</td>
-            //                 </tr>';
+            $itemcode       = isset($value_change['itemcode']) ? str_replace('#','',$value_change['itemcode']) : 'N/A';
+            $description    = isset($value_change['description']) ? $value_change['description'] : 'N/A';
+            $old_qty        = isset($value_change['old_qty']) ? $value_change['old_qty'] : 'N/A';
+            $new_qty        = isset($value_change['new_qty']) ? $value_change['new_qty'] : 0;
 
-            // $data1 = array(                             
-            //     "companyCode"   => $company_code,
-            //     "method" =>  "post",
-            //     "warehouseCode" => "000", // ??
-            //     "itemcode" => $key,
-            //     "quantityCounted" => $value_change['new_qty']
-            // );
-            // $sdeApi = new SDEApi();
-            //$response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
+
+            $data_array['item_key']     = $key;
+            $data_array['itemcode']     = $itemcode;
+            $data_array['description']  = $description;
+            $data_array['old_qty']      = $old_qty;
+            $data_array['new_qty']      = $new_qty;
+            $data_array_collection[]    = $data_array;
+
+            $VmiInventoryRequest = VmiInventoryRequest::create([
+                'company_code' => $company_code,
+                'item_code' => $key,
+                'user_detail_id' => $user_detail_id,
+                'old_qty_hand' => $value_change['old_qty'],
+                'new_qty_hand'=> $value_change['new_qty'],
+                'change_user' => $user->id 
+            ]);
+            $bodycontent = '<tr>
+                            <td><strong>'.$key.'</strong></td>
+                            <td>'.$itemcode.'</td>
+                            <td>'.$description.'</td>
+                            <td>'.$old_qty.'</td>
+                            <td>'.$new_qty.'</td>
+                            </tr>';
+
+            $data1 = array(                             
+                "companyCode"   => $company_code,
+                "method" =>  "post",
+                "warehouseCode" => "000", // ??
+                "itemcode" => $key,
+                "quantityCounted" => $value_change['new_qty']
+            );
+            $sdeApi = new SDEApi();
+            $response1 = $sdeApi->Request('post','PhysicalCounts',$data1);
             // dd
         }
         // $bodycontent .= '</tbody></table>';
@@ -1731,8 +1765,7 @@ class UsersController extends Controller
         $details['subject']               = config('constants.vmi_inventory.subject');
         $body      = config('constants.vmi_inventory.body');
         $details['data_array'] = $data_array_collection;
-        // $support_emails = 'gokulnr@tendersoftware.in';
-        $support_emails = config('app.support_email');
+        $support_emails =  config('app.support_email');
         $details['mail_view']    = "emails.inventory-update";
         $is_local = config('app.env') == 'local' ? true : false;
         //echo $support_emails;
