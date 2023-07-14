@@ -1001,6 +1001,7 @@ class MenuController extends Controller
         //print_r($new_data);
        // print_r($month_year);
 
+        $res['is_export'] =  count($response_table_data) > 0 ? true : false;
         $res['table_code'] = $table_code;
         $res['pagination_code'] = $pagination_code;
         $res['analysis_data'] = $new_data;
