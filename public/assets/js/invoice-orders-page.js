@@ -2,12 +2,22 @@ let pagecount = parseInt($("#invoice-orders-page-filter-count option:selected").
 
 $(document).on('change','#invoice-orders-page-filter-count',function(){
     let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
+    // let filter_type = parseInt($('#invoice_filter_select').val());
     let selected_year = $('#invoice_year_select').val();
     let started_date = selected_year +'-01-01';
     let ended_date = selected_year + '-12-31';
+    // if(filter_type == 1) {
+    //     let daterange = $('input[name="daterange"]').val();
+    //     let dates = daterange.split(' - ');
+    //     started_date = moment(dates[0],'MM-DD-YYYY').format('YYYY-MM-DD');
+    //     ended_date = moment(dates[1],'MM-DD-YYYY').format('YYYY-MM-DD');
+    // }
+
     getInvoiceOrderAjax(0,val,started_date,ended_date)
 })
+
 let selected_year = $('#invoice_year_select').val();
+let date_range = $('input[name="daterange"]').val();
 let started_date = selected_year +'-01-01';
 let ended_date = selected_year + '-12-31';
 
@@ -20,6 +30,13 @@ $(document).on('click','.pagination_link',function(e){
     let selected_year = $('#invoice_year_select').val();
     let started_date = selected_year +'-01-01';
     let ended_date = selected_year + '-12-31';
+    // let filter_type = parseInt($('#invoice_filter_select').val());
+    // if(filter_type == 1) {
+    //     let daterange = $('input[name="daterange"]').val();
+    //     let dates = daterange.split(' - ');
+    //     started_date = moment(dates[0],'MM-DD-YYYY').format('YYYY-MM-DD');
+    //     ended_date = moment(dates[1],'MM-DD-YYYY').format('YYYY-MM-DD');
+    // }
     getInvoiceOrderAjax($page,$val,started_date,ended_date)
 })
 $('#invoice-orders-page-search').keyup(function(){
@@ -98,37 +115,48 @@ function afterChangeOrderAjax(){
     $('#pagination_disp').removeClass('d-none');
 }
 
-// $(document).on('click','#invoice-order-export',function(e){
-//     e.preventDefault();
-//     window.location = '/analysis/2022'
-// })
+$(document).on('click','#invoice-order-export',function(e){
+    e.preventDefault();
+    let year = $('#invoice_year_select').val();
+    window.location = `/analysis/${year}`;
+})
 
 $(document).on('click','#invoice-order-export',function(e){
     e.preventDefault();
     $('#export-invoice-page-drop').toggleClass('d-none');
 })
 
-$(document).on('click','.export-invoice-page-item',function(e){
-    e.preventDefault();
-    let year = $('#invoice_year_select').val();
-    $.ajax({
-        type: 'POST',
-        url: '/invoice-export/pdf',
-        dataType: "JSON",
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { year },
-        success: function (res) {
-            Swal.fire({
-                position: 'center-center',
-                icon: res.icon,
-                title: res.title,
-                text: res.message,
-                showConfirmButton: !res.success,
-                timer: res.success ? 2000 : 0,
-            })
-        }
-    });
-})
+// $(document).on('click','.export-invoice-page-item',function(e){
+//     e.preventDefault();
+//     // let filter_type = parseInt($('#invoice_filter_select').val());
+//     let year = $('#invoice_year_select').val();
+//     let started_date = year+'0101';
+//     let ended_date = year + '1231';
+//     // if(filter_type == 1) {
+//     //     let daterange = $('input[name="daterange"]').val();
+//     //     let dates = daterange.split(' - ');
+//     //     started_date = moment(dates[0],'MM-DD-YYYY').format('YYYYMMDD');
+//     //     ended_date = moment(dates[1],'MM-DD-YYYY').format('YYYYMMDD');
+//     // }
+
+//     $.ajax({
+//         type: 'POST',
+//         url: '/invoice-export/pdf',
+//         dataType: "JSON",
+//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//         data: {started_date,ended_date},
+//         success: function (res) {
+//             Swal.fire({
+//                 position: 'center-center',
+//                 icon: res.icon,
+//                 title: res.title,
+//                 text: res.message,
+//                 showConfirmButton: !res.success,
+//                 timer: res.success ? 2000 : 0,
+//             })
+//         }
+//     });
+// })
 
 // function downloadExportAjax(type){
 //     let type1 = 2;
@@ -185,4 +213,41 @@ $(document).on('change','#invoice_year_select',function(e) {
 //             })
 //         }
 //     });
+// })
+
+
+// // date range work start
+// $('input[name="daterange"]').daterangepicker({
+//     locale: {
+//         format: 'MM-DD-YYYY'
+//     },
+    
+// },function(start, end) {
+//     let start_date = start.format('YYYY-MM-DD');
+//     let end_date = end.format('YYYY-MM-DD');
+//     console.log(start_date,'__start date',end_date,'__end date');
+//     let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
+//     getInvoiceOrderAjax(0,val,start_date,end_date)
+//     return false;
+// });
+
+
+// $(document).on('change','#invoice_filter_select',function(){
+//     let filter_type = $(this).val();
+//     let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
+//     let year = $('#invoice_year_select').val();
+//     let started_date = year +'-01-01';
+//     let ended_date = year + '-12-31';
+//     if(parseInt(filter_type) == 0) {
+//         $('#invoice_year_select_label').removeClass('d-none');
+//         $('#invoice_date_range').addClass('d-none');
+//     } else {
+//         $('#invoice_year_select_label').addClass('d-none');
+//         $('#invoice_date_range').removeClass('d-none');
+//         let daterange = $('input[name="daterange"]').val();
+//         let dates = daterange.split(' - ');
+//         started_date = moment(dates[0],'MM-DD-YYYY').format('YYYY-MM-DD');
+//         ended_date = moment(dates[1],'MM-DD-YYYY').format('YYYY-MM-DD');
+//     }
+//     getInvoiceOrderAjax(0,val,started_date,ended_date)
 // })

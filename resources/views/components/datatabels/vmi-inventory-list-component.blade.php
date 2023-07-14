@@ -18,7 +18,7 @@
                     <a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">#{{$product['aliasitemno']}}</a>
                 </td>
                 <td>
-                    <a href="javascript:void(0)" class="customer-name">{{$product['itemcode']}}</a>
+                    <a href="javascript:void(0)" class="customer-name itemcode">{{$product['itemcode']}}</a>
                 </td>
                 <td>{{$product['itemcodedesc']}}</td>
                 <td>{{$product['vendorname']}}</td>
