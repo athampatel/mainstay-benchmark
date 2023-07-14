@@ -348,8 +348,7 @@ $('input[name="daterange"]').daterangepicker({
     let year = `${moment(start_date,'YYYY-MM-DD').subtract(1,'days').format('YYYY-MM-DD')}&${moment(end_date,'YYYY-MM-DD').add(1,'days').format('YYYY-MM-DD')}`;
     $("#analysis_year_select").val(start_year).change();
     getAnalysispageData(0,$val,range,year)
-}
-);
+});
 
 function renderAnalysisChart(ct_counts,ct_months,ct_desc){
     let percent = `${ct_months.length * 3}%`;
@@ -488,6 +487,7 @@ $(document).on('click','#analysis-report-icon',function(e){
 
 $(document).on('click','.export-analysis-page-item',function(e){
     e.preventDefault();
+    $('#export-analysis-page-drop').addClass('d-none');
     let type = $(e.currentTarget).data('type');
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());
@@ -517,16 +517,16 @@ $(document).on('click','.export-analysis-page-item',function(e){
         success: function (res) {  
             Swal.fire({
                 position: 'center-center',
-                icon: 'success',
-                title: 'Request Sent',
+                icon: res.icon,
+                title: res.title,
                 text: res.message,
-                showConfirmButton: true,
-                // timer: 2000,
+                showConfirmButton: !res.success,
+                timer: res.success ? 2000 : 0,
             })
         }
     });
-    $('#export-analysis-page-drop').addClass('d-none');
-})
+    
+});
 
 
 // export toggle

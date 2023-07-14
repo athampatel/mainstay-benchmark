@@ -489,7 +489,7 @@ class MenuController extends Controller
             }
 
             $table_code = View::make("components.datatabels.invoice-orders-page-component")
-            ->with("invoices", $response['salesorderhistoryheader'])
+            ->with("invoices", isset($response['salesorderhistoryheader']) ? $response['salesorderhistoryheader'] : [])
             ->render();
             
             $response['pagination_code'] = $pagination_code;
@@ -1095,14 +1095,18 @@ class MenuController extends Controller
     // analysis export
     public function analysisExport(Request $request){
         $data = $request->all();
+        $SDEAPi = new SDEApi();        
+        
         $range = $data['range'];
         $year = $data['year'];
         $type = $data['type'];
+        
         $customer_no    = $request->session()->get('customer_no');
-        $user_detail = UserDetails::where('customerno',$customer_no)->first();        
-        $filter_dates = $this->getRangeDates($range,$year);
+        $user_detail = UserDetails::where('customerno',$customer_no)->first();
+        $filter_dates = $SDEAPi->getRangeDates($range,$year);
         $start_date = $filter_dates['start'];
         $end_date = $filter_dates['end'];
+        
         $year1 = '';
         if($range == 0){
             $year1 = Carbon::parse($start_date)->addYear()->format('Y');
@@ -1110,8 +1114,17 @@ class MenuController extends Controller
             $year1 = Carbon::parse($start_date)->format('Y'); 
         }
         
-        $start_date = Carbon::parse($start_date)->addDay()->format('Y-m-d');
-        $end_date = Carbon::parse($end_date)->subDay()->format('Y-m-d');        
+        if($range == 0) {
+            $start_date = Carbon::parse($start_date)->format('Ymd');
+            $end_date = Carbon::parse($end_date)->format('Ymd'); 
+        } else if($range == 4) {
+            $start_date = Carbon::parse($start_date)->addDay()->format('Ymd');
+            $end_date = Carbon::parse($end_date)->subDay()->format('Ymd'); 
+        } else {
+            $start_date = Carbon::parse($start_date)->format('Ymd');
+            $end_date = Carbon::parse($end_date)->subDay()->format('Ymd'); 
+        }
+        
         $time_stamp = Carbon::now()->format('Ymd_his');
         $time_stamp = $time_stamp.'_'.$user_detail->id;
         $request_data = array('customer_no' =>  $customer_no,
@@ -1129,10 +1142,54 @@ class MenuController extends Controller
                              
         $analysisRequest = AnalaysisExportRequest::create($request_data);
 
-        if($analysisRequest){
-            return json_encode(['success' => true,'message' => config('constants.analysis_message.message')]);
+        $is_local = config('app.env') == 'local' ? true : false;
+        $email = $user_detail->email;
+        if($is_local){
+            $email = config('app.support_email');
         }
-        return json_encode(['success' => false]);
+        // api request 
+        $data = array(            
+            "JobName" => "INVOICEHISTORY",
+            "detail" => [
+                [
+                    "lineKey" => "000001",
+                    "ReportSetting" =>  "SDE_VMI",
+                    "EmailAddress" =>  $email,
+                    "filter" =>  [
+                        [
+                            "column" => "CustomerNo",
+                            "type" => "equals",
+                            "value" => $user_detail->customerno,
+                            "operator" => "and"
+                        ],
+                        [
+                            "column" => "invoiceDate",
+                            "type" => ">=",
+                            "value" => $start_date,
+                            "operator" => "and"
+                        ],
+                        [
+                            "column" => "invoiceDate",
+                            "type" => "<=",
+                            "value" => $end_date,
+                            "operator" => "and"
+                        ]
+                    ]
+                ]
+            ],
+        );
+        $response   = $SDEAPi->Request('post','ScheduledTask',$data);
+        if(!empty($response)){
+            if(isset($response['action']) && $response['action'] == 'executed') {
+                return ['success' => true,'icon' => 'success','title' => 'Request Sent','message' => 'The sales report for invoiced orders has been sent. You will receive a notification once it has been generated.'];
+            }
+        }
+
+        return ['success' => false, 'icon' => 'error', 'title' => 'Something Went Wrong','message' => 'Please try again in a few minutes.'];
+        // if($analysisRequest){
+        //     return json_encode(['success' => true,'message' => config('constants.analysis_message.message')]);
+        // }
+        // return json_encode(['success' => false]);
     }
 
     // Send Help

@@ -15,7 +15,15 @@
 <div class="home-content">
     <span class="page_title">Invoiced Orders</span>
     <div style="display: inline-block;">
-        <label for="" class="position-relative" id="analysis_year_select_label">
+        {{-- <label for="" class="position-relative" id="analysis_year_select_label">
+            <span class="year_filter">Filter</span>
+            <select name="type" id="invoice_filter_select" class="rounded analysis_select">
+                <option value="0" selected> By Year</option>
+                <option value="1"> Date Range</option>
+            </select>
+            <div class="down-arrow"></div>
+        </label> --}}
+        <label for="" class="position-relative" id="invoice_year_select_label">
             <span class="year_filter">By Year</span>
             @php
             $year = intval(date('Y'));
@@ -56,10 +64,10 @@
                                     <a href="" class="d-flex justify-content-center align-items-center">
                                         <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="dashboard-invoice-orders-report-icon">
                                     </a>
-                                    <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="" id="export-invoice-page-drop">
-                                        {{-- <a href="/invoice-export/csv" class="dropdown-item export-invoice-page-item" data-type="csv" id="invoice-csv-export">Export to Excel</a> --}}
+                                    {{-- <div class="dropdown-menu export-drop-down-table customer d-none" aria-labelledby="" id="export-invoice-page-drop">
+                                        <a href="/invoice-export/csv" class="dropdown-item export-invoice-page-item" data-type="csv" id="invoice-csv-export">Export to Excel</a>
                                         <a href="javascript:void(0)" class="dropdown-item export-invoice-page-item" data-type="pdf" id="invoice-pdf-export">Export to PDF</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
