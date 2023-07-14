@@ -179,7 +179,7 @@ class MenuController extends Controller
         return view('Pages.dashboard',$data); 
     }
 
-    public function switchAccount($customer_no = '',request $request){
+    public function switchAccount(request $request,$customer_no = ''){
         $customer   = $request->session()->get('customers');
         $current    = $request->session()->get('customer_no');
         if($customer_no != $current){
