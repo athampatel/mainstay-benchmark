@@ -480,14 +480,14 @@ function exportChart(chartname,type){
 }
 
 // export analysis  
-$(document).on('click','#analysis-report-icon',function(e){
-    e.preventDefault();
-    $('#export-analysis-page-drop').toggleClass('d-none');
-})
+// $(document).on('click','#analysis-report-icon',function(e){
+//     e.preventDefault();
+//     $('#export-analysis-page-drop').toggleClass('d-none');
+// })
 
 $(document).on('click','.export-analysis-page-item',function(e){
     e.preventDefault();
-    $('#export-analysis-page-drop').addClass('d-none');
+    console.log($('#export-analysis-page-drop'),'__clicked');
     let type = $(e.currentTarget).data('type');
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());
@@ -514,6 +514,9 @@ $(document).on('click','.export-analysis-page-item',function(e){
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: { 'year' : year,'range':range,'type':type1},
+        beforeSend:function(){
+           $('.backdrop').removeClass('d-none');
+        },
         success: function (res) {  
             Swal.fire({
                 position: 'center-center',
@@ -523,6 +526,10 @@ $(document).on('click','.export-analysis-page-item',function(e){
                 showConfirmButton: !res.success,
                 timer: res.success ? 2000 : 0,
             })
+        },
+        complete:function(){
+            $('#export-analysis-page-drop').addClass('d-none');
+            $('.backdrop').addClass('d-none');
         }
     });
     

@@ -3016,6 +3016,9 @@ td .dtr-title span{
     border-radius: 8px;
 }
 
+#export-analysis-page-drop {
+  z-index: 1 !important;
+}
 
 /* datatable testing sorting work end */
 /* print */
