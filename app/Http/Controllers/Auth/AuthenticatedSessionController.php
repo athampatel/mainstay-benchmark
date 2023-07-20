@@ -73,6 +73,7 @@ class AuthenticatedSessionController extends Controller
                 $selected_customer = $cs;
             }
         }
+        
         $request->session()->put('selected_customer',$selected_customer);
         // set cookie
         $cookie = cookie('customer_welcome', 'welcome admin', 0.1);

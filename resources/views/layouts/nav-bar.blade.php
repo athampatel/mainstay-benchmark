@@ -88,11 +88,9 @@
             </div>
         </div>
 
-
-
         <div class="profile-details user-box dropdown border-light-2">
             <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                @if(Auth::user()->profile_image)
+                @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
                     <img src="/{{Auth::user()->profile_image}}" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @else 
                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />

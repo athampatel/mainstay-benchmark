@@ -79,7 +79,7 @@ Admin Edit - Admin Panel
                                 <div class="form-row">
                                     <div class="d-flex align-items-center justify-content-center" style="position: relative">
                                         <div class="image-upload position-relative">
-                                            @if($admin->profile_path)
+                                            @if($admin->profile_path && File::exists($admin->profile_path))
                                             <img src="/{{$admin->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
                                             @else 
                                             <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">

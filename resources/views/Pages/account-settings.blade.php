@@ -38,7 +38,7 @@
                     <div class="card-body col-12">
                         <div class="d-flex align-items-center justify-content-center" style="position: relative">
                             <div class="image-upload position-relative">
-                                @if(Auth::user()->profile_image)
+                                @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
                                 <img src="/{{Auth::user()->profile_image}}" class="rounded-circle position-relative profile_img_disp" alt="profile Image" height="182" width="182">
                                 @else 
                                 <img class="position-relative profile_img_disp" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
@@ -94,7 +94,7 @@
                         <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                             <div class="col-12 d-flex align-items-center">
                                 <div class="box-icon small-icon rounder-border">
-                                    @if(Auth::user()->profile_image)
+                                    @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
                                         <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
                                     @else
                                         <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
@@ -190,7 +190,7 @@
                         <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                             <div class="col-12 d-flex align-items-center">
                                 <div class="box-icon small-icon rounder-border">
-                                    @if($sales_person['profile_path'])
+                                    @if($sales_person['profile_path'] && File::exists($sales_person['profile_path']))
                                         <img id="account-detail-profile-img" src="/{{$sales_person['profile_path']}}" class="rounded-circle" style="max-width:100%;height:100%;" />
                                     @else
                                         <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />
