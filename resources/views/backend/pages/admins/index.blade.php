@@ -95,7 +95,7 @@ Admins - Admin Panel
                                     <tr>
                                             <td>{{ $loop->index + 1 + $old_counts }}</td>
                                             <td>
-                                                @if($admin->profile_path)
+                                                @if($admin->profile_path && File::exists($admin->profile_path))
                                                     <img src="/{{$admin->profile_path}}" height="45" width="45" id="admin_admins_profile_image"  class="rounded-circle datatable_profile"/>
                                                 @else
                                                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
@@ -163,7 +163,7 @@ Admins - Admin Panel
         <tr>
             <td class="text-dark">{{ $loop->index+1 }}</td>
             <td>
-                @if($admin->profile_path)
+                @if($admin->profile_path && File::exists($admin->profile_path))
                     <img src="/{{$admin->profile_path}}" height="45" width="45"  id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>
                 @else
                     <img src="/assets/images/svg/user_logo.png" height="45" width="45" id="admin_admins_profile_image" class="rounded-circle datatable_profile"/>

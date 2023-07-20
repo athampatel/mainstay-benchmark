@@ -39,7 +39,7 @@
 			@if (Cookie::get('customer_welcome'))
                 <div class="wm_card customer">
                     <div class="wm_icon">
-						@if(Auth::user()->profile_image)
+						@if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
 							<img src="/{{Auth::user()->profile_image}}" height="45" width="45" class="rounded-circle" />
 						@else 
 							<img src="/assets/images/svg/user_logo.png" height="45" width="45" class="rounded-circle" />

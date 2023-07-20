@@ -75,7 +75,7 @@ User Edit - Admin Panel
                                 <div class="form-row">
                                     <div class="d-flex align-items-center justify-content-center" style="position: relative">
                                         <div class="image-upload position-relative">
-                                            @if($user->profile_image)
+                                            @if($user->profile_image && File::exists($user->profile_image))
                                             <img src="/{{$user->profile_image}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
                                             @else 
                                             <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">

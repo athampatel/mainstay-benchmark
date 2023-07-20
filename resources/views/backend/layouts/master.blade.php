@@ -23,7 +23,7 @@
             @if (Cookie::get('admin_welcome'))
                 <div class="wm_card">
                     <div class="wm_icon">
-                        @if(Auth::guard('admin')->user()->profile_path)
+                        @if(Auth::guard('admin')->user()->profile_path && File::exists(Auth::guard('admin')->user()->profile_path))
                             <img src="/{{Auth::guard('admin')->user()->profile_path}}" class="rounded-circle height-45 width-45"/>
                         @else
                             <img src="/assets/images/svg/user_logo.png" class="rounded-circle height-45 width-45"/>

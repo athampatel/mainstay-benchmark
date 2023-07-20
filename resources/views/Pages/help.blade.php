@@ -19,7 +19,7 @@
                     <div class=" profile-header card-header col-12 p-3 d-flex align-items-center">
                         <div class="col-12 d-flex align-items-center">
                             <div class="box-icon small-icon rounder-border">
-                                @if(Auth::user()->profile_image)
+                                @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
                                     <img id="account-detail-profile-img" src="/{{Auth::user()->profile_image}}" class="rounded-circle" style="max-width:100%;height:100%;" />
                                 @else
                                     <img id="account-detail-profile-img" src="/assets/images/profile_account_img2.png" class="rounded-circle" style="max-width:100%; height:100%" />

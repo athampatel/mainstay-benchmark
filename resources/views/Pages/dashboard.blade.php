@@ -20,7 +20,7 @@
                       $customer_session =  session('customers');
                       $selected_customer = session('selected_customer');
                     @endphp 
-                  @if($user->profile_image)
+                  @if($user->profile_image && File::exists($user->profile_image))
                     <img src="/{{$user->profile_image}}" class="rounded-circle regin_manager_profile"/>
                   @else
                   <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
@@ -135,7 +135,7 @@
             <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
               <div class="col-12 col-md-12 col-lg-12 d-flex align-items-center">
                 <div class="box-icon small-icon rounder-border">
-                  @if($region_manager->profile)
+                  @if($region_manager->profile && File::exists($region_manager->profile))
                       <img src="/{{$region_manager->profile}}" class="rounded-circle regin_manager_profile"/>
                   @else
                       <img src="assets/images/svg/region_manager_info_icon.svg" />

@@ -32,7 +32,7 @@ Admins - Admin Panel
                                         <div class="card-body col-12">
                                             <div class="d-flex align-items-center justify-content-center" style="position: relative">
                                                 <div class="image-upload position-relative">
-                                                    @if(Auth::guard('admin')->user()->profile_path)
+                                                    @if(Auth::guard('admin')->user()->profile_path && File::exists(Auth::guard('admin')->user()->profile_path))
                                                     <img src="/{{Auth::guard('admin')->user()->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
                                                     @else 
                                                     <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
