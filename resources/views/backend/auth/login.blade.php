@@ -14,8 +14,7 @@
                         <div class="mb-4 mt-3 text-center">
                             <img src="../assets/images/logo.svg" width="180" alt="" />
                         </div>   
-                        <h4>Sign In</h4>
-                        <p>Sign in and start managing your Admin Panel</p>
+                        <h4>Admin Sign In</h4>
                     </div>
                     <div class="login-form-body">
                         @include('backend.layouts.partials.messages')

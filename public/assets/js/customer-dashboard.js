@@ -78,7 +78,7 @@ function customerSalesChartDisplays(resp,status){
     var options = {
         show:true,
         series: [{
-                name: 'Sales',
+                name: 'Total',
                 data: $counts
             },
         ],
@@ -237,7 +237,7 @@ function customerOpenOrders($array,labels){
     })
     var options = {
         series: [{
-                name: 'Sales',
+                name: 'Total',
                 data: arr
             },
         ],
@@ -467,7 +467,7 @@ function customerSpendingChart(){
 
     var options1 = {
         series: [{
-                name: 'Sales',
+                name: 'Total',
                 data: value
             },
         ],

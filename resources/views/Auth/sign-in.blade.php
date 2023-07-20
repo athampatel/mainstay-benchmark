@@ -12,7 +12,7 @@
 									<img src="assets/images/logo.svg" width="180" alt="" />
 								</div>
 								<div class="text-center py-4">
-									<h3 class="login-from-title font-open-sans font-bold font-32">Sign in</h3>									
+									<h3 class="login-from-title font-open-sans font-bold font-32">Sign In</h3>									
 								</div>
 								@if($errors->any())
 									@foreach ($errors->all() as $error)	
@@ -34,7 +34,7 @@
                                             </div>											
 										<div class="col-12">
 											<div class="d-grid">
-												<button type="submit" class="btn mb-4 button-bg-primary-green  padding-y-15 font-open-sans font-semi-bold font-20">Sign in</button>
+												<button type="submit" class="btn mb-4 button-bg-primary-green  padding-y-15 font-open-sans font-semi-bold font-20">Sign In</button>
 												{{-- <a href="/sign-up" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Join as a customer?</a> --}}
 												<a href="/sign-up" class="btn button-bg-primary-black color-white padding-y-15 font-open-sans font-semi-bold font-20">Sign Up</a>
 											</div>
