@@ -53,7 +53,7 @@
 												<button type="submit" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20">Sign Up</button>
 											</div>
 										</div>
-										<div class="col-12 pb-3 font-open-sans font-18">Already have an Account? <a href="{{ url('sign-in') }}" class="font-bold sign-in-hover">Sign in</a>
+										<div class="col-12 pb-3 font-open-sans font-18">Already have an Account? <a href="{{ url('sign-in') }}" class="font-bold sign-in-hover">Sign In</a>
 									</form>
 								</div>
 							</div>
