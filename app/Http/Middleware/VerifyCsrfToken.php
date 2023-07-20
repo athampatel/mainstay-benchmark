@@ -23,5 +23,6 @@ class VerifyCsrfToken extends Middleware
         'admin/login',
         'admin/password/reset',
         'admin/password/reset/submit',
+        'get-new-bottom-notifications'
     ];
 }
