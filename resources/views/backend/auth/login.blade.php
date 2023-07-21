@@ -19,8 +19,8 @@
                     <div class="login-form-body">
                         @include('backend.layouts.partials.messages')
                         <div class="form-gp">
-                            <label for="exampleInputEmail1">Email address or Username</label>
-                            <input type="text" id="exampleInputEmail1" name="email"  class="form-control">
+                            <label for="exampleInputEmail1">Email</label>
+                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control">
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                             @error('email')

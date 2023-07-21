@@ -363,7 +363,7 @@ function renderAnalysisChart(ct_counts,ct_months,ct_desc){
     chart_div.innerHTML = '';
     var options = {
         series: [{
-                name: 'Sales',
+                name: 'Total',
                 data: ct_counts
             },
         ],
