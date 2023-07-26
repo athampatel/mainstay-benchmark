@@ -508,13 +508,13 @@ class MenuController extends Controller
         $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
         $is_data_fetch = true;
         $SDEAPi = new SDEApi();
-        // if($api_data){
-        //     $time_now = date('Y-m-d h:i:s');
-        //     $update_time = $api_data->updated_at->diffInMinutes($time_now);
-        //     if($update_time <= 30){
-        //         $is_data_fetch = false;
-        //     }
-        // }
+        if($api_data){
+            $time_now = date('Y-m-d h:i:s');
+            $update_time = $api_data->updated_at->diffInMinutes($time_now);
+            if($update_time <= 30){
+                $is_data_fetch = false;
+            }
+        }
 
         if($is_data_fetch){
             $data = array(   
@@ -550,10 +550,10 @@ class MenuController extends Controller
                     'data' => json_encode($response),
                 ]);
             }
-            $response = $response['salesorders'];
+            $response = isset($response['salesorders']) ? $response['salesorders'] : null;
         } else {
             $response = json_decode($api_data->data,true);
-            $response = $response['salesorders'];
+            $response = isset($response['salesorders']) ? $response['salesorders'] : null;
         }
         $open_orders = [];
         $year = date('Y');
@@ -569,7 +569,7 @@ class MenuController extends Controller
 
 
         foreach($response as $res){
-           $orders_info = $res['details'];
+           $orders_info = isset($res['details']) ? $res['details'] : null;
             if(!empty($orders_info)){
                 foreach($orders_info as $order){
                   if($order['quantityordered'] > 0){
