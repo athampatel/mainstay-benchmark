@@ -257,6 +257,7 @@ class SDEDataController extends Controller
         $order_no = $request->order_no;
         $item_code = $request->item_code;
         $data = array(            
+            "index" =>"KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "SalesOrderNo",
@@ -530,6 +531,7 @@ class SDEDataController extends Controller
         $order_no = $request->order_no;
         $item_code = $request->item_code;
         $data = array(            
+            "index" => "KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "SalesOrderNo",

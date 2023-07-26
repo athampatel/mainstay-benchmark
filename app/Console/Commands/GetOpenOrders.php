@@ -46,7 +46,8 @@ class GetOpenOrders extends Command
         $customer_numbers = UserDetails::all()->pluck('customerno');
         $sdeApi = new SDEApi();
         foreach($customer_numbers as $customer_no){
-            $data = array(            
+            $data = array(  
+                "index" =>"KSDEDESCENDING",
                 "filter" => [
                     [
                         "column"=> "CustomerNo",

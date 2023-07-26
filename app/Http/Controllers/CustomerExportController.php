@@ -285,6 +285,7 @@ class CustomerExportController extends Controller
                     "operator" => "and"
                 ],
             ],
+            "index" => "KSDEDESCENDING",
         );
         $response   = $SDEApi->Request('post','SalesOrderHistoryHeader',$data);
         $response = $response['salesorderhistoryheader'];
@@ -316,6 +317,7 @@ class CustomerExportController extends Controller
     public static function exportOpenData($user_detail){
         $SDEApi = new SDEApi();
         $data = array(            
+            "index" =>"KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "CustomerNo",

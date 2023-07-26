@@ -1320,6 +1320,7 @@ class UsersController extends Controller
                                                 ->get(['change_order_requests.*','users.name','users.email','user_details.customerno','user_details.ardivisionno','sales_persons.person_number','sales_persons.name as manager','sales_persons.email as manager_email'])->first();
 
         $data = array(            
+            "index" =>"KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "salesorderno",

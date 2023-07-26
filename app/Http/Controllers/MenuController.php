@@ -508,16 +508,17 @@ class MenuController extends Controller
         $api_data = ApiData::where('customer_no',$customer_no)->where('type',$type->id)->first();
         $is_data_fetch = true;
         $SDEAPi = new SDEApi();
-        if($api_data){
-            $time_now = date('Y-m-d h:i:s');
-            $update_time = $api_data->updated_at->diffInMinutes($time_now);
-            if($update_time <= 30){
-                $is_data_fetch = false;
-            }
-        }
+        // if($api_data){
+        //     $time_now = date('Y-m-d h:i:s');
+        //     $update_time = $api_data->updated_at->diffInMinutes($time_now);
+        //     if($update_time <= 30){
+        //         $is_data_fetch = false;
+        //     }
+        // }
 
         if($is_data_fetch){
-            $data = array(            
+            $data = array(   
+                "index" => "KSDEDESCENDING",         
                 "filter" => [
                     [
                         "column"=> "ARDivisionNo",
@@ -732,6 +733,7 @@ class MenuController extends Controller
         $order_no = $request->order_no;
         if($user_details){
             $data = array(            
+                "index" => "KSDEDESCENDING",
                 "filter" => [
                     [
                         "column" =>  "CustomerNo",
