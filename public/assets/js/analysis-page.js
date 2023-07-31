@@ -59,6 +59,7 @@ function getAnalysispageData($page,$count,range,year){
     var _view = 2;
     if($(document.body).find('#analysis_table_chart').hasClass('d-none')){
         _view = 1;
+        chart_type = 0
     }
     $.ajax({
         type: 'GET',
@@ -71,8 +72,6 @@ function getAnalysispageData($page,$count,range,year){
            $('#analysis_page_chart').html('');
         },
         success: function (res) {
-            console.log(res,'__response');
-            console.log(res.is_export,'__is export');
             if(res.is_export){
                 $('#analysis-page-export').removeClass('d-none');
             } else {
@@ -100,14 +99,14 @@ function getAnalysispageData($page,$count,range,year){
             let chart_count = [];
             let months_desc = [];
             
-            //console.log('__logo',chart_type,_view);
             var checkAnalysis = $('#analysis_item_select').val();
             if(checkAnalysis == 0 && analysis_data.length > 0){
                 $analaysis_count =  getAnalaysisDataCount(analysis_data,range,range_months)
                 months = $analaysis_count['months'];
                 months_desc = $analaysis_count['months'];
                 chart_count = $analaysis_count['final'];
-            } else if(checkAnalysis == 1){
+            } else if(checkAnalysis == 1 && chart_type != 0){
+            // } else if(checkAnalysis == 1){
                 $analaysis_count =  getProductLineCount(product_data);
                 $analaysis_count_desc =  getProductLineCount(product_data_desc);
                 months = $analaysis_count['products'];
@@ -168,7 +167,6 @@ function getAnalaysisDataCount(data,range,range_months){
     let arr1 = [];
     let months = [];
     let test_array = [];
-    console.log(data);
     data.forEach( (da,k) => {
        if(range == 0){
         arr1[da.fiscalperiod] = da.dollarssold;
@@ -244,8 +242,6 @@ function getAnalaysisDataCount(data,range,range_months){
     } else {
         // for(let num = 01; num <= last_number; num++){
         //     let num1 = num <= 9 ? `0${num}`: num;
-        //     console.log(arr1,'___Arrr ');
-        //     console.log(num1)
         //     if(arr1[num1]){
         //         final.push(Math.round(arr1[num1]));
         //     } else {
@@ -494,7 +490,6 @@ function exportChart(chartname,type){
 
 $(document).on('click','.export-analysis-page-item',function(e){
     e.preventDefault();
-    console.log($('#export-analysis-page-drop'),'__clicked');
     let type = $(e.currentTarget).data('type');
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());

@@ -6,11 +6,7 @@ jQuery(document).ready(function(){
         data : {'is_notify':is_notify_admin},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (res) {
-            console.log(res,'__get bottom notification response');
-            console.log(is_notify_admin,'___is_notify_admin');
-            // res = JSON.parse(res);
             if(res.success){
-                console.log(res.notifications_all,'___res.notifications_all');
                 $('#bottom_notification_disp').html(res.notification_code);
                 $('.navbar_notification_icon .notification_count').removeClass('d-none');
                 $('.navbar_notification_icon .notification_count').text(res.notifications_all.length);
@@ -55,12 +51,9 @@ setInterval(() => {
         data : {'is_notify':is_notify_admin},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (res) {
-            console.log(res,'__get new bottom notification response');
-            // res = JSON.parse(res);
             const notification_bottom = document.querySelector('.notfication_bottom');
             if(res.success){ 
                 if(notification_bottom){
-                    console.log(res.new_notifications,'___res.new_notifications');
                     let count = res.new_notifications.length;
                     $('#message_count').text(count);
                     $('.notification .count').text(count);
