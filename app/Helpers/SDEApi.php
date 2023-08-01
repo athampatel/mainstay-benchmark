@@ -158,6 +158,9 @@ class SDEApi
           "resource"	  => $resource,
       );
       $post_data = array_merge($default_data,$data);
+
+      //echo json_encode($post_data,true); die; 
+
       $request = Http::withOptions([
           'verify' => $this->is_ssl_verify,
           'timeout' => config('app.app_max_time')

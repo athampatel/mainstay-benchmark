@@ -93,9 +93,6 @@ class SDEDataController extends Controller
             
             $data = array("filter" => $dataSalesHistory);
 
-
-           // print_r($dataSalesHistory);
-
             $response_data   = $SDEAPi->Request('post','CustomerSalesHistory',$data);
             $is_api_data = ApiData::where('customer_no',$user_details->customerno)->where('type', $type->id)->first();
             if($is_api_data){
@@ -257,7 +254,7 @@ class SDEDataController extends Controller
         $order_no = $request->order_no;
         $item_code = $request->item_code;
         $data = array(            
-            "index" =>"KSDEDESCENDING",
+          // "index" =>"KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "SalesOrderNo",
@@ -269,8 +266,7 @@ class SDEDataController extends Controller
         );
         $SDEAPi = new SDEApi();
         $sales_order_history_detail = $SDEAPi->Request('post','SalesOrders',$data);
-        // dd($sales_order_history_detail);
-        $sales_order_detail = $sales_order_history_detail['salesorders'];
+        $sales_order_detail = isset($sales_order_history_detail['salesorders']) ? $sales_order_history_detail['salesorders'] : null;
         if(!empty($sales_order_detail)){
             foreach ($sales_order_detail as $key => $sales_order) {
                 if($sales_order['customerno'] != $selected_customer['customerno']){
