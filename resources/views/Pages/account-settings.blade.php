@@ -37,9 +37,9 @@
                     </div>
                     <div class="card-body col-12">
                         <div class="d-flex align-items-center justify-content-center" style="position: relative">
-                            <div class="image-upload position-relative">
+                            <div class="image-upload position-relative" @if(Auth::user()->profile_image) style="background-image:url(/{{Auth::user()->profile_image}})" @endif>
                                 @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
-                                <img src="/{{Auth::user()->profile_image}}" class="rounded-circle position-relative profile_img_disp" alt="profile Image" height="182" width="182">
+                                <img src="/{{Auth::user()->profile_image}}" class="rounded-circle position-relative profile_img_disp active_uploaded" alt="profile Image" height="182" width="182">
                                 @else 
                                 <img class="position-relative profile_img_disp" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
                                 @endif
@@ -86,7 +86,7 @@
                         </div>
                     </div>      
                 </div>  
-                <button type="submit" class="btn btn-primary btn-rounded" id="profile-edit-save-button">Update Changes</button> 
+                <button type="submit" class="btn btn-primary btn-rounded btn-larger btn-full" id="profile-edit-save-button">Update Changes</button> 
             </div>
             <div class="col-12 col-md-9 co-lg-9">
                 <div class="">

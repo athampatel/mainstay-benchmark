@@ -31,9 +31,9 @@ Admins - Admin Panel
                                         </div>
                                         <div class="card-body col-12">
                                             <div class="d-flex align-items-center justify-content-center" style="position: relative">
-                                                <div class="image-upload position-relative">
+                                                <div class="image-upload position-relative" @if(isset(Auth::guard('admin')->user()->profile_path)) style="background-image:url(/{{Auth::guard('admin')->user()->profile_path}})" @endif>
                                                     @if(Auth::guard('admin')->user()->profile_path && File::exists(Auth::guard('admin')->user()->profile_path))
-                                                    <img src="/{{Auth::guard('admin')->user()->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
+                                                    <img src="/{{Auth::guard('admin')->user()->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin active_uploaded" alt="profile Image" height="182" width="182">
                                                     @else 
                                                     <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
                                                     @endif
@@ -62,7 +62,7 @@ Admins - Admin Panel
                                             </div>
                                         </div>      
                                     </div>  
-                                    <button type="submit" class="btn btn-primary bm-btn-primary btn-rounded text-capitalize" id="admin-profile-edit-save-button">Update Profile</button> 
+                                    <button type="submit" class="btn btn-primary bm-btn-primary btn-rounded text-capitalize btn-larger btn-full" id="admin-profile-edit-save-button">Update Profile</button> 
                                 </div>
 
                                 <div class="col-12 col-md-9  co-lg-9 d-none">

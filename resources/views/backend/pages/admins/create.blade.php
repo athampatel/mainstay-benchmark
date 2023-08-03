@@ -27,6 +27,19 @@ Admin Create - Admin Panel
                             @include('backend.layouts.partials.messages')                    
                             <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST" enctype="multipart/form-data">
                                 @csrf
+
+                                <label for="file-input-admin">Profile Picture</label>
+
+                                <div class="form-row">
+                                    <div class="d-flex align-items-center justify-content-center" style="position: relative">
+                                        <div class="image-upload position-relative">
+                                            <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
+                                            <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button_admin" class="position-absolute">
+                                            <input id="file-input-admin" name="profile_picture1" type="file" accept=".jpg, .jpeg, .png"/>
+                                        </div>  
+                                    </div>
+                                </div>
+
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
                                         <label for="name">{{ config('constants.label.admin.user_name') }}</label>
@@ -101,18 +114,8 @@ Admin Create - Admin Panel
                                     </div>
                                 </div>
 
-                                <h6>Profile Picture</h6><br>
-
-                                <div class="form-row">
-                                    <div class="d-flex align-items-center justify-content-center" style="position: relative">
-                                        <div class="image-upload position-relative">
-                                            <img class="position-relative profile_img_disp_admin" src="/assets/images/profile_account_img2.png" alt="profile Image" height="182" width="182">
-                                            <img src="/assets/images/svg/pen_rounded.svg" alt="image upload icon" id="file_input_button_admin" class="position-absolute">
-                                            <input id="file-input-admin" name="profile_picture1" type="file" accept=".jpg, .jpeg, .png"/>
-                                        </div>  
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.create') }}</button>
+                                
+                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4 fl-right btn-larger">{{ config('constants.label.admin.buttons.create') }}</button>
                             </form>
                         </div>
                     </div>

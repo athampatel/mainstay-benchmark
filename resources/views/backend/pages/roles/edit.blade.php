@@ -74,7 +74,7 @@ Role Edit - Admin Panel
                                         @php  $i++; @endphp
                                     @endforeach
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.buttons.update_role') }}</button>
+                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4 fl-right btn-larger">{{ config('constants.label.admin.buttons.update_role') }}</button>
                             </form>
                         </div>
                     </div>

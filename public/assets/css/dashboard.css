@@ -387,6 +387,7 @@ nav .profile-details i{
 }
 .overview-boxes .box .box-icon img{
   max-width: 75%;
+  object-fit: cover;
 }
 .overview-boxes .box .box-icon .icon-wrapper img{
     max-height: 100%;
@@ -676,7 +677,19 @@ nav .profile-details i{
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
 }
-
+.btn.btn-larger{
+    font-size: 1rem;
+    font-weight: 500;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: 100%;
+}
+.btn.btn-full{
+  width: 100%;
+}
+.fl-right{
+  float: right;
+}
 .overview-boxes .dashboard-button{
   height: 1.85rem;
   min-width: 10.43rem ;
@@ -721,6 +734,8 @@ nav .profile-details i{
 .overview-boxes .table td{
   vertical-align: middle;
   min-width: 5rem;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 #orderItems tr > td:first-child,
@@ -798,6 +813,9 @@ nav .profile-details i{
 .overview-boxes .form-select::-ms-input-placeholder {
     color: #fff !important;
 }
+.overview-boxes .form-check-input{
+  opacity: 0;
+}
 .overview-boxes .form-check-input + label::before{
     content:'';
     width: 1rem;
@@ -807,7 +825,7 @@ nav .profile-details i{
     left: 0rem;
     /* background-color:#9FCC47; */
     background-color:#A2D45E;
-    top:0.1875rem;
+    top:0.35rem;
     border-radius: 0.125rem;
 }
 .overview-boxes .form-check-input::checked + label::before{
@@ -823,9 +841,11 @@ nav .profile-details i{
 
 /* account settings page */
 .image-upload{
-  
   width: 11.375rem;
   height: 11.375rem;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
 }
 
 .profile_img_disp{
@@ -1230,6 +1250,10 @@ nav .profile-details i{
   height: 11.375rem;
   width: 11.375rem;
   border-radius: 50%;
+}
+.profile_img_disp_admin.active_uploaded,
+.profile_img_disp.active_uploaded{
+  opacity: 0;
 }
 
 #nav-bar-profile-img_admin{
@@ -1648,6 +1672,10 @@ input.analysis_select {
   font-size: 0.75rem;
   color: #fff;
   padding: 0 !important;
+}
+.pagination_button a:hover,
+.pagination_button a:focus{
+   color:#9FCC47;
 }
 .pagination_button a.pagination_active_button{
   background-color: #9FCC47;
@@ -2781,6 +2809,7 @@ tr.child ul{
 .datatable_profile{
   height: 2.8125rem;
   width: 2.8125rem;
+  object-fit: cover;
 }
 .regin_manager_profile{
   height:1.8425rem;
@@ -3181,7 +3210,7 @@ td .dtr-title span{
       margin: 0;
     }
     .table-responsive{
-      overflow-x: auto;
+      overflow-x: initial;
     }
   }
 
@@ -3434,7 +3463,6 @@ td .dtr-title span{
     .col-filter{
       width: 100%;
       margin-left: 0rem;
-      padding-left: 0rem;
       display: flex !important;
       justify-content: space-between !important;
     }
@@ -3599,8 +3627,10 @@ td .dtr-title span{
       display: block;
     }
     
-    .datatable-filter-count{
-      width: 100%;
+    .datatable-filter-count,
+    .datatable-search-input-admin,
+    .item-search{
+      width: 100% !important;
     }
     
     .datatable-print{

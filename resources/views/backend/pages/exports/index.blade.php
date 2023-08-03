@@ -56,7 +56,8 @@ Customer Export Requests - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
-                                <table id="backend_export_requests" class="text-center datatable-dark backend_datatables">
+                                @include('backend.layouts.partials.loader')
+                                <table id="backend_export_requests" class="text-center datatable-dark backend_datatables table-opacity">
                                     <thead class="text-capitalize">
                                         <tr>
                                             <th>

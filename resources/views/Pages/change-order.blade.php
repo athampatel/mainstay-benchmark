@@ -241,7 +241,7 @@
                    
                 </div>   
                 @if($is_change_order)
-                <button type="submit" class="btn btn-primary btn-rounded text-capitalize" id="order-save-button">Save Changes</button>
+                <button type="submit" class="btn btn-primary btn-rounded text-capitalize btn-larger fl-right" id="order-save-button">Save Changes</button>
                 @endif
             </div>
         </div>

@@ -142,6 +142,9 @@ if($('#backend_roles').length){
         info: false,
         responsive: true,
         autoWidth: false,
+        "fnInitComplete": function (oSettings, json) {           
+            renderDataTableView();
+        },
         columns: [
             { "width": "7%" },
             { "width": "25%" },
@@ -259,6 +262,9 @@ if($('#backend_admins').length){
         info: false,
         responsive: true,
         autoWidth: false,
+        "fnInitComplete": function (oSettings, json) {           
+            renderDataTableView();
+        },
         columns: [
             { "width": "7%" },
             { "width": "14%" },
@@ -500,6 +506,9 @@ if($('#backend_change_order_requests').length){
         info: false,
         responsive: true,
         autoWidth: false,
+        "fnInitComplete": function (oSettings, json) {           
+            renderDataTableView();
+        },
         columns: [
             { "width": "16%" },
             { "width": "16%" },
@@ -618,6 +627,9 @@ if($('#backend_export_requests').length){
         info: false,
         responsive: true,
         autoWidth: false,
+        "fnInitComplete": function (oSettings, json) {           
+            renderDataTableView();
+        },
         columns: [
             { "width": "20%" },
             { "width": "20%" },
@@ -732,6 +744,9 @@ if($('#backend_signup_request').length){
         info: false,
         responsive: true,
         autoWidth: false,
+        "fnInitComplete": function (oSettings, json) {           
+            renderDataTableView();
+        },
         columns: [
             { "width": "16%" },
             { "width": "16%" },
@@ -1000,7 +1015,8 @@ $(document).on('change','#file-input-admin',function(e){
     // }
     // reader.readAsDataURL($image);
     if ($image) {
-        $('.profile_img_disp_admin').attr('src',URL.createObjectURL($image));
+        $('.image-upload').css('background-image','url('+URL.createObjectURL($image)+')');
+        $('.profile_img_disp_admin').attr('src',URL.createObjectURL($image)).css('opacity','0');
     }
 });
 
@@ -1132,3 +1148,9 @@ $(document).on('click','th span',function(e){
         exports_sorting(order,order_type)
     }
 })
+
+
+function renderDataTableView(){    
+    $('table.table-opacity').removeClass('table-opacity');
+    $('.chart-loader-div').addClass('d-none');    
+}

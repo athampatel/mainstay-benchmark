@@ -1804,6 +1804,7 @@ body.user-forms{
     border-radius:0.25rem;
 	font-size:1.25rem;
     color:#FFFFFF;	
+    cursor: default;
 }
 .user-forms .form-control::placeholder {
     opacity: 0.5 !important;

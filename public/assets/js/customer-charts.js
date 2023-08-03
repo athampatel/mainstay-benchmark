@@ -290,7 +290,11 @@ $(document).on('change','#file-input',function(e){
     $image = $('#file-input').prop('files')[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-        $('.profile_img_disp').attr('src', e.target.result);
+       // $('.profile_img_disp').attr('src', e.target.result);
+        
+        $('.image-upload').css('background-image','url('+e.target.result+')');
+        $('.profile_img_disp').attr('src',e.target.result).css('opacity','0');
+
     }
     reader.readAsDataURL($image);
 });

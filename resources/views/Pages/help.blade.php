@@ -52,7 +52,7 @@
                         </div>
                     </div>                     
                 </div>
-                <button type="submit" class="btn btn-primary text-capitalize btn-rounded" id="help-save-button">Send Request</button>
+                <button type="submit" class="btn btn-primary text-capitalize btn-rounded btn-larger float-right" id="help-save-button">Send Request</button>
             </div>
         </div>
     </div>
