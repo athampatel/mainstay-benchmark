@@ -2270,3 +2270,8 @@ body.user-forms{
     height: 1rem;
     /* word-spacing: 4; */
 }
+.login-widget .alert-danger{
+    background-color: #CE202F !important;
+    border-color: #CE202F !important;
+    color: #FFF !important;
+}

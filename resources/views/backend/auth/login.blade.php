@@ -19,8 +19,8 @@
                     <div class="login-form-body">
                         @include('backend.layouts.partials.messages')
                         <div class="form-gp">
-                            <label for="exampleInputEmail1">Email</label>
-                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control">
+                           <!-- <label for="exampleInputEmail1">Email</label> -->
+                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control" placeholder="Email">
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                             @error('email')
@@ -30,8 +30,8 @@
                             @enderror
                         </div>
                         <div class="form-gp">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                            <!--<label for="exampleInputPassword1">Password</label> --->
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
                             <i class="ti-lock"></i>
                             <div class="text-danger"></div>
                             @error('password')

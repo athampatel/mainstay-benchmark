@@ -15,8 +15,8 @@
 <div class="backdrop d-none">
     <div class="loader"></div>
 </div>
-<div class="home-content">
-    <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap">
+<div class="home-content page-analysis">
+    <div class="padding-y-40 d-flex justify-content-between align-items-center flex-wrap filter-wrapper">
         <div class="d-flex align-items-center flex-wrap range-filter">
             <div class="page_title p-0">Analysis</div>
             <div class="d-flex analysis-filter">
@@ -132,7 +132,7 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center justify-content-end">
                         <div class="position-relative">
-                            <a class="btn btn-rounded btn-medium btn-bordered mr-2" id="export-analysis-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
+                            <a class="btn btn-rounded btn-medium btn-bordered" id="export-analysis-chart" aria-haspopup="true" aria-expanded="false">EXPORT REPORT</a>
                             <div class="dropdown-menu export-drop-down d-none" aria-labelledby="export-sales-invoice" id="export-analysis-drop-down">
                               <a class="dropdown-item export-analysis-chart-item" data-type="png">PNG</a>
                               <a class="dropdown-item export-analysis-chart-item" data-type="svg">SVG</a>

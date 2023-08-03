@@ -45,15 +45,17 @@
   }
   
   .show-clients .arrow::before {
-    transform: rotate(45deg);
+    transform: rotate(49deg);
   }
   
   .show-clients .arrow::after {
     left: 6px;
     top: -1px;
-    transform: rotate(-45deg);
+    transform: rotate(-49deg);
   }
-  
+  .show-clients.active .arrow::after{
+    left: 7px;
+  }
   
   
   .show-clients.active .arrow::before {

@@ -24,9 +24,9 @@
             <div class="col-12">
                 <div class="card box min-height-75 mb-0 border-bottom-radius-0">
                     <div class="card-header col-12 p-3 d-flex border-0">
-                        <div class="col-6 d-flex align-items-center d-none d-lg-block">
-                        </div>
-                        <div class="col-12 col-lg-6 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                        <!--<div class="col-6 d-flex align-items-center d-none d-lg-block">
+                        </div> -->
+                        <div class="col-12 col-lg-12 col-md-12  d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search">
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search All Columns" id="open-orders-page-search" aria-controls="help-page-table">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-page-search-img">

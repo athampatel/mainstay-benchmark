@@ -42,7 +42,7 @@
         ],
         'customer_login' => [
             'success_message' => 'Login successful.',
-            'error_message' => 'The email or password entered is invalid.'
+            'error_message' => 'Invalid Email or Password.'
         ],
         'admin_error_403' => 'Sorry, you are not an authorized administrator.',
         'dashboard_error_403' => 'Sorry, access to the dashboard is not authorized.',
