@@ -7,7 +7,7 @@
 @section('auth-content')
      <div class="login-area">
         <div class="container">
-            <div class="login-box">
+            <div class="login-box admin">
                 <form method="POST" action="{{ route('admin.login.submit') }}">
                     @csrf
                     <div class="login-form-head">
@@ -20,7 +20,7 @@
                         @include('backend.layouts.partials.messages')
                         <div class="form-gp">
                            <!-- <label for="exampleInputEmail1">Email</label> -->
-                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control" placeholder="Email">
+                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control" placeholder="Email Address">
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                             @error('email')
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="submit-btn-area">
+                        <div class="submit-btn-area admin">
                             <button id="form_submit" type="submit">Sign In <i class="ti-arrow-right"></i></button>
                         </div>
                     </div>
