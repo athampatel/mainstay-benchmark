@@ -40,9 +40,9 @@ VMI Inventory - Admin Panel
                 <div class="card box min-height-75 mt-0 mb-0 border-bottom-radius-0">
                     <div class="row">
                     <div class="card-header col-12 p-3 d-flex border-0 justify-content-end">
-                        <div class="col-12 col-lg-9 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
+                        <div class="col-12 col-lg-9 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter px-25">            
                             <div class="position-relative item-search">
-                                <input type="text" class="form-control1 min-height-0 form-control-sm datatable-search-input-admin" placeholder="Search in All Columns" id="vmi-inventory-search" aria-controls="">
+                                <input type="text" class="form-control1 min-height-0 form-control-sm datatable-search-input-admin h-24" placeholder="Search in All Columns" id="vmi-inventory-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="vmi-inventory-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

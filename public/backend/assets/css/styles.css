@@ -3190,6 +3190,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     min-height: 1px;
     min-width: 3rem;
     margin-right: 0.25rem;
+    flex-grow: 1;
+    max-width: 100px;
 }
 
 .status-btns .btn{
@@ -3211,6 +3213,18 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
 .dynamic-values .btn-primary,.dynamic-values .custom-checkbox{
     display: none;
 }
+
+/* button size fixing */
+/* @media screen and (min-width: 768px) and (max-width: 930px) { 
+    .btn-wrapper .btn {
+        flex-grow: 1;
+    }
+} */
+/* .child .btn-wrapper .btn {
+    flex-grow: 0 !important;
+} */
+
+
 @media (max-width: 1400px){
     html{
         font-size:80%;

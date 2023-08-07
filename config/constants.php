@@ -236,7 +236,8 @@
                     'activate_customer' => 'Activate Customer',
                     'create_request' => 'Create Request',
                     'search_manager' => 'Search Regional Manager'
-                ]
+                ],
+                'field_required'           => 'This field is required',
             ],
             'customer' => [
 

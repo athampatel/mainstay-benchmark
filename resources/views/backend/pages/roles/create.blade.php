@@ -26,9 +26,14 @@ Role Create - Admin Panel
                             @include('backend.layouts.partials.messages')
                             <form action="{{ route('admin.roles.store') }}" method="POST">
                                 @csrf
-                                <div class="form-group mb-5">
-                                    <label for="name">{{ config('constants.label.admin.role_name') }}</label>
+                                <div class="form-group mb-5 {{$errors->has('name') ? 'is_error' : '' }}">
+                                    <label for="name">{{ config('constants.label.admin.role_name') }} *</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter a Role Name">
+                                    @if($errors->has('name'))
+                                        <div class="invalid-feedback d-block">
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="name">{{ config('constants.label.admin.permissions') }}</label>

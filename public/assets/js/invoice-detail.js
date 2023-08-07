@@ -126,9 +126,14 @@ function displayInvoiceOrderDetail(res){
         $('#tracking_container').html(tracking_html_content);
         if(tracking_html_content == '') {
             $('#tracking_id_title').addClass('d-none');
+            $('#tracking_container').parent().parent().parent().addClass('d-none')
         } else {
             $('#tracking_id_title').removeClass('d-none');
+            $('#tracking_container').parent().parent().parent().removeClass('d-none')
         }
+    } else {
+        $('#tracking_id_title').addClass('d-none');
+        $('#tracking_container').parent().parent().parent().addClass('d-none');
     }
 }
 
