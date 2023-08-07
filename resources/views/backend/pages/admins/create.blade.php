@@ -41,32 +41,50 @@ Admin Create - Admin Panel
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="name">{{ config('constants.label.admin.user_name') }}</label>
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('name') ? 'is_error' : '' }}">
+                                        <label for="name">{{ config('constants.label.admin.user_name') }} *</label>
                                         @if(old('name'))
                                         <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @else {{ old('name') }} @endif" autocomplete="off">
                                         @else
                                         <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @endif" autocomplete="off">
                                         @endif
+                                        @if($errors->has('name'))
+                                        <div class="invalid-feedback d-block">
+                                            {{-- {{ $errors->first('name') }} --}}
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
+                                        @endif
                                     </div>
 
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="email">{{ config('constants.label.admin.user_email') }}</label>
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('email') ? 'is_error' : '' }}">
+                                        <label for="email">{{ config('constants.label.admin.user_email') }} * </label>
                                         @if(old('email'))
                                         <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off">
                                         @else
                                         <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
                                         @endif
+                                        @if($errors->has('email'))
+                                        <div class="invalid-feedback d-block">
+                                            {{-- {{ $errors->first('email') }} --}}
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="password">{{ config('constants.label.admin.password') }}</label>
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('password') ? 'is_error' : '' }}">
+                                        <label for="password">{{ config('constants.label.admin.password') }} *</label>
                                         @if(old('password'))
                                         <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}">
                                         @else
                                         <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="">
+                                        @endif
+                                        @if($errors->has('password'))
+                                        <div class="invalid-feedback d-block">
+                                            {{-- {{ $errors->first('password') }} --}}
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
@@ -87,12 +105,18 @@ Admin Create - Admin Panel
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        <label for="username">{{ config('constants.label.admin.user_account_name') }}</label>
+                                    <div class="form-group col-md-6 col-sm-6 {{$errors->has('username') ? 'is_error' : '' }}">
+                                        <label for="username">{{ config('constants.label.admin.user_account_name') }} *</label>
                                         @if(old('username'))
                                             <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('username')}} @endif" autocomplete="off">
                                         @else 
                                             <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                        @endif
+                                        @if($errors->has('username'))
+                                        <div class="invalid-feedback d-block">
+                                            {{-- {{ $errors->first('username') }} --}}
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
                                         @endif
                                     </div>
                                 </div>

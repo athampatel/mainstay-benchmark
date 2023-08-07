@@ -30,6 +30,9 @@ if(wm_card){
     //         { "width": "12%",}
     //     ]
     // });
+    // backend_customers = $('#backend_customers').DataTable( {
+    //     responsive: true,  
+    // });
 
     $(document).on('change','#admin-customer-filter-count',function(){
         let val = parseInt($("#admin-customer-filter-count option:selected").val());

@@ -250,8 +250,10 @@
             <div class="card box item-card-block equal-height">
               <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
-                  <div class="box-icon small-icon rounder-border">
-                    <img src="assets/images/svg/open-orders.svg" />
+                  <div class="">
+                    <div class="box-icon small-icon rounder-border">
+                      <img src="assets/images/svg/open-orders.svg" />
+                    </div>
                   </div>  
                   <h4 class="mb-0 title-4">Total Customer Spending</h4>
                 </div>
