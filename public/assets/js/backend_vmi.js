@@ -45,7 +45,7 @@ $(document).on('click','#vmi_inventory_edit',function(e){
             $(vr).trigger('click')
         }
     })
-    $('.quantity_counted').prop('disabled',false);
+    $('.quantity_counted').prop('disabled',false).attr('placeholder','Enter Value');
 })
 // $(document).on('click','#vmi_inventory_save',function(e){
 //     e.preventDefault();
