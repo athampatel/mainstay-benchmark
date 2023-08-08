@@ -318,6 +318,9 @@ function load_toasts(){
 				$('#toast').addClass('active').show();
 				setTimeout(function() {
 					$('#toast').removeClass('active');
+					setTimeout(function(){
+						$('#toast').remove();
+					},2000);
 				}, 5000); 
 			}
 		});

@@ -3253,7 +3253,13 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     align-items: center;
     justify-content: center;
 }
-
+.footer-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #424448;
+    height: 1rem;
+}
 @media (max-width: 1400px){
     html{
         font-size:70%;
