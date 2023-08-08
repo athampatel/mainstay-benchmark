@@ -313,15 +313,17 @@ function load_toasts(){
 			if($(this).css('display') != 'none'){
 				var _class 	= 'toast toast-'+$(this).attr('class');					
 				var _html 	= $(this).html();
-				$(document.body).append('<div id="toast" class="'+_class+'">'+_html+'</div>');
-				var toast = $('#toast');
-				$('#toast').addClass('active').show();
-				setTimeout(function() {
-					$('#toast').removeClass('active');
-					setTimeout(function(){
-						$('#toast').remove();
-					},2000);
-				}, 5000); 
+				if(_html.trim() != ''){
+					$(document.body).append('<div id="toast" class="'+_class+'">'+_html+'</div>');
+					var toast = $('#toast');
+					$('#toast').addClass('active').show();
+					setTimeout(function() {
+						$('#toast').removeClass('active');
+						setTimeout(function(){
+							$('#toast').remove();
+						},2000);
+					}, 5000); 
+				}
 			}
 		});
 	}
