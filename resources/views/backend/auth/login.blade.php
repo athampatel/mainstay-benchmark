@@ -5,6 +5,7 @@
 @endsection
 
 @section('auth-content')
+    @include('backend.layouts.partials.toasts')
      <div class="login-area">
         <div class="container">
             <div class="login-box admin">

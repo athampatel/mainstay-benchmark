@@ -299,3 +299,21 @@ $(document).on('click','#clearAllNofications',function(e){
 		},
 	});
 })
+load_toasts();
+function load_toasts(){
+	if($(document.body).find('.alert').length > 0){
+		$(document.body).find('.alert').each(function(){
+			if($(this).css('display') != 'none'){
+				var _class 	= 'toast toast-'+$(this).attr('class');	
+				$('#toast').remove();		
+				var _html 	= $(this).html();
+				$(document.body).append('<div id="toast" class="'+_class+'">'+_html+'</div>');
+				var toast = $('#toast');
+				$('#toast').show().addClass('active');
+				setTimeout(function() {
+					$('#toast').removeClass('active');
+				}, 5000); 
+			}
+		});
+	}
+}

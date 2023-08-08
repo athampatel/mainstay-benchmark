@@ -3257,7 +3257,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     .submit-btn-area button{
         height: 4rem;
     }
-    .sidebar .nav-links li a .links_name{
+    .sidebar .nav-links li a .links_name,
+    .overview-boxes .form-control{
         font-size: 1rem;
     }
     .sidebar .logo-details img{
