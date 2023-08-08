@@ -647,7 +647,7 @@ nav .profile-details i{
 .form-control{
   height: 2.5rem;
   font-size: 0.75rem;
-  font-weight: 600;
+/*  font-weight: 600;*/
 }
 .min-height{
   min-height: 60vh;
