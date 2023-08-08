@@ -2059,10 +2059,10 @@ p.card-text {
 	background: #7B7C7F !important;
 	border:1px solid transparent;
     border-radius:0.25rem;
-	font-size:0.75rem;
+    font-size: 1.25rem;
     color:#FFFFFF !important;	
     padding: 0.75rem;
-    min-height: 45px !important;
+    min-height:42px !important;
     border:none !important;
     cursor: default;
 }
@@ -2169,7 +2169,11 @@ label {
 }
 
 .custom-control-label {
-    margin-top: 2px;
+    margin-top: 0px;
+    font-size: 1rem;
+    position: relative;
+    top: -2px;
+    left: 3px;
 }
 
 /*-------------------- END Form ------------------- */
@@ -2651,15 +2655,15 @@ div.dataTables_wrapper div.dataTables_info{
     border: none;
     background: #9FCC47;
     color: #424448;
-    border-radius: 40px;
-    text-transform: uppercase;
+    border-radius: 40px;    
     letter-spacing: 0;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 1.25rem;
     box-shadow: 0 0 22px rgba(0, 0, 0, 0.07);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
     border: 1px solid #9FCC47;
+    font-weight: 500
 }
 
 .submit-btn-area button:hover {
@@ -2669,6 +2673,7 @@ div.dataTables_wrapper div.dataTables_info{
 
 .submit-btn-area button i {
     margin-left: 0.935rem;
+    display: none;
     -webkit-transition: margin-left 0.3s ease 0s;
     transition: margin-left 0.3s ease 0s;
 }
@@ -3224,16 +3229,32 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     flex-grow: 0 !important;
 } */
 
+.footer-content {
+    position: absolute;
+    bottom: 0;
+    height: 4.0625rem;
+    width: 100%;
+    text-align: center;
+    background: #C1C2C3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 @media (max-width: 1400px){
     html{
-        font-size:80%;
+        font-size:70%;
     }
    
     .sidebar-menu{
         max-width: 224px;
     }
-
+    .login-box.admin form{
+        width: 34.35rem !important;
+    }
+    .submit-btn-area button{
+        height: 4rem;
+    }
 }
 @media (max-width: 1300px){
     .wrapper.toggled .sidebar, 

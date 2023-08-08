@@ -3096,16 +3096,14 @@ td .dtr-title span{
 
 /* Admin login form  */
 .login-box.admin form{
-  width: 25.8125rem !important;
+  width: 30rem !important;
 }
 
 .submit-btn-area.admin button{
   border-radius: 0.25rem !important;
 }
 
-.login-box.admin form .form-control{
-  font-size: 0.9rem !important;
-}
+
 
 .login-box.admin .login-form-head h4 {
   font-size: 1.5rem;

@@ -16,7 +16,15 @@
     </div>
 
     @yield('auth-content')
-
+	<div class="row">
+		<div class="col-12">
+			<div class="footer-content">
+				<div class="footer-text">
+					© 2023 Benchmark Products All Rights Reserved
+				</div>
+			</div>
+		</div>
+	</div>
     @include('backend.layouts.partials.scripts')
     @yield('scripts')
 </body>
