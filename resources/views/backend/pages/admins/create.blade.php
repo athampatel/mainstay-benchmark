@@ -72,25 +72,7 @@ Admin Create - Admin Panel
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('password') ? 'is_error' : '' }}">
-                                        <label for="password">{{ config('constants.label.admin.password') }} *</label>
-                                        @if(old('password'))
-                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}">
-                                        @else
-                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="">
-                                        @endif
-                                        @if($errors->has('password'))
-                                        <div class="invalid-feedback d-block">
-                                            {{-- {{ $errors->first('password') }} --}}
-                                            {{config('constants.label.admin.field_required')}}
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <a  href="javascript:void(0)" class="btn random-password btn-form-control bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
-                                    </div> 
-                                </div>
+                                
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-6">
@@ -120,11 +102,27 @@ Admin Create - Admin Panel
                                         @endif
                                     </div>
                                 </div>
+
+
+
                                 <div class="form-row">
-                                    <div class="form-group col-md-12 col-sm-12 custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input box-shadow-none" name="send_password" value="1" id="send-password" />
-                                        <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('password') ? 'is_error' : '' }}">
+                                        <label for="password">{{ config('constants.label.admin.password') }} *</label>
+                                        @if(old('password'))
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}">
+                                        @else
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="">
+                                        @endif
+                                        @if($errors->has('password'))
+                                        <div class="invalid-feedback d-block">
+                                            {{-- {{ $errors->first('password') }} --}}
+                                            {{config('constants.label.admin.field_required')}}
+                                        </div>
+                                        @endif
                                     </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <a  href="javascript:void(0)" class="btn random-password btn-form-control bm-btn-primary text-capitalize btn-primary mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
+                                    </div> 
                                 </div>
 
                                 <div class="form-row">
@@ -135,6 +133,10 @@ Admin Create - Admin Panel
                                         @else
                                         <input type="text" class="form-control box-shadow-none" id="phone_no" name="phone_no" placeholder="Enter Phone Number" autocomplete="new-password" value="">
                                         @endif
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-6 custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input box-shadow-none" name="send_password" value="1" id="send-password" />
+                                        <label class="custom-control-label px-3" for="send-password">{{ config('constants.label.admin.send_login_credentials') }}</label>
                                     </div>
                                 </div>
 

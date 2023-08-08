@@ -299,6 +299,12 @@ $(document).on('click','#clearAllNofications',function(e){
 		},
 	});
 })
+
+$( document ).on( "ajaxComplete", function( event, xhr, settings ) {
+	setTimeout(function(){
+		load_toasts();
+	},1000);
+});
 load_toasts();
 function load_toasts(){
 	if($(document.body).find('.alert').length > 0){
