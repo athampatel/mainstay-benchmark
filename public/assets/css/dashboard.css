@@ -3125,12 +3125,10 @@ td .dtr-title span{
   font-weight: 500;
   text-align: left !important;
 }
-.btn-wrapper .btn.random-password{
+.btn.random-password{
   min-height: 42px;
   position: relative;
   top: 9px;
-}
-
 }
 #toast.toast.active{
   transform: translate3d(0px, 0px,0px);
