@@ -2266,6 +2266,7 @@ table tr th {
 table tr th,
 table tr td {
     border-top: 1px solid rgba(120, 130, 140, 0.13) !important;
+    font-size: 1rem;
 }
 
 table tr td [class^="ti-"] {
@@ -3210,6 +3211,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     margin-right: 0.25rem;
     padding: 0.45rem 3rem !important;
     margin-bottom: 3px;
+    font-size: 0.8rem;
 }
 .dynamic-values .user_information{
     background: #201e1e;
@@ -3255,7 +3257,50 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     .submit-btn-area button{
         height: 4rem;
     }
-}
+    .sidebar .nav-links li a .links_name{
+        font-size: 1rem;
+    }
+    .sidebar .logo-details img{
+        width: 13.25rem;
+    }
+    .metismenu >li >a{
+        padding-left: 1.5rem !important;
+    }
+    .metismenu li   a span.menu-icons,
+    .metismenu > li > a > span{
+        margin-left: 0px;
+    }
+    .datatable-export img{
+        max-height: 1.25rem;
+    }
+    .datatable-search-input-admin,
+    .datatable-filter-count,
+    .datatable-export,
+    .vmi-datatable-export.admin{
+        font-size: 0.965rem;
+        min-height: 25px !important;
+    }
+    .btn-wrapper .btn, 
+    .status-btns .btn,
+    .btn-wrapper .btn,
+    .overview-boxes .btn-primary,
+    .btn{
+        font-size: 0.965rem;
+    }
+    .status-btns .btn{
+        width: 100%;
+        max-width: 10rem;
+    }
+    .vmi-datatable-print,
+    #vmi-inventory-datatable-export span{
+        font-size: 0.965rem;
+    }
+    #backend_customers tr th{
+        font-size: 1rem !important;
+    }
+    .show-clients .arrow{
+        top: 0.8rem !important;
+    }
 @media (max-width: 1300px){
     .wrapper.toggled .sidebar, 
     .sidebar.active{

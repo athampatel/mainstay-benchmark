@@ -54,7 +54,7 @@
     transform: rotate(-49deg);
   }
   .show-clients.active .arrow::after{
-    left: 7px;
+    left: 6.5px;
   }
   
   
