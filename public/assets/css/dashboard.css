@@ -1923,9 +1923,8 @@ input.analysis_select {
   min-height: 2.5625rem;
 }
 
-.bench-datatable td,
-table.dataTable tbody th, 
-table.dataTable tbody td{
+.bench-datatable td
+{
   font-size: 0.75rem;
   font-weight: 400;
   min-height: 2.5rem;
@@ -1933,7 +1932,11 @@ table.dataTable tbody td{
   padding-left:0px !important;
   padding-right:0px !important;
 }
-
+table.dataTable tbody th, 
+table.dataTable tbody td{
+  padding-left:0px !important;
+  padding-right:0px !important;
+}
 .bench-datatable .customer-name{
   color: #fff;
 }
