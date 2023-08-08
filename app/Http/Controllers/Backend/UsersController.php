@@ -121,7 +121,7 @@ class UsersController extends Controller
                 $query->where('user_details.vmi_companycode','!=','');
             }
 
-            $query->where('users.is_temp','=',0);
+            //$query->where('users.is_temp','=',0);
 
             if($request_data['type'] != "" && $request_data['type'] == 'new'){
                 $query->where('users.active','=',0);
