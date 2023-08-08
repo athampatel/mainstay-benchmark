@@ -3241,7 +3241,9 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
 /* .child .btn-wrapper .btn {
     flex-grow: 0 !important;
 } */
-
+.select2-dropdown.select2-dropdown--below{
+    top:14px;
+}
 .footer-content {
     position: absolute;
     bottom: 0;
