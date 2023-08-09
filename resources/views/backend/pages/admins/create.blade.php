@@ -50,8 +50,8 @@ Admin Create - Admin Panel
                                         @endif
                                         @if($errors->has('name'))
                                         <div class="invalid-feedback d-block">
-                                            {{-- {{ $errors->first('name') }} --}}
-                                            {{config('constants.label.admin.field_required')}}
+                                            {{ $errors->first('name') }}
+                                            {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>
@@ -59,14 +59,14 @@ Admin Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12 {{$errors->has('email') ? 'is_error' : '' }}">
                                         <label for="email">{{ config('constants.label.admin.user_email') }} * </label>
                                         @if(old('email'))
-                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off" required>
+                                        <input type="email" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off" required>
                                         @else
-                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off" required>
+                                        <input type="email" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off" required>
                                         @endif
                                         @if($errors->has('email'))
                                         <div class="invalid-feedback d-block">
-                                            {{-- {{ $errors->first('email') }} --}}
-                                            {{config('constants.label.admin.field_required')}}
+                                            {{ $errors->first('email') }} 
+                                            {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>
@@ -96,8 +96,8 @@ Admin Create - Admin Panel
                                         @endif
                                         @if($errors->has('username'))
                                         <div class="invalid-feedback d-block">
-                                            {{-- {{ $errors->first('username') }} --}}
-                                            {{config('constants.label.admin.field_required')}}
+                                            {{ $errors->first('username') }}
+                                            {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>
@@ -115,8 +115,8 @@ Admin Create - Admin Panel
                                         @endif
                                         @if($errors->has('password'))
                                         <div class="invalid-feedback d-block">
-                                            {{-- {{ $errors->first('password') }} --}}
-                                            {{config('constants.label.admin.field_required')}}
+                                            {{ $errors->first('password') }}
+                                           {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>

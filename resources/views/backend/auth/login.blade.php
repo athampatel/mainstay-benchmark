@@ -21,7 +21,7 @@
                         @include('backend.layouts.partials.messages')
                         <div class="form-gp">
                            <!-- <label for="exampleInputEmail1">Email</label> -->
-                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control" placeholder="Email Address">
+                            <input type="email" id="exampleInputEmail1" name="email"  class="form-control" placeholder="Email Address" required>
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                             @error('email')
@@ -32,7 +32,7 @@
                         </div>
                         <div class="form-gp">
                             <!--<label for="exampleInputPassword1">Password</label> --->
-                            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
                             <i class="ti-lock"></i>
                             <div class="text-danger"></div>
                             @error('password')

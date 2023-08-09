@@ -1266,6 +1266,9 @@ nav .profile-details i{
 
 #customer-spending-chart{
   min-height: 23.5rem;
+  max-width: 60rem;
+  width: 100%;
+  margin-bottom: 3rem;
 }
 
 /* admin profile */

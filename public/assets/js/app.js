@@ -321,7 +321,7 @@ function load_toasts(){
 				if(_html.trim() != ''){
 
 					if($(this).find('p').length > 1){
-						_html = 'Please fill the highlighted fields.';
+						_html = 'Error, Please check the highlighted fields.';
 					}
 
 					$(document.body).append('<div id="toast" class="'+_class+'">'+_html+'</div>');

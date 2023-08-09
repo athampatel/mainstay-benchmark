@@ -127,6 +127,10 @@ function vmiPostCountSave(){
                     var qval = $(this).val();
                     if(qval != '')
                         $(this).parent().parent().find('.qty_hand').text(qval);
+
+                    $(this).val('');
+
+                        
                 });
 
                 $('#vmi_inventory_message').html(res.message).addClass('alert-success').removeClass('alert-danger').removeClass('d-none');

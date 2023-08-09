@@ -247,7 +247,7 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
       @if($saleby_productline)     
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card box item-card-block equal-height">
+            <div class="card box item-card-block">
               <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
                   <div class="">
