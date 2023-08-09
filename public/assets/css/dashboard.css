@@ -3322,7 +3322,7 @@ td .dtr-title span{
       margin: 0;
     }
     .table-responsive{
-      overflow-x: initial;
+      overflow-x: auto;
     }
   }
 
