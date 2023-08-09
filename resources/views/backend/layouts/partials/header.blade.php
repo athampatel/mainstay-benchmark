@@ -1,26 +1,31 @@
-<div class="search-bar flex-grow-1">
-    <div class="position-relative search-bar-box col-12"> 
-        <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true" autocomplete="off"> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
-        <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
-    </div>
-</div>
+
 <nav>
     <div class="sidebar-button">
         <a class="menu-icon toggle-icon hamburger" href="javascript:void(0)"><span></span></a>
-        <div class="nav-item mobile-search-icon">
+
+
+        <div class="search-bar flex-grow-1">
+            <div class="position-relative search-bar-box col-12"> 
+                <input type="text" class="form-control search-control" placeholder="Type to search..." id="full_search_input" spellcheck="false" data-ms-editor="true" autocomplete="off"> <span class="position-absolute search-show"><i class="bx bx-search"></i></span>
+               <!-- <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>-->
+            </div>
+            <div class="search-results d-none"></div>
+        </div>
+
+      <!--  <div class="nav-item mobile-search-icon">
             <a href="javascript:void(0)" class="search-icons">
-            <svg class="Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
+            <svg class="circle-Group_3" data-name="Group 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.375" height="24.377" viewBox="0 0 24.375 24.377">
                 <defs>
-                    <clipPath class="clip-path">
-                    <rect class="Rectangle_6" data-name="Rectangle 6" width="24.375" height="24.377" fill="#424448"/>
+                    <clipPath class="circle-clip-path">
+                    <rect class="circle-Rectangle_6" data-name="Rectangle 6" width="24.375" height="24.377" fill="#424448"/>
                     </clipPath>
                 </defs>
-                <g class="Group_9" data-name="Group 9" clip-path="url(#clip-path)">
-                    <path class="Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
+                <g class="circle-Group_9" data-name="Group 9" clip-path="url(#circle-clip-path)">
+                    <path class="circle-Path_11" data-name="Path 11" d="M18.766,16.463c.642.64,1.29,1.283,1.936,1.928,1.061,1.06,2.136,2.108,3.178,3.187A1.633,1.633,0,1,1,21.5,23.814q-2.356-2.373-4.727-4.73c-.109-.109-.223-.214-.33-.315A10.376,10.376,0,0,1,2.911,3.144,10.38,10.38,0,0,1,18.766,16.463m-8.44.983A7.092,7.092,0,1,0,3.25,10.275a7.067,7.067,0,0,0,7.076,7.171" transform="translate(-0.001 0)" fill="#424448"/>
                 </g>
             </svg>
             </a>
-        </div>
+        </div> --->
     </div>
     <div class="notification_section">
         <div class="notification_icons d-flex align-items-center">

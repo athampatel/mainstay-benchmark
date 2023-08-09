@@ -261,14 +261,19 @@ $(document).on('keyup','#full_search_input',function(e){
                     </a>`;
         modal_body_display += disp;
     });
-    $('#search_modal_disp_body').html(modal_body_display);
-    $("#searchmodal").css("display", "block");
+    
+	/*$('#search_modal_disp_body').html(modal_body_display);
+    $("#searchmodal").css("display", "block");*/
     if(searchText == ''){
-        $("#searchmodal").css("display", "none");
-    }
+		$('.search-results').addClass('d-none');
+        //$("#searchmodal").css("display", "none");
+    }else{
+		$('.search-results').removeClass('d-none').html(modal_body_display);
+	}
     if(matches.length == 0){
         let no_results_found = '<div class="search_message_div">No Results found</div>';
-        $('#search_modal_disp_body').html(no_results_found);
+		$('.search-results').removeClass('d-none').html(no_results_found);
+        //$('#search_modal_disp_body').html(no_results_found);
     }
 })
 
