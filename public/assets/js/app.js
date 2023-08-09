@@ -319,6 +319,11 @@ function load_toasts(){
 				var _class 	= 'toast toast-'+$(this).attr('class');					
 				var _html 	= $(this).html();
 				if(_html.trim() != ''){
+
+					if($(this).find('p').length > 1){
+						_html = 'Please fill the highlighted fields.';
+					}
+
 					$(document.body).append('<div id="toast" class="'+_class+'">'+_html+'</div>');
 					var toast = $('#toast');
 					$('#toast').addClass('active').show();

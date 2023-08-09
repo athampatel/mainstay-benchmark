@@ -44,9 +44,9 @@ Admin Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12 {{$errors->has('name') ? 'is_error' : '' }}">
                                         <label for="name">{{ config('constants.label.admin.user_name') }} *</label>
                                         @if(old('name'))
-                                        <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @else {{ old('name') }} @endif" autocomplete="off">
+                                        <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @else {{ old('name') }} @endif" autocomplete="off" required>
                                         @else
-                                        <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @endif" autocomplete="off">
+                                        <input type="text" class="form-control box-shadow-none" id="name" name="name" placeholder="Enter Name" value="@if(isset($manager['name'])) {{$manager['name']}} @endif" autocomplete="off" required>
                                         @endif
                                         @if($errors->has('name'))
                                         <div class="invalid-feedback d-block">
@@ -59,9 +59,9 @@ Admin Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12 {{$errors->has('email') ? 'is_error' : '' }}">
                                         <label for="email">{{ config('constants.label.admin.user_email') }} * </label>
                                         @if(old('email'))
-                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off">
+                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('email')}} @endif" autocomplete="off" required>
                                         @else
-                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                        <input type="text" class="form-control box-shadow-none" id="email" name="email" placeholder="Enter Email" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off" required>
                                         @endif
                                         @if($errors->has('email'))
                                         <div class="invalid-feedback d-block">
@@ -90,9 +90,9 @@ Admin Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-6 {{$errors->has('username') ? 'is_error' : '' }}">
                                         <label for="username">{{ config('constants.label.admin.user_account_name') }} *</label>
                                         @if(old('username'))
-                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('username')}} @endif" autocomplete="off">
+                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @else {{old('username')}} @endif" autocomplete="off" required>
                                         @else 
-                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off">
+                                            <input type="text" class="form-control box-shadow-none" id="username" name="username" placeholder="Enter Account User Name" value="@if(isset($manager['email'])) {{$manager['email']}} @endif" autocomplete="off" required>
                                         @endif
                                         @if($errors->has('username'))
                                         <div class="invalid-feedback d-block">
@@ -109,9 +109,9 @@ Admin Create - Admin Panel
                                     <div class="form-group col-md-6 col-sm-12 {{$errors->has('password') ? 'is_error' : '' }}">
                                         <label for="password">{{ config('constants.label.admin.password') }} *</label>
                                         @if(old('password'))
-                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}">
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="{{ old('password') }}" required>
                                         @else
-                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="">
+                                        <input type="password" class="form-control password-field box-shadow-none" id="password" name="password" placeholder="Enter Password" autocomplete="new-password" value="" required>
                                         @endif
                                         @if($errors->has('password'))
                                         <div class="invalid-feedback d-block">

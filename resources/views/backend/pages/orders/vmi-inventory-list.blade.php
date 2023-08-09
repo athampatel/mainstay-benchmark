@@ -57,9 +57,10 @@ VMI Inventory - Admin Panel
                             </div>
                             <div class="vmi-datatable-export admin" id="vmi-inventory-datatable-export">
                                 <div class="vmi-datatable-print">
-                                    <span>Print</span>
-                                    <a href="">
-                                        <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="vmi-print-icon">
+                                    
+                                    <a href="#" class="vmi-inventory-report" target="_self">
+                                        <span>Print</span>
+                                        <div> <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="vmi-print-icon"></div>
                                     </a>
                                 </div>
                                 <a href="/admin/ExportVmiInventory?user_detail_id={{$user_detail_id}}&company_code={{$company_code}}" class="vmi-inventory-report" id=""> 

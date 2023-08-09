@@ -3269,7 +3269,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     html{
         font-size:70%;
     }
-   
+
+    html.backend-dashboard{
+        font-size:80%;
+   }
     .sidebar-menu{
         max-width: 224px;
     }
@@ -3281,7 +3284,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     }
     .sidebar .nav-links li a .links_name,
     .overview-boxes .form-control,
-    .select2-container .select2-selection--single .select2-selection__rendered{
+    .select2-container .select2-selection--single .select2-selection__rendered,
+    .overview-boxes label,
+    .invalid-feedback,
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
         font-size: 1rem;
     }
     .sidebar .logo-details img{
@@ -3335,7 +3341,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
 
 
 @media (max-width: 767px){
-    html{
+    html,html.backend-dashboard{
         font-size:100%;
     }
 

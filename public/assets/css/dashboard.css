@@ -2435,8 +2435,8 @@ table.dataTable td, table.dataTable th{
   height: 3.125rem;
   background: #9FCC47;
   color: #fff;
-  bottom: 4.6875rem;
-  right: 1.4375rem;
+  bottom: 0.6875rem;
+  right: 0.75rem;
   padding-left: 1.8125rem;
   padding-right: 0.9375rem;
   border-radius: 0.4375rem;
@@ -2625,8 +2625,8 @@ table.dataTable td, table.dataTable th{
 
 .notification_bottomn_cancel {
   position: absolute;
-  bottom: 7.25rem;
-  right: 21rem;
+  bottom: 3.25rem;
+  right: 20rem;
   cursor: pointer;
 }
 

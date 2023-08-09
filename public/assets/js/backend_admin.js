@@ -1066,6 +1066,22 @@ $(document).on('click','#admin-profile-edit-save-button',function(e){
     });
 })
 
+
+$(document).on('click','.vmi-datatable-print > a',function(e){
+    e.preventDefault();
+    /*var content = document.getElementById("vmi-inventory-page-table").innerHTML;
+    var printWindow = window.open('', '_blank');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Inventory Items</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-print-css/css/bootstrap-print.min.css" media="print"></head><body>');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print(); */
+    window.print();
+    return false;
+});
+
+
 // common print function
 $(document).on('click','.datatable-print.admin a',function(e){
     e.preventDefault();
