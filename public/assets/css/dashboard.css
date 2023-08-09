@@ -2416,6 +2416,7 @@ table.dataTable td, table.dataTable th{
   width: 20rem;
   bottom: 0rem;
   right: 0rem;
+  z-index: 100;
 }
 
 .animate_fade_right{
