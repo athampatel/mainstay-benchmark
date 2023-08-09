@@ -1171,5 +1171,5 @@ $(document).on('click','th span',function(e){
 
 function renderDataTableView(){    
     $('table.table-opacity').removeClass('table-opacity');
-    $('.chart-loader-div').addClass('d-none');    
+    $('.chart-loader-div').addClass('d-none').hide();    
 }

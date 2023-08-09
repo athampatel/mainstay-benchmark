@@ -78,7 +78,7 @@ Admin Edit - Admin Panel
                                 <h6>Profile Picture</h6><br>
                                 <div class="form-row">
                                     <div class="d-flex align-items-center justify-content-center" style="position: relative">
-                                        <div class="image-upload position-relative"  @if($admin->profile_path && File::exists($admin->profile_path) style="background-image:url(/{{$admin->profile_path}})" @endif>
+                                        <div class="image-upload position-relative"  @if($admin->profile_path && File::exists($admin->profile_path)) style="background-image:url(/{{$admin->profile_path}})" @endif>
                                             @if($admin->profile_path && File::exists($admin->profile_path))
                                             <img src="/{{$admin->profile_path}}" class="rounded-circle position-relative profile_img_disp_admin" alt="profile Image" height="182" width="182">
                                             @else 

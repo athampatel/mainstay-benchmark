@@ -2332,9 +2332,11 @@ table.dataTable.datatable-dark td a{
     color:#FFF;
     
 }
-.data-tables.table-responsive table.table-opacity{
+.data-tables.table-responsive table.table-opacity,
+table.table-opacity{
     opacity: 0;
 }
+
 table.dataTable.datatable-dark tr th,
 table.dataTable.datatable-dark tr td{
     border-top:1px solid #FFF;
