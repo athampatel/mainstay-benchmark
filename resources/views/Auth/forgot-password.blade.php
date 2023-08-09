@@ -27,7 +27,10 @@
 										@csrf
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
-											<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address" name="email" required>
+											<div class="input-group">
+												<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address" name="email" required>
+												<a href="javascript:void(0);" class="absolute-icon"><i class='bx bx-envelope'></i></a>
+											</div>
 										</div>
 										<div class="col-12 pt-2">
 											<div class="d-grid">

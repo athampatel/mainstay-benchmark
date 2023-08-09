@@ -60,6 +60,7 @@ Regional Manager Customers - Admin Panel
                             <div class="clearfix"></div>
                             <div class="data-tables table-responsive">
                                 @include('backend.layouts.partials.messages')
+                                @include('backend.layouts.partials.loader')
                                 <div class="backend_manager_customers_display"></div>
                                 <div class="col-12 pb-2 card box mb-0 mt-0 border-top-radius-0 box-shadow-none border-none">
                                     <div id="pagination_disp" style="width: 100%;"></div>

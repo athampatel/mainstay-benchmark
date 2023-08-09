@@ -2318,3 +2318,16 @@ body.user-forms{
     border-color: #dba713 !important;
     color: #FFF !important;
 }
+.login-widget .input-group .bx:before{
+    color: rgba(255,255,255,0.5);
+    font-size: 1.25rem;
+}
+.login-widget .input-group{
+    align-items: center;
+}
+.absolute-icon{
+    pointer-events: none;
+    position: absolute;
+    right: 0.75rem;
+    z-index: 999;
+}

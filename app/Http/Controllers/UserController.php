@@ -15,7 +15,8 @@ use App\Models\Customer as CustomerUnqiue;
 class UserController extends Controller
 {
     public static function createUser($data,$action = 0){        
-        // dd($data);
+      //  dd($data); 
+
         $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
 
         $contact_email = isset($data['contactemail']) ? $data['contactemail'] : $data['emailaddress']; 
@@ -30,15 +31,21 @@ class UserController extends Controller
                             'activation_token'  => '',
         );
         // $user = User::where('email',$useremail)->first();
-        if(isset($data['temp']))
+        $userData['is_temp'] = 0;
+        if(isset($data['is_temp']) || isset($data['temp']))
             $userData['is_temp'] = 1;
+
+       
         $user = User::where('email',$contact_email)->first();
         if(!$user){
             $user = User::create($userData);
         }
-        if($action == 1) {
-            $user->activation_token = Str::random(40);;
+        if($action == 1 &&  $userData['is_temp'] == 0) {
+            $user->activation_token = Str::random(40);
             $user->active = 1;
+            $user->save();
+        }elseif($userData['is_temp'] == 1 ){
+            $user->is_temp = 1;
             $user->save();
         }
         if($user){

@@ -38,6 +38,7 @@ class AuthController extends Controller
         $emailaddress = isset($response['emailaddress']) ? $response['emailaddress'] :'';
         $user_detail_email = isset($response['email']) ? $response['email'] : $emailaddress; 
         $_user    = User::where('email',$email)->where('active',1)->first();
+       
         if(!empty($_user)){
             $customer_no = $response['customerno'];
             $is_user_detail = UserDetails::where('customerno',$customer_no)->where('user_id',$_user->id)->first();
@@ -84,6 +85,8 @@ class AuthController extends Controller
                 return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
             }
         }  
+        
+
         $user   =  UserController::createUser($response,$action,$postdata);
         $sales_person = array();
         if($response['salespersonemail'] != '')

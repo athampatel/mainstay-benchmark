@@ -53,6 +53,9 @@
 
 
 /*------------------------- 1. Core Css -------------------*/
+html, body {
+    font-size: 0.75rem;
+}
 *{
     outline: none !important;
 }

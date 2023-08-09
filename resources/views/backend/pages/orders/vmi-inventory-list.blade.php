@@ -79,9 +79,7 @@ VMI Inventory - Admin Panel
                         <div class="chart-loader1"></div>
                     </div>
                     <div class="card-body col-12 padding-y-0">
-                        <div class="page-table-loader-div d-none">
-                            <div class="chart-loader1"></div>
-                        </div>
+                        @include('backend.layouts.partials.loader')
                         <div class="table-responsive" id="vmi_inventory_table_disp"></div>
                     </div>
                 </div>

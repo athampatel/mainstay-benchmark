@@ -81,6 +81,10 @@ class LoginController extends Controller
      */
     public function logout()
     {
+        $by_admin = Session()->get('by_admin');
+        if($by_admin){
+            Auth::guard('web')->logout();
+        }        
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }

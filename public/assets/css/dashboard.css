@@ -2800,6 +2800,14 @@ tr.child ul{
 }
 
 /* Quantity input */
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+input[type="email"]:disabled,
+input[type="tel"]:disabled,
+input[type="password"]:disabled{
+  cursor: not-allowed;
+  color:#FFF !important;
+}
 .quantity_counted{
     height: 1.875rem;
     width: 6.875rem;
@@ -3103,7 +3111,8 @@ td .dtr-title span{
 
 /* Admin login form  */
 .login-box.admin form{
-  width: 30rem !important;
+  width: 100%;
+  max-width: 34.5rem;
 }
 
 .submit-btn-area.admin button{

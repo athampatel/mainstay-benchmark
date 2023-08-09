@@ -42,6 +42,9 @@ function getManagerCustomers($page,$count){
                 info: false,
                 responsive: true,
                 autoWidth: false,
+                "fnInitComplete": function (oSettings, json) {           
+                    renderDataTableView();
+                },
                 columns: [
                     { "width": "25%" },
                     { "width": "25%" },

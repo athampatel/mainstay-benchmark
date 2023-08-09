@@ -19,7 +19,10 @@
 									<form class="row g-3">
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
+											<div class="input-group">
 											<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address">
+											<a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+										</div>
 										</div>
 										<div class="col-12">
 											<label for="inputChoosePassword" class="form-label">Enter Password</label>

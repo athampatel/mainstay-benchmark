@@ -285,6 +285,9 @@ function getVmiInventoryAjax($page,$count){
                 info: false,
                 responsive: false,
                 autoWidth: true,
+                "fnInitComplete": function (oSettings, json) {           
+                    renderDataTableView();
+                },
                 columns: [
                     { "width": "100px" },
                     { "width": "100px" },

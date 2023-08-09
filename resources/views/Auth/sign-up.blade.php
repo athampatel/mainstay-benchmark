@@ -26,19 +26,31 @@
 										@csrf
 										<div class="col-12"> 
 											<label for="inputFullname" class="form-label">Full Name</label>
-											<input type="text" class="form-control" id="inputFullname" name="full_name" value="" placeholder="Full Name *" required>
+											<div class="input-group">
+												<input type="text" class="form-control" id="inputFullname" name="full_name" value="" placeholder="Full Name *" required>
+												<a href="javascript:void(0);" class="absolute-icon"><i class='bx bx-user'></i></a>
+											</div>
 										</div>
 										<div class="col-12">
 											<label for="inputEmailAddress" class="form-label">Email Address</label>
-											<input type="email" class="form-control" id="inputEmailAddress" name="email" value="" placeholder="Email Address *" required>
+											<div class="input-group">
+												<input type="email" class="form-control" id="inputEmailAddress" name="email" value="" placeholder="Email Address *" required>
+												<a href="javascript:void(0);" class="absolute-icon"><i class='bx bx-envelope'></i></a>
+											</div>
 										</div>
 										<div class="col-12">
 											<label for="inputPhoneNo" class="form-label">Phone Number</label>
-											<input type="text" class="form-control" id="inputPhoneNo" name="phone_no" value="" placeholder="Contact No" >
+											<div class="input-group">
+												<input type="text" class="form-control" id="inputPhoneNo" name="phone_no" value="" placeholder="Contact No" >
+												<a href="javascript:void(0);" class="absolute-icon"><i class='bx bx-phone'></i></a>
+											</div>
 										</div>
 										<div class="col-12">
 											<label for="CompanyName" class="form-label">Company Name</label>
-											<input type="text" class="form-control" id="CompanyName" name="company_name" value="" placeholder="Company Name *" required>
+											<div class="input-group">
+												<input type="text" class="form-control" id="CompanyName" name="company_name" value="" placeholder="Company Name *" required>
+												<a href="javascript:void(0);" class="absolute-icon"><i class='bx bx-id-card'></i></a>
+											</div>	
 										</div>
                                         <div class="col-12 pt-1">
                                             <div class="sign-up-checbox d-flex align-items-center position-relative">
