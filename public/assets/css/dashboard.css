@@ -307,6 +307,9 @@ nav .profile-details .profile_name{
   color: #707070;
   margin: 0 0.652rem;
   white-space: nowrap;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dropdown-toggle-nocaret{
   padding-left: 0px;
@@ -1291,6 +1294,9 @@ nav .profile-details i{
   .overview-boxes .box{
     margin-top: 0.75rem;
   }
+  .vmi-onsite-info .card-body{
+    min-height: 12.65rem;
+  }
 }
 
 /* search box */
@@ -1932,6 +1938,8 @@ input.analysis_select {
   padding-left:0px !important;
   padding-right:0px !important;
 }
+#open-orders-page-table th,  
+#open-orders-page-table td,  
 table.dataTable tbody th, 
 table.dataTable tbody td{
   padding-left:0px !important;
@@ -3226,7 +3234,7 @@ td .dtr-title span{
 
 @media ( max-width : 2000px){
   #backend_customers{
-    max-width: 94.5rem !important;
+    max-width:100%;
     /* width: 1512px !important; */
   }
 

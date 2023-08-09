@@ -100,8 +100,10 @@ class UsersController extends Controller
         // dd($request_data);
         // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
 
+       // $usersIn = DB::table('users')->where('is_deleted', '0')->where('is_temp', '0')->pluck('id')->toArray();
+        //dd($usersIn);
         $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data,$user) {
-            $query->leftjoin('users','users.id','=','user_details.user_id');
+            $query->join('users','users.id','=','user_details.user_id');
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                     ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
             if($request_data['search'] != ""){                
@@ -116,7 +118,11 @@ class UsersController extends Controller
                 });
             }
             $query->select('user_details.*','sales_persons.name');
-            $query->where('users.is_deleted',0)->where('users.is_temp',0);
+            
+            $query->where('users.is_deleted',0)->where('users.is_temp',0); //->whereNotNull('users.id');
+
+           // $query->whereIn('user_details.user_id',$usersIn);
+
             if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
                 $query->where('user_details.vmi_companycode','!=','');
             }
@@ -135,6 +141,7 @@ class UsersController extends Controller
                 $query->where('admins.id',$user->id);
             }
         })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
+
         // dd($customers);
 
         /* test working start */
@@ -172,10 +179,17 @@ class UsersController extends Controller
         /* test working end */
     // })->with(['UserDetails.User'])->offset($offset)->limit($limit);
 
+       
+
         $userss = $customers->paginate(intval($limit));
         //$users =  $customers->get()->toJson();
         $users =  $customers->get()->toArray();
+
+        //echo $customers->toSql();
         // dd($users);
+
+        //dd($users);
+
         $print_users = $users;
         //echo $customers->toSql();
         // dd($users);        
@@ -1813,6 +1827,29 @@ class UsersController extends Controller
             'quantityonhand',
             'quantitypurchased'
         );
+
+        if(!empty($products)){
+            $itemCode = array_column($products,'itemcode');
+            $inventory_updates = VmiInventoryRequest::select('*')
+                                    ->whereIn('item_code',$itemCode)
+                                    ->where('company_code',$company_code)
+                                    ->whereIn('id', function ($query) {
+                                        $query->select(DB::raw('MAX(id)'))
+                                            ->from('vmi_inventory_requests')
+                                            ->groupBy('item_code');
+                                    })
+                                    ->get()->pluck('new_qty_hand','item_code');
+
+            if(!empty($inventory_updates)){              
+                foreach($products as $key => $_product){
+                    $itemcode = $_product['itemcode'];
+                    if(isset($inventory_updates[$itemcode])){
+                        $products[$key]['quantityonhand'] = $inventory_updates[$itemcode];
+                    }
+                }
+            }                        
+        }
+
         return CustomerExportController::ExportExcelFunction($products,$header_array,$filename,1,$keys_array);
     }
 

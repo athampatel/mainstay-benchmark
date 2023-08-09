@@ -246,7 +246,7 @@
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
       @if($saleby_productline)     
-        <div class="col-sm-12 col-md-12 col-lg-5 no-right-pad">
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card box item-card-block equal-height">
               <div class="card-header col-12 p-3 d-flex align-items-center border-0 flex-wrap">
                 <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
@@ -276,7 +276,12 @@
             </div>
         </div>	
      @endif             
-        <div class="col-sm-12 col-md-12  @if($saleby_productline) col-lg-7 @else col-lg-12 @endif">
+    </div>
+    
+    <div id="customer-spending-desc-chart"></div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
+    <div class="col-sm-12 col-md-12   @if(Auth::user()->is_vmi == 1) col-lg-7 @else col-lg-12 @endif">
             <div class="card box item-card-block equal-height">
               <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
                 <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
@@ -315,14 +320,12 @@
                   </div>
               </div>
             </div>
-        </div>	
-    </div>
-    
-    <div id="customer-spending-desc-chart"></div>
+        </div>
+
     @if(Auth::user()->is_vmi == 1)
-    {{-- {{dd(Auth::user()->is_vmi)}} --}}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 col-12">
-      <div class="col small-right-pad">
+    {{-- {{dd(Auth::user()->is_vmi)}} --}}    
+    <div class="col-lg-5 col-sm-12 col-xs-12 col-xxs-12 no-left-pad vmi-onsite-info"> 
+      <div class="col">
         <div class="card box">						
           <div class="card-body col-12 d-flex align-items-center equal-height">
             <div class="box-icon">
@@ -338,7 +341,7 @@
           </div>
         </div>
       </div>
-      <div class="col small-left-pad">
+      <div class="col">
         <div class="card box">						
           <div class="card-body col-12 d-flex align-items-center equal-height">
             <div class="box-icon">
@@ -353,9 +356,10 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div>  
+    </div>     
     @endif
+    </div>
     </div>
   </div>  
 @endsection

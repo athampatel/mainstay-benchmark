@@ -89,7 +89,7 @@
         </div>
 
         <div class="profile-details user-box dropdown border-light-2">
-            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{Auth::user()->name}}@if ($customerno = Session::get('customer_no')) - {{$customerno}} @endif ">
                 @if(Auth::user()->profile_image && File::exists(Auth::user()->profile_image))
                     <img src="/{{Auth::user()->profile_image}}" height="45" width="45" id="nav-bar-profile-img" class="rounded-circle nav-bar-profile-img" />
                 @else 
