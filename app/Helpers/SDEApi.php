@@ -222,7 +222,7 @@ class SDEApi
           UsersController::commonEmailSend($admin_emails,$details);
           // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
-          $admin_emails = Admin::all()->pluck('email')->toArray();
+          //$admin_emails = Admin::all()->pluck('email')->toArray();
           UsersController::commonEmailSend($admin_emails,$details);
           // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
