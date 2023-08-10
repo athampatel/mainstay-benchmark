@@ -91,6 +91,7 @@ Route::post('/get-new-bottom-notifications',[NotificationController::class,'getN
 Route::post('/notification-seen',[NotificationController::class,'changeNotificationStatus']);
 Route::post('/logout', '\App\Http\Controllers\AuthController@logout')->name('admin.logout.submit');
 Route::get('/autheticate',[AuthController::class,'autheticate']);
+Route::post('/check-auth',[AuthController::class,'checkAuth']);
 /**LOG USED FOR TESTTNNG PURPOSE */
 // Route::get('/products/fetch-sde-manual',[ProductsController::class,'getProducts'])->name('fectch-products');
 // Route::get('/products/import-sde-manual',[ProductsController::class,'CheckUpdateProducts'])->name('import-products');
