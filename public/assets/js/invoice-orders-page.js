@@ -80,7 +80,10 @@ function getInvoiceOrderAjax($page,$count,start_date,end_date){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: []
+                order: [],
+                columnDefs: [
+                    { targets: [6], orderable: false},
+                ],
             });
         },
         complete:function(){

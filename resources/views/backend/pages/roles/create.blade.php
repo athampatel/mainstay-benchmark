@@ -28,8 +28,8 @@ Role Create - Admin Panel
                                 @csrf
                                 <div class="form-group mb-5 {{$errors->has('name') ? 'is_error' : '' }}">
                                     <label for="name">{{ config('constants.label.admin.role_name') }} *</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter a Role Name">
-                                    @if($errors->has('name'))
+                                    <input type="text" class="form-control required" id="name" name="name" placeholder="Enter a Role Name" required>
+                                @if($errors->has('name'))
                                         <div class="invalid-feedback d-block">
                                             {{config('constants.label.admin.field_required')}}
                                         </div>

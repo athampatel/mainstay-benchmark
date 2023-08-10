@@ -141,15 +141,22 @@ class SDEApi
         $is_local = config('app.env') == 'local' ? true : false;
         if($is_local){
           UsersController::commonEmailSend($admin_emails,$details);
-          // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
-          $admin_emails = Admin::all()->pluck('email')->toArray();
+          // $admin_emails = Admin::all()->pluck('email')->toArray();
+          $admin_emails = self::getSuperAdminEmails();
           UsersController::commonEmailSend($admin_emails,$details);
-          // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         return 1;
       }
-  }
+    }
+
+    
+    // Retrieve the email addresses of all admin users in the 'superadmin' role
+    public static function getSuperAdminEmails() {
+      return Admin::whereHas('roles', function ($query) {
+            $query->where('name', 'superadmin');
+        })->pluck('email')->toArray();
+    }
   
     public function Request($method = 'post',$resource = 'Customers', $data = null){
       $default_data = array(
@@ -158,9 +165,6 @@ class SDEApi
           "resource"	  => $resource,
       );
       $post_data = array_merge($default_data,$data);
-
-      //echo json_encode($post_data,true); die; 
-
       $request = Http::withOptions([
           'verify' => $this->is_ssl_verify,
           'timeout' => config('app.app_max_time')
@@ -220,11 +224,10 @@ class SDEApi
         // return;
         if($is_local){
           UsersController::commonEmailSend($admin_emails,$details);
-          // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
           //$admin_emails = Admin::all()->pluck('email')->toArray();
+          $admin_emails = self::getSuperAdminEmails();
           UsersController::commonEmailSend($admin_emails,$details);
-          // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         return;
       }

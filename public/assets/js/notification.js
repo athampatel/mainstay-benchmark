@@ -1,4 +1,26 @@
 jQuery(document).ready(function(){
+    checkAuthentication(true);
+});
+
+function checkAuthentication(is_intital){
+    $.ajax({ 
+        type: 'POST',
+        url: '/check-auth',
+        dataType: "JSON",
+        data : {'is_notify':is_notify_admin},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success: function (res) {
+            if(res.isLoggedIn){
+                if(is_intital)
+                    getIntialBottomMessage();
+                else 
+                    getNewBottomMessage();
+            }
+        }
+    });  
+}
+
+function getIntialBottomMessage(){
     $.ajax({ 
         type: 'POST',
         url: '/get-bottom-notifications',
@@ -33,18 +55,16 @@ jQuery(document).ready(function(){
                 }
             }
         }
-    }); 
-});
+    });
+}
 
 setInterval(() => {
+    checkAuthentication(false);
+},60000);
+
+
+function getNewBottomMessage(){
     $.ajax({ 
-        // type: 'POST',
-        // url: '/get-new-bottom-notifications',
-        // contentType: 'multipart/form-data',
-        // cache: false,
-        // contentType: false,
-        // processData: false,
-        // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         type: 'POST',
         url: '/get-new-bottom-notifications',
         dataType: "JSON",
@@ -88,7 +108,7 @@ setInterval(() => {
             } 
         }
     });
-},60000);
+}
 
 $(document).on('click','.navbar_notification_icon',function(){
     if($('.notfication_bottom').hasClass("d-none")){

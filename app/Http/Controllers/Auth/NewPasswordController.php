@@ -116,9 +116,3 @@ class NewPasswordController extends Controller
         return $is_update;
     }
 }
-
-
-// http://localhost:8081/reset-password/ZEtLfBFhmefKQwDs952FncUBGOkcg9?email=Jones_Joshua_David@Lilly.com
-// UPDATE `password_resets` SET `token`= '$2y$10$.JXaXySXIh/UeUmAQ9YN2.XwQtNWc9RL13nm613oUbMNVEmJpzp1y' WHERE `email` = 'GEPays_BID330010@ge.com';
-// http://localhost:8081/reset-password/gokul?email=GEPays_BID330010@ge.com
-// developer

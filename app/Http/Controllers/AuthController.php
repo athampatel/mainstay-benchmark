@@ -348,4 +348,15 @@ class AuthController extends Controller
         Auth::guard('user')->logout();
         return redirect('/');
     }
+
+    //  Check User Authentication For Bottom Notification
+    public function checkAuth(Request $request){
+        $isLoggedIn = false;
+        if($request->is_notify == '1'){
+            $isLoggedIn = auth('admin')->check();
+        } else {
+            $isLoggedIn = auth('web')->check();
+        }
+        return response()->json(['isLoggedIn' => $isLoggedIn]);
+    }
 }
