@@ -41,9 +41,9 @@ VMI Inventory - Admin Panel
                     <div class="row">
                     <div class="card-header col-12 p-3 d-flex border-0 justify-content-end">
                         <div class="col-12 col-lg-9 col-md-12 d-flex align-items-center justify-content-end flex-wrap col-filter px-25">            
-                            <div class="position-relative item-search">
+                            <div class="position-relative item-search d-flex align-items-center">
                                 <input type="text" class="form-control1 min-height-0 form-control-sm datatable-search-input-admin h-24" placeholder="Search in All Columns" id="vmi-inventory-search" aria-controls="">
-                                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="vmi-inventory-search-img">
+                                <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img h-12 w-12" id="vmi-inventory-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">
                                 <select name="" class="datatable-filter-count" id="admin-vmi-filter-count">
@@ -57,16 +57,15 @@ VMI Inventory - Admin Panel
                             </div>
                             <div class="vmi-datatable-export admin" id="vmi-inventory-datatable-export">
                                 <div class="vmi-datatable-print">
-                                    
                                     <a href="#" class="vmi-inventory-report" target="_self">
                                         <span>Print</span>
-                                        <div> <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="vmi-print-icon"></div>
+                                        <div> <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute h-12 w-12" id="vmi-print-icon"></div>
                                     </a>
                                 </div>
                                 <a href="/admin/ExportVmiInventory?user_detail_id={{$user_detail_id}}&company_code={{$company_code}}" class="vmi-inventory-report" id=""> 
                                     <span>Download</span>
                                     <div>
-                                        <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute" id="vmi_inventory_report_icon">
+                                        <img src="/assets/images/svg/cloud_download.svg" alt="" class="position-absolute h-12 w-12" id="vmi_inventory_report_icon">
                                     </div>
                                 </a>
                             </div>

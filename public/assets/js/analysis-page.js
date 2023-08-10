@@ -92,7 +92,10 @@ function getAnalysispageData($page,$count,range,year){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: []
+                order: [],
+                columnDefs: [
+                    { targets: [6], orderable: false},
+                ],
             });
 
             let months = [];
