@@ -78,7 +78,7 @@ Customers - Admin Panel
 
                             @else
                             {{-- users table work start --}}
-                            <div class="data-tables table-responsive">
+                            <div class="data-tables table-responsive backend_customers_table">
                                 @include('backend.layouts.partials.messages')
                                 <table id="backend_customers" class="text-center datatable-dark dataTable backend_datatables">
                                     <thead class="text-capitalize">

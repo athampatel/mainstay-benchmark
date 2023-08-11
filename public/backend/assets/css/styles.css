@@ -3274,7 +3274,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     }
 
     html.backend-dashboard{
-        font-size:80%;
+        font-size:75%;
    }
     .sidebar-menu{
         max-width: 224px;

@@ -2644,6 +2644,9 @@ table.dataTable td, table.dataTable th{
 }
 
 .table-responsive { overflow-x: initial; }
+.table-responsive.backend_customers_table{
+  overflow: auto;
+}
 .table-responsive.orderItems-table{ overflow-x: auto; }
 .daterangepicker .calendar th, .daterangepicker .calendar td{
   font-size: 10px;
