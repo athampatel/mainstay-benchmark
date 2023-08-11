@@ -3206,7 +3206,14 @@ td .dtr-title span{
   border-color: #dba713 !important;
   color: #FFF !important;
 }
-
+#toast.toast.alert-info{
+  background-color: #3068ec !important;
+  border-color: #3068ec !important;
+  color: #FFF !important;
+}
+#toast p{
+  color: #FFF !important;
+}
 .home-section .logo-details.mobile-logo{
    align-items: center;
   justify-content: center;

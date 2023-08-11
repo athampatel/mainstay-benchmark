@@ -450,8 +450,11 @@ class SDEDataController extends Controller
     public function accountEditUpload(Request $request){
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        $user_details = UserDetails::where('user_id',$user_id)->first();
         $data = $request->all();
+        $customer_no   = $request->session()->get('customer_no');      
+        //$user_details = UserDetails::where('user_id',$user_id)->first();
+        $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+        
         $validation_array = [];
         // $max_file_size = (int) AdminsController::parse_size(ini_get('post_max_size'));
         if($request->password){

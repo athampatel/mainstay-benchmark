@@ -327,10 +327,17 @@ class MenuController extends Controller
         $customer_no   = $request->session()->get('customer_no');
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
+
+        
+
+
         $response = self::CustomerPageRestriction($user_id,$data['menus'],$data['current_menu']);
         if(!$response) return redirect()->back();
+
         $data['customer_menus'] = $response;
         $data['user_detail'] = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+       
+
         $data['sales_person'] = UserDetails::leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
                                 ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id')
                                 ->leftjoin('admins','admins.email','=','sales_persons.email')
