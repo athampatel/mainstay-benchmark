@@ -872,6 +872,58 @@ class MenuController extends Controller
             //print_r($response_table); die; 
         }
 
+        // table display by product line
+
+        if($view_type == 1 && $chart_type == 1){
+         /* test working start */
+            if($user_details){
+                $data = array(            
+                    "filter" => [
+                        [
+                            "column" =>  "CustomerNo",
+                            "type" =>  "equals",
+                            "value" =>  $user_details->customerno,
+                            "operator" =>  "and"
+                        ],
+                        [
+                            "column" => "ARDivisionNo",
+                            "type" => "equals",
+                            "value" => $user_details->ardivisionno,
+                            "operator" => "and"
+                        ],
+                        [
+                            "column" => "FiscalCalYear",
+                            "type" => "equals",
+                            "value" => $year,
+                            "operator" => "and"
+                        ],
+                    ],
+                    "method" => "GET",
+                    "offset" => $offset,
+                    "limit" => $limit,
+                );
+                // $data['filter'] = array_merge($date_filter,$data['filter']);
+            
+                $response_table = $SDEAPi->Request('post','CustItemByPeriod',$data);
+                if(!empty($response_table)){
+                    $response_table_data = $response_table['custitembyperiod'];
+                }
+            }
+            $table_code = View::make("components.datatabels.analysis-page-product-line-component")
+            ->with("analysisdata", $response_table_data)
+            ->render();
+
+            $path = '/get-analysis-page-data';
+            $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
+            $pagination_code = "";
+            if($custom_pagination['last_page'] >= 1){
+                $pagination_code = View::make("components.ajax-pagination-component")
+                ->with("pagination", $custom_pagination)
+                ->render();
+            } 
+         /* test working end */
+        }
+
         if($range == 4){
             $year = explode('-',$filter_start_date)[0];
         }
@@ -938,7 +990,7 @@ class MenuController extends Controller
             }
         }
        
-        if($chart_type == 1 ){            
+        if($chart_type == 1  && $view_type == 2){ // added $view_type            
             $saleby_productline1         = ProductLine::getSaleDetails($user_details,$year);
             $saleby_productline = $saleby_productline1['sales_details']; 
             $saleby_productline_desc = $saleby_productline1['sales_desc_details'];
