@@ -819,6 +819,7 @@ nav .profile-details i{
 .overview-boxes .form-check-input{
   opacity: 0;
 }
+
 .overview-boxes .form-check-input + label::before{
     content:'';
     width: 1rem;
@@ -836,6 +837,17 @@ nav .profile-details i{
    background-repeat: no-repeat;
    background-position: center;
    background-size: cover;
+}
+.overview-boxes .permission-listings label{
+  margin-bottom: 0;
+  padding-left: 0.5rem;
+}
+.overview-boxes .permission-listings label::before{
+  top:2px;
+  left: 0px;
+}
+.overview-boxes .permission-listings .form-check{
+  margin-bottom: 0.5rem;
 }
 
 .form-button{

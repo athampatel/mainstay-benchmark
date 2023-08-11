@@ -185,6 +185,8 @@ class UsersController extends Controller
         //$users =  $customers->get()->toJson();
         $users =  $customers->get()->toArray();
 
+
+        
         //echo $customers->toSql();
         // dd($users);
 

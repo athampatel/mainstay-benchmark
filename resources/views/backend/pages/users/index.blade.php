@@ -92,7 +92,7 @@ Customers - Admin Panel
                                     <tbody>
                                 @foreach($users as $user)
                                     @php
-                                        $user_details = $user['user_details'];
+                                        $user_details = $user['user_details'];                                        
                                     @endphp
                                     <tr>
                                         <th style="text-align:left;padding:20px 10px;font-size:0.75rem">
@@ -141,7 +141,7 @@ Customers - Admin Panel
                                         <th width="15%">Action</th>
                                     </tr>
 
-                                    @foreach($user_details as $usr)
+                                    @foreach($user_details as $usr)                                    
                                     @php
                                         $account = $usr['user'];
                                         $sales_person_account = isset($usr['user_sales_person']) ? $usr['user_sales_person']['sales_person'] : [];

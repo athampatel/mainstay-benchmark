@@ -22,7 +22,7 @@ Role Create - Admin Panel
             <div class="row">
                 <div class="col-12 mt-5">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body permission-listings">
                             @include('backend.layouts.partials.messages')
                             <form action="{{ route('admin.roles.store') }}" method="POST">
                                 @csrf
