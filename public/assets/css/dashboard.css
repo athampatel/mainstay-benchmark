@@ -3194,7 +3194,7 @@ td .dtr-title span{
   -ms-transition: all 500ms ease-in-out;
   transition: all 500ms ease-in-out;
   transform: translate3d(0px, -100px,0px);
-  font-size: 1.25rem !important;
+  font-size: 1rem !important;
   font-weight: 500;
   text-align: left !important;
 }
