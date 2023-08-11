@@ -849,7 +849,10 @@ nav .profile-details i{
 .overview-boxes .permission-listings .form-check{
   margin-bottom: 0.5rem;
 }
-
+.overview-boxes .permission-listings .form-group.mb-5 label{
+  padding-left: 0px;
+    margin-bottom: 0.5rem;
+}
 .form-button{
   top: 0.3125rem;
 }

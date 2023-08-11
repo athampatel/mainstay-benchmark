@@ -502,7 +502,7 @@ class SDEDataController extends Controller
                         die();        
                     }
                 }
-                $user_details->customername = $request->acc_name;
+                $user_details->customername = $request->company_ame;
                 $user_details->addressline1 = $request->acc_address_line_1;
                 $user_details->addressline2 = $request->acc_address_line_2;
                 $user_details->city = $request->acc_city;
@@ -511,6 +511,7 @@ class SDEDataController extends Controller
                 $user_details->save();
 
                 $user->name = $request->acc_name;
+                
                 $user->save();
                 if($file) {
                     $response = ['path' => $user->profile_image];

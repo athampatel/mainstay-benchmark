@@ -186,6 +186,10 @@ class UsersController extends Controller
         $users =  $customers->get()->toArray();
 
 
+       /* echo "<pre>";
+        print_r($users);
+        echo "</pre>";
+        die;    */
         
         //echo $customers->toSql();
         // dd($users);

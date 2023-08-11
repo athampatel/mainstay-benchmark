@@ -309,6 +309,7 @@ $(document).on('click','#profile-edit-save-button',function(e){
     formData.append('password', password);
     formData.append('password_confirmation', confirm_password);
     let acc_name = $('#acc_name').val();
+    let companyName = $('#customer_name').val();
     let acc_phone_no = $('#acc_phone_no').val();
     let acc_address_line_1 = $('#acc_address_line_1').val();
     let acc_address_line_2 = $('#acc_address_line_2').val();
@@ -317,6 +318,7 @@ $(document).on('click','#profile-edit-save-button',function(e){
     let acc_zipcode = $('#acc_zipcode').val();
 
     formData.append('acc_name', acc_name);
+    formData.append('company_ame', companyName);
     formData.append('acc_phone_no', acc_phone_no);
     formData.append('acc_address_line_1', acc_address_line_1);
     formData.append('acc_address_line_2', acc_address_line_2);
@@ -333,6 +335,12 @@ $(document).on('click','#profile-edit-save-button',function(e){
         processData: false,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: formData,
+        beforeSend:function(){
+            $('.backdrop').removeClass('d-none');
+        },
+        complete:function(){
+            $('.backdrop').addClass('d-none');
+        },
         success: function (res) {
             let res1 = JSON.parse(res);
             console.log(res1,'__res1');

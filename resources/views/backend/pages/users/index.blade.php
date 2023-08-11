@@ -141,12 +141,12 @@ Customers - Admin Panel
                                         <th width="15%">Action</th>
                                     </tr>
 
-                                    @foreach($user_details as $usr)                                    
+                                    @foreach($user_details as $usr)
                                     @php
-                                        $account = $usr['user'];
+                                        $account = !empty($usr['user']) ? $usr['user'] : null;
                                         $sales_person_account = isset($usr['user_sales_person']) ? $usr['user_sales_person']['sales_person'] : [];
                                     @endphp
-
+                                    
                                     @if(isset($account['id']))
                                     <tr class="company-row animate row-{{$user['customerno']}}" style="display:none">
                                         {{-- <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['customerno'] }}</a></td> --}}
@@ -160,7 +160,7 @@ Customers - Admin Panel
                                             </td>
                                             {{-- <td>&nbsp;</td> --}}
                                             {{-- <td>{{ $account['name'] }}</td> --}}
-                                            <td>{{ $account['name'] }}</td>
+                                            <td>{{ $account['name'] }} - {{$account['id']}}</td>
                                             <td> <a href="{{ route('admin.users.edit', $user['id']) }}">{{ $usr['contactcode'] }}</a></td>
                                             <td>{{ $account['email'] }}</td>
                                             <!--<td>{{ $usr['ardivisionno'] }}</td> -->

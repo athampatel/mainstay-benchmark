@@ -54,21 +54,21 @@
                                 @php 
                                 $selected_customer = session('selected_customer');
                                 @endphp
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->name}}" placeholder="Name" name="acc_name" id="acc_name" disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 {{-- <label class="form-label">Name</label> --}}
                                 <label class="form-label">Contact Email</label>
-                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
+                                <input class="form-control col-12" type="text" value="{{Auth::user()->email}}" placeholder="Name" name="acc_email" id="acc_email" disabled>
                             </div>                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-12">    
                                 {{-- <label class="form-label">Name</label> --}}
                                 <label class="form-label">Contact Code</label>
-                                <input class="form-control col-12" type="text" value="{{$selected_customer['contactcode']}}" placeholder="Name" name="Acc_name" id="Acc_name" disabled>
+                                <input class="form-control col-12" type="text" value="{{$selected_customer['contactcode']}}" placeholder="Name" name="acc_code" id="acc_code" disabled>
                             </div>                            
                         </div>
                         <div class="title-5 text-white">Change Password</div>
@@ -101,12 +101,12 @@
                                     @endif
                                 </div>  
                             </div>                    
-                        </div>    					
+                        </div>    					                        
                         <div class="card-body col-12">
                             <div class="row">
                                 <div class="mb-3 col-6">    
-                                    <label class="form-label" for="acc_name">Customer Name</label>
-                                    <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="acc_name" id="acc_name" disabled>
+                                    <label class="form-label" for="customer_name">Customer Name</label>
+                                    <input class="form-control col-12" type="text" value="{{$user_detail->customername}}" placeholder="Name" name="customer_name" id="customer_name" disabled>
                                 </div>
                                 <div class="mb-3 col-6">    
                                     <label class="form-label">Customer Number</label>
