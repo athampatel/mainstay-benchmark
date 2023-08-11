@@ -3193,6 +3193,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
     flex-wrap: wrap;    
     align-items: center;
     justify-content: center;
+    gap: 0.3125rem;
 }
 .btn-wrapper .btn{
     display: flex;

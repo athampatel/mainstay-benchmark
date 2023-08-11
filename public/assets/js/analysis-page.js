@@ -6,19 +6,19 @@ if(is_table){
     if( parseInt(is_table) == 1 ){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
-        $('#analysis_item_select_label').addClass('d-none');
+        // $('#analysis_item_select_label').addClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').show();
     } else {
         tab_input.checked = true;
         $('#analysis_table_container').addClass('d-none');
         $('#analysis_table_chart').removeClass('d-none');
-        $('#analysis_item_select_label').removeClass('d-none');
+        // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide();
     }
 } else {
     $('#analysis_table_container').removeClass('d-none');
     $('#analysis_table_chart').addClass('d-none');
-    $('#analysis_item_select_label').addClass('d-none');
+    // $('#analysis_item_select_label').addClass('d-none'); // for table
     $('#analysis_range_select option[value="4"]').show();
     localStorage.setItem('is_table',1);
 }
@@ -31,14 +31,22 @@ $(document).on('change','#tab_input',function(){
         localStorage.setItem('is_table',0);
         $('#analysis_table_container').addClass('d-none');
         $('#analysis_table_chart').removeClass('d-none');
-        $('#analysis_item_select_label').removeClass('d-none');
+        // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide()
+        $('#analysis_range_select_label').removeClass('d-none');
     } else {
         localStorage.setItem('is_table',1);
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
-        $('#analysis_item_select_label').addClass('d-none');
+        // $('#analysis_item_select_label').addClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').show();
+        let is_prod = $('#analysis_item_select').val();
+        if(is_prod == '1') {
+            $('#analysis_range_select_label').addClass('d-none');
+            $('#analysis_year_select_label').removeClass('d-none');
+        } else {
+            $('#analysis_range_select_label').removeClass('d-none');
+        }
     }
 
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
@@ -59,7 +67,7 @@ function getAnalysispageData($page,$count,range,year){
     var _view = 2;
     if($(document.body).find('#analysis_table_chart').hasClass('d-none')){
         _view = 1;
-        chart_type = 0
+        // chart_type = 0
     }
     $.ajax({
         type: 'GET',
@@ -72,6 +80,7 @@ function getAnalysispageData($page,$count,range,year){
            $('#analysis_page_chart').html('');
         },
         success: function (res) {
+            console.log(res,'___analysis response');
             if(res.is_export){
                 $('#analysis-page-export').removeClass('d-none');
             } else {
@@ -85,6 +94,10 @@ function getAnalysispageData($page,$count,range,year){
             let is_year_multiple = res.is_year_change;
             let product_data = res.product_data;
             let product_data_desc = res.product_data_desc;
+            let is_table_action = [];
+            if(_view == 1 && chart_type != 1){
+                is_table_action =  [ { targets: [6], orderable: false},];
+            }
             analysis_page_table = $('#analysis-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -93,9 +106,7 @@ function getAnalysispageData($page,$count,range,year){
                 ordering: true,
                 info: false,
                 order: [],
-                columnDefs: [
-                    { targets: [6], orderable: false},
-                ],
+                columnDefs: is_table_action
             });
 
             let months = [];
@@ -108,7 +119,7 @@ function getAnalysispageData($page,$count,range,year){
                 months = $analaysis_count['months'];
                 months_desc = $analaysis_count['months'];
                 chart_count = $analaysis_count['final'];
-            } else if(checkAnalysis == 1 && chart_type != 0){
+            } else if(checkAnalysis == 1 && chart_type != 0 && _view != 1){ // add 
             // } else if(checkAnalysis == 1){
                 $analaysis_count =  getProductLineCount(product_data);
                 $analaysis_count_desc =  getProductLineCount(product_data_desc);
@@ -307,6 +318,14 @@ $(document).on('change','#analysis_item_select',function(){
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     let select_by_range = parseInt($('#analysis_range_select option:selected').val());
     let current_year = parseInt($('#analysis_year_select option:selected').val());
+    let is_prod = $('#analysis_item_select').val();
+    let is_table_tab = $('#tab_input').is(':checked');
+    if(is_prod == '1' && !is_table_tab) {
+        $('#analysis_range_select_label').addClass('d-none');
+        $('#analysis_year_select_label').removeClass('d-none');
+    } else {
+        $('#analysis_range_select_label').removeClass('d-none');
+    }
     getAnalysispageData(0,pageCount,select_by_range,current_year)
 })
 
