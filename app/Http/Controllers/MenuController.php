@@ -788,6 +788,7 @@ class MenuController extends Controller
         $view_type = isset($data['view_type']) ? intval($data['view_type']) : 1;
         $chart_type = isset($data['chart_type']) ? intval($data['chart_type']) : 0;
         $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
+        // $sed_pro_line = $data['prod_line'] ?? ''; 
         $show_chart   = 0; 
         $response_table_data = [];
         if($page == 0){
@@ -882,7 +883,6 @@ class MenuController extends Controller
         // table display by product line
 
         if($view_type == 1 && $chart_type == 1){
-         /* test working start */
             if($user_details){
                 $data = array(            
                     "filter" => [
@@ -906,9 +906,8 @@ class MenuController extends Controller
                         ],
                     ],
                     "method" => "GET",
-                    "offset" => $offset,
-                    "limit" => $limit,
                 );
+                // if()
                 // $data['filter'] = array_merge($date_filter,$data['filter']);
             
                 $response_table = $SDEAPi->Request('post','CustItemByPeriod',$data);
@@ -916,19 +915,34 @@ class MenuController extends Controller
                     $response_table_data = $response_table['custitembyperiod'];
                 }
             }
+            $new_response_table_data = [];
+            foreach($response_table_data as $response_data) {
+                if(isset($new_response_table_data[$response_data['itemcode']])) {
+                    $new_response_table_data[$response_data['itemcode']]['quantitysold'] += $response_data['quantitysold'];
+                    $new_response_table_data[$response_data['itemcode']]['dollarssold'] += $response_data['dollarssold'];
+                } else {
+                    $new_response_table_data[$response_data['itemcode']] = $response_data;
+                }
+            }
+            $new_reponse_table_data_1 = array_values($new_response_table_data);
+            $filtered_new_response_data = [];
+            $for_end = $limit + ($offset - 1) < count($new_reponse_table_data_1) ? $limit + ($offset - 1) : count($new_reponse_table_data_1);
+            for($i = $offset - 1; $i < $for_end; $i++) {
+                array_push($filtered_new_response_data,$new_reponse_table_data_1[$i]);
+            }
+            $filtered_new_response_data['meta']['records'] = count($new_reponse_table_data_1);
             $table_code = View::make("components.datatabels.analysis-page-product-line-component")
-            ->with("analysisdata", $response_table_data)
+            ->with("analysisdata", $filtered_new_response_data)
             ->render();
 
             $path = '/get-analysis-page-data';
-            $custom_pagination = self::CreatePaginationData($response_table,$limit,$page,$offset,$path);
+            $custom_pagination = self::CreatePaginationData($filtered_new_response_data,$limit,$page,$offset,$path);
             $pagination_code = "";
             if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
                 ->with("pagination", $custom_pagination)
                 ->render();
             } 
-         /* test working end */
         }
 
         if($range == 4){
