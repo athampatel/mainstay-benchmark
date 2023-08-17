@@ -249,12 +249,24 @@ class AdminsController extends Controller
 
         $max_file_size = (int) self::parse_size(ini_get('post_max_size'));
 
-        $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|max:100|email|unique:admins,email,' . $id,
-            'password' => 'nullable|min:8',
-            'profile_picture' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
-        ]);
+        $this->validate(
+            $request,
+            [
+                'username' => 'required|min:5|max:100|unique:admins',
+                'email' => 'required|max:100|email|unique:admins,email,' . $id,
+                'password' => 'nullable|min:8',
+                'profile_picture' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
+            ],
+            [
+                'email.required' => 'The Email field is required',
+                'username.required' => 'The User Account Name field is required',
+                'password.min' => 'The Password must be at least 8 characters.',
+                'username.min' => 'The User Account Name must be at least 5 characters.',
+                'email.unique' => 'The Email has already been taken',
+                'username.unique' => 'The User Account Name has already been taken',
+                'profile_picture1.max' => 'The Profile Picture must not be greater than :max kilobytes. '
+            ]
+        );
 
         $file = $request->file('profile_picture');
         $path = "";
