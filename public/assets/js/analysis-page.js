@@ -3,9 +3,15 @@ var analysis_page_chart_desc;
 let is_table = localStorage.getItem('is_table');
 let tab_input = document.getElementById('tab_input');
 if(is_table){
+    let analaysis_type = $('#analysis_item_select').val();
     if( parseInt(is_table) == 1 ){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
+        if(analaysis_type ==  '1') {
+            $('#product_line_select_label').removeClass('d-none');
+        } else {
+            $('#product_line_select_label').addClass('d-none');
+        }
         // $('#analysis_item_select_label').addClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').show();
     } else {
@@ -14,12 +20,14 @@ if(is_table){
         $('#analysis_table_chart').removeClass('d-none');
         // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide();
+        $('#product_line_select_label').addClass('d-none');
     }
 } else {
     $('#analysis_table_container').removeClass('d-none');
     $('#analysis_table_chart').addClass('d-none');
     // $('#analysis_item_select_label').addClass('d-none'); // for table
     $('#analysis_range_select option[value="4"]').show();
+    $('#product_line_select_label').addClass('d-none');
     localStorage.setItem('is_table',1);
 }
 
@@ -34,6 +42,7 @@ $(document).on('change','#tab_input',function(){
         // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide()
         $('#analysis_range_select_label').removeClass('d-none');
+        $('#product_line_select_label').addClass('d-none');
     } else {
         localStorage.setItem('is_table',1);
         $('#analysis_table_container').removeClass('d-none');
@@ -44,11 +53,13 @@ $(document).on('change','#tab_input',function(){
         if(is_prod == '1') {
             $('#analysis_range_select_label').addClass('d-none');
             $('#analysis_year_select_label').removeClass('d-none');
+            $('#product_line_select_label').removeClass('d-none');
         } else {
+            $('#product_line_select_label').addClass('d-none');
             $('#analysis_range_select_label').removeClass('d-none');
         }
     }
-
+    $('#product_line_select option.prod').remove();
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     let select_by_range = parseInt($('#analysis_range_select option:selected').val());
     let current_year = parseInt($('#analysis_year_select option:selected').val());
@@ -69,18 +80,36 @@ function getAnalysispageData($page,$count,range,year){
         _view = 1;
         // chart_type = 0
     }
+    
+    // let prod_line = $('#product_line_select').val();
+    let item_code_search = $('#item_code_input').val();
     $.ajax({
         type: 'GET',
         url: '/get-analysis-page-data',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
+        // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
+        // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,prod_line},
+        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,item_code_search},
         beforeSend:function(){
             beforeAjax();
            $('#analysis_page_chart').html('');
         },
         success: function (res) {
             console.log(res,'___analysis response');
+            /* product line type select box */
+            // let prod_line_type_options = `<option value="0">Please select</option>`;
+            // if(chart_type == 1 && _view == 1 ) {
+            //     if(prod_line == 0) {
+            //         res.prod_line_types.forEach(pro => {
+            //             prod_line_type_options += `<option class="prod" value="${pro}">${pro}</option>`;
+            //         })
+            //     }
+            // } 
+            // if(prod_line == 0) {
+            //     $('#product_line_select').html(prod_line_type_options);
+            // }
+            /* product line type select box */
             if(res.is_export){
                 $('#analysis-page-export').removeClass('d-none');
             } else {
@@ -320,6 +349,37 @@ $(document).on('change','#analysis_item_select',function(){
     let current_year = parseInt($('#analysis_year_select option:selected').val());
     let is_prod = $('#analysis_item_select').val();
     let is_table_tab = $('#tab_input').is(':checked');
+    $('#product_line_select option.prod').remove();
+    if(is_prod == '1' && !is_table_tab) {
+        $('#analysis_range_select_label').addClass('d-none');
+        $('#analysis_year_select_label').removeClass('d-none');
+        $('#product_line_select_label').removeClass('d-none');
+    } else {
+        $('#product_line_select_label').addClass('d-none');
+        $('#analysis_range_select_label').removeClass('d-none');
+    }
+    getAnalysispageData(0,pageCount,select_by_range,current_year)
+})
+
+// Item Code Search Button Click
+$(document).on('click','#item_code_search',function(){
+    commomAjaxDataCall();
+});
+
+// item code search keyup 
+$(document).on('keyup','#item_code_input',function(){
+    let search_val = $('#item_code_input').val();
+    if(search_val == '') {
+        commomAjaxDataCall();
+    }
+});
+
+function commomAjaxDataCall(){
+    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
+    let select_by_range = parseInt($('#analysis_range_select option:selected').val());
+    let current_year = parseInt($('#analysis_year_select option:selected').val());
+    let is_prod = $('#analysis_item_select').val();
+    let is_table_tab = $('#tab_input').is(':checked');
     if(is_prod == '1' && !is_table_tab) {
         $('#analysis_range_select_label').addClass('d-none');
         $('#analysis_year_select_label').removeClass('d-none');
@@ -327,7 +387,7 @@ $(document).on('change','#analysis_item_select',function(){
         $('#analysis_range_select_label').removeClass('d-none');
     }
     getAnalysispageData(0,pageCount,select_by_range,current_year)
-})
+}
 
 // range select
 $(document).on('change','select#analysis_range_select',function(){
@@ -352,6 +412,12 @@ $(document).on('change','select#analysis_year_select',function(){
     let year = parseInt($('#analysis_year_select option:selected').val());
     let range = parseInt($('#analysis_range_select option:selected').val());
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
+    console.log('___year changed');
+    // let analysis_type = $('#analysis_item_select').val();
+    // let is_table = $('#tab_input').is(':checked');
+    // if(analysis_type == '1' && !is_table) {
+        $('#product_line_select option.prod').remove();
+    // }
     if(range == 4){
     }else{
         getAnalysispageData(0,pageCount,range,year)

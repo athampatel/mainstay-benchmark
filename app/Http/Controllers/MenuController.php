@@ -788,9 +788,11 @@ class MenuController extends Controller
         $view_type = isset($data['view_type']) ? intval($data['view_type']) : 1;
         $chart_type = isset($data['chart_type']) ? intval($data['chart_type']) : 0;
         $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
-        // $sed_pro_line = $data['prod_line'] ?? ''; 
+        // $sed_pro_line = $data['prod_line'] ?? '';
+        $item_code_search = $data['item_code_search'] ?? ''; 
         $show_chart   = 0; 
         $response_table_data = [];
+        $product_line_types = [];
         if($page == 0){
             $offset = 1;
         } else {
@@ -803,9 +805,6 @@ class MenuController extends Controller
         $SDEAPi = new SDEApi();
 
         $filter_dates = $SDEAPi->getRangeDates($range,$year);
-        /*
-        print_r($filter_dates);
-        die;  */
         $string_months  = isset($filter_dates['string_months']) ? $filter_dates['string_months']: null;
         $range_months   = isset($filter_dates['range_months']) ? $filter_dates['range_months']: null;
         $month_name     = isset($filter_dates['month_name']) ? $filter_dates['month_name']: null;
@@ -907,34 +906,45 @@ class MenuController extends Controller
                     ],
                     "method" => "GET",
                 );
-                // if()
-                // $data['filter'] = array_merge($date_filter,$data['filter']);
+                if($item_code_search != '') {
+                    $product_line_filter = [
+                        "column" => "itemcode",
+                        "type" => "equals",
+                        "value" => $item_code_search,
+                        "operator" => "and"
+                    ];
+                    $data['filter'] = array_merge($product_line_filter,$data['filter']);
+                }
             
                 $response_table = $SDEAPi->Request('post','CustItemByPeriod',$data);
                 if(!empty($response_table)){
                     $response_table_data = $response_table['custitembyperiod'];
                 }
             }
-            $new_response_table_data = [];
-            foreach($response_table_data as $response_data) {
-                if(isset($new_response_table_data[$response_data['itemcode']])) {
-                    $new_response_table_data[$response_data['itemcode']]['quantitysold'] += $response_data['quantitysold'];
-                    $new_response_table_data[$response_data['itemcode']]['dollarssold'] += $response_data['dollarssold'];
-                } else {
-                    $new_response_table_data[$response_data['itemcode']] = $response_data;
-                }
-            }
-            $new_reponse_table_data_1 = array_values($new_response_table_data);
             $filtered_new_response_data = [];
-            $for_end = $limit + ($offset - 1) < count($new_reponse_table_data_1) ? $limit + ($offset - 1) : count($new_reponse_table_data_1);
-            for($i = $offset - 1; $i < $for_end; $i++) {
-                array_push($filtered_new_response_data,$new_reponse_table_data_1[$i]);
+            if($item_code_search == '') {
+                $new_response_table_data = [];
+                foreach($response_table_data as $response_data) {
+                    if(isset($new_response_table_data[$response_data['itemcode']])) {
+                        $new_response_table_data[$response_data['itemcode']]['quantitysold'] += $response_data['quantitysold'];
+                        $new_response_table_data[$response_data['itemcode']]['dollarssold'] += $response_data['dollarssold'];
+                    } else {
+                        $new_response_table_data[$response_data['itemcode']] = $response_data;
+                    }
+                }
+                $new_reponse_table_data_1 = array_values($new_response_table_data);
+                $for_end = $limit + ($offset - 1) < count($new_reponse_table_data_1) ? $limit + ($offset - 1) : count($new_reponse_table_data_1);
+                for($i = $offset - 1; $i < $for_end; $i++) {
+                    array_push($filtered_new_response_data,$new_reponse_table_data_1[$i]);
+                }
+                $filtered_new_response_data['meta']['records'] = count($new_reponse_table_data_1);
+            } else {
+                $filtered_new_response_data = $response_table_data;
+                $filtered_new_response_data['meta']['records'] = count($response_table_data);
             }
-            $filtered_new_response_data['meta']['records'] = count($new_reponse_table_data_1);
             $table_code = View::make("components.datatabels.analysis-page-product-line-component")
             ->with("analysisdata", $filtered_new_response_data)
             ->render();
-
             $path = '/get-analysis-page-data';
             $custom_pagination = self::CreatePaginationData($filtered_new_response_data,$limit,$page,$offset,$path);
             $pagination_code = "";
@@ -1085,6 +1095,7 @@ class MenuController extends Controller
         $res['product_data'] = $sale_map;
         $res['product_data_desc'] = $sale_map_desc;
         $res['is_year_change'] = $is_another_get;
+        $res['prod_line_types'] = $product_line_types;
         echo json_encode($res);
         die();
     }
