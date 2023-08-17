@@ -134,7 +134,8 @@ class AdminsController extends Controller
                 'username.required' => 'The User Account Name field is required',
                 'password.required' => 'The Password field is required',
                 'password.min' => 'The Password must be at least 8 characters.',
-                'name.min' => 'The User Account Name must be at least 5 characters.',
+                'name.min' => 'The User Name must be at least 5 characters.',
+                'username.min' => 'The User Account Name must be at least 5 characters.',
                 'email.unique' => 'The Email has already been taken',
                 'username.unique' => 'The User Account Name has already been taken',
                 'profile_picture1.max' => 'The Profile Picture must not be greater than :max kilobytes. '

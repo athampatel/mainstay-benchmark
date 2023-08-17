@@ -24,7 +24,9 @@ Admin Create - Admin Panel
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            @include('backend.layouts.partials.messages')                    
+                            @if(!$errors->any()) 
+                                @include('backend.layouts.partials.messages')                    
+                            @endif
                             <form action="{{ route('admin.admins.store') }}" class="mt-5" method="POST" enctype="multipart/form-data">
                                 @csrf
 
@@ -51,7 +53,6 @@ Admin Create - Admin Panel
                                         @if($errors->has('name'))
                                         <div class="invalid-feedback d-block">
                                             {{ $errors->first('name') }}
-                                            {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>
@@ -66,7 +67,6 @@ Admin Create - Admin Panel
                                         @if($errors->has('email'))
                                         <div class="invalid-feedback d-block">
                                             {{ $errors->first('email') }} 
-                                            {{-- {{config('constants.label.admin.field_required')}} --}}
                                         </div>
                                         @endif
                                     </div>
