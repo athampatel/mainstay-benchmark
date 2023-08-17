@@ -201,19 +201,19 @@
                         </div>                    
                     </div>   
 
-                    <div class="table-responsive orderItems-table col-12 p-3">
+                    <div class="table-responsive orderItems-table col-12 py-3">
                         <table id="orderItems" class="table">
                             <thead>
                                 <tr>
-                                    <th>Description</th>
-                                    <th>Benchmark <br/>Item Number</th>                                 
-                                    <th>Customer<br/>Item Number</th>                                       
-                                    <th class="max-100">Quantity<br/>Ordered</th>
-                                    <th class="max-100">Quantity<br/>Shipped</th>
-                                    <th class="max-100">Quantity<br/>Open</th>
-                                    <th>Unit<br/>Price</th>                                    
-                                    <th>Total Order<br/>Amount</th>
-                                    <th>Drop<br/>Ship</th>
+                                    <th class="px-2">Description</th>
+                                    <th class="px-2">Benchmark <br/>Item Number</th>                                 
+                                    <th class="px-2">Customer<br/>Item Number</th>                                       
+                                    <th class="max-100 px-2">Quantity<br/>Ordered</th>
+                                    <th class="max-100 px-2">Quantity<br/>Shipped</th>
+                                    <th class="max-100 px-2">Quantity<br/>Open</th>
+                                    <th class="px-2">Unit<br/>Price</th>                                    
+                                    <th class="px-2">Total Order<br/>Amount</th>
+                                    <th class="px-2">Drop<br/>Ship</th>
                                 </tr>
                             </thead>
                             <tbody id="disp-items-body"></tbody>                           

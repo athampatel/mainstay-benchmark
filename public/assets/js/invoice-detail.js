@@ -89,20 +89,20 @@ function displayInvoiceOrderDetail(res){
             /*<br/>
                 Item Code: <a href="javascript:void(0)" class="item-number font-12 pointer_events_none" data-val="${item.itemcode}">${item.itemcode}</a> */
             item_details_html += `<tr class="order_item_row" data-val="${item.itemcode}">
-                <td>${item.itemcodedesc}</td> 
-                <td class="bench-no itemcode">${itemcode}</td>
-                <td class="alias-no itemcode">${aliasitemno}</td>
-                <td class="order_item_quantity"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
+                <td class="px-2 text-break text-center">${item.itemcodedesc}</td> 
+                <td class="bench-no itemcode px-2 text-center">${itemcode}</td>
+                <td class="alias-no itemcode px-2 text-center">${aliasitemno}</td>
+                <td class="order_item_quantity px-2 text-center"  data-val="${item.quantityordered}" data-start_val="${item.quantityordered}">
                 <input type="number" name="ordered_item_quantity_input" id="" min="${item.quantityordered}" value="${item.quantityordered}" data-val=${item.quantityordered} class="order_item_quantity_input notactive form-input" disabled>
                 </td>
-                <td class="order_item_quantity"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
+                <td class="order_item_quantity px-2 text-center"  data-val="${item.quantityshipped}" data-start_val="${item.quantityshipped}">
                 <input type="number" name="order_item_quantity_input" id="" min="${item.quantityshipped}" value="${item.quantityshipped}" data-val=${item.quantityshipped} class="order_item_quantity_input notactive form-input" disabled>
                 </td>
-                <td class="order_item_quantity"  data-val="${item.quantitybackordered}" data-start_val="${item.quantitybackordered}">
+                <td class="order_item_quantity px-2 text-center"  data-val="${item.quantitybackordered}" data-start_val="${item.quantitybackordered}">
                 <input type="number" name="open_item_quantity_input" id="" min="${item.quantitybackordered}" value="${item.quantitybackordered}" data-val=${item.quantitybackordered} class="order_item_quantity_input notactive form-input" disabled></td>
-                <td class="order_unit_price" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>
-                <td class="order_unit_total_price" data-val="${item.unitprice}">$ ${numberWithCommas( item.quantityshipped * item.unitprice)}</td>
-                <td>${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
+                <td class="order_unit_price px-2 text-center" data-val="${item.unitprice}">$ ${numberWithCommas(item.unitprice)}</td>
+                <td class="order_unit_total_price px-2 text-center" data-val="${item.unitprice}">$ ${numberWithCommas( item.quantityshipped * item.unitprice)}</td>
+                <td class="px-2 text-center">${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
             </tr>`;
         }
     }); 
