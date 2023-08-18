@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Backend\AdminsController;
+use App\Http\Controllers\Backend\UsersController;
 use DateInterval;
 use DateTime;
 
@@ -624,7 +625,9 @@ class SDEDataController extends Controller
                 if($is_local){
                     Mail::to($admin->email)->bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
                 } else {
-                    Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
+                    $admin_emails = SDEApi::getHasPermissionEmailAddress('change.order.request');
+                    UsersController::commonEmailSend($admin_emails,$details);
+                    // Mail::to($admin->email)->send(new \App\Mail\SendMail($details));
                 }
                 
             $_notification = array( 'type'      => 'Change Order',

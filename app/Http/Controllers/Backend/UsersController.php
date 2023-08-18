@@ -1797,7 +1797,7 @@ class UsersController extends Controller
         try {
             Mail::to($support_emails)->send(new \App\Mail\SendMail($details));
         } catch (\Exception $e) {                            
-            dd($e->getMessage());
+            //dd($e->getMessage());
             Log::error('An error occurred while sending the mail: ' . $e->getMessage());
         } 
        

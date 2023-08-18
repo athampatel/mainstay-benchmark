@@ -64,6 +64,18 @@
                     </select>
                     <div class="down-arrow"></div>
                 </label>
+                {{-- <label for="" class="position-relative d-none" id="product_line_select_label">
+                    <span>By Product Line</span>
+                    <select name="type" id="product_line_select" class="rounded analysis_select">
+                        <option value="0" selected>Please select</option>
+                    </select>
+                    <div class="down-arrow"></div>
+                </label>   --}}
+                <label for="" class="position-relative d-none d-flex gap-2" id="product_line_select_label">
+                    <input type="text" value="" class="form-control form-control-sm datatable-search-input" name="" id="item_code_input" placeholder="Enter Customer Item Code">
+                    <button id="item_code_search">Search</button>
+                </label>
+                <input type="hidden" name="" value="0" id="is_search_item_code">
             </div>
         </div>
         <div class="toggle-switcher">

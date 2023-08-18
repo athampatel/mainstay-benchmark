@@ -26,56 +26,14 @@ Admin Edit - Admin Panel
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title">Edit User - {{ $admin->name }}</h4>
-                            @include('backend.layouts.partials.messages')
+                            @if(!$errors->any()) 
+                                @include('backend.layouts.partials.messages')
+                            @endif
                             <form action="{{ route('admin.admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data" id="admin_edit_form">
                                 @method('PUT')
                                 @csrf
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        <label for="username">{{ config('constants.label.admin.user_name') }}</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
-                                        <input type="hidden" name="username" value="{{ $admin->username }}">
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="email">{{ config('constants.label.admin.admin_email') }}</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $admin->email }}">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="password">{{ config('constants.label.admin.password') }}</label>
-                                        <input type="password" class="form-control password-field" id="password" name="password" placeholder="Enter Password">
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
-                                    </div>   
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-6">
-                                        <label for="password">{{ config('constants.label.admin.assign_roles') }}</label>
-                                        <select name="roles[]" id="roles" class="form-control select2">
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="name">{{ config('constants.label.admin.user_account_name') }}</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $admin->name }}">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="phone_no">{{ config('constants.label.admin.phone_no') }}</label>
-                                        <input type="text" class="form-control" id="phone_no" name="phone_no" placeholder="Enter Phone Number" value="{{$admin->phone_no}}">
-                                    </div>
-                                </div>
                                 
-                                <h6>Profile Picture</h6><br>
+                                <label for="file-input-admin">Profile Picture</label>
                                 <div class="form-row">
                                     <div class="d-flex align-items-center justify-content-center" style="position: relative">
                                         <div class="image-upload position-relative"  @if($admin->profile_path && File::exists($admin->profile_path)) style="background-image:url(/{{$admin->profile_path}})" @endif>
@@ -89,7 +47,77 @@ Admin Edit - Admin Panel
                                         </div>  
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4" id="admin_user_edit_save">{{ config('constants.label.admin.buttons.save_admin') }}</button>
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-6 {{$errors->has('name') ? 'is_error' : '' }}">
+                                        {{-- <label for="username">{{ config('constants.label.admin.user_name') }}</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
+                                        <input type="hidden" name="username" value="{{ $admin->username }}"> --}}
+                                        <label for="username">{{ config('constants.label.admin.user_name') }}</label>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Username" required value="{{ $admin->name }}" disabled>
+                                        {{-- <input type="hidden" name="name" value="{{ $admin->name }}"> --}}
+                                        @if($errors->has('name'))
+                                        <div class="invalid-feedback d-block">
+                                            {{ $errors->first('name') }}
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('email') ? 'is_error' : '' }}">
+                                        <label for="email">{{ config('constants.label.admin.user_email') }}</label>
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $admin->email }}">
+                                        @if($errors->has('email'))
+                                        <div class="invalid-feedback d-block">
+                                            {{ $errors->first('email') }} 
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-6">
+                                        <label for="password">{{ config('constants.label.admin.assign_roles') }}</label>
+                                        <select name="roles[]" id="roles" class="form-control select2">
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('username') ? 'is_error' : '' }}">
+                                        <label for="name">{{ config('constants.label.admin.user_account_name') }}</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Name" value="{{ $admin->username }}">
+                                        @if($errors->has('username'))
+                                        <div class="invalid-feedback d-block">
+                                            {{ $errors->first('username') }}
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12 {{$errors->has('password') ? 'is_error' : '' }}">
+                                        <label for="password">{{ config('constants.label.admin.password') }}</label>
+                                        <input type="password" class="form-control password-field" id="password" name="password" placeholder="Enter Password">
+                                        @if($errors->has('password'))
+                                        <div class="invalid-feedback d-block">
+                                            {{ $errors->first('password') }}
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <a  href="javascript:void(0)" class="btn random-password btn-form-control btn-primary text-capitalize mt-4 pr-4 pl-4">{{ config('constants.label.admin.generate_random_password') }}</a>
+                                    </div>   
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="phone_no">{{ config('constants.label.admin.phone_no') }}</label>
+                                        <input type="text" class="form-control" id="phone_no" name="phone_no" placeholder="Enter Phone Number" value="{{$admin->phone_no}}">
+                                    </div>
+                                </div>
+                                
+                                {{-- <button type="submit" class="btn btn-primary text-capitalize btn-rounded mt-4 pr-4 pl-4" id="admin_user_edit_save">{{ config('constants.label.admin.buttons.save_admin') }}</button> --}}
+                                <button type="submit" class="btn btn-primary btn-rounded text-capitalize mt-4 pr-4 pl-4 fl-right btn-larger" id="admin_user_edit_save">{{ config('constants.label.admin.buttons.save_admin') }}</button>
                             </form>
                         </div>
                     </div>
