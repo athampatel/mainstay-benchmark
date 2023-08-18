@@ -3272,6 +3272,10 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 .text-indent-10 {
   text-indent: 10px;
 }
+.itemcode_click {
+  text-decoration: underline;
+  cursor: pointer;
+}
 /* print */
 @media print {
   

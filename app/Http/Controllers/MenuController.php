@@ -790,6 +790,7 @@ class MenuController extends Controller
         $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
         // $sed_pro_line = $data['prod_line'] ?? '';
         $item_code_search = $data['item_code_search'] ?? ''; 
+        $search_by_itemcode = $data['is_search_by_itemcode'] ?? 0;
         $show_chart   = 0; 
         $response_table_data = [];
         $product_line_types = [];
@@ -907,8 +908,9 @@ class MenuController extends Controller
                     "method" => "GET",
                 );
                 if($item_code_search != '') {
+                    $column_name = intval($search_by_itemcode) == 0 ? 'itemcode' : 'aliasitemno';
                     $product_line_filter = [
-                        "column" => "itemcode",
+                        "column" => $column_name,
                         "type" => "equals",
                         "value" => $item_code_search,
                         "operator" => "and"
@@ -942,8 +944,10 @@ class MenuController extends Controller
                 $filtered_new_response_data = $response_table_data;
                 $filtered_new_response_data['meta']['records'] = count($response_table_data);
             }
+            $is_item_search = $item_code_search != '' ? true : false; 
             $table_code = View::make("components.datatabels.analysis-page-product-line-component")
             ->with("analysisdata", $filtered_new_response_data)
+            ->with("isItemSearch", $is_item_search)
             ->render();
             $path = '/get-analysis-page-data';
             $custom_pagination = self::CreatePaginationData($filtered_new_response_data,$limit,$page,$offset,$path);

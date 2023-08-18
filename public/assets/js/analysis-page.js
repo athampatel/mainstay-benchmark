@@ -83,6 +83,7 @@ function getAnalysispageData($page,$count,range,year){
     
     // let prod_line = $('#product_line_select').val();
     let item_code_search = $('#item_code_input').val();
+    let is_search_by_itemcode = $('#is_search_item_code').val();
     $.ajax({
         type: 'GET',
         url: '/get-analysis-page-data',
@@ -90,7 +91,7 @@ function getAnalysispageData($page,$count,range,year){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,prod_line},
-        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,item_code_search},
+        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,item_code_search,is_search_by_itemcode},
         beforeSend:function(){
             beforeAjax();
            $('#analysis_page_chart').html('');
@@ -374,6 +375,7 @@ $(document).on('keyup','#item_code_input',function(){
     }
 });
 
+// function commomAjaxDataCall(icode = ''){
 function commomAjaxDataCall(){
     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
     let select_by_range = parseInt($('#analysis_range_select option:selected').val());
@@ -386,7 +388,11 @@ function commomAjaxDataCall(){
     } else {
         $('#analysis_range_select_label').removeClass('d-none');
     }
-    getAnalysispageData(0,pageCount,select_by_range,current_year)
+    // if(icode != '') {
+        getAnalysispageData(0,pageCount,select_by_range,current_year)
+    // } else {
+        // getAnalysispageData(0,pageCount,select_by_range,current_year)
+    // }
 }
 
 // range select
@@ -631,3 +637,33 @@ $(document).on('click','#analysis-page-export',function(e){
     e.preventDefault();
     $('#export-analysis-page-drop').toggleClass('d-none');
 })
+
+
+// item code click in analysis page
+$(document).on('click','.itemcode_click',function(){
+    let data_item_code = $(this).data('item_code');
+    let is_item_code = $(this).data('is_item_code');
+    if(parseInt(is_item_code)) {
+        $('#is_search_item_code').val('1');
+    } else {
+        $('#is_search_item_code').val('0');
+    }
+    let previous_value = $('#item_code_input').val();
+    if(previous_value != data_item_code){
+        $('#item_code_input').val(data_item_code);
+        commomAjaxDataCall()
+    }
+    console.log('__clicked');
+})
+
+
+// alias item code click in analysis page
+// $(document).on('click','.aliasitem_click',function(){
+//     let data_item_code = $(this).data('alias_no');
+//     let previous_value = $('#item_code_input').val();
+//     if(previous_value != data_item_code){
+//         $('#item_code_input').val(data_item_code);
+//         $('#is_search_item_code').val('1');
+//         commomAjaxDataCall()
+//     }
+// })
