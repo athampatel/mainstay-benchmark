@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Client\RequestException;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Permission;
+
 // sde : Simple data exchange
 
 class SDEApi
@@ -143,19 +145,33 @@ class SDEApi
           UsersController::commonEmailSend($admin_emails,$details);
         } else {
           // $admin_emails = Admin::all()->pluck('email')->toArray();
-          $admin_emails = self::getSuperAdminEmails();
+          // $admin_emails = self::getSuperAdminEmails();
+          $admin_emails = self::getHasPermissionEmailAddress('api.error');
           UsersController::commonEmailSend($admin_emails,$details);
         }
         return 1;
       }
     }
 
-    
     // Retrieve the email addresses of all admin users in the 'superadmin' role
     public static function getSuperAdminEmails() {
       return Admin::whereHas('roles', function ($query) {
             $query->where('name', 'superadmin');
         })->pluck('email')->toArray();
+    }
+
+    // Retrieve the email address of all admin user has a particular permission
+    public static function getHasPermissionEmailAddress($permission_name){
+      $permission = Permission::where('name', $permission_name)->first();
+      $roles = $permission->roles;
+      $admin_emails = [];
+      foreach($roles as $role) {
+          $new_admin_emails = Admin::whereHas('roles', function ($query) use($role) {
+              $query->where('name', $role->name);
+          })->pluck('email')->toArray();
+          $admin_emails = array_values(array_unique([...$admin_emails,...$new_admin_emails]));
+      }
+      return $admin_emails;
     }
   
     public function Request($method = 'post',$resource = 'Customers', $data = null){
@@ -226,7 +242,8 @@ class SDEApi
           UsersController::commonEmailSend($admin_emails,$details);
         } else {
           //$admin_emails = Admin::all()->pluck('email')->toArray();
-          $admin_emails = self::getSuperAdminEmails();
+          // $admin_emails = self::getSuperAdminEmails();
+          $admin_emails = self::getHasPermissionEmailAddress('api.error');
           UsersController::commonEmailSend($admin_emails,$details);
         }
         return;

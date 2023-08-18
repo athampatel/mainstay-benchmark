@@ -1315,14 +1315,13 @@ class MenuController extends Controller
             $regional_manager_email = config('app.manager_emails');
             UsersController::commonEmailSend($admin_emails,$details);
             UsersController::commonEmailSend($regional_manager_email,$details);
-            // Mail::bcc(explode(',',$admin_emails))->send(new \App\Mail\SendMail($details));
         } else {
-            $admin_emails = Admin::all()->pluck('email')->toArray();
+            // $admin_emails = Admin::all()->pluck('email')->toArray();
+            $admin_emails = SDEApi::getHasPermissionEmailAddress('help.request');
             UsersController::commonEmailSend($admin_emails,$details);
             if($regional_manager_email){
                 UsersController::commonEmailSend($regional_manager_email,$details);
             }
-            // Mail::bcc($admin_emails)->send(new \App\Mail\SendMail($details));
         }
         if($helpRequest){
             echo json_encode(['success' => true, 'message' => config('constants.help_message.message')]);

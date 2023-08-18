@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Permission;
 
 class AdminsController extends Controller
 {
@@ -43,7 +44,7 @@ class AdminsController extends Controller
         $order_type = $request->input('ortype');
         if(!$limit){
             $limit = 10;
-        } 
+        }  
         $offset     = isset($_GET['page']) ? $_GET['page'] : 0;
         if($offset > 1){
             $offset = ($offset - 1) * $limit;
