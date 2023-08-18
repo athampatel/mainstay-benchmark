@@ -3276,6 +3276,10 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
   text-decoration: underline;
   cursor: pointer;
 }
+.profile-details .dropdown-toggle::after{
+  right: 0.25rem;
+  position: relative;
+}
 /* print */
 @media print {
   
