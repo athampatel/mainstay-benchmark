@@ -3268,6 +3268,10 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
   border: #B7D975;
   border-radius: 15px;
 }
+
+.text-indent-10 {
+  text-indent: 10px;
+}
 /* print */
 @media print {
   
