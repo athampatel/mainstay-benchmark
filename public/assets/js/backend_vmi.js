@@ -255,7 +255,16 @@ $(document).on('click','.pagination_link',function(e){
     getVmiInventoryAjax($page,$val)
 })
 $('#vmi-inventory-search').keyup(function(){
-    vmi_inventory_page_table.search($(this).val()).draw();
+    // vmi_inventory_page_table.search($(this).val()).draw();  
+    if($(this).val() == '') {
+        let val = parseInt($("#admin-vmi-filter-count option:selected").val());
+        getVmiInventoryAjax(0,val);    
+    }    
+})
+
+$(document).on('click','#vmi-inventory-search-img',function() {
+    let val = parseInt($("#admin-vmi-filter-count option:selected").val());
+    getVmiInventoryAjax(0,val);
 })
 
 let vmi_inventory_page_table;
@@ -263,13 +272,15 @@ let vmi_inventory_page_table;
 function getVmiInventoryAjax($page,$count){
     let company_code  = $('#vmi_company_code').val();
     let user_detail_id = $('#user_detail_id').val();
+    let search_val = $('#vmi-inventory-search').val();
+    if(search_val != '') { $('#ignore_counts').val('0'); }
     let count = $('#ignore_counts').val();
     $.ajax({
         type: 'GET',
         url: '/admin/getAdminVmiData',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,'user_detail_id':user_detail_id,'company_code':company_code,'ignores' : count},
+        data: { "page" : $page,'count': $count,'user_detail_id':user_detail_id,'company_code':company_code,'ignores' : count,search_val},
         beforeSend:function(){
             // beforeChangeOrderAjax();
         },

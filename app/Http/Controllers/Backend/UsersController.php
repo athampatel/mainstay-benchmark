@@ -1617,6 +1617,7 @@ class UsersController extends Controller
         $page = $data['page'];
         $limit = $data['count'];
         $ignores = intval($data['ignores']);
+        $search_val = $data['search_val'];
         if($page == 0){
             $offset = 1;
         } else {
@@ -1630,9 +1631,23 @@ class UsersController extends Controller
             "offset"        => $offset,
             "limit"         => $limit,
         );
+        if($search_val != '') {
+            $data['filter'] = [
+                [
+                    "column" => "itemcode",
+                    "type" => "equals",
+                    "value" => $search_val,
+                    "operator" => "and",
+                ]
+            ];
+        }
+        
+        //dd($data);
+
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post','Products',$data);
 
+        // dd($response);
         if(empty($response)){
             $table_code = View::make("components.datatabels.vmi-inventory-list-component")
             ->with("vmiProducts", [])
@@ -1652,7 +1667,7 @@ class UsersController extends Controller
                 unset($response['products'][$key]);
             }
         }
-        //dd($response['products']); 
+        
         // Again get a response
         if($count > 0){
             $offset1 = $offset + $limit;
@@ -1680,9 +1695,6 @@ class UsersController extends Controller
                                     })
                                     ->get()->pluck('new_qty_hand','item_code');
                                     
-           
-            //print_r($inventory_updates);
-
             $itemcodes = array();                                    
             if(!empty($inventory_updates)){              
                 foreach($_products as $key => $_product){
