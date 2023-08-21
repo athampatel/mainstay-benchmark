@@ -306,9 +306,12 @@ $(document).on('click','#clearAllNofications',function(e){
 })
 
 $( document ).on( "ajaxComplete", function( event, xhr, settings ) {
-	setTimeout(function(){
-		load_toasts();
-	},100);
+	let bottom_notification_request_urls = ['/get-bottom-notifications','/get-new-bottom-notifications','/check-auth'];
+	if(!bottom_notification_request_urls.includes(settings.url)){
+		setTimeout(function(){
+			load_toasts();
+		},100);
+	}
 });
 load_toasts();
 function load_toasts(){
