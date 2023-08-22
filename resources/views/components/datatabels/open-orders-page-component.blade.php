@@ -3,15 +3,9 @@
         <thead>
             <tr>
                 <th class="border-0">Order #</th>
-                {{-- <th class="border-0">Contact Name</th> --}}
                 <th class="border-0">Customer P.O. Number</th>
-                {{-- <th class="border-0">Customer Email</th> --}}
-                {{-- <th class="border-0">Confirm Email</th> --}}
                 <th class="border-0">Confirm To</th>
-                {{-- <th class="border-0">Company Name</th>
-                <th class="border-0">Company Email</th> --}}
                 <th class="border-0">Total Item(s)</th>
-                {{-- <th class="border-0">Price</th> --}}
                 <th class="border-0">Price per Unit</th>
                 <th class="border-0">Date</th>
                 <th class="border-0">Location</th>
@@ -39,9 +33,11 @@
                 $total = 0;
                 $price = 0;
                 $date = DateTime::createFromFormat('Y-m-d',$saleorder['orderdate']);
-                foreach ($saleorder['details'] as $item){
-                    $total += $item['quantityordered'];
-                    $price += $item['quantityordered'] * $item['unitprice'];
+                if(isset($saleorder['details'])) {
+                    foreach ($saleorder['details'] as $item){
+                        $total += $item['quantityordered'];
+                        $price += $item['quantityordered'] * $item['unitprice'];
+                    }
                 }
                 @endphp
                 <td class="pointer_events_none">{{$total}}</td>
