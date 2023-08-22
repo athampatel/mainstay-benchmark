@@ -71,10 +71,10 @@
                     </select>
                     <div class="down-arrow"></div>
                 </label>   --}}
-                <label for="" class="position-relative d-none d-flex gap-2" id="product_line_select_label">
+                {{-- <label for="" class="position-relative d-none d-flex gap-2" id="product_line_select_label">
                     <input type="text" value="" class="form-control form-control-sm datatable-search-input" name="" id="item_code_input" placeholder="Enter Customer Item Code">
                     <button id="item_code_search">Search</button>
-                </label>
+                </label> --}}
                 <input type="hidden" name="" value="0" id="is_search_item_code">
             </div>
         </div>
@@ -94,8 +94,8 @@
                         <!--<div class="col-6 d-flex align-items-center d-none d-lg-block">
                         </div> -->
                         <div class="col-12 col-lg-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
-                            <div class="position-relative item-search"">
-                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search All Columns" id="analysis-page-search" aria-controls="">
+                            <div class="position-relative item-search" id="datatable_product_line_search">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search By Customer Item Number" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

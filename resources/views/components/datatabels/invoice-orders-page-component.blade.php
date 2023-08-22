@@ -36,9 +36,11 @@
                 $total = 0;
                 $price = 0;
                 $date = DateTime::createFromFormat('Y-m-d',$invoice['invoicedate']);
-                foreach ($invoice['details'] as $item){
-                    $total += $item['quantityshipped'];
-                    $price += $item['quantityshipped'] * $item['unitprice'];
+                if(isset($invoice['details'])) {
+                    foreach ($invoice['details'] as $item){
+                        $total += $item['quantityshipped'];
+                        $price += $item['quantityshipped'] * $item['unitprice'];
+                    }
                 }
                 @endphp
                 <td class="pointer_events_none">{{$total}}</td>

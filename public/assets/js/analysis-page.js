@@ -8,9 +8,11 @@ if(is_table){
         $('#analysis_table_container').removeClass('d-none');
         $('#analysis_table_chart').addClass('d-none');
         if(analaysis_type ==  '1') {
-            $('#product_line_select_label').removeClass('d-none');
+            // $('#product_line_select_label').removeClass('d-none');
+            $('#datatable_product_line_search').removeClass('d-none');
         } else {
-            $('#product_line_select_label').addClass('d-none');
+            // $('#product_line_select_label').addClass('d-none');
+            $('#datatable_product_line_search').addClass('d-none');
         }
         // $('#analysis_item_select_label').addClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').show();
@@ -20,14 +22,16 @@ if(is_table){
         $('#analysis_table_chart').removeClass('d-none');
         // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide();
-        $('#product_line_select_label').addClass('d-none');
+        // $('#product_line_select_label').addClass('d-none');
+        $('#datatable_product_line_search').addClass('d-none');
     }
 } else {
     $('#analysis_table_container').removeClass('d-none');
     $('#analysis_table_chart').addClass('d-none');
     // $('#analysis_item_select_label').addClass('d-none'); // for table
     $('#analysis_range_select option[value="4"]').show();
-    $('#product_line_select_label').addClass('d-none');
+    // $('#product_line_select_label').addClass('d-none');
+    $('#datatable_product_line_search').addClass('d-none');
     localStorage.setItem('is_table',1);
 }
 
@@ -42,7 +46,8 @@ $(document).on('change','#tab_input',function(){
         // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide()
         $('#analysis_range_select_label').removeClass('d-none');
-        $('#product_line_select_label').addClass('d-none');
+        // $('#product_line_select_label').addClass('d-none');
+        $('#datatable_product_line_search').addClass('d-none');
     } else {
         localStorage.setItem('is_table',1);
         $('#analysis_table_container').removeClass('d-none');
@@ -53,9 +58,11 @@ $(document).on('change','#tab_input',function(){
         if(is_prod == '1') {
             $('#analysis_range_select_label').addClass('d-none');
             $('#analysis_year_select_label').removeClass('d-none');
-            $('#product_line_select_label').removeClass('d-none');
+            // $('#product_line_select_label').removeClass('d-none');
+            $('#datatable_product_line_search').removeClass('d-none');
         } else {
-            $('#product_line_select_label').addClass('d-none');
+            // $('#product_line_select_label').addClass('d-none');
+            $('#datatable_product_line_search').addClass('d-none');
             $('#analysis_range_select_label').removeClass('d-none');
         }
     }
@@ -82,7 +89,7 @@ function getAnalysispageData($page,$count,range,year){
     }
     
     // let prod_line = $('#product_line_select').val();
-    let item_code_search = $('#item_code_input').val();
+    let item_code_search = $('#analysis-page-search').val();
     let is_search_by_itemcode = $('#is_search_item_code').val();
     $.ajax({
         type: 'GET',
@@ -304,15 +311,27 @@ function getAnalaysisDataCount(data,range,range_months){
 }
 
 // datatable search
+// $('#analysis-page-search').keyup(function(){
+//     let search_word = $(this).val();
+//     if(search_word != ''){
+//         $('#pagination_disp').addClass('d-none');
+//     } else {
+//         $('#pagination_disp').removeClass('d-none');
+//     }
+//     analysis_page_table.search($(this).val()).draw() ;
+// })
+
+// product line search in datatable search
 $('#analysis-page-search').keyup(function(){
     let search_word = $(this).val();
-    if(search_word != ''){
-        $('#pagination_disp').addClass('d-none');
-    } else {
-        $('#pagination_disp').removeClass('d-none');
-    }
-    analysis_page_table.search($(this).val()).draw() ;
+    if(search_word == ''){
+        commomAjaxDataCall();
+    } 
 })
+
+$(document).on('click','#analysis-page-search-img',function(){
+    commomAjaxDataCall();
+});
 
 //analysis page table filter
 $(document).on('change','#analysis-page-filter-count',function(){
@@ -354,9 +373,11 @@ $(document).on('change','#analysis_item_select',function(){
     if(is_prod == '1' && !is_table_tab) {
         $('#analysis_range_select_label').addClass('d-none');
         $('#analysis_year_select_label').removeClass('d-none');
-        $('#product_line_select_label').removeClass('d-none');
+        // $('#product_line_select_label').removeClass('d-none');
+        $('#datatable_product_line_search').removeClass('d-none');
     } else {
-        $('#product_line_select_label').addClass('d-none');
+        // $('#product_line_select_label').addClass('d-none');
+        $('#datatable_product_line_search').addClass('d-none');
         $('#analysis_range_select_label').removeClass('d-none');
     }
     getAnalysispageData(0,pageCount,select_by_range,current_year)
