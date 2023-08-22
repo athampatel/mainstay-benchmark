@@ -3288,6 +3288,10 @@ table.dataTable thead .sorting_desc_disabled:before {
   right: 0.25rem;
   position: relative;
 }
+
+.form-control:disabled, .form-control[readonly]{
+  cursor: not-allowed !important;
+}
 /* print */
 @media print {
   
