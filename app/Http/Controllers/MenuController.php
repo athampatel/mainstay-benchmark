@@ -908,16 +908,19 @@ class MenuController extends Controller
                 );
                 if($item_code_search != '') {
                     // $column_name = intval($search_by_itemcode) == 0 ? 'itemcode' : 'aliasitemno';
-                    $column_name = 'aliasitemno';
+                    $column_name = 'itemcode';
                     $product_line_filter = [
+                        [
                         "column" => $column_name,
                         "type" => "equals",
                         "value" => $item_code_search,
                         "operator" => "and"
+                        ]
                     ];
                     $data['filter'] = array_merge($product_line_filter,$data['filter']);
                 }
-            
+                
+                // dd($data);
                 $response_table = $SDEAPi->Request('post','CustItemByPeriod',$data);
                 if(!empty($response_table)){
                     $response_table_data = $response_table['custitembyperiod'];
