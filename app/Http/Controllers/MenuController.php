@@ -403,7 +403,6 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
 
-            // dd($data);
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
             // dd($response);
@@ -908,7 +907,8 @@ class MenuController extends Controller
                     "method" => "GET",
                 );
                 if($item_code_search != '') {
-                    $column_name = intval($search_by_itemcode) == 0 ? 'itemcode' : 'aliasitemno';
+                    // $column_name = intval($search_by_itemcode) == 0 ? 'itemcode' : 'aliasitemno';
+                    $column_name = 'aliasitemno';
                     $product_line_filter = [
                         "column" => $column_name,
                         "type" => "equals",
