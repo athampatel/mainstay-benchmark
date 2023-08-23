@@ -437,6 +437,7 @@ class MenuController extends Controller
         $limit = $data['count'];
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
+        $search_word = $data['search_word'];
         if($page == 0){
             $offset = 1;
         } else {
@@ -484,7 +485,29 @@ class MenuController extends Controller
                 "index" => "KSDEDESCENDING",
             );
             $SDEAPi = new SDEApi();
+            
+            if($search_word != '') {
+                // $column_name = 'salesorderno';
+                $column_name = 'invoiceno';
+                    $invoice_order_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($invoice_order_filter,$data['filter']);
+            }
+
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
+            // $response['meta']['records'] = 0;
+            if(isset($response['salesorderhistoryheader'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['salesorderhistoryheader']);
+                }
+            }
+            // dd($data,'___data',$response,'___response');
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             $pagination_code = '';
