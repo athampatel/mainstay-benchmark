@@ -95,7 +95,7 @@
                         </div> -->
                         <div class="col-12 col-lg-12 d-flex align-items-center justify-content-end flex-wrap col-filter">            
                             <div class="position-relative item-search" id="datatable_product_line_search">
-                                <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search By Benchmark Item Number" id="analysis-page-search" aria-controls="">
+                                <input type="text" class="form-control form-control-sm datatable-search-input" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
                             <div class="position-relative datatable-filter-div">

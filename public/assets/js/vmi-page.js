@@ -19,23 +19,40 @@ $(document).on('click','.pagination_link',function(e){
 })
 let vmi_page_table;
 
+// $('#vmi-page-search').keyup(function(){
+//     let search_word = $(this).val();
+//     if(search_word != ''){
+//         $('#pagination_disp').addClass('d-none');
+//     } else {
+//         $('#pagination_disp').removeClass('d-none');
+//     }
+//     vmi_page_table.search($(this).val()).draw();
+// })
+
 $('#vmi-page-search').keyup(function(){
     let search_word = $(this).val();
-    if(search_word != ''){
-        $('#pagination_disp').addClass('d-none');
-    } else {
-        $('#pagination_disp').removeClass('d-none');
-    }
-    vmi_page_table.search($(this).val()).draw();
+    if(search_word == ''){
+        commonVmiAjaxData();
+    } 
 })
 
+$(document).on('click','#vmi-page-search-img',function(){
+    commonVmiAjaxData();
+});
+
+function commonVmiAjaxData(){
+    let val = parseInt($("#vmi-page-filter-count option:selected").val());
+    getVmiDataAjax(0,val)
+}
+
 function getVmiDataAjax($page,$count){
+    let search_word = $('#vmi-page-search').val();
     $.ajax({
         type: 'GET',
         url: '/getVmiData',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count},
+        data: { "page" : $page,'count': $count,search_word},
         beforeSend:function(){
             beforeVmiOrderAjax();
         },

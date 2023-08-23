@@ -372,6 +372,7 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $search_word = $data['search_word'];
 
         if($page == 0){
             $offset = 1;
@@ -403,9 +404,29 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
 
+            if($search_word != '') {
+                // $column_name = 'salesorderno';
+                $column_name = 'salesorderno';
+                    $open_orders_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($open_orders_filter,$data['filter']);
+            }
+
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
-            // dd($response);
+
+            if(isset($response['salesorders'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['salesorders']);
+                }
+            }
+
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] >= 1){
@@ -437,6 +458,7 @@ class MenuController extends Controller
         $limit = $data['count'];
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
+        $search_word = $data['search_word'];
         if($page == 0){
             $offset = 1;
         } else {
@@ -484,7 +506,29 @@ class MenuController extends Controller
                 "index" => "KSDEDESCENDING",
             );
             $SDEAPi = new SDEApi();
+            
+            if($search_word != '') {
+                // $column_name = 'salesorderno';
+                $column_name = 'invoiceno';
+                    $invoice_order_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($invoice_order_filter,$data['filter']);
+            }
+
             $response   = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
+            // $response['meta']['records'] = 0;
+            if(isset($response['salesorderhistoryheader'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['salesorderhistoryheader']);
+                }
+            }
+            // dd($data,'___data',$response,'___response');
             $path = '/getInvoiceOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             $pagination_code = '';
@@ -618,6 +662,7 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $search_word = $data['search_word'];
         if($page == 0){
             $offset = 1;
         } else {
@@ -643,8 +688,29 @@ class MenuController extends Controller
                         ],
                     ], 
                 );
+
+            if($search_word != '') {
+                $column_name = 'itemcode';
+                    $vmi_page_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
+            }
+            
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Products',$data);
+            
+            if(isset($response['products'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['products']);
+                }
+            }
+
             $path = '/getVmiData';
             if(empty($response)) {
                 $response = [];
@@ -652,9 +718,16 @@ class MenuController extends Controller
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             $pagination_code = "";
             if(!empty($response)){
-                $pagination_code = View::make("components.ajax-pagination-component")
-                ->with("pagination", $custom_pagination)
-                ->render();
+                // $pagination_code = View::make("components.ajax-pagination-component")
+                // ->with("pagination", $custom_pagination)
+                // ->render();
+                if($custom_pagination['last_page'] >= 1){
+                    $pagination_code = View::make("components.ajax-pagination-component")
+                    ->with("pagination", $custom_pagination)
+                    ->render();
+                } else {
+                    $pagination_code = '';
+                }
             }
             if(empty($response)) $response['products'] = [];
             $table_code = View::make("components.datatabels.vmi-component")
@@ -788,7 +861,7 @@ class MenuController extends Controller
         $chart_type = isset($data['chart_type']) ? intval($data['chart_type']) : 0;
         $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
         // $sed_pro_line = $data['prod_line'] ?? '';
-        $item_code_search = $data['item_code_search'] ?? ''; 
+        $search_word = $data['search_word'] ?? ''; 
         $search_by_itemcode = $data['is_search_by_itemcode'] ?? 0;
         $show_chart   = 0; 
         $response_table_data = [];
@@ -857,10 +930,28 @@ class MenuController extends Controller
                     "limit" => $limit,
                 );
                 $data['filter'] = array_merge($date_filter,$data['filter']);
+
+                if($search_word != '') {
+                    $column_name = 'invoiceno';
+                    $invoice_number_search_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                    $data['filter'] = array_merge($invoice_number_search_filter,$data['filter']);
+                }
             
                 $response_table = $SDEAPi->Request('post','SalesOrderHistoryHeader',$data);
+                
                 if(!empty($response_table)){
+                    if($search_word != '' && $response_table['meta']['records'] == 0) {
+                        $response_table['meta']['records'] = count($response_table['salesorderhistoryheader']);
+                    }
                     $response_table_data = $response_table['salesorderhistoryheader'];
+
                 }
             }
             $table_code = View::make("components.datatabels.analysis-page-component")
@@ -906,14 +997,14 @@ class MenuController extends Controller
                     ],
                     "method" => "GET",
                 );
-                if($item_code_search != '') {
+                if($search_word != '') {
                     // $column_name = intval($search_by_itemcode) == 0 ? 'itemcode' : 'aliasitemno';
                     $column_name = 'itemcode';
                     $product_line_filter = [
                         [
                         "column" => $column_name,
                         "type" => "equals",
-                        "value" => $item_code_search,
+                        "value" => $search_word,
                         "operator" => "and"
                         ]
                     ];
@@ -927,7 +1018,7 @@ class MenuController extends Controller
                 }
             }
             $filtered_new_response_data = [];
-            if($item_code_search == '') {
+            if($search_word == '') {
                 $new_response_table_data = [];
                 foreach($response_table_data as $response_data) {
                     if(isset($new_response_table_data[$response_data['itemcode']])) {
@@ -947,7 +1038,7 @@ class MenuController extends Controller
                 $filtered_new_response_data = $response_table_data;
                 $filtered_new_response_data['meta']['records'] = count($response_table_data);
             }
-            $is_item_search = $item_code_search != '' ? true : false; 
+            $is_item_search = $search_word != '' ? true : false; 
             $table_code = View::make("components.datatabels.analysis-page-product-line-component")
             ->with("analysisdata", $filtered_new_response_data)
             ->with("isItemSearch", $is_item_search)

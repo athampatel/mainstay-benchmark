@@ -9,10 +9,10 @@ if(is_table){
         $('#analysis_table_chart').addClass('d-none');
         if(analaysis_type ==  '1') {
             // $('#product_line_select_label').removeClass('d-none');
-            $('#datatable_product_line_search').removeClass('d-none');
+            $('#analysis-page-search').attr({placeholder: 'Search By Benchmark Item Number'});
         } else {
             // $('#product_line_select_label').addClass('d-none');
-            $('#datatable_product_line_search').addClass('d-none');
+            $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
         }
         // $('#analysis_item_select_label').addClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').show();
@@ -23,7 +23,7 @@ if(is_table){
         // $('#analysis_item_select_label').removeClass('d-none'); // for table
         $('#analysis_range_select option[value="4"]').hide();
         // $('#product_line_select_label').addClass('d-none');
-        $('#datatable_product_line_search').addClass('d-none');
+        $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
     }
 } else {
     $('#analysis_table_container').removeClass('d-none');
@@ -31,7 +31,7 @@ if(is_table){
     // $('#analysis_item_select_label').addClass('d-none'); // for table
     $('#analysis_range_select option[value="4"]').show();
     // $('#product_line_select_label').addClass('d-none');
-    $('#datatable_product_line_search').addClass('d-none');
+    $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
     localStorage.setItem('is_table',1);
 }
 
@@ -47,7 +47,7 @@ $(document).on('change','#tab_input',function(){
         $('#analysis_range_select option[value="4"]').hide()
         $('#analysis_range_select_label').removeClass('d-none');
         // $('#product_line_select_label').addClass('d-none');
-        $('#datatable_product_line_search').addClass('d-none');
+        $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
     } else {
         localStorage.setItem('is_table',1);
         $('#analysis_table_container').removeClass('d-none');
@@ -59,11 +59,14 @@ $(document).on('change','#tab_input',function(){
             $('#analysis_range_select_label').addClass('d-none');
             $('#analysis_year_select_label').removeClass('d-none');
             // $('#product_line_select_label').removeClass('d-none');
-            $('#datatable_product_line_search').removeClass('d-none');
+            $('#analysis-page-search').attr({placeholder: 'Search By Benchmark Item Number'});
+            
+            // $('#analysis-page-search').attr('placeholder','Enter the Word');
         } else {
             // $('#product_line_select_label').addClass('d-none');
-            $('#datatable_product_line_search').addClass('d-none');
+            $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
             $('#analysis_range_select_label').removeClass('d-none');
+            $('#analysis-page-search').attr('placeholder','Enter the Word');
         }
     }
     $('#product_line_select option.prod').remove();
@@ -89,7 +92,7 @@ function getAnalysispageData($page,$count,range,year){
     }
     
     // let prod_line = $('#product_line_select').val();
-    let item_code_search = $('#analysis-page-search').val();
+    let search_word = $('#analysis-page-search').val();
     let is_search_by_itemcode = $('#is_search_item_code').val();
     $.ajax({
         type: 'GET',
@@ -98,7 +101,7 @@ function getAnalysispageData($page,$count,range,year){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,prod_line},
-        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,item_code_search,is_search_by_itemcode},
+        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,search_word,is_search_by_itemcode},
         beforeSend:function(){
             beforeAjax();
            $('#analysis_page_chart').html('');
@@ -370,14 +373,15 @@ $(document).on('change','#analysis_item_select',function(){
     let is_prod = $('#analysis_item_select').val();
     let is_table_tab = $('#tab_input').is(':checked');
     $('#product_line_select option.prod').remove();
+    $('#analysis-page-search').val('');
     if(is_prod == '1' && !is_table_tab) {
         $('#analysis_range_select_label').addClass('d-none');
         $('#analysis_year_select_label').removeClass('d-none');
         // $('#product_line_select_label').removeClass('d-none');
-        $('#datatable_product_line_search').removeClass('d-none');
+        $('#analysis-page-search').attr({placeholder: 'Search By Benchmark Item Number'});
     } else {
         // $('#product_line_select_label').addClass('d-none');
-        $('#datatable_product_line_search').addClass('d-none');
+        $('#analysis-page-search').attr('placeholder','Search by Invoice Number');
         $('#analysis_range_select_label').removeClass('d-none');
     }
     getAnalysispageData(0,pageCount,select_by_range,current_year)

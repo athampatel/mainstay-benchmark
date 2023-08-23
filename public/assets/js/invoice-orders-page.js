@@ -39,25 +39,46 @@ $(document).on('click','.pagination_link',function(e){
     // }
     getInvoiceOrderAjax($page,$val,started_date,ended_date)
 })
+// $('#invoice-orders-page-search').keyup(function(){
+//     let search_word = $(this).val();
+//     if(search_word != ''){
+//         $('#pagination_disp').addClass('d-none');
+//     } else {
+//         $('#pagination_disp').removeClass('d-none');
+//     }
+//     open_order_page_table.search($(this).val()).draw();
+// })
 $('#invoice-orders-page-search').keyup(function(){
     let search_word = $(this).val();
-    if(search_word != ''){
-        $('#pagination_disp').addClass('d-none');
-    } else {
-        $('#pagination_disp').removeClass('d-none');
+    if(search_word == ''){
+        invoiceCommonAjaxData();
     }
-    open_order_page_table.search($(this).val()).draw();
 })
+
+
+$(document).on('click','#invoice-orders-page-search-img',function(){
+    invoiceCommonAjaxData();
+});
+
+
+function invoiceCommonAjaxData(){
+    let val = parseInt($("#invoice-orders-page-filter-count option:selected").val());
+    let selected_year = $('#invoice_year_select').val();
+    let started_date = selected_year +'-01-01';
+    let ended_date = selected_year + '-12-31';
+    getInvoiceOrderAjax(0,val,started_date,ended_date)
+}
 
 let open_order_page_table;
 
 function getInvoiceOrderAjax($page,$count,start_date,end_date){
+    let search_word = $('#invoice-orders-page-search').val();
     $.ajax({
         type: 'GET',
         url: '/getInvoiceOrders',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,'start_date':start_date,'end_date':end_date},
+        data: { "page" : $page,'count': $count,'start_date':start_date,'end_date':end_date,search_word},
         beforeSend:function(){
             beforeChangeOrderAjax();
         },

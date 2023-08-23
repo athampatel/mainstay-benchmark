@@ -39,12 +39,12 @@ Regional Managers - Admin Panel
                                     <div class="datatable-export">
                                         <div class="datatable-print admin">
                                             <a href="">
-                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-managers-print-icon">
+                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute admin_print" id="admin-managers-print-icon">
                                             </a>
                                         </div>
                                         <div class="datatable-report admin position-relative">
                                             <a href="/admin/exportAllCustomers">
-                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-managers-report-icon">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute admin-report" id="admin-managers-report-icon">
                                             </a>
                                             <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-managers-drop">
                                                 <a href="/admin/exportAllManagersInExcel" class="dropdown-item export-admin-managers-item" data-type="csv">Export to Excel</a>
