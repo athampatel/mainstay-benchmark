@@ -3267,7 +3267,7 @@ fieldset:disabled .btn {
 .dropdown-toggle {
     white-space: nowrap;
 }
-.dropdown-toggle::after {
+.dropdown-toggle .profile_name::after {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
@@ -3276,7 +3276,7 @@ fieldset:disabled .btn {
     border-right: 0.6em solid transparent;
     border-bottom: 0;
     border-left: 0.6em solid transparent;
-}
+} 
 .dropdown-toggle:empty::after {
     margin-left: 0;
 }

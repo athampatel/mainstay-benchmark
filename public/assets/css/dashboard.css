@@ -310,6 +310,8 @@ nav .profile-details .profile_name{
   max-width: 6rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
 }
 .dropdown-toggle-nocaret{
   padding-left: 0px;
@@ -1776,6 +1778,11 @@ input.analysis_select {
 .admin-report {
   width: 1.168rem;
   height: 1.0382rem;
+}
+
+#analysis-report-icon {
+  width:1.168rem;
+  height:1.0382rem;
 }
 
 .admin-customer-pdf {
@@ -3301,6 +3308,10 @@ table.dataTable thead .sorting_desc_disabled:before {
   text-decoration: underline;
   cursor: pointer;
 }
+/* .profile-details .dropdown-toggle::after{
+  right: 0.25rem;
+  position: relative;
+} */
 .profile-details .dropdown-toggle::after{
   right: 0.25rem;
   position: relative;
