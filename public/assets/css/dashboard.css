@@ -1764,6 +1764,23 @@ input.analysis_select {
   top: 0.5rem;
   right: 1.25rem;
   cursor: pointer;
+  height: 0.88rem;
+  width: 0.88rem;
+}
+
+.admin_print {
+  height: 1.0384rem;
+  width: 1.0413rem;
+}
+
+.admin-report {
+  width: 1.168rem;
+  height: 1.0382rem;
+}
+
+.admin-customer-pdf {
+  width: 1.168rem;
+  height: 1.0382rem;
 }
 
 .datatable-filter-img{

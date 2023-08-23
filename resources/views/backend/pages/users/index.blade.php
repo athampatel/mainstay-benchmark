@@ -42,7 +42,7 @@ Customers - Admin Panel
                                     <div class="datatable-export">
                                        <div class="datatable-link admin">
                                        <a href="/admin/exportAllCustomers" class="export-admin-customer-item" data-type="csv" title="Export to Excel">
-                                        <img src="/assets/images/svg/export-report-icon.svg"  alt="" class="position-absolute" id="admin-customer-pdf-icon">
+                                        <img src="/assets/images/svg/export-report-icon.svg"  alt="" class="position-absolute admin-report" id="admin-customer-pdf-icon">
                                         </a>
                                         <!---    <a href="">
                                                 <img src="/assets/images/svg/print-pdf.svg.svg" alt="" class="position-absolute" id="admin-customer-print-icon">
@@ -52,7 +52,7 @@ Customers - Admin Panel
                                        
                                         <div class="datatable-report admin position-relative">
                                         <a href='/admin/exportAllCustomerInPdf' class="export-admin-customer-item" data-type="pdf" title="Export to PDF">
-                                        <img src="/assets/images/svg/pdf.svg" style="width:15px;filter:invert()" alt="" class="position-absolute" >
+                                        <img src="/assets/images/svg/pdf.svg" style="width:15px;filter:invert()" alt="" class="position-absolute admin-customer-pdf" >
                                         </a>   
                                             <!--<a href="">
                                                 <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-customer-report-icon">

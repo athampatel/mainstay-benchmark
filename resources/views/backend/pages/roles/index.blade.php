@@ -43,12 +43,12 @@ Role Page - Admin Panel
                                     <div class="datatable-export">
                                         <div class="datatable-print admin">
                                             <a href="">
-                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute" id="admin-roles-print-icon">
+                                                <img src="/assets/images/svg/print-report-icon.svg" alt="" class="position-absolute admin_print" id="admin-roles-print-icon">
                                             </a>
                                         </div>
                                         <div class="datatable-report admin position-relative">
                                             <a href="">
-                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-roles-report-icon">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute admin-report" id="admin-roles-report-icon">
                                             </a>
                                             <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-roles-drop">
                                                 <a href="/admin/exportAllUserRolesInExcel" class="dropdown-item export-admin-roles-item" data-type="csv">Export to Excel</a>

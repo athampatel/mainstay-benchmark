@@ -701,7 +701,6 @@ class MenuController extends Controller
                     ];
                 $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
             }
-
             
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Products',$data);

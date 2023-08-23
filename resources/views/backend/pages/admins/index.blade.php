@@ -49,7 +49,7 @@ Admins - Admin Panel
                                         </div>
                                         <div class="datatable-report admin position-relative">
                                             <a href="#">
-                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute" id="admin-admins-report-icon">
+                                                <img src="/assets/images/svg/export-report-icon.svg" alt="" class="position-absolute admin-report" id="admin-admins-report-icon">
                                             </a>
                                             <div class="dropdown-menu export-drop-down-table d-none" aria-labelledby="export-admin-customers" id="export-admin-admins-drop">
                                                 <a href="/admin/exportAllAdminsInExcel" class="dropdown-item export-admin-admins-item" data-type="csv">Export to Excel</a>
