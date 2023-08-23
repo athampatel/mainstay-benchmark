@@ -662,6 +662,7 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $search_word = $data['search_word'];
         if($page == 0){
             $offset = 1;
         } else {
@@ -687,8 +688,30 @@ class MenuController extends Controller
                         ],
                     ], 
                 );
+
+            if($search_word != '') {
+                $column_name = 'itemcode';
+                    $vmi_page_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
+            }
+
+            
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Products',$data);
+            
+            if(isset($response['products'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['products']);
+                }
+            }
+
             $path = '/getVmiData';
             if(empty($response)) {
                 $response = [];
@@ -696,9 +719,16 @@ class MenuController extends Controller
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);
             $pagination_code = "";
             if(!empty($response)){
-                $pagination_code = View::make("components.ajax-pagination-component")
-                ->with("pagination", $custom_pagination)
-                ->render();
+                // $pagination_code = View::make("components.ajax-pagination-component")
+                // ->with("pagination", $custom_pagination)
+                // ->render();
+                if($custom_pagination['last_page'] >= 1){
+                    $pagination_code = View::make("components.ajax-pagination-component")
+                    ->with("pagination", $custom_pagination)
+                    ->render();
+                } else {
+                    $pagination_code = '';
+                }
             }
             if(empty($response)) $response['products'] = [];
             $table_code = View::make("components.datatabels.vmi-component")
