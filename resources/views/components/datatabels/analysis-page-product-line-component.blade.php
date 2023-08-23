@@ -2,7 +2,7 @@
     <table id="analysis-page-table" class="table bench-datatable border-0" style="width:100%">
         <thead>
             <tr>
-                <th class="border-0">Benchamrk Item Number</th>
+                <th class="border-0">Benchmark Item Number</th>
                 <th class="border-0">Description</th>
                 <th class="border-0">Product Line</th>
                 <th class="border-0">Customer Item Number</th>
