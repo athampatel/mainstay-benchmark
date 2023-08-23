@@ -20,7 +20,7 @@
                     <td class="font-12">
                         <div class="py-6" data-item_code={{$record['itemcode']}} data-is_item_code = '0'>
                         {{-- <div class="py-6 {{!$isItemSearch ?'itemcode_click' : ''}}" data-item_code={{$record['itemcode']}} data-is_item_code = '0'> --}}
-                            #{{$record['itemcode']}}
+                            {{$record['itemcode']}}
                         </div>
                     </td>
                     <td class="text-center pointer_events_none">{{$record['itemcodedesc']}}</td>
