@@ -13,26 +13,44 @@ $(document).on('click','.pagination_link',function(e){
     getOpenOrderAjax($page,$val)
 })
 
+// $('#open-orders-page-search').keyup(function(){
+//     let search_word = $(this).val();
+//     if(search_word != ''){
+//         $('#pagination_disp').addClass('d-none');
+//     } else {
+//         $('#pagination_disp').removeClass('d-none');
+//     }
+//     console.log(search_word,'___search word');
+//     open_order_page_table.search($(this).val()).draw();
+// })
 $('#open-orders-page-search').keyup(function(){
     let search_word = $(this).val();
-    if(search_word != ''){
-        $('#pagination_disp').addClass('d-none');
-    } else {
-        $('#pagination_disp').removeClass('d-none');
+    if(search_word == ''){
+        commonOpenOrdersAjaxData();
     }
-    console.log(search_word,'___search word');
-    open_order_page_table.search($(this).val()).draw();
 })
+
+
+$(document).on('click','#open-orders-page-search-img',function(){
+    commonOpenOrdersAjaxData();
+});
+
+
+function commonOpenOrdersAjaxData(){
+    let val = parseInt($("#open-orders-page-filter-count option:selected").val());
+    getOpenOrderAjax(0,val)
+}
 
 let open_order_page_table;
 
 function getOpenOrderAjax($page,$count){
+    let search_word = $('#open-orders-page-search').val();
     $.ajax({
         type: 'GET',
         url: '/getOpenOrders',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count},
+        data: { "page" : $page,'count': $count,search_word},
         beforeSend:function(){
             beforeOpenOrderAjax();
         },

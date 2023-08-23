@@ -372,6 +372,7 @@ class MenuController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $search_word = $data['search_word'];
 
         if($page == 0){
             $offset = 1;
@@ -403,9 +404,29 @@ class MenuController extends Controller
                 "limit" => $limit,
             );
 
+            if($search_word != '') {
+                // $column_name = 'salesorderno';
+                $column_name = 'salesorderno';
+                    $open_orders_filter = [
+                        [
+                        "column" => $column_name,
+                        "type" => "equals",
+                        "value" => $search_word,
+                        "operator" => "and"
+                        ]
+                    ];
+                $data['filter'] = array_merge($open_orders_filter,$data['filter']);
+            }
+
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
-            // dd($response);
+
+            if(isset($response['salesorders'])){
+                if($search_word != '' && $response['meta']['records'] == 0) {
+                    $response['meta']['records'] = count($response['salesorders']);
+                }
+            }
+
             $path = '/getOpenOrders';
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] >= 1){
