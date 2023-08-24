@@ -2,7 +2,7 @@
     <table id="open-orders-page-table" class="table bench-datatable border-0 w-100">
         <thead>
             <tr>
-                <th class="border-0">Order #</th>
+                <th class="border-0">Order</th>
                 <th class="border-0">Customer P.O. Number</th>
                 <th class="border-0">Confirm To</th>
                 <th class="border-0">Total Item(s)</th>
@@ -17,8 +17,8 @@
             @foreach($saleorders as $saleorder)
             <tr>
                 {{-- {{dd($saleorder)}} --}}
-                {{-- <td><a href="/change-order/{{$saleorder['salesorderno']}}" class="item-number font-12 btn btn-rounded">#{{$saleorder['salesorderno']}}</a></td> --}}
-                <td class="font-12 pointer_events_none">#{{$saleorder['salesorderno']}}</td>
+                {{-- <td><a href="/change-order/{{$saleorder['salesorderno']}}" class="item-number font-12 btn btn-rounded">{{$saleorder['salesorderno']}}</a></td> --}}
+                <td class="font-12 pointer_events_none">{{$saleorder['salesorderno']}}</td>
                 @php
                     $selected_customer = session('selected_customer');
                 @endphp

@@ -2,7 +2,7 @@
     <table id="analysis-page-table" class="table bench-datatable border-0" style="width:100%">
         <thead>
             <tr>
-                <th class="border-0">Invoice #</th>
+                <th class="border-0">Invoice</th>
                 <th class="border-0 text-center">Invoice Date</th>
                 <th class="border-0">Customer PO Number</th>
                 {{-- <th class="border-0">Location</th> --}}
@@ -25,7 +25,7 @@
         }
         @endphp
             <tr>
-                <td class="font-12">#{{$record['invoiceno']}}</td>
+                <td class="font-12">{{$record['invoiceno']}}</td>
                 <td class="text-center pointer_events_none">{{$date->format('M d, Y')}}</td>
                 {{-- {{dd($record,$record['customerpono'])}} --}}
                 <td class="pointer_events_none">{{$record['customerpono'] != "" ? $record['customerpono'] : "N/A"}}</td>

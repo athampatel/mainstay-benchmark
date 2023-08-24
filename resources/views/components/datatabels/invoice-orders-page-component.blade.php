@@ -2,7 +2,7 @@
     <table id="invoice-orders-page-table" class="table bench-datatable border-0">
         <thead>
             <tr>
-                <th class="border-0">Invoice #</th>
+                <th class="border-0">Invoice</th>
                 {{-- <th class="border-0">Contact Name</th>
                 <th class="border-0">Customer Email</th> --}}
                 {{-- <th class="border-0">Company Name</th>
@@ -20,14 +20,14 @@
             @foreach($invoices as $invoice)
             {{-- {{dd($invoice)}} --}}
             <tr>
-                {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">#{{$invoice['invoiceno']}}</a></td>
+                {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-rounded">{{$invoice['invoiceno']}}</a></td>
                 <td><a href="javascript:void(0)" class="customer-name">{{Auth::user()->name}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{Auth::user()->email}}</a></td>
                 <td><a href="mailto:adamsbaker@mail.com" class="customer-email">{{$invoice['customerpono'] != "" ? $invoice['customerpono'] : 'N/A' }}</a></td> --}}
                 @php
                     $selected_customer = session('selected_customer');
                 @endphp
-                <td class="font-12 pointer_events_none">#{{$invoice['invoiceno']}}</td>
+                <td class="font-12 pointer_events_none">{{$invoice['invoiceno']}}</td>
                 {{--<td class="customer-name pointer_events_none">{{$selected_customer['customername']}}</td> --}}
                 {{-- <td class="customer-name pointer_events_none">{{Auth::user()->name}}</td> --}}
                 {{-- <td><a href="mailto:{{$selected_customer['email']}}" class="customer-email">{{$selected_customer['email']}}</a></td> --}}

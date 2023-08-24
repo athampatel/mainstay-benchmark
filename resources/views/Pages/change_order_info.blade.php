@@ -24,7 +24,7 @@
                         <input type="hidden" id="request_id" value="{{$order_request->id}}">
                         <div class="row">
                             <div class="mb-3 col-6">    
-                                <label class="form-label" for="acc_name">Order #</label>
+                                <label class="form-label" for="acc_name">Order</label>
                                 <input class="form-control col-12 box-shadow-none" type="text" value="{{$order_request->order_no}}" placeholder="Name" name="user_name" id="user_name" autocomplete="off" disabled>
                             </div>
                             <div class="mb-3 col-6">    

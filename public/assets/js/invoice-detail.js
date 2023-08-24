@@ -47,7 +47,7 @@ function displayInvoiceOrderDetail(res){
 
     console.log(order_detail,'___order_detail');
     // invoice details
-    let order_id_disp = `#${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MM-DD-YYYY')}`;
+    let order_id_disp = `${order_detail.invoiceno} - ${moment(order_detail.invoicedate,'YYYY-MM-DD').format('MM-DD-YYYY')}`;
     $('#disp-order-id').text(order_id_disp);
     $('#customer_po_number').val(order_detail.customerpono ? order_detail.customerpono : 'N/A');
     $('#details_invoice_date').val(moment(order_detail.invoicedate,'YYYY-MM-DD').format('MM-DD-YYYY'));

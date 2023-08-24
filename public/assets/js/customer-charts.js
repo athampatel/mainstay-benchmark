@@ -157,7 +157,7 @@ function displayChangeOrderPage(res,itemcode){
         $_data.sales_order_history_detail.forEach(Sale_item => {
 
 
-            $('#disp-order-id').text(`#${Sale_item.salesorderno}`);
+            $('#disp-order-id').text(`${Sale_item.salesorderno}`);
         
             // shipment details
             // let confirm_to = Sale_item.confirmto ? Sale_item.confirmto : 'N/A';

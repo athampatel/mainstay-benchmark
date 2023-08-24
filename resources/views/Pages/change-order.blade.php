@@ -46,7 +46,7 @@
             <div class="col-12">
                 <div class="card box mb-1 mt-1">						
                     <div class="card-body col-12">
-                        <h3 class="title-4 m-0">Order <span id="disp-order-id">#{{$order_id}}</span></h3>
+                        <h3 class="title-4 m-0">Order <span id="disp-order-id">{{$order_id}}</span></h3>
                         <input type="hidden" name="salesorderno_val" value="" id="salesorderno_val">
                         <input type="hidden" name="customerno_val" value="" id="customerno_val">
                         <input type="hidden" name="ordereddate_val" value="" id="ordereddate_val">
@@ -149,7 +149,7 @@
                     <div class="card-body col-12">
                         <div class="row flex-wrap">
                             <div class="mb-3 col-12 col-md-12 col-lg-4">    
-                                <label class="form-label">Order #</label>
+                                <label class="form-label">Order</label>
                                 <input class="form-control col-12" type="text" value="" placeholder="Order Number" name="OrderNumber" id="order-detail-order-no" {{ $is_change_order ? '': 'disabled'}} disabled>
                             </div>
                             <div class="mb-3 col-12 col-md-6 col-lg-4">    

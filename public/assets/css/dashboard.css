@@ -2686,7 +2686,7 @@ table.dataTable td, table.dataTable th{
 .table-responsive.backend_customers_table{
   overflow: auto;
 }
-.table-responsive.orderItems-table{ overflow-x: auto; }
+.table-responsive.orderItems-table{ overflow-x: auto; padding-left: 1rem; padding-right:1rem; }
 .daterangepicker .calendar th, .daterangepicker .calendar td{
   font-size: 10px;
 }

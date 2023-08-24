@@ -19,10 +19,10 @@
                         @php 
                          $selected_customer = session('selected_customer');
                         @endphp
-                        {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['salesorderno']}}</a></td> --}}
+                        {{-- <td><a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">{{$invoice['salesorderno']}}</a></td> --}}
                         <td>
                             @if($invoice['salesorderno'])
-                            <a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a>
+                            <a href="/invoice-detail/{{$invoice['salesorderno']}}" target="_blank" class="item-number font-12 btn btn-primary btn-rounded">{{$invoice['invoiceno']}}</a>
                             @else 
                             <a href="#" target="_blank" disabled class="disabled item-number font-12 btn btn-primary btn-rounded">#{{$invoice['invoiceno']}}</a>
                             @endif
