@@ -2010,7 +2010,7 @@ input.analysis_select {
 table.dataTable tbody th, 
 table.dataTable tbody td{
   padding-left:0px !important;
-  padding-right:0px !important;
+  padding-right:10px !important;
 }
 .bench-datatable .customer-name{
   color: #fff;
