@@ -14,7 +14,7 @@
     <tbody id="open-orders-page-table-body">
         @foreach($change_orders as $change_order)
         <tr>
-            <td><a href="/change-order/info/{{$change_order['order_no']}}" class="item-number font-12 btn btn-rounded">#{{$change_order['order_no']}}</a></td>
+            <td><a href="/change-order/info/{{$change_order['order_no']}}" class="item-number font-12 btn btn-rounded">{{$change_order['order_no']}}</a></td>
             <td>{{ \Carbon\Carbon::parse($change_order['ordered_date'])->format('M d, Y') }}</td>
             <td>{{ \Carbon\Carbon::parse($change_order['created_at'])->format('M d, Y') }}</td>
             <td>{{$change_order['item_code']}}</td>
