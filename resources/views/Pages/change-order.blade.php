@@ -200,7 +200,7 @@
                                     <th class="max-100 text-center">Quantity<br/>Open</th>
                                     <th><div class="text-center">Unit<br/>Price</th>
                                     <th><div class="text-center">Total Order<br/>Amount</th>
-                                    <th class="text-center">Drop Ship</th>
+                                    <th class="text-center door-ship">Drop Ship</th>
                                     @if($is_change_order)
                                     <th>&nbsp;</th>
                                     @endif

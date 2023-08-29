@@ -742,6 +742,10 @@ nav .profile-details i{
   padding-left: 0px;
   padding-right: 0px;
 }
+.overview-boxes .table th.door-ship,
+.overview-boxes .table td.door-ship{
+  min-width: 7rem !important;
+}
 
 #orderItems tr > td:first-child,
 #orderItems tr > th:first-child{
@@ -2010,7 +2014,7 @@ input.analysis_select {
 table.dataTable tbody th, 
 table.dataTable tbody td{
   padding-left:0px !important;
-  padding-right:10px !important;
+  padding-right:25px !important;
 }
 .bench-datatable .customer-name{
   color: #fff;
