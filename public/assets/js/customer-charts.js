@@ -253,6 +253,7 @@ function displayChangeOrderPage(res,itemcode){
                             <td class="order_unit_price pointer_events_none text-center" data-val="${item.unitprice}">$ ${ numberWithCommas(item.unitprice)}</td>
                             <td class="order_unit_total_price pointer_events_none text-center" data-val="${item.unitprice}">$ ${numberWithCommas( Math.round(item.quantityordered * item.unitprice))}</td>
                             <td class="pointer_events_none text-center">${item.dropship == 'Y' ? 'Yes' : 'No'}</td>
+                            <td class="pointer_events_none text-center">&nbsp;</td>
                             ${is_action}
                         </tr>`;
 

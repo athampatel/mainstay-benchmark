@@ -177,6 +177,7 @@
                                     <th class="text-center">Unit<br/>Price</th>                                    
                                     <th class="text-center">Total Order<br/>Amount</th>
                                     <th class="text-center">Drop<br/>Ship</th>
+                                    <th class="text-center">&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody id="disp-items-body"></tbody>                           
