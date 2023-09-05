@@ -104,6 +104,25 @@
                     </tr>
                     @endif
 
+                    @if(!isset($details['post_message']))
+                        <tr>
+                            <td align="center" style="padding:0px 60px;">
+                                <table border="0" align="left" width="160" cellpadding="0" cellspacing="0" bgcolor="424448" style="border-radius:30px;">
+                                    <tr>
+                                        <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" style="color: #ffffff; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px; border-radius:30px">
+                                        {!!$details['post_message']!!}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    @endif
 
                 </table>
 

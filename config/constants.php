@@ -113,10 +113,13 @@
                 'subject' => 'Help Request'
             ],
             'reset_password' =>[
+                'title' => 'Password Reset Request',
+                'subject' => 'Benchmark Portal - Password Reset Request',
                 'line_1' => 'We received a password reset request.',
-                'line_2' => 'Please click the link below to change your password.',
+                'line_2' => '<p>If you did not request a password reset or believe this email was sent to you in error, please disregard it. Your account\'s security is important to us, and no changes will be made without your confirmation.</p>',
                 'button' => 'Reset Password',
-                'thank_message' => 'Thank you for using our '
+                'thank_message' => 'Thank you for using our',
+                'body'      => '<p>We received a password reset request, Please click the link below to change your password.</p>'
             ]
         ],
         '403' => [

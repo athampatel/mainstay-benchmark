@@ -72,17 +72,21 @@ class PasswordResetLinkController extends Controller
             );
         }
         $user = User::where('email',$request->email)->first();
+        
+
         $url = config('app.url').'reset-password/'.$token.'?email='.$request->email;
         $details['mail_view']       =  'emails.email-body';
         $details['link']            =  $url;
-        $details['namealias'] = 'Hi testdeveloper';
+        $details['namealias'] = 'Hi '.$user->name.',';
         $details['title']           = config('constants.email.reset_password.title');   
         $details['subject']         = config('constants.email.reset_password.subject');
-        $details['is_button_name'] = 'Reset Password';
+        $details['is_button_name'] = config('constants.email.reset_password.button');
         $body      = config('constants.email.reset_password.body');
-        $details['body'] = $body;
+        $details['body'] = $body;        
+        $details['post_message'] = config('constants.email.reset_password.line_2'); 
         $customer_emails = config('app.test_customer_email');
         $is_local = config('app.env') == 'local' ? true : false;
+        //echo $customer_emails; die; 
         if($is_local){
             UsersController::commonEmailSend($customer_emails,$details);
         } else {
