@@ -2598,16 +2598,14 @@ table.dataTable td, table.dataTable th{
   display: none;
   transition: 0.5s;
 }
-#bottom_notification_disp .messages-{
-  bottom: 3.8125rem;
-  right: 9px;
-}
 
 .notfication_bottom.active .messages{
   transition: 0.4s;
   display: block;
   border-top-left-radius: 0.3125rem;
   border-top-right-radius: 0.3125rem;
+  bottom: 3.8125rem;
+  right: 9px;
 }
 
 .notfication_bottom .notification_bottomn_cancel{
