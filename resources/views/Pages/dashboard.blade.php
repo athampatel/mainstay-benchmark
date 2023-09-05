@@ -284,7 +284,7 @@
     <div class="col-sm-12 col-md-12   @if(Auth::user()->is_vmi == 1) col-lg-7 @else col-lg-12 @endif">
             <div class="card box item-card-block equal-height">
               <div class="card-header col-12 p-3 d-flex border-0 flex-wrap">
-                <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center">
+                <div class="col-12 col-md-4 col-lg-4 d-flex align-items-center w-100">
                   <h4 class="mb-0 title-4">Recent Invoiced Orders</h4>
                 </div>
                 <div class="col-12 col-md-8 col-lg-8 d-flex align-items-center justify-content-end col-filter flex-wrap">            

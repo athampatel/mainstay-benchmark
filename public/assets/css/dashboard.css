@@ -2016,6 +2016,11 @@ table.dataTable tbody td{
   padding-left:0px !important;
   padding-right:25px !important;
 }
+#dashboard-recent-invoice-order-table.dataTable tbody td,
+#dashboard-recent-invoice-order-table.dataTable tbody th{
+  padding-right:0px !important;
+}
+
 .bench-datatable .customer-name{
   color: #fff;
 }
@@ -2592,6 +2597,10 @@ table.dataTable td, table.dataTable th{
   color: #fff;
   display: none;
   transition: 0.5s;
+}
+#bottom_notification_disp .messages-{
+  bottom: 3.8125rem;
+  right: 9px;
 }
 
 .notfication_bottom.active .messages{
