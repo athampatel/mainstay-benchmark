@@ -377,8 +377,8 @@ class CustomerExportController extends Controller
             $item_details = '';
 
             $orderstatus = 'Open';
-            if($openorders['orderstatus'] == 'N')
-                $orderstatus = 'New';
+            /*if($openorders['orderstatus'] == 'N')
+                $orderstatus = 'New'; */
                 
            
             
