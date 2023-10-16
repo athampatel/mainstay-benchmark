@@ -227,7 +227,7 @@ class CustomerExportController extends Controller
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $data = self::exportOpenData($user_detail);
         $response = $data['data'];
-        $filename = "open-orders.csv";
+        $filename = "open-orders_".time().".csv";
         $header_array = $data['headers'];
         return self::ExportExcelFunction($response,$header_array,$filename);
     }
@@ -240,7 +240,7 @@ class CustomerExportController extends Controller
         $response = $data['data'];
         $array_headers = $data['headers'];
         $array_keys = $data['keys'];
-        $filename = "open-orders.pdf";
+        $filename = "open-orders_".time().".pdf";
         PdfController::generatePdf($response,$filename,$array_headers,$array_keys);
     }
     
@@ -249,7 +249,7 @@ class CustomerExportController extends Controller
         $customer_no    = $request->session()->get('customer_no');
         $user_detail = UserDetails::where('customerno',$customer_no)->first();
         $data = self::exportVmiData($user_detail);
-        $filename = "Vmi-detail.csv";
+        $filename = "Vmi-detail_".time().".csv";
         $response = $data['data'];
         $header_array = $data['headers'];
         return self::ExportExcelFunction($response,$header_array,$filename);
@@ -263,7 +263,7 @@ class CustomerExportController extends Controller
         $response = $data['data'];
         $array_headers = $data['headers'];
         $array_keys = $data['keys'];
-        $filename = "Vmi-details.pdf";
+        $filename = "Vmi-details_".time().".pdf";
         PdfController::generatePdf($response,$filename,$array_headers,$array_keys);
     }
 
@@ -314,7 +314,7 @@ class CustomerExportController extends Controller
     }
     
     // open orders data
-    public static function exportOpenData($user_detail){
+    public static function exportOpenData($user_detail = null){
         $SDEApi = new SDEApi();
         $data = array(            
             "index" =>"KSDEDESCENDING",
@@ -336,48 +336,102 @@ class CustomerExportController extends Controller
         $response   = $SDEApi->Request('post','SalesOrders',$data);
         $response = $response['salesorders'];
         $response_array = [];
-        $selected_customer = session('selected_customer');
-        foreach($response as $openorders){
-            $total = 0;
-            $price = 0;
-            foreach($openorders['details'] as $item){
-                $total = $total + $item['quantityordered'];
-                $price = $price + ($item['quantityordered'] * $item['unitprice']);
-            }
-            $data_array = [];
-            $data_array['SALES_ORDER_NUMBER'] = $openorders['salesorderno'];
-            $data_array['CUSTOMER_NAME'] = $selected_customer['customername'];
-            $data_array['CUSTOMER_EMAIL'] = $selected_customer['email'];
-            $data_array['TOTAL_ITEMS'] = $total;
-            $data_array['PRICE'] = $price;
-            $data_array['DATE'] = Carbon::parse($openorders['orderdate'])->format('M d, Y');
-            $data_array['STATUS'] = 'Open';
-            $data_array['LOCATION'] = $openorders['shiptocity'];
-            $response_array[]= $data_array;
-        }
-
+        $selected_customer = session('selected_customer');       
         $array_headers = array(
             'SALES ORDER NUMBER',
+            'CUSTOMER P.O. NUMBER',
             'CUSTOMER NAME',
             'CUSTOMER EMAIL',
             'TOTAL ITEMS',
-            'PRICE',
+            'TOTAL PRICE',
             'DATE',
             'STATUS',
-            'LOCATION'
+            'LOCATION',
+            'ITEM NUMBER',
+            'ITEM DESCRIPTION',                        
+            'ORDERED QUANTITY',
+            'SHIPPED QUANTITY',
+            'UNIT PRICE',
+            'PROMISE DATE'
         );
-        
         $array_keys = array(
-            'SALES_ORDER_NUMBER',
-            'CUSTOMER_NAME',
-            'CUSTOMER_EMAIL',
-            'TOTAL_ITEMS',
-            'PRICE',
-            'DATE',
-            'STATUS',
-            'LOCATION'
-        );
-        return ['data' => $response_array, 'headers' => $array_headers, 'keys' => $array_keys];
+            'SALES_ORDER_NUMBER' => '',
+            'CUSTOMER_PO_NUMBER' => '',
+            'CUSTOMER_NAME' => '',
+            'CUSTOMER_EMAIL' => '',
+            'TOTAL_ITEMS' => '',
+            'TOTAL_PRICE' => '',
+            'DATE' => '',
+            'STATUS' => '',
+            'LOCATION' => '',
+            'ITEM_NUMBER' => '',
+            'ITEM_DESCRIPTION' => '', 
+            'ORDERED_QUANTITY' => '',
+            'SHIPPED_QUANTITY' => '',
+            'UNIT_PRICE' => '',
+            'PROMISE_DATE' => ''
+        );        
+        foreach($response as $openorders){
+            $total = 0;
+            $price = 0;
+            $item_details = '';
+
+            $orderstatus = 'Open';
+            if($openorders['orderstatus'] == 'N')
+                $orderstatus = 'New';
+                
+           
+            
+            
+            $data_array = $array_keys;  
+            $salesorderno = $openorders['salesorderno'];
+            $data_array['SALES_ORDER_NUMBER'] = $openorders['salesorderno'];
+            $data_array['CUSTOMER_PO_NUMBER'] = $openorders['customerpono'];
+            $data_array['CUSTOMER_NAME'] = $selected_customer['customername'];
+            $data_array['CUSTOMER_EMAIL'] = $selected_customer['email'];
+            $data_array['TOTAL_ITEMS'] = $total;
+            $data_array['TOTAL_PRICE'] = $price;
+            $data_array['DATE'] = Carbon::parse($openorders['orderdate'])->format('M d, Y');
+            $data_array['STATUS'] = $orderstatus;
+            $data_array['LOCATION'] = $openorders['shiptocity']; 
+            $index  = 0;           
+            if(isset($openorders['details']) && !empty($openorders['details'])){
+                /* DUPLICATED LOOP FOR GETTONG COUNT HERE*/
+                foreach($openorders['details'] as $item){
+                    if($item['quantityordered'] > 0){
+                        $total = $total + $item['quantityordered'];
+                        $price = $price + ($item['quantityordered'] * $item['unitprice']);
+                    }
+                }
+                $data_array['TOTAL_ITEMS'] = $total;
+                $data_array['TOTAL_PRICE'] = $price;
+
+                foreach($openorders['details'] as $item){
+                    if($item['quantityordered'] > 0){                        
+                        if($index == 0){
+                            $index_array = $data_array;
+                        }else{
+                            $index_array = $array_keys;
+                        }    
+                        $index_array['ITEM_NUMBER']      = $item['itemcode'];
+                        $index_array['ITEM_DESCRIPTION'] = $item['itemcodedesc'];
+                        $index_array['ORDERED_QUANTITY'] = $item['quantityordered'];
+                        $index_array['SHIPPED_QUANTITY'] = $item['quantityshipped'];
+                        $index_array['UNIT_PRICE']       = $item['unitprice'];
+                        if(isset($item['promisedate']))
+                            $index_array['PROMISE_DATE']     = Carbon::parse($item['promisedate'])->format('M d, Y');                        
+                        $index++;                        
+                        $response_array[]= $index_array;
+                        $data_array = null;
+                    }
+                }
+            }
+            //$response_array[$salesorderno]['TOTAL_ITEMS'] = $total;
+            //$response_array[$salesorderno]['TOTAL_PRICE'] = $price;
+            if(!empty($data_array))          
+                $response_array[]= $data_array;
+        }
+        return ['data' => $response_array, 'headers' => $array_headers, 'keys' => array_keys($array_keys)];
     }
     
     // vmi data
@@ -441,8 +495,11 @@ class CustomerExportController extends Controller
             $row_array = array();
             if($type == 0){
                 foreach($header_array as $harr){
-                    $arkey = str_replace(' ','_',$harr);
-                    array_push($row_array,$res[$arkey]);
+                    $arkey = str_replace(' ','_',str_replace('.','',$harr));
+                    if(isset($res[$arkey]))
+                        array_push($row_array,$res[$arkey]);
+                    else    
+                        array_push($row_array,'');
                 }
             } else {
                 foreach($array_keys as $arkey1){
