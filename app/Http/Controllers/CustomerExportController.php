@@ -348,10 +348,10 @@ class CustomerExportController extends Controller
             'STATUS',
             'LOCATION',
             'ITEM NUMBER',
-            'ITEM DESCRIPTION',                        
-            'ORDERED QUANTITY',
-            'SHIPPED QUANTITY',
-            'UNIT PRICE',
+            //'ITEM DESCRIPTION',                        
+            //'ORDERED QUANTITY',
+            //'SHIPPED QUANTITY',
+            //'UNIT PRICE',
             'PROMISE DATE'
         );
         $array_keys = array(
@@ -365,10 +365,10 @@ class CustomerExportController extends Controller
             'STATUS' => '',
             'LOCATION' => '',
             'ITEM_NUMBER' => '',
-            'ITEM_DESCRIPTION' => '', 
-            'ORDERED_QUANTITY' => '',
-            'SHIPPED_QUANTITY' => '',
-            'UNIT_PRICE' => '',
+            //'ITEM_DESCRIPTION' => '', 
+            //'ORDERED_QUANTITY' => '',
+            //'SHIPPED_QUANTITY' => '',
+            //'UNIT_PRICE' => '',
             'PROMISE_DATE' => ''
         );        
         foreach($response as $openorders){
@@ -414,10 +414,10 @@ class CustomerExportController extends Controller
                             $index_array = $array_keys;
                         }    
                         $index_array['ITEM_NUMBER']      = $item['itemcode'];
-                        $index_array['ITEM_DESCRIPTION'] = $item['itemcodedesc'];
-                        $index_array['ORDERED_QUANTITY'] = $item['quantityordered'];
-                        $index_array['SHIPPED_QUANTITY'] = $item['quantityshipped'];
-                        $index_array['UNIT_PRICE']       = $item['unitprice'];
+                        //$index_array['ITEM_DESCRIPTION'] = $item['itemcodedesc'];
+                        //$index_array['ORDERED_QUANTITY'] = $item['quantityordered'];
+                        //$index_array['SHIPPED_QUANTITY'] = $item['quantityshipped'];
+                        //$index_array['UNIT_PRICE']       = $item['unitprice'];
                         if(isset($item['promisedate']))
                             $index_array['PROMISE_DATE']     = Carbon::parse($item['promisedate'])->format('M d, Y');                        
                         $index++;                        
