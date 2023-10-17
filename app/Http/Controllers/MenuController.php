@@ -399,6 +399,12 @@ class MenuController extends Controller
                         "value"=> $user_details->customerno,
                         "operator"=> "and"
                     ],
+                    [
+                        "column"=> "salesorderno",
+                        "type"=> "begins",
+                        "value"=> '10',
+                        "operator"=> "and"
+                    ],
                 ],
                 "offset" => $offset,
                 "limit" => $limit,
@@ -421,6 +427,11 @@ class MenuController extends Controller
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
 
+            echo "<pre>";
+            print_r($response['meta']);
+            echo "</pre>";
+            die; 
+
             if(isset($response['salesorders'])){
                 if($search_word != '' && $response['meta']['records'] == 0) {
                     $response['meta']['records'] = count($response['salesorders']);
@@ -428,6 +439,7 @@ class MenuController extends Controller
             }
 
             $path = '/getOpenOrders';
+            
             $custom_pagination = self::CreatePaginationData($response,$limit,$page,$offset,$path);        
             if($custom_pagination['last_page'] >= 1){
                 $pagination_code = View::make("components.ajax-pagination-component")
@@ -1331,7 +1343,7 @@ class MenuController extends Controller
         $email = $user_detail->email;
         if($is_local){
             $email = config('app.support_email');
-        }
+        }        
         // api request 
         $data = array(            
             "JobName" => "INVOICEHISTORY",

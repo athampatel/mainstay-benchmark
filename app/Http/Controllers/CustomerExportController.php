@@ -317,7 +317,7 @@ class CustomerExportController extends Controller
     public static function exportOpenData($user_detail = null){
         $SDEApi = new SDEApi();
         $data = array(            
-            "index" =>"KSDEDESCENDING",
+            "index" => "KSDEDESCENDING",
             "filter" => [
                 [
                     "column" =>  "CustomerNo",
@@ -331,6 +331,12 @@ class CustomerExportController extends Controller
                     "value" => $user_detail->ardivisionno,
                     "operator" => "and"
                 ],
+                [
+                    "column"=> "salesorderno",
+                    "type"=> "begins",
+                    "value"=> '10',
+                    "operator"=> "and"
+                ]
             ],
         );
         $response   = $SDEApi->Request('post','SalesOrders',$data);
@@ -349,8 +355,9 @@ class CustomerExportController extends Controller
             'LOCATION',
             'ITEM NUMBER',
             //'ITEM DESCRIPTION',                        
-            //'ORDERED QUANTITY',
-            //'SHIPPED QUANTITY',
+            'QUANTITY ORDERED',
+            'QUANTITY SHIPPED',
+            'QUANTITY OPEN',
             //'UNIT PRICE',
             'PROMISE DATE'
         );
@@ -366,8 +373,9 @@ class CustomerExportController extends Controller
             'LOCATION' => '',
             'ITEM_NUMBER' => '',
             //'ITEM_DESCRIPTION' => '', 
-            //'ORDERED_QUANTITY' => '',
-            //'SHIPPED_QUANTITY' => '',
+            'QUANTITY_ORDERED' => '',
+            'QUANTITY_SHIPPED' => '',
+            'QUANTITY_OPEN' => '',
             //'UNIT_PRICE' => '',
             'PROMISE_DATE' => ''
         );        
@@ -415,8 +423,9 @@ class CustomerExportController extends Controller
                         }    
                         $index_array['ITEM_NUMBER']      = $item['itemcode'];
                         //$index_array['ITEM_DESCRIPTION'] = $item['itemcodedesc'];
-                        //$index_array['ORDERED_QUANTITY'] = $item['quantityordered'];
-                        //$index_array['SHIPPED_QUANTITY'] = $item['quantityshipped'];
+                        $index_array['QUANTITY_ORDERED'] = $item['quantityordered'];
+                        $index_array['QUANTITY_SHIPPED'] = $item['quantityshipped'];
+                        $index_array['QUANTITY_OPEN'] = $item['quantityordered'] - $item['quantityshipped'];
                         //$index_array['UNIT_PRICE']       = $item['unitprice'];
                         if(isset($item['promisedate']))
                             $index_array['PROMISE_DATE']     = Carbon::parse($item['promisedate'])->format('M d, Y');                        

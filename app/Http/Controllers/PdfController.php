@@ -27,7 +27,7 @@ class PdfController extends Controller
             foreach ($tableData as $row) {
                 $html .= '<tr style="border:1px solid #e2e2e2">';
                 foreach($keys_array as $key){
-                    $html .= '<td style="padding:10px 5px;border:1px solid #e2e2e2;word-break:break-all;text-transform: capitalize;font-size:10px;max-width:150px;text-align:center">' . $row[$key] . '</td>';
+                    $html .= '<td style="padding:10px 5px;border:1px solid #e2e2e2;word-break:break-all;text-transform: capitalize;font-size:9px;max-width:150px;text-align:center">' . $row[$key] . '</td>';
                 }
                 $html .= '</tr>';
             }
