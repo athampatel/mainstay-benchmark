@@ -426,11 +426,7 @@ class MenuController extends Controller
 
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','SalesOrders',$data);
-
-            echo "<pre>";
-            print_r($response['meta']);
-            echo "</pre>";
-            die; 
+            
 
             if(isset($response['salesorders'])){
                 if($search_word != '' && $response['meta']['records'] == 0) {
