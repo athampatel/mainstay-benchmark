@@ -4,13 +4,13 @@
             <tr>
                 <th class="border-0">Order</th>
                 <th class="border-0">Customer P.O. Number</th>
-                <th class="border-0">Confirm To</th>
-                <th class="border-0">Total Item(s)</th>
-                <th class="border-0">Price per Unit</th>
-                <th class="border-0">Date</th>
+                <th class="border-0">Confirm To</th>               
+                <th class="border-0">Total Value</th>
+                <th class="border-0">Order Date</th>
                 <th class="border-0">Location</th>
                 <th class="border-0">Status</th>
                 <th class="border-0">Action</th>
+                <td class="pointer_events_none" style="width:1px"></td>
             </tr>
         </thead>
         <tbody id="open-orders-page-table-body">
@@ -40,7 +40,7 @@
                     }
                 }
                 @endphp
-                <td class="pointer_events_none">{{$total}}</td>
+                
                 <td class="pointer_events_none">${{number_format($price,2,".",",")}}</td>
                 <td class="pointer_events_none">{{$date->format('M d, Y')}}</td>
                 <td class="location pointer_events_none">
@@ -73,6 +73,7 @@
                         </a>
                     @endif
                 </td>
+                <td class="pointer_events_none" style="width:1px"></td>
             </tr>
             @endforeach
         </tbody>

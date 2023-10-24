@@ -348,9 +348,9 @@ class CustomerExportController extends Controller
             'CUSTOMER P.O. NUMBER',
             'CUSTOMER NAME',
             'CUSTOMER EMAIL',
-            'TOTAL ITEMS',
-            'TOTAL PRICE',
-            'DATE',
+           // 'TOTAL ITEMS',
+            'TOTAL VALUE',
+            'ORDER DATE',
             'STATUS',
             'LOCATION',
             'ITEM NUMBER',
@@ -366,9 +366,9 @@ class CustomerExportController extends Controller
             'CUSTOMER_PO_NUMBER' => '',
             'CUSTOMER_NAME' => '',
             'CUSTOMER_EMAIL' => '',
-            'TOTAL_ITEMS' => '',
-            'TOTAL_PRICE' => '',
-            'DATE' => '',
+         //   'TOTAL_ITEMS' => '',
+            'TOTAL_VALUE' => '',
+            'ORDER_DATE' => '',
             'STATUS' => '',
             'LOCATION' => '',
             'ITEM_NUMBER' => '',
@@ -397,9 +397,9 @@ class CustomerExportController extends Controller
             $data_array['CUSTOMER_PO_NUMBER'] = $openorders['customerpono'];
             $data_array['CUSTOMER_NAME'] = $selected_customer['customername'];
             $data_array['CUSTOMER_EMAIL'] = $selected_customer['email'];
-            $data_array['TOTAL_ITEMS'] = $total;
-            $data_array['TOTAL_PRICE'] = $price;
-            $data_array['DATE'] = Carbon::parse($openorders['orderdate'])->format('M d, Y');
+           // $data_array['TOTAL_ITEMS'] = $total;
+            $data_array['TOTAL_VALUE'] = $price;
+            $data_array['ORDER_DATE'] = Carbon::parse($openorders['orderdate'])->format('M d, Y');
             $data_array['STATUS'] = $orderstatus;
             $data_array['LOCATION'] = $openorders['shiptocity']; 
             $index  = 0;           
@@ -411,8 +411,8 @@ class CustomerExportController extends Controller
                         $price = $price + ($item['quantityordered'] * $item['unitprice']);
                     }
                 }
-                $data_array['TOTAL_ITEMS'] = $total;
-                $data_array['TOTAL_PRICE'] = $price;
+               // $data_array['TOTAL_ITEMS'] = $total;
+                $data_array['TOTAL_VALUE'] = $price;
 
                 foreach($openorders['details'] as $item){
                     if($item['quantityordered'] > 0){                        
