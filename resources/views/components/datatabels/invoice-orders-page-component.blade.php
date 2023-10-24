@@ -1,5 +1,5 @@
 <div>
-    <table id="invoice-orders-page-table" class="table bench-datatable border-0">
+    <table id="invoice-orders-page-table" class="table bench-datatable border-0" style="min-width:100%;">
         <thead>
             <tr>
                 <th class="border-0">Invoice</th>
@@ -7,13 +7,13 @@
                 <th class="border-0">Customer Email</th> --}}
                 {{-- <th class="border-0">Company Name</th>
                 <th class="border-0">Company Email</th> --}}
-                <th class="border-0">Customer P.O. Number</th>
-                <th class="border-0">Total Item(s)</th>
+                <th class="border-0">Customer P.O. Number</th>                
                 {{-- <th class="border-0">Price</th> --}}
-                <th class="border-0">Invoice Total</th>
-                <th class="border-0">Date</th>
+                <th class="border-0">Total Value</th>
+                <th class="border-0">Order Date</th>
                 <th class="border-0">Status</th>
                 <th class="border-0">Action</th>
+                <td class="pointer_events_none" style="width:1px;"></td>
             </tr>
         </thead>
         <tbody id="invoice-orders-page-table-body">
@@ -43,7 +43,7 @@
                     }
                 }
                 @endphp
-                <td class="pointer_events_none">{{$total}}</td>
+               
                 <td class="pointer_events_none">${{number_format($price,2,".",",")}}</td>
                 {{-- <td>{{ \Carbon\Carbon::parse($invoice['invoicedate'])->format('M d, Y') }}</td> --}}
                 <td class="pointer_events_none">{{$date->format('M d, Y')}}</td>
@@ -55,6 +55,7 @@
                     </a>
                     @endif
                 </td>
+                <td class="pointer_events_none" style="width:1px;"></td>
             </tr>
             @endforeach
         </tbody>

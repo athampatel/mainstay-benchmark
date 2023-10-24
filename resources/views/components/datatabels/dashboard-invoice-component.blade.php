@@ -5,10 +5,9 @@
                 <th class="border-0">ID</th>
                 {{-- <th class="border-0">Customer email</th> --}}
                 <th class="border-0">Customer P.O. Number</th>
-                {{-- <th class="border-0">Contact email</th> --}}
-                <th class="border-0">Total items</th>
-                <th class="border-0">Price</th>
-                <th class="border-0">Date</th>
+                {{-- <th class="border-0">Contact email</th> --}}                
+                <th class="border-0">Total Value</th>
+                <th class="border-0">Order Date</th>
                 <th class="border-0">Location</th>
             </tr>
             </thead>
@@ -38,8 +37,7 @@
                             $price += $item['quantityshipped'] *  $item['unitprice'];
                             $total += $item['quantityshipped'];
                         }
-                        @endphp
-                        <td class="pointer_events_none">{{$total}}</td>
+                        @endphp                        
                         <td class="pointer_events_none">${{number_format($price,2,".",",")}}</td>
                         <td class="pointer_events_none">{{$date->format('M d, Y')}}</td>
                         <td class="location">
