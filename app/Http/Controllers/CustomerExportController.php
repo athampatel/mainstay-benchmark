@@ -330,12 +330,6 @@ class CustomerExportController extends Controller
                     "type" => "equals",
                     "value" => $user_detail->ardivisionno,
                     "operator" => "and"
-                ],
-                [
-                    "column"=> "salesorderno",
-                    "type"=> "begins",
-                    "value"=> '10',
-                    "operator"=> "and"
                 ]
             ],
         );

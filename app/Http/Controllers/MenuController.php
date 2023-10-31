@@ -507,12 +507,6 @@ class MenuController extends Controller
                         "type" => "<=",
                         "value" => $end_date,
                         "operator" => "and"
-                    ],
-                    [
-                        "column" => "salesorderno",
-                        "type" => ">",
-                        "value" => "0",
-                        "operator" => "and"
                     ]
                 ],
                 "offset" => $offset,
