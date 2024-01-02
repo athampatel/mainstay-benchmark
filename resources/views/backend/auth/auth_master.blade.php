@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js login-blade" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,7 +10,7 @@
     @yield('styles')
 </head>
 
-<body>
+<body class="auth-login">
     <div id="preloader">
         <div class="loader"></div>
     </div>

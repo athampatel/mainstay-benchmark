@@ -54,7 +54,10 @@
 
 /*------------------------- 1. Core Css -------------------*/
 html, body {
-    font-size: 0.90rem;
+    font-size: 0.85rem;
+}
+html.login-blade,body.auth-login{
+    font-size: 0.75rem;
 }
 *{
     outline: none !important;
