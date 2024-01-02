@@ -1774,7 +1774,7 @@ input.analysis_select {
   width: 0.88rem;
 }
 
-.admin_print {
+.admin_print,.datatable-print svg,.datatable-print img {
   height: 1.0384rem;
   width: 1.0413rem;
 }
