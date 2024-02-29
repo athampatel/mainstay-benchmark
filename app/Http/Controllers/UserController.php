@@ -17,19 +17,17 @@ class UserController extends Controller
     public static function createUser($data,$action = 0){        
       //  dd($data); 
 
-        $useremail  = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
-
-        $contact_email = isset($data['contactemail']) ? $data['contactemail'] : $data['emailaddress']; 
-        $contact_name = isset($data['contactname']) ? $data['contactname'] : $data['customername']; 
-
-        $userData = array(  'name'              => $contact_name,
+        $useremail      = isset($data['emailaddress']) ? $data['emailaddress'] : $data['email'];
+        $contact_email  = isset($data['contactemail']) ? $data['contactemail'] : $data['emailaddress']; 
+        $contact_name   = isset($data['contactname']) ? $data['contactname'] : $data['customername']; 
+        $userData       = array(  'name'              => $contact_name,
                             // 'email'             => $useremail,
                             // 'email'             => $contact_email ? $contact_email : $useremail, // line to be changed
                             'email'             => $contact_email, // line to be changed
                             // 'password'          => Hash::make('sde@123'),
                             'password'          => Hash::make($data['vmi_password']),
                             'activation_token'  => '',
-        );
+                        );
         // $user = User::where('email',$useremail)->first();
         $userData['is_temp'] = 0;
         if(isset($data['is_temp']) || isset($data['temp']))
