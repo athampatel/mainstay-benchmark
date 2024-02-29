@@ -49,12 +49,9 @@ Admin Edit - Admin Panel
                                 </div>
                                 
                                 <div class="form-row">
-                                    <div class="form-group col-md-6 col-sm-6 {{$errors->has('name') ? 'is_error' : '' }}">
-                                        {{-- <label for="username">{{ config('constants.label.admin.user_name') }}</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $admin->username }}" disabled>
-                                        <input type="hidden" name="username" value="{{ $admin->username }}"> --}}
+                                    <div class="form-group col-md-6 col-sm-6 {{$errors->has('name') ? 'is_error' : '' }}">                                       
                                         <label for="username">{{ config('constants.label.admin.user_name') }}</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Username" required value="{{ $admin->name }}" disabled>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required value="{{ $admin->name }}">
                                         {{-- <input type="hidden" name="name" value="{{ $admin->name }}"> --}}
                                         @if($errors->has('name'))
                                         <div class="invalid-feedback d-block">
