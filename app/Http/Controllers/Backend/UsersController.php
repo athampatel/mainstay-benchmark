@@ -370,7 +370,7 @@ class UsersController extends Controller
         $is_duplicate   = 0;
         $email_address  = '';
         $user_id = 0;
-        // dd()
+       
         if(!isset($postdata['create_user'])){
             $request->validate([
                 'customername' => 'required|max:50',
@@ -378,12 +378,12 @@ class UsersController extends Controller
                 'contactemail' => 'required|max:100|email',
                 'salespersonno' => 'required|min:1',
             ]);
-            $postdata['emailaddress'] = $postdata['contactemail'];
-            
+            $postdata['emailaddress'] = $postdata['contactemail'];            
             $response = $this->CreateCustomer($postdata);
             $email_address = $postdata['contactemail'];
             $user_id = $response['id'];
         } else {
+
             $duplicate      = array();
             $customer       = array();
             $create_user    =  $postdata['create_user'];
@@ -519,8 +519,9 @@ class UsersController extends Controller
                           'user_details.addressline3',                          
                           'user_details.city',
                           'user_details.state',
-                          'user_details.zipcode',
+                          'user_details.zipcode', 
                           'sales_persons.person_number',
+                          'user_details.itemwarehousecode',
                           'sales_persons.email as salespersonemail',
                           'sales_persons.name as salespersonname'])->where('users.id',$id)->where('users.is_temp',0)->first();
 
@@ -610,6 +611,12 @@ class UsersController extends Controller
         if ($request->roles) {
             $user->assignRole($request->roles);
         }
+
+        $user_detail = UserDetails::where('user_id',$id)->get()->first();
+        $itemwarehousecode = $request->input('itemwarehousecode');
+        $userDetails = UserDetails::find($user_detail->id);
+        $userDetails->itemwarehousecode = $itemwarehousecode;
+        $userDetails->save();
 
         session()->flash('success', config('constants.customer_update.confirmation_message'));
         return back();
@@ -1128,14 +1135,16 @@ class UsersController extends Controller
     public function  CustomerInventory($userId) {
         $company_code = '';
         $user_detail_id = ''; 
+        $itemwarehousecode = '';
         $user_details = UserDetails::where('user_id',$userId)->first();
         if($user_details){
-            $company_code = $user_details->vmi_companycode;
-            $user_detail_id = $user_details->id;
+            $company_code       = $user_details->vmi_companycode;
+            $user_detail_id     = $user_details->id;
+            $itemwarehousecode  = $user_details->itemwarehousecode;
         }
         $constants = config('constants');
         $searchWords = SearchWord::where('type',1)->get()->toArray();
-        return view('backend.pages.orders.vmi-inventory-list',compact('company_code','user_detail_id','constants','searchWords')); 
+        return view('backend.pages.orders.vmi-inventory-list',compact('company_code','user_detail_id','constants','searchWords','itemwarehousecode')); 
     }
 
     public function CustomerChangeOrders(Request $request){
@@ -1616,6 +1625,8 @@ class UsersController extends Controller
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
+        $warehousecode = $data['warehousecode'];
+        $warehousecode = ($warehousecode != '' && strlen($warehousecode) > 1 && $warehousecode != null) ? $warehousecode : '';
         $ignores = intval($data['ignores']);
         $search_val = $data['search_val'];
         if($page == 0){
@@ -1626,11 +1637,24 @@ class UsersController extends Controller
         $offset = $offset + $ignores;
         $user_detail_id = $data['user_detail_id'];
         $company_code = $data['company_code'];
+
         $data = array(                             
             "companyCode"   => $company_code,
             "offset"        => $offset,
             "limit"         => $limit,
         );
+        $resource = 'Products';
+        if($warehousecode){
+            $data['filter'] = [
+                [
+                    "column" => "warehouseCode",
+                    "type" => "equals",
+                    "value" => $warehousecode,
+                    "operator" => "and",
+                ]
+            ];
+            $resource = 'ItemWarehouses';
+        }
         if($search_val != '') {
             $data['filter'] = [
                 [
@@ -1641,13 +1665,10 @@ class UsersController extends Controller
                 ]
             ];
         }
-        
-        //dd($data);
 
         $sdeApi = new SDEApi();
-        $response = $sdeApi->Request('post','Products',$data);
+        $response = $sdeApi->Request('post',$resource,$data);
 
-        // dd($response);
         if(empty($response)){
             $table_code = View::make("components.datatabels.vmi-inventory-list-component")
             ->with("vmiProducts", [])
@@ -1660,11 +1681,17 @@ class UsersController extends Controller
         
         // Remove unwanted products
         $count = 0;
-        foreach($response['products'] as $key => $product){
+        $item_inventory = array();
+        if($resource == 'ItemWarehouses'){
+            $item_inventory['products'] = $response['itemwarehouses'];            
+        }else{
+            $item_inventory['products'] = $response['products'];
+        }
+        foreach($item_inventory['products'] as $key => $product){
             $string = $product['itemcode'];
             if (substr($string, 0, 1) === '/') {
                 $count = $count + 1;
-                unset($response['products'][$key]);
+                unset($item_inventory['products'][$key]);
             }
         }
         
@@ -1677,13 +1704,21 @@ class UsersController extends Controller
                 "limit"         => $count,
             );
             $sdeApi = new SDEApi();
-            $response1 = $sdeApi->Request('post','Products',$data1);
-            $response['products'] = array_merge($response1['products'],$response['products']);    
+            $response1 = $sdeApi->Request('post',$resource,$data1);
+
+            $item_inventory2 = array();
+            if($resource == 'ItemWarehouses'){
+                $item_inventory2['products'] = $response1['itemwarehouses'];            
+            }else{
+                $item_inventory2['products'] = $response1['products'];
+            }
+
+            $item_inventory['products'] = array_merge($item_inventory2['products'],$item_inventory['products']);    
         }
         
 
-        if(!empty($response['products'])){
-            $_products = $response['products'];
+        if(!empty($item_inventory['products'])){
+            $_products = $item_inventory['products'];
             $itemCode = array_column($_products,'itemcode');
             $inventory_updates = VmiInventoryRequest::select('*')
                                     ->whereIn('item_code',$itemCode)
@@ -1700,7 +1735,7 @@ class UsersController extends Controller
                 foreach($_products as $key => $_product){
                    $itemcode = $_product['itemcode'];
                    if(isset($inventory_updates[$itemcode])){
-                    $response['products'][$key]['quantityonhand'] = $inventory_updates[$itemcode];
+                    $item_inventory['products'][$key]['quantityonhand'] = $inventory_updates[$itemcode];
                    }
                 }
             }
@@ -1713,7 +1748,7 @@ class UsersController extends Controller
         $response['meta']['offset'] = $response['meta']['offset'] - $ignores;
         $response['meta']['offset'] = $response['meta']['offset'] - $ignores;
         
-        $response['products'] = array_values($response['products']);
+        $response['products'] = array_values($item_inventory['products']);
 
         $table_code = View::make("components.datatabels.vmi-inventory-list-component")
         ->with("vmiProducts", $response['products'])

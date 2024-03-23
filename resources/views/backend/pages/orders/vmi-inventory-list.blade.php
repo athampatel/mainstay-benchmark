@@ -72,6 +72,7 @@ VMI Inventory - Admin Panel
                         </div>
                         <input type="hidden" name="company_code" id="vmi_company_code" value="{{$company_code}}">
                         <input type="hidden" name="user_detail_id" id="user_detail_id" value="{{$user_detail_id}}">
+                        <input type="hidden" name="itemwarehousecode" id="itemwarehousecode" value="{{$itemwarehousecode}}">
                         <input type="hidden" name="ignore_counts" id="ignore_counts" value="0">
                     </div>
                 </div>

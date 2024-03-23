@@ -15,15 +15,18 @@
         @foreach ($vmiProducts as $product)    
             <tr class="vmi_row">
                 <td>
-                    <a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">{{$product['aliasitemno']}}</a>
+                    <a href="javascript:void(0)" class="item-number font-12 btn btn-rounded">@if(isset($product['aliasitemno'])){{$product['aliasitemno']}}@endif</a>
                 </td>
                 <td>
                     <a href="javascript:void(0)" class="customer-name itemcode">{{$product['itemcode']}}</a>
                 </td>
-                <td>{{$product['itemcodedesc']}}</td>
-                <td>{{$product['vendorname']}}</td>
+
+                
+
+                <td>@if(isset($product['itemcodedesc'])){{$product['itemcodedesc']}}@endif</td>
+                <td>@if(isset($product['vendorname'])){{$product['vendorname']}}@endif</td>
                 <td class="qty_hand" data-val={{$product['quantityonhand']}}>{{$product['quantityonhand']}}</td>
-                <td>{{$product['quantitypurchased']}}</td>
+                <td>@if(isset($product['quantityonpurchaseorder'])){{$product['quantityonpurchaseorder']}} @elseif(isset($product['quantitypurchased'])) {{$product['quantitypurchased']}} @endif</td> 
                 <td>
                     <input type="number" name="" id="" data-itemcode={{$product['itemcode']}} class="quantity_counted form-control1" disabled>
                 </td>

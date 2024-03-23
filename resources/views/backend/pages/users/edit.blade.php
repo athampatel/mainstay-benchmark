@@ -42,6 +42,13 @@ User Edit - Admin Panel
                                         <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
                                     </div>
                                 </div>
+                                <div class="form-row mb-4">
+                                    <div class="form-group col-md-12 col-sm-12 ">
+                                        <label for="ardivision_no">VMI Warehouse Code</label>
+                                        <input type="text" class="form-control" id="itemwarehousecode" name="itemwarehousecode" placeholder="Enter Item WareHouse Code" value="{{$user->itemwarehousecode}}">
+                                    </div>
+                                    
+                                </div>
 
                                 <h4 class="header-title">Change Password <small>(Leave it blank for no change))</small></h4>   
                                 <div class="form-row pt-4">

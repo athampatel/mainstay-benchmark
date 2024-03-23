@@ -1336,14 +1336,14 @@ class MenuController extends Controller
         $analysisRequest = AnalaysisExportRequest::create($request_data);
 
         $is_local = config('app.env') == 'local' ? true : false;
-        $email = $user_detail->email;                
+        $email = $user_detail->email;   
         $login_as = Session()->get('by_admin');  
         if($login_as){
             $email = $login_as;
         }
         if($is_local){
-            $email = config('app.support_email');
-        }                
+            $email = config('app.support_email');           
+        }       
         // api request 
         $data = array(            
             "JobName" => "INVOICEHISTORY",

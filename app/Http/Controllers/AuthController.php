@@ -60,6 +60,7 @@ class AuthController extends Controller
                     'phone_no'          => isset($response['phone_no']) && $response['phone_no'] !='' ? $response['phone_no'] : '',
                     'contactname'       => isset($response['contactname']) ? $response['contactname'] : '',
                     'contactcode'       => isset($response['contactcode']) ? $response['contactcode'] : '',
+                    'itemwarehousecode' => isset($response['itemwarehousecode']) ? $response['itemwarehousecode'] : '',
                 ]);
                 $is_found = CustomerUnqiue::where('customerno',$response['customerno'])->first();
                 if(!$is_found) {
@@ -80,7 +81,7 @@ class AuthController extends Controller
                             'sales_person_id' => $sales_person1['id']
                         ]);
                     }
-                }
+                }                
             } else {
                 return array('sp_email' => $email,'message' => config('constants.customer_already_exists') , 'user' => $_user,'status' => 0 );
             }

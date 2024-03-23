@@ -67,6 +67,10 @@ User Create - Admin Panel
                                         <label for="user_name">Contact Email</label>
                                         <input type="text" class="form-control required" id="contact_email" name="contactemail[]" placeholder="Enter Contact Email">
                                     </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="ardivision_no">VMI Warehouse Code</label>
+                                        <input type="text" class="form-control" id="itemwarehousecode" name="itemwarehousecode[]" placeholder="Enter Item WareHouse Code">
+                                    </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
@@ -502,6 +506,7 @@ function rendorUserForm($customer,show,container){
         container.find('#user_city').attr('name', 'city');
         container.find('#user_state').attr('name', 'state');
         container.find('#user_zipcode').attr('name', 'zipcode');
+        container.find('#itemwarehousecode').attr('name', 'itemwarehousecode');
         container.find('#sales_person_divison_no').attr('name', 'salespersondivisionno');
         container.find('#sales_person_no').attr('name', 'salespersonno');
         container.find('#sales_person_name').attr('name', 'salespersonname');

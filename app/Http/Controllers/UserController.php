@@ -88,6 +88,7 @@ class UserController extends Controller
                             'phone_no'          => isset($data['phone_no']) && $data['phone_no']!='' ? $data['phone_no'] : '',
                             'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
                             'contactname'       => isset($data['contactname']) ? $data['contactname'] : '',
+                            'itemwarehousecode' => isset($data['itemwarehousecode']) ? $data['itemwarehousecode'] : '',
                         );
         /* checks in the customer table */
         // $data['customerno']
@@ -130,6 +131,7 @@ class UserController extends Controller
                             'phone_no'          => isset($data['phone_no']) && $data['phone_no'] !='' ? $data['phone_no'] : '',
                             'contactname'       => isset($data['contactname']) ? $data['contactname'] : '',
                             'contactcode'       => isset($data['contactcode']) ? $data['contactcode'] : '',
+                            'itemwarehousecode' => isset($data['itemwarehousecode']) ? $data['itemwarehousecode'] : '',
                         );
 
         $user_details = UserDetails::where('customerno',$data['customerno'])->where('user_id',$user_id)->first();
