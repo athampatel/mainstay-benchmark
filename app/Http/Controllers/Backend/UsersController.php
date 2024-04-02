@@ -1644,28 +1644,26 @@ class UsersController extends Controller
             "limit"         => $limit,
         );
         $resource = 'Products';
+        $_filter = array();
         if($warehousecode){
-            $data['filter'] = [
-                [
-                    "column" => "warehouseCode",
-                    "type" => "equals",
-                    "value" => $warehousecode,
-                    "operator" => "and",
-                ]
-            ];
+            $_filter[] = array("column"     =>  "warehouseCode", 
+                                "type"      => "equals",
+                                "value"     => $warehousecode,
+                                "operator"  => "and");
+           
             $resource = 'ItemWarehouses';
         }
         if($search_val != '') {
-            $data['filter'] = [
-                [
-                    "column" => "itemcode",
-                    "type" => "equals",
-                    "value" => $search_val,
-                    "operator" => "and",
-                ]
-            ];
+            $_filter[] = array( "column"    => "itemcode",
+                                "type"      => "equals",
+                                "value"     => $search_val,
+                                "operator"  => "and");
         }
 
+        if(!empty($_filter)){
+            $data['filter'] = $_filter;
+        }
+        
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post',$resource,$data);
 

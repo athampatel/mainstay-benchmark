@@ -185,6 +185,8 @@ class SDEApi
           'verify' => $this->is_ssl_verify,
           'timeout' => config('app.app_max_time')
       ]);
+
+      
       if($method === 'get') {
         $response = $request->get($this->end_point,$post_data);
       } else {
