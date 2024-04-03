@@ -23,7 +23,7 @@
                 <td>@if(isset($product['itemcodedesc'])){{$product['itemcodedesc']}}@endif</td>
                 <td style="display:none">@if(isset($product['vendorname'])){{$product['vendorname']}}@endif</td>
                 <td class="qty_hand" data-val={{$product['quantityonhand']}}>{{$product['quantityonhand']}}</td>
-                <td>@if(isset($product['quantityonpurchaseorder'])){{$product['quantityonpurchaseorder']}} @elseif(isset($product['quantitypurchased'])) {{$product['quantitypurchased']}} @endif</td> 
+                <td>@if(isset($product['quantitypurchased'])) {{$product['quantitypurchased']}} @endif</td> 
                 <td>
                     <input type="number" name="" id="" data-itemcode={{$product['itemcode']}} class="quantity_counted form-control1" disabled>
                 </td>
