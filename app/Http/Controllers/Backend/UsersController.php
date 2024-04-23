@@ -2215,9 +2215,21 @@ class UsersController extends Controller
         if(!empty($response)){
             $customers = $response['customers'];
             $customer = $customers[0];
-            if(!empty($customer) && $customer['vmi_companycode'] != ''){           
-                $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$customer['vmi_nextonsitedate'])->format('d-m-Y'));            
-                $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $customer['vmi_physicalcountdate'])->format('d-m-Y'));            
+            if(!empty($customer) && $customer['vmi_companycode'] != ''){
+                $vmi_nextonsitedate = $response['customers'][0]['vmi_nextonsitedate'];
+                $vmi_physicalcountdate = $response['customers'][0]['vmi_physicalcountdate'];
+
+                if($vmi_nextonsitedate != '')
+                    $vmi_nextonsitedate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+                
+                if($vmi_physicalcountdate != '')
+                    $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+
+                $request->session()->put('vmi_nextonsitedate',$vmi_nextonsitedate);
+                $request->session()->put('vmi_physicalcountdate',$vmi_physicalcountdate); 
+                
+               // $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$customer['vmi_nextonsitedate'])->format('d-m-Y'));            
+               // $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $customer['vmi_physicalcountdate'])->format('d-m-Y'));            
             }
         }
        
@@ -2281,9 +2293,18 @@ class UsersController extends Controller
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Customers',$data);
             if(!empty($response)){
-                if(!empty($response['customers'])){           
-                    $request->session()->put('vmi_nextonsitedate',Carbon::createFromFormat('Y-m-d',$response['customers'][0]['vmi_nextonsitedate'])->format('d-m-Y'));            
-                    $request->session()->put('vmi_physicalcountdate',Carbon::createFromFormat('Y-m-d', $response['customers'][0]['vmi_physicalcountdate'])->format('d-m-Y'));            
+                if(!empty($response['customers'])){    
+                    $vmi_nextonsitedate = $response['customers'][0]['vmi_nextonsitedate'];
+                    $vmi_physicalcountdate = $response['customers'][0]['vmi_physicalcountdate'];
+
+                    if($vmi_nextonsitedate != '')
+                       $vmi_nextonsitedate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+                    
+                    if($vmi_physicalcountdate != '')
+                        $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+
+                    $request->session()->put('vmi_nextonsitedate',$vmi_nextonsitedate);
+                    $request->session()->put('vmi_physicalcountdate',$vmi_physicalcountdate);            
                 }
             } 
         }      
