@@ -2223,7 +2223,7 @@ class UsersController extends Controller
                     $vmi_nextonsitedate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
                 
                 if($vmi_physicalcountdate != '')
-                    $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+                    $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_physicalcountdate)->format('d-m-Y');
 
                 $request->session()->put('vmi_nextonsitedate',$vmi_nextonsitedate);
                 $request->session()->put('vmi_physicalcountdate',$vmi_physicalcountdate); 
@@ -2301,7 +2301,7 @@ class UsersController extends Controller
                        $vmi_nextonsitedate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
                     
                     if($vmi_physicalcountdate != '')
-                        $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_nextonsitedate)->format('d-m-Y');
+                        $vmi_physicalcountdate = Carbon::createFromFormat('Y-m-d',$vmi_physicalcountdate)->format('d-m-Y');
 
                     $request->session()->put('vmi_nextonsitedate',$vmi_nextonsitedate);
                     $request->session()->put('vmi_physicalcountdate',$vmi_physicalcountdate);            
