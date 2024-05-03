@@ -681,6 +681,11 @@ class MenuController extends Controller
         $user_id = Auth::user()->id;
         $customer_details = UserDetails::where('customerno',$customer_no)->where('user_id',$user_id)->first()->toArray();
         $companycode = $customer_details['vmi_companycode'];
+       
+        $warehousecode = $customer_details['itemwarehousecode'];
+        $warehousecode = ($warehousecode != '' && strlen($warehousecode) > 1 && $warehousecode != null) ? $warehousecode : '';
+
+
         $response['products'] = array();   
         if($companycode){
                 $data = array(                             
@@ -697,7 +702,7 @@ class MenuController extends Controller
                     ], 
                 );
 
-            if($search_word != '') {
+            /*if($search_word != '') {
                 $column_name = 'itemcode';
                     $vmi_page_filter = [
                         [
@@ -708,10 +713,38 @@ class MenuController extends Controller
                         ]
                     ];
                 $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
+            }*/
+
+            $_filter = array();
+            $resource = 'Products';
+            if($warehousecode){
+                $_filter[] = array("column"     =>  "warehouseCode", 
+                                    "type"      => "equals",
+                                    "value"     => $warehousecode,
+                                    "operator"  => "and");
+               
+                $resource = 'ItemWarehouses';
             }
+            if($search_word != '') {
+                $_filter[] = array( "column"    => "itemcode",
+                                    "type"      => "equals",
+                                    "value"     => $search_word,
+                                    "operator"  => "and");
+            }
+    
+            if(!empty($_filter)){
+                $data['filter'] = $_filter;
+            }
+
+           // $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
             
             $SDEAPi = new SDEApi();
-            $response   = $SDEAPi->Request('post','Products',$data);
+            $response   = $SDEAPi->Request('post',$resource,$data);
+
+            if($resource == 'ItemWarehouses'){
+                $response['products'] = $response['itemwarehouses'];            
+            }
+            
             
             if(isset($response['products'])){
                 if($search_word != '' && $response['meta']['records'] == 0) {
