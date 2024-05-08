@@ -738,8 +738,10 @@ class MenuController extends Controller
 
            // $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
             
-            $SDEAPi = new SDEApi();
+            $SDEAPi     = new SDEApi();
             $response   = $SDEAPi->Request('post',$resource,$data);
+
+          
 
             if($resource == 'ItemWarehouses'){
                 $response['products'] = $response['itemwarehouses'];            

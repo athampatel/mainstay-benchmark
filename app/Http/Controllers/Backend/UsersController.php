@@ -1667,6 +1667,8 @@ class UsersController extends Controller
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post',$resource,$data);
 
+            
+
         if(empty($response)){
             $table_code = View::make("components.datatabels.vmi-inventory-list-component")
             ->with("vmiProducts", [])
@@ -1693,6 +1695,9 @@ class UsersController extends Controller
             }
         }
         
+       
+         
+
         // Again get a response
         if($count > 0){
             $offset1 = $offset + $limit;
@@ -1715,9 +1720,23 @@ class UsersController extends Controller
         }
         
 
+        
         if(!empty($item_inventory['products'])){
             $_products = $item_inventory['products'];
             $itemCode = array_column($_products,'itemcode');
+            if($warehousecode){
+                $inventory_updates = VmiInventoryRequest::select('*')
+                                    ->whereIn('item_code',$itemCode)
+                                    ->where('company_code',$company_code)
+                                    ->where('warehousecode',$warehousecode)
+                                    ->whereIn('id', function ($query) {
+                                        $query->select(DB::raw('MAX(id)'))
+                                            ->from('vmi_inventory_requests')
+                                            ->groupBy('item_code');
+                                    })
+                                    ->get()->toArray(); //->pluck('new_qty_hand','item_code','updated_at');
+                
+            }else{
             $inventory_updates = VmiInventoryRequest::select('*')
                                     ->whereIn('item_code',$itemCode)
                                     ->where('company_code',$company_code)
@@ -1726,14 +1745,30 @@ class UsersController extends Controller
                                             ->from('vmi_inventory_requests')
                                             ->groupBy('item_code');
                                     })
-                                    ->get()->pluck('new_qty_hand','item_code');
-                                    
-            $itemcodes = array();                                    
-            if(!empty($inventory_updates)){              
+                                    ->get()->toArray(); //->pluck('new_qty_hand','item_code','updated_at')
+            }                        
+            $itemcodes = array();   
+            
+           
+
+                    
+            if(!empty($inventory_updates)){    
+                foreach($inventory_updates as $inventory){
+                    $key = $inventory['item_code'];
+                    $itemcodes[$key] = $inventory;
+                }   
+
+                
                 foreach($_products as $key => $_product){
                    $itemcode = $_product['itemcode'];
-                   if(isset($inventory_updates[$itemcode])){
-                    $item_inventory['products'][$key]['quantityonhand'] = $inventory_updates[$itemcode];
+                   $last_updated = isset($_product['lastphysicalcountdate']) ? $_product['lastphysicalcountdate'] : '';
+                   if(isset($itemcodes[$itemcode]) && $last_updated != '' && $warehousecode != ''){
+                        $stored_date = $itemcodes[$itemcode]['updated_at'];
+                        if(strtotime($last_updated) <= strtotime($stored_date)){
+                            $item_inventory['products'][$key]['quantityonhand'] = $itemcodes[$itemcode]['new_qty_hand'];
+                        }
+                   }elseif(isset($itemcodes[$itemcode]) && $warehousecode == ''){
+                        $item_inventory['products'][$key]['quantityonhand'] = $itemcodes[$itemcode]['new_qty_hand'];
                    }
                 }
             }
@@ -1772,6 +1807,8 @@ class UsersController extends Controller
         $value_changes = json_decode($data['vmi_changes'],true);
         $company_code = $data['company_code'];
         $user_detail_id = $data['user_detail_id'];
+        $warehousecode = isset($data['warehousecode']) ? $data['warehousecode'] : '';
+        
 
         // $bodycontent = '<table>
         //                     <thead>
@@ -1801,14 +1838,19 @@ class UsersController extends Controller
             $data_array['new_qty']      = $new_qty;
             $data_array_collection[]    = $data_array;
 
-            $VmiInventoryRequest = VmiInventoryRequest::create([
-                'company_code' => $company_code,
-                'item_code' => $key,
-                'user_detail_id' => $user_detail_id,
-                'old_qty_hand' => $value_change['old_qty'],
-                'new_qty_hand'=> $value_change['new_qty'],
-                'change_user' => $user->id 
-            ]);
+            $item_data = array('company_code'    => $company_code,
+                                'item_code'      => $key,
+                                'user_detail_id' => $user_detail_id,
+                                'old_qty_hand'   => $value_change['old_qty'],
+                                'new_qty_hand'   => $value_change['new_qty'],
+                                'change_user'    => $user->id,
+                                'warehousecode'  => $warehousecode 
+                            );
+
+            $VmiInventoryRequest = VmiInventoryRequest::create($item_data);
+
+          
+
             $bodycontent = '<tr>
                             <td><strong>'.$key.'</strong></td>
                             <td>'.$itemcode.'</td>
@@ -1820,7 +1862,7 @@ class UsersController extends Controller
             $data1 = array(                             
                 "companyCode"   => $company_code,
                 "method" =>  "post",
-                "warehouseCode" => "000", // ??
+                "warehouseCode" => $warehousecode, // ??
                 "itemcode" => $key,
                 "quantityCounted" => $value_change['new_qty']
             );

@@ -10,6 +10,7 @@ class VmiInventoryRequest extends Model
     use HasFactory;
     protected $fillable = [
         'company_code',
+        'warehousecode',
         'item_code',
         'user_detail_id',
         'old_qty_hand',

@@ -100,8 +100,9 @@ function vmiPostCountSave(){
     $('#vmi_inventory_edit').removeClass('d-none')
     $('.quantity_counted').prop('disabled',true);
 
-    let company_code  = $('#vmi_company_code').val();
-    let user_detail_id = $('#user_detail_id').val();
+    let company_code    = $('#vmi_company_code').val();
+    let user_detail_id  = $('#user_detail_id').val();
+    let warehousecode   = $('#itemwarehousecode').val();
     if(change_items.length = 0){
         $('#vmi_inventory_message').html(constants.vmi_inventory.no_change).removeClass('alert-success').addClass('alert-danger').removeClass('d-none');
         return false;
@@ -112,7 +113,7 @@ function vmiPostCountSave(){
         url: '/admin/saveAdminVmiData',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "vmi_changes": JSON.stringify(changes),"user_detail_id" : user_detail_id,'company_code': company_code},
+        data: { "vmi_changes": JSON.stringify(changes),"user_detail_id" : user_detail_id,'company_code': company_code,warehousecode:warehousecode},
         beforeSend:function(){
             $('.backdrop').removeClass('d-none');
         },
