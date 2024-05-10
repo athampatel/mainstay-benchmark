@@ -182,8 +182,6 @@ class SDEApi
       );
       $post_data = array_merge($default_data,$data);
 
-      
-      
       $request = Http::withOptions([
           'verify' => $this->is_ssl_verify,
           'timeout' => config('app.app_max_time')

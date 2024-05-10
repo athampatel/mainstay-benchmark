@@ -39,6 +39,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Backend\AdminsController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 class UsersController extends Controller
 {
@@ -555,7 +556,7 @@ class UsersController extends Controller
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6|confirmed',
+            'password' => 'nullable|min:4|confirmed',
             'profile_picture' => 'sometimes|file|mimes:jpg,jpeg,png|max:'.$max_file_size,
         ]);
 
@@ -603,7 +604,16 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password) {
+            $is_update = NewPasswordController::change_vmi_password($id,$request->password);
             $user->password = Hash::make($request->password);
+            /*
+            if($is_update) {
+                $user->password = Hash::make($request->password);
+            } else {
+                session()->flash('error', config('constants.vmi_password_not_update'));   
+                return back();    
+            }*/
+            //$user->password = Hash::make($request->password);
         }
         $user->save();
 
@@ -2254,10 +2264,10 @@ class UsersController extends Controller
         $SDEAPi     = new SDEApi();
         $response   = $SDEAPi->Request('post','Customers',$data);
         $customers   = null;
-        if(!empty($response)){
-            $customers = $response['customers'];
-            $customer = $customers[0];
-            if(!empty($customer) && $customer['vmi_companycode'] != ''){
+        if(!empty($response)){           
+            $customers = isset($response['customers']) ? $response['customers'] : null;
+            $customer = (count($customers) > 0) ?  $customers[0] : null;
+            if(!empty($customer) && isset($customer['vmi_companycode']) && $customer['vmi_companycode'] != ''){
                 $vmi_nextonsitedate = $response['customers'][0]['vmi_nextonsitedate'];
                 $vmi_physicalcountdate = $response['customers'][0]['vmi_physicalcountdate'];
 
@@ -2335,7 +2345,9 @@ class UsersController extends Controller
             $SDEAPi = new SDEApi();
             $response   = $SDEAPi->Request('post','Customers',$data);
             if(!empty($response)){
-                if(!empty($response['customers'])){    
+                $_customers = isset($response['customers']) ? $response['customers'] : null;
+                $_customer = (count($_customers) > 0) ?  $_customers[0] : null;
+                if(!empty($_customer) && isset($_customer['vmi_companycode']) && $_customer['vmi_companycode'] != ''){    
                     $vmi_nextonsitedate = $response['customers'][0]['vmi_nextonsitedate'];
                     $vmi_physicalcountdate = $response['customers'][0]['vmi_physicalcountdate'];
 

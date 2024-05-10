@@ -62,19 +62,19 @@ class LoginRequest extends FormRequest
         $is_error = true;
         $response = $sdeApi->Request('post','Contacts',$data);
         if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
-            foreach($response['contacts'] as $contcat){
-                if($contcat['vmi_password'] == $this->only('password')['password']) {
+            foreach($response['contacts'] as $contcat){                
+                if($contcat['vmi_password'] == $this->only('password')['password']) {                    
                     $is_error = false;
                 }
             }            
         } 
-        if($is_error) {
+        
+        if($is_error) {           
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
                 // 'active' => trans('auth.active'),
             ]);
         }
-        
         // already exist code
         if (!Auth::attempt(array_merge($this->only('email', 'password'),['active' => 1 ]), $this->boolean('remember'))) {
             // RateLimiter::hit($this->throttleKey());
