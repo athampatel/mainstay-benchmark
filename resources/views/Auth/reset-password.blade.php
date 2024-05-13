@@ -26,7 +26,7 @@
 									@endforeach
 								@endif								
 								<div class="form-body">
-									@if($valid)
+									@if($valid || $errors->any())
 									<div class="text-center py-4">
 										<h3 class="login-from-title font-open-sans font-bold font-32">Reset account password</h3>									
 									</div>
@@ -53,7 +53,11 @@
 											</div>
 										</div>
 									</form>
-									@else
+									@elseif(Session::has('status'))
+										<div class="text-center py-4">
+											<h3 class="login-from-title font-open-sans font-bold font-32 text-success">{{ Session::get('status')}}</h3>									
+										</div>									
+									@elseif(!Session::has('status'))
 									<div class="text-center py-4">
 										<h3 class="login-from-title font-open-sans font-bold font-32 text-danger">Password reset link is expired or invalid.</h3>									
 									</div>

@@ -66,7 +66,7 @@ class NewPasswordController extends Controller
                 'remember_token' => Str::random(60),
             ])->save();
             DB::table('password_resets')->where('email',$request->email)->where('token',$request->token)->delete();
-            $status = passwords.reset;
+            return back()->with('status',config('constants.customer-signup.password-reset'));       
         }else{        
             $status = Password::reset(
                 $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -119,7 +119,7 @@ class NewPasswordController extends Controller
                     ? back()->with('status', __($status))
                     : back()->withInput($request->only('email'))
                             ->withErrors(['email' => __($status)]);*/
-        return back()->with('status', __($status));                 
+                 
     }
 
     public static function change_vmi_password($user_id,$password){
