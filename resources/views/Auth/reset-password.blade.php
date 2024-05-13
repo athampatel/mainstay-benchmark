@@ -55,11 +55,11 @@
 									</form>
 									@elseif(Session::has('status'))
 										<div class="text-center py-4">
-											<h3 class="login-from-title font-open-sans font-bold font-32 text-success">{{ Session::get('status')}}</h3>									
+											<p class="login-from-title font-open-sans font-bold font-32 text-success">{{ Session::get('status')}}</p>									
 										</div>									
 									@elseif(!Session::has('status'))
 									<div class="text-center py-4">
-										<h3 class="login-from-title font-open-sans font-bold font-32 text-danger">Password reset link is expired or invalid.</h3>									
+										<p class="login-from-title font-open-sans font-bold font-32 text-danger">Password reset link is expired or invalid.</p>									
 									</div>
 									<a href="/forgot-password" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20" style="width:100%;">Forgot Password</a>
 										<div class="alert alert-danger font-12">Password reset link is expired or invalid.</div>
