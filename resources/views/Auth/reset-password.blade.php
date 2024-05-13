@@ -11,9 +11,7 @@
 								<div class="mb-4 mt-3 text-center">
 									<img src="/assets/images/logo.svg" width="180" alt="" />
 								</div>
-								<div class="text-center py-4">
-									<h3 class="login-from-title font-open-sans font-bold font-32">Reset account password</h3>									
-								</div>
+								
 								@if(Session::has('status'))
 									<div class="alert alert-success font-12">{{ Session::get('status')}}</div>
 									<script>
@@ -28,6 +26,10 @@
 									@endforeach
 								@endif								
 								<div class="form-body">
+									@if($valid)
+									<div class="text-center py-4">
+										<h3 class="login-from-title font-open-sans font-bold font-32">Reset account password</h3>									
+									</div>
 									<form class="row g-3" method="POST" action="{{route('password.update')}}">
 										@csrf
                                         <input type="hidden" name="token" value="{{ $request->route('token') }}">
@@ -51,6 +53,13 @@
 											</div>
 										</div>
 									</form>
+									@else
+									<div class="text-center py-4">
+										<h3 class="login-from-title font-open-sans font-bold font-32 text-danger">Password reset link is expired or invalid.</h3>									
+									</div>
+									<a href="/forgot-password" class="btn mb-4 button-bg-primary-green padding-y-15 font-open-sans font-semi-bold font-20" style="width:100%;">Forgot Password</a>
+										<div class="alert alert-danger font-12">Password reset link is expired or invalid.</div>
+									@endif
 								</div>
 							</div>
 						</div>

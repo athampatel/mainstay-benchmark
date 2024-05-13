@@ -65,10 +65,10 @@ class PasswordResetLinkController extends Controller
         $_token = Hash::make($token);
         $is_password_reset = DB::table('password_resets')->where('email',$request->email)->first();
         if($is_password_reset){
-            DB::table('password_resets')->where('email',$request->email)->update(['token' => $_token,'created_at' =>date('Y-m-d h:i:s')]);
+            DB::table('password_resets')->where('email',$request->email)->update(['token' => $token,'created_at' =>date('Y-m-d h:i:s')]);
         } else {
             DB::table('password_resets')->insert(
-                ['email' => $request->email, 'token' => $_token, 'created_at' => date('Y-m-d h:i:s')]
+                ['email' => $request->email, 'token' => $token, 'created_at' => date('Y-m-d h:i:s')]
             );
         }
         $user = User::where('email',$request->email)->first();
