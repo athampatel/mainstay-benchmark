@@ -93,12 +93,12 @@ class NewPasswordController extends Controller
                     //         }    
                     //     }
                     // }
-                    if($is_update) {
+                    //if($is_update) {
                         $user->forceFill([
                             'password' => Hash::make($request->password),
                             'remember_token' => Str::random(60),
                         ])->save();
-                    }
+                    //}
 
                     event(new PasswordReset($user));
                 }

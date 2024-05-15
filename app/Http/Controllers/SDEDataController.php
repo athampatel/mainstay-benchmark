@@ -496,12 +496,14 @@ class SDEDataController extends Controller
                 }
                 if($request->password != ""){
                     $is_update = NewPasswordController::change_vmi_password($user->id,$request->password);
-                    if($is_update) {
+                    $user->password = Hash::make($request->password);
+
+                    /*if($is_update) {
                         $user->password = Hash::make($request->password);
                     } else {
                         echo json_encode(['success' => false, 'data' => [] , 'error' => [config('constants.vmi_password_not_update')]]);
                         die();        
-                    }
+                    }*/
                 }
                 $user_details->customername = $request->company_ame;
                 $user_details->addressline1 = $request->acc_address_line_1;
