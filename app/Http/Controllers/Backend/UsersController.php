@@ -605,14 +605,14 @@ class UsersController extends Controller
         $user->email = $request->email;
         if ($request->password) {
             $is_update = NewPasswordController::change_vmi_password($id,$request->password);
-            $user->password = Hash::make($request->password);
-            /*
+            //$user->password = Hash::make($request->password);
+            
             if($is_update) {
                 $user->password = Hash::make($request->password);
             } else {
                 session()->flash('error', config('constants.vmi_password_not_update'));   
                 return back();    
-            }*/
+            }
             //$user->password = Hash::make($request->password);
         }
         $user->save();
