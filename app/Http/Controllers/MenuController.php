@@ -667,6 +667,7 @@ class MenuController extends Controller
     }
 
     public function getVmiData(Request $request){
+        
         $data = $request->all();
         $page = $data['page'];
         $limit = $data['count'];
@@ -676,6 +677,7 @@ class MenuController extends Controller
         } else {
             $offset = $page * $limit + 1;
         }
+
         $customer = $request->session()->get('customers');
         $customer_no = $request->session()->get('customer_no');
         $user_id = Auth::user()->id;
@@ -683,7 +685,7 @@ class MenuController extends Controller
         $companycode = $customer_details['vmi_companycode'];
        
         $warehousecode = $customer_details['itemwarehousecode'];
-        $warehousecode = ($warehousecode != '' && strlen($warehousecode) > 1 && $warehousecode != null) ? $warehousecode : '';
+        $warehousecode = ($warehousecode != '' && strlen($warehousecode) > 1 && $warehousecode != null) ? $warehousecode : '000';
 
 
         $response['products'] = array();   
@@ -701,20 +703,7 @@ class MenuController extends Controller
                         ],
                     ], 
                 );
-
-            /*if($search_word != '') {
-                $column_name = 'itemcode';
-                    $vmi_page_filter = [
-                        [
-                        "column" => $column_name,
-                        "type" => "equals",
-                        "value" => $search_word,
-                        "operator" => "and"
-                        ]
-                    ];
-                $data['filter'] = array_merge($vmi_page_filter,$data['filter']);
-            }*/
-
+           
             $_filter = array();
             $resource = 'Products';
             if($warehousecode){
