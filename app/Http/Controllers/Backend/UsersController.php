@@ -605,11 +605,11 @@ class UsersController extends Controller
             $user_detail->save();
             $customers = UserDetails::where('user_id',$user_detail->user_id)->get();
             $is_delete = true;           
-            foreach($customers as $customer) {
+            /*foreach($customers as $customer) {
                 if($customer->is_active == 0){
                     $is_delete = false;
                 }
-            }
+            }*/
             if($is_delete) {
                 $user= User::find($user_detail->user_id);
                 if($user) {
