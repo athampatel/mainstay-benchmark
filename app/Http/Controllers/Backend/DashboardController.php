@@ -87,7 +87,7 @@ class DashboardController extends Controller
             // $total_customers    = User::select('id')->get()->count();   
             $total_customers    = UserDetails::select('customerno')
                                   ->leftjoin('users','user_details.user_id','=','users.id')
-                                  ->where('users.is_temp',0)
+                                  ->where('users.is_temp',0)->where('users.is_deleted',0)
                                   ->distinct()->count('customerno');
             // dd($total_customers);
             $new_customers      = SignupRequest::select('id')->where('status','=',0)->get()->count();
