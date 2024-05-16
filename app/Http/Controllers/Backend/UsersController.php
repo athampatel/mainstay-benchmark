@@ -2191,7 +2191,8 @@ class UsersController extends Controller
     }
 
     private static function SetTempSessions(Request $request,$admin_email = null,$current_user_no = null){
-        $user = Auth::user();     
+        $user = Auth::user();    
+        Session()->forget(['vmi_nextonsitedate','vmi_physicalcountdate','customers','selected_customer','customer_no']); 
         $data = array(            
                 "filter" => [
                     [
@@ -2254,6 +2255,7 @@ class UsersController extends Controller
         if(!$by_admin){
             return redirect()->route('login');   
         }
+        Session()->forget(['vmi_nextonsitedate','vmi_physicalcountdate','customers','selected_customer','customer_no']);
         $admin = Admin::where('email',$by_admin)->get("id")->first();
         Auth::guard('web')->logout();
         Session()->flush();
@@ -2267,6 +2269,7 @@ class UsersController extends Controller
 
     private static function customerSessions(Request $request,$admin_email = null,$user_detail_id = 0){
         $user = Auth::user();
+        Session()->forget(['vmi_nextonsitedate','vmi_physicalcountdate','customers','selected_customer','customer_no']);
         $customer = UserDetails::where('user_id',$user->id)
                     ->leftjoin('users','users.id','=','user_details.user_id')
                     ->select('user_details.*','users.profile_image')
