@@ -160,6 +160,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin','checkAdminPrefi
     Route::get('/manager/customers',[UsersController::class,'ManagerCustomers'])->name('admin.manager.customers_list');
     Route::get('/manager/create',[UsersController::class,'ManagerCreate'])->name('admin.manager.create');
     Route::post('/get_manager_info',[UsersController::class,'ManagerInfo'])->name('admin.manager.info');
+    Route::post('/customer/{id}',[UsersController::class,'destroy'])->name('admin.customer.delete');
 }); 
 
 Route::get('/clearNotifications',[NotificationController::class,'ClearAdminNotifications']);

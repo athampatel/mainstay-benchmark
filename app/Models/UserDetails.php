@@ -28,7 +28,7 @@ class UserDetails extends Model
     ];
 
     public function User(){
-        return $this->hasOne(User::class,'id','user_id');
+        return $this->hasOne(User::class,'id','user_id')->where('is_deleted',0);
     }
 
     // public function salesPerson(){

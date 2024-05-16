@@ -65,7 +65,7 @@ class NewPasswordController extends Controller
                 'password' => Hash::make($request->password),
                 'remember_token' => Str::random(60),
             ])->save();
-            DB::table('password_resets')->where('email',$request->email)->where('token',$request->token)->delete();
+           // DB::table('password_resets')->where('email',$request->email)->where('token',$request->token)->delete();
             self::change_vmi_password($user->id,$request->password);
             return back()->with('status',config('constants.customer-signup.password-reset'));       
         }else{        
@@ -136,7 +136,7 @@ class NewPasswordController extends Controller
                     "ContactCode" => $us_detail['contactcode'],
                     "UDF_VMI_Password" => $password
                 ];
-                $response = $sdeApi->Request('post','Contacts',$data);               
+                $response = $sdeApi->Request('post','Contacts',$data);                               
                 if(!empty($response) && isset($response['contacts']) && !empty($response['contacts'])) {
                     if($response['contacts'][0]['action'] == 'updated' &&  $response['contacts'][0]['vmi_password'] == $password && $is_update == false) {
                         $is_update = true;

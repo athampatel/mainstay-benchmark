@@ -98,11 +98,10 @@ class UsersController extends Controller
         $manager = $request->input('manager');
         $type  = $request->input('type');
         $request_data = ['search' => $search,'type' => $type,'manager' => $manager];
-        // dd($request_data);
-        // $customers = CustomerUnqiue::whereHas('UserDetails.User', function ($query) use ($request_data) {
+        
+        //$usersNotIn = DB::table('users')->where('is_deleted', '0')->pluck('id')->toArray();
+        //dd($usersNotIn);
 
-       // $usersIn = DB::table('users')->where('is_deleted', '0')->where('is_temp', '0')->pluck('id')->toArray();
-        //dd($usersIn);
         $customers = CustomerUnqiue::whereHas('UserDetails', function ($query) use ($request_data,$user) {
             $query->join('users','users.id','=','user_details.user_id');
             $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
@@ -118,11 +117,11 @@ class UsersController extends Controller
                                 ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
                 });
             }
-            $query->select('user_details.*','sales_persons.name');
+            $query->select('users.is_deleted','user_details.*','sales_persons.name');
             
             $query->where('users.is_deleted',0)->where('users.is_temp',0); //->whereNotNull('users.id');
 
-           // $query->whereIn('user_details.user_id',$usersIn);
+            //$query->where('user_details.is_active',1);
 
             if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
                 $query->where('user_details.vmi_companycode','!=','');
@@ -130,7 +129,7 @@ class UsersController extends Controller
 
             //$query->where('users.is_temp','=',0);
 
-            if($request_data['type'] != "" && $request_data['type'] == 'new'){
+            if($request_data['type'] == 'new'){
                 $query->where('users.active','=',0);
             }
             if($request_data['manager'] != "") {
@@ -142,68 +141,11 @@ class UsersController extends Controller
                 $query->where('admins.id',$user->id);
             }
         })->with(['UserDetails.User','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
-
-        // dd($customers);
-
-        /* test working start */
-        // $customers = Customer::whereHas('UserDetails', function ($query) use ($request_data) {
-        //     $query->leftjoin('user_sales_persons','user_sales_persons.user_details_id','=','user_details.id')
-        //             ->leftjoin('sales_persons','sales_persons.id','=','user_sales_persons.sales_person_id');
-        //     if($request_data['search'] != ""){                
-        //         $query->where(function($query) use($request_data){
-        //                 $query->orWhere('customerno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('user_details.email','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('customerno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('ardivisionno','like','%'.$request_data['search'].'%')
-        //                         ->orWhere('sales_persons.name','like','%'.$request_data['search'].'%');
-        //         });
-        //     }
-        //     $query->select('user_details.*','sales_persons.name');
-        //     $query->where('users.is_deleted',0);
-        //     if($request_data['type'] != "" && $request_data['type'] == 'vmi') {
-        //         $query->where('user_details.vmi_companycode','!=','');
-        //     }
-        //     if($request_data['type'] != "" && $request_data['type'] == 'new'){
-        //         $query->where('users.active','=',0);
-        //     }
-        //     if($request_data['manager'] != "") {
-        //         $query->leftjoin('admins','sales_persons.email','=','admins.email');
-        //         $query->where('admins.id',$request_data['manager']);
-        //     }
-        //     if (!$this->superAdmin && !empty($user)){
-        //         $query->leftjoin('admins','sales_persons.email','=','admins.email'); 
-        //         $query->where('admins.id',$user->id);
-        //     }
-        // })->with(['UserDetails','UserDetails.userSalesPerson.salesPerson'])->offset($offset)->limit($limit);
-        
-        // dd($customers);
-        /* test working end */
-    // })->with(['UserDetails.User'])->offset($offset)->limit($limit);
-
-       
-
         $userss = $customers->paginate(intval($limit));
         //$users =  $customers->get()->toJson();
         $users =  $customers->get()->toArray();
 
-
-       /* echo "<pre>";
-        print_r($users);
-        echo "</pre>";
-        die;    */
-        
-        //echo $customers->toSql();
-        // dd($users);
-
-        //dd($users);
-
-        $print_users = $users;
-        //echo $customers->toSql();
-        // dd($users);        
-       // die; 
-        ///
-        
-        //select('users.id','users.email','users.profile_image','users.active','users.is_deleted','users.activation_token','users.is_vmi','users.name');
+        $print_users = $users;        
         $paginate = $userss->toArray();
         $paginate['links'] = self::customPagination(1,$paginate['last_page'],$paginate['total'],$paginate['per_page'],$paginate['current_page'],$paginate['path']);
         $searchWords = SearchWord::where('type',1)->get()->toArray();
@@ -655,11 +597,14 @@ class UsersController extends Controller
         // }
 
         $user_detail = UserDetails::find($id);
+
+        //print_r($user_detail);
+        
         if($user_detail){
-            $user_detail->is_active = 1;
+            $user_detail->is_active = 0;
             $user_detail->save();
             $customers = UserDetails::where('user_id',$user_detail->user_id)->get();
-            $is_delete = true;
+            $is_delete = true;           
             foreach($customers as $customer) {
                 if($customer->is_active == 0){
                     $is_delete = false;
@@ -673,8 +618,8 @@ class UsersController extends Controller
                     $user->save();
                 }
             }
-        }
-        session()->flash('success', config('constants.customer_delete.confirmation_message'));
+        }        
+        session()->flash('success', config('constants.customer_delete.confirmation_message'));        
         return back();
     }
 
@@ -1676,9 +1621,6 @@ class UsersController extends Controller
         
         $sdeApi = new SDEApi();
         $response = $sdeApi->Request('post',$resource,$data);
-
-            
-
         if(empty($response)){
             $table_code = View::make("components.datatabels.vmi-inventory-list-component")
             ->with("vmiProducts", [])
@@ -1704,9 +1646,6 @@ class UsersController extends Controller
                 unset($item_inventory['products'][$key]);
             }
         }
-        
-       
-         
 
         // Again get a response
         if($count > 0){
@@ -1745,6 +1684,8 @@ class UsersController extends Controller
                                             ->groupBy('item_code');
                                     })
                                     ->get()->toArray(); //->pluck('new_qty_hand','item_code','updated_at');
+
+                 //   print_r($inventory_updates); die;                 
                 
             }else{
             $inventory_updates = VmiInventoryRequest::select('*')
@@ -1766,17 +1707,22 @@ class UsersController extends Controller
                 foreach($inventory_updates as $inventory){
                     $key = $inventory['item_code'];
                     $itemcodes[$key] = $inventory;
-                }   
-
+                }
                 
                 foreach($_products as $key => $_product){
                    $itemcode = $_product['itemcode'];
+
+                   
+
                    $last_updated = isset($_product['lastphysicalcountdate']) ? $_product['lastphysicalcountdate'] : '';
-                   if(isset($itemcodes[$itemcode]) && $last_updated != '' && $warehousecode != ''){
-                        $stored_date = $itemcodes[$itemcode]['updated_at'];
+
+                   
+                   if(isset($itemcodes[$itemcode]) && $warehousecode != ''){
+                        $item_inventory['products'][$key]['quantityonhand'] = $itemcodes[$itemcode]['new_qty_hand'];
+                        /*$stored_date = $itemcodes[$itemcode]['updated_at'];
                         if(strtotime($last_updated) <= strtotime($stored_date)){
                             $item_inventory['products'][$key]['quantityonhand'] = $itemcodes[$itemcode]['new_qty_hand'];
-                        }
+                        }*/
                    }elseif(isset($itemcodes[$itemcode]) && $warehousecode == ''){
                         $item_inventory['products'][$key]['quantityonhand'] = $itemcodes[$itemcode]['new_qty_hand'];
                    }

@@ -101,7 +101,14 @@ Customers - Admin Panel
                                                 <span class="customerno">{{$user['customerno']}}</span>
                                         </a>
                                         </th>
-                                        <th colspan="7 text-left" style="text-align:left;padding:20px 10px;font-size:0.75rem">{{$user_details[0]['customername']}}<span style="color:#A2D45E"></span></th>
+                                        <th colspan="7 text-left" style="text-align:left;padding:20px 10px;font-size:0.75rem">
+                                        @if($user_details[0]['is_active'] != 1 && count($user_details) > 1)
+                                            {{$user_details[1]['customername']}}
+                                        @else    
+                                            {{$user_details[0]['customername']}}
+                                        @endif
+                                        
+                                        <span style="color:#A2D45E"></span></th>
                                     </tr>
 
                                     <tr class="company-row row-header animate row-{{$user['customerno']}}" style="display:none">
@@ -292,8 +299,8 @@ function deleteCustomer(id){
     }).then((result) => {
         if (result.isConfirmed) {
         // document.quer(`delete-form-${id}`).submit();
-        console.log(id,'___delete from id');
-        document.querySelector(`#delete-form-${id}`).submit();
+        //console.log(id,'___delete from id');
+            document.querySelector(`#delete-form-${id}`).submit();
         }
     })
 }
