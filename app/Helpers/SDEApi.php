@@ -250,7 +250,15 @@ class SDEApi
           UsersController::commonEmailSend($admin_emails,$details);
         }
         return;
-      } 
+      }else{
+        ApiLog::create([
+          'resource' => $resource,
+          'data' =>  json_encode($data),
+          'error_code' => $response_code,
+          'message' => "Success",
+        ]);
+      }
+      return true;
     }
 	
 	public function getRangeDates($range,$year) {
