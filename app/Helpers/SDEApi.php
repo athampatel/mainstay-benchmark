@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Client\RequestException;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Request;
 
 // sde : Simple data exchange
 
@@ -194,7 +195,7 @@ class SDEApi
         $response = $request->post($this->end_point,$post_data);
       }
       $response_code = $response->getStatusCode();
-      self::responseErrorCheck($response,$data,$resource);
+      $this->responseErrorCheck($response,$data,$resource);
       if($resource == 'Products' && $response_code == 500){
         return [];
       }
@@ -204,7 +205,7 @@ class SDEApi
       return $response->json();
     }
 
-    public static function responseErrorCheck($response,$data,$resource){
+    public function responseErrorCheck($response,$data,$resource){
       $response_code = $response->getStatusCode();
       $error_codes = explode(',', config('app.api_error_codes'));
       if(in_array($response_code,$error_codes)){
@@ -255,11 +256,25 @@ class SDEApi
           'resource' => $resource,
           'data' =>  json_encode($data),
           'error_code' => $response_code,
-          'message' => "Success",
+          'message' => $this->getIp(),
         ]);
       }
       return true;
     }
+
+  public function getIp(){
+      foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+          if (array_key_exists($key, $_SERVER) === true){
+              foreach (explode(',', $_SERVER[$key]) as $ip){
+                  $ip = trim($ip); // just to be safe
+                  if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                      return $ip;
+                  }
+              }
+          }
+      }
+      return request()->ip(); // it will return the server IP if the client IP is not found using this method.
+  }
 	
 	public function getRangeDates($range,$year) {
         $start_date = '';
