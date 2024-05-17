@@ -877,7 +877,6 @@ class MenuController extends Controller
                $res['user_detail'] = $user_details;
                $res['success'] = true;
             }
-
             echo json_encode($res);
             die();
         }
