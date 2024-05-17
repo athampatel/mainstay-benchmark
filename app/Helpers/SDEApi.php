@@ -195,7 +195,7 @@ class SDEApi
         $response = $request->post($this->end_point,$post_data);
       }
       $response_code = $response->getStatusCode();
-      $this->responseErrorCheck($response,$data,$resource);
+      $this->responseErrorCheck($response,$post_data,$resource);
       if($resource == 'Products' && $response_code == 500){
         return [];
       }
