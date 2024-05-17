@@ -250,7 +250,7 @@ class SDEApi
           UsersController::commonEmailSend($admin_emails,$details);
         }
         return;
-      }
+      } 
     }
 	
 	public function getRangeDates($range,$year) {
