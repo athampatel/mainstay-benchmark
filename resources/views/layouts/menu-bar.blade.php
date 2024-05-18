@@ -34,6 +34,14 @@
                 </a>
                 </li>
               @endif
+              @if($key === 'by_admin')
+              @section('scripts')
+              <script>
+                  caches.keys().then((keyList) => Promise.all(keyList.map((key) => caches.delete(key))))
+              </script>
+              @endsection
+
+              @endif
             @endif
         @endforeach
       </ul>
