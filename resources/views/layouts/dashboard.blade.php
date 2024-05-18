@@ -79,9 +79,12 @@
 	<script>
 		let is_notify_admin = 0;
 	</script>
-	<script src="/assets/js/customer-charts.js"></script>
-	<script src="/assets/js/common-functions.js"></script>
-	<script src="/assets/js/notification.js"></script>
+	@php 
+    	$version = time(); 
+	@endphp
+	<script src="/assets/js/customer-charts.js?v={{$version}}"></script>
+	<script src="/assets/js/common-functions.js?v={{$version}}"></script>
+	<script src="/assets/js/notification.js?v={{$version}}"></script>
 </body>
 </html>
 
