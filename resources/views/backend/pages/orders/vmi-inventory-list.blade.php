@@ -92,6 +92,9 @@ VMI Inventory - Admin Panel
     </div>
 </div>
 @endsection
+@php 
+    $version = time(); 
+@endphp
 
 @section('scripts')
 <script>
@@ -99,7 +102,7 @@ VMI Inventory - Admin Panel
     const searchWords = <?php echo json_encode($searchWords); ?>;
     var change_items = [];
 </script>
-<script src="{{ asset('assets/js/backend_vmi.js') }}"></script>
+<script src="{{ asset('assets/js/backend_vmi.js') }}?v={{$version}}"></script>
 @endsection
 
 

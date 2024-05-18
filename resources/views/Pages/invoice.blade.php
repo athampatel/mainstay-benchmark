@@ -88,7 +88,9 @@
     </div>
 </div>
 @endsection
-
+@php 
+    $version = time(); 
+@endphp
 @section('scripts')
      <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
      <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
@@ -101,5 +103,5 @@
         const searchWords = <?php echo json_encode($searchWords); ?>;
         const env_maximum = '{{ config('app.export_max')}}';
     </script>
-     <script src="/assets/js/invoice-orders-page.js"></script>
+     <script src="/assets/js/invoice-orders-page.js?v={{$version}}"></script>
 @endsection

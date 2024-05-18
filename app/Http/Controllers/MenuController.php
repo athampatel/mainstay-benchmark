@@ -299,6 +299,7 @@ class MenuController extends Controller
         $data['constants'] = config('constants');
         $searchWords = SearchWord::where('type',2)->get()->toArray();
         $data['searchWords']   = $searchWords;
+        $data['ver']   = Carbon::now()->timestamp;               
         return view('Pages.vmi-user',$data);
     }
 

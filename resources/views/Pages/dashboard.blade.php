@@ -364,8 +364,12 @@
   </div>  
 @endsection
 
+@php 
+    $version = time(); 
+@endphp
+
 @section('scripts')
-<script src="/assets/js/customer-dashboard.js"></script>
+<script src="/assets/js/customer-dashboard.js?v={{$version}}"></script>
 <script type="text/javascript">
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;

@@ -211,7 +211,9 @@
 
 <style>
 </style>
-
+@php 
+    $version = time(); 
+@endphp
 @section('scripts')
 <script>
     let app_url = '{{ config("app.url") }}';
@@ -219,5 +221,5 @@
     const constants = <?php echo json_encode($constants); ?>;
     const searchWords = <?php echo json_encode($searchWords); ?>;
 </script>
-<script src="/assets/js/invoice-detail.js"></script>
+<script src="/assets/js/invoice-detail.js?v={{$version}}"></script>
 @endsection

@@ -59,8 +59,12 @@
 </div>            
 @endsection
 
+@php 
+    $version = time(); 
+@endphp
+
 @section('scripts')
-    <script src="/assets/js/help-page.js"></script>
+    <script src="/assets/js/help-page.js?v={{$version}}"></script>
     <script>
         const constants = <?php echo json_encode($constants); ?>;
         const searchWords = <?php echo json_encode($searchWords); ?>;

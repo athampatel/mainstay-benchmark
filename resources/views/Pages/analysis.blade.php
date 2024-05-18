@@ -162,7 +162,9 @@
     </div>
 </div>
 @endsection
-
+@php 
+    $version = time(); 
+@endphp
 @section('scripts')
      <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
      <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
@@ -176,5 +178,5 @@
          const searchWords = <?php echo json_encode($searchWords); ?>;
          const urlyear = <?php echo json_encode($urlyear); ?>;
     </script>
-    <script src="/assets/js/analysis-page.js"></script>
+    <script src="/assets/js/analysis-page.js?v={{$version}}"></script>
 @endsection
