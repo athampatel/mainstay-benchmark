@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
     @include('layouts.favicon')    
     <title>@yield('title')</title>
 	<link rel="icon" href="/assets/favicons/favicon-Web-32.png" type="image/png" />
