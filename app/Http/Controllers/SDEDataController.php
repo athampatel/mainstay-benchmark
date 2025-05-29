@@ -63,10 +63,10 @@ class SDEDataController extends Controller
 
         if($is_fetch_data){
             $dataSalesHistory = array(
-                            array(  "column" => "ARDivisionNo",
+                           /* array(  "column" => "ARDivisionNo",
                                     "type" => "equals",
                                     "value" => $user_details->ardivisionno,
-                                    "operator" => "and"),
+                                    "operator" => "and"), */
                             array(  "column" =>  "CustomerNo",
                                     "type" =>  "equals",
                                     "value" =>  $user_details->customerno,
