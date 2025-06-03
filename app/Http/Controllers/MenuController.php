@@ -386,7 +386,7 @@ class MenuController extends Controller
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
         if($user_details){
             $data = array( 
-                "index" => "KSDEDESCENDING",           
+              //  "index" => "KSDEDESCENDING",           
                 "filter" => [
                     [
                         "column"=> "ARDivisionNo",
