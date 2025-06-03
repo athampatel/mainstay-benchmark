@@ -845,7 +845,7 @@ class MenuController extends Controller
         $order_no = $request->order_no;
         if($user_details){
             $data = array(            
-                "index" => "KSDEDESCENDING",
+//                "index" => "KSDEDESCENDING",
                 "filter" => [
                     [
                         "column" =>  "CustomerNo",
