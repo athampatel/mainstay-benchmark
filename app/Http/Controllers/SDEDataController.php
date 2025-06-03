@@ -211,7 +211,7 @@ class SDEDataController extends Controller
                     //     "operator" => "and"
                     // ]
                 ],
-                "index" => "KSDEDESCENDING",
+           //     "index" => "KSDEDESCENDING",
                 "offset" => 1,
                 "limit" => 5,
             );

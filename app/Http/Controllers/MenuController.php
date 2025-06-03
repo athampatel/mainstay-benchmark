@@ -512,7 +512,7 @@ class MenuController extends Controller
                 ],
                 "offset" => $offset,
                 "limit" => $limit,
-                "index" => "KSDEDESCENDING",
+               // "index" => "KSDEDESCENDING",
             );
             $SDEAPi = new SDEApi();
             
