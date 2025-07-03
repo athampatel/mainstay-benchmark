@@ -146,7 +146,7 @@ function getAnalysispageData($page,$count,range,year){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [[1, sort_dir]],
+                order: [],
                 columnDefs: is_table_action
             });
 

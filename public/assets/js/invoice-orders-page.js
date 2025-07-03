@@ -102,7 +102,7 @@ function getInvoiceOrderAjax($page,$count,start_date,end_date){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [[3, sort_dir]],
+                order: [],
                 columnDefs: [
                     { targets: [6], orderable: false},
                 ],

@@ -72,7 +72,7 @@ function getOpenOrderAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [[4, sort_dir]],
+                order: [],
                 autoWidth: false,
                 columnDefs: [
                     { targets: [1], width:"16%" },
