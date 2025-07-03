@@ -384,9 +384,13 @@ class MenuController extends Controller
         $customers    = $request->session()->get('customers');
         $user_id = $customers[0]->user_id;
         $user_details = UserDetails::where('user_id',$user_id)->where('customerno',$customer_no)->first();
+
+        $sorting_dir = isset($data['sorting_dir']) ? $data['sorting_dir'] : 'desc';
+        $sorting = ($sorting_dir == 'asc') ?  '' : 'KSDEDESCENDING';
+
         if($user_details){
             $data = array( 
-              //  "index" => "KSDEDESCENDING",           
+                "index" => $sorting,           
                 "filter" => [
                     [
                         "column"=> "ARDivisionNo",
@@ -468,6 +472,7 @@ class MenuController extends Controller
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
         $search_word = $data['search_word'];
+        $sorting_dir = isset($data['sorting_dir']) ? $data['sorting_dir'] : 'desc';
         if($page == 0){
             $offset = 1;
         } else {
@@ -482,7 +487,8 @@ class MenuController extends Controller
             $add_data = array(
                 "companyCode" => $companycode,
             );
-
+            $sorting = ($sorting_dir == 'asc') ?  '' : 'KSDEDESCENDING';
+            
             $data = array(            
                 "filter" => [
                     [
@@ -512,8 +518,9 @@ class MenuController extends Controller
                 ],
                 "offset" => $offset,
                 "limit" => $limit,
-               // "index" => "KSDEDESCENDING",
+                "index" => $sorting,
             );
+
             $SDEAPi = new SDEApi();
             
             if($search_word != '') {
@@ -845,7 +852,7 @@ class MenuController extends Controller
         $order_no = $request->order_no;
         if($user_details){
             $data = array(            
-//                "index" => "KSDEDESCENDING",
+//                getInvoiceOrders
                 "filter" => [
                     [
                         "column" =>  "CustomerNo",
@@ -891,6 +898,9 @@ class MenuController extends Controller
         $range = isset($data['range']) ? intval($data['range']) : 0;
         $view_type = isset($data['view_type']) ? intval($data['view_type']) : 1;
         $chart_type = isset($data['chart_type']) ? intval($data['chart_type']) : 0;
+        $sorting_dir = isset($data['sorting_dir']) ? $data['sorting_dir'] : 'desc';
+        $sorting = ($sorting_dir == 'asc') ?  '' : 'KSDEDESCENDING';
+
         $table_code =  $pagination_code = $new_data = $month_year = $sale_map = $sale_map_desc = $is_another_get = '';
         // $sed_pro_line = $data['prod_line'] ?? '';
         $search_word = $data['search_word'] ?? ''; 
@@ -957,7 +967,7 @@ class MenuController extends Controller
                             "operator" => "and"
                         ],
                     ],
-                    "index" => "KSDEDESCENDING",
+                    "index" => $sorting,
                     "offset" => $offset,
                     "limit" => $limit,
                 );

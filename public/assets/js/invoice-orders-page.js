@@ -78,7 +78,7 @@ function getInvoiceOrderAjax($page,$count,start_date,end_date){
         url: '/getInvoiceOrders',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,'start_date':start_date,'end_date':end_date,search_word},
+        data: { "page" : $page,'count': $count,'start_date':start_date,'end_date':end_date,search_word,'sorting_dir': $('#sorting_dir').val()},
         beforeSend:function(){
             beforeChangeOrderAjax();
         },
@@ -94,23 +94,37 @@ function getInvoiceOrderAjax($page,$count,start_date,end_date){
                 $('#invoice-pdf-export').prop('src','/invoice-export/pdf');
             }
         
-            open_order_page_table = $('#invoice-orders-page-table').DataTable( {
+            var sort_dir = $('#sorting_dir').val();
+            open_order_page_table = $('#invoice-orders-page-table').DataTable({
                 searching: true,
                 lengthChange: true,
                 pageLength:$count,
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [],
+                order: [[3, sort_dir]],
                 columnDefs: [
                     { targets: [6], orderable: false},
                 ],
+            });
+
+            open_order_page_table.on('order.dt', function() {
+                var orderInfo = open_order_page_table.order();  // Returns array of [columnIndex, direction]
+                console.log('Sorting changed:', orderInfo);
+
+                // Example: check first column's sorting
+                if (orderInfo.length && orderInfo[0][0] === 3) {  // 0 = first column
+                    $('#sorting_dir').val(orderInfo[0][1]);
+                    invoiceCommonAjaxData();
+                }
             });
         },
         complete:function(){
             afterChangeOrderAjax();
         }
     });
+
+    
 }
 
 // export details options

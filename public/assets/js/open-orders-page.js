@@ -50,7 +50,7 @@ function getOpenOrderAjax($page,$count){
         url: '/getOpenOrders',
         dataType: "JSON",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: { "page" : $page,'count': $count,search_word},
+        data: { "page" : $page,'count': $count,search_word,'sorting_dir': $('#sorting_dir').val()},
         beforeSend:function(){
             beforeOpenOrderAjax();
         },
@@ -64,6 +64,7 @@ function getOpenOrderAjax($page,$count){
                 $('#export-open-csv').prop('src','/open-export/csv');
                 $('#export-open-pdf').prop('src','/open-export/pdf');
             }
+            var sort_dir = $('#sorting_dir').val();
             open_order_page_table = $('#open-orders-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -71,7 +72,7 @@ function getOpenOrderAjax($page,$count){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [],
+                order: [[4, sort_dir]],
                 autoWidth: false,
                 columnDefs: [
                     { targets: [1], width:"16%" },
@@ -79,6 +80,17 @@ function getOpenOrderAjax($page,$count){
                     { targets: [8], orderable: false},
                 ],
                 // responsive: true
+            });
+
+             open_order_page_table.on('order.dt', function() {
+                var orderInfo = open_order_page_table.order();  // Returns array of [columnIndex, direction]
+                console.log('Sorting changed:', orderInfo);
+
+                // Example: check first column's sorting
+                if (orderInfo.length && orderInfo[0][0] === 4) {  // 0 = first column
+                    $('#sorting_dir').val(orderInfo[0][1]);  
+                    commonOpenOrdersAjaxData();                
+                }
             });
         },
         complete:function(){

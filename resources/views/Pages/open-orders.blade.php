@@ -29,16 +29,12 @@
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search By Order Number" id="open-orders-page-search" aria-controls="help-page-table">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="open-orders-page-search-img">
                             </div> 
-                            <div class="position-relative datatable-filter-div">
-                                <select name="" class="datatable-filter-count" id="open-orders-page-filter-count">
-                                    <option value="12" selected>12 Items</option>
-                                    <option value="15">15 Items</option>
-                                    <option value="20">20 Items</option>
-                                    <option value="50">50 Items</option>
-                                    <option value="100">100 Items</option>
-                                </select>
-                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-                            </div>
+                            <x-select-limit-dropdown 
+                                name="open-orders-page-filter-count"                             
+                                selected="inactive"
+                                class="datatable-filter-count"
+                                id="open-orders-page-filter-count"
+                            />
                             <div class="datatable-export justify-content-center gap-15 cursor-pointer" id="open-order-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">

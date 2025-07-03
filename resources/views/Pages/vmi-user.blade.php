@@ -27,16 +27,12 @@
                                 <input type="text" class="form-control form-control-sm datatable-search-input" placeholder="Search Benchmark Item Number" id="vmi-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="vmi-page-search-img">
                             </div> 
-                            <div class="position-relative datatable-filter-div">
-                                <select name="" class="datatable-filter-count" id="vmi-page-filter-count">
-                                    <option value="12" selected>12 Items</option>
-                                    <option value="15">15 Items</option>
-                                    <option value="20">20 Items</option>
-                                    <option value="50">50 Items</option>
-                                    <option value="100">100 Items</option>
-                                </select>
-                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-                            </div>
+                             <x-select-limit-dropdown 
+                                name="vmi-page-filter-count"                             
+                                selected="inactive"
+                                class="datatable-filter-count"
+                                id="vmi-page-filter-count"
+                            />
                             <div class="vmi-datatable-export cursor-pointer">
                                 <div class="vmi-datatable-report position-relative">
                                     <span class="user-select-none cursor-pointer">Download</span>

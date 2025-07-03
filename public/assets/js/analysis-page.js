@@ -101,7 +101,7 @@ function getAnalysispageData($page,$count,range,year){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view},
         // data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,prod_line},
-        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,search_word,is_search_by_itemcode},
+        data: { 'page' : $page,'count': $count,'year' : year,'range':range,'chart_type': chart_type,'view_type':_view,search_word,is_search_by_itemcode,'sorting_dir': $('#sorting_dir').val()},
         beforeSend:function(){
             beforeAjax();
            $('#analysis_page_chart').html('');
@@ -138,6 +138,7 @@ function getAnalysispageData($page,$count,range,year){
             if(_view == 1 && chart_type != 1){
                 is_table_action =  [ { targets: [6], orderable: false},];
             }
+            var sort_dir = $('#sorting_dir').val();
             analysis_page_table = $('#analysis-page-table').DataTable( {
                 searching: true,
                 lengthChange: true,
@@ -145,8 +146,25 @@ function getAnalysispageData($page,$count,range,year){
                 paging: true,
                 ordering: true,
                 info: false,
-                order: [],
+                order: [[1, sort_dir]],
                 columnDefs: is_table_action
+            });
+
+            analysis_page_table.on('order.dt', function() {
+                var orderInfo = analysis_page_table.order();  // Returns array of [columnIndex, direction]
+                console.log('Sorting changed:', orderInfo);
+
+                // Example: check first column's sorting
+                if (orderInfo.length && orderInfo[0][0] === 1) {  // 0 = first column
+                    $('#sorting_dir').val(orderInfo[0][1]);     
+                    
+                    let analysis_page_table;
+                    let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
+                    let select_by_range = parseInt($('#analysis_range_select option:selected').val());
+                    let current_year = parseInt($('#analysis_year_select option:selected').val());
+                    getAnalysispageData(0,pageCount,select_by_range,current_year)
+
+                }
             });
 
             let months = [];

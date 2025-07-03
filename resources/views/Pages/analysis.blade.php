@@ -98,16 +98,13 @@
                                 <input type="text" class="form-control form-control-sm datatable-search-input" id="analysis-page-search" aria-controls="">
                                 <img src="/assets/images/svg/grid-search.svg" alt="" class="position-absolute datatable-search-img" id="analysis-page-search-img">
                             </div> 
-                            <div class="position-relative datatable-filter-div">
-                                <select name="" class="datatable-filter-count" id="analysis-page-filter-count">
-                                    <option value="12" selected>12 Items</option>
-                                    <option value="15">15 Items</option>
-                                    <option value="20">20 Items</option>
-                                    <option value="50">50 Items</option>
-                                    <option value="100">100 Items</option>
-                                </select>
-                                <img src="/assets/images/svg/filter-arrow_icon.svg" alt="" class="position-absolute datatable-filter-img">
-                            </div>
+
+                            <x-select-limit-dropdown 
+                                name="analysis-page-filter-count"                             
+                                selected="inactive"
+                                class="datatable-filter-count"
+                                id="analysis-page-filter-count"
+                            />
                             <div class="datatable-export justify-content-center gap-15 cursor-pointer d-none" id="analysis-page-export">
                                 <div class="user-select-none">Export</div>
                                 <div class="d-flex justify-content-center align-items-center position-relative">
