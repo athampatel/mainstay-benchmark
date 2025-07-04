@@ -114,8 +114,14 @@ function getInvoiceOrderAjax($page,$count,start_date,end_date){
 
                 // Example: check first column's sorting
                 if (orderInfo.length && orderInfo[0][0] === 3) {  // 0 = first column
-                    $('#sorting_dir').val(orderInfo[0][1]);
-                    invoiceCommonAjaxData();
+                    //$('#sorting_dir').val(orderInfo[0][1]);
+                   var tab_sort =  $('#sorting_dir').val();
+                   if(tab_sort == 'asc'){
+                        $('#sorting_dir').val('desc');
+                   }else{
+                        $('#sorting_dir').val('asc');
+                   }
+                   invoiceCommonAjaxData();
                 }
             });
         },

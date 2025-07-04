@@ -156,7 +156,14 @@ function getAnalysispageData($page,$count,range,year){
 
                 // Example: check first column's sorting
                 if (orderInfo.length && orderInfo[0][0] === 1) {  // 0 = first column
-                    $('#sorting_dir').val(orderInfo[0][1]);     
+
+                    var tab_sort =  $('#sorting_dir').val();
+                   if(tab_sort == 'asc'){
+                        $('#sorting_dir').val('desc');
+                   }else{
+                        $('#sorting_dir').val('asc');
+                   }
+                    //$('#sorting_dir').val(orderInfo[0][1]);     
                     
                     let analysis_page_table;
                     let pageCount = parseInt($("#analysis-page-filter-count option:selected").val());
